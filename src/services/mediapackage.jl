@@ -4,27 +4,8 @@ using AWS.AWSServices: mediapackage
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "ingress_access_logs" => "ingressAccessLogs",
-    "manifest_name" => "manifestName",
-    "include_status" => "includeStatus",
-    "hls_package" => "hlsPackage",
-    "next_token" => "nextToken",
-    "origination" => "origination",
-    "dash_package" => "dashPackage",
-    "authorization" => "authorization",
-    "channel_id" => "channelId",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "include_channel_id" => "includeChannelId",
-    "mss_package" => "mssPackage",
-    "startover_window_seconds" => "startoverWindowSeconds",
-    "whitelist" => "whitelist",
-    "egress_access_logs" => "egressAccessLogs",
-    "cmaf_package" => "cmafPackage",
-    "time_delay_seconds" => "timeDelaySeconds",
-    "tags" => "tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "include_channel_id" => "includeChannelId", "include_status" => "includeStatus", "description" => "description", "authorization" => "authorization", "cmaf_package" => "cmafPackage", "dash_package" => "dashPackage", "hls_package" => "hlsPackage", "manifest_name" => "manifestName", "mss_package" => "mssPackage", "origination" => "origination", "startover_window_seconds" => "startoverWindowSeconds", "time_delay_seconds" => "timeDelaySeconds", "whitelist" => "whitelist", "tags" => "tags", "egress_access_logs" => "egressAccessLogs", "ingress_access_logs" => "ingressAccessLogs", "channel_id" => "channelId")
 
 """
     configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -34,20 +15,13 @@ Changes the Channel's properities to configure log subscription
 # Arguments
 - `id`: The ID of the channel to log subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"egress_access_logs"`:
-- `"ingress_access_logs"`:
+# Keyword Parameters
+- `egress_access_logs`:
+- `ingress_access_logs`:
 """
 function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "PUT",
-        "/channels/$(id)/configure_logs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("PUT", "/channels/$(id)/configure_logs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -60,20 +34,13 @@ Creates a new Channel.
 cannot be
   changed after a Channel is created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A short text description of the Channel.
-- `"tags"`:
+# Keyword Parameters
+- `description`: A short text description of the Channel.
+- `tags`:
 """
 function create_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "POST",
-        "/channels",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -93,35 +60,9 @@ This cannot be changed after the HarvestJob is submitted.
 - `start_time`: The start of the time-window which will be harvested
 
 """
-function create_harvest_job(
-    endTime,
-    id,
-    originEndpointId,
-    s3Destination,
-    startTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_harvest_job(endTime, id, originEndpointId, s3Destination, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "POST",
-        "/harvest_jobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "id" => id,
-                    "originEndpointId" => originEndpointId,
-                    "s3Destination" => s3Destination,
-                    "startTime" => startTime,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("POST", "/harvest_jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -137,48 +78,34 @@ This
 and it
   cannot be changed after the OriginEndpoint is created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorization"`:
-- `"cmaf_package"`:
-- `"dash_package"`:
-- `"description"`: A short text description of the OriginEndpoint.
-- `"hls_package"`:
-- `"manifest_name"`: A short string that will be used as the filename of the OriginEndpoint
+# Keyword Parameters
+- `authorization`:
+- `cmaf_package`:
+- `dash_package`:
+- `description`: A short text description of the OriginEndpoint.
+- `hls_package`:
+- `manifest_name`: A short string that will be used as the filename of the OriginEndpoint
   URL (defaults to \"index\").
-- `"mss_package"`:
-- `"origination"`: Control whether origination of video is allowed for this OriginEndpoint.
+- `mss_package`:
+- `origination`: Control whether origination of video is allowed for this OriginEndpoint.
   If set to ALLOW, the OriginEndpoint
 may by requested, pursuant to any other form of access
   control. If set to DENY, the OriginEndpoint may not be
 requested. This can be helpful for
   Live to VOD harvesting, or for temporarily disabling origination
-- `"startover_window_seconds"`: Maximum duration (seconds) of content to retain for
-  startover playback.
-If not specified, startover playback will be disabled for the
-  OriginEndpoint.
-- `"tags"`:
-- `"time_delay_seconds"`: Amount of delay (seconds) to enforce on the playback of live
+- `startover_window_seconds`: Maximum duration (seconds) of content to retain for startover
+  playback.
+If not specified, startover playback will be disabled for the OriginEndpoint.
+- `tags`:
+- `time_delay_seconds`: Amount of delay (seconds) to enforce on the playback of live
   content.
 If not specified, there will be no time delay in effect for the OriginEndpoint.
-- `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
+- `whitelist`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
-function create_origin_endpoint(
-    channelId, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_origin_endpoint(channelId, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "POST",
-        "/origin_endpoints",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("channelId" => channelId, "id" => id), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("POST", "/origin_endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,13 +119,7 @@ Deletes an existing Channel.
 """
 function delete_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "DELETE",
-        "/channels/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("DELETE", "/channels/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -210,17 +131,9 @@ Deletes an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint to delete.
 
 """
-function delete_origin_endpoint(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "DELETE",
-        "/origin_endpoints/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("DELETE", "/origin_endpoints/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -234,13 +147,7 @@ Gets details about a Channel.
 """
 function describe_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET",
-        "/channels/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("GET", "/channels/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -252,17 +159,9 @@ Gets details about an existing HarvestJob.
 - `id`: The ID of the HarvestJob.
 
 """
-function describe_harvest_job(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_harvest_job(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET",
-        "/harvest_jobs/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("GET", "/harvest_jobs/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -274,17 +173,9 @@ Gets details about an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint.
 
 """
-function describe_origin_endpoint(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET",
-        "/origin_endpoints/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("GET", "/origin_endpoints/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -292,16 +183,13 @@ end
 
 Returns a collection of Channels.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Upper bound on number of records to return.
-- `"next_token"`: A token used to resume pagination from the end of a previous request.
+# Keyword Parameters
+- `max_results`: Upper bound on number of records to return.
+- `next_token`: A token used to resume pagination from the end of a previous request.
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediapackage("GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -309,24 +197,17 @@ end
 
 Returns a collection of HarvestJob records.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_channel_id"`: When specified, the request will return only HarvestJobs
-  associated with the given Channel ID.
-- `"include_status"`: When specified, the request will return only HarvestJobs in the given
+# Keyword Parameters
+- `include_channel_id`: When specified, the request will return only HarvestJobs associated
+  with the given Channel ID.
+- `include_status`: When specified, the request will return only HarvestJobs in the given
   status.
-- `"max_results"`: The upper bound on the number of records to return.
-- `"next_token"`: A token used to resume pagination from the end of a previous request.
+- `max_results`: The upper bound on the number of records to return.
+- `next_token`: A token used to resume pagination from the end of a previous request.
 """
 function list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET",
-        "/harvest_jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("GET", "/harvest_jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -334,24 +215,15 @@ end
 
 Returns a collection of OriginEndpoint records.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"channel_id"`: When specified, the request will return only OriginEndpoints associated
+# Keyword Parameters
+- `channel_id`: When specified, the request will return only OriginEndpoints associated
   with the given Channel ID.
-- `"max_results"`: The upper bound on the number of records to return.
-- `"next_token"`: A token used to resume pagination from the end of a previous request.
+- `max_results`: The upper bound on the number of records to return.
+- `next_token`: A token used to resume pagination from the end of a previous request.
 """
-function list_origin_endpoints(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET",
-        "/origin_endpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("GET", "/origin_endpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -363,17 +235,9 @@ end
 - `resource-arn`:
 
 """
-function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "GET",
-        "/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("GET", "/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -386,17 +250,9 @@ deprecated. Please use RotateIngestEndpointCredentials instead
 - `id`: The ID of the channel to update.
 
 """
-function rotate_channel_credentials(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "PUT",
-        "/channels/$(id)/credentials",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("PUT", "/channels/$(id)/credentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,17 +265,9 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 - `ingest_endpoint_id`: The id of the IngestEndpoint whose credentials should be rotated
 
 """
-function rotate_ingest_endpoint_credentials(
-    id, ingest_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function rotate_ingest_endpoint_credentials(id, ingest_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "PUT",
-        "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -432,17 +280,9 @@ end
 - `tags`:
 
 """
-function tag_resource(
-    resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -455,17 +295,9 @@ end
 - `tag_keys`: The key(s) of tag to be deleted
 
 """
-function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "DELETE",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -476,19 +308,12 @@ Updates an existing Channel.
 # Arguments
 - `id`: The ID of the Channel to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A short text description of the Channel.
+# Keyword Parameters
+- `description`: A short text description of the Channel.
 """
 function update_channel(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "PUT",
-        "/channels/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("PUT", "/channels/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -499,40 +324,31 @@ Updates an existing OriginEndpoint.
 # Arguments
 - `id`: The ID of the OriginEndpoint to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorization"`:
-- `"cmaf_package"`:
-- `"dash_package"`:
-- `"description"`: A short text description of the OriginEndpoint.
-- `"hls_package"`:
-- `"manifest_name"`: A short string that will be appended to the end of the Endpoint URL.
-- `"mss_package"`:
-- `"origination"`: Control whether origination of video is allowed for this OriginEndpoint.
+# Keyword Parameters
+- `authorization`:
+- `cmaf_package`:
+- `dash_package`:
+- `description`: A short text description of the OriginEndpoint.
+- `hls_package`:
+- `manifest_name`: A short string that will be appended to the end of the Endpoint URL.
+- `mss_package`:
+- `origination`: Control whether origination of video is allowed for this OriginEndpoint.
   If set to ALLOW, the OriginEndpoint
 may by requested, pursuant to any other form of access
   control. If set to DENY, the OriginEndpoint may not be
 requested. This can be helpful for
   Live to VOD harvesting, or for temporarily disabling origination
-- `"startover_window_seconds"`: Maximum duration (in seconds) of content to retain for
+- `startover_window_seconds`: Maximum duration (in seconds) of content to retain for
   startover playback.
 If not specified, startover playback will be disabled for the
   OriginEndpoint.
-- `"time_delay_seconds"`: Amount of delay (in seconds) to enforce on the playback of live
+- `time_delay_seconds`: Amount of delay (in seconds) to enforce on the playback of live
   content.
 If not specified, there will be no time delay in effect for the OriginEndpoint.
-- `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
+- `whitelist`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
-function update_origin_endpoint(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediapackage(
-        "PUT",
-        "/origin_endpoints/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediapackage("PUT", "/origin_endpoints/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,14 +4,8 @@ using AWS.AWSServices: simpledb
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "expected" => "Expected",
-    "attribute_names" => "AttributeName",
-    "consistent_read" => "ConsistentRead",
-    "attributes" => "Attribute",
-    "next_token" => "NextToken",
-    "max_number_of_domains" => "MaxNumberOfDomains",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("attributes" => "Attribute", "expected" => "Expected", "attribute_names" => "AttributeName", "consistent_read" => "ConsistentRead", "max_number_of_domains" => "MaxNumberOfDomains", "next_token" => "NextToken")
 
 """
     batch_delete_attributes(domain_name, item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,20 +29,9 @@ request size 25 item limit per BatchDeleteAttributes operation
 - `item`: A list of items on which to perform the operation.
 
 """
-function batch_delete_attributes(
-    DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_delete_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "BatchDeleteAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DomainName" => DomainName, "Item" => Item), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -89,20 +72,9 @@ user data storage per domain 25 item limit per BatchPutAttributes operation
 - `item`: A list of items on which to perform the operation.
 
 """
-function batch_put_attributes(
-    DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_put_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "BatchPutAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DomainName" => DomainName, "Item" => Item), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,18 +92,9 @@ additional domains, go to  http://aws.amazon.com/contact-us/simpledb-limit-reque
   characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
 
 """
-function create_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "CreateDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -151,30 +114,16 @@ PutAttributes operation (write) might not return updated item data.
 - `item_name`: The name of the item. Similar to rows on a spreadsheet, items represent
   individual objects that contain one or more value-attribute pairs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attributes"`: A list of Attributes. Similar to columns on a spreadsheet, attributes
+# Keyword Parameters
+- `attributes`: A list of Attributes. Similar to columns on a spreadsheet, attributes
   represent categories of data that can be assigned to items.
-- `"expected"`: The update condition which, if specified, determines whether the specified
+- `expected`: The update condition which, if specified, determines whether the specified
   attributes will be deleted or not. The update condition must be satisfied in order for this
   request to be processed and the attributes to be deleted.
 """
-function delete_attributes(
-    DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "DeleteAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainName" => DomainName, "ItemName" => ItemName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -189,18 +138,9 @@ multiple times using the same domain name will not result in an error response.
 - `domain_name`: The name of the domain to delete.
 
 """
-function delete_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "DeleteDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -213,18 +153,9 @@ items and attributes in the domain, and the size of the attribute names and valu
 - `domain_name`: The name of the domain for which to display the metadata of.
 
 """
-function domain_metadata(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function domain_metadata(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "DomainMetadata",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -241,30 +172,16 @@ being passed any attribute names, all the attributes for the item are returned.
 - `domain_name`: The name of the domain in which to perform the operation.
 - `item_name`: The name of the item.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_names"`: The names of the attributes.
-- `"consistent_read"`: Determines whether or not strong consistency should be enforced when
+# Keyword Parameters
+- `attribute_names`: The names of the attributes.
+- `consistent_read`: Determines whether or not strong consistency should be enforced when
   data is read from SimpleDB. If true, any data previously written to SimpleDB will be
   returned. Otherwise, results will be consistent eventually, and the client may not see data
   that was written immediately before your read.
 """
-function get_attributes(
-    DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "GetAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainName" => DomainName, "ItemName" => ItemName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -276,18 +193,15 @@ are more than MaxNumberOfDomains domains. Calling ListDomains successive times w
 NextToken provided by the operation returns up to MaxNumberOfDomains more domain names with
 each successive operation call.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_number_of_domains"`: The maximum number of domain names you want returned. The
-  range is 1 to 100. The default setting is 100.
-- `"next_token"`: A string informing Amazon SimpleDB where to start the next list of domain
+# Keyword Parameters
+- `max_number_of_domains`: The maximum number of domain names you want returned. The range
+  is 1 to 100. The default setting is 100.
+- `next_token`: A string informing Amazon SimpleDB where to start the next list of domain
   names.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return simpledb("ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -321,36 +235,14 @@ data storage per domain
 - `domain_name`: The name of the domain in which to perform the operation.
 - `item_name`: The name of the item.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected"`: The update condition which, if specified, determines whether the specified
+# Keyword Parameters
+- `expected`: The update condition which, if specified, determines whether the specified
   attributes will be updated or not. The update condition must be satisfied in order for this
   request to be processed and the attributes to be updated.
 """
-function put_attributes(
-    Attribute,
-    DomainName,
-    ItemName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_attributes(Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "PutAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Attribute" => Attribute,
-                    "DomainName" => DomainName,
-                    "ItemName" => ItemName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -368,27 +260,15 @@ SimpleDB Queries in the Developer Guide.
 # Arguments
 - `select_expression`: The expression used to query the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"consistent_read"`: Determines whether or not strong consistency should be enforced when
+# Keyword Parameters
+- `consistent_read`: Determines whether or not strong consistency should be enforced when
   data is read from SimpleDB. If true, any data previously written to SimpleDB will be
   returned. Otherwise, results will be consistent eventually, and the client may not see data
   that was written immediately before your read.
-- `"next_token"`: A string informing Amazon SimpleDB where to start the next list of
+- `next_token`: A string informing Amazon SimpleDB where to start the next list of
   ItemNames.
 """
-function select(
-    SelectExpression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function select(SelectExpression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return simpledb(
-        "Select",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SelectExpression" => SelectExpression), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

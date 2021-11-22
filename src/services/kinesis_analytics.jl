@@ -4,21 +4,8 @@ using AWS.AWSServices: kinesis_analytics
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "s3_configuration" => "S3Configuration",
-    "role_arn" => "RoleARN",
-    "outputs" => "Outputs",
-    "input_starting_position_configuration" => "InputStartingPositionConfiguration",
-    "exclusive_start_application_name" => "ExclusiveStartApplicationName",
-    "input_processing_configuration" => "InputProcessingConfiguration",
-    "cloud_watch_logging_options" => "CloudWatchLoggingOptions",
-    "application_description" => "ApplicationDescription",
-    "resource_arn" => "ResourceARN",
-    "application_code" => "ApplicationCode",
-    "tags" => "Tags",
-    "inputs" => "Inputs",
-    "limit" => "Limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("application_code" => "ApplicationCode", "application_description" => "ApplicationDescription", "cloud_watch_logging_options" => "CloudWatchLoggingOptions", "inputs" => "Inputs", "outputs" => "Outputs", "tags" => "Tags", "exclusive_start_application_name" => "ExclusiveStartApplicationName", "limit" => "Limit", "input_processing_configuration" => "InputProcessingConfiguration", "input_starting_position_configuration" => "InputStartingPositionConfiguration", "resource_arn" => "ResourceARN", "role_arn" => "RoleARN", "s3_configuration" => "S3Configuration")
 
 """
     add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -38,30 +25,9 @@ see Working with Amazon CloudWatch Logs.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 
 """
-function add_application_cloud_watch_logging_option(
-    ApplicationName,
-    CloudWatchLoggingOption,
-    CurrentApplicationVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "AddApplicationCloudWatchLoggingOption",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CloudWatchLoggingOption" => CloudWatchLoggingOption,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -88,30 +54,9 @@ kinesisanalytics:AddApplicationInput action.
 - `input`: The Input to add.
 
 """
-function add_application_input(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    Input;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_application_input(ApplicationName, CurrentApplicationVersionId, Input; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "AddApplicationInput",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "Input" => Input,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("AddApplicationInput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -138,32 +83,9 @@ input processor available is AWS Lambda.
   application.
 
 """
-function add_application_input_processing_configuration(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    InputId,
-    InputProcessingConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "AddApplicationInputProcessingConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "InputId" => InputId,
-                    "InputProcessingConfiguration" => InputProcessingConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -200,30 +122,9 @@ kinesisanalytics:AddApplicationOutput action.
   function), and record the formation to use when writing to the destination.
 
 """
-function add_application_output(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    Output;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_application_output(ApplicationName, CurrentApplicationVersionId, Output; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "AddApplicationOutput",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "Output" => Output,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("AddApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -255,30 +156,9 @@ permissions to perform the kinesisanalytics:AddApplicationOutput action.
   S3 bucket on your behalf.
 
 """
-function add_application_reference_data_source(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    ReferenceDataSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "AddApplicationReferenceDataSource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "ReferenceDataSource" => ReferenceDataSource,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -308,9 +188,8 @@ Kinesis Analytics application, see Getting Started.
 - `application_name`: Name of your Amazon Kinesis Analytics application (for example,
   sample-app).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"application_code"`: One or more SQL statements that read input data, transform it, and
+# Keyword Parameters
+- `application_code`: One or more SQL statements that read input data, transform it, and
   generate output. For example, you can write a SQL statement that reads data from one
   in-application stream, generates a running average of the number of advertisement clicks by
   vendor, and insert resulting rows in another in-application stream using pumps. For more
@@ -320,11 +199,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Note that the application code must create the streams with names specified in the Outputs.
   For example, if your Outputs defines output streams named ExampleOutputStream1 and
   ExampleOutputStream2, then your application code must create these streams.
-- `"application_description"`: Summary description of the application.
-- `"cloud_watch_logging_options"`: Use this parameter to configure a CloudWatch log stream
-  to monitor application configuration errors. For more information, see Working with Amazon
+- `application_description`: Summary description of the application.
+- `cloud_watch_logging_options`: Use this parameter to configure a CloudWatch log stream to
+  monitor application configuration errors. For more information, see Working with Amazon
   CloudWatch Logs.
-- `"inputs"`: Use this parameter to configure the application input. You can configure your
+- `inputs`: Use this parameter to configure the application input. You can configure your
   application to receive input from a single streaming source. In this configuration, you map
   this streaming source to an in-application stream that is created. Your application code
   can then query the in-application stream like a table (you can think of it as a constantly
@@ -334,7 +213,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the in-application stream, you need to specify a schema to transform your data into a
   schematized version used in SQL. In the schema, you provide the necessary mapping of the
   data elements in the streaming source to record columns in the in-app stream.
-- `"outputs"`: You can configure application output to write data from any of the
+- `outputs`: You can configure application output to write data from any of the
   in-application streams to up to three destinations. These destinations can be Amazon
   Kinesis streams, Amazon Kinesis Firehose delivery streams, AWS Lambda destinations, or any
   combination of the three. In the configuration, you specify the in-application stream name,
@@ -345,25 +224,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   destinations, you provide the format of data in the stream (for example, JSON, CSV). You
   also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the
   stream or Lambda function on your behalf.
-- `"tags"`: A list of one or more tags to assign to the application. A tag is a key-value
+- `tags`: A list of one or more tags to assign to the application. A tag is a key-value
   pair that identifies an application. Note that the maximum number of application tags
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see Using Tagging.
 """
-function create_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "CreateApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -382,28 +250,9 @@ perform the kinesisanalytics:DeleteApplication action.
 - `create_timestamp`:  You can use the DescribeApplication operation to get this value.
 
 """
-function delete_application(
-    ApplicationName,
-    CreateTimestamp;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_application(ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DeleteApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CreateTimestamp" => CreateTimestamp,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -424,30 +273,9 @@ CloudWatch Logs.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 
 """
-function delete_application_cloud_watch_logging_option(
-    ApplicationName,
-    CloudWatchLoggingOptionId,
-    CurrentApplicationVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DeleteApplicationCloudWatchLoggingOption",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -466,30 +294,9 @@ Deletes an InputProcessingConfiguration from an input.
   DescribeApplication operation.
 
 """
-function delete_application_input_processing_configuration(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    InputId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DeleteApplicationInputProcessingConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "InputId" => InputId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -516,30 +323,9 @@ kinesisanalytics:DeleteApplicationOutput action.
   configuration. You can use the DescribeApplication operation to get the specific OutputId.
 
 """
-function delete_application_output(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    OutputId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DeleteApplicationOutput",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "OutputId" => OutputId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -564,30 +350,9 @@ kinesisanalytics.DeleteApplicationReferenceDataSource action.
   assigns an ID. You can use the DescribeApplication operation to get the reference ID.
 
 """
-function delete_application_reference_data_source(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    ReferenceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DeleteApplicationReferenceDataSource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                    "ReferenceId" => ReferenceId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -606,20 +371,9 @@ need to call other operations such as Update.
 - `application_name`: Name of the application.
 
 """
-function describe_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DescribeApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -638,28 +392,20 @@ console uses this operation to infer a schema and show it in the console user in
 This operation requires permissions to perform the kinesisanalytics:DiscoverInputSchema
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"input_processing_configuration"`: The InputProcessingConfiguration to use to preprocess
+# Keyword Parameters
+- `input_processing_configuration`: The InputProcessingConfiguration to use to preprocess
   the records before discovering the schema of the records.
-- `"input_starting_position_configuration"`: Point at which you want Amazon Kinesis
-  Analytics to start reading records from the specified streaming source discovery purposes.
-- `"resource_arn"`: Amazon Resource Name (ARN) of the streaming source.
-- `"role_arn"`: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+- `input_starting_position_configuration`: Point at which you want Amazon Kinesis Analytics
+  to start reading records from the specified streaming source discovery purposes.
+- `resource_arn`: Amazon Resource Name (ARN) of the streaming source.
+- `role_arn`: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
   stream on your behalf.
-- `"s3_configuration"`: Specify this parameter to discover a schema from data in an Amazon
-  S3 object.
+- `s3_configuration`: Specify this parameter to discover a schema from data in an Amazon S3
+  object.
 """
-function discover_input_schema(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function discover_input_schema(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "DiscoverInputSchema",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("DiscoverInputSchema", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -676,19 +422,16 @@ of this to the last application name from the previous response.  If you want de
 information about a specific application, use DescribeApplication. This operation requires
 permissions to perform the kinesisanalytics:ListApplications action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"exclusive_start_application_name"`: Name of the application to start the list with.
-  When using pagination to retrieve the list, you don't need to specify this parameter in the
+# Keyword Parameters
+- `exclusive_start_application_name`: Name of the application to start the list with. When
+  using pagination to retrieve the list, you don't need to specify this parameter in the
   first request. However, in subsequent requests, you add the last application name from the
   previous response to get the next page of applications.
-- `"limit"`: Maximum number of applications to list.
+- `limit`: Maximum number of applications to list.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return kinesis_analytics("ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -701,18 +444,9 @@ Using Tagging.
 - `resource_arn`: The ARN of the application for which to retrieve tags.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -738,28 +472,9 @@ operation requires permissions to perform the kinesisanalytics:StartApplication 
   to start reading.
 
 """
-function start_application(
-    ApplicationName,
-    InputConfigurations;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_application(ApplicationName, InputConfigurations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "StartApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "InputConfigurations" => InputConfigurations,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -779,20 +494,9 @@ kinesisanalytics:StopApplication action.
 - `application_name`: Name of the running application to stop.
 
 """
-function stop_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "StopApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("StopApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -807,22 +511,9 @@ application tags is 50. For more information, see Using Tagging.
 - `tags`: The key-value tags to assign to the application.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -837,22 +528,9 @@ Using Tagging.
 - `tag_keys`: A list of keys of tags to remove from the specified application.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -873,28 +551,7 @@ This operation requires permission for the kinesisanalytics:UpdateApplication ac
   DescribeApplication operation to get this value.
 
 """
-function update_application(
-    ApplicationName,
-    ApplicationUpdate,
-    CurrentApplicationVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_analytics(
-        "UpdateApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationName" => ApplicationName,
-                    "ApplicationUpdate" => ApplicationUpdate,
-                    "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_analytics("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

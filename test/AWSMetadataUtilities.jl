@@ -332,9 +332,8 @@ end
     - `required_param1`: Required param 1
     - `required_param2`: Required param 2
 
-    # Optional Parameters
-    Optional parameters can be passed as a keyword argument. Valid keys are:
-    - `"optional_param"`: Optional param
+    # Keyword Parameters
+    - `optional_param`: Optional param
     \"\"\"
     function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
         params = amazonify(MAPPING,kwargs)
@@ -381,9 +380,8 @@ end
             # Arguments
             - `required_param`: This parameter is required.
 
-            # Optional Parameters
-            Optional parameters can be passed as a keyword argument. Valid keys are:
-            - `"OptionalParam"`: This parameter is optional.
+            # Keyword Parameters
+            - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
                 params = amazonify(MAPPING, kwargs)
@@ -419,9 +417,8 @@ end
             # Arguments
             - `required_param`: This parameter is required.
 
-            # Optional Parameters
-            Optional parameters can be passed as a keyword argument. Valid keys are:
-            - `"OptionalParam"`: This parameter is optional.
+            # Keyword Parameters
+            - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
                 params = amazonify(MAPPING,kwargs)
@@ -469,11 +466,10 @@ end
             Documentation for FunctionName.
 
             # Arguments
-            - `required_param`: This parameter   is required.
+            - `required_param`: This parameter is required.
 
-            # Optional Parameters
-            Optional parameters can be passed as a keyword argument. Valid keys are:
-            - `"OptionalParam"`: This parameter is optional.
+            # Keyword Parameters
+            - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
                 params = amazonify(MAPPING, kwargs)
@@ -506,11 +502,10 @@ end
             Documentation for FunctionName.
 
             # Arguments
-            - `required_param`: This parameter   is required.
+            - `required_param`: This parameter is required.
 
-            # Optional Parameters
-            Optional parameters can be passed as a keyword argument. Valid keys are:
-            - `"OptionalParam"`: This parameter i  s optional.
+            # Keyword Parameters
+            - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
                 params = amazonify(MAPPING,kwargs)

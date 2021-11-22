@@ -4,165 +4,8 @@ using AWS.AWSServices: iot
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "pre_provisioning_hook" => "preProvisioningHook",
-    "reason_code" => "reasonCode",
-    "verification_state_description" => "verificationStateDescription",
-    "authorizer_config" => "authorizerConfig",
-    "namespace_id" => "namespaceId",
-    "ascending_order" => "isAscendingOrder",
-    "suppress_indefinitely" => "suppressIndefinitely",
-    "attribute_name" => "attributeName",
-    "security_profile_name" => "securityProfileName",
-    "status_details" => "statusDetails",
-    "token_key_name" => "tokenKeyName",
-    "domain_configuration_status" => "domainConfigurationStatus",
-    "thing_indexing_configuration" => "thingIndexingConfiguration",
-    "thing_group_arn" => "thingGroupArn",
-    "delete_alert_targets" => "deleteAlertTargets",
-    "target_type" => "targetType",
-    "force" => "force",
-    "policy_names_to_skip" => "policyNamesToSkip",
-    "audit_check_configurations" => "auditCheckConfigurations",
-    "domain_name" => "domainName",
-    "force_delete_awsjob" => "forceDeleteAWSJob",
-    "aws_job_timeout_config" => "awsJobTimeoutConfig",
-    "token_signature" => "tokenSignature",
-    "parent_group" => "parentGroup",
-    "http_context" => "httpContext",
-    "job_arn" => "jobArn",
-    "audit_notification_target_configurations" => "auditNotificationTargetConfigurations",
-    "allow_auto_registration" => "allowAutoRegistration",
-    "aggregation_type" => "aggregationType",
-    "day_of_month" => "dayOfMonth",
-    "validation_certificate_arn" => "validationCertificateArn",
-    "violation_id" => "violationId",
-    "aws_job_presigned_url_config" => "awsJobPresignedUrlConfig",
-    "use_prefix_attribute_value" => "usePrefixAttributeValue",
-    "action_type" => "actionType",
-    "additional_metrics_to_retain" => "additionalMetricsToRetain",
-    "metric_name" => "metricName",
-    "remove_auto_registration" => "removeAutoRegistration",
-    "target_selection" => "targetSelection",
-    "task_type" => "taskType",
-    "tls_context" => "tlsContext",
-    "query_version" => "queryVersion",
-    "topic" => "topic",
-    "page_size" => "pageSize",
-    "thing_group_indexing_configuration" => "thingGroupIndexingConfiguration",
-    "presigned_url_config" => "presignedUrlConfig",
-    "additional_parameters" => "additionalParameters",
-    "billing_group_properties" => "billingGroupProperties",
-    "audit_task_id" => "auditTaskId",
-    "start_time" => "startTime",
-    "job_template_arn" => "jobTemplateArn",
-    "new_auto_registration_status" => "newAutoRegistrationStatus",
-    "parameters" => "parameters",
-    "server_certificate_arns" => "serverCertificateArns",
-    "remove_pre_provisioning_hook" => "removePreProvisioningHook",
-    "service_type" => "serviceType",
-    "thing_groups_to_remove" => "thingGroupsToRemove",
-    "delete_stream" => "deleteStream",
-    "ca_certificate_pem" => "caCertificatePem",
-    "max_results" => "maxResults",
-    "comment" => "comment",
-    "check_name" => "checkName",
-    "behaviors" => "behaviors",
-    "undo_deprecate" => "undoDeprecate",
-    "authorizer_function_arn" => "authorizerFunctionArn",
-    "expected_version" => "expectedVersion",
-    "aws_job_executions_rollout_config" => "awsJobExecutionsRolloutConfig",
-    "alert_targets" => "alertTargets",
-    "document" => "document",
-    "percents" => "percents",
-    "registration_config" => "registrationConfig",
-    "abort_config" => "abortConfig",
-    "endpoint_type" => "endpointType",
-    "enabled" => "enabled",
-    "cognito_identity_pool_id" => "cognitoIdentityPoolId",
-    "delete_scheduled_audits" => "deleteScheduledAudits",
-    "list_suppressed_alerts" => "listSuppressedAlerts",
-    "mqtt_context" => "mqttContext",
-    "resource_identifier" => "resourceIdentifier",
-    "provisioning_role_arn" => "provisioningRoleArn",
-    "billing_group_arn" => "billingGroupArn",
-    "additional_metrics_to_retain_v2" => "additionalMetricsToRetainV2",
-    "next_token" => "nextToken",
-    "role_arn" => "roleArn",
-    "client_id" => "clientId",
-    "thing_group_name" => "thingGroupName",
-    "include_only_active_violations" => "includeOnlyActiveViolations",
-    "dimension_name" => "dimensionName",
-    "new_status" => "newStatus",
-    "task_status" => "taskStatus",
-    "reject_reason" => "rejectReason",
-    "force_delete" => "forceDelete",
-    "remove_thing_type" => "removeThingType",
-    "default_log_level" => "defaultLogLevel",
-    "transfer_message" => "transferMessage",
-    "thing_groups_to_add" => "thingGroupsToAdd",
-    "action_params" => "actionParams",
-    "target_check_names" => "targetCheckNames",
-    "default_version_id" => "defaultVersionId",
-    "rule_disabled" => "ruleDisabled",
-    "thing_type_name" => "thingTypeName",
-    "event_configurations" => "eventConfigurations",
-    "protocols" => "protocols",
-    "billing_group_name" => "billingGroupName",
-    "day_of_week" => "dayOfWeek",
-    "remove_authorizer_config" => "removeAuthorizerConfig",
-    "marker" => "marker",
-    "timeout_config" => "timeoutConfig",
-    "task_id" => "taskId",
-    "display_name" => "displayName",
-    "ota_update_status" => "otaUpdateStatus",
-    "tags" => "tags",
-    "action_status" => "actionStatus",
-    "token_signing_public_keys" => "tokenSigningPublicKeys",
-    "verification_state" => "verificationState",
-    "signing_disabled" => "signingDisabled",
-    "execution_number" => "executionNumber",
-    "end_time" => "endTime",
-    "set_as_default" => "setAsDefault",
-    "include_suppressed_alerts" => "includeSuppressedAlerts",
-    "list_suppressed_findings" => "listSuppressedFindings",
-    "set_as_active" => "setAsActive",
-    "override_dynamic_groups" => "overrideDynamicGroups",
-    "principal" => "principal",
-    "index_name" => "indexName",
-    "aws_job_abort_config" => "awsJobAbortConfig",
-    "policy_names_to_add" => "policyNamesToAdd",
-    "thing_type_properties" => "thingTypeProperties",
-    "status" => "status",
-    "files" => "files",
-    "query_string" => "queryString",
-    "job_executions_rollout_config" => "jobExecutionsRolloutConfig",
-    "period" => "period",
-    "description" => "description",
-    "credential_duration_seconds" => "credentialDurationSeconds",
-    "delete_behaviors" => "deleteBehaviors",
-    "recursive" => "recursive",
-    "behavior_criteria_type" => "behaviorCriteriaType",
-    "violation_event_occurrence_range" => "violationEventOccurrenceRange",
-    "thing_group_id" => "thingGroupId",
-    "name_prefix_filter" => "namePrefixFilter",
-    "thing_group_properties" => "thingGroupProperties",
-    "delete_additional_metrics_to_retain" => "deleteAdditionalMetricsToRetain",
-    "attribute_value" => "attributeValue",
-    "disable_all_logs" => "disableAllLogs",
-    "thing_arn" => "thingArn",
-    "token" => "token",
-    "aggregation_field" => "aggregationField",
-    "thing_name" => "thingName",
-    "document_source" => "documentSource",
-    "unit" => "unit",
-    "frequency" => "frequency",
-    "parent_group_name" => "parentGroupName",
-    "attribute_payload" => "attributePayload",
-    "expiration_date" => "expirationDate",
-    "finding_id" => "findingId",
-    "security_profile_description" => "securityProfileDescription",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("execution_number" => "executionNumber", "verification_state_description" => "verificationStateDescription", "expected_version" => "expectedVersion", "marker" => "marker", "page_size" => "pageSize", "max_results" => "maxResults", "next_token" => "nextToken", "thing_type_name" => "thingTypeName", "transfer_message" => "transferMessage", "set_as_active" => "setAsActive", "rule_disabled" => "ruleDisabled", "topic" => "topic", "http_context" => "httpContext", "mqtt_context" => "mqttContext", "tls_context" => "tlsContext", "token" => "token", "token_signature" => "tokenSignature", "ascending_order" => "isAscendingOrder", "status" => "status", "description" => "description", "enabled" => "enabled", "pre_provisioning_hook" => "preProvisioningHook", "tags" => "tags", "name_prefix_filter" => "namePrefixFilter", "credential_duration_seconds" => "credentialDurationSeconds", "billing_group_properties" => "billingGroupProperties", "force" => "force", "namespace_id" => "namespaceId", "reject_reason" => "rejectReason", "billing_group_arn" => "billingGroupArn", "billing_group_name" => "billingGroupName", "thing_arn" => "thingArn", "thing_name" => "thingName", "recursive" => "recursive", "index_name" => "indexName", "query_version" => "queryVersion", "thing_group_properties" => "thingGroupProperties", "allow_auto_registration" => "allowAutoRegistration", "registration_config" => "registrationConfig", "role_arn" => "roleArn", "expiration_date" => "expirationDate", "suppress_indefinitely" => "suppressIndefinitely", "client_id" => "clientId", "cognito_identity_pool_id" => "cognitoIdentityPoolId", "policy_names_to_add" => "policyNamesToAdd", "policy_names_to_skip" => "policyNamesToSkip", "principal" => "principal", "override_dynamic_groups" => "overrideDynamicGroups", "thing_group_arn" => "thingGroupArn", "thing_group_name" => "thingGroupName", "day_of_month" => "dayOfMonth", "day_of_week" => "dayOfWeek", "frequency" => "frequency", "target_check_names" => "targetCheckNames", "authorizer_function_arn" => "authorizerFunctionArn", "token_key_name" => "tokenKeyName", "token_signing_public_keys" => "tokenSigningPublicKeys", "aggregation_field" => "aggregationField", "unit" => "unit", "audit_check_configurations" => "auditCheckConfigurations", "audit_notification_target_configurations" => "auditNotificationTargetConfigurations", "additional_metrics_to_retain" => "additionalMetricsToRetain", "additional_metrics_to_retain_v2" => "additionalMetricsToRetainV2", "alert_targets" => "alertTargets", "behaviors" => "behaviors", "delete_additional_metrics_to_retain" => "deleteAdditionalMetricsToRetain", "delete_alert_targets" => "deleteAlertTargets", "delete_behaviors" => "deleteBehaviors", "security_profile_description" => "securityProfileDescription", "attribute_name" => "attributeName", "attribute_value" => "attributeValue", "use_prefix_attribute_value" => "usePrefixAttributeValue", "behavior_criteria_type" => "behaviorCriteriaType", "list_suppressed_alerts" => "listSuppressedAlerts", "security_profile_name" => "securityProfileName", "verification_state" => "verificationState", "abort_config" => "abortConfig", "document" => "document", "document_source" => "documentSource", "job_executions_rollout_config" => "jobExecutionsRolloutConfig", "job_template_arn" => "jobTemplateArn", "presigned_url_config" => "presignedUrlConfig", "target_selection" => "targetSelection", "timeout_config" => "timeoutConfig", "target_type" => "targetType", "end_time" => "endTime", "start_time" => "startTime", "task_id" => "taskId", "violation_id" => "violationId", "comment" => "comment", "reason_code" => "reasonCode", "parent_group_name" => "parentGroupName", "include_only_active_violations" => "includeOnlyActiveViolations", "include_suppressed_alerts" => "includeSuppressedAlerts", "violation_event_occurrence_range" => "violationEventOccurrenceRange", "thing_group_id" => "thingGroupId", "task_status" => "taskStatus", "task_type" => "taskType", "job_arn" => "jobArn", "files" => "files", "set_as_default" => "setAsDefault", "parameters" => "parameters", "authorizer_config" => "authorizerConfig", "domain_name" => "domainName", "server_certificate_arns" => "serverCertificateArns", "service_type" => "serviceType", "validation_certificate_arn" => "validationCertificateArn", "ota_update_status" => "otaUpdateStatus", "action_params" => "actionParams", "delete_scheduled_audits" => "deleteScheduledAudits", "thing_type_properties" => "thingTypeProperties", "action_status" => "actionStatus", "attribute_payload" => "attributePayload", "check_name" => "checkName", "list_suppressed_findings" => "listSuppressedFindings", "resource_identifier" => "resourceIdentifier", "status_details" => "statusDetails", "delete_stream" => "deleteStream", "force_delete_awsjob" => "forceDeleteAWSJob", "signing_disabled" => "signingDisabled", "action_type" => "actionType", "thing_groups_to_add" => "thingGroupsToAdd", "thing_groups_to_remove" => "thingGroupsToRemove", "ca_certificate_pem" => "caCertificatePem", "percents" => "percents", "event_configurations" => "eventConfigurations", "domain_configuration_status" => "domainConfigurationStatus", "remove_authorizer_config" => "removeAuthorizerConfig", "remove_thing_type" => "removeThingType", "endpoint_type" => "endpointType", "display_name" => "displayName", "additional_parameters" => "additionalParameters", "aws_job_abort_config" => "awsJobAbortConfig", "aws_job_executions_rollout_config" => "awsJobExecutionsRolloutConfig", "aws_job_presigned_url_config" => "awsJobPresignedUrlConfig", "aws_job_timeout_config" => "awsJobTimeoutConfig", "protocols" => "protocols", "default_version_id" => "defaultVersionId", "provisioning_role_arn" => "provisioningRoleArn", "remove_pre_provisioning_hook" => "removePreProvisioningHook", "default_log_level" => "defaultLogLevel", "disable_all_logs" => "disableAllLogs", "undo_deprecate" => "undoDeprecate", "query_string" => "queryString", "dimension_name" => "dimensionName", "metric_name" => "metricName", "audit_task_id" => "auditTaskId", "finding_id" => "findingId", "force_delete" => "forceDelete", "new_auto_registration_status" => "newAutoRegistrationStatus", "new_status" => "newStatus", "remove_auto_registration" => "removeAutoRegistration", "thing_group_indexing_configuration" => "thingGroupIndexingConfiguration", "thing_indexing_configuration" => "thingIndexingConfiguration", "parent_group" => "parentGroup", "aggregation_type" => "aggregationType", "period" => "period")
 
 """
     accept_certificate_transfer(certificate_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -175,21 +18,12 @@ certificates. Requires permission to access the AcceptCertificateTransfer action
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"set_as_active"`: Specifies whether the certificate is active.
+# Keyword Parameters
+- `set_as_active`: Specifies whether the certificate is active.
 """
-function accept_certificate_transfer(
-    certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_certificate_transfer(certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/accept-certificate-transfer/$(certificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/accept-certificate-transfer/$(certificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -198,24 +32,15 @@ end
 Adds a thing to a billing group. Requires permission to access the AddThingToBillingGroup
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"billing_group_arn"`: The ARN of the billing group.
-- `"billing_group_name"`: The name of the billing group.
-- `"thing_arn"`: The ARN of the thing to be added to the billing group.
-- `"thing_name"`: The name of the thing to be added to the billing group.
+# Keyword Parameters
+- `billing_group_arn`: The ARN of the billing group.
+- `billing_group_name`: The name of the billing group.
+- `thing_arn`: The ARN of the thing to be added to the billing group.
+- `thing_name`: The name of the thing to be added to the billing group.
 """
-function add_thing_to_billing_group(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_thing_to_billing_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/billing-groups/addThingToBillingGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/billing-groups/addThingToBillingGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -224,28 +49,19 @@ end
 Adds a thing to a thing group. Requires permission to access the AddThingToThingGroup
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"override_dynamic_groups"`: Override dynamic thing groups with static thing groups when
+# Keyword Parameters
+- `override_dynamic_groups`: Override dynamic thing groups with static thing groups when
   10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
   groups are dynamic thing groups, adding a thing to a static group removes the thing from
   the last dynamic group.
-- `"thing_arn"`: The ARN of the thing to add to a group.
-- `"thing_group_arn"`: The ARN of the group to which you are adding a thing.
-- `"thing_group_name"`: The name of the group to which you are adding a thing.
-- `"thing_name"`: The name of the thing to add to a group.
+- `thing_arn`: The ARN of the thing to add to a group.
+- `thing_group_arn`: The ARN of the group to which you are adding a thing.
+- `thing_group_name`: The name of the group to which you are adding a thing.
+- `thing_name`: The name of the thing to add to a group.
 """
-function add_thing_to_thing_group(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_thing_to_thing_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/thing-groups/addThingToThingGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/thing-groups/addThingToThingGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -260,27 +76,18 @@ job must not exceed 100.   Requires permission to access the AssociateTargetsWit
 - `job_id`: The unique identifier you assigned to this job when it was created.
 - `targets`: A list of thing group ARNs that define the targets of the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: An optional comment string describing why the job was associated with the
+# Keyword Parameters
+- `comment`: An optional comment string describing why the job was associated with the
   targets.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 """
-function associate_targets_with_job(
-    jobId, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_targets_with_job(jobId, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/jobs/$(jobId)/targets",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("targets" => targets), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/jobs/$(jobId)/targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,17 +102,9 @@ Requires permission to access the AttachPolicy action.
   certificate.
 
 """
-function attach_policy(
-    policyName, target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_policy(policyName, target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/target-policies/$(policyName)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("target" => target), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/target-policies/$(policyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("target"=>target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -321,29 +120,9 @@ access the AttachPrincipalPolicy action.
   the CreateCertificate operation) or an Amazon Cognito ID.
 
 """
-function attach_principal_policy(
-    policyName,
-    x_amzn_iot_principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_principal_policy(policyName, x_amzn_iot_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/principal-policies/$(policyName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" =>
-                        Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/principal-policies/$(policyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-iot-principal"=>x_amzn_iot_principal)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -359,26 +138,9 @@ permission to access the AttachSecurityProfile action.
   profile is attached.
 
 """
-function attach_security_profile(
-    securityProfileName,
-    securityProfileTargetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_security_profile(securityProfileName, securityProfileTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/security-profiles/$(securityProfileName)/targets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/security-profiles/$(securityProfileName)/targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("securityProfileTargetArn"=>securityProfileTargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -394,28 +156,9 @@ identities. Requires permission to access the AttachThingPrincipal action.
   CreateCertificate operation) or an Amazon Cognito ID.
 
 """
-function attach_thing_principal(
-    thingName,
-    x_amzn_principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_thing_principal(thingName, x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/things/$(thingName)/principals",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/things/$(thingName)/principals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -429,17 +172,9 @@ CancelAuditMitigationActionsTask action.
 - `task_id`: The unique identifier for the task that you want to cancel.
 
 """
-function cancel_audit_mitigation_actions_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_audit_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/audit/mitigationactions/tasks/$(taskId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/audit/mitigationactions/tasks/$(taskId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -454,17 +189,9 @@ access the CancelAuditTask action.
   \"IN_PROGRESS\".
 
 """
-function cancel_audit_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_audit_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/audit/tasks/$(taskId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/audit/tasks/$(taskId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -483,17 +210,9 @@ access the CancelCertificateTransfer action.
   contains the certificate ID.)
 
 """
-function cancel_certificate_transfer(
-    certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_certificate_transfer(certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/cancel-certificate-transfer/$(certificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/cancel-certificate-transfer/$(certificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -506,17 +225,9 @@ CancelDetectMitigationActionsTask action.
 - `task_id`:  The unique identifier of the task.
 
 """
-function cancel_detect_mitigation_actions_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_detect_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/detect/mitigationactions/tasks/$(taskId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/detect/mitigationactions/tasks/$(taskId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -527,25 +238,18 @@ Cancels a job. Requires permission to access the CancelJob action.
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: An optional comment string describing why the job was canceled.
-- `"force"`: (Optional) If true job executions with status \"IN_PROGRESS\" and \"QUEUED\"
-  are canceled, otherwise only job executions with status \"QUEUED\" are canceled. The
-  default is false. Canceling a job which is \"IN_PROGRESS\", will cause a device which is
-  executing the job to be unable to update the job execution status. Use caution and ensure
-  that each device executing a job which is canceled is able to recover to a valid state.
-- `"reason_code"`: (Optional)A reason code string that explains why the job was canceled.
+# Keyword Parameters
+- `comment`: An optional comment string describing why the job was canceled.
+- `force`: (Optional) If true job executions with status \"IN_PROGRESS\" and \"QUEUED\" are
+  canceled, otherwise only job executions with status \"QUEUED\" are canceled. The default is
+  false. Canceling a job which is \"IN_PROGRESS\", will cause a device which is executing the
+  job to be unable to update the job execution status. Use caution and ensure that each
+  device executing a job which is canceled is able to recover to a valid state.
+- `reason_code`: (Optional)A reason code string that explains why the job was canceled.
 """
 function cancel_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/jobs/$(jobId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/jobs/$(jobId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -558,36 +262,27 @@ CancelJobExecution action.
 - `job_id`: The ID of the job to be canceled.
 - `thing_name`: The name of the thing whose execution of the job will be canceled.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: (Optional) The expected current version of the job execution. Each
+# Keyword Parameters
+- `expected_version`: (Optional) The expected current version of the job execution. Each
   time you update the job execution, its version is incremented. If the version of the job
   execution stored in Jobs does not match, the update is rejected with a VersionMismatch
   error, and an ErrorResponse that contains the current job execution status data is
   returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in
   order to obtain the job execution status data.)
-- `"force"`: (Optional) If true the job execution will be canceled if it has status
+- `force`: (Optional) If true the job execution will be canceled if it has status
   IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status
   QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set
   force to true, then an InvalidStateTransitionException will be thrown. The default is
   false. Canceling a job execution which is \"IN_PROGRESS\", will cause the device to be
   unable to update the job execution status. Use caution and ensure that the device is able
   to recover to a valid state.
-- `"status_details"`: A collection of name/value pairs that describe the status of the job
+- `status_details`: A collection of name/value pairs that describe the status of the job
   execution. If not specified, the statusDetails are unchanged. You can specify at most 10
   name/value pairs.
 """
-function cancel_job_execution(
-    jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/things/$(thingName)/jobs/$(jobId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/things/$(thingName)/jobs/$(jobId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -597,17 +292,9 @@ Clears the default authorizer. Requires permission to access the ClearDefaultAut
 action.
 
 """
-function clear_default_authorizer(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function clear_default_authorizer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/default-authorizer",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/default-authorizer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -624,17 +311,9 @@ ConfirmTopicRuleDestination action.
   confirmation URL.
 
 """
-function confirm_topic_rule_destination(
-    confirmationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function confirm_topic_rule_destination(confirmationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/confirmdestination/$(confirmationToken)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/confirmdestination/$(confirmationToken)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -651,38 +330,15 @@ CreateAuditSuppression action.
   automatically generate a unique client request.
 - `resource_identifier`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:  The description of the audit suppression.
-- `"expiration_date"`:  The epoch timestamp in seconds at which this suppression expires.
-- `"suppress_indefinitely"`:  Indicates whether a suppression should exist indefinitely or
+# Keyword Parameters
+- `description`:  The description of the audit suppression.
+- `expiration_date`:  The epoch timestamp in seconds at which this suppression expires.
+- `suppress_indefinitely`:  Indicates whether a suppression should exist indefinitely or
   not.
 """
-function create_audit_suppression(
-    checkName,
-    clientRequestToken,
-    resourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_audit_suppression(checkName, clientRequestToken, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/suppressions/create",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "checkName" => checkName,
-                    "clientRequestToken" => clientRequestToken,
-                    "resourceIdentifier" => resourceIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/suppressions/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkName"=>checkName, "clientRequestToken"=>clientRequestToken, "resourceIdentifier"=>resourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -694,40 +350,22 @@ Creates an authorizer. Requires permission to access the CreateAuthorizer action
 - `authorizer_function_arn`: The ARN of the authorizer's Lambda function.
 - `authorizer_name`: The authorizer name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"signing_disabled"`: Specifies whether IoT validates the token signature in an
+# Keyword Parameters
+- `signing_disabled`: Specifies whether IoT validates the token signature in an
   authorization request.
-- `"status"`: The status of the create authorizer request.
-- `"tags"`: Metadata which can be used to manage the custom authorizer.  For URI Request
+- `status`: The status of the create authorizer request.
+- `tags`: Metadata which can be used to manage the custom authorizer.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
   use format: \"tags\": \"key1=value1&amp;key2=value2...\"
-- `"token_key_name"`: The name of the token key used to extract the token from the HTTP
+- `token_key_name`: The name of the token key used to extract the token from the HTTP
   headers.
-- `"token_signing_public_keys"`: The public keys used to verify the digital signature
+- `token_signing_public_keys`: The public keys used to verify the digital signature
   returned by your custom authentication service.
 """
-function create_authorizer(
-    authorizerFunctionArn,
-    authorizerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_authorizer(authorizerFunctionArn, authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/authorizer/$(authorizerName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("authorizerFunctionArn" => authorizerFunctionArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/authorizer/$(authorizerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizerFunctionArn"=>authorizerFunctionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -738,22 +376,13 @@ Creates a billing group. Requires permission to access the CreateBillingGroup ac
 # Arguments
 - `billing_group_name`: The name you wish to give to the billing group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"billing_group_properties"`: The properties of the billing group.
-- `"tags"`: Metadata which can be used to manage the billing group.
+# Keyword Parameters
+- `billing_group_properties`: The properties of the billing group.
+- `tags`: Metadata which can be used to manage the billing group.
 """
-function create_billing_group(
-    billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_billing_group(billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/billing-groups/$(billingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/billing-groups/$(billingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -785,27 +414,12 @@ my-csr-directory /c \"cmd /c aws iot create-certificate-from-csr
 # Arguments
 - `certificate_signing_request`: The certificate signing request (CSR).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"set_as_active"`: Specifies whether the certificate is active.
+# Keyword Parameters
+- `set_as_active`: Specifies whether the certificate is active.
 """
-function create_certificate_from_csr(
-    certificateSigningRequest; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_certificate_from_csr(certificateSigningRequest; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/certificates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("certificateSigningRequest" => certificateSigningRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateSigningRequest"=>certificateSigningRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -824,36 +438,15 @@ Requires permission to access the CreateCustomMetric action.
 - `metric_type`:  The type of the custom metric. Types include string-list,
   ip-address-list, number-list, and number.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"display_name"`:  Field represents a friendly name in the console for the custom metric;
+# Keyword Parameters
+- `display_name`:  Field represents a friendly name in the console for the custom metric;
   it doesn't have to be unique. Don't use this name as the metric identifier in the device
   metric report. Can be updated once defined.
-- `"tags"`:  Metadata that can be used to manage the custom metric.
+- `tags`:  Metadata that can be used to manage the custom metric.
 """
-function create_custom_metric(
-    clientRequestToken,
-    metricName,
-    metricType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_custom_metric(clientRequestToken, metricName, metricType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/custom-metric/$(metricName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientRequestToken" => clientRequestToken, "metricType" => metricType
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/custom-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "metricType"=>metricType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -876,36 +469,12 @@ specified in the dimension. Requires permission to access the CreateDimension ac
   \"admin/#\").
 - `type`: Specifies the type of dimension. Supported types: TOPIC_FILTER.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Metadata that can be used to manage the dimension.
+# Keyword Parameters
+- `tags`: Metadata that can be used to manage the dimension.
 """
-function create_dimension(
-    clientRequestToken,
-    name,
-    stringValues,
-    type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dimension(clientRequestToken, name, stringValues, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/dimensions/$(name)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientRequestToken" => clientRequestToken,
-                    "stringValues" => stringValues,
-                    "type" => type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/dimensions/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "stringValues"=>stringValues, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -918,34 +487,25 @@ action.
 - `domain_configuration_name`: The name of the domain configuration. This value must be
   unique to a region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorizer_config"`: An object that specifies the authorization service for a domain.
-- `"domain_name"`: The name of the domain.
-- `"server_certificate_arns"`: The ARNs of the certificates that IoT passes to the device
+# Keyword Parameters
+- `authorizer_config`: An object that specifies the authorization service for a domain.
+- `domain_name`: The name of the domain.
+- `server_certificate_arns`: The ARNs of the certificates that IoT passes to the device
   during the TLS handshake. Currently you can specify only one certificate ARN. This value is
   not required for Amazon Web Services-managed domains.
-- `"service_type"`: The type of service delivered by the endpoint.  Amazon Web Services IoT
+- `service_type`: The type of service delivered by the endpoint.  Amazon Web Services IoT
   Core currently supports only the DATA service type.
-- `"tags"`: Metadata which can be used to manage the domain configuration.  For URI Request
+- `tags`: Metadata which can be used to manage the domain configuration.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
   use format: \"tags\": \"key1=value1&amp;key2=value2...\"
-- `"validation_certificate_arn"`: The certificate used to validate the server certificate
-  and prove domain name ownership. This certificate must be signed by a public certificate
+- `validation_certificate_arn`: The certificate used to validate the server certificate and
+  prove domain name ownership. This certificate must be signed by a public certificate
   authority. This value is not required for Amazon Web Services-managed domains.
 """
-function create_domain_configuration(
-    domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_domain_configuration(domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/domainConfigurations/$(domainConfigurationName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/domainConfigurations/$(domainConfigurationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -959,31 +519,17 @@ action.
   information about query string syntax.
 - `thing_group_name`: The dynamic thing group name to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"index_name"`: The dynamic thing group index name.  Currently one index is supported:
+# Keyword Parameters
+- `index_name`: The dynamic thing group index name.  Currently one index is supported:
   AWS_Things.
-- `"query_version"`: The dynamic thing group query version.  Currently one query version is
+- `query_version`: The dynamic thing group query version.  Currently one query version is
   supported: \"2017-09-30\". If not specified, the query version defaults to this value.
-- `"tags"`: Metadata which can be used to manage the dynamic thing group.
-- `"thing_group_properties"`: The dynamic thing group properties.
+- `tags`: Metadata which can be used to manage the dynamic thing group.
+- `thing_group_properties`: The dynamic thing group properties.
 """
-function create_dynamic_thing_group(
-    queryString,
-    thingGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dynamic_thing_group(queryString, thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/dynamic-thing-groups/$(thingGroupName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryString" => queryString), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/dynamic-thing-groups/$(thingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -999,43 +545,17 @@ Creates a fleet metric. Requires permission to access the CreateFleetMetric acti
   day)] and must be multiple of 60.
 - `query_string`: The search query string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The fleet metric description.
-- `"index_name"`: The name of the index to search.
-- `"query_version"`: The query version.
-- `"tags"`: Metadata, which can be used to manage the fleet metric.
-- `"unit"`: Used to support unit transformation such as milliseconds to seconds. The unit
+# Keyword Parameters
+- `description`: The fleet metric description.
+- `index_name`: The name of the index to search.
+- `query_version`: The query version.
+- `tags`: Metadata, which can be used to manage the fleet metric.
+- `unit`: Used to support unit transformation such as milliseconds to seconds. The unit
   must be supported by CW metric. Default to null.
 """
-function create_fleet_metric(
-    aggregationField,
-    aggregationType,
-    metricName,
-    period,
-    queryString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_fleet_metric(aggregationField, aggregationType, metricName, period, queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/fleet-metric/$(metricName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "aggregationField" => aggregationField,
-                    "aggregationType" => aggregationType,
-                    "period" => period,
-                    "queryString" => queryString,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/fleet-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregationField"=>aggregationField, "aggregationType"=>aggregationType, "period"=>period, "queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1048,46 +568,37 @@ Creates a job. Requires permission to access the CreateJob action.
   recommend using a UUID. Alpha-numeric characters, \"-\" and \"_\" are valid for use here.
 - `targets`: A list of things and thing groups to which the job should be sent.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"abort_config"`: Allows you to create criteria to abort a job.
-- `"description"`: A short text description of the job.
-- `"document"`: The job document. Required if you don't specify a value for documentSource.
-- `"document_source"`: An S3 link to the job document. Required if you don't specify a
-  value for document.  If the job document resides in an S3 bucket, you must use a
-  placeholder link when specifying the document. The placeholder link is of the following
-  form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your
-  bucket name and key is the object in the bucket to which you are linking.
-- `"job_executions_rollout_config"`: Allows you to create a staged rollout of the job.
-- `"job_template_arn"`: The ARN of the job template used to create the job.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+# Keyword Parameters
+- `abort_config`: Allows you to create criteria to abort a job.
+- `description`: A short text description of the job.
+- `document`: The job document. Required if you don't specify a value for documentSource.
+- `document_source`: An S3 link to the job document. Required if you don't specify a value
+  for document.  If the job document resides in an S3 bucket, you must use a placeholder link
+  when specifying the document. The placeholder link is of the following form:
+  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket
+  name and key is the object in the bucket to which you are linking.
+- `job_executions_rollout_config`: Allows you to create a staged rollout of the job.
+- `job_template_arn`: The ARN of the job template used to create the job.
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
-- `"presigned_url_config"`: Configuration information for pre-signed S3 URLs.
-- `"tags"`: Metadata which can be used to manage the job.
-- `"target_selection"`: Specifies whether the job will continue to run (CONTINUOUS), or
-  will be complete after all those things specified as targets have completed the job
-  (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in
-  a target. For example, a job will run on a thing when the thing is added to a target group,
-  even after the job was completed by all things originally in the group.
-- `"timeout_config"`: Specifies the amount of time each device has to finish its execution
-  of the job. The timer is started when the job execution status is set to IN_PROGRESS. If
-  the job execution status is not set to another terminal state before the time expires, it
-  will be automatically set to TIMED_OUT.
+- `presigned_url_config`: Configuration information for pre-signed S3 URLs.
+- `tags`: Metadata which can be used to manage the job.
+- `target_selection`: Specifies whether the job will continue to run (CONTINUOUS), or will
+  be complete after all those things specified as targets have completed the job (SNAPSHOT).
+  If continuous, the job may also be run on a thing when a change is detected in a target.
+  For example, a job will run on a thing when the thing is added to a target group, even
+  after the job was completed by all things originally in the group.
+- `timeout_config`: Specifies the amount of time each device has to finish its execution of
+  the job. The timer is started when the job execution status is set to IN_PROGRESS. If the
+  job execution status is not set to another terminal state before the time expires, it will
+  be automatically set to TIMED_OUT.
 """
-function create_job(
-    jobId, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_job(jobId, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/jobs/$(jobId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("targets" => targets), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1100,34 +611,23 @@ Creates a job template. Requires permission to access the CreateJobTemplate acti
 - `job_template_id`: A unique identifier for the job template. We recommend using a UUID.
   Alpha-numeric characters, \"-\", and \"_\" are valid for use here.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"abort_config"`:
-- `"document"`: The job document. Required if you don't specify a value for documentSource.
-- `"document_source"`: An S3 link to the job document to use in the template. Required if
-  you don't specify a value for document.  If the job document resides in an S3 bucket, you
-  must use a placeholder link when specifying the document. The placeholder link is of the
+# Keyword Parameters
+- `abort_config`:
+- `document`: The job document. Required if you don't specify a value for documentSource.
+- `document_source`: An S3 link to the job document to use in the template. Required if you
+  don't specify a value for document.  If the job document resides in an S3 bucket, you must
+  use a placeholder link when specifying the document. The placeholder link is of the
   following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where
   bucket is your bucket name and key is the object in the bucket to which you are linking.
-- `"job_arn"`: The ARN of the job to use as the basis for the job template.
-- `"job_executions_rollout_config"`:
-- `"presigned_url_config"`:
-- `"tags"`: Metadata that can be used to manage the job template.
-- `"timeout_config"`:
+- `job_arn`: The ARN of the job to use as the basis for the job template.
+- `job_executions_rollout_config`:
+- `presigned_url_config`:
+- `tags`: Metadata that can be used to manage the job template.
+- `timeout_config`:
 """
-function create_job_template(
-    description, jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_job_template(description, jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/job-templates/$(jobTemplateId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("description" => description), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/job-templates/$(jobTemplateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1139,21 +639,12 @@ information, see Provisioning MQTT API.  Note This is the only time IoT issues t
 key for this certificate, so it is important to keep it in a secure location. Requires
 permission to access the CreateKeysAndCertificate action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"set_as_active"`: Specifies whether the certificate is active.
+# Keyword Parameters
+- `set_as_active`: Specifies whether the certificate is active.
 """
-function create_keys_and_certificate(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_keys_and_certificate(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/keys-and-certificate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/keys-and-certificate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1171,31 +662,12 @@ action.
 - `action_params`: Defines the type of action and the parameters for that action.
 - `role_arn`: The ARN of the IAM role that is used to apply the mitigation action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Metadata that can be used to manage the mitigation action.
+# Keyword Parameters
+- `tags`: Metadata that can be used to manage the mitigation action.
 """
-function create_mitigation_action(
-    actionName,
-    actionParams,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_mitigation_action(actionName, actionParams, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/mitigationactions/actions/$(actionName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("actionParams" => actionParams, "roleArn" => roleArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/mitigationactions/actions/$(actionName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionParams"=>actionParams, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1211,54 +683,31 @@ access the CreateOTAUpdate action.
   S3, IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job.
 - `targets`: The devices targeted to receive OTA updates.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"additional_parameters"`: A list of additional OTA update parameters which are
-  name-value pairs.
-- `"aws_job_abort_config"`: The criteria that determine when and how a job abort takes
-  place.
-- `"aws_job_executions_rollout_config"`: Configuration for the rollout of OTA updates.
-- `"aws_job_presigned_url_config"`: Configuration information for pre-signed URLs.
-- `"aws_job_timeout_config"`: Specifies the amount of time each device has to finish its
+# Keyword Parameters
+- `additional_parameters`: A list of additional OTA update parameters which are name-value
+  pairs.
+- `aws_job_abort_config`: The criteria that determine when and how a job abort takes place.
+- `aws_job_executions_rollout_config`: Configuration for the rollout of OTA updates.
+- `aws_job_presigned_url_config`: Configuration information for pre-signed URLs.
+- `aws_job_timeout_config`: Specifies the amount of time each device has to finish its
   execution of the job. A timer is started when the job execution status is set to
   IN_PROGRESS. If the job execution status is not set to another terminal state before the
   timer expires, it will be automatically set to TIMED_OUT.
-- `"description"`: The description of the OTA update.
-- `"protocols"`: The protocol used to transfer the OTA update image. Valid values are
-  [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can
-  choose the protocol.
-- `"tags"`: Metadata which can be used to manage updates.
-- `"target_selection"`: Specifies whether the update will continue to run (CONTINUOUS), or
+- `description`: The description of the OTA update.
+- `protocols`: The protocol used to transfer the OTA update image. Valid values are [HTTP],
+  [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose
+  the protocol.
+- `tags`: Metadata which can be used to manage updates.
+- `target_selection`: Specifies whether the update will continue to run (CONTINUOUS), or
   will be complete after all the things specified as targets have completed the update
   (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected
   in a target. For example, an update will run on a thing when the thing is added to a target
   group, even after the update was completed by all things originally in the group. Valid
   values: CONTINUOUS | SNAPSHOT.
 """
-function create_otaupdate(
-    files,
-    otaUpdateId,
-    roleArn,
-    targets;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_otaupdate(files, otaUpdateId, roleArn, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/otaUpdates/$(otaUpdateId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "files" => files, "roleArn" => roleArn, "targets" => targets
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/otaUpdates/$(otaUpdateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("files"=>files, "roleArn"=>roleArn, "targets"=>targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1273,26 +722,15 @@ policy's default version. Requires permission to access the CreatePolicy action.
   a minimum length of 1, with a maximum length of 2048, excluding whitespace.
 - `policy_name`: The policy name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Metadata which can be used to manage the policy.  For URI Request parameters
-  use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use
-  format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use
-  format: \"tags\": \"key1=value1&amp;key2=value2...\"
+# Keyword Parameters
+- `tags`: Metadata which can be used to manage the policy.  For URI Request parameters use
+  format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format:
+  &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format:
+  \"tags\": \"key1=value1&amp;key2=value2...\"
 """
-function create_policy(
-    policyDocument, policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_policy(policyDocument, policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/policies/$(policyName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("policyDocument" => policyDocument), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/policies/$(policyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1311,25 +749,14 @@ CreatePolicyVersion action.
   Maximum length of 2048, excluding whitespace.
 - `policy_name`: The policy name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"set_as_default"`: Specifies whether the policy version is set as the default. When this
+# Keyword Parameters
+- `set_as_default`: Specifies whether the policy version is set as the default. When this
   parameter is true, the new policy version becomes the operative version (that is, the
   version that is in effect for the certificates to which the policy is attached).
 """
-function create_policy_version(
-    policyDocument, policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_policy_version(policyDocument, policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/policies/$(policyName)/version",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("policyDocument" => policyDocument), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/policies/$(policyName)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1342,17 +769,9 @@ action.
 - `template_name`: The name of the provisioning template to use.
 
 """
-function create_provisioning_claim(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_provisioning_claim(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/provisioning-templates/$(templateName)/provisioning-claim",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/provisioning-templates/$(templateName)/provisioning-claim", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1367,41 +786,18 @@ CreateProvisioningTemplate action.
 - `template_body`: The JSON formatted contents of the fleet provisioning template.
 - `template_name`: The name of the fleet provisioning template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the fleet provisioning template.
-- `"enabled"`: True to enable the fleet provisioning template, otherwise false.
-- `"pre_provisioning_hook"`: Creates a pre-provisioning hook template.
-- `"tags"`: Metadata which can be used to manage the fleet provisioning template.  For URI
+# Keyword Parameters
+- `description`: The description of the fleet provisioning template.
+- `enabled`: True to enable the fleet provisioning template, otherwise false.
+- `pre_provisioning_hook`: Creates a pre-provisioning hook template.
+- `tags`: Metadata which can be used to manage the fleet provisioning template.  For URI
   Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line
   parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the
   cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
-function create_provisioning_template(
-    provisioningRoleArn,
-    templateBody,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_provisioning_template(provisioningRoleArn, templateBody, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/provisioning-templates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "provisioningRoleArn" => provisioningRoleArn,
-                    "templateBody" => templateBody,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/provisioning-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("provisioningRoleArn"=>provisioningRoleArn, "templateBody"=>templateBody, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1414,23 +810,12 @@ CreateProvisioningTemplateVersion action.
 - `template_body`: The JSON formatted contents of the fleet provisioning template.
 - `template_name`: The name of the fleet provisioning template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"set_as_default"`: Sets a fleet provision template version as the default version.
+# Keyword Parameters
+- `set_as_default`: Sets a fleet provision template version as the default version.
 """
-function create_provisioning_template_version(
-    templateBody, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_provisioning_template_version(templateBody, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/provisioning-templates/$(templateName)/versions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("templateBody" => templateBody), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/provisioning-templates/$(templateName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateBody"=>templateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1443,26 +828,17 @@ Creates a role alias. Requires permission to access the CreateRoleAlias action.
   role without having to update the device.
 - `role_arn`: The role ARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"credential_duration_seconds"`: How long (in seconds) the credentials will be valid. The
+# Keyword Parameters
+- `credential_duration_seconds`: How long (in seconds) the credentials will be valid. The
   default value is 3,600 seconds.
-- `"tags"`: Metadata which can be used to manage the role alias.  For URI Request
-  parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
-  use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
-  use format: \"tags\": \"key1=value1&amp;key2=value2...\"
+- `tags`: Metadata which can be used to manage the role alias.  For URI Request parameters
+  use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use
+  format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use
+  format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
-function create_role_alias(
-    roleAlias, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_role_alias(roleAlias, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/role-aliases/$(roleAlias)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("roleArn" => roleArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/role-aliases/$(roleAlias)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1480,40 +856,19 @@ access the CreateScheduledAudit action.
   checks, including those that are enabled or use UpdateAccountAuditConfiguration to select
   which checks are enabled.)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"day_of_month"`: The day of the month on which the scheduled audit takes place. This can
+# Keyword Parameters
+- `day_of_month`: The day of the month on which the scheduled audit takes place. This can
   be \"1\" through \"31\" or \"LAST\". This field is required if the \"frequency\" parameter
   is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many
   days, the audit takes place on the LAST day of the month.
-- `"day_of_week"`: The day of the week on which the scheduled audit takes place, either
-  SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is
-  set to WEEKLY or BIWEEKLY.
-- `"tags"`: Metadata that can be used to manage the scheduled audit.
+- `day_of_week`: The day of the week on which the scheduled audit takes place, either SUN,
+  MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set
+  to WEEKLY or BIWEEKLY.
+- `tags`: Metadata that can be used to manage the scheduled audit.
 """
-function create_scheduled_audit(
-    frequency,
-    scheduledAuditName,
-    targetCheckNames;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_scheduled_audit(frequency, scheduledAuditName, targetCheckNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/scheduledaudits/$(scheduledAuditName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "frequency" => frequency, "targetCheckNames" => targetCheckNames
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/scheduledaudits/$(scheduledAuditName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("frequency"=>frequency, "targetCheckNames"=>targetCheckNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1525,35 +880,26 @@ CreateSecurityProfile action.
 # Arguments
 - `security_profile_name`: The name you are giving to the security profile.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"additional_metrics_to_retain"`:  Please use
+# Keyword Parameters
+- `additional_metrics_to_retain`:  Please use
   CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose
   data is retained (stored). By default, data is retained for any metric used in the
   profile's behaviors, but it is also retained for any metric specified here. Can be used
   with custom metrics; cannot be used with dimensions.
-- `"additional_metrics_to_retain_v2"`: A list of metrics whose data is retained (stored).
-  By default, data is retained for any metric used in the profile's behaviors, but it is also
+- `additional_metrics_to_retain_v2`: A list of metrics whose data is retained (stored). By
+  default, data is retained for any metric used in the profile's behaviors, but it is also
   retained for any metric specified here. Can be used with custom metrics; cannot be used
   with dimensions.
-- `"alert_targets"`: Specifies the destinations to which alerts are sent. (Alerts are
-  always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
-- `"behaviors"`: Specifies the behaviors that, when violated by a device (thing), cause an
+- `alert_targets`: Specifies the destinations to which alerts are sent. (Alerts are always
+  sent to the console.) Alerts are generated when a device (thing) violates a behavior.
+- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
-- `"security_profile_description"`: A description of the security profile.
-- `"tags"`: Metadata that can be used to manage the security profile.
+- `security_profile_description`: A description of the security profile.
+- `tags`: Metadata that can be used to manage the security profile.
 """
-function create_security_profile(
-    securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/security-profiles/$(securityProfileName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/security-profiles/$(securityProfileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1570,26 +916,13 @@ CreateStream action.
   files.
 - `stream_id`: The stream ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the stream.
-- `"tags"`: Metadata which can be used to manage streams.
+# Keyword Parameters
+- `description`: A description of the stream.
+- `tags`: Metadata which can be used to manage streams.
 """
-function create_stream(
-    files, roleArn, streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_stream(files, roleArn, streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/streams/$(streamId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("files" => files, "roleArn" => roleArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/streams/$(streamId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("files"=>files, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1606,24 +939,15 @@ plane actions.  Requires permission to access the CreateThing action.
   create it. To change a thing's name, you must create a new thing, give it the new name, and
   then delete the old thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_payload"`: The attribute payload, which consists of up to three name/value
+# Keyword Parameters
+- `attribute_payload`: The attribute payload, which consists of up to three name/value
   pairs in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}}
-- `"billing_group_name"`: The name of the billing group the thing will be added to.
-- `"thing_type_name"`: The name of the thing type associated with the new thing.
+- `billing_group_name`: The name of the billing group the thing will be added to.
+- `thing_type_name`: The name of the thing type associated with the new thing.
 """
-function create_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/things/$(thingName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/things/$(thingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1636,23 +960,14 @@ CreateThingGroup action.
 # Arguments
 - `thing_group_name`: The thing group name to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parent_group_name"`: The name of the parent thing group.
-- `"tags"`: Metadata which can be used to manage the thing group.
-- `"thing_group_properties"`: The thing group properties.
+# Keyword Parameters
+- `parent_group_name`: The name of the parent thing group.
+- `tags`: Metadata which can be used to manage the thing group.
+- `thing_group_properties`: The thing group properties.
 """
-function create_thing_group(
-    thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_thing_group(thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/thing-groups/$(thingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/thing-groups/$(thingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1663,24 +978,15 @@ Creates a new thing type. Requires permission to access the CreateThingType acti
 # Arguments
 - `thing_type_name`: The name of the thing type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Metadata which can be used to manage the thing type.
-- `"thing_type_properties"`: The ThingTypeProperties for the thing type to create. It
+# Keyword Parameters
+- `tags`: Metadata which can be used to manage the thing type.
+- `thing_type_properties`: The ThingTypeProperties for the thing type to create. It
   contains information about the new thing type including a description, and a list of
   searchable thing attribute names.
 """
-function create_thing_type(
-    thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_thing_type(thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/thing-types/$(thingTypeName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/thing-types/$(thingTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1694,28 +1000,15 @@ permission to access the CreateTopicRule action.
 - `rule_name`: The name of the rule.
 - `topic_rule_payload`: The rule payload.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Metadata which can be used to manage the topic rule.  For URI Request
-  parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
-  use format: --tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use
-  format: \"tags\": \"key1=value1&amp;key2=value2...\"
+# Keyword Parameters
+- `tags`: Metadata which can be used to manage the topic rule.  For URI Request parameters
+  use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use
+  format: --tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format:
+  \"tags\": \"key1=value1&amp;key2=value2...\"
 """
-function create_topic_rule(
-    ruleName, topicRulePayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_topic_rule(ruleName, topicRulePayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/rules/$(ruleName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("topicRulePayload" => topicRulePayload), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/rules/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("topicRulePayload"=>topicRulePayload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1728,23 +1021,9 @@ permission to access the CreateTopicRuleDestination action.
 - `destination_configuration`: The topic rule destination configuration.
 
 """
-function create_topic_rule_destination(
-    destinationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_topic_rule_destination(destinationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/destinations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("destinationConfiguration" => destinationConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationConfiguration"=>destinationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1754,21 +1033,12 @@ Restores the default settings for Device Defender audits for this account. Any
 configuration data you entered is deleted and all audit checks are reset to disabled.
 Requires permission to access the DeleteAccountAuditConfiguration action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delete_scheduled_audits"`: If true, all scheduled audits are deleted.
+# Keyword Parameters
+- `delete_scheduled_audits`: If true, all scheduled audits are deleted.
 """
-function delete_account_audit_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/audit/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/audit/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1782,28 +1052,9 @@ DeleteAuditSuppression action.
 - `resource_identifier`:
 
 """
-function delete_audit_suppression(
-    checkName,
-    resourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_audit_suppression(checkName, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/suppressions/delete",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "checkName" => checkName, "resourceIdentifier" => resourceIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/suppressions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1815,17 +1066,9 @@ Deletes an authorizer. Requires permission to access the DeleteAuthorizer action
 - `authorizer_name`: The name of the authorizer to delete.
 
 """
-function delete_authorizer(
-    authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/authorizer/$(authorizerName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/authorizer/$(authorizerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1836,23 +1079,14 @@ Deletes the billing group. Requires permission to access the DeleteBillingGroup 
 # Arguments
 - `billing_group_name`: The name of the billing group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the billing group. If the version of the
+# Keyword Parameters
+- `expected_version`: The expected version of the billing group. If the version of the
   billing group does not match the expected version specified in the request, the
   DeleteBillingGroup request is rejected with a VersionConflictException.
 """
-function delete_billing_group(
-    billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_billing_group(billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/billing-groups/$(billingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/billing-groups/$(billingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1866,17 +1100,9 @@ action.
   certificate ARN contains the certificate ID.)
 
 """
-function delete_cacertificate(
-    caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cacertificate(caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/cacertificate/$(caCertificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/cacertificate/$(caCertificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1892,22 +1118,13 @@ DeleteCertificate action.
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete"`: Forces the deletion of a certificate if it is inactive and is not
+# Keyword Parameters
+- `force_delete`: Forces the deletion of a certificate if it is inactive and is not
   attached to an IoT thing.
 """
-function delete_certificate(
-    certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_certificate(certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/certificates/$(certificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/certificates/$(certificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1923,17 +1140,9 @@ metricName set to your custom metric name.
 - `metric_name`:  The name of the custom metric.
 
 """
-function delete_custom_metric(
-    metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_custom_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/custom-metric/$(metricName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/custom-metric/$(metricName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1946,17 +1155,9 @@ to access the DeleteDimension action.
 - `name`: The unique identifier for the dimension that you want to delete.
 
 """
-function delete_dimension(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dimension(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/dimensions/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/dimensions/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1969,17 +1170,9 @@ DeleteDomainConfiguration action.
 - `domain_configuration_name`: The name of the domain configuration to be deleted.
 
 """
-function delete_domain_configuration(
-    domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_domain_configuration(domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/domainConfigurations/$(domainConfigurationName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/domainConfigurations/$(domainConfigurationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1991,21 +1184,12 @@ action.
 # Arguments
 - `thing_group_name`: The name of the dynamic thing group to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the dynamic thing group to delete.
+# Keyword Parameters
+- `expected_version`: The expected version of the dynamic thing group to delete.
 """
-function delete_dynamic_thing_group(
-    thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dynamic_thing_group(thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/dynamic-thing-groups/$(thingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/dynamic-thing-groups/$(thingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2018,21 +1202,12 @@ the DeleteFleetMetric action.
 # Arguments
 - `metric_name`: The name of the fleet metric to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the fleet metric to delete.
+# Keyword Parameters
+- `expected_version`: The expected version of the fleet metric to delete.
 """
-function delete_fleet_metric(
-    metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_fleet_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/fleet-metric/$(metricName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/fleet-metric/$(metricName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2050,29 +1225,22 @@ or a LimitExceededException will occur. Requires permission to access the Delete
   reuse this jobId when you create a new job. However, this is not recommended, and you must
   ensure that your devices are not using the jobId to refer to the deleted job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`: (Optional) When true, you can delete a job which is \"IN_PROGRESS\".
-  Otherwise, you can only delete a job which is in a terminal state (\"COMPLETED\" or
-  \"CANCELED\") or an exception will occur. The default is false.  Deleting a job which is
-  \"IN_PROGRESS\", will cause a device which is executing the job to be unable to access job
-  information or update the job execution status. Use caution and ensure that each device
-  executing a job which is deleted is able to recover to a valid state.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+# Keyword Parameters
+- `force`: (Optional) When true, you can delete a job which is \"IN_PROGRESS\". Otherwise,
+  you can only delete a job which is in a terminal state (\"COMPLETED\" or \"CANCELED\") or
+  an exception will occur. The default is false.  Deleting a job which is \"IN_PROGRESS\",
+  will cause a device which is executing the job to be unable to access job information or
+  update the job execution status. Use caution and ensure that each device executing a job
+  which is deleted is able to recover to a valid state.
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 """
 function delete_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2088,35 +1256,22 @@ Deletes a job execution. Requires permission to access the DeleteJobExecution ac
 - `job_id`: The ID of the job whose execution on a particular device will be deleted.
 - `thing_name`: The name of the thing whose job execution will be deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`: (Optional) When true, you can delete a job execution which is \"IN_PROGRESS\".
+# Keyword Parameters
+- `force`: (Optional) When true, you can delete a job execution which is \"IN_PROGRESS\".
   Otherwise, you can only delete a job execution which is in a terminal state (\"SUCCEEDED\",
   \"FAILED\", \"REJECTED\", \"REMOVED\" or \"CANCELED\") or an exception will occur. The
   default is false.  Deleting a job execution which is \"IN_PROGRESS\", will cause the device
   to be unable to access job information or update the job execution status. Use caution and
   ensure that the device is able to recover to a valid state.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 """
-function delete_job_execution(
-    executionNumber,
-    jobId,
-    thingName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_job_execution(executionNumber, jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2128,17 +1283,9 @@ Deletes the specified job template.
 - `job_template_id`: The unique identifier of the job template to delete.
 
 """
-function delete_job_template(
-    jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_job_template(jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/job-templates/$(jobTemplateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/job-templates/$(jobTemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2151,17 +1298,9 @@ permission to access the DeleteMitigationAction action.
 - `action_name`: The name of the mitigation action that you want to delete.
 
 """
-function delete_mitigation_action(
-    actionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_mitigation_action(actionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/mitigationactions/actions/$(actionName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/mitigationactions/actions/$(actionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2172,26 +1311,17 @@ Delete an OTA update. Requires permission to access the DeleteOTAUpdate action.
 # Arguments
 - `ota_update_id`: The ID of the OTA update to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delete_stream"`: When true, the stream created by the OTAUpdate process is deleted when
+# Keyword Parameters
+- `delete_stream`: When true, the stream created by the OTAUpdate process is deleted when
   the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by
   the user.
-- `"force_delete_awsjob"`: When true, deletes the IoT job created by the OTAUpdate process
+- `force_delete_awsjob`: When true, deletes the IoT job created by the OTAUpdate process
   even if it is \"IN_PROGRESS\". Otherwise, if the job is not in a terminal state
   (\"COMPLETED\" or \"CANCELED\") an exception will occur. The default is false.
 """
-function delete_otaupdate(
-    otaUpdateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/otaUpdates/$(otaUpdateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/otaUpdates/$(otaUpdateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2210,17 +1340,9 @@ the DeletePolicy action.
 - `policy_name`: The name of the policy to delete.
 
 """
-function delete_policy(
-    policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_policy(policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/policies/$(policyName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/policies/$(policyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2236,20 +1358,9 @@ ListPolicyVersions. Requires permission to access the DeletePolicyVersion action
 - `policy_version_id`: The policy version ID.
 
 """
-function delete_policy_version(
-    policyName,
-    policyVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_policy_version(policyName, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/policies/$(policyName)/version/$(policyVersionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/policies/$(policyName)/version/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2262,17 +1373,9 @@ DeleteProvisioningTemplate action.
 - `template_name`: The name of the fleet provision template to delete.
 
 """
-function delete_provisioning_template(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_provisioning_template(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/provisioning-templates/$(templateName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/provisioning-templates/$(templateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2286,17 +1389,9 @@ DeleteProvisioningTemplateVersion action.
 - `version_id`: The fleet provisioning template version ID to delete.
 
 """
-function delete_provisioning_template_version(
-    templateName, versionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_provisioning_template_version(templateName, versionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/provisioning-templates/$(templateName)/versions/$(versionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/provisioning-templates/$(templateName)/versions/$(versionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2306,17 +1401,9 @@ Deletes a CA certificate registration code. Requires permission to access the
 DeleteRegistrationCode action.
 
 """
-function delete_registration_code(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_registration_code(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/registrationcode",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/registrationcode", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2328,17 +1415,9 @@ Deletes a role alias Requires permission to access the DeleteRoleAlias action.
 - `role_alias`: The role alias to delete.
 
 """
-function delete_role_alias(
-    roleAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_role_alias(roleAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/role-aliases/$(roleAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/role-aliases/$(roleAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2350,17 +1429,9 @@ Deletes a scheduled audit. Requires permission to access the DeleteScheduledAudi
 - `scheduled_audit_name`: The name of the scheduled audit you want to delete.
 
 """
-function delete_scheduled_audit(
-    scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_scheduled_audit(scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/audit/scheduledaudits/$(scheduledAuditName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/audit/scheduledaudits/$(scheduledAuditName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2372,23 +1443,14 @@ DeleteSecurityProfile action.
 # Arguments
 - `security_profile_name`: The name of the security profile to be deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the security profile. A new version is
+# Keyword Parameters
+- `expected_version`: The expected version of the security profile. A new version is
   generated whenever the security profile is updated. If you specify a value that is
   different from the actual version, a VersionConflictException is thrown.
 """
-function delete_security_profile(
-    securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/security-profiles/$(securityProfileName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/security-profiles/$(securityProfileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2400,17 +1462,9 @@ Deletes a stream. Requires permission to access the DeleteStream action.
 - `stream_id`: The stream ID.
 
 """
-function delete_stream(
-    streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_stream(streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/streams/$(streamId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2423,23 +1477,14 @@ DeleteThing action.
 # Arguments
 - `thing_name`: The name of the thing to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the thing record in the registry. If the
+# Keyword Parameters
+- `expected_version`: The expected version of the thing record in the registry. If the
   version of the record in the registry does not match the expected version specified in the
   request, the DeleteThing request is rejected with a VersionConflictException.
 """
-function delete_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/things/$(thingName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/things/$(thingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2450,21 +1495,12 @@ Deletes a thing group. Requires permission to access the DeleteThingGroup action
 # Arguments
 - `thing_group_name`: The name of the thing group to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the thing group to delete.
+# Keyword Parameters
+- `expected_version`: The expected version of the thing group to delete.
 """
-function delete_thing_group(
-    thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_thing_group(thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/thing-groups/$(thingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/thing-groups/$(thingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2480,17 +1516,9 @@ type. Requires permission to access the DeleteThingType action.
 - `thing_type_name`: The name of the thing type.
 
 """
-function delete_thing_type(
-    thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_thing_type(thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/thing-types/$(thingTypeName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/thing-types/$(thingTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2502,17 +1530,9 @@ Deletes the rule. Requires permission to access the DeleteTopicRule action.
 - `rule_name`: The name of the rule.
 
 """
-function delete_topic_rule(
-    ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_topic_rule(ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/rules/$(ruleName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/rules/$(ruleName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2525,17 +1545,9 @@ DeleteTopicRuleDestination action.
 - `arn`: The ARN of the topic rule destination to delete.
 
 """
-function delete_topic_rule_destination(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_topic_rule_destination(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/destinations/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/destinations/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2549,23 +1561,9 @@ Deletes a logging level. Requires permission to access the DeleteV2LoggingLevel 
   THING_Group.
 
 """
-function delete_v2_logging_level(
-    targetName, targetType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_v2_logging_level(targetName, targetType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/v2LoggingLevel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("targetName" => targetName, "targetType" => targetType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/v2LoggingLevel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetName"=>targetName, "targetType"=>targetType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2577,22 +1575,13 @@ Requires permission to access the DeprecateThingType action.
 # Arguments
 - `thing_type_name`: The name of the thing type to deprecate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"undo_deprecate"`: Whether to undeprecate a deprecated thing type. If true, the thing
-  type will not be deprecated anymore and you can associate it with things.
+# Keyword Parameters
+- `undo_deprecate`: Whether to undeprecate a deprecated thing type. If true, the thing type
+  will not be deprecated anymore and you can associate it with things.
 """
-function deprecate_thing_type(
-    thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deprecate_thing_type(thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/thing-types/$(thingTypeName)/deprecate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/thing-types/$(thingTypeName)/deprecate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2603,17 +1592,9 @@ include how audit notifications are sent and which audit checks are enabled or d
 Requires permission to access the DescribeAccountAuditConfiguration action.
 
 """
-function describe_account_audit_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2628,17 +1609,9 @@ the finding. Requires permission to access the DescribeAuditFinding action.
   to apply mitigation actions to the finding.
 
 """
-function describe_audit_finding(
-    findingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_audit_finding(findingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/findings/$(findingId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/findings/$(findingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2652,17 +1625,9 @@ which they're being applied, the task status, and aggregated task statistics.
 - `task_id`: The unique identifier for the audit mitigation task.
 
 """
-function describe_audit_mitigation_actions_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_audit_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/mitigationactions/tasks/$(taskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/mitigationactions/tasks/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2675,28 +1640,9 @@ end
 - `resource_identifier`:
 
 """
-function describe_audit_suppression(
-    checkName,
-    resourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_audit_suppression(checkName, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/suppressions/describe",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "checkName" => checkName, "resourceIdentifier" => resourceIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/suppressions/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2709,17 +1655,9 @@ DescribeAuditTask action.
 - `task_id`: The ID of the audit whose information you want to get.
 
 """
-function describe_audit_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_audit_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/tasks/$(taskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/tasks/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2731,17 +1669,9 @@ Describes an authorizer. Requires permission to access the DescribeAuthorizer ac
 - `authorizer_name`: The name of the authorizer to describe.
 
 """
-function describe_authorizer(
-    authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/authorizer/$(authorizerName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/authorizer/$(authorizerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2754,17 +1684,9 @@ DescribeBillingGroup action.
 - `billing_group_name`: The name of the billing group.
 
 """
-function describe_billing_group(
-    billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_billing_group(billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/billing-groups/$(billingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/billing-groups/$(billingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2777,17 +1699,9 @@ DescribeCACertificate action.
 - `ca_certificate_id`: The CA certificate identifier.
 
 """
-function describe_cacertificate(
-    caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cacertificate(caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/cacertificate/$(caCertificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/cacertificate/$(caCertificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2801,17 +1715,9 @@ DescribeCertificate action.
   contains the certificate ID.)
 
 """
-function describe_certificate(
-    certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_certificate(certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/certificates/$(certificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/certificates/$(certificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2824,17 +1730,9 @@ access the DescribeCustomMetric action.
 - `metric_name`:  The name of the custom metric.
 
 """
-function describe_custom_metric(
-    metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_custom_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/custom-metric/$(metricName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/custom-metric/$(metricName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2844,17 +1742,9 @@ Describes the default authorizer. Requires permission to access the
 DescribeDefaultAuthorizer action.
 
 """
-function describe_default_authorizer(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_default_authorizer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/default-authorizer",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/default-authorizer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2867,17 +1757,9 @@ to access the DescribeDetectMitigationActionsTask action.
 - `task_id`:  The unique identifier of the task.
 
 """
-function describe_detect_mitigation_actions_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_detect_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/detect/mitigationactions/tasks/$(taskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/detect/mitigationactions/tasks/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2890,17 +1772,9 @@ Requires permission to access the DescribeDimension action.
 - `name`: The unique identifier for the dimension.
 
 """
-function describe_dimension(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dimension(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/dimensions/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/dimensions/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2913,17 +1787,9 @@ DescribeDomainConfiguration action.
 - `domain_configuration_name`: The name of the domain configuration.
 
 """
-function describe_domain_configuration(
-    domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_domain_configuration(domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/domainConfigurations/$(domainConfigurationName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/domainConfigurations/$(domainConfigurationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2932,20 +1798,17 @@ end
 Returns a unique endpoint specific to the Amazon Web Services account making the call.
 Requires permission to access the DescribeEndpoint action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoint_type"`: The endpoint type. Valid endpoint types include:    iot:Data - Returns
-  a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.
-     iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs
-  - Returns an IoT device management Jobs API endpoint.   We strongly recommend that
-  customers use the newer iot:Data-ATS endpoint type to avoid issues related to the
-  widespread distrust of Symantec certificate authorities.
+# Keyword Parameters
+- `endpoint_type`: The endpoint type. Valid endpoint types include:    iot:Data - Returns a
+  VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.
+   iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs -
+  Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers
+  use the newer iot:Data-ATS endpoint type to avoid issues related to the widespread distrust
+  of Symantec certificate authorities.
 """
 function describe_endpoint(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/endpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/endpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2955,17 +1818,9 @@ Describes event configurations. Requires permission to access the
 DescribeEventConfigurations action.
 
 """
-function describe_event_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/event-configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/event-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2978,17 +1833,9 @@ DescribeFleetMetric action.
 - `metric_name`: The name of the fleet metric to describe.
 
 """
-function describe_fleet_metric(
-    metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/fleet-metric/$(metricName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/fleet-metric/$(metricName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3000,17 +1847,9 @@ Describes a search index. Requires permission to access the DescribeIndex action
 - `index_name`: The index name.
 
 """
-function describe_index(
-    indexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_index(indexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/indices/$(indexName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/indices/$(indexName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3024,13 +1863,7 @@ Describes a job. Requires permission to access the DescribeJob action.
 """
 function describe_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3042,22 +1875,13 @@ Describes a job execution. Requires permission to access the DescribeJobExecutio
 - `job_id`: The unique identifier you assigned to this job when it was created.
 - `thing_name`: The name of the thing on which the job execution is running.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"execution_number"`: A string (consisting of the digits \"0\" through \"9\" which is
-  used to specify a particular job execution on a particular device.
+# Keyword Parameters
+- `execution_number`: A string (consisting of the digits \"0\" through \"9\" which is used
+  to specify a particular job execution on a particular device.
 """
-function describe_job_execution(
-    jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/things/$(thingName)/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3069,17 +1893,9 @@ Returns information about a job template.
 - `job_template_id`: The unique identifier of the job template.
 
 """
-function describe_job_template(
-    jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_job_template(jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/job-templates/$(jobTemplateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/job-templates/$(jobTemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3092,17 +1908,9 @@ DescribeMitigationAction action.
 - `action_name`: The friendly name that uniquely identifies the mitigation action.
 
 """
-function describe_mitigation_action(
-    actionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_mitigation_action(actionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/mitigationactions/actions/$(actionName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/mitigationactions/actions/$(actionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3115,17 +1923,9 @@ DescribeProvisioningTemplate action.
 - `template_name`: The name of the fleet provisioning template.
 
 """
-function describe_provisioning_template(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_provisioning_template(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/provisioning-templates/$(templateName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/provisioning-templates/$(templateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3139,17 +1939,9 @@ access the DescribeProvisioningTemplateVersion action.
 - `version_id`: The fleet provisioning template version ID.
 
 """
-function describe_provisioning_template_version(
-    templateName, versionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_provisioning_template_version(templateName, versionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/provisioning-templates/$(templateName)/versions/$(versionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/provisioning-templates/$(templateName)/versions/$(versionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3161,17 +1953,9 @@ Describes a role alias. Requires permission to access the DescribeRoleAlias acti
 - `role_alias`: The role alias to describe.
 
 """
-function describe_role_alias(
-    roleAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_role_alias(roleAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/role-aliases/$(roleAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/role-aliases/$(roleAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3184,17 +1968,9 @@ DescribeScheduledAudit action.
 - `scheduled_audit_name`: The name of the scheduled audit whose information you want to get.
 
 """
-function describe_scheduled_audit(
-    scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_scheduled_audit(scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/scheduledaudits/$(scheduledAuditName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/scheduledaudits/$(scheduledAuditName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3208,17 +1984,9 @@ the DescribeSecurityProfile action.
   get.
 
 """
-function describe_security_profile(
-    securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/security-profiles/$(securityProfileName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/security-profiles/$(securityProfileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3230,17 +1998,9 @@ Gets information about a stream. Requires permission to access the DescribeStrea
 - `stream_id`: The stream ID.
 
 """
-function describe_stream(
-    streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_stream(streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/streams/$(streamId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3253,17 +2013,9 @@ action.
 - `thing_name`: The name of the thing.
 
 """
-function describe_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/things/$(thingName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/things/$(thingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3275,17 +2027,9 @@ Describe a thing group. Requires permission to access the DescribeThingGroup act
 - `thing_group_name`: The name of the thing group.
 
 """
-function describe_thing_group(
-    thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_thing_group(thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-groups/$(thingGroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-groups/$(thingGroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3298,17 +2042,9 @@ DescribeThingRegistrationTask action.
 - `task_id`: The task ID.
 
 """
-function describe_thing_registration_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_thing_registration_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-registration-tasks/$(taskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-registration-tasks/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3321,17 +2057,9 @@ DescribeThingType action.
 - `thing_type_name`: The name of the thing type.
 
 """
-function describe_thing_type(
-    thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_thing_type(thingTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-types/$(thingTypeName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-types/$(thingTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3346,17 +2074,9 @@ to be deleted.  Requires permission to access the DetachPolicy action.
 - `target`: The target from which the policy will be detached.
 
 """
-function detach_policy(
-    policyName, target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_policy(policyName, target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/target-policies/$(policyName)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("target" => target), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/target-policies/$(policyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("target"=>target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3373,29 +2093,9 @@ action.
   (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 
 """
-function detach_principal_policy(
-    policyName,
-    x_amzn_iot_principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function detach_principal_policy(policyName, x_amzn_iot_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/principal-policies/$(policyName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" =>
-                        Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/principal-policies/$(policyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-iot-principal"=>x_amzn_iot_principal)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3410,26 +2110,9 @@ Requires permission to access the DetachSecurityProfile action.
   is detached.
 
 """
-function detach_security_profile(
-    securityProfileName,
-    securityProfileTargetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function detach_security_profile(securityProfileName, securityProfileTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/security-profiles/$(securityProfileName)/targets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/security-profiles/$(securityProfileName)/targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("securityProfileTargetArn"=>securityProfileTargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3447,28 +2130,9 @@ propagate.  Requires permission to access the DetachThingPrincipal action.
   the Amazon Cognito identity.
 
 """
-function detach_thing_principal(
-    thingName,
-    x_amzn_principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function detach_thing_principal(thingName, x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "DELETE",
-        "/things/$(thingName)/principals",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("DELETE", "/things/$(thingName)/principals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3480,17 +2144,9 @@ Disables the rule. Requires permission to access the DisableTopicRule action.
 - `rule_name`: The name of the rule to disable.
 
 """
-function disable_topic_rule(
-    ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_topic_rule(ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/rules/$(ruleName)/disable",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/rules/$(ruleName)/disable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3502,17 +2158,9 @@ Enables the rule. Requires permission to access the EnableTopicRule action.
 - `rule_name`: The name of the topic rule to enable.
 
 """
-function enable_topic_rule(
-    ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_topic_rule(ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/rules/$(ruleName)/enable",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/rules/$(ruleName)/enable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3521,23 +2169,14 @@ end
  Returns a Device Defender's ML Detect Security Profile training model's status.  Requires
 permission to access the GetBehaviorModelTrainingSummaries action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of results to return at one time. The default is 25.
-- `"next_token"`:  The token for the next set of results.
-- `"security_profile_name"`:  The name of the security profile.
+# Keyword Parameters
+- `max_results`:  The maximum number of results to return at one time. The default is 25.
+- `next_token`:  The token for the next set of results.
+- `security_profile_name`:  The name of the security profile.
 """
-function get_behavior_model_training_summaries(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_behavior_model_training_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/behavior-model-training/summaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/behavior-model-training/summaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3552,36 +2191,13 @@ permission to access the GetBucketsAggregation action.
   aggregation type to perform.
 - `query_string`: The search query string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"index_name"`: The name of the index to search.
-- `"query_version"`: The version of the query.
+# Keyword Parameters
+- `index_name`: The name of the index to search.
+- `query_version`: The version of the query.
 """
-function get_buckets_aggregation(
-    aggregationField,
-    bucketsAggregationType,
-    queryString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_buckets_aggregation(aggregationField, bucketsAggregationType, queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/indices/buckets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "aggregationField" => aggregationField,
-                    "bucketsAggregationType" => bucketsAggregationType,
-                    "queryString" => queryString,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/indices/buckets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregationField"=>aggregationField, "bucketsAggregationType"=>bucketsAggregationType, "queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3593,25 +2209,14 @@ access the GetCardinality action.
 # Arguments
 - `query_string`: The search query string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aggregation_field"`: The field to aggregate.
-- `"index_name"`: The name of the index to search.
-- `"query_version"`: The query version.
+# Keyword Parameters
+- `aggregation_field`: The field to aggregate.
+- `index_name`: The name of the index to search.
+- `query_version`: The query version.
 """
-function get_cardinality(
-    queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cardinality(queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/indices/cardinality",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryString" => queryString), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/indices/cardinality", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3621,25 +2226,16 @@ Gets a list of the policies that have an effect on the authorization behavior of
 specified device when it connects to the IoT device gateway. Requires permission to access
 the GetEffectivePolicies action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cognito_identity_pool_id"`: The Cognito identity pool ID.
-- `"principal"`: The principal. Valid principals are CertificateArn
+# Keyword Parameters
+- `cognito_identity_pool_id`: The Cognito identity pool ID.
+- `principal`: The principal. Valid principals are CertificateArn
   (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
   (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
-- `"thing_name"`: The thing name.
+- `thing_name`: The thing name.
 """
-function get_effective_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_effective_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/effective-policies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/effective-policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3649,17 +2245,9 @@ Gets the indexing configuration. Requires permission to access the GetIndexingCo
 action.
 
 """
-function get_indexing_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_indexing_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/indexing/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/indexing/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3671,17 +2259,9 @@ Gets a job document. Requires permission to access the GetJobDocument action.
 - `job_id`: The unique identifier you assigned to this job when it was created.
 
 """
-function get_job_document(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_job_document(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/jobs/$(jobId)/job-document",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/jobs/$(jobId)/job-document", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3693,13 +2273,7 @@ GetV2LoggingOptions instead. Requires permission to access the GetLoggingOptions
 """
 function get_logging_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/loggingOptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/loggingOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3711,17 +2285,9 @@ Gets an OTA update. Requires permission to access the GetOTAUpdate action.
 - `ota_update_id`: The OTA update ID.
 
 """
-function get_otaupdate(
-    otaUpdateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/otaUpdates/$(otaUpdateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/otaUpdates/$(otaUpdateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3740,26 +2306,15 @@ permission to access the GetPercentiles action.
 # Arguments
 - `query_string`: The search query string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aggregation_field"`: The field to aggregate.
-- `"index_name"`: The name of the index to search.
-- `"percents"`: The percentile groups returned.
-- `"query_version"`: The query version.
+# Keyword Parameters
+- `aggregation_field`: The field to aggregate.
+- `index_name`: The name of the index to search.
+- `percents`: The percentile groups returned.
+- `query_version`: The query version.
 """
-function get_percentiles(
-    queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_percentiles(queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/indices/percentiles",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryString" => queryString), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/indices/percentiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3772,17 +2327,9 @@ version. Requires permission to access the GetPolicy action.
 - `policy_name`: The name of the policy.
 
 """
-function get_policy(
-    policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_policy(policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/policies/$(policyName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/policies/$(policyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3796,20 +2343,9 @@ GetPolicyVersion action.
 - `policy_version_id`: The policy version ID.
 
 """
-function get_policy_version(
-    policyName,
-    policyVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_policy_version(policyName, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/policies/$(policyName)/version/$(policyVersionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/policies/$(policyName)/version/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3819,17 +2355,9 @@ Gets a registration code used to register a CA certificate with IoT. Requires pe
 access the GetRegistrationCode action.
 
 """
-function get_registration_code(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_registration_code(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/registrationcode",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/registrationcode", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3844,25 +2372,14 @@ action.
 - `query_string`: The query used to search. You can specify \"*\" for the query string to
   get the count of all indexed things in your Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aggregation_field"`: The aggregation field name.
-- `"index_name"`: The name of the index to search. The default value is AWS_Things.
-- `"query_version"`: The version of the query used to search.
+# Keyword Parameters
+- `aggregation_field`: The aggregation field name.
+- `index_name`: The name of the index to search. The default value is AWS_Things.
+- `query_version`: The version of the query used to search.
 """
-function get_statistics(
-    queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_statistics(queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/indices/statistics",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryString" => queryString), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/indices/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3874,17 +2391,9 @@ Gets information about the rule. Requires permission to access the GetTopicRule 
 - `rule_name`: The name of the rule.
 
 """
-function get_topic_rule(
-    ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_topic_rule(ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/rules/$(ruleName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/rules/$(ruleName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3897,17 +2406,9 @@ GetTopicRuleDestination action.
 - `arn`: The ARN of the topic rule destination.
 
 """
-function get_topic_rule_destination(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_topic_rule_destination(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/destinations/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/destinations/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3917,17 +2418,9 @@ Gets the fine grained logging options. Requires permission to access the
 GetV2LoggingOptions action.
 
 """
-function get_v2_logging_options(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_v2_logging_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/v2LoggingOptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/v2LoggingOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3936,28 +2429,19 @@ end
 Lists the active violations for a given Device Defender security profile. Requires
 permission to access the ListActiveViolations action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"behavior_criteria_type"`:  The criteria for a behavior.
-- `"list_suppressed_alerts"`:  A list of all suppressed alerts.
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: The token for the next set of results.
-- `"security_profile_name"`: The name of the Device Defender security profile for which
+# Keyword Parameters
+- `behavior_criteria_type`:  The criteria for a behavior.
+- `list_suppressed_alerts`:  A list of all suppressed alerts.
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: The token for the next set of results.
+- `security_profile_name`: The name of the Device Defender security profile for which
   violations are listed.
-- `"thing_name"`: The name of the thing whose active violations are listed.
-- `"verification_state"`: The verification state of the violation (detect alarm).
+- `thing_name`: The name of the thing whose active violations are listed.
+- `verification_state`: The verification state of the violation (detect alarm).
 """
-function list_active_violations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_active_violations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/active-violations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/active-violations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3971,23 +2455,14 @@ ListAttachedPolicies action.
   are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
   (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The token to retrieve the next set of results.
-- `"page_size"`: The maximum number of results to be returned per request.
-- `"recursive"`: When true, recursively list attached policies.
+# Keyword Parameters
+- `marker`: The token to retrieve the next set of results.
+- `page_size`: The maximum number of results to be returned per request.
+- `recursive`: When true, recursively list attached policies.
 """
-function list_attached_policies(
-    target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_attached_policies(target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/attached-policies/$(target)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/attached-policies/$(target)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3997,31 +2472,24 @@ Lists the findings (results) of a Device Defender audit or of the audits perform
 specified time period. (Findings are retained for 90 days.) Requires permission to access
 the ListAuditFindings action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"check_name"`: A filter to limit results to the findings for the specified audit check.
-- `"end_time"`: A filter to limit results to those found before the specified time. You
-  must specify either the startTime and endTime or the taskId, but not both.
-- `"list_suppressed_findings"`:  Boolean flag indicating whether only the suppressed
-  findings or the unsuppressed findings should be listed. If this parameter isn't provided,
-  the response will list both suppressed and unsuppressed findings.
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`: The token for the next set of results.
-- `"resource_identifier"`: Information identifying the noncompliant resource.
-- `"start_time"`: A filter to limit results to those found after the specified time. You
-  must specify either the startTime and endTime or the taskId, but not both.
-- `"task_id"`: A filter to limit results to the audit with the specified ID. You must
-  specify either the taskId or the startTime and endTime, but not both.
+# Keyword Parameters
+- `check_name`: A filter to limit results to the findings for the specified audit check.
+- `end_time`: A filter to limit results to those found before the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
+- `list_suppressed_findings`:  Boolean flag indicating whether only the suppressed findings
+  or the unsuppressed findings should be listed. If this parameter isn't provided, the
+  response will list both suppressed and unsuppressed findings.
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`: The token for the next set of results.
+- `resource_identifier`: Information identifying the noncompliant resource.
+- `start_time`: A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
+- `task_id`: A filter to limit results to the audit with the specified ID. You must specify
+  either the taskId or the startTime and endTime, but not both.
 """
 function list_audit_findings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/findings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4036,29 +2504,14 @@ access the ListAuditMitigationActionsExecutions action.
 - `task_id`: Specify this filter to limit results to actions for a specific audit
   mitigation actions task.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_status"`: Specify this filter to limit results to those with a specific status.
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`: The token for the next set of results.
+# Keyword Parameters
+- `action_status`: Specify this filter to limit results to those with a specific status.
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`: The token for the next set of results.
 """
-function list_audit_mitigation_actions_executions(
-    findingId, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_audit_mitigation_actions_executions(findingId, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/mitigationactions/executions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("findingId" => findingId, "taskId" => taskId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/mitigationactions/executions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingId"=>findingId, "taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4073,34 +2526,18 @@ permission to access the ListAuditMitigationActionsTasks action.
 - `start_time`: Specify this filter to limit results to tasks that began on or after a
   specific date and time.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audit_task_id"`: Specify this filter to limit results to tasks that were applied to
+# Keyword Parameters
+- `audit_task_id`: Specify this filter to limit results to tasks that were applied to
   results for a specific audit.
-- `"finding_id"`: Specify this filter to limit results to tasks that were applied to a
+- `finding_id`: Specify this filter to limit results to tasks that were applied to a
   specific audit finding.
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`: The token for the next set of results.
-- `"task_status"`: Specify this filter to limit results to tasks that are in a specific
-  state.
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`: The token for the next set of results.
+- `task_status`: Specify this filter to limit results to tasks that are in a specific state.
 """
-function list_audit_mitigation_actions_tasks(
-    endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_audit_mitigation_actions_tasks(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/mitigationactions/tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("endTime" => endTime, "startTime" => startTime),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/mitigationactions/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4109,26 +2546,17 @@ end
  Lists your Device Defender audit listings.  Requires permission to access the
 ListAuditSuppressions action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`:  Determines whether suppressions are listed in ascending order by
+# Keyword Parameters
+- `ascending_order`:  Determines whether suppressions are listed in ascending order by
   expiration date or not. If parameter isn't provided, ascendingOrder=true.
-- `"check_name"`:
-- `"max_results"`:  The maximum number of results to return at one time. The default is 25.
-- `"next_token"`:  The token for the next set of results.
-- `"resource_identifier"`:
+- `check_name`:
+- `max_results`:  The maximum number of results to return at one time. The default is 25.
+- `next_token`:  The token for the next set of results.
+- `resource_identifier`:
 """
-function list_audit_suppressions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_audit_suppressions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/suppressions/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/suppressions/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4143,32 +2571,17 @@ Requires permission to access the ListAuditTasks action.
   limited time (90 days). Requesting a start time prior to what is retained results in an
   \"InvalidRequestException\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`: The token for the next set of results.
-- `"task_status"`: A filter to limit the output to audits with the specified completion
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`: The token for the next set of results.
+- `task_status`: A filter to limit the output to audits with the specified completion
   status: can be one of \"IN_PROGRESS\", \"COMPLETED\", \"FAILED\", or \"CANCELED\".
-- `"task_type"`: A filter to limit the output to the specified type of audit: can be one of
+- `task_type`: A filter to limit the output to the specified type of audit: can be one of
   \"ON_DEMAND_AUDIT_TASK\" or \"SCHEDULED__AUDIT_TASK\".
 """
-function list_audit_tasks(
-    endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_audit_tasks(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("endTime" => endTime, "startTime" => startTime),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4177,22 +2590,15 @@ end
 Lists the authorizers registered in your account. Requires permission to access the
 ListAuthorizers action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Return the list of authorizers in ascending alphabetical order.
-- `"marker"`: A marker used to get the next set of results.
-- `"page_size"`: The maximum number of results to return at one time.
-- `"status"`: The status of the list authorizers request.
+# Keyword Parameters
+- `ascending_order`: Return the list of authorizers in ascending alphabetical order.
+- `marker`: A marker used to get the next set of results.
+- `page_size`: The maximum number of results to return at one time.
+- `status`: The status of the list authorizers request.
 """
 function list_authorizers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/authorizers/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/authorizers/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4201,23 +2607,16 @@ end
 Lists the billing groups you have created. Requires permission to access the
 ListBillingGroups action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per request.
-- `"name_prefix_filter"`: Limit the results to billing groups whose names have the given
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per request.
+- `name_prefix_filter`: Limit the results to billing groups whose names have the given
   prefix.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
 function list_billing_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/billing-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/billing-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4227,21 +2626,14 @@ Lists the CA certificates registered for your Amazon Web Services account. The r
 paginated with a default page size of 25. You can use the returned marker to retrieve
 additional results. Requires permission to access the ListCACertificates action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Determines the order of the results.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+# Keyword Parameters
+- `ascending_order`: Determines the order of the results.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
 function list_cacertificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/cacertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/cacertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4251,22 +2643,15 @@ Lists the certificates registered in your Amazon Web Services account. The resul
 paginated with a default page size of 25. You can use the returned marker to retrieve
 additional results. Requires permission to access the ListCertificates action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Specifies the order for results. If True, the results are returned
-  in ascending order, based on the creation date.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+# Keyword Parameters
+- `ascending_order`: Specifies the order for results. If True, the results are returned in
+  ascending order, based on the creation date.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
 function list_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/certificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/certificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4279,24 +2664,15 @@ access the ListCertificatesByCA action.
 - `ca_certificate_id`: The ID of the CA certificate. This operation will list all
   registered device certificate that were signed by this CA certificate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Specifies the order for results. If True, the results are returned
-  in ascending order, based on the creation date.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+# Keyword Parameters
+- `ascending_order`: Specifies the order for results. If True, the results are returned in
+  ascending order, based on the creation date.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
-function list_certificates_by_ca(
-    caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_certificates_by_ca(caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/certificates-by-ca/$(caCertificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/certificates-by-ca/$(caCertificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4305,20 +2681,13 @@ end
  Lists your Device Defender detect custom metrics.  Requires permission to access the
 ListCustomMetrics action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of results to return at one time. The default is 25.
-- `"next_token"`:  The token for the next set of results.
+# Keyword Parameters
+- `max_results`:  The maximum number of results to return at one time. The default is 25.
+- `next_token`:  The token for the next set of results.
 """
 function list_custom_metrics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/custom-metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/custom-metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4327,29 +2696,20 @@ end
  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
 Requires permission to access the ListDetectMitigationActionsExecutions action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`:  The end of the time period for which ML Detect mitigation actions
-  executions are returned.
-- `"max_results"`:  The maximum number of results to return at one time. The default is 25.
-- `"next_token"`:  The token for the next set of results.
-- `"start_time"`:  A filter to limit results to those found after the specified time. You
+# Keyword Parameters
+- `end_time`:  The end of the time period for which ML Detect mitigation actions executions
+  are returned.
+- `max_results`:  The maximum number of results to return at one time. The default is 25.
+- `next_token`:  The token for the next set of results.
+- `start_time`:  A filter to limit results to those found after the specified time. You
   must specify either the startTime and endTime or the taskId, but not both.
-- `"task_id"`:  The unique identifier of the task.
-- `"thing_name"`:  The name of the thing whose mitigation actions are listed.
-- `"violation_id"`:  The unique identifier of the violation.
+- `task_id`:  The unique identifier of the task.
+- `thing_name`:  The name of the thing whose mitigation actions are listed.
+- `violation_id`:  The unique identifier of the violation.
 """
-function list_detect_mitigation_actions_executions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_detect_mitigation_actions_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/detect/mitigationactions/executions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/detect/mitigationactions/executions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4364,28 +2724,13 @@ the ListDetectMitigationActionsTasks action.
 - `start_time`:  A filter to limit results to those found after the specified time. You
   must specify either the startTime and endTime or the taskId, but not both.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`:  The token for the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`:  The token for the next set of results.
 """
-function list_detect_mitigation_actions_tasks(
-    endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_detect_mitigation_actions_tasks(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/detect/mitigationactions/tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("endTime" => endTime, "startTime" => startTime),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/detect/mitigationactions/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4394,16 +2739,13 @@ end
 List the set of dimensions that are defined for your Amazon Web Services accounts. Requires
 permission to access the ListDimensions action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to retrieve at one time.
-- `"next_token"`: The token for the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to retrieve at one time.
+- `next_token`: The token for the next set of results.
 """
 function list_dimensions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/dimensions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/dimensions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4413,23 +2755,14 @@ Gets a list of domain configurations for the user. This list is sorted alphabeti
 domain configuration name. Requires permission to access the ListDomainConfigurations
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
-- `"service_type"`: The type of service delivered by the endpoint.
+# Keyword Parameters
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
+- `service_type`: The type of service delivered by the endpoint.
 """
-function list_domain_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_domain_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/domainConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/domainConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4437,21 +2770,14 @@ end
 
 Lists all your fleet metrics.  Requires permission to access the ListFleetMetrics action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
 function list_fleet_metrics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/fleet-metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/fleet-metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4459,17 +2785,14 @@ end
 
 Lists the search indices. Requires permission to access the ListIndices action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: The token used to get the next set of results, or null if there are no
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: The token used to get the next set of results, or null if there are no
   additional results.
 """
 function list_indices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/indices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/indices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4481,23 +2804,14 @@ ListJobExecutionsForJob action.
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token to retrieve the next set of results.
-- `"status"`: The status of the job.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token to retrieve the next set of results.
+- `status`: The status of the job.
 """
-function list_job_executions_for_job(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_job_executions_for_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/jobs/$(jobId)/things",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/jobs/$(jobId)/things", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4509,29 +2823,19 @@ ListJobExecutionsForThing action.
 # Arguments
 - `thing_name`: The thing name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
-- `"next_token"`: The token to retrieve the next set of results.
-- `"status"`: An optional filter that lets you search for jobs that have the specified
-  status.
+- `next_token`: The token to retrieve the next set of results.
+- `status`: An optional filter that lets you search for jobs that have the specified status.
 """
-function list_job_executions_for_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_job_executions_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/things/$(thingName)/jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/things/$(thingName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4539,20 +2843,13 @@ end
 
 Returns a list of job templates. Requires permission to access the ListJobTemplates action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the list.
-- `"next_token"`: The token to use to return the next set of results in the list.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the list.
+- `next_token`: The token to use to return the next set of results in the list.
 """
 function list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/job-templates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/job-templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4560,32 +2857,27 @@ end
 
 Lists jobs. Requires permission to access the ListJobs action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per request.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per request.
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
-- `"next_token"`: The token to retrieve the next set of results.
-- `"status"`: An optional filter that lets you search for jobs that have the specified
-  status.
-- `"target_selection"`: Specifies whether the job will continue to run (CONTINUOUS), or
-  will be complete after all those things specified as targets have completed the job
-  (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in
-  a target. For example, a job will run on a thing when the thing is added to a target group,
-  even after the job was completed by all things originally in the group.
-- `"thing_group_id"`: A filter that limits the returned jobs to those for the specified
-  group.
-- `"thing_group_name"`: A filter that limits the returned jobs to those for the specified
+- `next_token`: The token to retrieve the next set of results.
+- `status`: An optional filter that lets you search for jobs that have the specified status.
+- `target_selection`: Specifies whether the job will continue to run (CONTINUOUS), or will
+  be complete after all those things specified as targets have completed the job (SNAPSHOT).
+  If continuous, the job may also be run on a thing when a change is detected in a target.
+  For example, a job will run on a thing when the thing is added to a target group, even
+  after the job was completed by all things originally in the group.
+- `thing_group_id`: A filter that limits the returned jobs to those for the specified group.
+- `thing_group_name`: A filter that limits the returned jobs to those for the specified
   group.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4594,24 +2886,15 @@ end
 Gets a list of all mitigation actions that match the specified filter criteria. Requires
 permission to access the ListMitigationActions action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_type"`: Specify a value to limit the result to mitigation actions with a
-  specific action type.
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`: The token for the next set of results.
+# Keyword Parameters
+- `action_type`: Specify a value to limit the result to mitigation actions with a specific
+  action type.
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`: The token for the next set of results.
 """
-function list_mitigation_actions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_mitigation_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/mitigationactions/actions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/mitigationactions/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4619,17 +2902,14 @@ end
 
 Lists OTA updates. Requires permission to access the ListOTAUpdates action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: A token used to retrieve the next set of results.
-- `"ota_update_status"`: The OTA update job status.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: A token used to retrieve the next set of results.
+- `ota_update_status`: The OTA update job status.
 """
 function list_otaupdates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/otaUpdates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/otaUpdates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4638,24 +2918,15 @@ end
 Lists certificates that are being transferred but not yet accepted. Requires permission to
 access the ListOutgoingCertificates action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Specifies the order for results. If True, the results are returned
-  in ascending order, based on the creation date.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+# Keyword Parameters
+- `ascending_order`: Specifies the order for results. If True, the results are returned in
+  ascending order, based on the creation date.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
-function list_outgoing_certificates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_outgoing_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/certificates-out-going",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/certificates-out-going", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4663,18 +2934,15 @@ end
 
 Lists your policies. Requires permission to access the ListPolicies action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Specifies the order for results. If true, the results are returned
-  in ascending creation order.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+# Keyword Parameters
+- `ascending_order`: Specifies the order for results. If true, the results are returned in
+  ascending creation order.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
 function list_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4687,32 +2955,15 @@ ListPolicyPrincipals action.
 # Arguments
 - `x-amzn-iot-policy`: The policy name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Specifies the order for results. If true, the results are returned
-  in ascending creation order.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+# Keyword Parameters
+- `ascending_order`: Specifies the order for results. If true, the results are returned in
+  ascending creation order.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
-function list_policy_principals(
-    x_amzn_iot_policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policy_principals(x_amzn_iot_policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/policy-principals",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}("x-amzn-iot-policy" => x_amzn_iot_policy)
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/policy-principals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-iot-policy"=>x_amzn_iot_policy)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4725,17 +2976,9 @@ permission to access the ListPolicyVersions action.
 - `policy_name`: The policy name.
 
 """
-function list_policy_versions(
-    policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policy_versions(policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/policies/$(policyName)/version",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/policies/$(policyName)/version", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4751,33 +2994,15 @@ action.
   (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
   (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Specifies the order for results. If true, results are returned in
+# Keyword Parameters
+- `ascending_order`: Specifies the order for results. If true, results are returned in
   ascending creation order.
-- `"marker"`: The marker for the next set of results.
-- `"page_size"`: The result page size.
+- `marker`: The marker for the next set of results.
+- `page_size`: The result page size.
 """
-function list_principal_policies(
-    x_amzn_iot_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_principal_policies(x_amzn_iot_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/principal-policies",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" =>
-                        Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/principal-policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-iot-principal"=>x_amzn_iot_principal)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4790,31 +3015,14 @@ identities.  Requires permission to access the ListPrincipalThings action.
 # Arguments
 - `x-amzn-principal`: The principal.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_principal_things(
-    x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_principal_things(x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/principals/things",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/principals/things", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4826,22 +3034,13 @@ ListProvisioningTemplateVersions action.
 # Arguments
 - `template_name`: The name of the fleet provisioning template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: A token to retrieve the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: A token to retrieve the next set of results.
 """
-function list_provisioning_template_versions(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_provisioning_template_versions(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/provisioning-templates/$(templateName)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/provisioning-templates/$(templateName)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4850,22 +3049,13 @@ end
 Lists the fleet provisioning templates in your Amazon Web Services account. Requires
 permission to access the ListProvisioningTemplates action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: A token to retrieve the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: A token to retrieve the next set of results.
 """
-function list_provisioning_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_provisioning_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/provisioning-templates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/provisioning-templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4874,21 +3064,14 @@ end
 Lists the role aliases registered in your account. Requires permission to access the
 ListRoleAliases action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Return the list of role aliases in ascending alphabetical order.
-- `"marker"`: A marker used to get the next set of results.
-- `"page_size"`: The maximum number of results to return at one time.
+# Keyword Parameters
+- `ascending_order`: Return the list of role aliases in ascending alphabetical order.
+- `marker`: A marker used to get the next set of results.
+- `page_size`: The maximum number of results to return at one time.
 """
 function list_role_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/role-aliases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/role-aliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4897,22 +3080,13 @@ end
 Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time. The default is 25.
-- `"next_token"`: The token for the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time. The default is 25.
+- `next_token`: The token for the next set of results.
 """
-function list_scheduled_audits(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_scheduled_audits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/audit/scheduledaudits",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/audit/scheduledaudits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4923,25 +3097,16 @@ profiles by dimension or custom metric. Requires permission to access the
 ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same
 request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dimension_name"`: A filter to limit results to the security profiles that use the
-  defined dimension. Cannot be used with metricName
-- `"max_results"`: The maximum number of results to return at one time.
-- `"metric_name"`:  The name of the custom metric. Cannot be used with dimensionName.
-- `"next_token"`: The token for the next set of results.
+# Keyword Parameters
+- `dimension_name`: A filter to limit results to the security profiles that use the defined
+  dimension. Cannot be used with metricName
+- `max_results`: The maximum number of results to return at one time.
+- `metric_name`:  The name of the custom metric. Cannot be used with dimensionName.
+- `next_token`: The token for the next set of results.
 """
-function list_security_profiles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_security_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/security-profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/security-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4954,29 +3119,14 @@ permission to access the ListSecurityProfilesForTarget action.
 - `security_profile_target_arn`: The ARN of the target (thing group) whose attached
   security profiles you want to get.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: The token for the next set of results.
-- `"recursive"`: If true, return child groups too.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: The token for the next set of results.
+- `recursive`: If true, return child groups too.
 """
-function list_security_profiles_for_target(
-    securityProfileTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_security_profiles_for_target(securityProfileTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/security-profiles-for-target",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/security-profiles-for-target", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("securityProfileTargetArn"=>securityProfileTargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4985,17 +3135,14 @@ end
 Lists all of the streams in your Amazon Web Services account. Requires permission to access
 the ListStreams action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending_order"`: Set to true to return the list of streams in ascending order.
-- `"max_results"`: The maximum number of results to return at a time.
-- `"next_token"`: A token used to get the next set of results.
+# Keyword Parameters
+- `ascending_order`: Set to true to return the list of streams in ascending order.
+- `max_results`: The maximum number of results to return at a time.
+- `next_token`: A token used to get the next set of results.
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/streams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/streams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5007,24 +3154,13 @@ the ListTagsForResource action.
 # Arguments
 - `resource_arn`: The ARN of the resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5036,22 +3172,13 @@ ListTargetsForPolicy action.
 # Arguments
 - `policy_name`: The policy name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: A marker used to get the next set of results.
-- `"page_size"`: The maximum number of results to return at one time.
+# Keyword Parameters
+- `marker`: A marker used to get the next set of results.
+- `page_size`: The maximum number of results to return at one time.
 """
-function list_targets_for_policy(
-    policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_targets_for_policy(policyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/policy-targets/$(policyName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/policy-targets/$(policyName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5063,22 +3190,13 @@ Requires permission to access the ListTargetsForSecurityProfile action.
 # Arguments
 - `security_profile_name`: The security profile.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: The token for the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: The token for the next set of results.
 """
-function list_targets_for_security_profile(
-    securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_targets_for_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/security-profiles/$(securityProfileName)/targets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/security-profiles/$(securityProfileName)/targets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5087,26 +3205,18 @@ end
 List the thing groups in your account. Requires permission to access the ListThingGroups
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"name_prefix_filter"`: A filter that limits the results to those with the specified name
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `name_prefix_filter`: A filter that limits the results to those with the specified name
   prefix.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"parent_group"`: A filter that limits the results to those with the specified parent
-  group.
-- `"recursive"`: If true, return child groups as well.
+- `parent_group`: A filter that limits the results to those with the specified parent group.
+- `recursive`: If true, return child groups as well.
 """
 function list_thing_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5118,23 +3228,14 @@ the ListThingGroupsForThing action.
 # Arguments
 - `thing_name`: The thing name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_thing_groups_for_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_thing_groups_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/things/$(thingName)/thing-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/things/$(thingName)/thing-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5147,23 +3248,14 @@ identities. Requires permission to access the ListThingPrincipals action.
 # Arguments
 - `thing_name`: The name of the thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_thing_principals(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_thing_principals(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/things/$(thingName)/principals",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/things/$(thingName)/principals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5175,25 +3267,14 @@ Information about the thing registration tasks.
 - `report_type`: The type of task report.
 - `task_id`: The id of the task.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per request.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per request.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_thing_registration_task_reports(
-    reportType, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_thing_registration_task_reports(reportType, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-registration-tasks/$(taskId)/reports",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("reportType" => reportType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-registration-tasks/$(taskId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportType"=>reportType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5202,24 +3283,15 @@ end
 List bulk thing provisioning tasks. Requires permission to access the
 ListThingRegistrationTasks action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"status"`: The status of the bulk thing provisioning task.
+- `status`: The status of the bulk thing provisioning task.
 """
-function list_thing_registration_tasks(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_thing_registration_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-registration-tasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-registration-tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5227,22 +3299,15 @@ end
 
 Lists the existing thing types. Requires permission to access the ListThingTypes action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"thing_type_name"`: The name of the thing type.
+- `thing_type_name`: The name of the thing type.
 """
 function list_thing_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-types",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5256,24 +3321,21 @@ this API if an Access denied error is returned. You will also not be charged if 
 attributes or pagination token was provided in request and no pagination token and no
 results were returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_name"`: The attribute name used to search for things.
-- `"attribute_value"`: The attribute value used to search for things.
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `attribute_name`: The attribute name used to search for things.
+- `attribute_value`: The attribute value used to search for things.
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"thing_type_name"`: The name of the thing type used to search for things.
-- `"use_prefix_attribute_value"`: When true, the action returns the thing resources with
+- `thing_type_name`: The name of the thing type used to search for things.
+- `use_prefix_attribute_value`: When true, the action returns the thing resources with
   attribute values that start with the attributeValue provided. When false, or not present,
   the action returns only the thing resources with attribute values that match the entire
   attributeValue provided.
 """
 function list_things(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/things", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/things", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5285,23 +3347,14 @@ the ListThingsInBillingGroup action.
 # Arguments
 - `billing_group_name`: The name of the billing group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per request.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per request.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_things_in_billing_group(
-    billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_things_in_billing_group(billingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/billing-groups/$(billingGroupName)/things",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/billing-groups/$(billingGroupName)/things", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5313,24 +3366,15 @@ ListThingsInThingGroup action.
 # Arguments
 - `thing_group_name`: The thing group name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"recursive"`: When true, list things in this thing group and in all child groups as well.
+- `recursive`: When true, list things in this thing group and in all child groups as well.
 """
-function list_things_in_thing_group(
-    thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_things_in_thing_group(thingGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/thing-groups/$(thingGroupName)/things",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/thing-groups/$(thingGroupName)/things", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5339,23 +3383,14 @@ end
 Lists all the topic rule destinations in your Amazon Web Services account. Requires
 permission to access the ListTopicRuleDestinations action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_topic_rule_destinations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_topic_rule_destinations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/destinations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/destinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5364,19 +3399,16 @@ end
 Lists the rules for the specific topic. Requires permission to access the ListTopicRules
 action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"rule_disabled"`: Specifies whether the rule is disabled.
-- `"topic"`: The topic.
+- `rule_disabled`: Specifies whether the rule is disabled.
+- `topic`: The topic.
 """
 function list_topic_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET", "/rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5384,25 +3416,16 @@ end
 
 Lists logging levels. Requires permission to access the ListV2LoggingLevels action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"target_type"`: The type of resource for which you are configuring logging. Must be
+- `target_type`: The type of resource for which you are configuring logging. Must be
   THING_Group.
 """
-function list_v2_logging_levels(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_v2_logging_levels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/v2LoggingLevel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/v2LoggingLevel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5417,34 +3440,19 @@ ListViolationEvents action.
 - `end_time`: The end time for the alerts to be listed.
 - `start_time`: The start time for the alerts to be listed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"behavior_criteria_type"`:  The criteria for a behavior.
-- `"list_suppressed_alerts"`:  A list of all suppressed alerts.
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: The token for the next set of results.
-- `"security_profile_name"`: A filter to limit results to those alerts generated by the
+# Keyword Parameters
+- `behavior_criteria_type`:  The criteria for a behavior.
+- `list_suppressed_alerts`:  A list of all suppressed alerts.
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: The token for the next set of results.
+- `security_profile_name`: A filter to limit results to those alerts generated by the
   specified security profile.
-- `"thing_name"`: A filter to limit results to those alerts caused by the specified thing.
-- `"verification_state"`: The verification state of the violation (detect alarm).
+- `thing_name`: A filter to limit results to those alerts caused by the specified thing.
+- `verification_state`: The verification state of the violation (detect alarm).
 """
-function list_violation_events(
-    endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_violation_events(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "GET",
-        "/violation-events",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("endTime" => endTime, "startTime" => startTime),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("GET", "/violation-events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5457,29 +3465,13 @@ violation (detect alarm).
 - `verification_state`: The verification state of the violation.
 - `violation_id`: The violation ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"verification_state_description"`: The description of the verification state of the
+# Keyword Parameters
+- `verification_state_description`: The description of the verification state of the
   violation (detect alarm).
 """
-function put_verification_state_on_violation(
-    verificationState,
-    violationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_verification_state_on_violation(verificationState, violationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/violations/verification-state/$(violationId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("verificationState" => verificationState), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/violations/verification-state/$(violationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("verificationState"=>verificationState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5497,40 +3489,19 @@ to access the RegisterCACertificate action.
 - `ca_certificate`: The CA certificate.
 - `verification_certificate`: The private key verification certificate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_auto_registration"`: Allows this CA certificate to be used for auto registration
-  of device certificates.
-- `"registration_config"`: Information about the registration configuration.
-- `"set_as_active"`: A boolean value that specifies if the CA certificate is set to active.
-- `"tags"`: Metadata which can be used to manage the CA certificate.  For URI Request
+# Keyword Parameters
+- `allow_auto_registration`: Allows this CA certificate to be used for auto registration of
+  device certificates.
+- `registration_config`: Information about the registration configuration.
+- `set_as_active`: A boolean value that specifies if the CA certificate is set to active.
+- `tags`: Metadata which can be used to manage the CA certificate.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
   use format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
-function register_cacertificate(
-    caCertificate,
-    verificationCertificate;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_cacertificate(caCertificate, verificationCertificate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/cacertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "caCertificate" => caCertificate,
-                    "verificationCertificate" => verificationCertificate,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/cacertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caCertificate"=>caCertificate, "verificationCertificate"=>verificationCertificate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5544,26 +3515,15 @@ action.
 # Arguments
 - `certificate_pem`: The certificate data, in PEM format.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ca_certificate_pem"`: The CA certificate used to sign the device certificate being
+# Keyword Parameters
+- `ca_certificate_pem`: The CA certificate used to sign the device certificate being
   registered.
-- `"set_as_active"`: A boolean value that specifies if the certificate is set to active.
-- `"status"`: The status of the register certificate request.
+- `set_as_active`: A boolean value that specifies if the certificate is set to active.
+- `status`: The status of the register certificate request.
 """
-function register_certificate(
-    certificatePem; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_certificate(certificatePem; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/certificate/register",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("certificatePem" => certificatePem), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/certificate/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificatePem"=>certificatePem), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5574,23 +3534,12 @@ Register a certificate that does not have a certificate authority (CA).
 # Arguments
 - `certificate_pem`: The certificate data, in PEM format.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"status"`: The status of the register certificate request.
+# Keyword Parameters
+- `status`: The status of the register certificate request.
 """
-function register_certificate_without_ca(
-    certificatePem; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_certificate_without_ca(certificatePem; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/certificate/register-no-ca",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("certificatePem" => certificatePem), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/certificate/register-no-ca", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificatePem"=>certificatePem), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5605,24 +3554,13 @@ if necessary. Requires permission to access the RegisterThing action.
 - `template_body`: The provisioning template. See Provisioning Devices That Have Device
   Certificates for more information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameters"`: The parameters for provisioning a thing. See Provisioning Templates for
+# Keyword Parameters
+- `parameters`: The parameters for provisioning a thing. See Provisioning Templates for
   more information.
 """
-function register_thing(
-    templateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_thing(templateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/things",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("templateBody" => templateBody), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/things", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateBody"=>templateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5639,21 +3577,12 @@ RejectCertificateTransfer action.
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"reject_reason"`: The reason the certificate transfer was rejected.
+# Keyword Parameters
+- `reject_reason`: The reason the certificate transfer was rejected.
 """
-function reject_certificate_transfer(
-    certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_certificate_transfer(certificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/reject-certificate-transfer/$(certificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/reject-certificate-transfer/$(certificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5662,24 +3591,15 @@ end
 Removes the given thing from the billing group. Requires permission to access the
 RemoveThingFromBillingGroup action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"billing_group_arn"`: The ARN of the billing group.
-- `"billing_group_name"`: The name of the billing group.
-- `"thing_arn"`: The ARN of the thing to be removed from the billing group.
-- `"thing_name"`: The name of the thing to be removed from the billing group.
+# Keyword Parameters
+- `billing_group_arn`: The ARN of the billing group.
+- `billing_group_name`: The name of the billing group.
+- `thing_arn`: The ARN of the thing to be removed from the billing group.
+- `thing_name`: The name of the thing to be removed from the billing group.
 """
-function remove_thing_from_billing_group(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_thing_from_billing_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/billing-groups/removeThingFromBillingGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/billing-groups/removeThingFromBillingGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5690,24 +3610,15 @@ thingGroupArn or a thingGroupName to identify the thing group and either a thing
 thingName to identify the thing to remove from the thing group.  Requires permission to
 access the RemoveThingFromThingGroup action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"thing_arn"`: The ARN of the thing to remove from the group.
-- `"thing_group_arn"`: The group ARN.
-- `"thing_group_name"`: The group name.
-- `"thing_name"`: The name of the thing to remove from the group.
+# Keyword Parameters
+- `thing_arn`: The ARN of the thing to remove from the group.
+- `thing_group_arn`: The group ARN.
+- `thing_group_name`: The group name.
+- `thing_name`: The name of the thing to remove from the group.
 """
-function remove_thing_from_thing_group(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_thing_from_thing_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/thing-groups/removeThingFromThingGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/thing-groups/removeThingFromThingGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5723,21 +3634,9 @@ action.
 - `topic_rule_payload`: The rule payload.
 
 """
-function replace_topic_rule(
-    ruleName, topicRulePayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function replace_topic_rule(ruleName, topicRulePayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/rules/$(ruleName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("topicRulePayload" => topicRulePayload), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/rules/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("topicRulePayload"=>topicRulePayload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5748,27 +3647,16 @@ The query search index. Requires permission to access the SearchIndex action.
 # Arguments
 - `query_string`: The search query string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"index_name"`: The search index name.
-- `"max_results"`: The maximum number of results to return at one time.
-- `"next_token"`: The token used to get the next set of results, or null if there are no
+# Keyword Parameters
+- `index_name`: The search index name.
+- `max_results`: The maximum number of results to return at one time.
+- `next_token`: The token used to get the next set of results, or null if there are no
   additional results.
-- `"query_version"`: The query version.
+- `query_version`: The query version.
 """
-function search_index(
-    queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_index(queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/indices/search",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryString" => queryString), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/indices/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5781,19 +3669,9 @@ specifying an authorizer. Requires permission to access the SetDefaultAuthorizer
 - `authorizer_name`: The authorizer name.
 
 """
-function set_default_authorizer(
-    authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_default_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/default-authorizer",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("authorizerName" => authorizerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/default-authorizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizerName"=>authorizerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5809,20 +3687,9 @@ permission to access the SetDefaultPolicyVersion action.
 - `policy_version_id`: The policy version ID.
 
 """
-function set_default_policy_version(
-    policyName,
-    policyVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_default_policy_version(policyName, policyVersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/policies/$(policyName)/version/$(policyVersionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/policies/$(policyName)/version/$(policyVersionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5835,23 +3702,9 @@ SetV2LoggingOptions instead. Requires permission to access the SetLoggingOptions
 - `logging_options_payload`: The logging options payload.
 
 """
-function set_logging_options(
-    loggingOptionsPayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_logging_options(loggingOptionsPayload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/loggingOptions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("loggingOptionsPayload" => loggingOptionsPayload),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/loggingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptionsPayload"=>loggingOptionsPayload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5864,23 +3717,9 @@ Sets the logging level. Requires permission to access the SetV2LoggingLevel acti
 - `log_target`: The log target.
 
 """
-function set_v2_logging_level(
-    logLevel, logTarget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_v2_logging_level(logLevel, logTarget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/v2LoggingLevel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("logLevel" => logLevel, "logTarget" => logTarget),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/v2LoggingLevel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logLevel"=>logLevel, "logTarget"=>logTarget), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5889,23 +3728,14 @@ end
 Sets the logging options for the V2 logging service. Requires permission to access the
 SetV2LoggingOptions action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_log_level"`: The default logging level.
-- `"disable_all_logs"`: If true all logs are disabled. The default is false.
-- `"role_arn"`: The ARN of the role that allows IoT to write to Cloudwatch logs.
+# Keyword Parameters
+- `default_log_level`: The default logging level.
+- `disable_all_logs`: If true all logs are disabled. The default is false.
+- `role_arn`: The ARN of the role that allows IoT to write to Cloudwatch logs.
 """
-function set_v2_logging_options(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_v2_logging_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/v2LoggingOptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/v2LoggingOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5928,32 +3758,9 @@ permission to access the StartAuditMitigationActionsTask action.
   status of the task or to cancel it.
 
 """
-function start_audit_mitigation_actions_task(
-    auditCheckToActionsMapping,
-    clientRequestToken,
-    target,
-    taskId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_audit_mitigation_actions_task(auditCheckToActionsMapping, clientRequestToken, target, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/mitigationactions/tasks/$(taskId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "auditCheckToActionsMapping" => auditCheckToActionsMapping,
-                    "clientRequestToken" => clientRequestToken,
-                    "target" => target,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/mitigationactions/tasks/$(taskId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("auditCheckToActionsMapping"=>auditCheckToActionsMapping, "clientRequestToken"=>clientRequestToken, "target"=>target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5971,39 +3778,15 @@ the StartDetectMitigationActionsTask action.
 - `target`:  Specifies the ML Detect findings to which the mitigation actions are applied.
 - `task_id`:  The unique identifier of the task.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_only_active_violations"`:  Specifies to list only active violations.
-- `"include_suppressed_alerts"`:  Specifies to include suppressed alerts.
-- `"violation_event_occurrence_range"`:  Specifies the time period of which violation
-  events occurred between.
+# Keyword Parameters
+- `include_only_active_violations`:  Specifies to list only active violations.
+- `include_suppressed_alerts`:  Specifies to include suppressed alerts.
+- `violation_event_occurrence_range`:  Specifies the time period of which violation events
+  occurred between.
 """
-function start_detect_mitigation_actions_task(
-    actions,
-    clientRequestToken,
-    target,
-    taskId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_detect_mitigation_actions_task(actions, clientRequestToken, target, taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/detect/mitigationactions/tasks/$(taskId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "actions" => actions,
-                    "clientRequestToken" => clientRequestToken,
-                    "target" => target,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/detect/mitigationactions/tasks/$(taskId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "clientRequestToken"=>clientRequestToken, "target"=>target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6019,21 +3802,9 @@ StartOnDemandAuditTask action.
   enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
 
 """
-function start_on_demand_audit_task(
-    targetCheckNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_on_demand_audit_task(targetCheckNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/audit/tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("targetCheckNames" => targetCheckNames), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/audit/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetCheckNames"=>targetCheckNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6051,33 +3822,9 @@ StartThingRegistrationTask action.
 - `template_body`: The provisioning template.
 
 """
-function start_thing_registration_task(
-    inputFileBucket,
-    inputFileKey,
-    roleArn,
-    templateBody;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_thing_registration_task(inputFileBucket, inputFileKey, roleArn, templateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/thing-registration-tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "inputFileBucket" => inputFileBucket,
-                    "inputFileKey" => inputFileKey,
-                    "roleArn" => roleArn,
-                    "templateBody" => templateBody,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/thing-registration-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputFileBucket"=>inputFileBucket, "inputFileKey"=>inputFileKey, "roleArn"=>roleArn, "templateBody"=>templateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6090,17 +3837,9 @@ StopThingRegistrationTask action.
 - `task_id`: The bulk thing provisioning task ID.
 
 """
-function stop_thing_registration_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_thing_registration_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/thing-registration-tasks/$(taskId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/thing-registration-tasks/$(taskId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6114,23 +3853,9 @@ manage a resource. Requires permission to access the TagResource action.
 - `tags`: The new or modified tags for the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6144,31 +3869,20 @@ the IoT device gateway. Requires permission to access the TestAuthorization acti
 - `auth_infos`: A list of authorization info objects. Simulating authorization will create
   a response for each authInfo object in the list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_id"`: The MQTT client ID.
-- `"cognito_identity_pool_id"`: The Cognito identity pool ID.
-- `"policy_names_to_add"`: When testing custom authorization, the policies specified here
-  are treated as if they are attached to the principal being authorized.
-- `"policy_names_to_skip"`: When testing custom authorization, the policies specified here
+# Keyword Parameters
+- `client_id`: The MQTT client ID.
+- `cognito_identity_pool_id`: The Cognito identity pool ID.
+- `policy_names_to_add`: When testing custom authorization, the policies specified here are
+  treated as if they are attached to the principal being authorized.
+- `policy_names_to_skip`: When testing custom authorization, the policies specified here
   are treated as if they are not attached to the principal being authorized.
-- `"principal"`: The principal. Valid principals are CertificateArn
+- `principal`: The principal. Valid principals are CertificateArn
   (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
   (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 """
-function test_authorization(
-    authInfos; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function test_authorization(authInfos; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/test-authorization",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("authInfos" => authInfos), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/test-authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authInfos"=>authInfos), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6181,26 +3895,17 @@ device gateway. Requires permission to access the TestInvokeAuthorizer action.
 # Arguments
 - `authorizer_name`: The custom authorizer name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"http_context"`: Specifies a test HTTP authorization request.
-- `"mqtt_context"`: Specifies a test MQTT authorization request.
-- `"tls_context"`: Specifies a test TLS authorization request.
-- `"token"`: The token returned by your custom authentication service.
-- `"token_signature"`: The signature made with the token and your custom authentication
+# Keyword Parameters
+- `http_context`: Specifies a test HTTP authorization request.
+- `mqtt_context`: Specifies a test MQTT authorization request.
+- `tls_context`: Specifies a test TLS authorization request.
+- `token`: The token returned by your custom authentication service.
+- `token_signature`: The signature made with the token and your custom authentication
   service's private key. This value must be Base-64-encoded.
 """
-function test_invoke_authorizer(
-    authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function test_invoke_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/authorizer/$(authorizerName)/test",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/authorizer/$(authorizerName)/test", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6219,28 +3924,12 @@ DetachPolicy action to detach them.
   contains the certificate ID.)
 - `target_aws_account`: The Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"transfer_message"`: The transfer message.
+# Keyword Parameters
+- `transfer_message`: The transfer message.
 """
-function transfer_certificate(
-    certificateId,
-    targetAwsAccount;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function transfer_certificate(certificateId, targetAwsAccount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/transfer-certificate/$(certificateId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("targetAwsAccount" => targetAwsAccount), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/transfer-certificate/$(certificateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetAwsAccount"=>targetAwsAccount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6254,23 +3943,9 @@ UntagResource action.
 - `tag_keys`: A list of the keys of the tags to be removed from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/untag",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6280,9 +3955,8 @@ Configures or reconfigures the Device Defender audit settings for this account. 
 include how audit notifications are sent and which audit checks are enabled or disabled.
 Requires permission to access the UpdateAccountAuditConfiguration action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audit_check_configurations"`: Specifies which audit checks are enabled and disabled for
+# Keyword Parameters
+- `audit_check_configurations`: Specifies which audit checks are enabled and disabled for
   this account. Use DescribeAccountAuditConfiguration to see the list of all checks,
   including those that are currently enabled. Some data collection might start immediately
   when certain checks are enabled. When a check is disabled, any data collected so far in
@@ -6290,23 +3964,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   audit. You must first delete the check from the scheduled audit or delete the scheduled
   audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is
   required and must specify at least one enabled check.
-- `"audit_notification_target_configurations"`: Information about the targets to which
-  audit notifications are sent.
-- `"role_arn"`: The Amazon Resource Name (ARN) of the role that grants permission to IoT to
+- `audit_notification_target_configurations`: Information about the targets to which audit
+  notifications are sent.
+- `role_arn`: The Amazon Resource Name (ARN) of the role that grants permission to IoT to
   access information about your devices, policies, certificates, and other items as required
   when performing an audit.
 """
-function update_account_audit_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/audit/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/audit/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6318,36 +3984,16 @@ end
 - `check_name`:
 - `resource_identifier`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:  The description of the audit suppression.
-- `"expiration_date"`:  The expiration date (epoch timestamp in seconds) that you want the
+# Keyword Parameters
+- `description`:  The description of the audit suppression.
+- `expiration_date`:  The expiration date (epoch timestamp in seconds) that you want the
   suppression to adhere to.
-- `"suppress_indefinitely"`:  Indicates whether a suppression should exist indefinitely or
+- `suppress_indefinitely`:  Indicates whether a suppression should exist indefinitely or
   not.
 """
-function update_audit_suppression(
-    checkName,
-    resourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_audit_suppression(checkName, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/audit/suppressions/update",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "checkName" => checkName, "resourceIdentifier" => resourceIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/audit/suppressions/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6358,24 +4004,15 @@ Updates an authorizer. Requires permission to access the UpdateAuthorizer action
 # Arguments
 - `authorizer_name`: The authorizer name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorizer_function_arn"`: The ARN of the authorizer's Lambda function.
-- `"status"`: The status of the update authorizer request.
-- `"token_key_name"`: The key used to extract the token from the HTTP headers.
-- `"token_signing_public_keys"`: The public keys used to verify the token signature.
+# Keyword Parameters
+- `authorizer_function_arn`: The ARN of the authorizer's Lambda function.
+- `status`: The status of the update authorizer request.
+- `token_key_name`: The key used to extract the token from the HTTP headers.
+- `token_signing_public_keys`: The public keys used to verify the token signature.
 """
-function update_authorizer(
-    authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/authorizer/$(authorizerName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/authorizer/$(authorizerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6388,32 +4025,14 @@ UpdateBillingGroup action.
 - `billing_group_name`: The name of the billing group.
 - `billing_group_properties`: The properties of the billing group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the billing group. If the version of the
+# Keyword Parameters
+- `expected_version`: The expected version of the billing group. If the version of the
   billing group does not match the expected version specified in the request, the
   UpdateBillingGroup request is rejected with a VersionConflictException.
 """
-function update_billing_group(
-    billingGroupName,
-    billingGroupProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_billing_group(billingGroupName, billingGroupProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/billing-groups/$(billingGroupName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("billingGroupProperties" => billingGroupProperties),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/billing-groups/$(billingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("billingGroupProperties"=>billingGroupProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6425,26 +4044,17 @@ action.
 # Arguments
 - `ca_certificate_id`: The CA certificate identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"new_auto_registration_status"`: The new value for the auto registration status. Valid
+# Keyword Parameters
+- `new_auto_registration_status`: The new value for the auto registration status. Valid
   values are: \"ENABLE\" or \"DISABLE\".
-- `"new_status"`: The updated status of the CA certificate.  Note: The status value
+- `new_status`: The updated status of the CA certificate.  Note: The status value
   REGISTER_INACTIVE is deprecated and should not be used.
-- `"registration_config"`: Information about the registration configuration.
-- `"remove_auto_registration"`: If true, removes auto registration.
+- `registration_config`: Information about the registration configuration.
+- `remove_auto_registration`: If true, removes auto registration.
 """
-function update_cacertificate(
-    caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_cacertificate(caCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/cacertificate/$(caCertificateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/cacertificate/$(caCertificateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6466,19 +4076,9 @@ in the ACTIVE state to reconnect.
   use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
 
 """
-function update_certificate(
-    certificateId, newStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_certificate(certificateId, newStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/certificates/$(certificateId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("newStatus" => newStatus), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/certificates/$(certificateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("newStatus"=>newStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6494,19 +4094,9 @@ UpdateCustomMetric action.
 - `metric_name`:  The name of the custom metric. Cannot be updated.
 
 """
-function update_custom_metric(
-    displayName, metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_custom_metric(displayName, metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/custom-metric/$(metricName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("displayName" => displayName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/custom-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6524,19 +4114,9 @@ UpdateDimension action.
   \"admin/#\").
 
 """
-function update_dimension(
-    name, stringValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_dimension(name, stringValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/dimensions/$(name)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("stringValues" => stringValues), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/dimensions/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stringValues"=>stringValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6549,24 +4129,15 @@ action.
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorizer_config"`: An object that specifies the authorization service for a domain.
-- `"domain_configuration_status"`: The status to which the domain configuration should be
+# Keyword Parameters
+- `authorizer_config`: An object that specifies the authorization service for a domain.
+- `domain_configuration_status`: The status to which the domain configuration should be
   updated.
-- `"remove_authorizer_config"`: Removes the authorization configuration from a domain.
+- `remove_authorizer_config`: Removes the authorization configuration from a domain.
 """
-function update_domain_configuration(
-    domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_domain_configuration(domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/domainConfigurations/$(domainConfigurationName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/domainConfigurations/$(domainConfigurationName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6579,36 +4150,18 @@ action.
 - `thing_group_name`: The name of the dynamic thing group to update.
 - `thing_group_properties`: The dynamic thing group properties to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the dynamic thing group to update.
-- `"index_name"`: The dynamic thing group index to update.  Currently one index is
-  supported: AWS_Things.
-- `"query_string"`: The dynamic thing group search query string to update.
-- `"query_version"`: The dynamic thing group query version to update.  Currently one query
+# Keyword Parameters
+- `expected_version`: The expected version of the dynamic thing group to update.
+- `index_name`: The dynamic thing group index to update.  Currently one index is supported:
+  AWS_Things.
+- `query_string`: The dynamic thing group search query string to update.
+- `query_version`: The dynamic thing group query version to update.  Currently one query
   version is supported: \"2017-09-30\". If not specified, the query version defaults to this
   value.
 """
-function update_dynamic_thing_group(
-    thingGroupName,
-    thingGroupProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_dynamic_thing_group(thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/dynamic-thing-groups/$(thingGroupName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("thingGroupProperties" => thingGroupProperties),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/dynamic-thing-groups/$(thingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("thingGroupProperties"=>thingGroupProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6617,21 +4170,12 @@ end
 Updates the event configurations. Requires permission to access the
 UpdateEventConfigurations action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"event_configurations"`: The new event configuration values.
+# Keyword Parameters
+- `event_configurations`: The new event configuration values.
 """
-function update_event_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_event_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/event-configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/event-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6644,32 +4188,21 @@ action.
 - `index_name`: The name of the index to search.
 - `metric_name`: The name of the fleet metric to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aggregation_field"`: The field to aggregate.
-- `"aggregation_type"`: The type of the aggregation query.
-- `"description"`: The description of the fleet metric.
-- `"expected_version"`: The expected version of the fleet metric record in the registry.
-- `"period"`: The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1
+# Keyword Parameters
+- `aggregation_field`: The field to aggregate.
+- `aggregation_type`: The type of the aggregation query.
+- `description`: The description of the fleet metric.
+- `expected_version`: The expected version of the fleet metric record in the registry.
+- `period`: The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1
   day)] and must be multiple of 60.
-- `"query_string"`: The search query string.
-- `"query_version"`: The version of the query.
-- `"unit"`: Used to support unit transformation such as milliseconds to seconds. The unit
+- `query_string`: The search query string.
+- `query_version`: The version of the query.
+- `unit`: Used to support unit transformation such as milliseconds to seconds. The unit
   must be supported by CW metric.
 """
-function update_fleet_metric(
-    indexName, metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_fleet_metric(indexName, metricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/fleet-metric/$(metricName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("indexName" => indexName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/fleet-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("indexName"=>indexName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6678,22 +4211,13 @@ end
 Updates the search configuration. Requires permission to access the
 UpdateIndexingConfiguration action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"thing_group_indexing_configuration"`: Thing group indexing configuration.
-- `"thing_indexing_configuration"`: Thing indexing configuration.
+# Keyword Parameters
+- `thing_group_indexing_configuration`: Thing group indexing configuration.
+- `thing_indexing_configuration`: Thing indexing configuration.
 """
-function update_indexing_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_indexing_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/indexing/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/indexing/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6705,31 +4229,24 @@ action.
 # Arguments
 - `job_id`: The ID of the job to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"abort_config"`: Allows you to create criteria to abort a job.
-- `"description"`: A short text description of the job.
-- `"job_executions_rollout_config"`: Allows you to create a staged rollout of the job.
-- `"namespace_id"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+# Keyword Parameters
+- `abort_config`: Allows you to create criteria to abort a job.
+- `description`: A short text description of the job.
+- `job_executions_rollout_config`: Allows you to create a staged rollout of the job.
+- `namespace_id`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
-- `"presigned_url_config"`: Configuration information for pre-signed S3 URLs.
-- `"timeout_config"`: Specifies the amount of time each device has to finish its execution
-  of the job. The timer is started when the job execution status is set to IN_PROGRESS. If
-  the job execution status is not set to another terminal state before the time expires, it
-  will be automatically set to TIMED_OUT.
+- `presigned_url_config`: Configuration information for pre-signed S3 URLs.
+- `timeout_config`: Specifies the amount of time each device has to finish its execution of
+  the job. The timer is started when the job execution status is set to IN_PROGRESS. If the
+  job execution status is not set to another terminal state before the time expires, it will
+  be automatically set to TIMED_OUT.
 """
 function update_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6743,22 +4260,13 @@ the UpdateMitigationAction action.
   using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action
   with the new name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_params"`: Defines the type of action and the parameters for that action.
-- `"role_arn"`: The ARN of the IAM role that is used to apply the mitigation action.
+# Keyword Parameters
+- `action_params`: Defines the type of action and the parameters for that action.
+- `role_arn`: The ARN of the IAM role that is used to apply the mitigation action.
 """
-function update_mitigation_action(
-    actionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_mitigation_action(actionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/mitigationactions/actions/$(actionName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/mitigationactions/actions/$(actionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6770,27 +4278,18 @@ UpdateProvisioningTemplate action.
 # Arguments
 - `template_name`: The name of the fleet provisioning template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_version_id"`: The ID of the default provisioning template version.
-- `"description"`: The description of the fleet provisioning template.
-- `"enabled"`: True to enable the fleet provisioning template, otherwise false.
-- `"pre_provisioning_hook"`: Updates the pre-provisioning hook template.
-- `"provisioning_role_arn"`: The ARN of the role associated with the provisioning template.
+# Keyword Parameters
+- `default_version_id`: The ID of the default provisioning template version.
+- `description`: The description of the fleet provisioning template.
+- `enabled`: True to enable the fleet provisioning template, otherwise false.
+- `pre_provisioning_hook`: Updates the pre-provisioning hook template.
+- `provisioning_role_arn`: The ARN of the role associated with the provisioning template.
   This IoT role grants permission to provision a device.
-- `"remove_pre_provisioning_hook"`: Removes pre-provisioning hook template.
+- `remove_pre_provisioning_hook`: Removes pre-provisioning hook template.
 """
-function update_provisioning_template(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_provisioning_template(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/provisioning-templates/$(templateName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/provisioning-templates/$(templateName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6801,22 +4300,13 @@ Updates a role alias. Requires permission to access the UpdateRoleAlias action.
 # Arguments
 - `role_alias`: The role alias to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"credential_duration_seconds"`: The number of seconds the credential will be valid.
-- `"role_arn"`: The role ARN.
+# Keyword Parameters
+- `credential_duration_seconds`: The number of seconds the credential will be valid.
+- `role_arn`: The role ARN.
 """
-function update_role_alias(
-    roleAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_role_alias(roleAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/role-aliases/$(roleAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/role-aliases/$(roleAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6828,33 +4318,24 @@ takes place. Requires permission to access the UpdateScheduledAudit action.
 # Arguments
 - `scheduled_audit_name`: The name of the scheduled audit. (Max. 128 chars)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"day_of_month"`: The day of the month on which the scheduled audit takes place. This can
+# Keyword Parameters
+- `day_of_month`: The day of the month on which the scheduled audit takes place. This can
   be 1 through 31 or LAST. This field is required if the frequency parameter is set to
   MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit
   takes place on the \"LAST\" day of the month.
-- `"day_of_week"`: The day of the week on which the scheduled audit takes place. This can
-  be one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the \"frequency\"
+- `day_of_week`: The day of the week on which the scheduled audit takes place. This can be
+  one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the \"frequency\"
   parameter is set to WEEKLY or BIWEEKLY.
-- `"frequency"`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY,
+- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY,
   or MONTHLY. The start time of each audit is determined by the system.
-- `"target_check_names"`: Which checks are performed during the scheduled audit. Checks
-  must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of
-  all checks, including those that are enabled or use UpdateAccountAuditConfiguration to
-  select which checks are enabled.)
+- `target_check_names`: Which checks are performed during the scheduled audit. Checks must
+  be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all
+  checks, including those that are enabled or use UpdateAccountAuditConfiguration to select
+  which checks are enabled.)
 """
-function update_scheduled_audit(
-    scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_scheduled_audit(scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/audit/scheduledaudits/$(scheduledAuditName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/audit/scheduledaudits/$(scheduledAuditName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6866,43 +4347,34 @@ UpdateSecurityProfile action.
 # Arguments
 - `security_profile_name`: The name of the security profile you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"additional_metrics_to_retain"`:  Please use
+# Keyword Parameters
+- `additional_metrics_to_retain`:  Please use
   UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose
   data is retained (stored). By default, data is retained for any metric used in the
   profile's behaviors, but it is also retained for any metric specified here. Can be used
   with custom metrics; cannot be used with dimensions.
-- `"additional_metrics_to_retain_v2"`: A list of metrics whose data is retained (stored).
-  By default, data is retained for any metric used in the profile's behaviors, but it is also
+- `additional_metrics_to_retain_v2`: A list of metrics whose data is retained (stored). By
+  default, data is retained for any metric used in the profile's behaviors, but it is also
   retained for any metric specified here. Can be used with custom metrics; cannot be used
   with dimensions.
-- `"alert_targets"`: Where the alerts are sent. (Alerts are always sent to the console.)
-- `"behaviors"`: Specifies the behaviors that, when violated by a device (thing), cause an
+- `alert_targets`: Where the alerts are sent. (Alerts are always sent to the console.)
+- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
-- `"delete_additional_metrics_to_retain"`: If true, delete all additionalMetricsToRetain
+- `delete_additional_metrics_to_retain`: If true, delete all additionalMetricsToRetain
   defined for this security profile. If any additionalMetricsToRetain are defined in the
   current invocation, an exception occurs.
-- `"delete_alert_targets"`: If true, delete all alertTargets defined for this security
+- `delete_alert_targets`: If true, delete all alertTargets defined for this security
   profile. If any alertTargets are defined in the current invocation, an exception occurs.
-- `"delete_behaviors"`: If true, delete all behaviors defined for this security profile. If
+- `delete_behaviors`: If true, delete all behaviors defined for this security profile. If
   any behaviors are defined in the current invocation, an exception occurs.
-- `"expected_version"`: The expected version of the security profile. A new version is
+- `expected_version`: The expected version of the security profile. A new version is
   generated whenever the security profile is updated. If you specify a value that is
   different from the actual version, a VersionConflictException is thrown.
-- `"security_profile_description"`: A description of the security profile.
+- `security_profile_description`: A description of the security profile.
 """
-function update_security_profile(
-    securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/security-profiles/$(securityProfileName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/security-profiles/$(securityProfileName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6914,24 +4386,15 @@ permission to access the UpdateStream action.
 # Arguments
 - `stream_id`: The stream ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the stream.
-- `"files"`: The files associated with the stream.
-- `"role_arn"`: An IAM role that allows the IoT service principal assumes to access your S3
+# Keyword Parameters
+- `description`: The description of the stream.
+- `files`: The files associated with the stream.
+- `role_arn`: An IAM role that allows the IoT service principal assumes to access your S3
   files.
 """
-function update_stream(
-    streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_stream(streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/streams/$(streamId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/streams/$(streamId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6944,29 +4407,19 @@ Updates the data for a thing. Requires permission to access the UpdateThing acti
   a thing's name, you must create a new thing, give it the new name, and then delete the old
   thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_payload"`: A list of thing attributes, a JSON string containing name-value
+# Keyword Parameters
+- `attribute_payload`: A list of thing attributes, a JSON string containing name-value
   pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new
   attributes or update existing attributes.
-- `"expected_version"`: The expected version of the thing record in the registry. If the
+- `expected_version`: The expected version of the thing record in the registry. If the
   version of the record in the registry does not match the expected version specified in the
   request, the UpdateThing request is rejected with a VersionConflictException.
-- `"remove_thing_type"`: Remove a thing type association. If true, the association is
-  removed.
-- `"thing_type_name"`: The name of the thing type.
+- `remove_thing_type`: Remove a thing type association. If true, the association is removed.
+- `thing_type_name`: The name of the thing type.
 """
-function update_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/things/$(thingName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/things/$(thingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6978,31 +4431,13 @@ Update a thing group. Requires permission to access the UpdateThingGroup action.
 - `thing_group_name`: The thing group to update.
 - `thing_group_properties`: The thing group properties.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_version"`: The expected version of the thing group. If this does not match the
+# Keyword Parameters
+- `expected_version`: The expected version of the thing group. If this does not match the
   version of the thing group being updated, the update will fail.
 """
-function update_thing_group(
-    thingGroupName,
-    thingGroupProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_thing_group(thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/thing-groups/$(thingGroupName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("thingGroupProperties" => thingGroupProperties),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/thing-groups/$(thingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("thingGroupProperties"=>thingGroupProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7011,27 +4446,18 @@ end
 Updates the groups to which the thing belongs. Requires permission to access the
 UpdateThingGroupsForThing action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"override_dynamic_groups"`: Override dynamic thing groups with static thing groups when
+# Keyword Parameters
+- `override_dynamic_groups`: Override dynamic thing groups with static thing groups when
   10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
   groups are dynamic thing groups, adding a thing to a static group removes the thing from
   the last dynamic group.
-- `"thing_groups_to_add"`: The groups to which the thing will be added.
-- `"thing_groups_to_remove"`: The groups from which the thing will be removed.
-- `"thing_name"`: The thing whose group memberships will be updated.
+- `thing_groups_to_add`: The groups to which the thing will be added.
+- `thing_groups_to_remove`: The groups from which the thing will be removed.
+- `thing_name`: The thing whose group memberships will be updated.
 """
-function update_thing_groups_for_thing(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_thing_groups_for_thing(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PUT",
-        "/thing-groups/updateThingGroupsForThing",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PUT", "/thing-groups/updateThingGroupsForThing", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7057,19 +4483,9 @@ UpdateTopicRuleDestination action.
   confirmation endpoint.
 
 """
-function update_topic_rule_destination(
-    arn, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_topic_rule_destination(arn, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "PATCH",
-        "/destinations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("arn" => arn, "status" => status), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("PATCH", "/destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7083,17 +4499,7 @@ to access the ValidateSecurityProfileBehaviors action.
   alert.
 
 """
-function validate_security_profile_behaviors(
-    behaviors; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function validate_security_profile_behaviors(behaviors; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot(
-        "POST",
-        "/security-profile-behaviors/validate",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("behaviors" => behaviors), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot("POST", "/security-profile-behaviors/validate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("behaviors"=>behaviors), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

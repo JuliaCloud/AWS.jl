@@ -4,17 +4,8 @@ using AWS.AWSServices: translate
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "encryption_key" => "EncryptionKey",
-    "job_name" => "JobName",
-    "terminology_names" => "TerminologyNames",
-    "filter" => "Filter",
-    "terminology_data_format" => "TerminologyDataFormat",
-    "next_token" => "NextToken",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "parallel_data_names" => "ParallelDataNames",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "terminology_data_format" => "TerminologyDataFormat", "description" => "Description", "filter" => "Filter", "encryption_key" => "EncryptionKey", "job_name" => "JobName", "parallel_data_names" => "ParallelDataNames", "terminology_names" => "TerminologyNames")
 
 """
     create_parallel_data(client_token, name, parallel_data_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,35 +23,13 @@ your translation output.
 - `parallel_data_config`: Specifies the format and S3 location of the parallel data input
   file.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A custom description for the parallel data resource in Amazon Translate.
-- `"encryption_key"`:
+# Keyword Parameters
+- `description`: A custom description for the parallel data resource in Amazon Translate.
+- `encryption_key`:
 """
-function create_parallel_data(
-    ClientToken,
-    Name,
-    ParallelDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "CreateParallelData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "Name" => Name,
-                    "ParallelDataConfig" => ParallelDataConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("CreateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -72,16 +41,9 @@ Deletes a parallel data resource in Amazon Translate.
 - `name`: The name of the parallel data resource that is being deleted.
 
 """
-function delete_parallel_data(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "DeleteParallelData",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("DeleteParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -93,16 +55,9 @@ A synchronous action that deletes a custom terminology.
 - `name`: The name of the custom terminology being deleted.
 
 """
-function delete_terminology(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "DeleteTerminology",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("DeleteTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -116,16 +71,9 @@ ID, status, source and target languages, input/output S3 buckets, and so on.
   StartTextTranslationJob operation returns this identifier in its response.
 
 """
-function describe_text_translation_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_text_translation_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "DescribeTextTranslationJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("DescribeTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -137,16 +85,9 @@ Provides information about a parallel data resource.
 - `name`: The name of the parallel data resource that is being retrieved.
 
 """
-function get_parallel_data(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "GetParallelData",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("GetParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,23 +98,17 @@ Retrieves a custom terminology.
 # Arguments
 - `name`: The name of the custom terminology being retrieved.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"terminology_data_format"`: The data format of the custom terminology being retrieved.
-  If you don't specify this parameter, Amazon Translate returns a file that has the same
-  format as the file that was imported to create the terminology.  If you specify this
-  parameter when you retrieve a multi-directional terminology resource, you must specify the
-  same format as that of the input file that was imported to create it. Otherwise, Amazon
+# Keyword Parameters
+- `terminology_data_format`: The data format of the custom terminology being retrieved. If
+  you don't specify this parameter, Amazon Translate returns a file that has the same format
+  as the file that was imported to create the terminology.  If you specify this parameter
+  when you retrieve a multi-directional terminology resource, you must specify the same
+  format as that of the input file that was imported to create it. Otherwise, Amazon
   Translate throws an error.
 """
 function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "GetTerminology",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("GetTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -195,35 +130,13 @@ translations.
 - `name`: The name of the custom terminology being imported.
 - `terminology_data`: The terminology data for the custom terminology being imported.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the custom terminology being imported.
-- `"encryption_key"`: The encryption key for the custom terminology being imported.
+# Keyword Parameters
+- `description`: The description of the custom terminology being imported.
+- `encryption_key`: The encryption key for the custom terminology being imported.
 """
-function import_terminology(
-    MergeStrategy,
-    Name,
-    TerminologyData;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_terminology(MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "ImportTerminology",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MergeStrategy" => MergeStrategy,
-                    "Name" => Name,
-                    "TerminologyData" => TerminologyData,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("ImportTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,17 +144,14 @@ end
 
 Provides a list of your parallel data resources in Amazon Translate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of parallel data resources returned for each request.
-- `"next_token"`: A string that specifies the next page of results to return in a paginated
+# Keyword Parameters
+- `max_results`: The maximum number of parallel data resources returned for each request.
+- `next_token`: A string that specifies the next page of results to return in a paginated
   response.
 """
 function list_parallel_data(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "ListParallelData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return translate("ListParallelData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -249,17 +159,14 @@ end
 
 Provides a list of custom terminologies associated with your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of custom terminologies returned per list request.
-- `"next_token"`: If the result of the request to ListTerminologies was truncated, include
+# Keyword Parameters
+- `max_results`: The maximum number of custom terminologies returned per list request.
+- `next_token`: If the result of the request to ListTerminologies was truncated, include
   the NextToken to fetch the next group of custom terminologies.
 """
 function list_terminologies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "ListTerminologies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return translate("ListTerminologies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -267,24 +174,16 @@ end
 
 Gets a list of the batch translation jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: The parameters that specify which batch translation jobs to retrieve. Filters
+# Keyword Parameters
+- `filter`: The parameters that specify which batch translation jobs to retrieve. Filters
   include job name, job status, and submission time. You can only set one filter at a time.
-- `"max_results"`: The maximum number of results to return in each page. The default value
-  is 100.
-- `"next_token"`: The token to request the next page of results.
+- `max_results`: The maximum number of results to return in each page. The default value is
+  100.
+- `next_token`: The token to request the next page of results.
 """
-function list_text_translation_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_text_translation_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "ListTextTranslationJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("ListTextTranslationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -311,10 +210,9 @@ multiple source languages at once.
   language during batch translation jobs.
 - `target_language_codes`: The language code of the output language.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"job_name"`: The name of the batch translation job to be performed.
-- `"parallel_data_names"`: The name of a parallel data resource to add to the translation
+# Keyword Parameters
+- `job_name`: The name of the batch translation job to be performed.
+- `parallel_data_names`: The name of a parallel data resource to add to the translation
   job. This resource consists of examples that show how you want segments of text to be
   translated. When you add parallel data to a translation job, you create an Active Custom
   Translation job.  This parameter accepts only one parallel data resource.  Active Custom
@@ -322,42 +220,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   For more information, see Amazon Translate pricing.  For a list of available parallel data
   resources, use the ListParallelData operation. For more information, see
   customizing-translations-parallel-data.
-- `"terminology_names"`: The name of a custom terminology resource to add to the
-  translation job. This resource lists examples source terms and the desired translation for
-  each term. This parameter accepts only one custom terminology resource. For a list of
-  available custom terminology resources, use the ListTerminologies operation. For more
-  information, see how-custom-terminology.
+- `terminology_names`: The name of a custom terminology resource to add to the translation
+  job. This resource lists examples source terms and the desired translation for each term.
+  This parameter accepts only one custom terminology resource. For a list of available custom
+  terminology resources, use the ListTerminologies operation. For more information, see
+  how-custom-terminology.
 """
-function start_text_translation_job(
-    ClientToken,
-    DataAccessRoleArn,
-    InputDataConfig,
-    OutputDataConfig,
-    SourceLanguageCode,
-    TargetLanguageCodes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_text_translation_job(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "StartTextTranslationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "SourceLanguageCode" => SourceLanguageCode,
-                    "TargetLanguageCodes" => TargetLanguageCodes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("StartTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -375,16 +246,9 @@ job's JobId.
 - `job_id`: The job ID of the job to be stopped.
 
 """
-function stop_text_translation_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_text_translation_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "StopTextTranslationJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("StopTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -404,36 +268,14 @@ available languages and language codes, see what-is-languages.
 - `text`: The text to translate. The text string can be a maximum of 5,000 bytes long.
   Depending on your character set, this may be fewer than 5,000 characters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"terminology_names"`: The name of the terminology list file to be used in the
+# Keyword Parameters
+- `terminology_names`: The name of the terminology list file to be used in the
   TranslateText request. You can use 1 terminology list at most in a TranslateText request.
   Terminology lists can contain a maximum of 256 terms.
 """
-function translate_text(
-    SourceLanguageCode,
-    TargetLanguageCode,
-    Text;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function translate_text(SourceLanguageCode, TargetLanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "TranslateText",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceLanguageCode" => SourceLanguageCode,
-                    "TargetLanguageCode" => TargetLanguageCode,
-                    "Text" => Text,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("TranslateText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -449,32 +291,10 @@ Amazon S3.
 - `parallel_data_config`: Specifies the format and S3 location of the parallel data input
   file.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A custom description for the parallel data resource in Amazon Translate.
+# Keyword Parameters
+- `description`: A custom description for the parallel data resource in Amazon Translate.
 """
-function update_parallel_data(
-    ClientToken,
-    Name,
-    ParallelDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return translate(
-        "UpdateParallelData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "Name" => Name,
-                    "ParallelDataConfig" => ParallelDataConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return translate("UpdateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

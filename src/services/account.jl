@@ -4,7 +4,8 @@ using AWS.AWSServices: account
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict("account_id" => "AccountId")
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("account_id" => "AccountId")
 
 """
     delete_alternate_contact(alternate_contact_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -16,10 +17,9 @@ alternate contacts.
 # Arguments
 - `alternate_contact_type`: Specifies which of the alternate contacts to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: Specifies the 12 digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you do not specify this
+# Keyword Parameters
+- `account_id`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you do not specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
   management account or a delegated administrator account, and the specified account ID must
@@ -31,23 +31,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function delete_alternate_contact(
-    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_alternate_contact(AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return account(
-        "POST",
-        "/deleteAlternateContact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AlternateContactType" => AlternateContactType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return account("POST", "/deleteAlternateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlternateContactType"=>AlternateContactType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -60,10 +46,9 @@ the alternate contacts.
 # Arguments
 - `alternate_contact_type`: Specifies which alternate contact you want to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: Specifies the 12 digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you do not specify this
+# Keyword Parameters
+- `account_id`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you do not specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
   management account or a delegated administrator account, and the specified account ID must
@@ -75,23 +60,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function get_alternate_contact(
-    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_alternate_contact(AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return account(
-        "POST",
-        "/getAlternateContact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AlternateContactType" => AlternateContactType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return account("POST", "/getAlternateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlternateContactType"=>AlternateContactType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -108,10 +79,9 @@ the alternate contacts.
 - `phone_number`: Specifies a phone number for the alternate contact.
 - `title`: Specifies a title for the alternate contact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: Specifies the 12 digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you do not specify this
+# Keyword Parameters
+- `account_id`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you do not specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
   management account or a delegated administrator account, and the specified account ID must
@@ -123,33 +93,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function put_alternate_contact(
-    AlternateContactType,
-    EmailAddress,
-    Name,
-    PhoneNumber,
-    Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_alternate_contact(AlternateContactType, EmailAddress, Name, PhoneNumber, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return account(
-        "POST",
-        "/putAlternateContact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AlternateContactType" => AlternateContactType,
-                    "EmailAddress" => EmailAddress,
-                    "Name" => Name,
-                    "PhoneNumber" => PhoneNumber,
-                    "Title" => Title,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return account("POST", "/putAlternateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlternateContactType"=>AlternateContactType, "EmailAddress"=>EmailAddress, "Name"=>Name, "PhoneNumber"=>PhoneNumber, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

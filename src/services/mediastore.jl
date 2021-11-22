@@ -4,12 +4,8 @@ using AWS.AWSServices: mediastore
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "container_name" => "ContainerName",
-    "tags" => "Tags",
-    "next_token" => "NextToken",
-    "max_results" => "MaxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "Tags", "container_name" => "ContainerName")
 
 """
     create_container(container_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,27 +19,17 @@ Amazon S3 service.
   you could create a container named movies in every region, as long as you don’t have an
   existing container with that name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: An array of key:value pairs that you define. These values can be anything that
+# Keyword Parameters
+- `tags`: An array of key:value pairs that you define. These values can be anything that
   you want. Typically, the tag key represents a category (such as \"environment\") and the
   tag value represents a specific value within that category (such as \"test,\"
   \"development,\" or \"production\"). You can add up to 50 tags to each container. For more
   information about tagging, including naming and usage conventions, see Tagging Resources in
   MediaStore.
 """
-function create_container(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_container(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "CreateContainer",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("CreateContainer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -57,18 +43,9 @@ containers.
 - `container_name`: The name of the container to delete.
 
 """
-function delete_container(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_container(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "DeleteContainer",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("DeleteContainer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -80,18 +57,9 @@ Deletes the access policy that is associated with the specified container.
 - `container_name`: The name of the container that holds the policy.
 
 """
-function delete_container_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_container_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "DeleteContainerPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("DeleteContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -106,18 +74,9 @@ can grant this permission to others.
 - `container_name`: The name of the container to remove the policy from.
 
 """
-function delete_cors_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cors_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "DeleteCorsPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("DeleteCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -130,18 +89,9 @@ change to take effect.
 - `container_name`: The name of the container that holds the object lifecycle policy.
 
 """
-function delete_lifecycle_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_lifecycle_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "DeleteLifecyclePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -155,18 +105,9 @@ metric policy associated with the container, MediaStore doesn't send metrics to 
   that you want to delete.
 
 """
-function delete_metric_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_metric_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "DeleteMetricPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("DeleteMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -179,15 +120,12 @@ assigned. The DescribeContainer request returns a single Container object based 
 ContainerName. To return all Container objects that are associated with a specified AWS
 account, use ListContainers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"container_name"`: The name of the container to query.
+# Keyword Parameters
+- `container_name`: The name of the container to query.
 """
 function describe_container(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "DescribeContainer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore("DescribeContainer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -200,18 +138,9 @@ that is included in an access policy, see the AWS Identity and Access Management
 - `container_name`: The name of the container.
 
 """
-function get_container_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "GetContainerPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("GetContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -226,18 +155,9 @@ can grant it to others.
 - `container_name`: The name of the container that the policy is assigned to.
 
 """
-function get_cors_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "GetCorsPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("GetCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -250,18 +170,9 @@ Retrieves the object lifecycle policy that is assigned to a container.
   to.
 
 """
-function get_lifecycle_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_lifecycle_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "GetLifecyclePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("GetLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -273,18 +184,9 @@ Returns the metric policy for the specified container.
 - `container_name`: The name of the container that is associated with the metric policy.
 
 """
-function get_metric_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_metric_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "GetMetricPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("GetMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,19 +200,16 @@ the NextToken parameter (with the returned token as its value). The next set of 
 appears, with a token if there are still more containers to receive.  See also
 DescribeContainer, which gets the properties of one container.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Enter the maximum number of containers in the response. Use from 1 to
-  255 characters.
-- `"next_token"`: Only if you used MaxResults in the first command, enter the token (which
+# Keyword Parameters
+- `max_results`: Enter the maximum number of containers in the response. Use from 1 to 255
+  characters.
+- `next_token`: Only if you used MaxResults in the first command, enter the token (which
   was included in the previous response) to obtain the next set of containers. This token is
   included in a response only if there actually are more containers to list.
 """
 function list_containers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "ListContainers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore("ListContainers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -322,18 +221,9 @@ Returns a list of the tags assigned to the specified container.
 - `resource`: The Amazon Resource Name (ARN) for the container.
 
 """
-function list_tags_for_resource(
-    Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -351,22 +241,9 @@ command modifies the existing policy.
   One Statement tag that contains the standard tags for the policy.
 
 """
-function put_container_policy(
-    ContainerName, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_container_policy(ContainerName, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "PutContainerPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ContainerName" => ContainerName, "Policy" => Policy),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("PutContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -388,24 +265,9 @@ MediaStore.
 - `cors_policy`: The CORS policy to apply to the container.
 
 """
-function put_cors_policy(
-    ContainerName, CorsPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_cors_policy(ContainerName, CorsPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "PutCorsPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ContainerName" => ContainerName, "CorsPolicy" => CorsPolicy
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("PutCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "CorsPolicy"=>CorsPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -422,27 +284,9 @@ object lifecycle policy, see Components of an Object Lifecycle Policy.
 - `lifecycle_policy`: The object lifecycle policy to apply to the container.
 
 """
-function put_lifecycle_policy(
-    ContainerName,
-    LifecyclePolicy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_lifecycle_policy(ContainerName, LifecyclePolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "PutLifecyclePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ContainerName" => ContainerName, "LifecyclePolicy" => LifecyclePolicy
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "LifecyclePolicy"=>LifecyclePolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -467,27 +311,9 @@ the new policy to take effect.
   (underscore).
 
 """
-function put_metric_policy(
-    ContainerName,
-    MetricPolicy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_metric_policy(ContainerName, MetricPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "PutMetricPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ContainerName" => ContainerName, "MetricPolicy" => MetricPolicy
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("PutMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "MetricPolicy"=>MetricPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -501,18 +327,9 @@ CloudWatch Logs.
 - `container_name`: The name of the container that you want to start access logging on.
 
 """
-function start_access_logging(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_access_logging(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "StartAccessLogging",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("StartAccessLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -526,18 +343,9 @@ logs are not saved and are not retrievable.
 - `container_name`: The name of the container that you want to stop access logging on.
 
 """
-function stop_access_logging(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_access_logging(ContainerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "StopAccessLogging",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("StopAccessLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -559,20 +367,9 @@ including naming and usage conventions, see Tagging Resources in MediaStore.
   customer:CompanyA, priority:Medium, and type:Contract.
 
 """
-function tag_resource(
-    Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Resource" => Resource, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -588,20 +385,7 @@ Removes tags from the specified container. You can specify one or more tags to r
   for the tag that you want to remove (priority).
 
 """
-function untag_resource(
-    Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Resource" => Resource, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

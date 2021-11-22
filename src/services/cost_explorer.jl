@@ -4,43 +4,8 @@ using AWS.AWSServices: cost_explorer
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "metrics" => "Metrics",
-    "monitor_arn_list" => "MonitorArnList",
-    "cost_category_name" => "CostCategoryName",
-    "total_impact" => "TotalImpact",
-    "filter" => "Filter",
-    "search_string" => "SearchString",
-    "account_scope" => "AccountScope",
-    "page_size" => "PageSize",
-    "prediction_interval_level" => "PredictionIntervalLevel",
-    "next_token" => "NextToken",
-    "subscription_arn_list" => "SubscriptionArnList",
-    "configuration" => "Configuration",
-    "service_specification" => "ServiceSpecification",
-    "account_id" => "AccountId",
-    "sort_by" => "SortBy",
-    "group_by" => "GroupBy",
-    "default_value" => "DefaultValue",
-    "feedback" => "Feedback",
-    "max_results" => "MaxResults",
-    "split_charge_rules" => "SplitChargeRules",
-    "term_in_years" => "TermInYears",
-    "next_page_token" => "NextPageToken",
-    "lookback_period_in_days" => "LookbackPeriodInDays",
-    "subscription_name" => "SubscriptionName",
-    "effective_on" => "EffectiveOn",
-    "subscribers" => "Subscribers",
-    "tag_key" => "TagKey",
-    "threshold" => "Threshold",
-    "granularity" => "Granularity",
-    "data_type" => "DataType",
-    "payment_option" => "PaymentOption",
-    "frequency" => "Frequency",
-    "context" => "Context",
-    "monitor_name" => "MonitorName",
-    "monitor_arn" => "MonitorArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filter" => "Filter", "granularity" => "Granularity", "sort_by" => "SortBy", "group_by" => "GroupBy", "max_results" => "MaxResults", "metrics" => "Metrics", "next_page_token" => "NextPageToken", "frequency" => "Frequency", "monitor_arn_list" => "MonitorArnList", "subscribers" => "Subscribers", "subscription_name" => "SubscriptionName", "threshold" => "Threshold", "search_string" => "SearchString", "tag_key" => "TagKey", "context" => "Context", "account_scope" => "AccountScope", "page_size" => "PageSize", "prediction_interval_level" => "PredictionIntervalLevel", "cost_category_name" => "CostCategoryName", "monitor_name" => "MonitorName", "default_value" => "DefaultValue", "split_charge_rules" => "SplitChargeRules", "configuration" => "Configuration", "next_token" => "NextToken", "data_type" => "DataType", "feedback" => "Feedback", "monitor_arn" => "MonitorArn", "total_impact" => "TotalImpact", "effective_on" => "EffectiveOn", "subscription_arn_list" => "SubscriptionArnList", "account_id" => "AccountId", "lookback_period_in_days" => "LookbackPeriodInDays", "payment_option" => "PaymentOption", "service_specification" => "ServiceSpecification", "term_in_years" => "TermInYears")
 
 """
     create_anomaly_monitor(anomaly_monitor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -52,18 +17,9 @@ specification.
 - `anomaly_monitor`: The cost anomaly detection monitor object that you want to create.
 
 """
-function create_anomaly_monitor(
-    AnomalyMonitor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_anomaly_monitor(AnomalyMonitor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "CreateAnomalyMonitor",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AnomalyMonitor" => AnomalyMonitor), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("CreateAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyMonitor"=>AnomalyMonitor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -77,22 +33,9 @@ threshold and a time frequency for receiving notifications.
 - `anomaly_subscription`: The cost anomaly subscription object that you want to create.
 
 """
-function create_anomaly_subscription(
-    AnomalySubscription; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_anomaly_subscription(AnomalySubscription; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "CreateAnomalySubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AnomalySubscription" => AnomalySubscription),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("CreateAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalySubscription"=>AnomalySubscription), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -106,30 +49,14 @@ Creates a new Cost Category with the requested name and rules.
 - `rules`: The Cost Category rules used to categorize costs. For more information, see
   CostCategoryRule.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_value"`:
-- `"split_charge_rules"`:  The split charge rules used to allocate your charges between
-  your Cost Category values.
+# Keyword Parameters
+- `default_value`:
+- `split_charge_rules`:  The split charge rules used to allocate your charges between your
+  Cost Category values.
 """
-function create_cost_category_definition(
-    Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_cost_category_definition(Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "CreateCostCategoryDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "RuleVersion" => RuleVersion, "Rules" => Rules
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -141,18 +68,9 @@ Deletes a cost anomaly monitor.
 - `monitor_arn`: The unique identifier of the cost anomaly monitor that you want to delete.
 
 """
-function delete_anomaly_monitor(
-    MonitorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "DeleteAnomalyMonitor",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MonitorArn" => MonitorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("DeleteAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitorArn"=>MonitorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -165,20 +83,9 @@ Deletes a cost anomaly subscription.
   to delete.
 
 """
-function delete_anomaly_subscription(
-    SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_anomaly_subscription(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "DeleteAnomalySubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubscriptionArn" => SubscriptionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("DeleteAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -191,20 +98,9 @@ categorized with this Cost Category.
 - `cost_category_arn`:  The unique identifier for your Cost Category.
 
 """
-function delete_cost_category_definition(
-    CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cost_category_definition(CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "DeleteCostCategoryDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CostCategoryArn" => CostCategoryArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -219,24 +115,12 @@ EffectiveEnd is omitted in the response.
 # Arguments
 - `cost_category_arn`:  The unique identifier for your Cost Category.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"effective_on"`:  The date when the Cost Category was effective.
+# Keyword Parameters
+- `effective_on`:  The date when the Cost Category was effective.
 """
-function describe_cost_category_definition(
-    CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cost_category_definition(CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "DescribeCostCategoryDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CostCategoryArn" => CostCategoryArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -249,31 +133,21 @@ specified by the DateInterval object.
 - `date_interval`: Assigns the start and end dates for retrieving cost anomalies. The
   returned anomaly object will have an AnomalyEndDate in the specified time range.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"feedback"`: Filters anomaly results by the feedback field on the anomaly object.
-- `"max_results"`: The number of entries a paginated response contains.
-- `"monitor_arn"`: Retrieves all of the cost anomalies detected for a specific cost anomaly
+# Keyword Parameters
+- `feedback`: Filters anomaly results by the feedback field on the anomaly object.
+- `max_results`: The number of entries a paginated response contains.
+- `monitor_arn`: Retrieves all of the cost anomalies detected for a specific cost anomaly
   monitor Amazon Resource Name (ARN).
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"total_impact"`: Filters anomaly results by the total impact field on the anomaly
-  object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies,
-  with an estimated dollar impact greater than 200.
+- `total_impact`: Filters anomaly results by the total impact field on the anomaly object.
+  For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an
+  estimated dollar impact greater than 200.
 """
-function get_anomalies(
-    DateInterval; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_anomalies(DateInterval; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetAnomalies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DateInterval" => DateInterval), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetAnomalies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DateInterval"=>DateInterval), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -282,21 +156,16 @@ end
 Retrieves the cost anomaly monitor definitions for your account. You can filter using a
 list of cost anomaly monitor Amazon Resource Names (ARNs).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of entries that a paginated response contains.
-- `"monitor_arn_list"`: A list of cost anomaly monitor ARNs.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+# Keyword Parameters
+- `max_results`: The number of entries that a paginated response contains.
+- `monitor_arn_list`: A list of cost anomaly monitor ARNs.
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
-function get_anomaly_monitors(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_anomaly_monitors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cost_explorer("GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -305,25 +174,17 @@ end
 Retrieves the cost anomaly subscription objects for your account. You can filter using a
 list of cost anomaly monitor Amazon Resource Names (ARNs).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of entries a paginated response contains.
-- `"monitor_arn"`: Cost anomaly monitor ARNs.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+# Keyword Parameters
+- `max_results`: The number of entries a paginated response contains.
+- `monitor_arn`: Cost anomaly monitor ARNs.
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"subscription_arn_list"`: A list of cost anomaly subscription ARNs.
+- `subscription_arn_list`: A list of cost anomaly subscription ARNs.
 """
-function get_anomaly_subscriptions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetAnomalySubscriptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetAnomalySubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -355,45 +216,23 @@ see Quotas and restrictions in the Billing and Cost Management User Guide.
   2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01
   up to and including 2017-04-30 but not including 2017-05-01.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters Amazon Web Services costs by different dimensions. For example, you
-  can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that
+# Keyword Parameters
+- `filter`: Filters Amazon Web Services costs by different dimensions. For example, you can
+  specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that
   account's usage of that service. You can nest Expression objects to define any combination
   of dimension filters. For more information, see Expression.
-- `"group_by"`: You can group Amazon Web Services costs using up to two different groups,
+- `group_by`: You can group Amazon Web Services costs using up to two different groups,
   either dimensions, tag keys, cost categories, or any two group by types. Valid values for
   the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION,
   PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by
   the TAG type and include a valid tag key, you get all tag values, including empty strings.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
-function get_cost_and_usage(
-    Granularity,
-    Metrics,
-    TimePeriod;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_cost_and_usage(Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetCostAndUsage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Granularity" => Granularity,
-                    "Metrics" => Metrics,
-                    "TimePeriod" => TimePeriod,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metrics"=>Metrics, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -427,11 +266,10 @@ User Guide.
   2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01
   up to and including 2017-04-30 but not including 2017-05-01.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"group_by"`: You can group Amazon Web Services costs using up to two different groups:
+# Keyword Parameters
+- `group_by`: You can group Amazon Web Services costs using up to two different groups:
   DIMENSION, TAG, COST_CATEGORY.
-- `"metrics"`: Which metrics are returned in the query. For more information about blended
+- `metrics`: Which metrics are returned in the query. For more information about blended
   and unblended rates, see Why does the \"blended\" annotation appear on some line items in
   my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost,
   NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity
@@ -441,34 +279,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by
   UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources
   requests.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
-function get_cost_and_usage_with_resources(
-    Filter,
-    Granularity,
-    TimePeriod;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_cost_and_usage_with_resources(Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetCostAndUsageWithResources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Filter" => Filter,
-                    "Granularity" => Granularity,
-                    "TimePeriod" => TimePeriod,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "Granularity"=>Granularity, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -480,40 +297,30 @@ names and values are not associated with any cost, they will not be returned by 
 # Arguments
 - `time_period`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cost_category_name"`:
-- `"filter"`:
-- `"max_results"`: This field is only used when SortBy is provided in the request. The
+# Keyword Parameters
+- `cost_category_name`:
+- `filter`:
+- `max_results`: This field is only used when SortBy is provided in the request. The
   maximum number of objects that to be returned for this request. If MaxResults is not
   specified with SortBy, the request will return 1000 results as the default value for this
   parameter. For GetCostCategories, MaxResults has an upper limit of 1000.
-- `"next_page_token"`: If the number of objects that are still available for retrieval
+- `next_page_token`: If the number of objects that are still available for retrieval
   exceeds the limit, Amazon Web Services returns a NextPageToken value in the response. To
   retrieve the next batch of objects, provide the NextPageToken from the prior call in your
   next request.
-- `"search_string"`: The value that you want to search the filter values for. If you do not
+- `search_string`: The value that you want to search the filter values for. If you do not
   specify a CostCategoryName, SearchString will be used to filter Cost Category names that
   match the SearchString pattern. If you do specifiy a CostCategoryName, SearchString will be
   used to filter Cost Category values that match the SearchString pattern.
-- `"sort_by"`: The value by which you want to sort the data. The key represents cost and
+- `sort_by`: The value by which you want to sort the data. The key represents cost and
   usage metrics. The following values are supported:    BlendedCost     UnblendedCost
   AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity
   NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When
   using SortBy, NextPageToken and SearchString are not supported.
 """
-function get_cost_categories(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetCostCategories",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetCostCategories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -533,45 +340,23 @@ forecast time period that you select, based on your past costs.
 - `time_period`: The period of time that you want the forecast to cover. The start date
   must be equal to or no later than the current date to avoid a validation error.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: The filters that you want to use to filter your forecast. The GetCostForecast
+# Keyword Parameters
+- `filter`: The filters that you want to use to filter your forecast. The GetCostForecast
   API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE
   LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION
   SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM
   TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME
   DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY
   RESERVATION_ID     SAVINGS_PLAN_ARN
-- `"prediction_interval_level"`: Cost Explorer always returns the mean forecast as a single
+- `prediction_interval_level`: Cost Explorer always returns the mean forecast as a single
   point. You can request a prediction interval around the mean by specifying a confidence
   level. The higher the confidence level, the more confident Cost Explorer is about the
   actual value falling in the prediction interval. Higher confidence levels result in wider
   prediction intervals.
 """
-function get_cost_forecast(
-    Granularity,
-    Metric,
-    TimePeriod;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_cost_forecast(Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetCostForecast",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Granularity" => Granularity,
-                    "Metric" => Metric,
-                    "TimePeriod" => TimePeriod,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -588,9 +373,8 @@ search the dimension values for an arbitrary string.
   end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and
   including 2017-04-30 but not including 2017-05-01.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"context"`: The context for the call to GetDimensionValues. This can be RESERVATIONS or
+# Keyword Parameters
+- `context`: The context for the call to GetDimensionValues. This can be RESERVATIONS or
   COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS,
   the resulting dimension values can be used in the GetReservationUtilization operation. If
   the context is set to COST_AND_USAGE, the resulting dimension values can be used in the
@@ -633,38 +417,25 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   attribute map that includes the full name of the member account. The value field contains
   the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique
   identifier for your Savings Plan
-- `"filter"`:
-- `"max_results"`: This field is only used when SortBy is provided in the request. The
+- `filter`:
+- `max_results`: This field is only used when SortBy is provided in the request. The
   maximum number of objects that to be returned for this request. If MaxResults is not
   specified with SortBy, the request will return 1000 results as the default value for this
   parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"search_string"`: The value that you want to search the filter values for.
-- `"sort_by"`: The value by which you want to sort the data. The key represents cost and
+- `search_string`: The value that you want to search the filter values for.
+- `sort_by`: The value by which you want to sort the data. The key represents cost and
   usage metrics. The following values are supported:    BlendedCost     UnblendedCost
   AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity
   NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When
   you specify a SortBy paramater, the context must be COST_AND_USAGE. Further, when using
   SortBy, NextPageToken and SearchString are not supported.
 """
-function get_dimension_values(
-    Dimension, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_dimension_values(Dimension, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetDimensionValues",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Dimension" => Dimension, "TimePeriod" => TimePeriod),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -687,49 +458,38 @@ GetDimensionValues operation.
   For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is
   retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters utilization data by dimensions. You can filter by the following
+# Keyword Parameters
+- `filter`: Filters utilization data by dimensions. You can filter by the following
   dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE
   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY
   GetReservationCoverage uses the same Expression object as the other operations, but only
   AND is supported among each dimension. You can nest only one level deep. If there are
   multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE
   filter, Cost Explorer defaults to EC2. Cost category is also supported.
-- `"granularity"`: The granularity of the Amazon Web Services cost data for the
-  reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be
-  set. If Granularity isn't set, the response object doesn't include Granularity, either
-  MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY
-  granularities.
-- `"group_by"`: You can group the data by the following attributes:   AZ   CACHE_ENGINE
+- `granularity`: The granularity of the Amazon Web Services cost data for the reservation.
+  Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If
+  Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or
+  DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
+- `group_by`: You can group the data by the following attributes:   AZ   CACHE_ENGINE
   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM
   PLATFORM   REGION   TENANCY
-- `"max_results"`: The maximum number of objects that you returned for this request. If
-  more objects are available, in the response, Amazon Web Services provides a NextPageToken
-  value that you can use in a subsequent call to get the next batch of objects.
-- `"metrics"`: The measurement that you want your reservation coverage reported in. Valid
+- `max_results`: The maximum number of objects that you returned for this request. If more
+  objects are available, in the response, Amazon Web Services provides a NextPageToken value
+  that you can use in a subsequent call to get the next batch of objects.
+- `metrics`: The measurement that you want your reservation coverage reported in. Valid
   values are Hour, Unit, and Cost. You can use multiple values in a request.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"sort_by"`: The value by which you want to sort the data. The following values are
+- `sort_by`: The value by which you want to sort the data. The following values are
   supported for Key:    OnDemandCost     CoverageHoursPercentage     OnDemandHours
   ReservedHours     TotalRunningHours     CoverageNormalizedUnitsPercentage
   OnDemandNormalizedUnits     ReservedNormalizedUnits     TotalRunningNormalizedUnits
   Time    Supported values for SortOrder are ASCENDING or DESCENDING.
 """
-function get_reservation_coverage(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_reservation_coverage(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetReservationCoverage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -754,35 +514,27 @@ instance family.
 # Arguments
 - `service`: The specific service that you want recommendations for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: The account ID that is associated with the recommendation.
-- `"account_scope"`: The account scope that you want your recommendations for. Amazon Web
+# Keyword Parameters
+- `account_id`: The account ID that is associated with the recommendation.
+- `account_scope`: The account scope that you want your recommendations for. Amazon Web
   Services calculates recommendations including the management account and member accounts if
   the value is set to PAYER. If the value is LINKED, recommendations are calculated for
   individual member accounts only.
-- `"filter"`:
-- `"lookback_period_in_days"`: The number of previous days that you want Amazon Web
-  Services to consider when it calculates your recommendations.
-- `"next_page_token"`: The pagination token that indicates the next set of results that you
+- `filter`:
+- `lookback_period_in_days`: The number of previous days that you want Amazon Web Services
+  to consider when it calculates your recommendations.
+- `next_page_token`: The pagination token that indicates the next set of results that you
   want to retrieve.
-- `"page_size"`: The number of recommendations that you want returned in a single response
+- `page_size`: The number of recommendations that you want returned in a single response
   object.
-- `"payment_option"`: The reservation purchase option that you want recommendations for.
-- `"service_specification"`: The hardware specifications for the service instances that you
+- `payment_option`: The reservation purchase option that you want recommendations for.
+- `service_specification`: The hardware specifications for the service instances that you
   want recommendations for, such as standard or convertible Amazon EC2 instances.
-- `"term_in_years"`: The reservation term that you want recommendations for.
+- `term_in_years`: The reservation term that you want recommendations for.
 """
-function get_reservation_purchase_recommendation(
-    Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_reservation_purchase_recommendation(Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetReservationPurchaseRecommendation",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Service" => Service), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -799,26 +551,25 @@ Currently, you can group only by SUBSCRIPTION_ID.
   2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including
   2017-04-30 but not including 2017-05-01.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters utilization data by dimensions. You can filter by the following
+# Keyword Parameters
+- `filter`: Filters utilization data by dimensions. You can filter by the following
   dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT
   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY
   GetReservationUtilization uses the same Expression object as the other operations, but only
   AND is supported among each dimension, and nesting is supported up to only one level deep.
   If there are multiple values for a dimension, they are OR'd together.
-- `"granularity"`: If GroupBy is set, Granularity can't be set. If Granularity isn't set,
-  the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy
-  and Granularity aren't set, GetReservationUtilization defaults to DAILY. The
+- `granularity`: If GroupBy is set, Granularity can't be set. If Granularity isn't set, the
+  response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and
+  Granularity aren't set, GetReservationUtilization defaults to DAILY. The
   GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
-- `"group_by"`: Groups only by SUBSCRIPTION_ID. Metadata is included.
-- `"max_results"`: The maximum number of objects that you returned for this request. If
-  more objects are available, in the response, Amazon Web Services provides a NextPageToken
-  value that you can use in a subsequent call to get the next batch of objects.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `group_by`: Groups only by SUBSCRIPTION_ID. Metadata is included.
+- `max_results`: The maximum number of objects that you returned for this request. If more
+  objects are available, in the response, Amazon Web Services provides a NextPageToken value
+  that you can use in a subsequent call to get the next batch of objects.
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"sort_by"`: The value by which you want to sort the data. The following values are
+- `sort_by`: The value by which you want to sort the data. The following values are
   supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits
   PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours
       UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings
@@ -826,18 +577,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   RICostForUnusedHours     RealizedSavings     UnrealizedSavings    Supported values for
   SortOrder are ASCENDING or DESCENDING.
 """
-function get_reservation_utilization(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_reservation_utilization(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetReservationUtilization",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -853,29 +595,21 @@ Management User Guide.
 - `service`: The specific service that you want recommendations for. The only valid value
   for GetRightsizingRecommendation is \"AmazonEC2\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration"`:  Enables you to customize recommendations across two attributes. You
-  can choose to view recommendations for instances within the same instance families or
-  across different instance families. You can also choose to view your estimated savings
-  associated with recommendations with consideration of existing Savings Plans or RI
-  benefits, or neither.
-- `"filter"`:
-- `"next_page_token"`: The pagination token that indicates the next set of results that you
+# Keyword Parameters
+- `configuration`:  Enables you to customize recommendations across two attributes. You can
+  choose to view recommendations for instances within the same instance families or across
+  different instance families. You can also choose to view your estimated savings associated
+  with recommendations with consideration of existing Savings Plans or RI benefits, or
+  neither.
+- `filter`:
+- `next_page_token`: The pagination token that indicates the next set of results that you
   want to retrieve.
-- `"page_size"`: The number of recommendations that you want returned in a single response
+- `page_size`: The number of recommendations that you want returned in a single response
   object.
 """
-function get_rightsizing_recommendation(
-    Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_rightsizing_recommendation(Service; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetRightsizingRecommendation",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Service" => Service), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -893,42 +627,32 @@ To determine valid values for a dimension, use the GetDimensionValues operation.
   be within 13 months. The End date must be after the Start date, and before the current
   date. Future dates can't be used as an End date.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters Savings Plans coverage data by dimensions. You can filter data for
+# Keyword Parameters
+- `filter`: Filters Savings Plans coverage data by dimensions. You can filter data for
   Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE
       INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the
   other operations, but only AND is supported among each dimension. If there are multiple
   values for a dimension, they are OR'd together. Cost category is also supported.
-- `"granularity"`: The granularity of the Amazon Web Services cost data for your Savings
+- `granularity`: The granularity of the Amazon Web Services cost data for your Savings
   Plans. Granularity can't be set if GroupBy is set. The GetSavingsPlansCoverage operation
   supports only DAILY and MONTHLY granularities.
-- `"group_by"`: You can group the data using the attributes INSTANCE_FAMILY, REGION, or
+- `group_by`: You can group the data using the attributes INSTANCE_FAMILY, REGION, or
   SERVICE.
-- `"max_results"`: The number of items to be returned in a response. The default is 20,
-  with a minimum value of 1.
-- `"metrics"`: The measurement that you want your Savings Plans coverage reported in. The
+- `max_results`: The number of items to be returned in a response. The default is 20, with
+  a minimum value of 1.
+- `metrics`: The measurement that you want your Savings Plans coverage reported in. The
   only valid value is SpendCoveredBySavingsPlans.
-- `"next_token"`: The token to retrieve the next set of results. Amazon Web Services
-  provides the token when the response from a previous call has more results than the maximum
-  page size.
-- `"sort_by"`: The value by which you want to sort the data. The following values are
+- `next_token`: The token to retrieve the next set of results. Amazon Web Services provides
+  the token when the response from a previous call has more results than the maximum page
+  size.
+- `sort_by`: The value by which you want to sort the data. The following values are
   supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage
   TotalCost     InstanceFamily     Region     Service    Supported values for SortOrder are
   ASCENDING or DESCENDING.
 """
-function get_savings_plans_coverage(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_savings_plans_coverage(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetSavingsPlansCoverage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -943,13 +667,12 @@ Retrieves your request parameters, Savings Plan Recommendations Summary and Deta
 - `term_in_years`: The savings plan recommendation term used to generate these
   recommendations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_scope"`: The account scope that you want your recommendations for. Amazon Web
+# Keyword Parameters
+- `account_scope`: The account scope that you want your recommendations for. Amazon Web
   Services calculates recommendations including the management account and member accounts if
   the value is set to PAYER. If the value is LINKED, recommendations are calculated for
   individual member accounts only.
-- `"filter"`: You can filter your recommendations by Account ID with the LINKED_ACCOUNT
+- `filter`: You can filter your recommendations by Account ID with the LINKED_ACCOUNT
   dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and
   Value as the comma-separated Acount ID(s) for which you want to see Savings Plans purchase
   recommendations. For GetSavingsPlansPurchaseRecommendation, the Filter does not include
@@ -957,38 +680,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs
   for which you want to see Savings Plans Purchase Recommendations. AND and OR operators are
   not supported.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"page_size"`: The number of recommendations that you want returned in a single response
+- `page_size`: The number of recommendations that you want returned in a single response
   object.
 """
-function get_savings_plans_purchase_recommendation(
-    LookbackPeriodInDays,
-    PaymentOption,
-    SavingsPlansType,
-    TermInYears;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_savings_plans_purchase_recommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetSavingsPlansPurchaseRecommendation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LookbackPeriodInDays" => LookbackPeriodInDays,
-                    "PaymentOption" => PaymentOption,
-                    "SavingsPlansType" => SavingsPlansType,
-                    "TermInYears" => TermInYears,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1004,33 +704,23 @@ You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimens
   be within 13 months. The End date must be after the Start date, and before the current
   date. Future dates can't be used as an End date.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters Savings Plans utilization coverage data for active Savings Plans
+# Keyword Parameters
+- `filter`: Filters Savings Plans utilization coverage data for active Savings Plans
   dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT
   SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION
   INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same Expression object as the
   other operations, but only AND is supported among each dimension.
-- `"granularity"`: The granularity of the Amazon Web Services utillization data for your
+- `granularity`: The granularity of the Amazon Web Services utillization data for your
   Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY
   granularities.
-- `"sort_by"`: The value by which you want to sort the data. The following values are
+- `sort_by`: The value by which you want to sort the data. The following values are
   supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment
   UnusedCommitment     NetSavings    Supported values for SortOrder are ASCENDING or
   DESCENDING.
 """
-function get_savings_plans_utilization(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_savings_plans_utilization(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetSavingsPlansUtilization",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1049,36 +739,26 @@ SavingsPlansArn.
   be within 13 months. The End date must be after the Start date, and before the current
   date. Future dates can't be used as an End date.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_type"`: The data type.
-- `"filter"`: Filters Savings Plans utilization coverage data for active Savings Plans
+# Keyword Parameters
+- `data_type`: The data type.
+- `filter`: Filters Savings Plans utilization coverage data for active Savings Plans
   dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT
   SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY
   GetSavingsPlansUtilizationDetails uses the same Expression object as the other operations,
   but only AND is supported among each dimension.
-- `"max_results"`: The number of items to be returned in a response. The default is 20,
-  with a minimum value of 1.
-- `"next_token"`: The token to retrieve the next set of results. Amazon Web Services
-  provides the token when the response from a previous call has more results than the maximum
-  page size.
-- `"sort_by"`: The value by which you want to sort the data. The following values are
+- `max_results`: The number of items to be returned in a response. The default is 20, with
+  a minimum value of 1.
+- `next_token`: The token to retrieve the next set of results. Amazon Web Services provides
+  the token when the response from a previous call has more results than the maximum page
+  size.
+- `sort_by`: The value by which you want to sort the data. The following values are
   supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment
   UnusedCommitment     NetSavings     AmortizedRecurringCommitment
   AmortizedUpfrontCommitment    Supported values for SortOrder are ASCENDING or DESCENDING.
 """
-function get_savings_plans_utilization_details(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_savings_plans_utilization_details(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetSavingsPlansUtilizationDetails",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1093,34 +773,26 @@ tag values for an arbitrary string.
   end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and
   including 2017-04-30 but not including 2017-05-01.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`:
-- `"max_results"`: This field is only used when SortBy is provided in the request. The
+# Keyword Parameters
+- `filter`:
+- `max_results`: This field is only used when SortBy is provided in the request. The
   maximum number of objects that to be returned for this request. If MaxResults is not
   specified with SortBy, the request will return 1000 results as the default value for this
   parameter. For GetTags, MaxResults has an upper limit of 1000.
-- `"next_page_token"`: The token to retrieve the next set of results. Amazon Web Services
+- `next_page_token`: The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
-- `"search_string"`: The value that you want to search for.
-- `"sort_by"`: The value by which you want to sort the data. The key represents cost and
+- `search_string`: The value that you want to search for.
+- `sort_by`: The value by which you want to sort the data. The key represents cost and
   usage metrics. The following values are supported:    BlendedCost     UnblendedCost
   AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity
   NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When
   using SortBy, NextPageToken and SearchString are not supported.
-- `"tag_key"`: The key of the tag that you want to return values for.
+- `tag_key`: The key of the tag that you want to return values for.
 """
 function get_tags(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1141,45 +813,23 @@ forecast time period that you select, based on your past usage.
   2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must
   be equal to or later than the current date to avoid a validation error.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: The filters that you want to use to filter your forecast. The
-  GetUsageForecast API supports filtering by the following dimensions:    AZ
-  INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE
-   REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE
-  OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID
-  LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY
-  BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
-- `"prediction_interval_level"`: Cost Explorer always returns the mean forecast as a single
+# Keyword Parameters
+- `filter`: The filters that you want to use to filter your forecast. The GetUsageForecast
+  API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE
+  LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION
+  SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM
+  TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME
+  DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY
+  RESERVATION_ID     SAVINGS_PLAN_ARN
+- `prediction_interval_level`: Cost Explorer always returns the mean forecast as a single
   point. You can request a prediction interval around the mean by specifying a confidence
   level. The higher the confidence level, the more confident Cost Explorer is about the
   actual value falling in the prediction interval. Higher confidence levels result in wider
   prediction intervals.
 """
-function get_usage_forecast(
-    Granularity,
-    Metric,
-    TimePeriod;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_usage_forecast(Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "GetUsageForecast",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Granularity" => Granularity,
-                    "Metric" => Metric,
-                    "TimePeriod" => TimePeriod,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1192,24 +842,16 @@ Cost Categories that are effective on the current date. If Cost Category is stil
 effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports
 pagination. The request can have a MaxResults range up to 100.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"effective_on"`:  The date when the Cost Category was effective.
-- `"max_results"`:  The number of entries a paginated response contains.
-- `"next_token"`:  The token to retrieve the next set of results. Amazon Web Services
+# Keyword Parameters
+- `effective_on`:  The date when the Cost Category was effective.
+- `max_results`:  The number of entries a paginated response contains.
+- `next_token`:  The token to retrieve the next set of results. Amazon Web Services
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
-function list_cost_category_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_cost_category_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "ListCostCategoryDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("ListCostCategoryDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1223,22 +865,9 @@ Modifies the feedback property of a given cost anomaly.
   it an anomaly.
 
 """
-function provide_anomaly_feedback(
-    AnomalyId, Feedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function provide_anomaly_feedback(AnomalyId, Feedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "ProvideAnomalyFeedback",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AnomalyId" => AnomalyId, "Feedback" => Feedback),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("ProvideAnomalyFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyId"=>AnomalyId, "Feedback"=>Feedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1250,22 +879,12 @@ doesn'tt change anomalies detected in the past.
 # Arguments
 - `monitor_arn`: Cost anomaly monitor Amazon Resource Names (ARNs).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"monitor_name"`: The new name for the cost anomaly monitor.
+# Keyword Parameters
+- `monitor_name`: The new name for the cost anomaly monitor.
 """
-function update_anomaly_monitor(
-    MonitorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_anomaly_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "UpdateAnomalyMonitor",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MonitorArn" => MonitorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("UpdateAnomalyMonitor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitorArn"=>MonitorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1276,28 +895,16 @@ Updates an existing cost anomaly monitor subscription.
 # Arguments
 - `subscription_arn`: A cost anomaly subscription Amazon Resource Name (ARN).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"frequency"`: The update to the frequency value that subscribers receive notifications.
-- `"monitor_arn_list"`: A list of cost anomaly monitor ARNs.
-- `"subscribers"`: The update to the subscriber list.
-- `"subscription_name"`: The new name of the subscription.
-- `"threshold"`: The update to the threshold value for receiving notifications.
+# Keyword Parameters
+- `frequency`: The update to the frequency value that subscribers receive notifications.
+- `monitor_arn_list`: A list of cost anomaly monitor ARNs.
+- `subscribers`: The update to the subscriber list.
+- `subscription_name`: The new name of the subscription.
+- `threshold`: The update to the threshold value for receiving notifications.
 """
-function update_anomaly_subscription(
-    SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_anomaly_subscription(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "UpdateAnomalySubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubscriptionArn" => SubscriptionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("UpdateAnomalySubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1313,34 +920,12 @@ categorization for the previous months.
 - `rules`: The Expression object used to categorize costs. For more information, see
   CostCategoryRule .
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_value"`:
-- `"split_charge_rules"`:  The split charge rules used to allocate your charges between
-  your Cost Category values.
+# Keyword Parameters
+- `default_value`:
+- `split_charge_rules`:  The split charge rules used to allocate your charges between your
+  Cost Category values.
 """
-function update_cost_category_definition(
-    CostCategoryArn,
-    RuleVersion,
-    Rules;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_cost_category_definition(CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cost_explorer(
-        "UpdateCostCategoryDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CostCategoryArn" => CostCategoryArn,
-                    "RuleVersion" => RuleVersion,
-                    "Rules" => Rules,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

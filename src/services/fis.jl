@@ -4,17 +4,8 @@ using AWS.AWSServices: fis
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "actions" => "actions",
-    "tag_keys" => "tagKeys",
-    "targets" => "targets",
-    "stop_conditions" => "stopConditions",
-    "tags" => "tags",
-    "next_token" => "nextToken",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "role_arn" => "roleArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "tags" => "tags", "tag_keys" => "tagKeys", "targets" => "targets", "actions" => "actions", "description" => "description", "role_arn" => "roleArn", "stop_conditions" => "stopConditions")
 
 """
     create_experiment_template(actions, client_token, description, role_arn, stop_conditions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -38,40 +29,13 @@ information, see the AWS Fault Injection Simulator User Guide.
   permission to perform service actions on your behalf.
 - `stop_conditions`: The stop conditions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to apply to the experiment template.
-- `"targets"`: The targets for the experiment.
+# Keyword Parameters
+- `tags`: The tags to apply to the experiment template.
+- `targets`: The targets for the experiment.
 """
-function create_experiment_template(
-    actions,
-    clientToken,
-    description,
-    roleArn,
-    stopConditions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_experiment_template(actions, clientToken, description, roleArn, stopConditions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "POST",
-        "/experimentTemplates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "actions" => actions,
-                    "clientToken" => clientToken,
-                    "description" => description,
-                    "roleArn" => roleArn,
-                    "stopConditions" => stopConditions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("POST", "/experimentTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "clientToken"=>clientToken, "description"=>description, "roleArn"=>roleArn, "stopConditions"=>stopConditions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -83,17 +47,9 @@ Deletes the specified experiment template.
 - `id`: The ID of the experiment template.
 
 """
-function delete_experiment_template(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "DELETE",
-        "/experimentTemplates/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("DELETE", "/experimentTemplates/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -107,13 +63,7 @@ Gets information about the specified AWS FIS action.
 """
 function get_action(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET",
-        "/actions/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("GET", "/actions/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -127,13 +77,7 @@ Gets information about the specified experiment.
 """
 function get_experiment(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET",
-        "/experiments/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("GET", "/experiments/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -145,17 +89,9 @@ Gets information about the specified experiment template.
 - `id`: The ID of the experiment template.
 
 """
-function get_experiment_template(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET",
-        "/experimentTemplates/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("GET", "/experimentTemplates/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -163,17 +99,14 @@ end
 
 Lists the available AWS FIS actions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
 function list_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET", "/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fis("GET", "/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -181,23 +114,14 @@ end
 
 Lists your experiment templates.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
-function list_experiment_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_experiment_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET",
-        "/experimentTemplates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("GET", "/experimentTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -205,21 +129,14 @@ end
 
 Lists your experiments.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
 function list_experiments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET",
-        "/experiments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("GET", "/experiments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,17 +148,9 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -254,33 +163,12 @@ Starts running an experiment from the specified experiment template.
   idempotency of the request.
 - `experiment_template_id`: The ID of the experiment template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to apply to the experiment.
+# Keyword Parameters
+- `tags`: The tags to apply to the experiment.
 """
-function start_experiment(
-    clientToken,
-    experimentTemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_experiment(clientToken, experimentTemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "POST",
-        "/experiments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientToken" => clientToken,
-                    "experimentTemplateId" => experimentTemplateId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("POST", "/experiments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "experimentTemplateId"=>experimentTemplateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -294,13 +182,7 @@ Stops the specified experiment.
 """
 function stop_experiment(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "DELETE",
-        "/experiments/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("DELETE", "/experiments/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -313,17 +195,9 @@ Applies the specified tags to the specified resource.
 - `tags`: The tags for the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -334,21 +208,12 @@ Removes the specified tags from the specified resource.
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tag_keys"`: The tag keys to remove.
+# Keyword Parameters
+- `tag_keys`: The tag keys to remove.
 """
-function untag_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("DELETE", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -359,24 +224,15 @@ Updates the specified experiment template.
 # Arguments
 - `id`: The ID of the experiment template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"actions"`: The actions for the experiment.
-- `"description"`: A description for the template.
-- `"role_arn"`: The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS
-  service permission to perform service actions on your behalf.
-- `"stop_conditions"`: The stop conditions for the experiment.
-- `"targets"`: The targets for the experiment.
+# Keyword Parameters
+- `actions`: The actions for the experiment.
+- `description`: A description for the template.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service
+  permission to perform service actions on your behalf.
+- `stop_conditions`: The stop conditions for the experiment.
+- `targets`: The targets for the experiment.
 """
-function update_experiment_template(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fis(
-        "PATCH",
-        "/experimentTemplates/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fis("PATCH", "/experimentTemplates/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

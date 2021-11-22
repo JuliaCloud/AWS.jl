@@ -4,10 +4,8 @@ using AWS.AWSServices: marketplace_commerce_analytics
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "customer_defined_values" => "customerDefinedValues",
-    "destination_s3_prefix" => "destinationS3Prefix",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("customer_defined_values" => "customerDefinedValues", "destination_s3_prefix" => "destinationS3Prefix")
 
 """
     generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -74,47 +72,20 @@ sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
 - `sns_topic_arn`: Amazon Resource Name (ARN) for the SNS Topic that will be notified when
   the data set has been published or if an error has occurred.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"customer_defined_values"`: (Optional) Key-value pairs which will be returned,
-  unmodified, in the Amazon SNS notification message and the data set metadata file. These
-  key-value pairs can be used to correlated responses with tracking information from other
-  systems.
-- `"destination_s3_prefix"`: (Optional) The desired S3 prefix for the published data set,
+# Keyword Parameters
+- `customer_defined_values`: (Optional) Key-value pairs which will be returned, unmodified,
+  in the Amazon SNS notification message and the data set metadata file. These key-value
+  pairs can be used to correlated responses with tracking information from other systems.
+- `destination_s3_prefix`: (Optional) The desired S3 prefix for the published data set,
   similar to a directory path in standard file systems. For example, if given the bucket name
   \"mybucket\" and the prefix \"myprefix/mydatasets\", the output file \"outputfile\" would
   be published to \"s3://mybucket/myprefix/mydatasets/outputfile\". If the prefix directory
   structure does not exist, it will be created. If no prefix is provided, the data set will
   be published to the S3 bucket root.
 """
-function generate_data_set(
-    dataSetPublicationDate,
-    dataSetType,
-    destinationS3BucketName,
-    roleNameArn,
-    snsTopicArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function generate_data_set(dataSetPublicationDate, dataSetType, destinationS3BucketName, roleNameArn, snsTopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return marketplace_commerce_analytics(
-        "GenerateDataSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dataSetPublicationDate" => dataSetPublicationDate,
-                    "dataSetType" => dataSetType,
-                    "destinationS3BucketName" => destinationS3BucketName,
-                    "roleNameArn" => roleNameArn,
-                    "snsTopicArn" => snsTopicArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return marketplace_commerce_analytics("GenerateDataSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetPublicationDate"=>dataSetPublicationDate, "dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -150,43 +121,17 @@ s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
 - `sns_topic_arn`: Amazon Resource Name (ARN) for the SNS Topic that will be notified when
   the data set has been published or if an error has occurred.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"customer_defined_values"`: (Optional) Key-value pairs which will be returned,
-  unmodified, in the Amazon SNS notification message and the data set metadata file.
-- `"destination_s3_prefix"`: (Optional) The desired S3 prefix for the published data set,
+# Keyword Parameters
+- `customer_defined_values`: (Optional) Key-value pairs which will be returned, unmodified,
+  in the Amazon SNS notification message and the data set metadata file.
+- `destination_s3_prefix`: (Optional) The desired S3 prefix for the published data set,
   similar to a directory path in standard file systems. For example, if given the bucket name
   \"mybucket\" and the prefix \"myprefix/mydatasets\", the output file \"outputfile\" would
   be published to \"s3://mybucket/myprefix/mydatasets/outputfile\". If the prefix directory
   structure does not exist, it will be created. If no prefix is provided, the data set will
   be published to the S3 bucket root.
 """
-function start_support_data_export(
-    dataSetType,
-    destinationS3BucketName,
-    fromDate,
-    roleNameArn,
-    snsTopicArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_support_data_export(dataSetType, destinationS3BucketName, fromDate, roleNameArn, snsTopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return marketplace_commerce_analytics(
-        "StartSupportDataExport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dataSetType" => dataSetType,
-                    "destinationS3BucketName" => destinationS3BucketName,
-                    "fromDate" => fromDate,
-                    "roleNameArn" => roleNameArn,
-                    "snsTopicArn" => snsTopicArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return marketplace_commerce_analytics("StartSupportDataExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "fromDate"=>fromDate, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

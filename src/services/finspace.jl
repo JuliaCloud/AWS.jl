@@ -4,18 +4,8 @@ using AWS.AWSServices: finspace
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "federation_mode" => "federationMode",
-    "name" => "name",
-    "federation_parameters" => "federationParameters",
-    "superuser_parameters" => "superuserParameters",
-    "kms_key_id" => "kmsKeyId",
-    "data_bundles" => "dataBundles",
-    "next_token" => "nextToken",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "tags" => "tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "description" => "description", "federation_mode" => "federationMode", "federation_parameters" => "federationParameters", "name" => "name", "data_bundles" => "dataBundles", "kms_key_id" => "kmsKeyId", "superuser_parameters" => "superuserParameters", "tags" => "tags")
 
 """
     create_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,35 +15,25 @@ Create a new FinSpace environment.
 # Arguments
 - `name`: The name of the FinSpace environment to be created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_bundles"`: The list of Amazon Resource Names (ARN) of the data bundles to install.
+# Keyword Parameters
+- `data_bundles`: The list of Amazon Resource Names (ARN) of the data bundles to install.
   Currently supported data bundle ARNs:
   arn:aws:finspace:{Region}::data-bundle/capital-markets-sample - Contains sample Capital
   Markets datasets, categories and controlled vocabularies.
   arn:aws:finspace:{Region}::data-bundle/taq (default) - Contains trades and quotes data in
   addition to sample Capital Markets data.
-- `"description"`: The description of the FinSpace environment to be created.
-- `"federation_mode"`: Authentication mode for the environment.    FEDERATED - Users access
+- `description`: The description of the FinSpace environment to be created.
+- `federation_mode`: Authentication mode for the environment.    FEDERATED - Users access
   FinSpace through Single Sign On (SSO) via your Identity provider.    LOCAL - Users access
   FinSpace via email and password managed within the FinSpace environment.
-- `"federation_parameters"`: Configuration information when authentication mode is
-  FEDERATED.
-- `"kms_key_id"`: The KMS key id to encrypt your data in the FinSpace environment.
-- `"superuser_parameters"`: Configuration information for the superuser.
-- `"tags"`: Add tags to your FinSpace environment.
+- `federation_parameters`: Configuration information when authentication mode is FEDERATED.
+- `kms_key_id`: The KMS key id to encrypt your data in the FinSpace environment.
+- `superuser_parameters`: Configuration information for the superuser.
+- `tags`: Add tags to your FinSpace environment.
 """
-function create_environment(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "POST",
-        "/environment",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("POST", "/environment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -65,17 +45,9 @@ Delete an FinSpace environment.
 - `environment_id`: The identifier for the FinSpace environment.
 
 """
-function delete_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "DELETE",
-        "/environment/$(environmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("DELETE", "/environment/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -87,17 +59,9 @@ Returns the FinSpace environment object.
 - `environment_id`: The identifier of the FinSpace environment.
 
 """
-function get_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "GET",
-        "/environment/$(environmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("GET", "/environment/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -105,22 +69,15 @@ end
 
 A list of all of your FinSpace environments.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: A token generated by FinSpace that specifies where to continue pagination
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: A token generated by FinSpace that specifies where to continue pagination
   if a previous request was truncated. To get the next set of pages, pass in the nextToken
   value from the response object of the previous page call.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "GET",
-        "/environment",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("GET", "/environment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -132,17 +89,9 @@ A list of all tags for a resource.
 - `resource_arn`: The Amazon Resource Name of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -155,17 +104,9 @@ Adds metadata tags to a FinSpace resource.
 - `tags`: One or more tags to be assigned to the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -179,17 +120,9 @@ Removes metadata tags from a FinSpace resource.
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -200,24 +133,15 @@ Update your FinSpace environment.
 # Arguments
 - `environment_id`: The identifier of the FinSpace environment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the environment.
-- `"federation_mode"`: Authentication mode for the environment.    FEDERATED - Users access
+# Keyword Parameters
+- `description`: The description of the environment.
+- `federation_mode`: Authentication mode for the environment.    FEDERATED - Users access
   FinSpace through Single Sign On (SSO) via your Identity provider.    LOCAL - Users access
   FinSpace via email and password managed within the FinSpace environment.
-- `"federation_parameters"`:
-- `"name"`: The name of the environment.
+- `federation_parameters`:
+- `name`: The name of the environment.
 """
-function update_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace(
-        "PUT",
-        "/environment/$(environmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace("PUT", "/environment/$(environmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

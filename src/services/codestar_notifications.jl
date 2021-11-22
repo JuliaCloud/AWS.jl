@@ -4,19 +4,8 @@ using AWS.AWSServices: codestar_notifications
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "targets" => "Targets",
-    "next_token" => "NextToken",
-    "client_request_token" => "ClientRequestToken",
-    "name" => "Name",
-    "event_type_ids" => "EventTypeIds",
-    "status" => "Status",
-    "detail_type" => "DetailType",
-    "max_results" => "MaxResults",
-    "force_unsubscribe_all" => "ForceUnsubscribeAll",
-    "filters" => "Filters",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "force_unsubscribe_all" => "ForceUnsubscribeAll", "client_request_token" => "ClientRequestToken", "status" => "Status", "tags" => "Tags", "detail_type" => "DetailType", "event_type_ids" => "EventTypeIds", "name" => "Name", "targets" => "Targets")
 
 """
     create_notification_rule(detail_type, event_type_ids, name, resource, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -39,49 +28,21 @@ notifications about and the targets (such as SNS topics) where you want to recei
 - `targets`: A list of Amazon Resource Names (ARNs) of SNS topics to associate with the
   notification rule.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique, client-generated idempotency token that, when
-  provided in a request, ensures the request cannot be repeated with a changed parameter. If
-  a request with the same parameters is received and a token is included, the request returns
+# Keyword Parameters
+- `client_request_token`: A unique, client-generated idempotency token that, when provided
+  in a request, ensures the request cannot be repeated with a changed parameter. If a request
+  with the same parameters is received and a token is included, the request returns
   information about the initial request that used that token.  The AWS SDKs prepopulate
   client request tokens. If you are using an AWS SDK, an idempotency token is created for
   you.
-- `"status"`: The status of the notification rule. The default value is ENABLED. If the
+- `status`: The status of the notification rule. The default value is ENABLED. If the
   status is set to DISABLED, notifications aren't sent for the notification rule.
-- `"tags"`: A list of tags to apply to this notification rule. Key names cannot start with
+- `tags`: A list of tags to apply to this notification rule. Key names cannot start with
   \"aws\".
 """
-function create_notification_rule(
-    DetailType,
-    EventTypeIds,
-    Name,
-    Resource,
-    Targets;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_notification_rule(DetailType, EventTypeIds, Name, Resource, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/createNotificationRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DetailType" => DetailType,
-                    "EventTypeIds" => EventTypeIds,
-                    "Name" => Name,
-                    "Resource" => Resource,
-                    "Targets" => Targets,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/createNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DetailType"=>DetailType, "EventTypeIds"=>EventTypeIds, "Name"=>Name, "Resource"=>Resource, "Targets"=>Targets, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -93,17 +54,9 @@ Deletes a notification rule for a resource.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule you want to delete.
 
 """
-function delete_notification_rule(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/deleteNotificationRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/deleteNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -114,25 +67,14 @@ Deletes a specified target for notifications.
 # Arguments
 - `target_address`: The Amazon Resource Name (ARN) of the SNS topic to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_unsubscribe_all"`: A Boolean value that can be used to delete all associations
-  with this SNS topic. The default value is FALSE. If set to TRUE, all associations between
-  that target and every notification rule in your AWS account are deleted.
+# Keyword Parameters
+- `force_unsubscribe_all`: A Boolean value that can be used to delete all associations with
+  this SNS topic. The default value is FALSE. If set to TRUE, all associations between that
+  target and every notification rule in your AWS account are deleted.
 """
-function delete_target(
-    TargetAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_target(TargetAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/deleteTarget",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TargetAddress" => TargetAddress), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/deleteTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetAddress"=>TargetAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -144,17 +86,9 @@ Returns information about a specified notification rule.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
 """
-function describe_notification_rule(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/describeNotificationRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/describeNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -162,23 +96,16 @@ end
 
 Returns information about the event types available for configuring notifications.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The filters to use to return information by service or resource type.
-- `"max_results"`: A non-negative integer used to limit the number of returned results. The
+# Keyword Parameters
+- `filters`: The filters to use to return information by service or resource type.
+- `max_results`: A non-negative integer used to limit the number of returned results. The
   default number is 50. The maximum number of results that can be returned is 100.
-- `"next_token"`: An enumeration token that, when provided in a request, returns the next
+- `next_token`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_event_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/listEventTypes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/listEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -186,28 +113,19 @@ end
 
 Returns a list of the notification rules for an AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The filters to use to return information by service or resource type. For
+# Keyword Parameters
+- `filters`: The filters to use to return information by service or resource type. For
   valid values, see ListNotificationRulesFilter.  A filter with the same name can appear more
   than once when used with OR statements. Filters with different names should be applied with
   AND statements.
-- `"max_results"`: A non-negative integer used to limit the number of returned results. The
+- `max_results`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
-- `"next_token"`: An enumeration token that, when provided in a request, returns the next
+- `next_token`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_notification_rules(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/listNotificationRules",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/listNotificationRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -219,17 +137,9 @@ Returns a list of the tags associated with a notification rule.
 - `arn`: The Amazon Resource Name (ARN) for the notification rule.
 
 """
-function list_tags_for_resource(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/listTagsForResource",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/listTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -237,26 +147,19 @@ end
 
 Returns a list of the notification rule targets for an AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The filters to use to return information by service or resource type. Valid
+# Keyword Parameters
+- `filters`: The filters to use to return information by service or resource type. Valid
   filters include target type, target address, and target status.  A filter with the same
   name can appear more than once when used with OR statements. Filters with different names
   should be applied with AND statements.
-- `"max_results"`: A non-negative integer used to limit the number of returned results. The
+- `max_results`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
-- `"next_token"`: An enumeration token that, when provided in a request, returns the next
+- `next_token`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/listTargets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/listTargets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -270,24 +173,13 @@ target can receive notifications when the events described in the rule are trigg
   create the association.
 - `target`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: An enumeration token that, when provided in a request, returns
+# Keyword Parameters
+- `client_request_token`: An enumeration token that, when provided in a request, returns
   the next batch of the results.
 """
-function subscribe(
-    Arn, Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function subscribe(Arn, Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/subscribe",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Target" => Target), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/subscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -301,19 +193,9 @@ Associates a set of provided tags with a notification rule.
   \"aws\".
 
 """
-function tag_resource(
-    Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/tagResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/tagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -328,23 +210,9 @@ rule are triggered.
 - `target_address`: The ARN of the SNS topic to unsubscribe from the notification rule.
 
 """
-function unsubscribe(
-    Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/unsubscribe",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Arn" => Arn, "TargetAddress" => TargetAddress),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/unsubscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TargetAddress"=>TargetAddress), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -358,19 +226,9 @@ Removes the association between one or more provided tags and a notification rul
 - `tag_keys`: The key names of the tags to remove.
 
 """
-function untag_resource(
-    Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/untagResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/untagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -383,28 +241,19 @@ To add or remove tags for a notification rule, you must use TagResource and Unta
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"detail_type"`: The level of detail to include in the notifications for this resource.
+# Keyword Parameters
+- `detail_type`: The level of detail to include in the notifications for this resource.
   BASIC will include only the contents of the event as it would appear in AWS CloudWatch.
   FULL will include any supplemental information provided by AWS CodeStar Notifications
   and/or the service for the resource for which the notification is created.
-- `"event_type_ids"`: A list of event types associated with this notification rule.
-- `"name"`: The name of the notification rule.
-- `"status"`: The status of the notification rule. Valid statuses include enabled (sending
+- `event_type_ids`: A list of event types associated with this notification rule.
+- `name`: The name of the notification rule.
+- `status`: The status of the notification rule. Valid statuses include enabled (sending
   notifications) or disabled (not sending notifications).
-- `"targets"`: The address and type of the targets to receive notifications from this
+- `targets`: The address and type of the targets to receive notifications from this
   notification rule.
 """
-function update_notification_rule(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar_notifications(
-        "POST",
-        "/updateNotificationRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar_notifications("POST", "/updateNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

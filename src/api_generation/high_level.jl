@@ -1,12 +1,12 @@
 abstract type OperationType end
-struct RestBased <: OperationType end
+struct RESTBased <: OperationType end
 struct JSONBased <: OperationType end
 
 function _parse_protocol(function_name::AbstractString, protocol::AbstractString)
     if protocol in ("json", "query", "ec2")
         return JSONBased()
     elseif protocol in ("rest-xml", "rest-json")
-        return RestBased()
+        return RESTBased()
     else
         throw(
             ProtocolNotDefined(
@@ -61,7 +61,7 @@ function _generate_high_level_wrapper(
              using AWS.UUIDs
 
              # Julia syntax for service-level optional parameters to the AWS request syntax
-             const MAPPING = $(aws_service_param_mapping)
+             const SERVICE_PARAMETER_MAP = $(aws_service_param_mapping)
              """,
             )
             join(f, operations, "\n")
@@ -77,7 +77,7 @@ function _generate_high_level_definitions(
     service_name::String, protocol::String, operations::AbstractDict, shapes::AbstractDict
 )
     operation_definitions = String[]
-    aws_service_param_mapping = Dict{String,String}()
+    aws_service_param_mapping = LittleDict{String,String}()
 
     for (_, operation) in operations
         name = operation["name"]
@@ -135,7 +135,7 @@ function _generate_high_level_definition(
     Generate function definition for a service request given required, header and idempotent parameters.
     """
     function _generate_operation_definition(
-        protocol::RestBased,
+        protocol::RESTBased,
         required_params::AbstractDict,
         optional_params::AbstractDict,
         function_name::String,
@@ -302,13 +302,12 @@ function _generate_high_level_definition(
         # Add in the optional parameters if applicable
         if !isempty(optional_parameters)
             operation_definition *= """
-                # Optional Parameters
-                Optional parameters can be passed as a keyword argument. Valid keys are:
+                # Keyword Parameters
                 """
 
             for (optional_key, optional_value) in optional_parameters
                 operation_definition *= _wraplines(
-                    "- `\"$optional_key\"`: $(optional_value["documentation"])";
+                    "- `$optional_key`: $(optional_value["documentation"])";
                     delim="\n  ",
                 )
                 operation_definition *= "\n"

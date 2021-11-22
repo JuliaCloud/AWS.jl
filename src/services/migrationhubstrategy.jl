@@ -4,27 +4,8 @@ using AWS.AWSServices: migrationhubstrategy
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "filter_value" => "filterValue",
-    "prioritize_business_goals" => "prioritizeBusinessGoals",
-    "s3bucket_for_report_data" => "s3bucketForReportData",
-    "next_token" => "nextToken",
-    "group_id" => "groupId",
-    "data_source_type" => "dataSourceType",
-    "max_results" => "maxResults",
-    "application_component_criteria" => "applicationComponentCriteria",
-    "output_format" => "outputFormat",
-    "s3bucket_for_analysis_data" => "s3bucketForAnalysisData",
-    "strategy_option" => "strategyOption",
-    "application_preferences" => "applicationPreferences",
-    "group_id_filter" => "groupIdFilter",
-    "sort" => "sort",
-    "secrets_manager_key" => "secretsManagerKey",
-    "inclusion_status" => "inclusionStatus",
-    "server_criteria" => "serverCriteria",
-    "source_code_list" => "sourceCodeList",
-    "database_preferences" => "databasePreferences",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "application_component_criteria" => "applicationComponentCriteria", "filter_value" => "filterValue", "group_id_filter" => "groupIdFilter", "sort" => "sort", "s3bucket_for_analysis_data" => "s3bucketForAnalysisData", "s3bucket_for_report_data" => "s3bucketForReportData", "inclusion_status" => "inclusionStatus", "secrets_manager_key" => "secretsManagerKey", "source_code_list" => "sourceCodeList", "strategy_option" => "strategyOption", "application_preferences" => "applicationPreferences", "database_preferences" => "databasePreferences", "prioritize_business_goals" => "prioritizeBusinessGoals", "server_criteria" => "serverCriteria", "output_format" => "outputFormat", "data_source_type" => "dataSourceType", "group_id" => "groupId")
 
 """
     get_application_component_details(application_component_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,17 +17,9 @@ MAPPING = Dict(
   an AWS account.
 
 """
-function get_application_component_details(
-    applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_application_component_details(applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-applicationcomponent-details/$(applicationComponentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-applicationcomponent-details/$(applicationComponentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -60,17 +33,9 @@ running on a server.
   an AWS account.
 
 """
-function get_application_component_strategies(
-    applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_application_component_strategies(applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-applicationcomponent-strategies/$(applicationComponentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-applicationcomponent-strategies/$(applicationComponentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -84,13 +49,7 @@ end
 """
 function get_assessment(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-assessment/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-assessment/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -103,17 +62,9 @@ end
   StartImportFileTask.
 
 """
-function get_import_file_task(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_import_file_task(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-import-file-task/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-import-file-task/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -122,17 +73,9 @@ end
  Retrieves your migration and modernization preferences.
 
 """
-function get_portfolio_preferences(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_portfolio_preferences(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-portfolio-preferences",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-portfolio-preferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -142,17 +85,9 @@ end
 of anti-patterns.
 
 """
-function get_portfolio_summary(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_portfolio_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-portfolio-summary",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-portfolio-summary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -165,17 +100,9 @@ end
   StartRecommendationReportGeneration.
 
 """
-function get_recommendation_report_details(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_recommendation_report_details(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-recommendation-report-details/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-recommendation-report-details/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -186,26 +113,17 @@ end
 # Arguments
 - `server_id`:  The ID of the server.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of items to include in the response. The maximum
-  value is 100.
-- `"next_token"`:  The token from a previous call that you use to retrieve the next set of
+# Keyword Parameters
+- `max_results`:  The maximum number of items to include in the response. The maximum value
+  is 100.
+- `next_token`:  The token from a previous call that you use to retrieve the next set of
   results. For example, if a previous call to this action returned 100 items, but you set
   maxResults to 10. You'll receive a set of 10 results along with a token. You then use the
   returned token to retrieve the next set of 10.
 """
-function get_server_details(
-    serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_server_details(serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-server-details/$(serverId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-server-details/$(serverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -217,17 +135,9 @@ end
 - `server_id`:  The ID of the server.
 
 """
-function get_server_strategies(
-    serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_server_strategies(serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/get-server-strategies/$(serverId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/get-server-strategies/$(serverId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -235,34 +145,25 @@ end
 
  Retrieves a list of all the application components (processes).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"application_component_criteria"`:  Criteria for filtering the list of application
+# Keyword Parameters
+- `application_component_criteria`:  Criteria for filtering the list of application
   components.
-- `"filter_value"`:  Specify the value based on the application component criteria type.
-  For example, if applicationComponentCriteria is set to SERVER_ID and filterValue is set to
+- `filter_value`:  Specify the value based on the application component criteria type. For
+  example, if applicationComponentCriteria is set to SERVER_ID and filterValue is set to
   server1, then ListApplicationComponents returns all the application components running on
   server1.
-- `"group_id_filter"`:  The group ID specified in to filter on.
-- `"max_results"`:  The maximum number of items to include in the response. The maximum
-  value is 100.
-- `"next_token"`:  The token from a previous call that you use to retrieve the next set of
+- `group_id_filter`:  The group ID specified in to filter on.
+- `max_results`:  The maximum number of items to include in the response. The maximum value
+  is 100.
+- `next_token`:  The token from a previous call that you use to retrieve the next set of
   results. For example, if a previous call to this action returned 100 items, but you set
   maxResults to 10. You'll receive a set of 10 results along with a token. You then use the
   returned token to retrieve the next set of 10.
-- `"sort"`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
+- `sort`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
-function list_application_components(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_application_components(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/list-applicationcomponents",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/list-applicationcomponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -270,24 +171,17 @@ end
 
  Retrieves a list of all the installed collectors.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of items to include in the response. The maximum
-  value is 100.
-- `"next_token"`:  The token from a previous call that you use to retrieve the next set of
+# Keyword Parameters
+- `max_results`:  The maximum number of items to include in the response. The maximum value
+  is 100.
+- `next_token`:  The token from a previous call that you use to retrieve the next set of
   results. For example, if a previous call to this action returned 100 items, but you set
   maxResults to 10. You'll receive a set of 10 results along with a token. You then use the
   returned token to retrieve the next set of 10.
 """
 function list_collectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/list-collectors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/list-collectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,25 +189,16 @@ end
 
  Retrieves a list of all the imports performed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The total number of items to return. The maximum value is 100.
-- `"next_token"`:  The token from a previous call that you use to retrieve the next set of
+# Keyword Parameters
+- `max_results`:  The total number of items to return. The maximum value is 100.
+- `next_token`:  The token from a previous call that you use to retrieve the next set of
   results. For example, if a previous call to this action returned 100 items, but you set
   maxResults to 10. You'll receive a set of 10 results along with a token. You then use the
   returned token to retrieve the next set of 10.
 """
-function list_import_file_task(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_import_file_task(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "GET",
-        "/list-import-file-task",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("GET", "/list-import-file-task", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -321,31 +206,24 @@ end
 
  Returns a list of all the servers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_value"`:  Specifies the filter value, which is based on the type of server
+# Keyword Parameters
+- `filter_value`:  Specifies the filter value, which is based on the type of server
   criteria. For example, if serverCriteria is OS_NAME, and the filterValue is equal to
   WindowsServer, then ListServers returns all of the servers matching the OS name
   WindowsServer.
-- `"group_id_filter"`:  Specifies the group ID to filter on.
-- `"max_results"`:  The maximum number of items to include in the response. The maximum
-  value is 100.
-- `"next_token"`:  The token from a previous call that you use to retrieve the next set of
+- `group_id_filter`:  Specifies the group ID to filter on.
+- `max_results`:  The maximum number of items to include in the response. The maximum value
+  is 100.
+- `next_token`:  The token from a previous call that you use to retrieve the next set of
   results. For example, if a previous call to this action returned 100 items, but you set
   maxResults to 10. You'll receive a set of 10 results along with a token. You then use the
   returned token to retrieve the next set of 10.
-- `"server_criteria"`:  Criteria for filtering servers.
-- `"sort"`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
+- `server_criteria`:  Criteria for filtering servers.
+- `sort`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
 function list_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/list-servers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/list-servers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -353,24 +231,14 @@ end
 
  Saves the specified migration and modernization preferences.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"application_preferences"`:  The transformation preferences for non-database
-  applications.
-- `"database_preferences"`:  The transformation preferences for database applications.
-- `"prioritize_business_goals"`:  The rank of the business goals based on priority.
+# Keyword Parameters
+- `application_preferences`:  The transformation preferences for non-database applications.
+- `database_preferences`:  The transformation preferences for database applications.
+- `prioritize_business_goals`:  The rank of the business goals based on priority.
 """
-function put_portfolio_preferences(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_portfolio_preferences(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/put-portfolio-preferences",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/put-portfolio-preferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -378,22 +246,15 @@ end
 
  Starts the assessment of an on-premises environment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"s3bucket_for_analysis_data"`:  The S3 bucket used by the collectors to send analysis
-  data to the service. The bucket name must begin with migrationhub-strategy-.
-- `"s3bucket_for_report_data"`:  The S3 bucket where all the reports generated by the
-  service are stored. The bucket name must begin with migrationhub-strategy-.
+# Keyword Parameters
+- `s3bucket_for_analysis_data`:  The S3 bucket used by the collectors to send analysis data
+  to the service. The bucket name must begin with migrationhub-strategy-.
+- `s3bucket_for_report_data`:  The S3 bucket where all the reports generated by the service
+  are stored. The bucket name must begin with migrationhub-strategy-.
 """
 function start_assessment(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/start-assessment",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/start-assessment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -407,33 +268,18 @@ end
 - `name`:  A descriptive name for the request.
 - `s3key`:  The Amazon S3 key name of the import file.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_source_type"`: Specifies the source that the servers are coming from. By default,
+# Keyword Parameters
+- `data_source_type`: Specifies the source that the servers are coming from. By default,
   Strategy Recommendations assumes that the servers specified in the import file are
   available in AWS Application Discovery Service.
-- `"group_id"`: Groups the resources in the import file together with a unique name. This
-  ID can be as filter in ListApplicationComponents and ListServers.
-- `"s3bucket_for_report_data"`:  The S3 bucket where Strategy Recommendations uploads
-  import results. The bucket name is required to begin with migrationhub-strategy-.
+- `group_id`: Groups the resources in the import file together with a unique name. This ID
+  can be as filter in ListApplicationComponents and ListServers.
+- `s3bucket_for_report_data`:  The S3 bucket where Strategy Recommendations uploads import
+  results. The bucket name is required to begin with migrationhub-strategy-.
 """
-function start_import_file_task(
-    S3Bucket, name, s3key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_import_file_task(S3Bucket, name, s3key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/start-import-file-task",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("S3Bucket" => S3Bucket, "name" => name, "s3key" => s3key),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/start-import-file-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "name"=>name, "s3key"=>s3key), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -441,24 +287,14 @@ end
 
  Starts generating a recommendation report.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"group_id_filter"`:  Groups the resources in the recommendation report with a unique
-  name.
-- `"output_format"`:  The output format for the recommendation report file. The default
+# Keyword Parameters
+- `group_id_filter`:  Groups the resources in the recommendation report with a unique name.
+- `output_format`:  The output format for the recommendation report file. The default
   format is Microsoft Excel.
 """
-function start_recommendation_report_generation(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_recommendation_report_generation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/start-recommendation-report-generation",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/start-recommendation-report-generation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -470,19 +306,9 @@ end
 - `assessment_id`:  The assessmentId returned by StartAssessment.
 
 """
-function stop_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/stop-assessment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("assessmentId" => assessmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/stop-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentId"=>assessmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -494,33 +320,18 @@ end
 - `application_component_id`:  The ID of the application component. The ID is unique within
   an AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"inclusion_status"`:  Indicates whether the application component has been included for
+# Keyword Parameters
+- `inclusion_status`:  Indicates whether the application component has been included for
   server recommendation or not.
-- `"secrets_manager_key"`:  Database credentials.
-- `"source_code_list"`:  The list of source code configurations to update for the
-  application component.
-- `"strategy_option"`:  The preferred strategy options for the application component. Use
+- `secrets_manager_key`:  Database credentials.
+- `source_code_list`:  The list of source code configurations to update for the application
+  component.
+- `strategy_option`:  The preferred strategy options for the application component. Use
   values from the GetApplicationComponentStrategies response.
 """
-function update_application_component_config(
-    applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_application_component_config(applicationComponentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/update-applicationcomponent-config/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("applicationComponentId" => applicationComponentId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/update-applicationcomponent-config/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationComponentId"=>applicationComponentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -531,22 +342,11 @@ end
 # Arguments
 - `server_id`:  The ID of the server.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"strategy_option"`:  The preferred strategy options for the application component. See
-  the response from GetServerStrategies.
+# Keyword Parameters
+- `strategy_option`:  The preferred strategy options for the application component. See the
+  response from GetServerStrategies.
 """
-function update_server_config(
-    serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_server_config(serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return migrationhubstrategy(
-        "POST",
-        "/update-server-config/",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serverId" => serverId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return migrationhubstrategy("POST", "/update-server-config/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serverId"=>serverId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,71 +4,8 @@ using AWS.AWSServices: emr
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "notebook_execution_name" => "NotebookExecutionName",
-    "ami_version" => "AmiVersion",
-    "security_configuration" => "SecurityConfiguration",
-    "repo_upgrade_on_boot" => "RepoUpgradeOnBoot",
-    "identity_type" => "IdentityType",
-    "ebs_root_volume_size" => "EbsRootVolumeSize",
-    "service_role" => "ServiceRole",
-    "idp_relay_state_parameter_name" => "IdpRelayStateParameterName",
-    "notebook_params" => "NotebookParams",
-    "default_s3_location" => "DefaultS3Location",
-    "cluster_id" => "ClusterId",
-    "studio_id" => "StudioId",
-    "visible_to_all_users" => "VisibleToAllUsers",
-    "created_after" => "CreatedAfter",
-    "additional_info" => "AdditionalInfo",
-    "to" => "To",
-    "step_states" => "StepStates",
-    "created_before" => "CreatedBefore",
-    "name" => "Name",
-    "job_flow_states" => "JobFlowStates",
-    "editor_id" => "EditorId",
-    "identity_id" => "IdentityId",
-    "cluster_states" => "ClusterStates",
-    "max_results" => "MaxResults",
-    "applications" => "Applications",
-    "supported_products" => "SupportedProducts",
-    "auto_termination_policy" => "AutoTerminationPolicy",
-    "custom_ami_id" => "CustomAmiId",
-    "subnet_ids" => "SubnetIds",
-    "job_flow_role" => "JobFlowRole",
-    "auto_scaling_role" => "AutoScalingRole",
-    "steps" => "Steps",
-    "step_ids" => "StepIds",
-    "idp_auth_url" => "IdpAuthUrl",
-    "instance_group_id" => "InstanceGroupId",
-    "next_token" => "NextToken",
-    "step_cancellation_option" => "StepCancellationOption",
-    "bootstrap_actions" => "BootstrapActions",
-    "kerberos_attributes" => "KerberosAttributes",
-    "job_flow_ids" => "JobFlowIds",
-    "instance_fleet_id" => "InstanceFleetId",
-    "instance_group_types" => "InstanceGroupTypes",
-    "log_encryption_kms_key_id" => "LogEncryptionKmsKeyId",
-    "new_supported_products" => "NewSupportedProducts",
-    "step_concurrency_level" => "StepConcurrencyLevel",
-    "marker" => "Marker",
-    "tags" => "Tags",
-    "instance_groups" => "InstanceGroups",
-    "notebook_instance_security_group_id" => "NotebookInstanceSecurityGroupId",
-    "placement_group_configs" => "PlacementGroupConfigs",
-    "managed_scaling_policy" => "ManagedScalingPolicy",
-    "instance_fleet_type" => "InstanceFleetType",
-    "configurations" => "Configurations",
-    "status" => "Status",
-    "instance_states" => "InstanceStates",
-    "description" => "Description",
-    "release_label" => "ReleaseLabel",
-    "log_uri" => "LogUri",
-    "identity_name" => "IdentityName",
-    "filters" => "Filters",
-    "user_role" => "UserRole",
-    "scale_down_behavior" => "ScaleDownBehavior",
-    "from" => "From",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("step_concurrency_level" => "StepConcurrencyLevel", "notebook_execution_name" => "NotebookExecutionName", "notebook_instance_security_group_id" => "NotebookInstanceSecurityGroupId", "notebook_params" => "NotebookParams", "tags" => "Tags", "identity_id" => "IdentityId", "identity_name" => "IdentityName", "marker" => "Marker", "step_cancellation_option" => "StepCancellationOption", "description" => "Description", "idp_auth_url" => "IdpAuthUrl", "idp_relay_state_parameter_name" => "IdpRelayStateParameterName", "user_role" => "UserRole", "default_s3_location" => "DefaultS3Location", "name" => "Name", "subnet_ids" => "SubnetIds", "identity_type" => "IdentityType", "studio_id" => "StudioId", "max_results" => "MaxResults", "next_token" => "NextToken", "release_label" => "ReleaseLabel", "filters" => "Filters", "created_after" => "CreatedAfter", "created_before" => "CreatedBefore", "job_flow_ids" => "JobFlowIds", "job_flow_states" => "JobFlowStates", "cluster_id" => "ClusterId", "instance_groups" => "InstanceGroups", "step_ids" => "StepIds", "step_states" => "StepStates", "additional_info" => "AdditionalInfo", "ami_version" => "AmiVersion", "applications" => "Applications", "auto_scaling_role" => "AutoScalingRole", "auto_termination_policy" => "AutoTerminationPolicy", "bootstrap_actions" => "BootstrapActions", "configurations" => "Configurations", "custom_ami_id" => "CustomAmiId", "ebs_root_volume_size" => "EbsRootVolumeSize", "job_flow_role" => "JobFlowRole", "kerberos_attributes" => "KerberosAttributes", "log_encryption_kms_key_id" => "LogEncryptionKmsKeyId", "log_uri" => "LogUri", "managed_scaling_policy" => "ManagedScalingPolicy", "new_supported_products" => "NewSupportedProducts", "placement_group_configs" => "PlacementGroupConfigs", "repo_upgrade_on_boot" => "RepoUpgradeOnBoot", "scale_down_behavior" => "ScaleDownBehavior", "security_configuration" => "SecurityConfiguration", "service_role" => "ServiceRole", "steps" => "Steps", "supported_products" => "SupportedProducts", "visible_to_all_users" => "VisibleToAllUsers", "instance_fleet_id" => "InstanceFleetId", "instance_fleet_type" => "InstanceFleetType", "instance_group_id" => "InstanceGroupId", "instance_group_types" => "InstanceGroupTypes", "instance_states" => "InstanceStates", "editor_id" => "EditorId", "from" => "From", "status" => "Status", "to" => "To", "cluster_states" => "ClusterStates")
 
 """
     add_instance_fleet(cluster_id, instance_fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -81,24 +18,9 @@ only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x.
 - `instance_fleet`: Specifies the configuration of the instance fleet.
 
 """
-function add_instance_fleet(
-    ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "AddInstanceFleet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterId" => ClusterId, "InstanceFleet" => InstanceFleet
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -111,24 +33,9 @@ Adds one or more instance groups to a running cluster.
 - `job_flow_id`: Job flow in which to add the instance groups.
 
 """
-function add_instance_groups(
-    InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_instance_groups(InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "AddInstanceGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceGroups" => InstanceGroups, "JobFlowId" => JobFlowId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -155,20 +62,9 @@ following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.
 - `steps`:  A list of StepConfig to be executed by the job flow.
 
 """
-function add_job_flow_steps(
-    JobFlowId, Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_job_flow_steps(JobFlowId, Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "AddJobFlowSteps",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("JobFlowId" => JobFlowId, "Steps" => Steps), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -186,20 +82,9 @@ Amazon EMR resource allocation costs. For more information, see Tag Clusters.
   optional value string with a maximum of 256 characters.
 
 """
-function add_tags(
-    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "AddTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -218,27 +103,13 @@ In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDI
 - `step_ids`: The list of StepIDs to cancel. Use ListSteps to get steps and their states
   for the specified cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"step_cancellation_option"`: The option to choose to cancel RUNNING steps. By default,
-  the value is SEND_INTERRUPT.
+# Keyword Parameters
+- `step_cancellation_option`: The option to choose to cancel RUNNING steps. By default, the
+  value is SEND_INTERRUPT.
 """
-function cancel_steps(
-    ClusterId, StepIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_steps(ClusterId, StepIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "CancelSteps",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ClusterId" => ClusterId, "StepIds" => StepIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -254,27 +125,9 @@ a cluster is created.
   Amazon EMR Management Guide.
 
 """
-function create_security_configuration(
-    Name,
-    SecurityConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_security_configuration(Name, SecurityConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "CreateSecurityConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "SecurityConfiguration" => SecurityConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -303,59 +156,27 @@ Creates a new Amazon EMR Studio.
   The Workspace security group allows outbound network traffic to resources in the Engine
   security group, and it must be in the same VPC specified by VpcId.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A detailed description of the Amazon EMR Studio.
-- `"idp_auth_url"`: The authentication endpoint of your identity provider (IdP). Specify
-  this value when you use IAM authentication and want to let federated users log in to a
-  Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users
-  to this endpoint to enter credentials.
-- `"idp_relay_state_parameter_name"`: The name that your identity provider (IdP) uses for
-  its RelayState parameter. For example, RelayState or TargetSource. Specify this value when
-  you use IAM authentication and want to let federated users log in to a Studio using the
-  Studio URL. The RelayState parameter differs by IdP.
-- `"tags"`: A list of tags to associate with the Amazon EMR Studio. Tags are user-defined
+# Keyword Parameters
+- `description`: A detailed description of the Amazon EMR Studio.
+- `idp_auth_url`: The authentication endpoint of your identity provider (IdP). Specify this
+  value when you use IAM authentication and want to let federated users log in to a Studio
+  with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to
+  this endpoint to enter credentials.
+- `idp_relay_state_parameter_name`: The name that your identity provider (IdP) uses for its
+  RelayState parameter. For example, RelayState or TargetSource. Specify this value when you
+  use IAM authentication and want to let federated users log in to a Studio using the Studio
+  URL. The RelayState parameter differs by IdP.
+- `tags`: A list of tags to associate with the Amazon EMR Studio. Tags are user-defined
   key-value pairs that consist of a required key string with a maximum of 128 characters, and
   an optional value string with a maximum of 256 characters.
-- `"user_role"`: The IAM user role that users and groups assume when logged in to an Amazon
+- `user_role`: The IAM user role that users and groups assume when logged in to an Amazon
   EMR Studio. Only specify a UserRole when you use Amazon Web Services SSO authentication.
   The permissions attached to the UserRole can be scoped down for each user or group using
   session policies.
 """
-function create_studio(
-    AuthMode,
-    DefaultS3Location,
-    EngineSecurityGroupId,
-    Name,
-    ServiceRole,
-    SubnetIds,
-    VpcId,
-    WorkspaceSecurityGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_studio(AuthMode, DefaultS3Location, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, VpcId, WorkspaceSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "CreateStudio",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AuthMode" => AuthMode,
-                    "DefaultS3Location" => DefaultS3Location,
-                    "EngineSecurityGroupId" => EngineSecurityGroupId,
-                    "Name" => Name,
-                    "ServiceRole" => ServiceRole,
-                    "SubnetIds" => SubnetIds,
-                    "VpcId" => VpcId,
-                    "WorkspaceSecurityGroupId" => WorkspaceSecurityGroupId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "DefaultS3Location"=>DefaultS3Location, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -376,40 +197,18 @@ a user or group to your EMR Studio.
   Studio User Role with Session Policies.
 - `studio_id`: The ID of the Amazon EMR Studio to which the user or group will be mapped.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity_id"`: The globally unique identifier (GUID) of the user or group from the
-  Amazon Web Services SSO Identity Store. For more information, see UserId and GroupId in the
-  Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId
-  must be specified, but not both.
-- `"identity_name"`: The name of the user or group. For more information, see UserName and
+# Keyword Parameters
+- `identity_id`: The globally unique identifier (GUID) of the user or group from the Amazon
+  Web Services SSO Identity Store. For more information, see UserId and GroupId in the Amazon
+  Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be
+  specified, but not both.
+- `identity_name`: The name of the user or group. For more information, see UserName and
   DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either
   IdentityName or IdentityId must be specified, but not both.
 """
-function create_studio_session_mapping(
-    IdentityType,
-    SessionPolicyArn,
-    StudioId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "CreateStudioSessionMapping",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityType" => IdentityType,
-                    "SessionPolicyArn" => SessionPolicyArn,
-                    "StudioId" => StudioId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -421,16 +220,9 @@ Deletes a security configuration.
 - `name`: The name of the security configuration.
 
 """
-function delete_security_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DeleteSecurityConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -442,18 +234,9 @@ Removes an Amazon EMR Studio from the Studio metadata store.
 - `studio_id`: The ID of the Amazon EMR Studio.
 
 """
-function delete_studio(
-    StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DeleteStudio",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StudioId" => StudioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -466,32 +249,18 @@ Removes a user or group from an Amazon EMR Studio.
   user or a group.
 - `studio_id`: The ID of the Amazon EMR Studio.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity_id"`: The globally unique identifier (GUID) of the user or group to remove
-  from the Amazon EMR Studio. For more information, see UserId and GroupId in the Amazon Web
+# Keyword Parameters
+- `identity_id`: The globally unique identifier (GUID) of the user or group to remove from
+  the Amazon EMR Studio. For more information, see UserId and GroupId in the Amazon Web
   Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be
   specified.
-- `"identity_name"`: The name of the user name or group to remove from the Amazon EMR
-  Studio. For more information, see UserName and DisplayName in the Amazon Web Services SSO
-  Store API Reference. Either IdentityName or IdentityId must be specified.
+- `identity_name`: The name of the user name or group to remove from the Amazon EMR Studio.
+  For more information, see UserName and DisplayName in the Amazon Web Services SSO Store API
+  Reference. Either IdentityName or IdentityId must be specified.
 """
-function delete_studio_session_mapping(
-    IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DeleteStudioSessionMapping",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("IdentityType" => IdentityType, "StudioId" => StudioId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -504,18 +273,9 @@ settings, and so on.
 - `cluster_id`: The identifier of the cluster to describe.
 
 """
-function describe_cluster(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -532,18 +292,15 @@ and completed in the last two weeks    Job flows created within the last two mon
 are in one of the following states: RUNNING, WAITING, SHUTTING_DOWN, STARTING    Amazon EMR
 can return a maximum of 512 job flow descriptions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"created_after"`: Return only job flows created after this date and time.
-- `"created_before"`: Return only job flows created before this date and time.
-- `"job_flow_ids"`: Return only job flows whose job flow ID is contained in this list.
-- `"job_flow_states"`: Return only job flows whose state is contained in this list.
+# Keyword Parameters
+- `created_after`: Return only job flows created after this date and time.
+- `created_before`: Return only job flows created before this date and time.
+- `job_flow_ids`: Return only job flows whose job flow ID is contained in this list.
+- `job_flow_states`: Return only job flows whose state is contained in this list.
 """
 function describe_job_flows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeJobFlows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return emr("DescribeJobFlows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -555,22 +312,9 @@ Provides details of a notebook execution.
 - `notebook_execution_id`: The unique identifier of the notebook execution.
 
 """
-function describe_notebook_execution(
-    NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeNotebookExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("NotebookExecutionId" => NotebookExecutionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -580,22 +324,14 @@ Provides EMR release label details, such as releases available the region where 
 request is run, and the available applications for a specific EMR release label. Can also
 list EMR release versions that support a specified version of Spark.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Reserved for future use. Currently set to null.
-- `"next_token"`: The pagination token. Reserved for future use. Currently set to null.
-- `"release_label"`: The target release label to be described.
+# Keyword Parameters
+- `max_results`: Reserved for future use. Currently set to null.
+- `next_token`: The pagination token. Reserved for future use. Currently set to null.
+- `release_label`: The target release label to be described.
 """
-function describe_release_label(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_release_label(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeReleaseLabel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DescribeReleaseLabel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -607,16 +343,9 @@ Provides the details of a security configuration by returning the configuration 
 - `name`: The name of the security configuration.
 
 """
-function describe_security_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeSecurityConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -629,22 +358,9 @@ Provides more detail about the cluster step.
 - `step_id`: The identifier of the step to describe.
 
 """
-function describe_step(
-    ClusterId, StepId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_step(ClusterId, StepId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeStep",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ClusterId" => ClusterId, "StepId" => StepId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -657,18 +373,9 @@ URL, and so on.
 - `studio_id`: The Amazon EMR Studio ID.
 
 """
-function describe_studio(
-    StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "DescribeStudio",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StudioId" => StudioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -681,18 +388,9 @@ Returns the auto-termination policy for an Amazon EMR cluster.
   policy will be fetched.
 
 """
-function get_auto_termination_policy(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "GetAutoTerminationPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("GetAutoTerminationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -703,16 +401,9 @@ account in the current Region. For more information see Configure Block Public A
 Amazon EMR in the Amazon EMR Management Guide.
 
 """
-function get_block_public_access_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_block_public_access_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "GetBlockPublicAccessConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("GetBlockPublicAccessConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -725,18 +416,9 @@ Fetches the attached managed scaling policy for an Amazon EMR cluster.
   be fetched.
 
 """
-function get_managed_scaling_policy(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "GetManagedScalingPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -748,31 +430,17 @@ Fetches mapping details for the specified Amazon EMR Studio and identity (user o
 - `identity_type`: Specifies whether the identity to fetch is a user or a group.
 - `studio_id`: The ID of the Amazon EMR Studio.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity_id"`: The globally unique identifier (GUID) of the user or group. For more
+# Keyword Parameters
+- `identity_id`: The globally unique identifier (GUID) of the user or group. For more
   information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API
   Reference. Either IdentityName or IdentityId must be specified.
-- `"identity_name"`: The name of the user or group to fetch. For more information, see
+- `identity_name`: The name of the user or group to fetch. For more information, see
   UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
   Either IdentityName or IdentityId must be specified.
 """
-function get_studio_session_mapping(
-    IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "GetStudioSessionMapping",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("IdentityType" => IdentityType, "StudioId" => StudioId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -783,22 +451,12 @@ Provides information about the bootstrap actions associated with a cluster.
 # Arguments
 - `cluster_id`: The cluster identifier for the bootstrap actions to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The pagination token that indicates the next set of results to retrieve.
+# Keyword Parameters
+- `marker`: The pagination token that indicates the next set of results to retrieve.
 """
-function list_bootstrap_actions(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_bootstrap_actions(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListBootstrapActions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -810,20 +468,17 @@ creation date and time or by status. This call returns a maximum of 50 clusters 
 order per call, but returns a marker to track the paging of the cluster list across
 multiple ListClusters calls.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cluster_states"`: The cluster state filters to apply when listing clusters. Clusters
-  that change state while this action runs may be not be returned as expected in the list of
+# Keyword Parameters
+- `cluster_states`: The cluster state filters to apply when listing clusters. Clusters that
+  change state while this action runs may be not be returned as expected in the list of
   clusters.
-- `"created_after"`: The creation date and time beginning value filter for listing clusters.
-- `"created_before"`: The creation date and time end value filter for listing clusters.
-- `"marker"`: The pagination token that indicates the next set of results to retrieve.
+- `created_after`: The creation date and time beginning value filter for listing clusters.
+- `created_before`: The creation date and time end value filter for listing clusters.
+- `marker`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return emr("ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -836,22 +491,12 @@ versions.
 # Arguments
 - `cluster_id`: The unique identifier of the cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The pagination token that indicates the next set of results to retrieve.
+# Keyword Parameters
+- `marker`: The pagination token that indicates the next set of results to retrieve.
 """
-function list_instance_fleets(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListInstanceFleets",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -862,22 +507,12 @@ Provides all available details about the instance groups in a cluster.
 # Arguments
 - `cluster_id`: The identifier of the cluster for which to list the instance groups.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The pagination token that indicates the next set of results to retrieve.
+# Keyword Parameters
+- `marker`: The pagination token that indicates the next set of results to retrieve.
 """
-function list_instance_groups(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListInstanceGroups",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -890,30 +525,19 @@ considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
 # Arguments
 - `cluster_id`: The identifier of the cluster for which to list the instances.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_fleet_id"`: The unique identifier of the instance fleet.
-- `"instance_fleet_type"`: The node type of the instance fleet. For example MASTER, CORE,
-  or TASK.
-- `"instance_group_id"`: The identifier of the instance group for which to list the
-  instances.
-- `"instance_group_types"`: The type of instance group for which to list the instances.
-- `"instance_states"`: A list of instance states that will filter the instances returned
-  with this request.
-- `"marker"`: The pagination token that indicates the next set of results to retrieve.
+# Keyword Parameters
+- `instance_fleet_id`: The unique identifier of the instance fleet.
+- `instance_fleet_type`: The node type of the instance fleet. For example MASTER, CORE, or
+  TASK.
+- `instance_group_id`: The identifier of the instance group for which to list the instances.
+- `instance_group_types`: The type of instance group for which to list the instances.
+- `instance_states`: A list of instance states that will filter the instances returned with
+  this request.
+- `marker`: The pagination token that indicates the next set of results to retrieve.
 """
-function list_instances(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_instances(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListInstances",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -924,14 +548,13 @@ criteria such as status, time range, and editor id. Returns a maximum of 50 note
 executions and a marker to track the paging of a longer notebook execution list across
 multiple ListNotebookExecution calls.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"editor_id"`: The unique ID of the editor associated with the notebook execution.
-- `"from"`: The beginning of time range filter for listing notebook executions. The default
+# Keyword Parameters
+- `editor_id`: The unique ID of the editor associated with the notebook execution.
+- `from`: The beginning of time range filter for listing notebook executions. The default
   is the timestamp of 30 days ago.
-- `"marker"`: The pagination token, returned by a previous ListNotebookExecutions call,
-  that indicates the start of the list for this ListNotebookExecutions call.
-- `"status"`: The status filter for listing notebook executions.    START_PENDING indicates
+- `marker`: The pagination token, returned by a previous ListNotebookExecutions call, that
+  indicates the start of the list for this ListNotebookExecutions call.
+- `status`: The status filter for listing notebook executions.    START_PENDING indicates
   that the cluster has received the execution request but execution has not begun.
   STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that
   the execution is being processed by the cluster.    FINISHING indicates that execution
@@ -942,19 +565,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   STOPPING indicates that the cluster is in the process of stopping the execution as a result
   of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because
   of a StopNotebookExecution request.
-- `"to"`: The end of time range filter for listing notebook executions. The default is the
+- `to`: The end of time range filter for listing notebook executions. The default is the
   current timestamp.
 """
-function list_notebook_executions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_notebook_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListNotebookExecutions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListNotebookExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -962,25 +578,21 @@ end
 
 Retrieves release labels of EMR services in the region where the API is called.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters the results of the request. Prefix specifies the prefix of release
+# Keyword Parameters
+- `filters`: Filters the results of the request. Prefix specifies the prefix of release
   labels to return. Application specifies the application (with/without version) of release
   labels to return.
-- `"max_results"`: Defines the maximum number of release labels to return in a single
+- `max_results`: Defines the maximum number of release labels to return in a single
   response. The default is 100.
-- `"next_token"`: Specifies the next page of results. If NextToken is not specified, which
-  is usually the case for the first request of ListReleaseLabels, the first page of results
-  are determined by other filtering parameters or by the latest version. The
-  ListReleaseLabels request fails if the identity (Amazon Web Services account ID) and all
-  filtering parameters are different from the original request, or if the NextToken is
-  expired or tampered with.
+- `next_token`: Specifies the next page of results. If NextToken is not specified, which is
+  usually the case for the first request of ListReleaseLabels, the first page of results are
+  determined by other filtering parameters or by the latest version. The ListReleaseLabels
+  request fails if the identity (Amazon Web Services account ID) and all filtering parameters
+  are different from the original request, or if the NextToken is expired or tampered with.
 """
 function list_release_labels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListReleaseLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return emr("ListReleaseLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -991,20 +603,12 @@ dates and times, and their names. This call returns a maximum of 50 clusters per
 returns a marker to track the paging of the cluster list across multiple
 ListSecurityConfigurations calls.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The pagination token that indicates the set of results to retrieve.
+# Keyword Parameters
+- `marker`: The pagination token that indicates the set of results to retrieve.
 """
-function list_security_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListSecurityConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListSecurityConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1019,26 +623,18 @@ next set of steps to retrieve.
 # Arguments
 - `cluster_id`: The identifier of the cluster for which to list the steps.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The maximum number of steps that a single ListSteps action returns is 50. To
+# Keyword Parameters
+- `marker`: The maximum number of steps that a single ListSteps action returns is 50. To
   return a longer list of steps, use multiple ListSteps actions along with the Marker
   parameter, which is a pagination token that indicates the next set of results to retrieve.
-- `"step_ids"`: The filter to limit the step list based on the identifier of the steps. You
+- `step_ids`: The filter to limit the step list based on the identifier of the steps. You
   can specify a maximum of ten Step IDs. The character constraint applies to the overall
   length of the array.
-- `"step_states"`: The filter to limit the step list based on certain states.
+- `step_states`: The filter to limit the step list based on certain states.
 """
 function list_steps(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListSteps",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1047,23 +643,15 @@ end
 Returns a list of all user or group session mappings for the Amazon EMR Studio specified by
 StudioId.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity_type"`: Specifies whether to return session mappings for users or groups. If
-  not specified, the results include session mapping details for both users and groups.
-- `"marker"`: The pagination token that indicates the set of results to retrieve.
-- `"studio_id"`: The ID of the Amazon EMR Studio.
+# Keyword Parameters
+- `identity_type`: Specifies whether to return session mappings for users or groups. If not
+  specified, the results include session mapping details for both users and groups.
+- `marker`: The pagination token that indicates the set of results to retrieve.
+- `studio_id`: The ID of the Amazon EMR Studio.
 """
-function list_studio_session_mappings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_studio_session_mappings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListStudioSessionMappings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ListStudioSessionMappings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1072,15 +660,12 @@ end
 Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account.
 The list includes details such as ID, Studio Access URL, and creation time for each Studio.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The pagination token that indicates the set of results to retrieve.
+# Keyword Parameters
+- `marker`: The pagination token that indicates the set of results to retrieve.
 """
 function list_studios(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ListStudios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return emr("ListStudios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1092,25 +677,15 @@ using ClusterID.
 # Arguments
 - `cluster_id`: The unique identifier of the cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"step_concurrency_level"`: The number of steps that can be executed concurrently. You
-  can specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not
-  change this parameter while steps are running or the ActionOnFailure setting may not behave
-  as expected. For more information see StepActionOnFailure.
+# Keyword Parameters
+- `step_concurrency_level`: The number of steps that can be executed concurrently. You can
+  specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change
+  this parameter while steps are running or the ActionOnFailure setting may not behave as
+  expected. For more information see StepActionOnFailure.
 """
-function modify_cluster(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ModifyCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1126,24 +701,9 @@ EMR versions 4.8.0 and later, excluding 5.0.x versions.
 - `instance_fleet`: The configuration parameters of the instance fleet.
 
 """
-function modify_instance_fleet(
-    ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ModifyInstanceFleet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterId" => ClusterId, "InstanceFleet" => InstanceFleet
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1153,21 +713,13 @@ ModifyInstanceGroups modifies the number of nodes and configuration settings of 
 group. The input parameters include the new target instance count for the group and the
 instance group ID. The call will either succeed or fail atomically.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cluster_id"`: The ID of the cluster to which the instance group belongs.
-- `"instance_groups"`: Instance groups to change.
+# Keyword Parameters
+- `cluster_id`: The ID of the cluster to which the instance group belongs.
+- `instance_groups`: Instance groups to change.
 """
-function modify_instance_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_instance_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "ModifyInstanceGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("ModifyInstanceGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1186,30 +738,9 @@ metric.
   scaling policy is applied.
 
 """
-function put_auto_scaling_policy(
-    AutoScalingPolicy,
-    ClusterId,
-    InstanceGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "PutAutoScalingPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AutoScalingPolicy" => AutoScalingPolicy,
-                    "ClusterId" => ClusterId,
-                    "InstanceGroupId" => InstanceGroupId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1224,23 +755,12 @@ termination.
 - `cluster_id`: Specifies the ID of the Amazon EMR cluster to which the auto-termination
   policy will be attached.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_termination_policy"`: Specifies the auto-termination policy to attach to the
-  cluster.
+# Keyword Parameters
+- `auto_termination_policy`: Specifies the auto-termination policy to attach to the cluster.
 """
-function put_auto_termination_policy(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "PutAutoTerminationPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("PutAutoTerminationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1266,26 +786,9 @@ Access for Amazon EMR in the Amazon EMR Management Guide.
   by default in that Region.
 
 """
-function put_block_public_access_configuration(
-    BlockPublicAccessConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_block_public_access_configuration(BlockPublicAccessConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "PutBlockPublicAccessConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BlockPublicAccessConfiguration" => BlockPublicAccessConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1302,27 +805,9 @@ node cannot be scaled after initial configuration.
 - `managed_scaling_policy`: Specifies the constraints for the managed scaling policy.
 
 """
-function put_managed_scaling_policy(
-    ClusterId,
-    ManagedScalingPolicy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_managed_scaling_policy(ClusterId, ManagedScalingPolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "PutManagedScalingPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterId" => ClusterId, "ManagedScalingPolicy" => ManagedScalingPolicy
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1337,24 +822,9 @@ Removes an automatic scaling policy from a specified instance group within an EM
   is applied.
 
 """
-function remove_auto_scaling_policy(
-    ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_auto_scaling_policy(ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "RemoveAutoScalingPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterId" => ClusterId, "InstanceGroupId" => InstanceGroupId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1367,18 +837,9 @@ Removes an auto-termination policy from an Amazon EMR cluster.
   policy will be removed.
 
 """
-function remove_auto_termination_policy(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_auto_termination_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "RemoveAutoTerminationPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("RemoveAutoTerminationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1391,18 +852,9 @@ end
   be removed.
 
 """
-function remove_managed_scaling_policy(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "RemoveManagedScalingPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1419,22 +871,9 @@ following example removes the stack tag with value Prod from a cluster:
 - `tag_keys`: A list of tag keys to remove from the resource.
 
 """
-function remove_tags(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "RemoveTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1463,48 +902,47 @@ not both.
 - `instances`: A specification of the number and type of Amazon EC2 instances.
 - `name`: The name of the job flow.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"additional_info"`: A JSON string for selecting additional features.
-- `"ami_version"`: Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR
+# Keyword Parameters
+- `additional_info`: A JSON string for selecting additional features.
+- `ami_version`: Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR
   releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
-- `"applications"`: Applies to Amazon EMR releases 4.0 and later. A case-insensitive list
-  of applications for Amazon EMR to install and configure when launching the cluster. For a
-  list of applications available for each Amazon EMR release version, see the Amazon EMR
-  Release Guide.
-- `"auto_scaling_role"`: An IAM role for automatic scaling policies. The default role is
+- `applications`: Applies to Amazon EMR releases 4.0 and later. A case-insensitive list of
+  applications for Amazon EMR to install and configure when launching the cluster. For a list
+  of applications available for each Amazon EMR release version, see the Amazon EMR Release
+  Guide.
+- `auto_scaling_role`: An IAM role for automatic scaling policies. The default role is
   EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling
   feature requires to launch and terminate EC2 instances in an instance group.
-- `"auto_termination_policy"`:
-- `"bootstrap_actions"`: A list of bootstrap actions to run before Hadoop starts on the
+- `auto_termination_policy`:
+- `bootstrap_actions`: A list of bootstrap actions to run before Hadoop starts on the
   cluster nodes.
-- `"configurations"`: For Amazon EMR releases 4.0 and later. The list of configurations
+- `configurations`: For Amazon EMR releases 4.0 and later. The list of configurations
   supplied for the EMR cluster you are creating.
-- `"custom_ami_id"`: Available only in Amazon EMR version 5.7.0 and later. The ID of a
-  custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches
+- `custom_ami_id`: Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
+  Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches
   cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a
   Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux
   AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion
   instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed
   Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For
   information about finding an AMI ID, see Finding a Linux AMI.
-- `"ebs_root_volume_size"`: The size, in GiB, of the Amazon EBS root device volume of the
+- `ebs_root_volume_size`: The size, in GiB, of the Amazon EBS root device volume of the
   Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-- `"job_flow_role"`: Also called instance profile and EC2 role. An IAM role for an EMR
+- `job_flow_role`: Also called instance profile and EC2 role. An IAM role for an EMR
   cluster. The EC2 instances of the cluster assume this role. The default role is
   EMR_EC2_DefaultRole. In order to use the default role, you must have already created it
   using the CLI or console.
-- `"kerberos_attributes"`: Attributes for Kerberos configuration when Kerberos
-  authentication is enabled using a security configuration. For more information see Use
-  Kerberos Authentication in the Amazon EMR Management Guide.
-- `"log_encryption_kms_key_id"`: The KMS key used for encrypting log files. If a value is
-  not provided, the logs remain encrypted by AES-256. This attribute is only available with
+- `kerberos_attributes`: Attributes for Kerberos configuration when Kerberos authentication
+  is enabled using a security configuration. For more information see Use Kerberos
+  Authentication in the Amazon EMR Management Guide.
+- `log_encryption_kms_key_id`: The KMS key used for encrypting log files. If a value is not
+  provided, the logs remain encrypted by AES-256. This attribute is only available with
   Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
-- `"log_uri"`: The location in Amazon S3 to write the log files of the job flow. If a value
+- `log_uri`: The location in Amazon S3 to write the log files of the job flow. If a value
   is not provided, logs are not created.
-- `"managed_scaling_policy"`:  The specified managed scaling policy for an Amazon EMR
+- `managed_scaling_policy`:  The specified managed scaling policy for an Amazon EMR
   cluster.
-- `"new_supported_products"`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases
+- `new_supported_products`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases
   4.x and later, use Applications.  A list of strings that indicates third-party software to
   use with the job flow that accepts a user argument list. EMR accepts and forwards the
   argument list to the corresponding installation script as bootstrap action arguments. For
@@ -1517,20 +955,20 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   \"hue\"- launch the cluster with Hue installed.   \"spark\" - launch the cluster with
   Apache Spark installed.   \"ganglia\" - launch the cluster with the Ganglia Monitoring
   System installed.
-- `"placement_group_configs"`: The specified placement group configuration for an Amazon
-  EMR cluster.
-- `"release_label"`: The Amazon EMR release label, which determines the version of
+- `placement_group_configs`: The specified placement group configuration for an Amazon EMR
+  cluster.
+- `release_label`: The Amazon EMR release label, which determines the version of
   open-source application packages installed on the cluster. Release labels are in the form
   emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more
   information about Amazon EMR release versions and included application versions and
   features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label
   applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
-- `"repo_upgrade_on_boot"`: Applies only when CustomAmiID is used. Specifies which updates
+- `repo_upgrade_on_boot`: Applies only when CustomAmiID is used. Specifies which updates
   from the Amazon Linux AMI package repositories to apply automatically when the instance
   boots using the AMI. If omitted, the default is SECURITY, which indicates that only
   security updates are applied. If NONE is specified, no updates are applied, and all updates
   must be applied manually.
-- `"scale_down_behavior"`: Specifies the way that individual Amazon EC2 instances terminate
+- `scale_down_behavior`: Specifies the way that individual Amazon EC2 instances terminate
   when an automatic scale-in activity occurs or an instance group is resized.
   TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour
   boundary, regardless of when the request to terminate the instance was submitted. This
@@ -1541,20 +979,19 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   removes the least active nodes first and blocks instance termination if it could lead to
   HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0
   and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-- `"security_configuration"`: The name of a security configuration to apply to the cluster.
-- `"service_role"`: The IAM role that Amazon EMR assumes in order to access Amazon Web
+- `security_configuration`: The name of a security configuration to apply to the cluster.
+- `service_role`: The IAM role that Amazon EMR assumes in order to access Amazon Web
   Services resources on your behalf.
-- `"step_concurrency_level"`: Specifies the number of steps that can be executed
+- `step_concurrency_level`: Specifies the number of steps that can be executed
   concurrently. The default value is 1. The maximum value is 256.
-- `"steps"`: A list of steps to run.
-- `"supported_products"`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x
+- `steps`: A list of steps to run.
+- `supported_products`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x
   and later, use Applications.  A list of strings that indicates third-party software to use.
   For more information, see the Amazon EMR Developer Guide. Currently supported values are:
   \"mapr-m3\" - launch the job flow using MapR M3 Edition.   \"mapr-m5\" - launch the job
   flow using MapR M5 Edition.
-- `"tags"`: A list of tags to associate with a cluster and propagate to Amazon EC2
-  instances.
-- `"visible_to_all_users"`: Set this value to true so that IAM principals in the Amazon Web
+- `tags`: A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
+- `visible_to_all_users`: Set this value to true so that IAM principals in the Amazon Web
   Services account associated with the cluster can perform EMR actions on the cluster that
   their IAM policies allow. This value defaults to true for clusters created using the EMR
   API or the CLI create-cluster command. When set to false, only the IAM principal that
@@ -1563,20 +1000,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   principals. For more information, see Understanding the EMR Cluster VisibleToAllUsers
   Setting in the Amazon EMRManagement Guide.
 """
-function run_job_flow(
-    Instances, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "RunJobFlow",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Instances" => Instances, "Name" => Name), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1602,28 +1028,9 @@ seeManaging Cluster Termination in the Amazon EMR Management Guide.
   intervention, or job-flow error.
 
 """
-function set_termination_protection(
-    JobFlowIds,
-    TerminationProtected;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_termination_protection(JobFlowIds, TerminationProtected; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "SetTerminationProtection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "JobFlowIds" => JobFlowIds,
-                    "TerminationProtected" => TerminationProtected,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1646,27 +1053,9 @@ Amazon EMRManagement Guide.
   the cluster and the Amazon Web Services root user can perform EMR actions on the cluster.
 
 """
-function set_visible_to_all_users(
-    JobFlowIds,
-    VisibleToAllUsers;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "SetVisibleToAllUsers",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "JobFlowIds" => JobFlowIds, "VisibleToAllUsers" => VisibleToAllUsers
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1689,43 +1078,19 @@ Starts a notebook execution.
 - `service_role`: The name or ARN of the IAM role that is used as the service role for
   Amazon EMR (the EMR role) for the notebook execution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"notebook_execution_name"`: An optional name for the notebook execution.
-- `"notebook_instance_security_group_id"`: The unique identifier of the Amazon EC2 security
+# Keyword Parameters
+- `notebook_execution_name`: An optional name for the notebook execution.
+- `notebook_instance_security_group_id`: The unique identifier of the Amazon EC2 security
   group to associate with the EMR Notebook for this notebook execution.
-- `"notebook_params"`: Input parameters in JSON format passed to the EMR Notebook at
-  runtime for execution.
-- `"tags"`: A list of tags associated with a notebook execution. Tags are user-defined
+- `notebook_params`: Input parameters in JSON format passed to the EMR Notebook at runtime
+  for execution.
+- `tags`: A list of tags associated with a notebook execution. Tags are user-defined
   key-value pairs that consist of a required key string with a maximum of 128 characters and
   an optional value string with a maximum of 256 characters.
 """
-function start_notebook_execution(
-    EditorId,
-    ExecutionEngine,
-    RelativePath,
-    ServiceRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "StartNotebookExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EditorId" => EditorId,
-                    "ExecutionEngine" => ExecutionEngine,
-                    "RelativePath" => RelativePath,
-                    "ServiceRole" => ServiceRole,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1737,22 +1102,9 @@ Stops a notebook execution.
 - `notebook_execution_id`: The unique identifier of the notebook execution.
 
 """
-function stop_notebook_execution(
-    NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "StopNotebookExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("NotebookExecutionId" => NotebookExecutionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1770,18 +1122,9 @@ allocated resources, such as Amazon EC2 instances.
 - `job_flow_ids`: A list of job flows to be shut down.
 
 """
-function terminate_job_flows(
-    JobFlowIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "TerminateJobFlows",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("JobFlowIds" => JobFlowIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1793,29 +1136,19 @@ and subnets.
 # Arguments
 - `studio_id`: The ID of the Amazon EMR Studio to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_s3_location"`: The Amazon S3 location to back up Workspaces and notebook files
+# Keyword Parameters
+- `default_s3_location`: The Amazon S3 location to back up Workspaces and notebook files
   for the Amazon EMR Studio.
-- `"description"`: A detailed description to assign to the Amazon EMR Studio.
-- `"name"`: A descriptive name for the Amazon EMR Studio.
-- `"subnet_ids"`: A list of subnet IDs to associate with the Amazon EMR Studio. The list
-  can include new subnet IDs, but must also include all of the subnet IDs previously
-  associated with the Studio. The list order does not matter. A Studio can have a maximum of
-  5 subnets. The subnets must belong to the same VPC as the Studio.
+- `description`: A detailed description to assign to the Amazon EMR Studio.
+- `name`: A descriptive name for the Amazon EMR Studio.
+- `subnet_ids`: A list of subnet IDs to associate with the Amazon EMR Studio. The list can
+  include new subnet IDs, but must also include all of the subnet IDs previously associated
+  with the Studio. The list order does not matter. A Studio can have a maximum of 5 subnets.
+  The subnets must belong to the same VPC as the Studio.
 """
-function update_studio(
-    StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "UpdateStudio",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StudioId" => StudioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("UpdateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1830,37 +1163,15 @@ Studio.
   with the specified user or group.
 - `studio_id`: The ID of the Amazon EMR Studio.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity_id"`: The globally unique identifier (GUID) of the user or group. For more
+# Keyword Parameters
+- `identity_id`: The globally unique identifier (GUID) of the user or group. For more
   information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API
   Reference. Either IdentityName or IdentityId must be specified.
-- `"identity_name"`: The name of the user or group to update. For more information, see
+- `identity_name`: The name of the user or group to update. For more information, see
   UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
   Either IdentityName or IdentityId must be specified.
 """
-function update_studio_session_mapping(
-    IdentityType,
-    SessionPolicyArn,
-    StudioId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr(
-        "UpdateStudioSessionMapping",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityType" => IdentityType,
-                    "SessionPolicyArn" => SessionPolicyArn,
-                    "StudioId" => StudioId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

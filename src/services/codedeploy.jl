@@ -4,61 +4,8 @@ using AWS.AWSServices: codedeploy
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "revision" => "revision",
-    "on_premises_instance_tag_filters" => "onPremisesInstanceTagFilters",
-    "include_only_statuses" => "includeOnlyStatuses",
-    "sort_order" => "sortOrder",
-    "instance_type_filter" => "instanceTypeFilter",
-    "deployment_style" => "deploymentStyle",
-    "deployment_id" => "deploymentId",
-    "s3_key_prefix" => "s3KeyPrefix",
-    "token_name" => "tokenName",
-    "target_instances" => "targetInstances",
-    "target_ids" => "targetIds",
-    "file_exists_behavior" => "fileExistsBehavior",
-    "new_deployment_group_name" => "newDeploymentGroupName",
-    "external_id" => "externalId",
-    "ecs_services" => "ecsServices",
-    "traffic_routing_config" => "trafficRoutingConfig",
-    "create_time_range" => "createTimeRange",
-    "s3_bucket" => "s3Bucket",
-    "auto_rollback_enabled" => "autoRollbackEnabled",
-    "deployment_config_name" => "deploymentConfigName",
-    "compute_platform" => "computePlatform",
-    "tag_filters" => "tagFilters",
-    "minimum_healthy_hosts" => "minimumHealthyHosts",
-    "blue_green_deployment_configuration" => "blueGreenDeploymentConfiguration",
-    "deployment_wait_type" => "deploymentWaitType",
-    "auto_scaling_groups" => "autoScalingGroups",
-    "target_id" => "targetId",
-    "next_token" => "nextToken",
-    "application_name" => "applicationName",
-    "service_role_arn" => "serviceRoleArn",
-    "update_outdated_instances_only" => "updateOutdatedInstancesOnly",
-    "ignore_application_stop_failures" => "ignoreApplicationStopFailures",
-    "iam_user_arn" => "iamUserArn",
-    "tags" => "tags",
-    "alarm_configuration" => "alarmConfiguration",
-    "on_premises_tag_set" => "onPremisesTagSet",
-    "target_filters" => "targetFilters",
-    "trigger_configurations" => "triggerConfigurations",
-    "new_application_name" => "newApplicationName",
-    "ec2_tag_filters" => "ec2TagFilters",
-    "lifecycle_event_hook_execution_id" => "lifecycleEventHookExecutionId",
-    "status" => "status",
-    "sort_by" => "sortBy",
-    "deployment_group_name" => "deploymentGroupName",
-    "registration_status" => "registrationStatus",
-    "description" => "description",
-    "outdated_instances_strategy" => "outdatedInstancesStrategy",
-    "deployed" => "deployed",
-    "instance_status_filter" => "instanceStatusFilter",
-    "auto_rollback_configuration" => "autoRollbackConfiguration",
-    "load_balancer_info" => "loadBalancerInfo",
-    "ec2_tag_set" => "ec2TagSet",
-    "iam_session_arn" => "iamSessionArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("deployment_id" => "deploymentId", "target_id" => "targetId", "token_name" => "tokenName", "compute_platform" => "computePlatform", "tags" => "tags", "next_token" => "nextToken", "application_name" => "applicationName", "create_time_range" => "createTimeRange", "deployment_group_name" => "deploymentGroupName", "external_id" => "externalId", "include_only_statuses" => "includeOnlyStatuses", "auto_rollback_configuration" => "autoRollbackConfiguration", "deployment_config_name" => "deploymentConfigName", "description" => "description", "file_exists_behavior" => "fileExistsBehavior", "ignore_application_stop_failures" => "ignoreApplicationStopFailures", "revision" => "revision", "target_instances" => "targetInstances", "update_outdated_instances_only" => "updateOutdatedInstancesOnly", "target_ids" => "targetIds", "deployment_wait_type" => "deploymentWaitType", "target_filters" => "targetFilters", "auto_rollback_enabled" => "autoRollbackEnabled", "alarm_configuration" => "alarmConfiguration", "auto_scaling_groups" => "autoScalingGroups", "blue_green_deployment_configuration" => "blueGreenDeploymentConfiguration", "deployment_style" => "deploymentStyle", "ec2_tag_filters" => "ec2TagFilters", "ec2_tag_set" => "ec2TagSet", "ecs_services" => "ecsServices", "load_balancer_info" => "loadBalancerInfo", "on_premises_instance_tag_filters" => "onPremisesInstanceTagFilters", "on_premises_tag_set" => "onPremisesTagSet", "outdated_instances_strategy" => "outdatedInstancesStrategy", "trigger_configurations" => "triggerConfigurations", "new_application_name" => "newApplicationName", "instance_status_filter" => "instanceStatusFilter", "instance_type_filter" => "instanceTypeFilter", "lifecycle_event_hook_execution_id" => "lifecycleEventHookExecutionId", "status" => "status", "minimum_healthy_hosts" => "minimumHealthyHosts", "traffic_routing_config" => "trafficRoutingConfig", "new_deployment_group_name" => "newDeploymentGroupName", "service_role_arn" => "serviceRoleArn", "registration_status" => "registrationStatus", "tag_filters" => "tagFilters", "iam_session_arn" => "iamSessionArn", "iam_user_arn" => "iamUserArn", "deployed" => "deployed", "s3_bucket" => "s3Bucket", "s3_key_prefix" => "s3KeyPrefix", "sort_by" => "sortBy", "sort_order" => "sortOrder")
 
 """
     add_tags_to_on_premises_instances(instance_names, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -71,22 +18,9 @@ Adds tags to on-premises instances.
   both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
 
 """
-function add_tags_to_on_premises_instances(
-    instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags_to_on_premises_instances(instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "AddTagsToOnPremisesInstances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceNames" => instanceNames, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("AddTagsToOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -103,24 +37,9 @@ revisions that can be returned is 25.
   RevisionLocation objects you can specify is 25.
 
 """
-function batch_get_application_revisions(
-    applicationName, revisions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_application_revisions(applicationName, revisions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetApplicationRevisions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName, "revisions" => revisions
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetApplicationRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revisions"=>revisions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -134,20 +53,9 @@ can be returned is 100.
   of application names you can specify is 100.
 
 """
-function batch_get_applications(
-    applicationNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_applications(applicationNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetApplications",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationNames" => applicationNames), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetApplications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationNames"=>applicationNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -161,28 +69,9 @@ Gets information about one or more deployment groups.
 - `deployment_group_names`: The names of the deployment groups.
 
 """
-function batch_get_deployment_groups(
-    applicationName,
-    deploymentGroupNames;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_get_deployment_groups(applicationName, deploymentGroupNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetDeploymentGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName,
-                    "deploymentGroupNames" => deploymentGroupNames,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetDeploymentGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupNames"=>deploymentGroupNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -199,24 +88,9 @@ with all compute platforms. The maximum number of instances that can be returned
   instance IDs you can specify is 25.
 
 """
-function batch_get_deployment_instances(
-    deploymentId, instanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_deployment_instances(deploymentId, instanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetDeploymentInstances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "deploymentId" => deploymentId, "instanceIds" => instanceIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetDeploymentInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "instanceIds"=>instanceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,10 +105,9 @@ about Lambda functions targets.     Amazon ECS: Information about Amazon ECS ser
 targets.     CloudFormation: Information about targets of blue/green deployments initiated
 by a CloudFormation stack update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_id"`:  The unique ID of a deployment.
-- `"target_ids"`:  The unique IDs of the deployment targets. The compute platform of the
+# Keyword Parameters
+- `deployment_id`:  The unique ID of a deployment.
+- `target_ids`:  The unique IDs of the deployment targets. The compute platform of the
   deployment determines the type of the targets and their formats. The maximum number of
   deployment target IDs you can specify is 25.    For deployments that use the
   EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs, and
@@ -246,16 +119,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   deployments that are deployed with AWS CloudFormation, the target IDs are CloudFormation
   stack IDs. Their target type is cloudFormationTarget.
 """
-function batch_get_deployment_targets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetDeploymentTargets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetDeploymentTargets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -269,18 +135,9 @@ be returned is 25.
   deployment IDs you can specify is 25.
 
 """
-function batch_get_deployments(
-    deploymentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_deployments(deploymentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetDeployments",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("deploymentIds" => deploymentIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentIds"=>deploymentIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -294,18 +151,9 @@ instances that can be returned is 25.
   The maximum number of instance names you can specify is 25.
 
 """
-function batch_get_on_premises_instances(
-    instanceNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_on_premises_instances(instanceNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "BatchGetOnPremisesInstances",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceNames" => instanceNames), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("BatchGetOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -317,19 +165,16 @@ specified wait time to elapse. (Traffic rerouting, which is achieved by register
 instances in the replacement environment with the load balancer, can start as soon as all
 instances have a status of Ready.)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_id"`:  The unique ID of a blue/green deployment for which you want to start
+# Keyword Parameters
+- `deployment_id`:  The unique ID of a blue/green deployment for which you want to start
   rerouting traffic to the replacement environment.
-- `"deployment_wait_type"`:  The status of the deployment's waiting period. READY_WAIT
+- `deployment_wait_type`:  The status of the deployment's waiting period. READY_WAIT
   indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT
   indicates that the traffic is shifted, but the original target is not terminated.
 """
 function continue_deployment(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ContinueDeployment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codedeploy("ContinueDeployment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -341,28 +186,16 @@ Creates an application.
 - `application_name`: The name of the application. This name must be unique with the
   applicable IAM user or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compute_platform"`:  The destination platform type for the deployment (Lambda, Server,
-  or ECS).
-- `"tags"`:  The metadata that you apply to CodeDeploy applications to help you organize
-  and categorize them. Each tag consists of a key and an optional value, both of which you
+# Keyword Parameters
+- `compute_platform`:  The destination platform type for the deployment (Lambda, Server, or
+  ECS).
+- `tags`:  The metadata that you apply to CodeDeploy applications to help you organize and
+  categorize them. Each tag consists of a key and an optional value, both of which you
   define.
 """
-function create_application(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "CreateApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationName" => applicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -374,24 +207,23 @@ Deploys an application revision through the specified deployment group.
 - `application_name`: The name of an AWS CodeDeploy application associated with the IAM
   user or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_rollback_configuration"`: Configuration information for an automatic rollback that
+# Keyword Parameters
+- `auto_rollback_configuration`: Configuration information for an automatic rollback that
   is added when a deployment is created.
-- `"deployment_config_name"`: The name of a deployment configuration associated with the
-  IAM user or AWS account. If not specified, the value configured in the deployment group is
-  used as the default. If the deployment group does not have a deployment configuration
-  associated with it, CodeDeployDefault.OneAtATime is used by default.
-- `"deployment_group_name"`: The name of the deployment group.
-- `"description"`: A comment about the deployment.
-- `"file_exists_behavior"`: Information about how AWS CodeDeploy handles files that already
+- `deployment_config_name`: The name of a deployment configuration associated with the IAM
+  user or AWS account. If not specified, the value configured in the deployment group is used
+  as the default. If the deployment group does not have a deployment configuration associated
+  with it, CodeDeployDefault.OneAtATime is used by default.
+- `deployment_group_name`: The name of the deployment group.
+- `description`: A comment about the deployment.
+- `file_exists_behavior`: Information about how AWS CodeDeploy handles files that already
   exist in a deployment target location but weren't part of the previous successful
   deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW:
   The deployment fails. This is also the default behavior if no option is specified.
   OVERWRITE: The version of the file from the application revision currently being deployed
   replaces the version already on the instance.   RETAIN: The version of the file already on
   the instance is kept and used as part of the new deployment.
-- `"ignore_application_stop_failures"`:  If true, then if an ApplicationStop,
+- `ignore_application_stop_failures`:  If true, then if an ApplicationStop,
   BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails,
   then the deployment continues to the next deployment lifecycle event. For example, if
   ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic
@@ -408,26 +240,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   last successful deployment that will never run successfully, create a new deployment and
   use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic,
   and AfterBlockTraffic failures should be ignored.
-- `"revision"`:  The type and location of the revision to deploy.
-- `"target_instances"`:  Information about the instances that belong to the replacement
+- `revision`:  The type and location of the revision to deploy.
+- `target_instances`:  Information about the instances that belong to the replacement
   environment in a blue/green deployment.
-- `"update_outdated_instances_only"`:  Indicates whether to deploy to all instances or only
+- `update_outdated_instances_only`:  Indicates whether to deploy to all instances or only
   to instances that are not running the latest application revision.
 """
-function create_deployment(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_deployment(applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "CreateDeployment",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationName" => applicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -438,39 +259,25 @@ end
 # Arguments
 - `deployment_config_name`: The name of the deployment configuration to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compute_platform"`: The destination platform type for the deployment (Lambda, Server,
-  or ECS).
-- `"minimum_healthy_hosts"`: The minimum number of healthy instances that should be
-  available at any time during the deployment. There are two parameters expected in the
-  input: type and value. The type parameter takes either of the following values:
-  HOST_COUNT: The value parameter represents the minimum number of healthy instances as an
-  absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of
-  healthy instances as a percentage of the total number of instances in the deployment. If
-  you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the
-  percentage to the equivalent number of instances and rounds up fractional instances.   The
-  value parameter takes an integer. For example, to set a minimum of 95% healthy instance,
-  specify a type of FLEET_PERCENT and a value of 95.
-- `"traffic_routing_config"`: The configuration that specifies how the deployment traffic
-  is routed.
+# Keyword Parameters
+- `compute_platform`: The destination platform type for the deployment (Lambda, Server, or
+  ECS).
+- `minimum_healthy_hosts`: The minimum number of healthy instances that should be available
+  at any time during the deployment. There are two parameters expected in the input: type and
+  value. The type parameter takes either of the following values:   HOST_COUNT: The value
+  parameter represents the minimum number of healthy instances as an absolute value.
+  FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a
+  percentage of the total number of instances in the deployment. If you specify
+  FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to
+  the equivalent number of instances and rounds up fractional instances.   The value
+  parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify
+  a type of FLEET_PERCENT and a value of 95.
+- `traffic_routing_config`: The configuration that specifies how the deployment traffic is
+  routed.
 """
-function create_deployment_config(
-    deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_deployment_config(deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "CreateDeploymentConfig",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("deploymentConfigName" => deploymentConfigName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("CreateDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -485,78 +292,55 @@ Creates a deployment group to which application revisions are deployed.
 - `service_role_arn`: A service role Amazon Resource Name (ARN) that allows AWS CodeDeploy
   to act on the user's behalf when interacting with AWS services.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alarm_configuration"`: Information to add about Amazon CloudWatch alarms when the
+# Keyword Parameters
+- `alarm_configuration`: Information to add about Amazon CloudWatch alarms when the
   deployment group is created.
-- `"auto_rollback_configuration"`: Configuration information for an automatic rollback that
+- `auto_rollback_configuration`: Configuration information for an automatic rollback that
   is added when a deployment group is created.
-- `"auto_scaling_groups"`: A list of associated Amazon EC2 Auto Scaling groups.
-- `"blue_green_deployment_configuration"`: Information about blue/green deployment options
+- `auto_scaling_groups`: A list of associated Amazon EC2 Auto Scaling groups.
+- `blue_green_deployment_configuration`: Information about blue/green deployment options
   for a deployment group.
-- `"deployment_config_name"`: If specified, the deployment configuration name can be either
+- `deployment_config_name`: If specified, the deployment configuration name can be either
   one of the predefined configurations provided with AWS CodeDeploy or a custom deployment
   configuration that you create by calling the create deployment configuration operation.
   CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a
   configuration isn't specified for the deployment or deployment group. For more information
   about the predefined deployment configurations in AWS CodeDeploy, see Working with
   Deployment Configurations in CodeDeploy in the AWS CodeDeploy User Guide.
-- `"deployment_style"`: Information about the type of deployment, in-place or blue/green,
+- `deployment_style`: Information about the type of deployment, in-place or blue/green,
   that you want to run and whether to route deployment traffic behind a load balancer.
-- `"ec2_tag_filters"`: The Amazon EC2 tags on which to filter. The deployment group
-  includes EC2 instances with any of the specified tags. Cannot be used in the same call as
-  ec2TagSet.
-- `"ec2_tag_set"`: Information about groups of tags applied to EC2 instances. The
-  deployment group includes only EC2 instances identified by all the tag groups. Cannot be
-  used in the same call as ec2TagFilters.
-- `"ecs_services"`:  The target Amazon ECS services in the deployment group. This applies
+- `ec2_tag_filters`: The Amazon EC2 tags on which to filter. The deployment group includes
+  EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
+- `ec2_tag_set`: Information about groups of tags applied to EC2 instances. The deployment
+  group includes only EC2 instances identified by all the tag groups. Cannot be used in the
+  same call as ec2TagFilters.
+- `ecs_services`:  The target Amazon ECS services in the deployment group. This applies
   only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS
   service is specified as an Amazon ECS cluster and service name pair using the format
   &lt;clustername&gt;:&lt;servicename&gt;.
-- `"load_balancer_info"`: Information about the load balancer used in a deployment.
-- `"on_premises_instance_tag_filters"`: The on-premises instance tags on which to filter.
-  The deployment group includes on-premises instances with any of the specified tags. Cannot
-  be used in the same call as OnPremisesTagSet.
-- `"on_premises_tag_set"`: Information about groups of tags applied to on-premises
-  instances. The deployment group includes only on-premises instances identified by all of
-  the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
-- `"outdated_instances_strategy"`: Indicates what happens when new EC2 instances are
-  launched mid-deployment and do not receive the deployed application revision. If this
-  option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update
-  outdated instances' deployments to apply the deployed application revision to the new EC2
-  instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to
-  update the new EC2 instances. This may result in instances having different revisions.
-- `"tags"`:  The metadata that you apply to CodeDeploy deployment groups to help you
-  organize and categorize them. Each tag consists of a key and an optional value, both of
-  which you define.
-- `"trigger_configurations"`: Information about triggers to create when the deployment
-  group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS
+- `load_balancer_info`: Information about the load balancer used in a deployment.
+- `on_premises_instance_tag_filters`: The on-premises instance tags on which to filter. The
+  deployment group includes on-premises instances with any of the specified tags. Cannot be
+  used in the same call as OnPremisesTagSet.
+- `on_premises_tag_set`: Information about groups of tags applied to on-premises instances.
+  The deployment group includes only on-premises instances identified by all of the tag
+  groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
+- `outdated_instances_strategy`: Indicates what happens when new EC2 instances are launched
+  mid-deployment and do not receive the deployed application revision. If this option is set
+  to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated
+  instances' deployments to apply the deployed application revision to the new EC2 instances.
+  If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the
+  new EC2 instances. This may result in instances having different revisions.
+- `tags`:  The metadata that you apply to CodeDeploy deployment groups to help you organize
+  and categorize them. Each tag consists of a key and an optional value, both of which you
+  define.
+- `trigger_configurations`: Information about triggers to create when the deployment group
+  is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS
   CodeDeploy User Guide.
 """
-function create_deployment_group(
-    applicationName,
-    deploymentGroupName,
-    serviceRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_deployment_group(applicationName, deploymentGroupName, serviceRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "CreateDeploymentGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName,
-                    "deploymentGroupName" => deploymentGroupName,
-                    "serviceRoleArn" => serviceRoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("CreateDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName, "serviceRoleArn"=>serviceRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -569,20 +353,9 @@ Deletes an application.
   user or AWS account.
 
 """
-function delete_application(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "DeleteApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationName" => applicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -596,22 +369,9 @@ currently in use. Predefined configurations cannot be deleted.
   user or AWS account.
 
 """
-function delete_deployment_config(
-    deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_deployment_config(deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "DeleteDeploymentConfig",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("deploymentConfigName" => deploymentConfigName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("DeleteDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -625,28 +385,9 @@ Deletes a deployment group.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
-function delete_deployment_group(
-    applicationName,
-    deploymentGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_deployment_group(applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "DeleteDeploymentGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName,
-                    "deploymentGroupName" => deploymentGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("DeleteDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -654,20 +395,12 @@ end
 
 Deletes a GitHub account connection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"token_name"`: The name of the GitHub account connection to delete.
+# Keyword Parameters
+- `token_name`: The name of the GitHub account connection to delete.
 """
-function delete_git_hub_account_token(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_git_hub_account_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "DeleteGitHubAccountToken",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("DeleteGitHubAccountToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -675,21 +408,13 @@ end
 
 Deletes resources linked to an external ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"external_id"`: The unique ID of an external resource (for example, a CloudFormation
-  stack ID) that is linked to one or more CodeDeploy resources.
+# Keyword Parameters
+- `external_id`: The unique ID of an external resource (for example, a CloudFormation stack
+  ID) that is linked to one or more CodeDeploy resources.
 """
-function delete_resources_by_external_id(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_resources_by_external_id(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "DeleteResourcesByExternalId",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("DeleteResourcesByExternalId", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -701,18 +426,9 @@ Deregisters an on-premises instance.
 - `instance_name`: The name of the on-premises instance to deregister.
 
 """
-function deregister_on_premises_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "DeregisterOnPremisesInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("DeregisterOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -725,20 +441,9 @@ Gets information about an application.
   user or AWS account.
 
 """
-function get_application(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationName" => applicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -752,24 +457,9 @@ Gets information about an application revision.
   location.
 
 """
-function get_application_revision(
-    applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_application_revision(applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetApplicationRevision",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName, "revision" => revision
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetApplicationRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -784,18 +474,9 @@ the returned appSpecContent object to get the content of the deployment’s AppS
   account.
 
 """
-function get_deployment(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetDeployment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -808,22 +489,9 @@ Gets information about a deployment configuration.
   user or AWS account.
 
 """
-function get_deployment_config(
-    deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_deployment_config(deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetDeploymentConfig",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("deploymentConfigName" => deploymentConfigName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -837,28 +505,9 @@ Gets information about a deployment group.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
-function get_deployment_group(
-    applicationName,
-    deploymentGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_deployment_group(applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetDeploymentGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName,
-                    "deploymentGroupName" => deploymentGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -871,24 +520,9 @@ Gets information about an instance as part of a deployment.
 - `instance_id`:  The unique ID of an instance in the deployment group.
 
 """
-function get_deployment_instance(
-    deploymentId, instanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_deployment_instance(deploymentId, instanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetDeploymentInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "deploymentId" => deploymentId, "instanceId" => instanceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetDeploymentInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "instanceId"=>instanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -896,21 +530,13 @@ end
 
  Returns information about a deployment target.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_id"`:  The unique ID of a deployment.
-- `"target_id"`:  The unique ID of a deployment target.
+# Keyword Parameters
+- `deployment_id`:  The unique ID of a deployment.
+- `target_id`:  The unique ID of a deployment target.
 """
-function get_deployment_target(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_deployment_target(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetDeploymentTarget",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetDeploymentTarget", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -922,18 +548,9 @@ end
 - `instance_name`:  The name of the on-premises instance about which to get information.
 
 """
-function get_on_premises_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "GetOnPremisesInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("GetOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -945,41 +562,29 @@ Lists information about revisions for an application.
 - `application_name`:  The name of an AWS CodeDeploy application associated with the IAM
   user or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployed"`:  Whether to list revisions based on whether the revision is the target
+# Keyword Parameters
+- `deployed`:  Whether to list revisions based on whether the revision is the target
   revision of a deployment group:     include: List revisions that are target revisions of a
   deployment group.    exclude: Do not list revisions that are target revisions of a
   deployment group.    ignore: List all revisions.
-- `"next_token"`: An identifier returned from the previous ListApplicationRevisions call.
-  It can be used to return the next set of applications in the list.
-- `"s3_bucket"`:  An Amazon S3 bucket name to limit the search for revisions.   If set to
+- `next_token`: An identifier returned from the previous ListApplicationRevisions call. It
+  can be used to return the next set of applications in the list.
+- `s3_bucket`:  An Amazon S3 bucket name to limit the search for revisions.   If set to
   null, all of the user's buckets are searched.
-- `"s3_key_prefix"`:  A key prefix for the set of Amazon S3 objects to limit the search for
+- `s3_key_prefix`:  A key prefix for the set of Amazon S3 objects to limit the search for
   revisions.
-- `"sort_by"`: The column name to use to sort the list results:    registerTime: Sort by
-  the time the revisions were registered with AWS CodeDeploy.    firstUsedTime: Sort by the
-  time the revisions were first used in a deployment.    lastUsedTime: Sort by the time the
+- `sort_by`: The column name to use to sort the list results:    registerTime: Sort by the
+  time the revisions were registered with AWS CodeDeploy.    firstUsedTime: Sort by the time
+  the revisions were first used in a deployment.    lastUsedTime: Sort by the time the
   revisions were last used in a deployment.    If not specified or set to null, the results
   are returned in an arbitrary order.
-- `"sort_order"`:  The order in which to sort the list results:     ascending: ascending
+- `sort_order`:  The order in which to sort the list results:     ascending: ascending
   order.    descending: descending order.   If not specified, the results are sorted in
   ascending order. If set to null, the results are sorted in an arbitrary order.
 """
-function list_application_revisions(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_application_revisions(applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListApplicationRevisions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationName" => applicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListApplicationRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -987,16 +592,13 @@ end
 
 Lists the applications registered with the IAM user or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An identifier returned from the previous list applications call. It can
-  be used to return the next set of applications in the list.
+# Keyword Parameters
+- `next_token`: An identifier returned from the previous list applications call. It can be
+  used to return the next set of applications in the list.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codedeploy("ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1004,21 +606,13 @@ end
 
 Lists the deployment configurations with the IAM user or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An identifier returned from the previous ListDeploymentConfigs call. It
-  can be used to return the next set of deployment configurations in the list.
+# Keyword Parameters
+- `next_token`: An identifier returned from the previous ListDeploymentConfigs call. It can
+  be used to return the next set of deployment configurations in the list.
 """
-function list_deployment_configs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_deployment_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListDeploymentConfigs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListDeploymentConfigs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1030,25 +624,13 @@ Lists the deployment groups for an application registered with the IAM user or A
 - `application_name`: The name of an AWS CodeDeploy application associated with the IAM
   user or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An identifier returned from the previous list deployment groups call. It
+# Keyword Parameters
+- `next_token`: An identifier returned from the previous list deployment groups call. It
   can be used to return the next set of deployment groups in the list.
 """
-function list_deployment_groups(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_deployment_groups(applicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListDeploymentGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("applicationName" => applicationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListDeploymentGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1062,32 +644,22 @@ associated with the IAM user or AWS account.
 # Arguments
 - `deployment_id`:  The unique ID of a deployment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_status_filter"`: A subset of instances to list by status:    Pending: Include
+# Keyword Parameters
+- `instance_status_filter`: A subset of instances to list by status:    Pending: Include
   those instances with pending deployments.    InProgress: Include those instances where
   deployments are still in progress.    Succeeded: Include those instances with successful
   deployments.    Failed: Include those instances with failed deployments.    Skipped:
   Include those instances with skipped deployments.    Unknown: Include those instances with
   deployments in an unknown state.
-- `"instance_type_filter"`: The set of instances in a blue/green deployment, either those
-  in the original environment (\"BLUE\") or those in the replacement environment (\"GREEN\"),
+- `instance_type_filter`: The set of instances in a blue/green deployment, either those in
+  the original environment (\"BLUE\") or those in the replacement environment (\"GREEN\"),
   for which you want to view instance information.
-- `"next_token"`: An identifier returned from the previous list deployment instances call.
-  It can be used to return the next set of deployment instances in the list.
+- `next_token`: An identifier returned from the previous list deployment instances call. It
+  can be used to return the next set of deployment instances in the list.
 """
-function list_deployment_instances(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_deployment_instances(deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListDeploymentInstances",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListDeploymentInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1095,26 +667,18 @@ end
 
  Returns an array of target IDs that are associated a deployment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_id"`:  The unique ID of a deployment.
-- `"next_token"`:  A token identifier returned from the previous ListDeploymentTargets
-  call. It can be used to return the next set of deployment targets in the list.
-- `"target_filters"`:  A key used to filter the returned targets. The two valid values are:
-     TargetStatus - A TargetStatus filter string can be Failed, InProgress, Pending, Ready,
+# Keyword Parameters
+- `deployment_id`:  The unique ID of a deployment.
+- `next_token`:  A token identifier returned from the previous ListDeploymentTargets call.
+  It can be used to return the next set of deployment targets in the list.
+- `target_filters`:  A key used to filter the returned targets. The two valid values are:
+   TargetStatus - A TargetStatus filter string can be Failed, InProgress, Pending, Ready,
   Skipped, Succeeded, or Unknown.     ServerInstanceLabel - A ServerInstanceLabel filter
   string can be Blue or Green.
 """
-function list_deployment_targets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListDeploymentTargets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListDeploymentTargets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1123,32 +687,29 @@ end
 Lists the deployments in a deployment group for an application registered with the IAM user
 or AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"application_name"`: The name of an AWS CodeDeploy application associated with the IAM
+# Keyword Parameters
+- `application_name`: The name of an AWS CodeDeploy application associated with the IAM
   user or AWS account.  If applicationName is specified, then deploymentGroupName must be
   specified. If it is not specified, then deploymentGroupName must not be specified.
-- `"create_time_range"`: A time range (start and end) for returning a subset of the list of
+- `create_time_range`: A time range (start and end) for returning a subset of the list of
   deployments.
-- `"deployment_group_name"`: The name of a deployment group for the specified application.
+- `deployment_group_name`: The name of a deployment group for the specified application.
   If deploymentGroupName is specified, then applicationName must be specified. If it is not
   specified, then applicationName must not be specified.
-- `"external_id"`: The unique ID of an external resource for returning deployments linked
-  to the external resource.
-- `"include_only_statuses"`: A subset of deployments to list by status:    Created: Include
+- `external_id`: The unique ID of an external resource for returning deployments linked to
+  the external resource.
+- `include_only_statuses`: A subset of deployments to list by status:    Created: Include
   created deployments in the resulting list.    Queued: Include queued deployments in the
   resulting list.    In Progress: Include in-progress deployments in the resulting list.
   Succeeded: Include successful deployments in the resulting list.    Failed: Include failed
   deployments in the resulting list.    Stopped: Include stopped deployments in the resulting
   list.
-- `"next_token"`: An identifier returned from the previous list deployments call. It can be
+- `next_token`: An identifier returned from the previous list deployments call. It can be
   used to return the next set of deployments in the list.
 """
 function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codedeploy("ListDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1156,21 +717,13 @@ end
 
 Lists the names of stored connections to GitHub accounts.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An identifier returned from the previous ListGitHubAccountTokenNames
-  call. It can be used to return the next set of names in the list.
+# Keyword Parameters
+- `next_token`: An identifier returned from the previous ListGitHubAccountTokenNames call.
+  It can be used to return the next set of names in the list.
 """
-function list_git_hub_account_token_names(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_git_hub_account_token_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListGitHubAccountTokenNames",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListGitHubAccountTokenNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1181,26 +734,18 @@ both registered and deregistered on-premises instance names are listed. To list 
 registered or deregistered on-premises instance names, use the registration status
 parameter.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An identifier returned from the previous list on-premises instances call.
+# Keyword Parameters
+- `next_token`: An identifier returned from the previous list on-premises instances call.
   It can be used to return the next set of on-premises instances in the list.
-- `"registration_status"`: The registration status of the on-premises instances:
+- `registration_status`: The registration status of the on-premises instances:
   Deregistered: Include deregistered on-premises instances in the resulting list.
   Registered: Include registered on-premises instances in the resulting list.
-- `"tag_filters"`: The on-premises instance tags that are used to restrict the on-premises
+- `tag_filters`: The on-premises instance tags that are used to restrict the on-premises
   instance names returned.
 """
-function list_on_premises_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_on_premises_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListOnPremisesInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListOnPremisesInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1213,23 +758,13 @@ end
 - `resource_arn`:  The ARN of a CodeDeploy resource. ListTagsForResource returns all the
   tags associated with the resource that is identified by the ResourceArn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An identifier returned from the previous ListTagsForResource call. It can
+# Keyword Parameters
+- `next_token`: An identifier returned from the previous ListTagsForResource call. It can
   be used to return the next set of applications in the list.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1243,25 +778,17 @@ AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validat
 functions return Succeeded or Failed. For more information, see AppSpec 'hooks' Section for
 an AWS Lambda Deployment  and AppSpec 'hooks' Section for an Amazon ECS Deployment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_id"`:  The unique ID of a deployment. Pass this ID to a Lambda function that
+# Keyword Parameters
+- `deployment_id`:  The unique ID of a deployment. Pass this ID to a Lambda function that
   validates a deployment lifecycle event.
-- `"lifecycle_event_hook_execution_id"`:  The execution ID of a deployment's lifecycle
-  hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file.
-- `"status"`: The result of a Lambda function that validates a deployment lifecycle event.
+- `lifecycle_event_hook_execution_id`:  The execution ID of a deployment's lifecycle hook.
+  A deployment lifecycle hook is specified in the hooks section of the AppSpec file.
+- `status`: The result of a Lambda function that validates a deployment lifecycle event.
   Succeeded and Failed are the only valid values for status.
 """
-function put_lifecycle_event_hook_execution_status(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_lifecycle_event_hook_execution_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "PutLifecycleEventHookExecutionStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("PutLifecycleEventHookExecutionStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1275,28 +802,12 @@ Registers with AWS CodeDeploy a revision for the specified application.
 - `revision`: Information about the application revision to register, including type and
   location.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A comment about the revision.
+# Keyword Parameters
+- `description`: A comment about the revision.
 """
-function register_application_revision(
-    applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_application_revision(applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "RegisterApplicationRevision",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName, "revision" => revision
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("RegisterApplicationRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1308,24 +819,13 @@ is supported in the request. You cannot use both.
 # Arguments
 - `instance_name`: The name of the on-premises instance to register.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"iam_session_arn"`: The ARN of the IAM session to associate with the on-premises
-  instance.
-- `"iam_user_arn"`: The ARN of the IAM user to associate with the on-premises instance.
+# Keyword Parameters
+- `iam_session_arn`: The ARN of the IAM session to associate with the on-premises instance.
+- `iam_user_arn`: The ARN of the IAM user to associate with the on-premises instance.
 """
-function register_on_premises_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "RegisterOnPremisesInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("RegisterOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1338,22 +838,9 @@ Removes one or more tags from one or more on-premises instances.
 - `tags`: The tag key-value pairs to remove from the on-premises instances.
 
 """
-function remove_tags_from_on_premises_instances(
-    instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags_from_on_premises_instances(instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "RemoveTagsFromOnPremisesInstances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceNames" => instanceNames, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("RemoveTagsFromOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1362,21 +849,13 @@ end
 In a blue/green deployment, overrides any specified wait time and starts terminating
 instances immediately after the traffic routing is complete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_id"`:  The unique ID of a blue/green deployment for which you want to skip
-  the instance termination wait time.
+# Keyword Parameters
+- `deployment_id`:  The unique ID of a blue/green deployment for which you want to skip the
+  instance termination wait time.
 """
-function skip_wait_time_for_instance_termination(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function skip_wait_time_for_instance_termination(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "SkipWaitTimeForInstanceTermination",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("SkipWaitTimeForInstanceTermination", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1387,24 +866,14 @@ Attempts to stop an ongoing deployment.
 # Arguments
 - `deployment_id`:  The unique ID of a deployment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_rollback_enabled"`:  Indicates, when a deployment is stopped, whether instances
-  that have been updated should be rolled back to the previous version of the application
+# Keyword Parameters
+- `auto_rollback_enabled`:  Indicates, when a deployment is stopped, whether instances that
+  have been updated should be rolled back to the previous version of the application
   revision.
 """
-function stop_deployment(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "StopDeployment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("StopDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1420,22 +889,9 @@ the ResourceArn input parameter.
   identified by the ResourceArn input parameter.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1452,22 +908,9 @@ input parameter.
   disassociated from the resource specified by the ResourceArn input parameter.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1475,16 +918,13 @@ end
 
 Changes the name of an application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"application_name"`: The current name of the application you want to change.
-- `"new_application_name"`: The new name to give the application.
+# Keyword Parameters
+- `application_name`: The current name of the application you want to change.
+- `new_application_name`: The new name to give the application.
 """
 function update_application(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "UpdateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codedeploy("UpdateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1497,69 +937,49 @@ Changes information about a deployment group.
   update.
 - `current_deployment_group_name`: The current name of the deployment group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alarm_configuration"`: Information to add or change about Amazon CloudWatch alarms when
+# Keyword Parameters
+- `alarm_configuration`: Information to add or change about Amazon CloudWatch alarms when
   the deployment group is updated.
-- `"auto_rollback_configuration"`: Information for an automatic rollback configuration that
+- `auto_rollback_configuration`: Information for an automatic rollback configuration that
   is added or changed when a deployment group is updated.
-- `"auto_scaling_groups"`: The replacement list of Auto Scaling groups to be included in
-  the deployment group, if you want to change them. To keep the Auto Scaling groups, enter
-  their names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
-- `"blue_green_deployment_configuration"`: Information about blue/green deployment options
+- `auto_scaling_groups`: The replacement list of Auto Scaling groups to be included in the
+  deployment group, if you want to change them. To keep the Auto Scaling groups, enter their
+  names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
+- `blue_green_deployment_configuration`: Information about blue/green deployment options
   for a deployment group.
-- `"deployment_config_name"`: The replacement deployment configuration name to use, if you
+- `deployment_config_name`: The replacement deployment configuration name to use, if you
   want to change it.
-- `"deployment_style"`: Information about the type of deployment, either in-place or
+- `deployment_style`: Information about the type of deployment, either in-place or
   blue/green, you want to run and whether to route deployment traffic behind a load balancer.
-- `"ec2_tag_filters"`: The replacement set of Amazon EC2 tags on which to filter, if you
-  want to change them. To keep the existing tags, enter their names. To remove tags, do not
-  enter any tag names.
-- `"ec2_tag_set"`: Information about groups of tags applied to on-premises instances. The
+- `ec2_tag_filters`: The replacement set of Amazon EC2 tags on which to filter, if you want
+  to change them. To keep the existing tags, enter their names. To remove tags, do not enter
+  any tag names.
+- `ec2_tag_set`: Information about groups of tags applied to on-premises instances. The
   deployment group includes only EC2 instances identified by all the tag groups.
-- `"ecs_services"`:  The target Amazon ECS services in the deployment group. This applies
+- `ecs_services`:  The target Amazon ECS services in the deployment group. This applies
   only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS
   service is specified as an Amazon ECS cluster and service name pair using the format
   &lt;clustername&gt;:&lt;servicename&gt;.
-- `"load_balancer_info"`: Information about the load balancer used in a deployment.
-- `"new_deployment_group_name"`: The new name of the deployment group, if you want to
-  change it.
-- `"on_premises_instance_tag_filters"`: The replacement set of on-premises instance tags on
+- `load_balancer_info`: Information about the load balancer used in a deployment.
+- `new_deployment_group_name`: The new name of the deployment group, if you want to change
+  it.
+- `on_premises_instance_tag_filters`: The replacement set of on-premises instance tags on
   which to filter, if you want to change them. To keep the existing tags, enter their names.
   To remove tags, do not enter any tag names.
-- `"on_premises_tag_set"`: Information about an on-premises instance tag set. The
-  deployment group includes only on-premises instances identified by all the tag groups.
-- `"outdated_instances_strategy"`: Indicates what happens when new EC2 instances are
-  launched mid-deployment and do not receive the deployed application revision. If this
-  option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update
-  outdated instances' deployments to apply the deployed application revision to the new EC2
-  instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to
-  update the new EC2 instances. This may result in instances having different revisions.
-- `"service_role_arn"`: A replacement ARN for the service role, if you want to change it.
-- `"trigger_configurations"`: Information about triggers to change when the deployment
-  group is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the
-  AWS CodeDeploy User Guide.
+- `on_premises_tag_set`: Information about an on-premises instance tag set. The deployment
+  group includes only on-premises instances identified by all the tag groups.
+- `outdated_instances_strategy`: Indicates what happens when new EC2 instances are launched
+  mid-deployment and do not receive the deployed application revision. If this option is set
+  to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated
+  instances' deployments to apply the deployed application revision to the new EC2 instances.
+  If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the
+  new EC2 instances. This may result in instances having different revisions.
+- `service_role_arn`: A replacement ARN for the service role, if you want to change it.
+- `trigger_configurations`: Information about triggers to change when the deployment group
+  is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the AWS
+  CodeDeploy User Guide.
 """
-function update_deployment_group(
-    applicationName,
-    currentDeploymentGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_deployment_group(applicationName, currentDeploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codedeploy(
-        "UpdateDeploymentGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "applicationName" => applicationName,
-                    "currentDeploymentGroupName" => currentDeploymentGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codedeploy("UpdateDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "currentDeploymentGroupName"=>currentDeploymentGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

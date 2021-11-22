@@ -4,21 +4,8 @@ using AWS.AWSServices: cloudhsm
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "label" => "Label",
-    "external_id" => "ExternalId",
-    "partition_serial_list" => "PartitionSerialList",
-    "hsm_arn" => "HsmArn",
-    "iam_role_arn" => "IamRoleArn",
-    "next_token" => "NextToken",
-    "client_arn" => "ClientArn",
-    "hsm_serial_number" => "HsmSerialNumber",
-    "eni_ip" => "EniIp",
-    "certificate_fingerprint" => "CertificateFingerprint",
-    "client_token" => "ClientToken",
-    "syslog_ip" => "SyslogIp",
-    "subnet_id" => "SubnetId",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("next_token" => "NextToken", "label" => "Label", "certificate_fingerprint" => "CertificateFingerprint", "client_arn" => "ClientArn", "partition_serial_list" => "PartitionSerialList", "client_token" => "ClientToken", "eni_ip" => "EniIp", "external_id" => "ExternalId", "syslog_ip" => "SyslogIp", "iam_role_arn" => "IamRoleArn", "subnet_id" => "SubnetId", "hsm_arn" => "HsmArn", "hsm_serial_number" => "HsmSerialNumber")
 
 """
     add_tags_to_resource(resource_arn, tag_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,22 +22,9 @@ Tag keys must be unique to each resource.
 - `tag_list`: One or more tags.
 
 """
-function add_tags_to_resource(
-    ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags_to_resource(ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "AddTagsToResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagList" => TagList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -69,12 +43,7 @@ partitions that spans multiple physical HSMs.
 """
 function create_hapg(Label; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "CreateHapg",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Label" => Label), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("CreateHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -98,42 +67,18 @@ The HSM is ready to be initialized when the status changes to RUNNING.
 - `subnet_id`: The identifier of the subnet in your VPC in which to place the HSM.
 - `subscription_type`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A user-defined token to ensure idempotence. Subsequent calls to this
+# Keyword Parameters
+- `client_token`: A user-defined token to ensure idempotence. Subsequent calls to this
   operation with the same token will be ignored.
-- `"eni_ip"`: The IP address to assign to the HSM's ENI. If an IP address is not specified,
+- `eni_ip`: The IP address to assign to the HSM's ENI. If an IP address is not specified,
   an IP address will be randomly chosen from the CIDR range of the subnet.
-- `"external_id"`: The external ID from IamRoleArn, if present.
-- `"syslog_ip"`: The IP address for the syslog monitoring server. The AWS CloudHSM service
+- `external_id`: The external ID from IamRoleArn, if present.
+- `syslog_ip`: The IP address for the syslog monitoring server. The AWS CloudHSM service
   only supports one syslog monitoring server.
 """
-function create_hsm(
-    IamRoleArn,
-    SshKey,
-    SubnetId,
-    SubscriptionType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_hsm(IamRoleArn, SshKey, SubnetId, SubscriptionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "CreateHsm",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IamRoleArn" => IamRoleArn,
-                    "SshKey" => SshKey,
-                    "SubnetId" => SubnetId,
-                    "SubscriptionType" => SubscriptionType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "SshKey"=>SshKey, "SubnetId"=>SubnetId, "SubscriptionType"=>SubscriptionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -148,22 +93,12 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Creates an HSM 
 - `certificate`: The contents of a Base64-Encoded X.509 v3 certificate to be installed on
   the HSMs used by this client.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"label"`: The label for the client.
+# Keyword Parameters
+- `label`: The label for the client.
 """
-function create_luna_client(
-    Certificate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_luna_client(Certificate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "CreateLunaClient",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Certificate" => Certificate), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("CreateLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -181,12 +116,7 @@ high-availability partition group.
 """
 function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "DeleteHapg",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HapgArn" => HapgArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("DeleteHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -204,12 +134,7 @@ completion, this operation cannot be undone and your key material cannot be reco
 """
 function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "DeleteHsm",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HsmArn" => HsmArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmArn"=>HsmArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -224,18 +149,9 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes a clien
 - `client_arn`: The ARN of the client to delete.
 
 """
-function delete_luna_client(
-    ClientArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "DeleteLunaClient",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClientArn" => ClientArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("DeleteLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientArn"=>ClientArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,16 +167,9 @@ about a high-availability partition group.
 - `hapg_arn`: The ARN of the high-availability partition group to describe.
 
 """
-function describe_hapg(
-    HapgArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "DescribeHapg",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HapgArn" => HapgArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("DescribeHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -272,18 +181,15 @@ Reference.  For information about the current version of AWS CloudHSM, see AWS C
 the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Retrieves information
 about an HSM. You can identify the HSM by its ARN or its serial number.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hsm_arn"`: The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be
+# Keyword Parameters
+- `hsm_arn`: The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be
   specified.
-- `"hsm_serial_number"`: The serial number of the HSM. Either the HsmArn or the
+- `hsm_serial_number`: The serial number of the HSM. Either the HsmArn or the
   HsmSerialNumber parameter must be specified.
 """
 function describe_hsm(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "DescribeHsm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("DescribeHsm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,18 +201,13 @@ Reference.  For information about the current version of AWS CloudHSM, see AWS C
 the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Retrieves information
 about an HSM client.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_fingerprint"`: The certificate fingerprint.
-- `"client_arn"`: The ARN of the client.
+# Keyword Parameters
+- `certificate_fingerprint`: The certificate fingerprint.
+- `client_arn`: The ARN of the client.
 """
-function describe_luna_client(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_luna_client(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "DescribeLunaClient", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("DescribeLunaClient", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -326,30 +227,9 @@ associated with.
   associated with the client.
 
 """
-function get_config(
-    ClientArn,
-    ClientVersion,
-    HapgList;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_config(ClientArn, ClientVersion, HapgList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "GetConfig",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientArn" => ClientArn,
-                    "ClientVersion" => ClientVersion,
-                    "HapgList" => HapgList,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("GetConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientArn"=>ClientArn, "ClientVersion"=>ClientVersion, "HapgList"=>HapgList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -362,13 +242,9 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the Avail
 Zones that have available AWS CloudHSM capacity.
 
 """
-function list_available_zones(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_available_zones(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ListAvailableZones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListAvailableZones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -383,16 +259,13 @@ the use of the NextToken member. If more results are available, the NextToken me
 response contains a token that you pass in the next call to ListHapgs to retrieve the next
 set of items.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: The NextToken value from a previous call to ListHapgs. Pass null if this
-  is the first call.
+# Keyword Parameters
+- `next_token`: The NextToken value from a previous call to ListHapgs. Pass null if this is
+  the first call.
 """
 function list_hapgs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ListHapgs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListHapgs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -407,16 +280,13 @@ with the use of the NextToken member. If more results are available, the NextTok
 of the response contains a token that you pass in the next call to ListHsms to retrieve the
 next set of items.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: The NextToken value from a previous call to ListHsms. Pass null if this
-  is the first call.
+# Keyword Parameters
+- `next_token`: The NextToken value from a previous call to ListHsms. Pass null if this is
+  the first call.
 """
 function list_hsms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ListHsms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListHsms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -430,16 +300,13 @@ This operation supports pagination with the use of the NextToken member. If more
 are available, the NextToken member of the response contains a token that you pass in the
 next call to ListLunaClients to retrieve the next set of items.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: The NextToken value from a previous call to ListLunaClients. Pass null if
+# Keyword Parameters
+- `next_token`: The NextToken value from a previous call to ListLunaClients. Pass null if
   this is the first call.
 """
 function list_luna_clients(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ListLunaClients", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListLunaClients", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -455,18 +322,9 @@ for the specified AWS CloudHSM resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -481,20 +339,14 @@ high-availability partition group.
 # Arguments
 - `hapg_arn`: The ARN of the high-availability partition group to modify.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"label"`: The new label for the high-availability partition group.
-- `"partition_serial_list"`: The list of partition serial numbers to make members of the
+# Keyword Parameters
+- `label`: The new label for the high-availability partition group.
+- `partition_serial_list`: The list of partition serial numbers to make members of the
   high-availability partition group.
 """
 function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ModifyHapg",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HapgArn" => HapgArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("ModifyHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -512,26 +364,20 @@ operation during a maintenance window.
 # Arguments
 - `hsm_arn`: The ARN of the HSM to modify.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"eni_ip"`: The new IP address for the elastic network interface (ENI) attached to the
-  HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP
+# Keyword Parameters
+- `eni_ip`: The new IP address for the elastic network interface (ENI) attached to the HSM.
+  If the HSM is moved to a different subnet, and an IP address is not specified, an IP
   address will be randomly chosen from the CIDR range of the new subnet.
-- `"external_id"`: The new external ID.
-- `"iam_role_arn"`: The new IAM role ARN.
-- `"subnet_id"`: The new identifier of the subnet that the HSM is in. The new subnet must
-  be in the same Availability Zone as the current subnet.
-- `"syslog_ip"`: The new IP address for the syslog monitoring server. The AWS CloudHSM
+- `external_id`: The new external ID.
+- `iam_role_arn`: The new IAM role ARN.
+- `subnet_id`: The new identifier of the subnet that the HSM is in. The new subnet must be
+  in the same Availability Zone as the current subnet.
+- `syslog_ip`: The new IP address for the syslog monitoring server. The AWS CloudHSM
   service only supports one syslog monitoring server.
 """
 function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ModifyHsm",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HsmArn" => HsmArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("ModifyHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmArn"=>HsmArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -549,22 +395,9 @@ certificate on the client's HSMs.
 - `client_arn`: The ARN of the client.
 
 """
-function modify_luna_client(
-    Certificate, ClientArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_luna_client(Certificate, ClientArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "ModifyLunaClient",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Certificate" => Certificate, "ClientArn" => ClientArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("ModifyLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "ClientArn"=>ClientArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -583,20 +416,7 @@ remove (not the value). To overwrite the value for an existing tag, use AddTagsT
   the value). To overwrite the value for an existing tag, use AddTagsToResource.
 
 """
-function remove_tags_from_resource(
-    ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags_from_resource(ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudhsm(
-        "RemoveTagsFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeyList" => TagKeyList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudhsm("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

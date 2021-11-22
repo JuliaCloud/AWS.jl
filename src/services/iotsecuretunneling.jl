@@ -4,16 +4,8 @@ using AWS.AWSServices: iotsecuretunneling
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "delete" => "delete",
-    "thing_name" => "thingName",
-    "timeout_config" => "timeoutConfig",
-    "destination_config" => "destinationConfig",
-    "tags" => "tags",
-    "next_token" => "nextToken",
-    "description" => "description",
-    "max_results" => "maxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "description", "destination_config" => "destinationConfig", "tags" => "tags", "timeout_config" => "timeoutConfig", "max_results" => "maxResults", "next_token" => "nextToken", "thing_name" => "thingName", "delete" => "delete")
 
 """
     close_tunnel(tunnel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,23 +17,12 @@ transmitted.
 # Arguments
 - `tunnel_id`: The ID of the tunnel to close.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delete"`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data
-  immediately.
+# Keyword Parameters
+- `delete`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
 """
-function close_tunnel(
-    tunnelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "CloseTunnel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("tunnelId" => tunnelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -53,18 +34,9 @@ Gets information about a tunnel identified by the unique tunnel id.
 - `tunnel_id`: The tunnel to describe.
 
 """
-function describe_tunnel(
-    tunnelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "DescribeTunnel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("tunnelId" => tunnelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -76,18 +48,9 @@ Lists the tags for the specified resource.
 - `resource_arn`: The resource ARN.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -96,17 +59,14 @@ end
 List all tunnels for an AWS account. Tunnels are listed by creation time in descending
 order, newer tunnels will be listed before older tunnels.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return at once.
-- `"next_token"`: A token to retrieve the next set of results.
-- `"thing_name"`: The name of the IoT thing associated with the destination device.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return at once.
+- `next_token`: A token to retrieve the next set of results.
+- `thing_name`: The name of the IoT thing associated with the destination device.
 """
 function list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "ListTunnels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotsecuretunneling("ListTunnels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -115,18 +75,15 @@ end
 Creates a new tunnel, and returns two client access tokens for clients to use to connect to
 the AWS IoT Secure Tunneling proxy server.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A short text description of the tunnel.
-- `"destination_config"`: The destination configuration for the OpenTunnel request.
-- `"tags"`: A collection of tag metadata.
-- `"timeout_config"`: Timeout configuration for a tunnel.
+# Keyword Parameters
+- `description`: A short text description of the tunnel.
+- `destination_config`: The destination configuration for the OpenTunnel request.
+- `tags`: A collection of tag metadata.
+- `timeout_config`: Timeout configuration for a tunnel.
 """
 function open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "OpenTunnel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotsecuretunneling("OpenTunnel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -139,22 +96,9 @@ A resource tag.
 - `tags`: The tags for the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -167,20 +111,7 @@ Removes a tag from a resource.
 - `tag_keys`: The keys of the tags to remove.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsecuretunneling(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

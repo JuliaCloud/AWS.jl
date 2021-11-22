@@ -4,20 +4,8 @@ using AWS.AWSServices: cloudfront
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "fields" => "Field",
-    "sampling_rate" => "SamplingRate",
-    "name" => "Name",
-    "realtime_log_config_arn" => "RealtimeLogConfigArn",
-    "realtime_log_config_name" => "RealtimeLogConfigName",
-    "arn" => "ARN",
-    "if_match" => "If-Match",
-    "end_points" => "EndPoints",
-    "stage" => "Stage",
-    "max_items" => "MaxItems",
-    "marker" => "Marker",
-    "type" => "Type",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("if_match" => "If-Match", "marker" => "Marker", "max_items" => "MaxItems", "stage" => "Stage", "arn" => "ARN", "end_points" => "EndPoints", "fields" => "Field", "name" => "Name", "sampling_rate" => "SamplingRate", "type" => "Type", "realtime_log_config_arn" => "RealtimeLogConfigArn", "realtime_log_config_name" => "RealtimeLogConfigName")
 
 """
     associate_alias2020_05_31(alias, target_distribution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -38,20 +26,9 @@ different distribution in the Amazon CloudFront Developer Guide.
   with.
 
 """
-function associate_alias2020_05_31(
-    Alias,
-    TargetDistributionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_alias2020_05_31(Alias, TargetDistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Alias" => Alias), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -74,21 +51,9 @@ key in the Amazon CloudFront Developer Guide.
 - `cache_policy_config`: A cache policy configuration.
 
 """
-function create_cache_policy2020_05_31(
-    CachePolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_cache_policy2020_05_31(CachePolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/cache-policy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CachePolicyConfig" => CachePolicyConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -105,28 +70,9 @@ Developer Guide.
   the identity.
 
 """
-function create_cloud_front_origin_access_identity2020_05_31(
-    CloudFrontOriginAccessIdentityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/origin-access-identity/cloudfront",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CloudFrontOriginAccessIdentityConfig" =>
-                        CloudFrontOriginAccessIdentityConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -146,21 +92,9 @@ and Update Distribution in the Amazon CloudFront Developer Guide.
 - `distribution_config`: The distribution's configuration information.
 
 """
-function create_distribution2020_05_31(
-    DistributionConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_distribution2020_05_31(DistributionConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/distribution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DistributionConfig" => DistributionConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -172,25 +106,9 @@ Create a new distribution with tags.
 - `distribution_config_with_tags`: The distribution's configuration information.
 
 """
-function create_distribution_with_tags2020_05_31(
-    DistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_distribution_with_tags2020_05_31(DistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/distribution?WithTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DistributionConfigWithTags" => DistributionConfigWithTags
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -203,25 +121,9 @@ Create a new field-level encryption configuration.
   configuration.
 
 """
-function create_field_level_encryption_config2020_05_31(
-    FieldLevelEncryptionConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/field-level-encryption",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FieldLevelEncryptionConfig" => FieldLevelEncryptionConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -234,27 +136,9 @@ Create a field-level encryption profile.
   profile.
 
 """
-function create_field_level_encryption_profile2020_05_31(
-    FieldLevelEncryptionProfileConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/field-level-encryption-profile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FieldLevelEncryptionProfileConfig" => FieldLevelEncryptionProfileConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -278,31 +162,9 @@ the function’s ARN.
 - `name`: A name to identify the function.
 
 """
-function create_function2020_05_31(
-    FunctionCode,
-    FunctionConfig,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_function2020_05_31(FunctionCode, FunctionConfig, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/function",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FunctionCode" => FunctionCode,
-                    "FunctionConfig" => FunctionConfig,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -315,24 +177,9 @@ Create a new invalidation.
 - `invalidation_batch`: The batch information for the invalidation.
 
 """
-function create_invalidation2020_05_31(
-    DistributionId,
-    InvalidationBatch;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_invalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/distribution/$(DistributionId)/invalidation",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("InvalidationBatch" => InvalidationBatch), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -352,19 +199,9 @@ Developer Guide.
 - `key_group_config`: A key group configuration.
 
 """
-function create_key_group2020_05_31(
-    KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_key_group2020_05_31(KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/key-group",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -380,26 +217,9 @@ CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
   about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
 
 """
-function create_monitoring_subscription2020_05_31(
-    DistributionId,
-    MonitoringSubscription;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("MonitoringSubscription" => MonitoringSubscription),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -423,23 +243,9 @@ Controlling origin requests in the Amazon CloudFront Developer Guide.
 - `origin_request_policy_config`: An origin request policy configuration.
 
 """
-function create_origin_request_policy2020_05_31(
-    OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_origin_request_policy2020_05_31(OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/origin-request-policy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OriginRequestPolicyConfig" => OriginRequestPolicyConfig),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -452,21 +258,9 @@ with field-level encryption.
 - `public_key_config`: A CloudFront public key configuration.
 
 """
-function create_public_key2020_05_31(
-    PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_public_key2020_05_31(PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/public-key",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("PublicKeyConfig" => PublicKeyConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -489,33 +283,9 @@ Real-time logs in the Amazon CloudFront Developer Guide.
   data. You must provide an integer between 1 and 100, inclusive.
 
 """
-function create_realtime_log_config2020_05_31(
-    EndPoints,
-    Field,
-    Name,
-    SamplingRate;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/realtime-log-config",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EndPoints" => EndPoints,
-                    "Field" => Field,
-                    "Name" => Name,
-                    "SamplingRate" => SamplingRate,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -534,27 +304,9 @@ for requests that match the cache behavior.
   and a set of configurations that specify the response headers.
 
 """
-function create_response_headers_policy2020_05_31(
-    ResponseHeadersPolicyConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_response_headers_policy2020_05_31(ResponseHeadersPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/response-headers-policy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResponseHeadersPolicyConfig" => ResponseHeadersPolicyConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/response-headers-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResponseHeadersPolicyConfig"=>ResponseHeadersPolicyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -568,27 +320,9 @@ the Amazon CloudFront discussion forum.
 - `streaming_distribution_config`: The streaming distribution's configuration information.
 
 """
-function create_streaming_distribution2020_05_31(
-    StreamingDistributionConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_streaming_distribution2020_05_31(StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/streaming-distribution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "StreamingDistributionConfig" => StreamingDistributionConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -603,28 +337,9 @@ the Amazon CloudFront discussion forum.
   information.
 
 """
-function create_streaming_distribution_with_tags2020_05_31(
-    StreamingDistributionConfigWithTags;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/streaming-distribution?WithTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "StreamingDistributionConfigWithTags" =>
-                        StreamingDistributionConfigWithTags,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -640,23 +355,14 @@ GetCachePolicy.
 - `id`: The unique identifier for the cache policy that you are deleting. To get the
   identifier, you can use ListCachePolicies.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the cache policy that you are deleting. The version is the
+# Keyword Parameters
+- `if_match`: The version of the cache policy that you are deleting. The version is the
   cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or
   GetCachePolicyConfig.
 """
-function delete_cache_policy2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/cache-policy/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -667,22 +373,13 @@ Delete an origin access identity.
 # Arguments
 - `id`: The origin access identity's ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header you received from a previous GET or PUT
-  request. For example: E2QWRUHAPOMQZL.
+# Keyword Parameters
+- `if_match`: The value of the ETag header you received from a previous GET or PUT request.
+  For example: E2QWRUHAPOMQZL.
 """
-function delete_cloud_front_origin_access_identity2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/origin-access-identity/cloudfront/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -693,22 +390,13 @@ Delete a distribution.
 # Arguments
 - `id`: The distribution ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when you disabled the
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when you disabled the
   distribution. For example: E2QWRUHAPOMQZL.
 """
-function delete_distribution2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/distribution/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/distribution/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -719,22 +407,13 @@ Remove a field-level encryption configuration.
 # Arguments
 - `id`: The ID of the configuration you want to delete from CloudFront.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the
   configuration identity to delete. For example: E2QWRUHAPOMQZL.
 """
-function delete_field_level_encryption_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_field_level_encryption_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/field-level-encryption/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -745,22 +424,13 @@ Remove a field-level encryption profile.
 # Arguments
 - `id`: Request the ID of the profile you want to delete from CloudFront.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the profile
-  to delete. For example: E2QWRUHAPOMQZL.
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the profile to
+  delete. For example: E2QWRUHAPOMQZL.
 """
-function delete_field_level_encryption_profile2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/field-level-encryption-profile/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -778,23 +448,9 @@ and DescribeFunction.
 - `name`: The name of the function that you are deleting.
 
 """
-function delete_function2020_05_31(
-    If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_function2020_05_31(If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/function/$(Name)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/function/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -810,22 +466,13 @@ GetKeyGroupConfig.
 - `id`: The identifier of the key group that you are deleting. To get the identifier, use
   ListKeyGroups.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the key group that you are deleting. The version is the key
+# Keyword Parameters
+- `if_match`: The version of the key group that you are deleting. The version is the key
   group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
 """
-function delete_key_group2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/key-group/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/key-group/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -837,17 +484,9 @@ Disables additional CloudWatch metrics for the specified CloudFront distribution
 - `distribution_id`: The ID of the distribution that you are disabling metrics for.
 
 """
-function delete_monitoring_subscription2020_05_31(
-    DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_monitoring_subscription2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -863,23 +502,14 @@ the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
 - `id`: The unique identifier for the origin request policy that you are deleting. To get
   the identifier, you can use ListOriginRequestPolicies.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the origin request policy that you are deleting. The version
+# Keyword Parameters
+- `if_match`: The version of the origin request policy that you are deleting. The version
   is the origin request policy’s ETag value, which you can get using
   ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
 """
-function delete_origin_request_policy2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_origin_request_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/origin-request-policy/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -890,22 +520,13 @@ Remove a public key you previously added to CloudFront.
 # Arguments
 - `id`: The ID of the public key you want to remove from CloudFront.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the public
-  key identity to delete. For example: E2QWRUHAPOMQZL.
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the public key
+  identity to delete. For example: E2QWRUHAPOMQZL.
 """
-function delete_public_key2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/public-key/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -919,22 +540,13 @@ configuration’s name or its Amazon Resource Name (ARN). You must provide at le
 you provide both, CloudFront uses the name to identify the real-time log configuration to
 delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"arn"`: The Amazon Resource Name (ARN) of the real-time log configuration to delete.
-- `"name"`: The name of the real-time log configuration to delete.
+# Keyword Parameters
+- `arn`: The Amazon Resource Name (ARN) of the real-time log configuration to delete.
+- `name`: The name of the real-time log configuration to delete.
 """
-function delete_realtime_log_config2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/delete-realtime-log-config/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -950,23 +562,14 @@ these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolic
 - `id`: The identifier for the response headers policy that you are deleting. To get the
   identifier, you can use ListResponseHeadersPolicies.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the response headers policy that you are deleting. The
-  version is the response headers policy’s ETag value, which you can get using
+# Keyword Parameters
+- `if_match`: The version of the response headers policy that you are deleting. The version
+  is the response headers policy’s ETag value, which you can get using
   ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
 """
-function delete_response_headers_policy2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_response_headers_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/response-headers-policy/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/response-headers-policy/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -995,22 +598,13 @@ Distribution in the Amazon CloudFront Developer Guide.
 # Arguments
 - `id`: The distribution ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when you disabled the
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when you disabled the
   streaming distribution. For example: E2QWRUHAPOMQZL.
 """
-function delete_streaming_distribution2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "DELETE",
-        "/2020-05-31/streaming-distribution/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1024,21 +618,12 @@ stage. To get these values, you can use ListFunctions.
 # Arguments
 - `name`: The name of the function that you are getting information about.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"stage"`: The function’s stage, either DEVELOPMENT or LIVE.
+# Keyword Parameters
+- `stage`: The function’s stage, either DEVELOPMENT or LIVE.
 """
-function describe_function2020_05_31(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/function/$(Name)/describe",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/function/$(Name)/describe", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1058,17 +643,9 @@ ListCachePolicies.
   behavior, you can get the identifier using ListCachePolicies.
 
 """
-function get_cache_policy2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/cache-policy/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/cache-policy/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1087,17 +664,9 @@ ListCachePolicies.
   behavior, you can get the identifier using ListCachePolicies.
 
 """
-function get_cache_policy_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cache_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/cache-policy/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1109,17 +678,9 @@ Get the information about an origin access identity.
 - `id`: The identity's ID.
 
 """
-function get_cloud_front_origin_access_identity2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/origin-access-identity/cloudfront/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1131,17 +692,9 @@ Get the configuration information about an origin access identity.
 - `id`: The identity's ID.
 
 """
-function get_cloud_front_origin_access_identity_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cloud_front_origin_access_identity_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1154,17 +707,9 @@ Get the information about a distribution.
   returned.
 
 """
-function get_distribution2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distribution/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distribution/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1177,17 +722,9 @@ Get the configuration information about a distribution.
   returned.
 
 """
-function get_distribution_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_distribution_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distribution/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distribution/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1199,17 +736,9 @@ Get the field-level encryption configuration information.
 - `id`: Request the ID for the field-level encryption configuration information.
 
 """
-function get_field_level_encryption2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_field_level_encryption2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/field-level-encryption/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1221,17 +750,9 @@ Get the field-level encryption configuration information.
 - `id`: Request the ID for the field-level encryption configuration information.
 
 """
-function get_field_level_encryption_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_field_level_encryption_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/field-level-encryption/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1243,17 +764,9 @@ Get the field-level encryption profile information.
 - `id`: Get the ID for the field-level encryption profile information.
 
 """
-function get_field_level_encryption_profile2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/field-level-encryption-profile/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1265,17 +778,9 @@ Get the field-level encryption profile configuration information.
 - `id`: Get the ID for the field-level encryption profile configuration information.
 
 """
-function get_field_level_encryption_profile_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_field_level_encryption_profile_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/field-level-encryption-profile/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1288,21 +793,12 @@ function’s name and stage. To get these values, you can use ListFunctions.
 # Arguments
 - `name`: The name of the function whose code you are getting.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"stage"`: The function’s stage, either DEVELOPMENT or LIVE.
+# Keyword Parameters
+- `stage`: The function’s stage, either DEVELOPMENT or LIVE.
 """
-function get_function2020_05_31(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/function/$(Name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/function/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1315,17 +811,9 @@ Get the information about an invalidation.
 - `id`: The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
 
 """
-function get_invalidation2020_05_31(
-    DistributionId, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_invalidation2020_05_31(DistributionId, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1342,17 +830,9 @@ behavior, you can get the identifier using ListKeyGroups.
   ListKeyGroups.
 
 """
-function get_key_group2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/key-group/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/key-group/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1369,17 +849,9 @@ ListKeyGroups.
   identifier, use ListKeyGroups.
 
 """
-function get_key_group_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_key_group_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/key-group/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/key-group/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1393,17 +865,9 @@ CloudFront distribution.
   for.
 
 """
-function get_monitoring_subscription2020_05_31(
-    DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_monitoring_subscription2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1423,17 +887,9 @@ cache behavior, you can get the identifier using ListOriginRequestPolicies.
   a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-function get_origin_request_policy2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_origin_request_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/origin-request-policy/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1452,17 +908,9 @@ cache behavior, you can get the identifier using ListOriginRequestPolicies.
   a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-function get_origin_request_policy_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_origin_request_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/origin-request-policy/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1474,17 +922,9 @@ Gets a public key.
 - `id`: The identifier of the public key you are getting.
 
 """
-function get_public_key2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/public-key/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/public-key/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1496,17 +936,9 @@ Gets a public key configuration.
 - `id`: The identifier of the public key whose configuration you are getting.
 
 """
-function get_public_key_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_public_key_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/public-key/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1517,22 +949,13 @@ the configuration’s name or its Amazon Resource Name (ARN). You must provide a
 one. If you provide both, CloudFront uses the name to identify the real-time log
 configuration to get.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"arn"`: The Amazon Resource Name (ARN) of the real-time log configuration to get.
-- `"name"`: The name of the real-time log configuration to get.
+# Keyword Parameters
+- `arn`: The Amazon Resource Name (ARN) of the real-time log configuration to get.
+- `name`: The name of the real-time log configuration to get.
 """
-function get_realtime_log_config2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/get-realtime-log-config/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/get-realtime-log-config/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1552,17 +975,9 @@ cache behavior, you can get the identifier using ListResponseHeadersPolicies.
   cache behavior, you can get the identifier using ListResponseHeadersPolicies.
 
 """
-function get_response_headers_policy2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_response_headers_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/response-headers-policy/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/response-headers-policy/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1581,17 +996,9 @@ to a cache behavior, you can get the identifier using ListResponseHeadersPolicie
   cache behavior, you can get the identifier using ListResponseHeadersPolicies.
 
 """
-function get_response_headers_policy_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_response_headers_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/response-headers-policy/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/response-headers-policy/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1604,17 +1011,9 @@ configuration.
 - `id`: The streaming distribution's ID.
 
 """
-function get_streaming_distribution2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/streaming-distribution/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1626,17 +1025,9 @@ Get the configuration information about a streaming distribution.
 - `id`: The streaming distribution's ID.
 
 """
-function get_streaming_distribution_config2020_05_31(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_streaming_distribution_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/streaming-distribution/$(Id)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1650,28 +1041,19 @@ specify, or the default maximum, the response is paginated. To get the next page
 send a subsequent request that specifies the NextMarker value from the current response as
 the Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of cache policies. The response includes cache policies in the list that occur after
-  the marker. To get the next page of the list, set this field’s value to the value of
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of cache policies. The response includes cache policies in the list that occur after the
+  marker. To get the next page of the list, set this field’s value to the value of
   NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of cache policies that you want in the response.
-- `"type"`: A filter to return only the specified kinds of cache policies. Valid values
-  are:    managed – Returns only the managed policies created by Amazon Web Services.
-  custom – Returns only the custom policies created in your Amazon Web Services account.
+- `max_items`: The maximum number of cache policies that you want in the response.
+- `type`: A filter to return only the specified kinds of cache policies. Valid values are:
+    managed – Returns only the managed policies created by Amazon Web Services.    custom
+  – Returns only the custom policies created in your Amazon Web Services account.
 """
-function list_cache_policies2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/cache-policy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/cache-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1679,26 +1061,17 @@ end
 
 Lists origin access identities.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this when paginating results to indicate where to begin in your list of
+# Keyword Parameters
+- `marker`: Use this when paginating results to indicate where to begin in your list of
   origin access identities. The results include identities in the list that occur after the
   marker. To get the next page of results, set the Marker to the value of the NextMarker from
   the current page's response (which is also the ID of the last identity on that page).
-- `"max_items"`: The maximum number of origin access identities you want in the response
+- `max_items`: The maximum number of origin access identities you want in the response
   body.
 """
-function list_cloud_front_origin_access_identities2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_cloud_front_origin_access_identities2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/origin-access-identity/cloudfront",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1730,31 +1103,16 @@ in the subsequent request.
 - `distribution_id`: The ID of a distribution in your account that has an attached SSL/TLS
   certificate that includes the provided alias.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in the list
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in the list
   of conflicting aliases. The response includes conflicting aliases in the list that occur
   after the marker. To get the next page of the list, set this field’s value to the value
   of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of conflicting aliases that you want in the response.
+- `max_items`: The maximum number of conflicting aliases that you want in the response.
 """
-function list_conflicting_aliases2020_05_31(
-    Alias, DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_conflicting_aliases2020_05_31(Alias, DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/conflicting-alias",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Alias" => Alias, "DistributionId" => DistributionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/conflicting-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "DistributionId"=>DistributionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1762,25 +1120,16 @@ end
 
 List CloudFront distributions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this when paginating results to indicate where to begin in your list of
+# Keyword Parameters
+- `marker`: Use this when paginating results to indicate where to begin in your list of
   distributions. The results include distributions in the list that occur after the marker.
   To get the next page of results, set the Marker to the value of the NextMarker from the
   current page's response (which is also the ID of the last distribution on that page).
-- `"max_items"`: The maximum number of distributions you want in the response body.
+- `max_items`: The maximum number of distributions you want in the response body.
 """
-function list_distributions2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distribution",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distribution", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1797,25 +1146,16 @@ current response as the Marker value in the subsequent request.
 - `cache_policy_id`: The ID of the cache policy whose associated distribution IDs you want
   to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of distribution IDs that you want in the response.
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field’s value to the value of
+  NextMarker from the current page’s response.
+- `max_items`: The maximum number of distribution IDs that you want in the response.
 """
-function list_distributions_by_cache_policy_id2020_05_31(
-    CachePolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions_by_cache_policy_id2020_05_31(CachePolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1831,25 +1171,16 @@ response as the Marker value in the subsequent request.
 # Arguments
 - `key_group_id`: The ID of the key group whose associated distribution IDs you are listing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of distribution IDs that you want in the response.
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field’s value to the value of
+  NextMarker from the current page’s response.
+- `max_items`: The maximum number of distribution IDs that you want in the response.
 """
-function list_distributions_by_key_group2020_05_31(
-    KeyGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions_by_key_group2020_05_31(KeyGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1866,25 +1197,16 @@ from the current response as the Marker value in the subsequent request.
 - `origin_request_policy_id`: The ID of the origin request policy whose associated
   distribution IDs you want to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of distribution IDs that you want in the response.
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field’s value to the value of
+  NextMarker from the current page’s response.
+- `max_items`: The maximum number of distribution IDs that you want in the response.
 """
-function list_distributions_by_origin_request_policy_id2020_05_31(
-    OriginRequestPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1900,29 +1222,20 @@ the default maximum, the response is paginated. To get the next page of items, s
 subsequent request that specifies the NextMarker value from the current response as the
 Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distributions. The response includes distributions in the list that occur after the
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of distributions. The response includes distributions in the list that occur after the
   marker. To get the next page of the list, set this field’s value to the value of
   NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of distributions that you want in the response.
-- `"realtime_log_config_arn"`: The Amazon Resource Name (ARN) of the real-time log
+- `max_items`: The maximum number of distributions that you want in the response.
+- `realtime_log_config_arn`: The Amazon Resource Name (ARN) of the real-time log
   configuration whose associated distributions you want to list.
-- `"realtime_log_config_name"`: The name of the real-time log configuration whose
-  associated distributions you want to list.
+- `realtime_log_config_name`: The name of the real-time log configuration whose associated
+  distributions you want to list.
 """
-function list_distributions_by_realtime_log_config2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions_by_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/distributionsByRealtimeLogConfig/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1939,26 +1252,16 @@ NextMarker value from the current response as the Marker value in the subsequent
 - `response_headers_policy_id`: The ID of the response headers policy whose associated
   distribution IDs you want to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field’s value to the value
-  of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of distribution IDs that you want to get in the
-  response.
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field’s value to the value of
+  NextMarker from the current page’s response.
+- `max_items`: The maximum number of distribution IDs that you want to get in the response.
 """
-function list_distributions_by_response_headers_policy_id2020_05_31(
-    ResponseHeadersPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions_by_response_headers_policy_id2020_05_31(ResponseHeadersPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distributionsByResponseHeadersPolicyId/$(ResponseHeadersPolicyId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distributionsByResponseHeadersPolicyId/$(ResponseHeadersPolicyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1971,27 +1274,18 @@ List the distributions that are associated with a specified WAF web ACL.
   distributions. If you specify \"null\" for the ID, the request returns a list of the
   distributions that aren't associated with a web ACL.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use Marker and MaxItems to control pagination of results. If you have more
-  than MaxItems distributions that satisfy the request, the response includes a NextMarker
+# Keyword Parameters
+- `marker`: Use Marker and MaxItems to control pagination of results. If you have more than
+  MaxItems distributions that satisfy the request, the response includes a NextMarker
   element. To get the next page of results, submit another request. For the value of Marker,
   specify the value of NextMarker from the last response. (For the first request, omit
   Marker.)
-- `"max_items"`: The maximum number of distributions that you want CloudFront to return in
+- `max_items`: The maximum number of distributions that you want CloudFront to return in
   the response body. The maximum and default values are both 100.
 """
-function list_distributions_by_web_aclid2020_05_31(
-    WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributions_by_web_aclid2020_05_31(WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distributionsByWebACLId/$(WebACLId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2000,26 +1294,17 @@ end
 List all field-level encryption configurations that have been created in CloudFront for
 this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this when paginating results to indicate where to begin in your list of
+# Keyword Parameters
+- `marker`: Use this when paginating results to indicate where to begin in your list of
   configurations. The results include configurations in the list that occur after the marker.
   To get the next page of results, set the Marker to the value of the NextMarker from the
   current page's response (which is also the ID of the last configuration on that page).
-- `"max_items"`: The maximum number of field-level encryption configurations you want in
-  the response body.
+- `max_items`: The maximum number of field-level encryption configurations you want in the
+  response body.
 """
-function list_field_level_encryption_configs2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_field_level_encryption_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/field-level-encryption",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/field-level-encryption", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2028,26 +1313,17 @@ end
 Request a list of field-level encryption profiles that have been created in CloudFront for
 this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this when paginating results to indicate where to begin in your list of
+# Keyword Parameters
+- `marker`: Use this when paginating results to indicate where to begin in your list of
   profiles. The results include profiles in the list that occur after the marker. To get the
   next page of results, set the Marker to the value of the NextMarker from the current page's
   response (which is also the ID of the last profile on that page).
-- `"max_items"`: The maximum number of field-level encryption profiles you want in the
+- `max_items`: The maximum number of field-level encryption profiles you want in the
   response body.
 """
-function list_field_level_encryption_profiles2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_field_level_encryption_profiles2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/field-level-encryption-profile",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/field-level-encryption-profile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2061,27 +1337,18 @@ you specify, or the default maximum, the response is paginated. To get the next 
 items, send a subsequent request that specifies the NextMarker value from the current
 response as the Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of functions. The response includes functions in the list that occur after the marker.
-  To get the next page of the list, set this field’s value to the value of NextMarker from
-  the current page’s response.
-- `"max_items"`: The maximum number of functions that you want in the response.
-- `"stage"`: An optional filter to return only the functions that are in the specified
-  stage, either DEVELOPMENT or LIVE.
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of functions. The response includes functions in the list that occur after the marker. To
+  get the next page of the list, set this field’s value to the value of NextMarker from the
+  current page’s response.
+- `max_items`: The maximum number of functions that you want in the response.
+- `stage`: An optional filter to return only the functions that are in the specified stage,
+  either DEVELOPMENT or LIVE.
 """
-function list_functions2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_functions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/function",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/function", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2092,28 +1359,19 @@ Lists invalidation batches.
 # Arguments
 - `distribution_id`: The distribution's ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter when paginating results to indicate where to begin in your
+# Keyword Parameters
+- `marker`: Use this parameter when paginating results to indicate where to begin in your
   list of invalidation batches. Because the results are returned in decreasing order from
   most recent to oldest, the most recent results are on the first page, the second page will
   contain earlier results, and so on. To get the next page of results, set Marker to the
   value of the NextMarker from the current page's response. This value is the same as the ID
   of the last invalidation batch on that page.
-- `"max_items"`: The maximum number of invalidation batches that you want in the response
+- `max_items`: The maximum number of invalidation batches that you want in the response
   body.
 """
-function list_invalidations2020_05_31(
-    DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_invalidations2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/distribution/$(DistributionId)/invalidation",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2125,25 +1383,16 @@ you specify, or the default maximum, the response is paginated. To get the next 
 items, send a subsequent request that specifies the NextMarker value from the current
 response as the Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of key groups. The response includes key groups in the list that occur after the
-  marker. To get the next page of the list, set this field’s value to the value of
-  NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of key groups that you want in the response.
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of key groups. The response includes key groups in the list that occur after the marker. To
+  get the next page of the list, set this field’s value to the value of NextMarker from the
+  current page’s response.
+- `max_items`: The maximum number of key groups that you want in the response.
 """
-function list_key_groups2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/key-group",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/key-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2157,30 +1406,20 @@ you specify, or the default maximum, the response is paginated. To get the next 
 items, send a subsequent request that specifies the NextMarker value from the current
 response as the Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of origin request policies. The response includes origin request policies in the list
-  that occur after the marker. To get the next page of the list, set this field’s value to
-  the value of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of origin request policies that you want in the
-  response.
-- `"type"`: A filter to return only the specified kinds of origin request policies. Valid
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of origin request policies. The response includes origin request policies in the list that
+  occur after the marker. To get the next page of the list, set this field’s value to the
+  value of NextMarker from the current page’s response.
+- `max_items`: The maximum number of origin request policies that you want in the response.
+- `type`: A filter to return only the specified kinds of origin request policies. Valid
   values are:    managed – Returns only the managed policies created by Amazon Web
   Services.    custom – Returns only the custom policies created in your Amazon Web
   Services account.
 """
-function list_origin_request_policies2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_origin_request_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/origin-request-policy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/origin-request-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2188,25 +1427,16 @@ end
 
 List all public keys that have been added to CloudFront for this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this when paginating results to indicate where to begin in your list of
+# Keyword Parameters
+- `marker`: Use this when paginating results to indicate where to begin in your list of
   public keys. The results include public keys in the list that occur after the marker. To
   get the next page of results, set the Marker to the value of the NextMarker from the
   current page's response (which is also the ID of the last public key on that page).
-- `"max_items"`: The maximum number of public keys you want in the response body.
+- `max_items`: The maximum number of public keys you want in the response body.
 """
-function list_public_keys2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_public_keys2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/public-key",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/public-key", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2218,26 +1448,17 @@ maximum that you specify, or the default maximum, the response is paginated. To 
 next page of items, send a subsequent request that specifies the NextMarker value from the
 current response as the Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of real-time log configurations. The response includes real-time log configurations in
-  the list that occur after the marker. To get the next page of the list, set this field’s
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of real-time log configurations. The response includes real-time log configurations in the
+  list that occur after the marker. To get the next page of the list, set this field’s
   value to the value of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of real-time log configurations that you want in the
+- `max_items`: The maximum number of real-time log configurations that you want in the
   response.
 """
-function list_realtime_log_configs2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_realtime_log_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/realtime-log-config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/realtime-log-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2251,29 +1472,20 @@ you specify, or the default maximum, the response is paginated. To get the next 
 items, send a subsequent request that specifies the NextMarker value from the current
 response as the Marker value in the subsequent request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this field when paginating results to indicate where to begin in your
-  list of response headers policies. The response includes response headers policies in the
-  list that occur after the marker. To get the next page of the list, set this field’s
-  value to the value of NextMarker from the current page’s response.
-- `"max_items"`: The maximum number of response headers policies that you want to get in
-  the response.
-- `"type"`: A filter to get only the specified kind of response headers policies. Valid
+# Keyword Parameters
+- `marker`: Use this field when paginating results to indicate where to begin in your list
+  of response headers policies. The response includes response headers policies in the list
+  that occur after the marker. To get the next page of the list, set this field’s value to
+  the value of NextMarker from the current page’s response.
+- `max_items`: The maximum number of response headers policies that you want to get in the
+  response.
+- `type`: A filter to get only the specified kind of response headers policies. Valid
   values are:    managed – Gets only the managed policies created by Amazon Web Services.
    custom – Gets only the custom policies created in your Amazon Web Services account.
 """
-function list_response_headers_policies2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_response_headers_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/response-headers-policy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/response-headers-policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2281,22 +1493,13 @@ end
 
 List streaming distributions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The value that you provided for the Marker request parameter.
-- `"max_items"`: The value that you provided for the MaxItems request parameter.
+# Keyword Parameters
+- `marker`: The value that you provided for the Marker request parameter.
+- `max_items`: The value that you provided for the MaxItems request parameter.
 """
-function list_streaming_distributions2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_streaming_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/streaming-distribution",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/streaming-distribution", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2308,19 +1511,9 @@ List tags for a CloudFront resource.
 - `resource`:  An ARN of a CloudFront resource.
 
 """
-function list_tags_for_resource2020_05_31(
-    Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource2020_05_31(Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "GET",
-        "/2020-05-31/tagging",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2340,23 +1533,9 @@ DescribeFunction.
 - `name`: The name of the function that you are publishing.
 
 """
-function publish_function2020_05_31(
-    If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function publish_function2020_05_31(If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/function/$(Name)/publish",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/function/$(Name)/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2369,21 +1548,9 @@ Add tags to a CloudFront resource.
 - `tags`:  A complex type that contains zero or more Tag elements.
 
 """
-function tag_resource2020_05_31(
-    Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource2020_05_31(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/tagging?Operation=Tag",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Resource" => Resource, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2407,34 +1574,12 @@ DescribeFunction.
   you can get using DescribeFunction.
 - `name`: The name of the function that you are testing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"stage"`: The stage of the function that you are testing, either DEVELOPMENT or LIVE.
+# Keyword Parameters
+- `stage`: The stage of the function that you are testing, either DEVELOPMENT or LIVE.
 """
-function test_function2020_05_31(
-    EventObject,
-    If_Match,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function test_function2020_05_31(EventObject, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/function/$(Name)/test",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EventObject" => EventObject,
-                    "headers" => Dict{String,Any}("If-Match" => If_Match),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/function/$(Name)/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventObject"=>EventObject, "headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2447,23 +1592,9 @@ Remove tags from a CloudFront resource.
 - `tag_keys`:  A complex type that contains zero or more Tag key elements.
 
 """
-function untag_resource2020_05_31(
-    Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource2020_05_31(Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "POST",
-        "/2020-05-31/tagging?Operation=Untag",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Resource" => Resource, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2483,26 +1614,13 @@ didn’t.
   returned in a cache behavior’s CachePolicyId field in the response to
   GetDistributionConfig.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the cache policy that you are updating. The version is
+# Keyword Parameters
+- `if_match`: The version of the cache policy that you are updating. The version is
   returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
 """
-function update_cache_policy2020_05_31(
-    CachePolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_cache_policy2020_05_31(CachePolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/cache-policy/$(Id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CachePolicyConfig" => CachePolicyConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2514,34 +1632,13 @@ Update an origin access identity.
 - `cloud_front_origin_access_identity_config`: The identity's configuration information.
 - `id`: The identity's id.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the
-  identity's configuration. For example: E2QWRUHAPOMQZL.
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the identity's
+  configuration. For example: E2QWRUHAPOMQZL.
 """
-function update_cloud_front_origin_access_identity2020_05_31(
-    CloudFrontOriginAccessIdentityConfig,
-    Id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CloudFrontOriginAccessIdentityConfig" =>
-                        CloudFrontOriginAccessIdentityConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2585,26 +1682,13 @@ Status is Deployed.
 - `distribution_config`: The distribution's configuration information.
 - `id`: The distribution's id.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the
   distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-function update_distribution2020_05_31(
-    DistributionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_distribution2020_05_31(DistributionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/distribution/$(Id)/config",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DistributionConfig" => DistributionConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2617,33 +1701,13 @@ Update a field-level encryption configuration.
   configuration.
 - `id`: The ID of the configuration you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the
   configuration identity to update. For example: E2QWRUHAPOMQZL.
 """
-function update_field_level_encryption_config2020_05_31(
-    FieldLevelEncryptionConfig,
-    Id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/field-level-encryption/$(Id)/config",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FieldLevelEncryptionConfig" => FieldLevelEncryptionConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2656,33 +1720,13 @@ Update a field-level encryption profile.
   profile.
 - `id`: The ID of the field-level encryption profile request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the profile
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the profile
   identity to update. For example: E2QWRUHAPOMQZL.
 """
-function update_field_level_encryption_profile2020_05_31(
-    FieldLevelEncryptionProfileConfig,
-    Id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/field-level-encryption-profile/$(Id)/config",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FieldLevelEncryptionProfileConfig" => FieldLevelEncryptionProfileConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2703,32 +1747,9 @@ code. To get the name and version, you can use ListFunctions and DescribeFunctio
 - `name`: The name of the function that you are updating.
 
 """
-function update_function2020_05_31(
-    FunctionCode,
-    FunctionConfig,
-    If_Match,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_function2020_05_31(FunctionCode, FunctionConfig, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/function/$(Name)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FunctionCode" => FunctionCode,
-                    "FunctionConfig" => FunctionConfig,
-                    "headers" => Dict{String,Any}("If-Match" => If_Match),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/function/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2745,24 +1766,13 @@ the fields that you modified and those that you didn’t.
 - `id`: The identifier of the key group that you are updating.
 - `key_group_config`: The key group configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the key group that you are updating. The version is the key
+# Keyword Parameters
+- `if_match`: The version of the key group that you are updating. The version is the key
   group’s ETag value.
 """
-function update_key_group2020_05_31(
-    Id, KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_key_group2020_05_31(Id, KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/key-group/$(Id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2782,32 +1792,14 @@ configuration, including the fields that you modified and those that you didn’
   to GetDistributionConfig.
 - `origin_request_policy_config`: An origin request policy configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the origin request policy that you are updating. The version
+# Keyword Parameters
+- `if_match`: The version of the origin request policy that you are updating. The version
   is returned in the origin request policy’s ETag field in the response to
   GetOriginRequestPolicyConfig.
 """
-function update_origin_request_policy2020_05_31(
-    Id,
-    OriginRequestPolicyConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/origin-request-policy/$(Id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OriginRequestPolicyConfig" => OriginRequestPolicyConfig),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2819,26 +1811,13 @@ Update public key information. Note that the only value you can change is the co
 - `id`: The identifier of the public key that you are updating.
 - `public_key_config`: A public key configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the public
-  key to update. For example: E2QWRUHAPOMQZL.
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the public key
+  to update. For example: E2QWRUHAPOMQZL.
 """
-function update_public_key2020_05_31(
-    Id, PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_public_key2020_05_31(Id, PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/public-key/$(Id)/config",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("PublicKeyConfig" => PublicKeyConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2853,30 +1832,21 @@ parameters in the real-time log configuration that you want to update.   Call th
 the parameters that you modified and those that you didn’t.   You cannot update a
 real-time log configuration’s Name or ARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"arn"`: The Amazon Resource Name (ARN) for this real-time log configuration.
-- `"end_points"`: Contains information about the Amazon Kinesis data stream where you are
+# Keyword Parameters
+- `arn`: The Amazon Resource Name (ARN) for this real-time log configuration.
+- `end_points`: Contains information about the Amazon Kinesis data stream where you are
   sending real-time log data.
-- `"fields"`: A list of fields to include in each real-time log record. For more
-  information about fields, see Real-time log configuration fields in the Amazon CloudFront
-  Developer Guide.
-- `"name"`: The name for this real-time log configuration.
-- `"sampling_rate"`: The sampling rate for this real-time log configuration. The sampling
+- `fields`: A list of fields to include in each real-time log record. For more information
+  about fields, see Real-time log configuration fields in the Amazon CloudFront Developer
+  Guide.
+- `name`: The name for this real-time log configuration.
+- `sampling_rate`: The sampling rate for this real-time log configuration. The sampling
   rate determines the percentage of viewer requests that are represented in the real-time log
   data. You must provide an integer between 1 and 100, inclusive.
 """
-function update_realtime_log_config2020_05_31(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/realtime-log-config/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/realtime-log-config/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2894,34 +1864,14 @@ those that you didn’t.
 - `id`: The identifier for the response headers policy that you are updating.
 - `response_headers_policy_config`: A response headers policy configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The version of the response headers policy that you are updating. The
-  version is returned in the cache policy’s ETag field in the response to
+# Keyword Parameters
+- `if_match`: The version of the response headers policy that you are updating. The version
+  is returned in the cache policy’s ETag field in the response to
   GetResponseHeadersPolicyConfig.
 """
-function update_response_headers_policy2020_05_31(
-    Id,
-    ResponseHeadersPolicyConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_response_headers_policy2020_05_31(Id, ResponseHeadersPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/response-headers-policy/$(Id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResponseHeadersPolicyConfig" => ResponseHeadersPolicyConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/response-headers-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResponseHeadersPolicyConfig"=>ResponseHeadersPolicyConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2933,31 +1883,11 @@ Update a streaming distribution.
 - `id`: The streaming distribution's id.
 - `streaming_distribution_config`: The streaming distribution's configuration information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"if_match"`: The value of the ETag header that you received when retrieving the
-  streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
+# Keyword Parameters
+- `if_match`: The value of the ETag header that you received when retrieving the streaming
+  distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-function update_streaming_distribution2020_05_31(
-    Id,
-    StreamingDistributionConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudfront(
-        "PUT",
-        "/2020-05-31/streaming-distribution/$(Id)/config",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "StreamingDistributionConfig" => StreamingDistributionConfig
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

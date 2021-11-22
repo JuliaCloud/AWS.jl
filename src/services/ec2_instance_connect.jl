@@ -4,7 +4,8 @@ using AWS.AWSServices: ec2_instance_connect
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict("serial_port" => "SerialPort")
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("serial_port" => "SerialPort")
 
 """
     send_serial_console_sshpublic_key(instance_id, sshpublic_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -19,29 +20,13 @@ SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
   matching private key. For information about the supported key formats and lengths, see
   Requirements for key pairs in the Amazon EC2 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"serial_port"`: The serial port of the EC2 instance. Currently only port 0 is supported.
+# Keyword Parameters
+- `serial_port`: The serial port of the EC2 instance. Currently only port 0 is supported.
   Default: 0
 """
-function send_serial_console_sshpublic_key(
-    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_serial_console_sshpublic_key(InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ec2_instance_connect(
-        "SendSerialConsoleSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -60,30 +45,7 @@ EC2 Instance Connect in the Amazon EC2 User Guide.
   matching private key.
 
 """
-function send_sshpublic_key(
-    AvailabilityZone,
-    InstanceId,
-    InstanceOSUser,
-    SSHPublicKey;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_sshpublic_key(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ec2_instance_connect(
-        "SendSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AvailabilityZone" => AvailabilityZone,
-                    "InstanceId" => InstanceId,
-                    "InstanceOSUser" => InstanceOSUser,
-                    "SSHPublicKey" => SSHPublicKey,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

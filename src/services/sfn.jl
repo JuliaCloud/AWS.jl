@@ -4,25 +4,8 @@ using AWS.AWSServices: sfn
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "status_filter" => "statusFilter",
-    "tracing_configuration" => "tracingConfiguration",
-    "next_token" => "nextToken",
-    "role_arn" => "roleArn",
-    "name" => "name",
-    "logging_configuration" => "loggingConfiguration",
-    "cause" => "cause",
-    "include_execution_data" => "includeExecutionData",
-    "max_results" => "maxResults",
-    "error" => "error",
-    "reverse_order" => "reverseOrder",
-    "input" => "input",
-    "definition" => "definition",
-    "trace_header" => "traceHeader",
-    "tags" => "tags",
-    "type" => "type",
-    "worker_name" => "workerName",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("worker_name" => "workerName", "cause" => "cause", "error" => "error", "include_execution_data" => "includeExecutionData", "max_results" => "maxResults", "next_token" => "nextToken", "reverse_order" => "reverseOrder", "input" => "input", "name" => "name", "trace_header" => "traceHeader", "status_filter" => "statusFilter", "tags" => "tags", "definition" => "definition", "logging_configuration" => "loggingConfiguration", "role_arn" => "roleArn", "tracing_configuration" => "tracingConfiguration", "type" => "type")
 
 """
     create_activity(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -47,21 +30,15 @@ previous. In this case, tags will not be updated, even if they are different.
   ^ | ~ `  &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging
   with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The list of tags to add to a resource. An array of key-value pairs. For more
+# Keyword Parameters
+- `tags`: The list of tags to add to a resource. An array of key-value pairs. For more
   information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User
   Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters,
   digits, white space, or these symbols: _ . : / = + - @.
 """
 function create_activity(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "CreateActivity",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("CreateActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -89,37 +66,21 @@ even if they are different.
   Logs, the name should only contain 0-9, A-Z, a-z, - and _.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"logging_configuration"`: Defines what execution history events are logged and where
-  they are logged.  By default, the level is set to OFF. For more information see Log Levels
-  in the AWS Step Functions User Guide.
-- `"tags"`: Tags to be added when creating a state machine. An array of key-value pairs.
-  For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management
+# Keyword Parameters
+- `logging_configuration`: Defines what execution history events are logged and where they
+  are logged.  By default, the level is set to OFF. For more information see Log Levels in
+  the AWS Step Functions User Guide.
+- `tags`: Tags to be added when creating a state machine. An array of key-value pairs. For
+  more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management
   User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters,
   digits, white space, or these symbols: _ . : / = + - @.
-- `"tracing_configuration"`: Selects whether AWS X-Ray tracing is enabled.
-- `"type"`: Determines whether a Standard or Express state machine is created. The default
-  is STANDARD. You cannot update the type of a state machine once it has been created.
+- `tracing_configuration`: Selects whether AWS X-Ray tracing is enabled.
+- `type`: Determines whether a Standard or Express state machine is created. The default is
+  STANDARD. You cannot update the type of a state machine once it has been created.
 """
-function create_state_machine(
-    definition, name, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_state_machine(definition, name, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "CreateStateMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "definition" => definition, "name" => name, "roleArn" => roleArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("CreateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -131,18 +92,9 @@ Deletes an activity.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to delete.
 
 """
-function delete_activity(
-    activityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "DeleteActivity",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("DeleteActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,20 +109,9 @@ logs after DeleteStateMachine API is called.
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine to delete.
 
 """
-function delete_state_machine(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_state_machine(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "DeleteStateMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("DeleteStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -183,18 +124,9 @@ effort and may not reflect very recent updates and changes.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to describe.
 
 """
-function describe_activity(
-    activityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "DescribeActivity",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("DescribeActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -208,18 +140,9 @@ supported by EXPRESS state machines.
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to describe.
 
 """
-function describe_execution(
-    executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "DescribeExecution",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("DescribeExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -232,20 +155,9 @@ effort and may not reflect very recent updates and changes.
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine to describe.
 
 """
-function describe_state_machine(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_state_machine(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "DescribeStateMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("DescribeStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -260,18 +172,9 @@ and changes.  This API action is not supported by EXPRESS state machines.
   information for.
 
 """
-function describe_state_machine_for_execution(
-    executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_state_machine_for_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "DescribeStateMachineForExecution",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("DescribeStateMachineForExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -292,23 +195,13 @@ Developer Guide.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to retrieve tasks from
   (assigned when you create the task using CreateActivity.)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"worker_name"`: You can provide an arbitrary name in order to identify the worker that
-  the task is assigned to. This name is used when it is logged in the execution history.
+# Keyword Parameters
+- `worker_name`: You can provide an arbitrary name in order to identify the worker that the
+  task is assigned to. This name is used when it is logged in the execution history.
 """
-function get_activity_task(
-    activityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_activity_task(activityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "GetActivityTask",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("GetActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -326,33 +219,23 @@ state machines.
 # Arguments
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_execution_data"`: You can select whether execution data (input or output of a
+# Keyword Parameters
+- `include_execution_data`: You can select whether execution data (input or output of a
   history event) is returned. The default is true.
-- `"max_results"`: The maximum number of results that are returned per call. You can use
+- `max_results`: The maximum number of results that are returned per call. You can use
   nextToken to obtain further pages of results. The default is 100 and the maximum allowed
   page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual
   number of results returned per call might be fewer than the specified maximum.
-- `"next_token"`: If nextToken is returned, there are more results available. The value of
+- `next_token`: If nextToken is returned, there are more results available. The value of
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
-- `"reverse_order"`: Lists events in descending order of their timeStamp.
+- `reverse_order`: Lists events in descending order of their timeStamp.
 """
-function get_execution_history(
-    executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_execution_history(executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "GetExecutionHistory",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("GetExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -365,13 +248,12 @@ Each pagination token expires after 24 hours. Using an expired pagination token 
 an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are
 best effort and may not reflect very recent updates and changes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results that are returned per call. You can use
+# Keyword Parameters
+- `max_results`: The maximum number of results that are returned per call. You can use
   nextToken to obtain further pages of results. The default is 100 and the maximum allowed
   page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual
   number of results returned per call might be fewer than the specified maximum.
-- `"next_token"`: If nextToken is returned, there are more results available. The value of
+- `next_token`: If nextToken is returned, there are more results available. The value of
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
@@ -379,9 +261,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_activities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "ListActivities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sfn("ListActivities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -400,34 +280,22 @@ changes.  This API action is not supported by EXPRESS state machines.
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine whose executions
   is listed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results that are returned per call. You can use
+# Keyword Parameters
+- `max_results`: The maximum number of results that are returned per call. You can use
   nextToken to obtain further pages of results. The default is 100 and the maximum allowed
   page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual
   number of results returned per call might be fewer than the specified maximum.
-- `"next_token"`: If nextToken is returned, there are more results available. The value of
+- `next_token`: If nextToken is returned, there are more results available. The value of
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
-- `"status_filter"`: If specified, only list the executions whose current execution status
+- `status_filter`: If specified, only list the executions whose current execution status
   matches the given filter.
 """
-function list_executions(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_executions(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "ListExecutions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("ListExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -440,13 +308,12 @@ unchanged. Each pagination token expires after 24 hours. Using an expired pagina
 will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The
 results are best effort and may not reflect very recent updates and changes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results that are returned per call. You can use
+# Keyword Parameters
+- `max_results`: The maximum number of results that are returned per call. You can use
   nextToken to obtain further pages of results. The default is 100 and the maximum allowed
   page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual
   number of results returned per call might be fewer than the specified maximum.
-- `"next_token"`: If nextToken is returned, there are more results available. The value of
+- `next_token`: If nextToken is returned, there are more results available. The value of
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
@@ -454,9 +321,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_state_machines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "ListStateMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sfn("ListStateMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -470,18 +335,9 @@ or these symbols: _ . : / = + - @.
   activity.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -495,23 +351,13 @@ identified by the taskToken failed.
   Functions when tasks are assigned to a worker, or in the context object when a workflow
   enters a task state. See GetActivityTaskOutputtaskToken.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cause"`: A more detailed explanation of the cause of the failure.
-- `"error"`: The error code of the failure.
+# Keyword Parameters
+- `cause`: A more detailed explanation of the cause of the failure.
+- `error`: The error code of the failure.
 """
-function send_task_failure(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_task_failure(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "SendTaskFailure",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("SendTaskFailure", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -534,18 +380,9 @@ configure the timeout interval for heartbeats.
   enters a task state. See GetActivityTaskOutputtaskToken.
 
 """
-function send_task_heartbeat(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "SendTaskHeartbeat",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("SendTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -562,22 +399,9 @@ identified by the taskToken completed successfully.
   enters a task state. See GetActivityTaskOutputtaskToken.
 
 """
-function send_task_success(
-    output, taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_task_success(output, taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "SendTaskSuccess",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("output" => output, "taskToken" => taskToken),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("SendTaskSuccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("output"=>output, "taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -592,35 +416,23 @@ after 90 days.
 # Arguments
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine to execute.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"input"`: The string that contains the JSON input data for the execution, for example:
+# Keyword Parameters
+- `input`: The string that contains the JSON input data for the execution, for example:
   \"input\": \"{\"first_name\" : \"test\"}\"   If you don't include any JSON input data, you
   still must include the two braces, for example: \"input\": \"{}\"   Length constraints
   apply to the payload size, and are expressed as bytes in UTF-8 encoding.
-- `"name"`: The name of the execution. This name must be unique for your AWS account,
-  region, and state machine for 90 days. For more information, see  Limits Related to State
-  Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:
-  white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters
-  \" # %  ^ | ~ `  &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable
-  logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
-- `"trace_header"`: Passes the AWS X-Ray trace header. The trace header can also be passed
-  in the request payload.
+- `name`: The name of the execution. This name must be unique for your AWS account, region,
+  and state machine for 90 days. For more information, see  Limits Related to State Machine
+  Executions in the AWS Step Functions Developer Guide. A name must not contain:   white
+  space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters \" # %
+  ^ | ~ `  &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging
+  with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+- `trace_header`: Passes the AWS X-Ray trace header. The trace header can also be passed in
+  the request payload.
 """
-function start_execution(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "StartExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("StartExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -631,30 +443,18 @@ Starts a Synchronous Express state machine execution.
 # Arguments
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine to execute.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"input"`: The string that contains the JSON input data for the execution, for example:
+# Keyword Parameters
+- `input`: The string that contains the JSON input data for the execution, for example:
   \"input\": \"{\"first_name\" : \"test\"}\"   If you don't include any JSON input data, you
   still must include the two braces, for example: \"input\": \"{}\"   Length constraints
   apply to the payload size, and are expressed as bytes in UTF-8 encoding.
-- `"name"`: The name of the execution.
-- `"trace_header"`: Passes the AWS X-Ray trace header. The trace header can also be passed
-  in the request payload.
+- `name`: The name of the execution.
+- `trace_header`: Passes the AWS X-Ray trace header. The trace header can also be passed in
+  the request payload.
 """
-function start_sync_execution(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_sync_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "StartSyncExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("StartSyncExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -665,23 +465,13 @@ Stops an execution. This API action is not supported by EXPRESS state machines.
 # Arguments
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to stop.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cause"`: A more detailed explanation of the cause of the failure.
-- `"error"`: The error code of the failure.
+# Keyword Parameters
+- `cause`: A more detailed explanation of the cause of the failure.
+- `error`: The error code of the failure.
 """
-function stop_execution(
-    executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "StopExecution",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("StopExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -699,22 +489,9 @@ space, or these symbols: _ . : / = + - @.
   digits, white space, or these symbols: _ . : / = + - @.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -728,22 +505,9 @@ Remove a tag from a Step Functions resource
 - `tag_keys`: The list of tags to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -759,27 +523,15 @@ UpdateStateMachine may use the previous state machine definition and roleArn.
 # Arguments
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"definition"`: The Amazon States Language definition of the state machine. See Amazon
+# Keyword Parameters
+- `definition`: The Amazon States Language definition of the state machine. See Amazon
   States Language.
-- `"logging_configuration"`: The LoggingConfiguration data type is used to set CloudWatch
+- `logging_configuration`: The LoggingConfiguration data type is used to set CloudWatch
   Logs options.
-- `"role_arn"`: The Amazon Resource Name (ARN) of the IAM role of the state machine.
-- `"tracing_configuration"`: Selects whether AWS X-Ray tracing is enabled.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role of the state machine.
+- `tracing_configuration`: Selects whether AWS X-Ray tracing is enabled.
 """
-function update_state_machine(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_state_machine(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sfn(
-        "UpdateStateMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sfn("UpdateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

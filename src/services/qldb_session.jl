@@ -4,16 +4,8 @@ using AWS.AWSServices: qldb_session
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "execute_statement" => "ExecuteStatement",
-    "fetch_page" => "FetchPage",
-    "commit_transaction" => "CommitTransaction",
-    "start_session" => "StartSession",
-    "session_token" => "SessionToken",
-    "end_session" => "EndSession",
-    "abort_transaction" => "AbortTransaction",
-    "start_transaction" => "StartTransaction",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("abort_transaction" => "AbortTransaction", "commit_transaction" => "CommitTransaction", "end_session" => "EndSession", "execute_statement" => "ExecuteStatement", "fetch_page" => "FetchPage", "session_token" => "SessionToken", "start_session" => "StartSession", "start_transaction" => "StartTransaction")
 
 """
     send_command(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,24 +20,21 @@ AWS Command Line Interface (AWS CLI), use the QLDB shell. The shell is a command
 interface that uses the QLDB driver to interact with a ledger. For information, see
 Accessing Amazon QLDB using the QLDB shell.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"abort_transaction"`: Command to abort the current transaction.
-- `"commit_transaction"`: Command to commit the specified transaction.
-- `"end_session"`: Command to end the current session.
-- `"execute_statement"`: Command to execute a statement in the specified transaction.
-- `"fetch_page"`: Command to fetch a page.
-- `"session_token"`: Specifies the session token for the current command. A session token
-  is constant throughout the life of the session. To obtain a session token, run the
+# Keyword Parameters
+- `abort_transaction`: Command to abort the current transaction.
+- `commit_transaction`: Command to commit the specified transaction.
+- `end_session`: Command to end the current session.
+- `execute_statement`: Command to execute a statement in the specified transaction.
+- `fetch_page`: Command to fetch a page.
+- `session_token`: Specifies the session token for the current command. A session token is
+  constant throughout the life of the session. To obtain a session token, run the
   StartSession command. This SessionToken is required for every subsequent command that is
   issued during the current session.
-- `"start_session"`: Command to start a new session. A session token is obtained as part of
+- `start_session`: Command to start a new session. A session token is obtained as part of
   the response.
-- `"start_transaction"`: Command to start a new transaction.
+- `start_transaction`: Command to start a new transaction.
 """
 function send_command(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return qldb_session(
-        "SendCommand", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return qldb_session("SendCommand", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

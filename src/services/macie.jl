@@ -4,11 +4,8 @@ using AWS.AWSServices: macie
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "member_account_id" => "memberAccountId",
-    "next_token" => "nextToken",
-    "max_results" => "maxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("member_account_id" => "memberAccountId", "max_results" => "maxResults", "next_token" => "nextToken")
 
 """
     associate_member_account(member_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -20,20 +17,9 @@ Associates a specified AWS account with Amazon Macie Classic as a member account
   Macie Classic as a member account.
 
 """
-function associate_member_account(
-    memberAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_member_account(memberAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "AssociateMemberAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("memberAccountId" => memberAccountId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie("AssociateMemberAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("memberAccountId"=>memberAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -49,23 +35,13 @@ Classic for the specified member account.
 - `s3_resources`: The S3 resources that you want to associate with Amazon Macie Classic for
   monitoring and data classification.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"member_account_id"`: The ID of the Amazon Macie Classic member account whose resources
+# Keyword Parameters
+- `member_account_id`: The ID of the Amazon Macie Classic member account whose resources
   you want to associate with Macie Classic.
 """
-function associate_s3_resources(
-    s3Resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_s3_resources(s3Resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "AssociateS3Resources",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("s3Resources" => s3Resources), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie("AssociateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3Resources"=>s3Resources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -78,20 +54,9 @@ Removes the specified member account from Amazon Macie Classic.
   Macie Classic.
 
 """
-function disassociate_member_account(
-    memberAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_member_account(memberAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "DisassociateMemberAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("memberAccountId" => memberAccountId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie("DisassociateMemberAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("memberAccountId"=>memberAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -107,27 +72,13 @@ member account.
 - `associated_s3_resources`: The S3 resources (buckets or prefixes) that you want to remove
   from being monitored and classified by Amazon Macie Classic.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"member_account_id"`: The ID of the Amazon Macie Classic member account whose resources
+# Keyword Parameters
+- `member_account_id`: The ID of the Amazon Macie Classic member account whose resources
   you want to remove from being monitored by Macie Classic.
 """
-function disassociate_s3_resources(
-    associatedS3Resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_s3_resources(associatedS3Resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "DisassociateS3Resources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("associatedS3Resources" => associatedS3Resources),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie("DisassociateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associatedS3Resources"=>associatedS3Resources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -136,22 +87,17 @@ end
 Lists all Amazon Macie Classic member accounts for the current Macie Classic administrator
 account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Use this parameter to indicate the maximum number of items that you want
+# Keyword Parameters
+- `max_results`: Use this parameter to indicate the maximum number of items that you want
   in the response. The default value is 250.
-- `"next_token"`: Use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the ListMemberAccounts action. Subsequent calls to
-  the action fill nextToken in the request with the value of nextToken from the previous
-  response to continue listing data.
+- `next_token`: Use this parameter when paginating results. Set the value of this parameter
+  to null on your first call to the ListMemberAccounts action. Subsequent calls to the action
+  fill nextToken in the request with the value of nextToken from the previous response to
+  continue listing data.
 """
-function list_member_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "ListMemberAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie("ListMemberAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -162,22 +108,19 @@ specified, the action lists the S3 resources associated with Macie Classic for t
 Macie Classic administrator account. If memberAccountId is specified, the action lists the
 S3 resources associated with Macie Classic for the specified member account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Use this parameter to indicate the maximum number of items that you want
+# Keyword Parameters
+- `max_results`: Use this parameter to indicate the maximum number of items that you want
   in the response. The default value is 250.
-- `"member_account_id"`: The Amazon Macie Classic member account ID whose associated S3
+- `member_account_id`: The Amazon Macie Classic member account ID whose associated S3
   resources you want to list.
-- `"next_token"`: Use this parameter when paginating results. Set its value to null on your
+- `next_token`: Use this parameter when paginating results. Set its value to null on your
   first call to the ListS3Resources action. Subsequent calls to the action fill nextToken in
   the request with the value of nextToken from the previous response to continue listing
   data.
 """
 function list_s3_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "ListS3Resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie("ListS3Resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,23 +135,11 @@ resources associated with Macie Classic for the specified member account.
 # Arguments
 - `s3_resources_update`: The S3 resources whose classification types you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"member_account_id"`: The AWS ID of the Amazon Macie Classic member account whose S3
+# Keyword Parameters
+- `member_account_id`: The AWS ID of the Amazon Macie Classic member account whose S3
   resources' classification types you want to update.
 """
-function update_s3_resources(
-    s3ResourcesUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_s3_resources(s3ResourcesUpdate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie(
-        "UpdateS3Resources",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("s3ResourcesUpdate" => s3ResourcesUpdate), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie("UpdateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3ResourcesUpdate"=>s3ResourcesUpdate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

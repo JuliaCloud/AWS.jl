@@ -4,39 +4,8 @@ using AWS.AWSServices: iot_wireless
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "next_token" => "nextToken",
-    "client_request_token" => "ClientRequestToken",
-    "firmware_update_role" => "FirmwareUpdateRole",
-    "role_arn" => "RoleArn",
-    "lo_ra_wan" => "LoRaWAN",
-    "name" => "Name",
-    "wireless_device_log_options" => "WirelessDeviceLogOptions",
-    "query_string" => "QueryString",
-    "service_type" => "serviceType",
-    "firmware_update_image" => "FirmwareUpdateImage",
-    "wireless_metadata" => "WirelessMetadata",
-    "destination_name" => "DestinationName",
-    "fuota_task_id" => "fuotaTaskId",
-    "partner_type" => "partnerType",
-    "description" => "Description",
-    "max_results" => "maxResults",
-    "join_eui_filters" => "JoinEuiFilters",
-    "expression_type" => "ExpressionType",
-    "service_profile_id" => "serviceProfileId",
-    "wireless_device_type" => "wirelessDeviceType",
-    "multicast_group_id" => "multicastGroupId",
-    "default_log_level" => "DefaultLogLevel",
-    "wireless_gateway_log_options" => "WirelessGatewayLogOptions",
-    "task_definition_type" => "taskDefinitionType",
-    "update" => "Update",
-    "expression" => "Expression",
-    "device_profile_id" => "deviceProfileId",
-    "proximity" => "Proximity",
-    "net_id_filters" => "NetIdFilters",
-    "device_registration_state" => "DeviceRegistrationState",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "task_definition_type" => "taskDefinitionType", "partner_type" => "partnerType", "client_request_token" => "ClientRequestToken", "description" => "Description", "lo_ra_wan" => "LoRaWAN", "name" => "Name", "tags" => "Tags", "update" => "Update", "expression" => "Expression", "expression_type" => "ExpressionType", "role_arn" => "RoleArn", "destination_name" => "DestinationName", "device_profile_id" => "deviceProfileId", "fuota_task_id" => "fuotaTaskId", "multicast_group_id" => "multicastGroupId", "service_profile_id" => "serviceProfileId", "wireless_device_type" => "wirelessDeviceType", "join_eui_filters" => "JoinEuiFilters", "net_id_filters" => "NetIdFilters", "firmware_update_image" => "FirmwareUpdateImage", "firmware_update_role" => "FirmwareUpdateRole", "query_string" => "QueryString", "service_type" => "serviceType", "wireless_metadata" => "WirelessMetadata", "device_registration_state" => "DeviceRegistrationState", "proximity" => "Proximity", "default_log_level" => "DefaultLogLevel", "wireless_device_log_options" => "WirelessDeviceLogOptions", "wireless_gateway_log_options" => "WirelessGatewayLogOptions")
 
 """
     associate_aws_account_with_partner_account(sidewalk; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -46,34 +15,17 @@ Associates a partner account with your AWS account.
 # Arguments
 - `sidewalk`: The Sidewalk account credentials.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"tags"`: The tags to attach to the specified resource. Tags are metadata that you can
-  use to manage a resource.
+- `tags`: The tags to attach to the specified resource. Tags are metadata that you can use
+  to manage a resource.
 """
-function associate_aws_account_with_partner_account(
-    Sidewalk; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_aws_account_with_partner_account(Sidewalk; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/partner-accounts",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Sidewalk" => Sidewalk, "client_request_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/partner-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -86,21 +38,9 @@ Associate a multicast group with a FUOTA task.
 - `multicast_group_id`:
 
 """
-function associate_multicast_group_with_fuota_task(
-    Id, MulticastGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_multicast_group_with_fuota_task(Id, MulticastGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/fuota-tasks/$(Id)/multicast-group",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("MulticastGroupId" => MulticastGroupId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/fuota-tasks/$(Id)/multicast-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MulticastGroupId"=>MulticastGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -113,21 +53,9 @@ Associate a wireless device with a FUOTA task.
 - `wireless_device_id`:
 
 """
-function associate_wireless_device_with_fuota_task(
-    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_wireless_device_with_fuota_task(Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/fuota-tasks/$(Id)/wireless-device",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("WirelessDeviceId" => WirelessDeviceId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/fuota-tasks/$(Id)/wireless-device", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WirelessDeviceId"=>WirelessDeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -140,21 +68,9 @@ Associates a wireless device with a multicast group.
 - `wireless_device_id`:
 
 """
-function associate_wireless_device_with_multicast_group(
-    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_wireless_device_with_multicast_group(Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/multicast-groups/$(Id)/wireless-device",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("WirelessDeviceId" => WirelessDeviceId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/multicast-groups/$(Id)/wireless-device", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WirelessDeviceId"=>WirelessDeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -167,19 +83,9 @@ Associates a wireless device with a thing.
 - `thing_arn`: The ARN of the thing to associate with the wireless device.
 
 """
-function associate_wireless_device_with_thing(
-    Id, ThingArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_wireless_device_with_thing(Id, ThingArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/wireless-devices/$(Id)/thing",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ThingArn" => ThingArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/wireless-devices/$(Id)/thing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThingArn"=>ThingArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,21 +98,9 @@ Associates a wireless gateway with a certificate.
 - `iot_certificate_id`: The ID of the certificate to associate with the wireless gateway.
 
 """
-function associate_wireless_gateway_with_certificate(
-    Id, IotCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_wireless_gateway_with_certificate(Id, IotCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/wireless-gateways/$(Id)/certificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("IotCertificateId" => IotCertificateId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/wireless-gateways/$(Id)/certificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IotCertificateId"=>IotCertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -219,19 +113,9 @@ Associates a wireless gateway with a thing.
 - `thing_arn`: The ARN of the thing to associate with the wireless gateway.
 
 """
-function associate_wireless_gateway_with_thing(
-    Id, ThingArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_wireless_gateway_with_thing(Id, ThingArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/wireless-gateways/$(Id)/thing",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ThingArn" => ThingArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/wireless-gateways/$(Id)/thing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThingArn"=>ThingArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -243,17 +127,9 @@ Cancels an existing multicast group session.
 - `id`:
 
 """
-function cancel_multicast_group_session(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_multicast_group_session(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/multicast-groups/$(Id)/session",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/multicast-groups/$(Id)/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -267,44 +143,18 @@ Creates a new destination that maps a device message to an AWS IoT rule.
 - `name`: The name of the new resource.
 - `role_arn`: The ARN of the IAM Role that authorizes the destination.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"description"`: The description of the new resource.
-- `"tags"`: The tags to attach to the new destination. Tags are metadata that you can use
-  to manage a resource.
+- `description`: The description of the new resource.
+- `tags`: The tags to attach to the new destination. Tags are metadata that you can use to
+  manage a resource.
 """
-function create_destination(
-    Expression,
-    ExpressionType,
-    Name,
-    RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_destination(Expression, ExpressionType, Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/destinations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Expression" => Expression,
-                    "ExpressionType" => ExpressionType,
-                    "Name" => Name,
-                    "RoleArn" => RoleArn,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -312,32 +162,19 @@ end
 
 Creates a new device profile.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"lo_ra_wan"`: The device profile information to use to create the device profile.
-- `"name"`: The name of the new resource.
-- `"tags"`: The tags to attach to the new device profile. Tags are metadata that you can
-  use to manage a resource.
+- `lo_ra_wan`: The device profile information to use to create the device profile.
+- `name`: The name of the new resource.
+- `tags`: The tags to attach to the new device profile. Tags are metadata that you can use
+  to manage a resource.
 """
-function create_device_profile(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_device_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/device-profiles",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/device-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -349,38 +186,16 @@ Creates a FUOTA task.
 - `firmware_update_image`:
 - `firmware_update_role`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"description"`:
-- `"lo_ra_wan"`:
-- `"name"`:
-- `"tags"`:
+# Keyword Parameters
+- `client_request_token`:
+- `description`:
+- `lo_ra_wan`:
+- `name`:
+- `tags`:
 """
-function create_fuota_task(
-    FirmwareUpdateImage,
-    FirmwareUpdateRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_fuota_task(FirmwareUpdateImage, FirmwareUpdateRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/fuota-tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FirmwareUpdateImage" => FirmwareUpdateImage,
-                    "FirmwareUpdateRole" => FirmwareUpdateRole,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/fuota-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirmwareUpdateImage"=>FirmwareUpdateImage, "FirmwareUpdateRole"=>FirmwareUpdateRole, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -391,35 +206,18 @@ Creates a multicast group.
 # Arguments
 - `lo_ra_wan`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"description"`: The description of the multicast group.
-- `"name"`:
-- `"tags"`:
+- `description`: The description of the multicast group.
+- `name`:
+- `tags`:
 """
-function create_multicast_group(
-    LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_multicast_group(LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/multicast-groups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoRaWAN" => LoRaWAN, "client_request_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/multicast-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -427,32 +225,19 @@ end
 
 Creates a new service profile.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"lo_ra_wan"`: The service profile information to use to create the service profile.
-- `"name"`: The name of the new resource.
-- `"tags"`: The tags to attach to the new service profile. Tags are metadata that you can
-  use to manage a resource.
+- `lo_ra_wan`: The service profile information to use to create the service profile.
+- `name`: The name of the new resource.
+- `tags`: The tags to attach to the new service profile. Tags are metadata that you can use
+  to manage a resource.
 """
-function create_service_profile(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_service_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/service-profiles",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/service-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -464,39 +249,20 @@ Provisions a wireless device.
 - `destination_name`: The name of the destination to assign to the new wireless device.
 - `type`: The wireless device type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"description"`: The description of the new resource.
-- `"lo_ra_wan"`: The device configuration information to use to create the wireless device.
-- `"name"`: The name of the new resource.
-- `"tags"`: The tags to attach to the new wireless device. Tags are metadata that you can
-  use to manage a resource.
+- `description`: The description of the new resource.
+- `lo_ra_wan`: The device configuration information to use to create the wireless device.
+- `name`: The name of the new resource.
+- `tags`: The tags to attach to the new wireless device. Tags are metadata that you can use
+  to manage a resource.
 """
-function create_wireless_device(
-    DestinationName, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_wireless_device(DestinationName, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/wireless-devices",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DestinationName" => DestinationName,
-                    "Type" => Type,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/wireless-devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationName"=>DestinationName, "Type"=>Type, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -507,36 +273,19 @@ Provisions a wireless gateway.
 # Arguments
 - `lo_ra_wan`: The gateway configuration information to use to create the wireless gateway.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"description"`: The description of the new resource.
-- `"name"`: The name of the new resource.
-- `"tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
+- `description`: The description of the new resource.
+- `name`: The name of the new resource.
+- `tags`: The tags to attach to the new wireless gateway. Tags are metadata that you can
   use to manage a resource.
 """
-function create_wireless_gateway(
-    LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_wireless_gateway(LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/wireless-gateways",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoRaWAN" => LoRaWAN, "client_request_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/wireless-gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -549,28 +298,9 @@ Creates a task for a wireless gateway.
 - `wireless_gateway_task_definition_id`: The ID of the WirelessGatewayTaskDefinition.
 
 """
-function create_wireless_gateway_task(
-    Id,
-    WirelessGatewayTaskDefinitionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_wireless_gateway_task(Id, WirelessGatewayTaskDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/wireless-gateways/$(Id)/tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "WirelessGatewayTaskDefinitionId" => WirelessGatewayTaskDefinitionId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/wireless-gateways/$(Id)/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WirelessGatewayTaskDefinitionId"=>WirelessGatewayTaskDefinitionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -583,37 +313,19 @@ Creates a gateway task definition.
   all gateways with the specified current version. If false, the task must me created by
   calling CreateWirelessGatewayTask.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Each resource must have a unique client request token. If you
-  try to create a new resource with the same token as a resource that already exists, an
+# Keyword Parameters
+- `client_request_token`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"name"`: The name of the new resource.
-- `"tags"`: The tags to attach to the specified resource. Tags are metadata that you can
-  use to manage a resource.
-- `"update"`: Information about the gateways to update.
+- `name`: The name of the new resource.
+- `tags`: The tags to attach to the specified resource. Tags are metadata that you can use
+  to manage a resource.
+- `update`: Information about the gateways to update.
 """
-function create_wireless_gateway_task_definition(
-    AutoCreateTasks; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_wireless_gateway_task_definition(AutoCreateTasks; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/wireless-gateway-task-definitions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AutoCreateTasks" => AutoCreateTasks,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/wireless-gateway-task-definitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoCreateTasks"=>AutoCreateTasks, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -625,17 +337,9 @@ Deletes a destination.
 - `name`: The name of the resource to delete.
 
 """
-function delete_destination(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_destination(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/destinations/$(Name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/destinations/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -647,17 +351,9 @@ Deletes a device profile.
 - `id`: The ID of the resource to delete.
 
 """
-function delete_device_profile(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/device-profiles/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/device-profiles/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -671,13 +367,7 @@ Deletes a FUOTA task.
 """
 function delete_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/fuota-tasks/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/fuota-tasks/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -689,17 +379,9 @@ Deletes a multicast group if it is not in use by a fuota task.
 - `id`:
 
 """
-function delete_multicast_group(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/multicast-groups/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/multicast-groups/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -711,17 +393,9 @@ Deletes a service profile.
 - `id`: The ID of the resource to delete.
 
 """
-function delete_service_profile(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_service_profile(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/service-profiles/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/service-profiles/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -733,17 +407,9 @@ Deletes a wireless device.
 - `id`: The ID of the resource to delete.
 
 """
-function delete_wireless_device(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-devices/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-devices/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -755,17 +421,9 @@ Deletes a wireless gateway.
 - `id`: The ID of the resource to delete.
 
 """
-function delete_wireless_gateway(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-gateways/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-gateways/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -777,17 +435,9 @@ Deletes a wireless gateway task.
 - `id`: The ID of the resource to delete.
 
 """
-function delete_wireless_gateway_task(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-gateways/$(Id)/tasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -800,17 +450,9 @@ tasks that are currently in progress.
 - `id`: The ID of the resource to delete.
 
 """
-function delete_wireless_gateway_task_definition(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_wireless_gateway_task_definition(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-gateway-task-definitions/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -824,22 +466,9 @@ are null, disassociates your AWS account from all partner accounts.
 - `partner_type`: The partner type.
 
 """
-function disassociate_aws_account_from_partner_account(
-    PartnerAccountId,
-    partnerType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_aws_account_from_partner_account(PartnerAccountId, partnerType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/partner-accounts/$(PartnerAccountId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("partnerType" => partnerType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -852,17 +481,9 @@ Disassociates a multicast group from a fuota task.
 - `multicast_group_id`:
 
 """
-function disassociate_multicast_group_from_fuota_task(
-    Id, MulticastGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_multicast_group_from_fuota_task(Id, MulticastGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/fuota-tasks/$(Id)/multicast-groups/$(MulticastGroupId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/fuota-tasks/$(Id)/multicast-groups/$(MulticastGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -875,17 +496,9 @@ Disassociates a wireless device from a FUOTA task.
 - `wireless_device_id`:
 
 """
-function disassociate_wireless_device_from_fuota_task(
-    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_wireless_device_from_fuota_task(Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/fuota-tasks/$(Id)/wireless-devices/$(WirelessDeviceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/fuota-tasks/$(Id)/wireless-devices/$(WirelessDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -898,17 +511,9 @@ Disassociates a wireless device from a multicast group.
 - `wireless_device_id`:
 
 """
-function disassociate_wireless_device_from_multicast_group(
-    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_wireless_device_from_multicast_group(Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/multicast-groups/$(Id)/wireless-devices/$(WirelessDeviceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/multicast-groups/$(Id)/wireless-devices/$(WirelessDeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -920,17 +525,9 @@ Disassociates a wireless device from its currently associated thing.
 - `id`: The ID of the resource to update.
 
 """
-function disassociate_wireless_device_from_thing(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_wireless_device_from_thing(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-devices/$(Id)/thing",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-devices/$(Id)/thing", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -942,17 +539,9 @@ Disassociates a wireless gateway from its currently associated certificate.
 - `id`: The ID of the resource to update.
 
 """
-function disassociate_wireless_gateway_from_certificate(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_wireless_gateway_from_certificate(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-gateways/$(Id)/certificate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -964,17 +553,9 @@ Disassociates a wireless gateway from its currently associated thing.
 - `id`: The ID of the resource to update.
 
 """
-function disassociate_wireless_gateway_from_thing(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_wireless_gateway_from_thing(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/wireless-gateways/$(Id)/thing",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/wireless-gateways/$(Id)/thing", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -988,13 +569,7 @@ Gets information about a destination.
 """
 function get_destination(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/destinations/$(Name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/destinations/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1006,17 +581,9 @@ Gets information about a device profile.
 - `id`: The ID of the resource to get.
 
 """
-function get_device_profile(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/device-profiles/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/device-profiles/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1030,13 +597,7 @@ Gets information about a FUOTA task.
 """
 function get_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/fuota-tasks/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/fuota-tasks/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1046,13 +607,9 @@ Returns current default log levels or log levels by resource types. Based on res
 types, log levels can be for wireless device log options or wireless gateway log options.
 
 """
-function get_log_levels_by_resource_types(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_log_levels_by_resource_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot_wireless("GET", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1064,17 +621,9 @@ Gets information about a multicast group.
 - `id`:
 
 """
-function get_multicast_group(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/multicast-groups/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/multicast-groups/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1086,17 +635,9 @@ Gets information about a multicast group session.
 - `id`:
 
 """
-function get_multicast_group_session(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_multicast_group_session(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/multicast-groups/$(Id)/session",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/multicast-groups/$(Id)/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1110,22 +651,9 @@ returns all partner accounts.
 - `partner_type`: The partner type.
 
 """
-function get_partner_account(
-    PartnerAccountId,
-    partnerType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_partner_account(PartnerAccountId, partnerType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/partner-accounts/$(PartnerAccountId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("partnerType" => partnerType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1138,23 +666,12 @@ Get the event configuration for a particular resource identifier.
 - `identifier_type`: Identifier type of the particular resource identifier for event
   configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"partner_type"`: Partner type of the resource if the identifier type is PartnerAccountId.
+# Keyword Parameters
+- `partner_type`: Partner type of the resource if the identifier type is PartnerAccountId.
 """
-function get_resource_event_configuration(
-    Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_resource_event_configuration(Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/event-configurations/$(Identifier)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/event-configurations/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1168,22 +685,9 @@ be used for a wireless device or a wireless gateway.
 - `resource_type`: The type of the resource, which can be WirelessDevice or WirelessGateway.
 
 """
-function get_resource_log_level(
-    ResourceIdentifier,
-    resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_resource_log_level(ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/log-levels/$(ResourceIdentifier)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1192,23 +696,14 @@ end
 Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or
 LoRaWAN Network Server (LNS) connections.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"service_type"`: The service type for which to get endpoint information about. Can be
-  CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network
-  Server endpoint.
+# Keyword Parameters
+- `service_type`: The service type for which to get endpoint information about. Can be CUPS
+  for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server
+  endpoint.
 """
-function get_service_endpoint(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_endpoint(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/service-endpoint",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/service-endpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1220,17 +715,9 @@ Gets information about a service profile.
 - `id`: The ID of the resource to get.
 
 """
-function get_service_profile(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_profile(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/service-profiles/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/service-profiles/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1243,19 +730,9 @@ Gets information about a wireless device.
 - `identifier_type`: The type of identifier used in identifier.
 
 """
-function get_wireless_device(
-    Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_device(Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-devices/$(Identifier)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-devices/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1267,17 +744,9 @@ Gets operating information about a wireless device.
 - `id`: The ID of the wireless device for which to get the data.
 
 """
-function get_wireless_device_statistics(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_device_statistics(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-devices/$(Id)/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-devices/$(Id)/statistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1290,19 +759,9 @@ Gets information about a wireless gateway.
 - `identifier_type`: The type of identifier used in identifier.
 
 """
-function get_wireless_gateway(
-    Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_gateway(Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateways/$(Identifier)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateways/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1314,17 +773,9 @@ Gets the ID of the certificate that is currently associated with a wireless gate
 - `id`: The ID of the resource to get.
 
 """
-function get_wireless_gateway_certificate(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_gateway_certificate(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateways/$(Id)/certificate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1336,17 +787,9 @@ Gets the firmware version and other information about a wireless gateway.
 - `id`: The ID of the resource to get.
 
 """
-function get_wireless_gateway_firmware_information(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_gateway_firmware_information(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateways/$(Id)/firmware-information",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateways/$(Id)/firmware-information", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1358,17 +801,9 @@ Gets operating information about a wireless gateway.
 - `id`: The ID of the wireless gateway for which to get the data.
 
 """
-function get_wireless_gateway_statistics(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_gateway_statistics(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateways/$(Id)/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateways/$(Id)/statistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1380,17 +815,9 @@ Gets information about a wireless gateway task.
 - `id`: The ID of the resource to get.
 
 """
-function get_wireless_gateway_task(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateways/$(Id)/tasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1402,17 +829,9 @@ Gets information about a wireless gateway task definition.
 - `id`: The ID of the resource to get.
 
 """
-function get_wireless_gateway_task_definition(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_wireless_gateway_task_definition(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateway-task-definitions/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1420,21 +839,14 @@ end
 
 Lists the destinations registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
 function list_destinations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/destinations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/destinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1442,23 +854,14 @@ end
 
 Lists the device profiles registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_device_profiles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_device_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/device-profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/device-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1466,21 +869,14 @@ end
 
 Lists the FUOTA tasks registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`:
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
 function list_fuota_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/fuota-tasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/fuota-tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1488,23 +884,14 @@ end
 
 Lists the multicast groups registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`:
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_multicast_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_multicast_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/multicast-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/multicast-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1515,23 +902,14 @@ List all multicast groups associated with a fuota task.
 # Arguments
 - `id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`:
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_multicast_groups_by_fuota_task(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_multicast_groups_by_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/fuota-tasks/$(Id)/multicast-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/fuota-tasks/$(Id)/multicast-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1539,23 +917,14 @@ end
 
 Lists the partner accounts associated with your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_partner_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_partner_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/partner-accounts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/partner-accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1563,23 +932,14 @@ end
 
 Lists the service profiles registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_service_profiles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_service_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/service-profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/service-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1591,19 +951,9 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resource_arn`: The ARN of the resource for which you want to list tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1611,33 +961,23 @@ end
 
 Lists the wireless devices registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"destination_name"`: A filter to list only the wireless devices that use this
-  destination.
-- `"device_profile_id"`: A filter to list only the wireless devices that use this device
+# Keyword Parameters
+- `destination_name`: A filter to list only the wireless devices that use this destination.
+- `device_profile_id`: A filter to list only the wireless devices that use this device
   profile.
-- `"fuota_task_id"`:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"multicast_group_id"`:
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+- `fuota_task_id`:
+- `max_results`: The maximum number of results to return in this operation.
+- `multicast_group_id`:
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"service_profile_id"`: A filter to list only the wireless devices that use this service
+- `service_profile_id`: A filter to list only the wireless devices that use this service
   profile.
-- `"wireless_device_type"`: A filter to list only the wireless devices that use this
-  wireless device type.
+- `wireless_device_type`: A filter to list only the wireless devices that use this wireless
+  device type.
 """
-function list_wireless_devices(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_wireless_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-devices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1645,25 +985,16 @@ end
 
 List the wireless gateway tasks definitions registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
-- `"task_definition_type"`: A filter to list only the wireless gateway task definitions
-  that use this task definition type.
+- `task_definition_type`: A filter to list only the wireless gateway task definitions that
+  use this task definition type.
 """
-function list_wireless_gateway_task_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_wireless_gateway_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateway-task-definitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateway-task-definitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1671,23 +1002,14 @@ end
 
 Lists the wireless gateways registered to your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this operation.
-- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this operation.
+- `next_token`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_wireless_gateways(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_wireless_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "GET",
-        "/wireless-gateways",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1703,27 +1025,9 @@ can be set per account.
 - `resource_type`: The type of the resource, which can be WirelessDevice or WirelessGateway.
 
 """
-function put_resource_log_level(
-    LogLevel,
-    ResourceIdentifier,
-    resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_resource_log_level(LogLevel, ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/log-levels/$(ResourceIdentifier)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LogLevel" => LogLevel, "resourceType" => resourceType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogLevel"=>LogLevel, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1733,17 +1037,9 @@ Removes the log-level overrides for all resources; both wireless devices and wir
 gateways.
 
 """
-function reset_all_resource_log_levels(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reset_all_resource_log_levels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/log-levels",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1757,22 +1053,9 @@ can be used for a wireless device or a wireless gateway.
 - `resource_type`: The type of the resource, which can be WirelessDevice or WirelessGateway.
 
 """
-function reset_resource_log_level(
-    ResourceIdentifier,
-    resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function reset_resource_log_level(ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/log-levels/$(ResourceIdentifier)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1786,29 +1069,9 @@ Sends the specified data to a multicast group.
 - `wireless_metadata`:
 
 """
-function send_data_to_multicast_group(
-    Id,
-    PayloadData,
-    WirelessMetadata;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_data_to_multicast_group(Id, PayloadData, WirelessMetadata; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/multicast-groups/$(Id)/data",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PayloadData" => PayloadData, "WirelessMetadata" => WirelessMetadata
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/multicast-groups/$(Id)/data", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PayloadData"=>PayloadData, "WirelessMetadata"=>WirelessMetadata), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1822,33 +1085,12 @@ Sends a decrypted application data frame to a device.
 - `transmit_mode`: The transmit mode to use to send data to the wireless device. Can be: 0
   for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"wireless_metadata"`: Metadata about the message request.
+# Keyword Parameters
+- `wireless_metadata`: Metadata about the message request.
 """
-function send_data_to_wireless_device(
-    Id,
-    PayloadData,
-    TransmitMode;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_data_to_wireless_device(Id, PayloadData, TransmitMode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/wireless-devices/$(Id)/data",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PayloadData" => PayloadData, "TransmitMode" => TransmitMode
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/wireless-devices/$(Id)/data", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PayloadData"=>PayloadData, "TransmitMode"=>TransmitMode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1859,22 +1101,13 @@ Starts a bulk association of all qualifying wireless devices with a multicast gr
 # Arguments
 - `id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"query_string"`:
-- `"tags"`:
+# Keyword Parameters
+- `query_string`:
+- `tags`:
 """
-function start_bulk_associate_wireless_device_with_multicast_group(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_bulk_associate_wireless_device_with_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/multicast-groups/$(Id)/bulk",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/multicast-groups/$(Id)/bulk", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1885,22 +1118,13 @@ Starts a bulk disassociatin of all qualifying wireless devices from a multicast 
 # Arguments
 - `id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"query_string"`:
-- `"tags"`:
+# Keyword Parameters
+- `query_string`:
+- `tags`:
 """
-function start_bulk_disassociate_wireless_device_from_multicast_group(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_bulk_disassociate_wireless_device_from_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/multicast-groups/$(Id)/bulk",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/multicast-groups/$(Id)/bulk", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1911,19 +1135,12 @@ Starts a FUOTA task.
 # Arguments
 - `id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"lo_ra_wan"`:
+# Keyword Parameters
+- `lo_ra_wan`:
 """
 function start_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/fuota-tasks/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/fuota-tasks/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1936,17 +1153,9 @@ Starts a multicast group session.
 - `lo_ra_wan`:
 
 """
-function start_multicast_group_session(
-    Id, LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_multicast_group_session(Id, LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PUT",
-        "/multicast-groups/$(Id)/session",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LoRaWAN" => LoRaWAN), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PUT", "/multicast-groups/$(Id)/session", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1960,23 +1169,9 @@ Adds a tag to a resource.
 - `resource_arn`: The ARN of the resource to add tags to.
 
 """
-function tag_resource(
-    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Tags" => Tags, "resourceArn" => resourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1988,17 +1183,9 @@ Simulates a provisioned device by sending an uplink data payload of Hello.
 - `id`: The ID of the wireless device to test.
 
 """
-function test_wireless_device(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function test_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/wireless-devices/$(Id)/test",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/wireless-devices/$(Id)/test", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2011,23 +1198,9 @@ Removes one or more tags from a resource.
 - `tag_keys`: A list of the keys of the tags to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "DELETE",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2038,24 +1211,15 @@ Updates properties of a destination.
 # Arguments
 - `name`: The new name of the resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A new description of the resource.
-- `"expression"`: The new rule name or topic rule to send messages to.
-- `"expression_type"`: The type of value in Expression.
-- `"role_arn"`: The ARN of the IAM Role that authorizes the destination.
+# Keyword Parameters
+- `description`: A new description of the resource.
+- `expression`: The new rule name or topic rule to send messages to.
+- `expression_type`: The type of value in Expression.
+- `role_arn`: The ARN of the IAM Role that authorizes the destination.
 """
-function update_destination(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_destination(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/destinations/$(Name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/destinations/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2066,23 +1230,16 @@ Updates properties of a FUOTA task.
 # Arguments
 - `id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:
-- `"firmware_update_image"`:
-- `"firmware_update_role"`:
-- `"lo_ra_wan"`:
-- `"name"`:
+# Keyword Parameters
+- `description`:
+- `firmware_update_image`:
+- `firmware_update_role`:
+- `lo_ra_wan`:
+- `name`:
 """
 function update_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/fuota-tasks/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/fuota-tasks/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2092,23 +1249,14 @@ Set default log level, or log levels by resource types. This can be for wireless
 options or wireless gateways log options and is used to control the log messages that'll be
 displayed in CloudWatch.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_log_level"`:
-- `"wireless_device_log_options"`:
-- `"wireless_gateway_log_options"`:
+# Keyword Parameters
+- `default_log_level`:
+- `wireless_device_log_options`:
+- `wireless_gateway_log_options`:
 """
-function update_log_levels_by_resource_types(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_log_levels_by_resource_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "POST",
-        "/log-levels",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("POST", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2119,23 +1267,14 @@ Updates properties of a multicast group session.
 # Arguments
 - `id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:
-- `"lo_ra_wan"`:
-- `"name"`:
+# Keyword Parameters
+- `description`:
+- `lo_ra_wan`:
+- `name`:
 """
-function update_multicast_group(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/multicast-groups/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/multicast-groups/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2149,27 +1288,9 @@ Updates properties of a partner account.
 - `partner_type`: The partner type.
 
 """
-function update_partner_account(
-    PartnerAccountId,
-    Sidewalk,
-    partnerType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_partner_account(PartnerAccountId, Sidewalk, partnerType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/partner-accounts/$(PartnerAccountId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Sidewalk" => Sidewalk, "partnerType" => partnerType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "partnerType"=>partnerType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2182,25 +1303,14 @@ Update the event configuration for a particular resource identifier.
 - `identifier_type`: Identifier type of the particular resource identifier for event
   configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"device_registration_state"`: Event configuration for the device registration state event
-- `"partner_type"`: Partner type of the resource if the identifier type is PartnerAccountId
-- `"proximity"`: Event configuration for the Proximity event
+# Keyword Parameters
+- `device_registration_state`: Event configuration for the device registration state event
+- `partner_type`: Partner type of the resource if the identifier type is PartnerAccountId
+- `proximity`: Event configuration for the Proximity event
 """
-function update_resource_event_configuration(
-    Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_resource_event_configuration(Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/event-configurations/$(Identifier)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/event-configurations/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2211,24 +1321,15 @@ Updates properties of a wireless device.
 # Arguments
 - `id`: The ID of the resource to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A new description of the resource.
-- `"destination_name"`: The name of the new destination for the device.
-- `"lo_ra_wan"`: The updated wireless device's configuration.
-- `"name"`: The new name of the resource.
+# Keyword Parameters
+- `description`: A new description of the resource.
+- `destination_name`: The name of the new destination for the device.
+- `lo_ra_wan`: The updated wireless device's configuration.
+- `name`: The new name of the resource.
 """
-function update_wireless_device(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/wireless-devices/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/wireless-devices/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2239,22 +1340,13 @@ Updates properties of a wireless gateway.
 # Arguments
 - `id`: The ID of the resource to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A new description of the resource.
-- `"join_eui_filters"`:
-- `"name"`: The new name of the resource.
-- `"net_id_filters"`:
+# Keyword Parameters
+- `description`: A new description of the resource.
+- `join_eui_filters`:
+- `name`: The new name of the resource.
+- `net_id_filters`:
 """
-function update_wireless_gateway(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_wireless(
-        "PATCH",
-        "/wireless-gateways/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_wireless("PATCH", "/wireless-gateways/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

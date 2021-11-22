@@ -4,28 +4,72 @@ using AWS.AWSServices: forecast
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "time_zone" => "TimeZone",
-    "perform_hpo" => "PerformHPO",
-    "training_parameters" => "TrainingParameters",
-    "geolocation_format" => "GeolocationFormat",
-    "next_token" => "NextToken",
-    "encryption_config" => "EncryptionConfig",
-    "dataset_arns" => "DatasetArns",
-    "forecast_types" => "ForecastTypes",
-    "algorithm_arn" => "AlgorithmArn",
-    "auto_mloverride_strategy" => "AutoMLOverrideStrategy",
-    "optimization_metric" => "OptimizationMetric",
-    "hpoconfig" => "HPOConfig",
-    "use_geolocation_for_time_zone" => "UseGeolocationForTimeZone",
-    "max_results" => "MaxResults",
-    "perform_auto_ml" => "PerformAutoML",
-    "timestamp_format" => "TimestampFormat",
-    "filters" => "Filters",
-    "data_frequency" => "DataFrequency",
-    "evaluation_parameters" => "EvaluationParameters",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "tags" => "Tags", "data_source" => "DataSource", "enable_visualization" => "EnableVisualization", "end_date_time" => "EndDateTime", "schema" => "Schema", "start_date_time" => "StartDateTime", "data_frequency" => "DataFrequency", "encryption_config" => "EncryptionConfig", "forecast_types" => "ForecastTypes", "geolocation_format" => "GeolocationFormat", "time_zone" => "TimeZone", "timestamp_format" => "TimestampFormat", "use_geolocation_for_time_zone" => "UseGeolocationForTimeZone", "dataset_arns" => "DatasetArns", "algorithm_arn" => "AlgorithmArn", "auto_mloverride_strategy" => "AutoMLOverrideStrategy", "evaluation_parameters" => "EvaluationParameters", "hpoconfig" => "HPOConfig", "optimization_metric" => "OptimizationMetric", "perform_auto_ml" => "PerformAutoML", "perform_hpo" => "PerformHPO", "training_parameters" => "TrainingParameters", "data_config" => "DataConfig", "explain_predictor" => "ExplainPredictor", "forecast_dimensions" => "ForecastDimensions", "forecast_frequency" => "ForecastFrequency", "forecast_horizon" => "ForecastHorizon", "reference_predictor_arn" => "ReferencePredictorArn")
+
+"""
+    create_auto_predictor(predictor_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with
+AutoPredictor, which involves applying the optimal combination of algorithms to each time
+series in your datasets. You can use CreateAutoPredictor to create new predictors or
+upgrade/retrain existing predictors.  Creating new predictors  The following parameters are
+required when creating a new predictor:    PredictorName - A unique name for the predictor.
+   DatasetGroupArn - The ARN of the dataset group used to train the predictor.
+ForecastFrequency - The granularity of your forecasts (hourly, daily, weekly, etc).
+ForecastHorizon - The number of time steps being forecasted.   When creating a new
+predictor, do not specify a value for ReferencePredictorArn.  Upgrading and retraining
+predictors  The following parameters are required when retraining or upgrading a predictor:
+   PredictorName - A unique name for the predictor.    ReferencePredictorArn - The ARN of
+the predictor to retrain or upgrade.   When upgrading or retraining a predictor, only
+specify values for the ReferencePredictorArn and PredictorName.
+
+# Arguments
+- `predictor_name`: A unique name for the predictor
+
+# Keyword Parameters
+- `data_config`: The data configuration for your dataset group and any additional datasets.
+- `encryption_config`:
+- `explain_predictor`:
+- `forecast_dimensions`: An array of dimension (field) names that specify how to group the
+  generated forecast. For example, if you are generating forecasts for item sales across all
+  your stores, and your dataset contains a store_id field, you would specify store_id as a
+  dimension to group sales forecasts for each store.
+- `forecast_frequency`: The frequency of predictions in a forecast. Valid intervals are Y
+  (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes),
+  10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, \"Y\" indicates
+  every year and \"5min\" indicates every five minutes. The frequency must be greater than or
+  equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is
+  provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
+- `forecast_horizon`: The number of time-steps that the model predicts. The forecast
+  horizon is also called the prediction length.
+- `forecast_types`: The forecast types used to train a predictor. You can specify up to
+  five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of
+  0.01 or higher. You can also specify the mean forecast with mean.
+- `optimization_metric`: The accuracy metric used to optimize the predictor.
+- `reference_predictor_arn`: The ARN of the predictor to retrain or upgrade. This parameter
+  is only used when retraining or upgrading a predictor. When creating a new predictor, do
+  not specify a value for this parameter. When upgrading or retraining a predictor, only
+  specify values for the ReferencePredictorArn and PredictorName. The value for PredictorName
+  must be a unique predictor name.
+- `tags`: Optional metadata to help you categorize and organize your predictors. Each tag
+  consists of a key and an optional value, both of which you define. Tag keys and values are
+  case sensitive. The following restrictions apply to tags:   For each resource, each tag key
+  must be unique and each tag key must have one value.   Maximum number of tags per resource:
+  50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256
+  Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces
+  representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  services and resources, the character restrictions of those services also apply.    Key
+  prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have
+  this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers
+  it to be a user tag and will count against the limit of 50 tags. Tags with only the key
+  prefix of aws do not count against your tags per resource limit. You cannot edit or delete
+  tag keys with this prefix.
+"""
+function create_auto_predictor(PredictorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("CreateAutoPredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorName"=>PredictorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 
 """
     create_dataset(dataset_name, dataset_type, domain, schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -60,16 +104,15 @@ DescribeDataset operation to get the status.
   minimum required fields in your training data. For information about the required fields
   for a specific dataset domain and type, see howitworks-domains-ds-types.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_frequency"`: The frequency of data collection. This parameter is required for
+# Keyword Parameters
+- `data_frequency`: The frequency of data collection. This parameter is required for
   RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H
   (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
   1min (1 minute). For example, \"D\" indicates every day and \"15min\" indicates every 15
   minutes.
-- `"encryption_config"`: An AWS Key Management Service (KMS) key and the AWS Identity and
+- `encryption_config`: An AWS Key Management Service (KMS) key and the AWS Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the key.
-- `"tags"`: The optional metadata that you apply to the dataset to help you categorize and
+- `tags`: The optional metadata that you apply to the dataset to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
     For each resource, each tag key must be unique, and each tag key can have only one value.
@@ -84,32 +127,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   considers it to be a user tag and will count against the limit of 50 tags. Tags with only
   the key prefix of aws do not count against your tags per resource limit.
 """
-function create_dataset(
-    DatasetName,
-    DatasetType,
-    Domain,
-    Schema;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dataset(DatasetName, DatasetType, Domain, Schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreateDataset",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatasetName" => DatasetName,
-                    "DatasetType" => DatasetType,
-                    "Domain" => Domain,
-                    "Schema" => Schema,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -134,44 +154,28 @@ DescribeDatasetGroup operation.
   requires that item_id, timestamp, and demand fields are present in your data. For more
   information, see howitworks-datasets-groups.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_arns"`: An array of Amazon Resource Names (ARNs) of the datasets that you want
-  to include in the dataset group.
-- `"tags"`: The optional metadata that you apply to the dataset group to help you
-  categorize and organize them. Each tag consists of a key and an optional value, both of
-  which you define. The following basic restrictions apply to tags:   Maximum number of tags
-  per resource - 50.   For each resource, each tag key must be unique, and each tag key can
-  have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum
-  value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across
-  multiple services and resources, remember that other services may have restrictions on
-  allowed characters. Generally allowed characters are: letters, numbers, and spaces
-  representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and
-  values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination
-  of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag
-  keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix
-  but the key does not, then Forecast considers it to be a user tag and will count against
-  the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
-  per resource limit.
+# Keyword Parameters
+- `dataset_arns`: An array of Amazon Resource Names (ARNs) of the datasets that you want to
+  include in the dataset group.
+- `tags`: The optional metadata that you apply to the dataset group to help you categorize
+  and organize them. Each tag consists of a key and an optional value, both of which you
+  define. The following basic restrictions apply to tags:   Maximum number of tags per
+  resource - 50.   For each resource, each tag key must be unique, and each tag key can have
+  only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value
+  length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple
+  services and resources, remember that other services may have restrictions on allowed
+  characters. Generally allowed characters are: letters, numbers, and spaces representable in
+  UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case
+  sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a
+  prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
+  prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does
+  not, then Forecast considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 """
-function create_dataset_group(
-    DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_dataset_group(DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreateDatasetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatasetGroupName" => DatasetGroupName, "Domain" => Domain
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -206,13 +210,12 @@ operation.
   the current timestamp in the name, for example, 20190721DatasetImport. This can help you
   avoid getting a ResourceAlreadyExistsException exception.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"geolocation_format"`: The format of the geolocation attribute. The geolocation
-  attribute can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in
-  decimal format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code
-  (US), followed by the 5-digit ZIP code (Example: US_98121).
-- `"tags"`: The optional metadata that you apply to the dataset import job to help you
+# Keyword Parameters
+- `geolocation_format`: The format of the geolocation attribute. The geolocation attribute
+  can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in decimal
+  format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code (US),
+  followed by the 5-digit ZIP code (Example: US_98121).
+- `tags`: The optional metadata that you apply to the dataset import job to help you
   categorize and organize them. Each tag consists of a key and an optional value, both of
   which you define. The following basic restrictions apply to tags:   Maximum number of tags
   per resource - 50.   For each resource, each tag key must be unique, and each tag key can
@@ -227,44 +230,129 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   but the key does not, then Forecast considers it to be a user tag and will count against
   the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
   per resource limit.
-- `"time_zone"`: A single time zone for every item in your dataset. This option is ideal
-  for datasets with all timestamps within a single time zone, or if all timestamps are
-  normalized to a single time zone.  Refer to the Joda-Time API for a complete list of valid
-  time zone names.
-- `"timestamp_format"`: The format of timestamps in the dataset. The format that you
-  specify depends on the DataFrequency specified when the dataset was created. The following
-  formats are supported   \"yyyy-MM-dd\" For the following data frequencies: Y, M, W, and D
+- `time_zone`: A single time zone for every item in your dataset. This option is ideal for
+  datasets with all timestamps within a single time zone, or if all timestamps are normalized
+  to a single time zone.  Refer to the Joda-Time API for a complete list of valid time zone
+  names.
+- `timestamp_format`: The format of timestamps in the dataset. The format that you specify
+  depends on the DataFrequency specified when the dataset was created. The following formats
+  are supported   \"yyyy-MM-dd\" For the following data frequencies: Y, M, W, and D
   \"yyyy-MM-dd HH:mm:ss\" For the following data frequencies: H, 30min, 15min, and 1min; and
   optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects
   the format to be \"yyyy-MM-dd HH:mm:ss\".
-- `"use_geolocation_for_time_zone"`: Automatically derive time zone information from the
+- `use_geolocation_for_time_zone`: Automatically derive time zone information from the
   geolocation attribute. This option is ideal for datasets that contain timestamps in
   multiple time zones and those timestamps are expressed in local time.
 """
-function create_dataset_import_job(
-    DataSource,
-    DatasetArn,
-    DatasetImportJobName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dataset_import_job(DataSource, DatasetArn, DatasetImportJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreateDatasetImportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataSource" => DataSource,
-                    "DatasetArn" => DatasetArn,
-                    "DatasetImportJobName" => DatasetImportJobName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_explainability(explainability_config, explainability_name, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+ Explainability is only available for Forecasts and Predictors generated from an
+AutoPredictor (CreateAutoPredictor)  Creates an Amazon Forecast Explainability.
+Explainability helps you better understand how the attributes in your datasets impact
+forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative
+impact of each attribute and determine whether they increase or decrease forecast values.
+To enable Forecast Explainability, your predictor must include at least one of the
+following: related time series, item metadata, or additional datasets like Holidays and the
+Weather Index. CreateExplainability accepts either a Predictor ARN or Forecast ARN. To
+receive aggregated Impact scores for all time series and time points in your datasets,
+provide a Predictor ARN. To receive Impact scores for specific time series and time points,
+provide a Forecast ARN.  CreateExplainability with a Predictor ARN   You can only have one
+Explainability resource per predictor. If you already enabled ExplainPredictor in
+CreateAutoPredictor, that predictor already has an Explainability resource.  The following
+parameters are required when providing a Predictor ARN:    ExplainabilityName - A unique
+name for the Explainability.    ResourceArn - The Arn of the predictor.
+TimePointGranularity - Must be set to “ALL”.    TimeSeriesGranularity - Must be set to
+“ALL”.   Do not specify a value for the following parameters:    DataSource - Only
+valid when TimeSeriesGranularity is “SPECIFIC”.    Schema - Only valid when
+TimeSeriesGranularity is “SPECIFIC”.    StartDateTime - Only valid when
+TimePointGranularity is “SPECIFIC”.    EndDateTime - Only valid when
+TimePointGranularity is “SPECIFIC”.    CreateExplainability with a Forecast ARN   You
+can specify a maximum of 50 time series and 1500 time points.  The following parameters are
+required when providing a Predictor ARN:    ExplainabilityName - A unique name for the
+Explainability.    ResourceArn - The Arn of the forecast.    TimePointGranularity - Either
+“ALL” or “SPECIFIC”.    TimeSeriesGranularity - Either “ALL” or “SPECIFIC”.
+  If you set TimeSeriesGranularity to “SPECIFIC”, you must also provide the following:
+  DataSource - The S3 location of the CSV file specifying your time series.    Schema - The
+Schema defines the attributes and attribute types listed in the Data Source.   If you set
+TimePointGranularity to “SPECIFIC”, you must also provide the following:
+StartDateTime - The first timestamp in the range of time points.    EndDateTime - The last
+timestamp in the range of time points.
+
+# Arguments
+- `explainability_config`: The configuration settings that define the granularity of time
+  series and time points for the Explainability.
+- `explainability_name`: A unique name for the Explainability.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Predictor or Forecast used to
+  create the Explainability.
+
+# Keyword Parameters
+- `data_source`:
+- `enable_visualization`: Create an Expainability visualization that is viewable within the
+  AWS console.
+- `end_date_time`: If TimePointGranularity is set to SPECIFIC, define the last time point
+  for the Explainability.
+- `schema`:
+- `start_date_time`: If TimePointGranularity is set to SPECIFIC, define the first point for
+  the Explainability.
+- `tags`: Optional metadata to help you categorize and organize your resources. Each tag
+  consists of a key and an optional value, both of which you define. Tag keys and values are
+  case sensitive. The following restrictions apply to tags:   For each resource, each tag key
+  must be unique and each tag key must have one value.   Maximum number of tags per resource:
+  50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256
+  Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces
+  representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  services and resources, the character restrictions of those services also apply.    Key
+  prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have
+  this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers
+  it to be a user tag and will count against the limit of 50 tags. Tags with only the key
+  prefix of aws do not count against your tags per resource limit. You cannot edit or delete
+  tag keys with this prefix.
+"""
+function create_explainability(ExplainabilityConfig, ExplainabilityName, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("CreateExplainability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityConfig"=>ExplainabilityConfig, "ExplainabilityName"=>ExplainabilityName, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_explainability_export(destination, explainability_arn, explainability_export_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Exports an Explainability resource created by the CreateExplainability operation. Exported
+files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify
+a DataDestination object that includes an Amazon S3 bucket and an AWS Identity and Access
+Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For
+more information, see aws-forecast-iam-roles.  The Status of the export job must be ACTIVE
+before you can access the export in your Amazon S3 bucket. To get the status, use the
+DescribeExplainabilityExport operation.
+
+# Arguments
+- `destination`:
+- `explainability_arn`: The Amazon Resource Name (ARN) of the Explainability to export.
+- `explainability_export_name`: A unique name for the Explainability export.
+
+# Keyword Parameters
+- `tags`: Optional metadata to help you categorize and organize your resources. Each tag
+  consists of a key and an optional value, both of which you define. Tag keys and values are
+  case sensitive. The following restrictions apply to tags:   For each resource, each tag key
+  must be unique and each tag key must have one value.   Maximum number of tags per resource:
+  50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256
+  Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces
+  representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  services and resources, the character restrictions of those services also apply.    Key
+  prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have
+  this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers
+  it to be a user tag and will count against the limit of 50 tags. Tags with only the key
+  prefix of aws do not count against your tags per resource limit. You cannot edit or delete
+  tag keys with this prefix.
+"""
+function create_explainability_export(Destination, ExplainabilityArn, ExplainabilityExportName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("CreateExplainabilityExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ExplainabilityArn"=>ExplainabilityArn, "ExplainabilityExportName"=>ExplainabilityExportName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -287,14 +375,13 @@ DescribeForecast operation to get the status.
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to use to generate the
   forecast.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"forecast_types"`: The quantiles at which probabilistic forecasts are generated. You can
+# Keyword Parameters
+- `forecast_types`: The quantiles at which probabilistic forecasts are generated. You can
   currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99
   (increments of .01 only) and mean. The mean forecast is different from the median (0.50)
   when the distribution is not symmetric (for example, Beta and Negative Binomial). The
   default value is [\"0.1\", \"0.5\", \"0.9\"].
-- `"tags"`: The optional metadata that you apply to the forecast to help you categorize and
+- `tags`: The optional metadata that you apply to the forecast to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
     For each resource, each tag key must be unique, and each tag key can have only one value.
@@ -309,24 +396,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   considers it to be a user tag and will count against the limit of 50 tags. Tags with only
   the key prefix of aws do not count against your tags per resource limit.
 """
-function create_forecast(
-    ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_forecast(ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreateForecast",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ForecastName" => ForecastName, "PredictorArn" => PredictorArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreateForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -352,9 +424,8 @@ Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast that you want to export.
 - `forecast_export_job_name`: The name for the forecast export job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The optional metadata that you apply to the forecast export job to help you
+# Keyword Parameters
+- `tags`: The optional metadata that you apply to the forecast export job to help you
   categorize and organize them. Each tag consists of a key and an optional value, both of
   which you define. The following basic restrictions apply to tags:   Maximum number of tags
   per resource - 50.   For each resource, each tag key must be unique, and each tag key can
@@ -370,58 +441,40 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
   per resource limit.
 """
-function create_forecast_export_job(
-    Destination,
-    ForecastArn,
-    ForecastExportJobName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_forecast_export_job(Destination, ForecastArn, ForecastExportJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreateForecastExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Destination" => Destination,
-                    "ForecastArn" => ForecastArn,
-                    "ForecastExportJobName" => ForecastExportJobName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreateForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates an Amazon Forecast predictor. In the request, provide a dataset group and either
-specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If
-you specify an algorithm, you also can override algorithm-specific hyperparameters. Amazon
-Forecast uses the algorithm to train a predictor using the latest version of the datasets
-in the specified dataset group. You can then generate a forecast using the CreateForecast
-operation.  To see the evaluation metrics, use the GetAccuracyMetrics operation.  You can
-specify a featurization configuration to fill and aggregate the data fields in the
-TARGET_TIME_SERIES dataset to improve model training. For more information, see
-FeaturizationConfig. For RELATED_TIME_SERIES datasets, CreatePredictor verifies that the
-DataFrequency specified when the dataset was created matches the ForecastFrequency.
-TARGET_TIME_SERIES datasets don't have this restriction. Amazon Forecast also verifies the
-delimiter and timestamp format. For more information, see howitworks-datasets-groups. By
-default, predictors are trained and evaluated at the 0.1 (P10), 0.5 (P50), and 0.9 (P90)
-quantiles. You can choose custom forecast types to train and evaluate your predictor by
-setting the ForecastTypes.   AutoML  If you want Amazon Forecast to evaluate each algorithm
-and choose the one that minimizes the objective function, set PerformAutoML to true. The
-objective function is defined as the mean of the weighted losses over the forecast types.
-By default, these are the p10, p50, and p90 quantile losses. For more information, see
-EvaluationResult. When AutoML is enabled, the following properties are disallowed:
-AlgorithmArn     HPOConfig     PerformHPO     TrainingParameters    To get a list of all of
-your predictors, use the ListPredictors operation.  Before you can use the predictor to
-create a forecast, the Status of the predictor must be ACTIVE, signifying that training has
-completed. To get the status, use the DescribePredictor operation.
+  This operation creates a legacy predictor that does not include all the predictor
+functionalities provided by Amazon Forecast. To create a predictor that is compatible with
+all aspects of Forecast, use CreateAutoPredictor.  Creates an Amazon Forecast predictor. In
+the request, provide a dataset group and either specify an algorithm or let Amazon Forecast
+choose an algorithm for you using AutoML. If you specify an algorithm, you also can
+override algorithm-specific hyperparameters. Amazon Forecast uses the algorithm to train a
+predictor using the latest version of the datasets in the specified dataset group. You can
+then generate a forecast using the CreateForecast operation.  To see the evaluation
+metrics, use the GetAccuracyMetrics operation.  You can specify a featurization
+configuration to fill and aggregate the data fields in the TARGET_TIME_SERIES dataset to
+improve model training. For more information, see FeaturizationConfig. For
+RELATED_TIME_SERIES datasets, CreatePredictor verifies that the DataFrequency specified
+when the dataset was created matches the ForecastFrequency. TARGET_TIME_SERIES datasets
+don't have this restriction. Amazon Forecast also verifies the delimiter and timestamp
+format. For more information, see howitworks-datasets-groups. By default, predictors are
+trained and evaluated at the 0.1 (P10), 0.5 (P50), and 0.9 (P90) quantiles. You can choose
+custom forecast types to train and evaluate your predictor by setting the ForecastTypes.
+AutoML  If you want Amazon Forecast to evaluate each algorithm and choose the one that
+minimizes the objective function, set PerformAutoML to true. The objective function is
+defined as the mean of the weighted losses over the forecast types. By default, these are
+the p10, p50, and p90 quantile losses. For more information, see EvaluationResult. When
+AutoML is enabled, the following properties are disallowed:    AlgorithmArn     HPOConfig
+  PerformHPO     TrainingParameters    To get a list of all of your predictors, use the
+ListPredictors operation.  Before you can use the predictor to create a forecast, the
+Status of the predictor must be ACTIVE, signifying that training has completed. To get the
+status, use the DescribePredictor operation.
 
 # Arguments
 - `featurization_config`: The featurization configuration.
@@ -435,41 +488,40 @@ completed. To get the status, use the DescribePredictor operation.
   the predictor.
 - `predictor_name`: A name for the predictor.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"algorithm_arn"`: The Amazon Resource Name (ARN) of the algorithm to use for model
+# Keyword Parameters
+- `algorithm_arn`: The Amazon Resource Name (ARN) of the algorithm to use for model
   training. Required if PerformAutoML is not set to true.  Supported algorithms:
   arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR
   arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS
   arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
-- `"auto_mloverride_strategy"`:   The LatencyOptimized AutoML override strategy is only
+- `auto_mloverride_strategy`:   The LatencyOptimized AutoML override strategy is only
   available in private beta. Contact AWS Support or your account manager to learn more about
   access privileges.   Used to overide the default AutoML strategy, which is to optimize
   predictor accuracy. To apply an AutoML strategy that minimizes training time, use
   LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
-- `"encryption_config"`: An AWS Key Management Service (KMS) key and the AWS Identity and
+- `encryption_config`: An AWS Key Management Service (KMS) key and the AWS Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the key.
-- `"evaluation_parameters"`: Used to override the default evaluation parameters of the
+- `evaluation_parameters`: Used to override the default evaluation parameters of the
   specified algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into
   training data and testing data. The evaluation parameters define how to perform the split
   and the number of iterations.
-- `"forecast_types"`: Specifies the forecast types used to train a predictor. You can
-  specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by
-  increments of 0.01 or higher. You can also specify the mean forecast with mean.  The
-  default value is [\"0.10\", \"0.50\", \"0.9\"].
-- `"hpoconfig"`: Provides hyperparameter override values for the algorithm. If you don't
+- `forecast_types`: Specifies the forecast types used to train a predictor. You can specify
+  up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments
+  of 0.01 or higher. You can also specify the mean forecast with mean.  The default value is
+  [\"0.10\", \"0.50\", \"0.9\"].
+- `hpoconfig`: Provides hyperparameter override values for the algorithm. If you don't
   provide this parameter, Amazon Forecast uses default values. The individual algorithms
   specify which hyperparameters support hyperparameter optimization (HPO). For more
   information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you
   must set PerformHPO to true.
-- `"optimization_metric"`: The accuracy metric used to optimize the predictor.
-- `"perform_auto_ml"`: Whether to perform AutoML. When Amazon Forecast performs AutoML, it
+- `optimization_metric`: The accuracy metric used to optimize the predictor.
+- `perform_auto_ml`: Whether to perform AutoML. When Amazon Forecast performs AutoML, it
   evaluates the algorithms it provides and chooses the best algorithm and configuration for
   your training dataset. The default value is false. In this case, you are required to
   specify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML.
   This is a good option if you aren't sure which algorithm is suitable for your training
   data. In this case, PerformHPO must be false.
-- `"perform_hpo"`: Whether to perform hyperparameter optimization (HPO). HPO finds optimal
+- `perform_hpo`: Whether to perform hyperparameter optimization (HPO). HPO finds optimal
   hyperparameter values for your training data. The process of performing HPO is known as
   running a hyperparameter tuning job. The default value is false. In this case, Amazon
   Forecast uses default hyperparameter values from the chosen algorithm. To override the
@@ -478,51 +530,27 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   hyperparameters participate in tuning, and the valid range for each tunable hyperparameter.
   In this case, you are required to specify an algorithm and PerformAutoML must be false. The
   following algorithms support HPO:   DeepAR+   CNN-QR
-- `"tags"`: The optional metadata that you apply to the predictor to help you categorize
-  and organize them. Each tag consists of a key and an optional value, both of which you
-  define. The following basic restrictions apply to tags:   Maximum number of tags per
-  resource - 50.   For each resource, each tag key must be unique, and each tag key can have
-  only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value
-  length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple
-  services and resources, remember that other services may have restrictions on allowed
-  characters. Generally allowed characters are: letters, numbers, and spaces representable in
-  UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case
-  sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a
-  prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
-  prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does
-  not, then Forecast considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
-- `"training_parameters"`: The hyperparameters to override for model training. The
+- `tags`: The optional metadata that you apply to the predictor to help you categorize and
+  organize them. Each tag consists of a key and an optional value, both of which you define.
+  The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
+    For each resource, each tag key must be unique, and each tag key can have only one value.
+    Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256
+  Unicode characters in UTF-8.   If your tagging schema is used across multiple services and
+  resources, remember that other services may have restrictions on allowed characters.
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
+  not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
+  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
+  have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast
+  considers it to be a user tag and will count against the limit of 50 tags. Tags with only
+  the key prefix of aws do not count against your tags per resource limit.
+- `training_parameters`: The hyperparameters to override for model training. The
   hyperparameters that you can override are listed in the individual algorithms. For the list
   of supported algorithms, see aws-forecast-choosing-recipes.
 """
-function create_predictor(
-    FeaturizationConfig,
-    ForecastHorizon,
-    InputDataConfig,
-    PredictorName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_predictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreatePredictor",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FeaturizationConfig" => FeaturizationConfig,
-                    "ForecastHorizon" => ForecastHorizon,
-                    "InputDataConfig" => InputDataConfig,
-                    "PredictorName" => PredictorName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreatePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -544,9 +572,8 @@ status, use the DescribePredictorBacktestExportJob operation.
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor that you want to export.
 - `predictor_backtest_export_job_name`: The name for the backtest export job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Optional metadata to help you categorize and organize your backtests. Each tag
+# Keyword Parameters
+- `tags`: Optional metadata to help you categorize and organize your backtests. Each tag
   consists of a key and an optional value, both of which you define. Tag keys and values are
   case sensitive. The following restrictions apply to tags:   For each resource, each tag key
   must be unique and each tag key must have one value.   Maximum number of tags per resource:
@@ -560,30 +587,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   prefix of aws do not count against your tags per resource limit. You cannot edit or delete
   tag keys with this prefix.
 """
-function create_predictor_backtest_export_job(
-    Destination,
-    PredictorArn,
-    PredictorBacktestExportJobName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_predictor_backtest_export_job(Destination, PredictorArn, PredictorBacktestExportJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "CreatePredictorBacktestExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Destination" => Destination,
-                    "PredictorArn" => PredictorArn,
-                    "PredictorBacktestExportJobName" => PredictorBacktestExportJobName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("CreatePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "PredictorArn"=>PredictorArn, "PredictorBacktestExportJobName"=>PredictorBacktestExportJobName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -599,18 +605,9 @@ operation, omitting the deleted dataset's ARN.
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to delete.
 
 """
-function delete_dataset(
-    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeleteDataset",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -625,20 +622,9 @@ group, not the datasets in the group.
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group to delete.
 
 """
-function delete_dataset_group(
-    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeleteDatasetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DatasetGroupArn" => DatasetGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -653,22 +639,40 @@ status, use the DescribeDatasetImportJob operation.
   delete.
 
 """
-function delete_dataset_import_job(
-    DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset_import_job(DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeleteDatasetImportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeleteDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_explainability(explainability_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes an Explainability resource. You can delete only predictor that have a status of
+ACTIVE or CREATE_FAILED. To get the status, use the DescribeExplainability operation.
+
+# Arguments
+- `explainability_arn`: The Amazon Resource Name (ARN) of the Explainability resource to
+  delete.
+
+"""
+function delete_explainability(ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("DeleteExplainability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityArn"=>ExplainabilityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_explainability_export(explainability_export_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes an Explainability export job.
+
+# Arguments
+- `explainability_export_arn`: The Amazon Resource Name (ARN) of the Explainability export
+  to delete.
+
+"""
+function delete_explainability_export(ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("DeleteExplainabilityExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityExportArn"=>ExplainabilityExportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -683,18 +687,9 @@ forecast is deleted, you can no longer query the forecast.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast to delete.
 
 """
-function delete_forecast(
-    ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeleteForecast",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ForecastArn" => ForecastArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeleteForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -709,22 +704,9 @@ use the DescribeForecastExportJob operation.
   delete.
 
 """
-function delete_forecast_export_job(
-    ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_forecast_export_job(ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeleteForecastExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeleteForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -738,18 +720,9 @@ DescribePredictor operation.
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to delete.
 
 """
-function delete_predictor(
-    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeletePredictor",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PredictorArn" => PredictorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeletePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -762,26 +735,9 @@ Deletes a predictor backtest export job.
   backtest export job to delete.
 
 """
-function delete_predictor_backtest_export_job(
-    PredictorBacktestExportJobArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeletePredictorBacktestExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeletePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -802,18 +758,23 @@ delete datasets or exported files stored in Amazon S3.
   child resources of the parent resource will also be deleted.
 
 """
-function delete_resource_tree(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_resource_tree(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DeleteResourceTree",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DeleteResourceTree", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_auto_predictor(predictor_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes a predictor created using the CreateAutoPredictor operation.
+
+# Arguments
+- `predictor_arn`: The Amazon Resource Name (ARN) of the predictor.
+
+"""
+function describe_auto_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("DescribeAutoPredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -827,18 +788,9 @@ the following dataset properties:    CreationTime     LastModificationTime     S
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset.
 
 """
-function describe_dataset(
-    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribeDataset",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -853,20 +805,9 @@ CreationTime     LastModificationTime     Status
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group.
 
 """
-function describe_dataset_group(
-    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribeDatasetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DatasetGroupArn" => DatasetGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -882,22 +823,37 @@ about the error.
 - `dataset_import_job_arn`: The Amazon Resource Name (ARN) of the dataset import job.
 
 """
-function describe_dataset_import_job(
-    DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset_import_job(DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribeDatasetImportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_explainability(explainability_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes an Explainability resource created using the CreateExplainability operation.
+
+# Arguments
+- `explainability_arn`: The Amazon Resource Name (ARN) of the Explaianability to describe.
+
+"""
+function describe_explainability(ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("DescribeExplainability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityArn"=>ExplainabilityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_explainability_export(explainability_export_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Describes an Explainability export created using the CreateExplainabilityExport operation.
+
+# Arguments
+- `explainability_export_arn`: The Amazon Resource Name (ARN) of the Explainability export.
+
+"""
+function describe_explainability_export(ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("DescribeExplainabilityExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExplainabilityExportArn"=>ExplainabilityExportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -913,18 +869,9 @@ information about the error.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast.
 
 """
-function describe_forecast(
-    ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribeForecast",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ForecastArn" => ForecastArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribeForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -940,31 +887,21 @@ error.
 - `forecast_export_job_arn`: The Amazon Resource Name (ARN) of the forecast export job.
 
 """
-function describe_forecast_export_job(
-    ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_forecast_export_job(ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribeForecastExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribeForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     describe_predictor(predictor_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Describes a predictor created using the CreatePredictor operation. In addition to listing
-the properties provided in the CreatePredictor request, this operation lists the following
-properties:    DatasetImportJobArns - The dataset import jobs used to import training data.
-   AutoMLAlgorithmArns - If AutoML is performed, the algorithms that were evaluated.
+  This operation is only valid for legacy predictors created with CreatePredictor. If you
+are not using a legacy predictor, use DescribeAutoPredictor. To upgrade a legacy predictor
+to AutoPredictor, see Upgrading to AutoPredictor.  Describes a predictor created using the
+CreatePredictor operation. In addition to listing the properties provided in the
+CreatePredictor request, this operation lists the following properties:
+DatasetImportJobArns - The dataset import jobs used to import training data.
+AutoMLAlgorithmArns - If AutoML is performed, the algorithms that were evaluated.
 CreationTime     LastModificationTime     Status     Message - If an error occurred,
 information about the error.
 
@@ -973,18 +910,9 @@ information about the error.
   information about.
 
 """
-function describe_predictor(
-    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribePredictor",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PredictorArn" => PredictorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1001,26 +929,9 @@ an error occurred)
   backtest export job.
 
 """
-function describe_predictor_backtest_export_job(
-    PredictorBacktestExportJobArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "DescribePredictorBacktestExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("DescribePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1043,18 +954,9 @@ that training has completed. To get the status, use the DescribePredictor operat
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to get metrics for.
 
 """
-function get_accuracy_metrics(
-    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_accuracy_metrics(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "GetAccuracyMetrics",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PredictorArn" => PredictorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("GetAccuracyMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1065,18 +967,15 @@ dataset group, this operation returns a summary of its properties, including its
 Resource Name (ARN). You can retrieve the complete set of properties by using the dataset
 group ARN with the DescribeDatasetGroup operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+# Keyword Parameters
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
 function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return forecast("ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1088,9 +987,8 @@ Amazon Resource Name (ARN). You can retrieve the complete set of properties by u
 ARN with the DescribeDatasetImportJob operation. You can filter the list by providing an
 array of Filter objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: An array of filters. For each filter, you provide a condition and a match
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the datasets that match the statement from the list, respectively. The match
   statement consists of a key and a value.  Filter properties     Condition - The condition
@@ -1100,21 +998,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify
   the following filter:  \"Filters\": [ { \"Condition\": \"IS\", \"Key\": \"Status\",
   \"Value\": \"ACTIVE\" } ]
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
-function list_dataset_import_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListDatasetImportJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("ListDatasetImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1124,18 +1015,65 @@ Returns a list of datasets created using the CreateDataset operation. For each d
 summary of its properties, including its Amazon Resource Name (ARN), is returned. To
 retrieve the complete set of properties, use the ARN with the DescribeDataset operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+# Keyword Parameters
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return forecast("ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_explainabilities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a list of Explainability resources created using the CreateExplainability
+operation. This operation returns a summary for each Explainability. You can filter the
+list using an array of Filter objects. To retrieve the complete set of properties for a
+particular Explainability resource, use the ARN with the DescribeExplainability operation.
+
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, provide a condition and a match
+  statement. The condition is either IS or IS_NOT, which specifies whether to include or
+  exclude the resources that match the statement from the list. The match statement consists
+  of a key and a value.  Filter properties     Condition - The condition to apply. Valid
+  values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are
+  PredictorArn and Status.    Value - The value to match.
+- `max_results`: The number of items returned in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
+"""
+function list_explainabilities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("ListExplainabilities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_explainability_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Returns a list of Explainability exports created using the CreateExplainabilityExport
+operation. This operation returns a summary for each Explainability export. You can filter
+the list using an array of Filter objects. To retrieve the complete set of properties for a
+particular Explainability export, use the ARN with the DescribeExplainability operation.
+
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, provide a condition and a match
+  statement. The condition is either IS or IS_NOT, which specifies whether to include or
+  exclude resources that match the statement from the list. The match statement consists of a
+  key and a value.  Filter properties     Condition - The condition to apply. Valid values
+  are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are
+  PredictorArn and Status.    Value - The value to match.
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
+"""
+function list_explainability_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return forecast("ListExplainabilityExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1147,9 +1085,8 @@ its Amazon Resource Name (ARN). To retrieve the complete set of properties, use 
 with the DescribeForecastExportJob operation. You can filter the list using an array of
 Filter objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: An array of filters. For each filter, you provide a condition and a match
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the forecast export jobs that match the statement from the list, respectively. The
   match statement consists of a key and a value.  Filter properties     Condition - The
@@ -1160,21 +1097,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   forecast named electricityforecast, specify the following filter:  \"Filters\": [ {
   \"Condition\": \"IS\", \"Key\": \"ForecastArn\", \"Value\":
   \"arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast\" } ]
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
-function list_forecast_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListForecastExportJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("ListForecastExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1185,9 +1115,8 @@ this operation returns a summary of its properties, including its Amazon Resourc
 (ARN). To retrieve the complete set of properties, specify the ARN with the
 DescribeForecast operation. You can filter the list using an array of Filter objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: An array of filters. For each filter, you provide a condition and a match
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the forecasts that match the statement from the list, respectively. The match
   statement consists of a key and a value.  Filter properties     Condition - The condition
@@ -1197,16 +1126,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Value - The value to match.   For example, to list all forecasts whose status is not
   ACTIVE, you would specify:  \"Filters\": [ { \"Condition\": \"IS_NOT\", \"Key\":
   \"Status\", \"Value\": \"ACTIVE\" } ]
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
 function list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListForecasts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return forecast("ListForecasts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1218,9 +1145,8 @@ backtest export job. You can filter the list using an array of Filter objects. T
 the complete set of properties for a particular backtest export job, use the ARN with the
 DescribePredictorBacktestExportJob operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: An array of filters. For each filter, provide a condition and a match
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the predictor backtest export jobs that match the statement from the list. The
   match statement consists of a key and a value.  Filter properties     Condition - The
@@ -1228,21 +1154,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   export jobs that match the statement, specify IS. To exclude matching predictor backtest
   export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values
   are PredictorArn and Status.    Value - The value to match.
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
-function list_predictor_backtest_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_predictor_backtest_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListPredictorBacktestExportJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("ListPredictorBacktestExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1253,9 +1172,8 @@ predictor, this operation returns a summary of its properties, including its Ama
 Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with
 the DescribePredictor operation. You can filter the list using an array of Filter objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: An array of filters. For each filter, you provide a condition and a match
+# Keyword Parameters
+- `filters`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the predictors that match the statement from the list, respectively. The match
   statement consists of a key and a value.  Filter properties     Condition - The condition
@@ -1265,16 +1183,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   value to match.   For example, to list all predictors whose status is ACTIVE, you would
   specify:  \"Filters\": [ { \"Condition\": \"IS\", \"Key\": \"Status\", \"Value\":
   \"ACTIVE\" } ]
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+- `max_results`: The number of items to return in the response.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
 function list_predictors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListPredictors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return forecast("ListPredictors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1288,18 +1204,9 @@ Lists the tags for an Amazon Forecast resource.
   dataset import jobs, predictors, forecasts, and forecast export jobs.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1317,18 +1224,9 @@ Job
   ForecastArn, and ForecastExportJobArn.
 
 """
-function stop_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "StopResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("StopResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1357,22 +1255,9 @@ a resource is deleted, the tags associated with that resource are also deleted.
   the key prefix of aws do not count against your tags per resource limit.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1387,22 +1272,9 @@ Deletes the specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1418,25 +1290,7 @@ Use the DescribeDatasetGroup operation to get the status.
 - `dataset_group_arn`: The ARN of the dataset group.
 
 """
-function update_dataset_group(
-    DatasetArns,
-    DatasetGroupArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_dataset_group(DatasetArns, DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecast(
-        "UpdateDatasetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatasetArns" => DatasetArns, "DatasetGroupArn" => DatasetGroupArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecast("UpdateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

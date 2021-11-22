@@ -4,21 +4,8 @@ using AWS.AWSServices: amplifybackend
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "next_token" => "nextToken",
-    "clean_amplify_app" => "cleanAmplifyApp",
-    "resource_name" => "resourceName",
-    "backend_environment_name" => "backendEnvironmentName",
-    "status" => "status",
-    "identity_pool_id" => "identityPoolId",
-    "operation" => "operation",
-    "max_results" => "maxResults",
-    "login_auth_config" => "loginAuthConfig",
-    "backend_manager_app_id" => "backendManagerAppId",
-    "resource_config" => "resourceConfig",
-    "bucket_name" => "bucketName",
-    "job_id" => "jobId",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("resource_config" => "resourceConfig", "resource_name" => "resourceName", "bucket_name" => "bucketName", "job_id" => "jobId", "max_results" => "maxResults", "next_token" => "nextToken", "operation" => "operation", "status" => "status", "clean_amplify_app" => "cleanAmplifyApp", "backend_manager_app_id" => "backendManagerAppId", "identity_pool_id" => "identityPoolId", "backend_environment_name" => "backendEnvironmentName", "login_auth_config" => "loginAuthConfig")
 
 """
     clone_backend(app_id, backend_environment_name, target_environment_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -31,27 +18,9 @@ This operation clones an existing backend.
 - `target_environment_name`: The name of the destination backend environment to be created.
 
 """
-function clone_backend(
-    appId,
-    backendEnvironmentName,
-    targetEnvironmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function clone_backend(appId, backendEnvironmentName, targetEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/environments/$(backendEnvironmentName)/clone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("targetEnvironmentName" => targetEnvironmentName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/environments/$(backendEnvironmentName)/clone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetEnvironmentName"=>targetEnvironmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -65,36 +34,13 @@ the time of app creation.
 - `app_name`: The name of the app.
 - `backend_environment_name`: The name of the backend environment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_config"`: The resource configuration for creating backend storage.
-- `"resource_name"`: The name of the resource.
+# Keyword Parameters
+- `resource_config`: The resource configuration for creating backend storage.
+- `resource_name`: The name of the resource.
 """
-function create_backend(
-    appId,
-    appName,
-    backendEnvironmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_backend(appId, appName, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "appId" => appId,
-                    "appName" => appName,
-                    "backendEnvironmentName" => backendEnvironmentName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "appName"=>appName, "backendEnvironmentName"=>backendEnvironmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -109,32 +55,9 @@ Creates a new backend API resource.
 - `resource_name`: The name of this resource.
 
 """
-function create_backend_api(
-    appId,
-    backendEnvironmentName,
-    resourceConfig,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_backend_api(appId, backendEnvironmentName, resourceConfig, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/api",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "backendEnvironmentName" => backendEnvironmentName,
-                    "resourceConfig" => resourceConfig,
-                    "resourceName" => resourceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/api", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("backendEnvironmentName"=>backendEnvironmentName, "resourceConfig"=>resourceConfig, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -149,32 +72,9 @@ Creates a new backend authentication resource.
 - `resource_name`: The name of this resource.
 
 """
-function create_backend_auth(
-    appId,
-    backendEnvironmentName,
-    resourceConfig,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_backend_auth(appId, backendEnvironmentName, resourceConfig, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/auth",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "backendEnvironmentName" => backendEnvironmentName,
-                    "resourceConfig" => resourceConfig,
-                    "resourceName" => resourceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/auth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("backendEnvironmentName"=>backendEnvironmentName, "resourceConfig"=>resourceConfig, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,21 +85,12 @@ Creates a config object for a backend.
 # Arguments
 - `app_id`: The app ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backend_manager_app_id"`: The app ID for the backend manager.
+# Keyword Parameters
+- `backend_manager_app_id`: The app ID for the backend manager.
 """
-function create_backend_config(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -214,32 +105,9 @@ Creates a backend storage resource.
 - `resource_name`: The name of the storage resource.
 
 """
-function create_backend_storage(
-    appId,
-    backendEnvironmentName,
-    resourceConfig,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_backend_storage(appId, backendEnvironmentName, resourceConfig, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/storage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "backendEnvironmentName" => backendEnvironmentName,
-                    "resourceConfig" => resourceConfig,
-                    "resourceName" => resourceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("backendEnvironmentName"=>backendEnvironmentName, "resourceConfig"=>resourceConfig, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -253,13 +121,7 @@ Generates a one-time challenge code to authenticate a user into your Amplify Adm
 """
 function create_token(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/challenge",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/challenge", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -272,20 +134,9 @@ Removes an existing environment from your Amplify project.
 - `backend_environment_name`: The name of the backend environment.
 
 """
-function delete_backend(
-    appId,
-    backendEnvironmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_backend(appId, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/environments/$(backendEnvironmentName)/remove",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/environments/$(backendEnvironmentName)/remove", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,28 +149,13 @@ Deletes an existing backend API resource.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_config"`: Defines the resource configuration for the data model in your
-  Amplify project.
+# Keyword Parameters
+- `resource_config`: Defines the resource configuration for the data model in your Amplify
+  project.
 """
-function delete_backend_api(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_backend_api(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/api/$(backendEnvironmentName)/remove",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/remove", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -333,23 +169,9 @@ Deletes an existing backend authentication resource.
 - `resource_name`: The name of this resource.
 
 """
-function delete_backend_auth(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_backend_auth(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/auth/$(backendEnvironmentName)/remove",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/auth/$(backendEnvironmentName)/remove", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -364,30 +186,9 @@ Removes the specified backend storage resource.
 - `service_name`: The name of the storage service.
 
 """
-function delete_backend_storage(
-    appId,
-    backendEnvironmentName,
-    resourceName,
-    serviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_backend_storage(appId, backendEnvironmentName, resourceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/storage/$(backendEnvironmentName)/remove",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceName" => resourceName, "serviceName" => serviceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/storage/$(backendEnvironmentName)/remove", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -400,17 +201,9 @@ Deletes the challenge token based on the given appId and sessionId.
 - `session_id`: The session ID.
 
 """
-function delete_token(
-    appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/challenge/$(sessionId)/remove",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/challenge/$(sessionId)/remove", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -424,23 +217,9 @@ Generates a model schema for an existing backend API resource.
 - `resource_name`: The name of this resource.
 
 """
-function generate_backend_apimodels(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function generate_backend_apimodels(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/api/$(backendEnvironmentName)/generateModels",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/generateModels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -451,19 +230,12 @@ Provides project-level details for your Amplify UI project.
 # Arguments
 - `app_id`: The app ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backend_environment_name"`: The name of the backend environment.
+# Keyword Parameters
+- `backend_environment_name`: The name of the backend environment.
 """
 function get_backend(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/details",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/details", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -476,28 +248,13 @@ Gets the details for a backend API.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_config"`: Defines the resource configuration for the data model in your
-  Amplify project.
+# Keyword Parameters
+- `resource_config`: Defines the resource configuration for the data model in your Amplify
+  project.
 """
-function get_backend_api(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_backend_api(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/api/$(backendEnvironmentName)/details",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -511,23 +268,9 @@ Generates a model schema for existing backend API resource.
 - `resource_name`: The name of this resource.
 
 """
-function get_backend_apimodels(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_backend_apimodels(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/api/$(backendEnvironmentName)/getModels",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/getModels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -541,23 +284,9 @@ Gets a backend auth details.
 - `resource_name`: The name of this resource.
 
 """
-function get_backend_auth(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_backend_auth(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/auth/$(backendEnvironmentName)/details",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/auth/$(backendEnvironmentName)/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -571,21 +300,9 @@ Returns information about a specific job.
 - `job_id`: The ID for the job.
 
 """
-function get_backend_job(
-    appId,
-    backendEnvironmentName,
-    jobId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_backend_job(appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "GET",
-        "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("GET", "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -599,23 +316,9 @@ Gets details for a backend storage resource.
 - `resource_name`: The name of the storage resource.
 
 """
-function get_backend_storage(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_backend_storage(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/storage/$(backendEnvironmentName)/details",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/storage/$(backendEnvironmentName)/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -628,17 +331,9 @@ Gets the challenge token based on the given appId and sessionId.
 - `session_id`: The session ID.
 
 """
-function get_token(
-    appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "GET",
-        "/backend/$(appId)/challenge/$(sessionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("GET", "/backend/$(appId)/challenge/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -653,37 +348,12 @@ Imports an existing backend authentication resource.
 - `user_pool_id`: The ID of the Amazon Cognito user pool.
 - `web_client_id`: The ID of the Amazon Cognito web client.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity_pool_id"`: The ID of the Amazon Cognito identity pool.
+# Keyword Parameters
+- `identity_pool_id`: The ID of the Amazon Cognito identity pool.
 """
-function import_backend_auth(
-    appId,
-    backendEnvironmentName,
-    nativeClientId,
-    userPoolId,
-    webClientId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_backend_auth(appId, backendEnvironmentName, nativeClientId, userPoolId, webClientId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/auth/$(backendEnvironmentName)/import",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "nativeClientId" => nativeClientId,
-                    "userPoolId" => userPoolId,
-                    "webClientId" => webClientId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/auth/$(backendEnvironmentName)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nativeClientId"=>nativeClientId, "userPoolId"=>userPoolId, "webClientId"=>webClientId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -696,27 +366,12 @@ Imports an existing backend storage resource.
 - `backend_environment_name`: The name of the backend environment.
 - `service_name`: The name of the storage service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bucket_name"`: The name of the S3 bucket.
+# Keyword Parameters
+- `bucket_name`: The name of the S3 bucket.
 """
-function import_backend_storage(
-    appId,
-    backendEnvironmentName,
-    serviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_backend_storage(appId, backendEnvironmentName, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/storage/$(backendEnvironmentName)/import",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/storage/$(backendEnvironmentName)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -728,30 +383,18 @@ Lists the jobs for the backend of an Amplify app.
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"job_id"`: The ID for the job.
-- `"max_results"`: The maximum number of results that you want in the response.
-- `"next_token"`: The token for the next set of results.
-- `"operation"`: Filters the list of response objects to include only those with the
+# Keyword Parameters
+- `job_id`: The ID for the job.
+- `max_results`: The maximum number of results that you want in the response.
+- `next_token`: The token for the next set of results.
+- `operation`: Filters the list of response objects to include only those with the
   specified operation name.
-- `"status"`: Filters the list of response objects to include only those with the specified
+- `status`: Filters the list of response objects to include only those with the specified
   status.
 """
-function list_backend_jobs(
-    appId,
-    backendEnvironmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_backend_jobs(appId, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/job/$(backendEnvironmentName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -759,15 +402,12 @@ end
 
 The list of S3 buckets in your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: Reserved for future use.
+# Keyword Parameters
+- `next_token`: Reserved for future use.
 """
 function list_s3_buckets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST", "/s3Buckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return amplifybackend("POST", "/s3Buckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -778,21 +418,12 @@ Removes all backend environments from your Amplify project.
 # Arguments
 - `app_id`: The app ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"clean_amplify_app"`: Cleans up the Amplify Console app if this value is set to true.
+# Keyword Parameters
+- `clean_amplify_app`: Cleans up the Amplify Console app if this value is set to true.
 """
-function remove_all_backends(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_all_backends(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/remove",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/remove", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -804,17 +435,9 @@ Removes the AWS resources required to access the Amplify Admin UI.
 - `app_id`: The app ID.
 
 """
-function remove_backend_config(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/config/remove",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/config/remove", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -827,28 +450,13 @@ Updates an existing backend API resource.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_config"`: Defines the resource configuration for the data model in your
-  Amplify project.
+# Keyword Parameters
+- `resource_config`: Defines the resource configuration for the data model in your Amplify
+  project.
 """
-function update_backend_api(
-    appId,
-    backendEnvironmentName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_backend_api(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/api/$(backendEnvironmentName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -863,30 +471,9 @@ Updates an existing backend authentication resource.
 - `resource_name`: The name of this resource.
 
 """
-function update_backend_auth(
-    appId,
-    backendEnvironmentName,
-    resourceConfig,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_backend_auth(appId, backendEnvironmentName, resourceConfig, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/auth/$(backendEnvironmentName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceConfig" => resourceConfig, "resourceName" => resourceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/auth/$(backendEnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceConfig"=>resourceConfig, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -897,21 +484,12 @@ Updates the AWS resources required to access the Amplify Admin UI.
 # Arguments
 - `app_id`: The app ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"login_auth_config"`: Describes the Amazon Cognito configuration for Admin UI access.
+# Keyword Parameters
+- `login_auth_config`: Describes the Amazon Cognito configuration for Admin UI access.
 """
-function update_backend_config(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/config/update",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/config/update", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -924,28 +502,15 @@ Updates a specific job.
 - `backend_environment_name`: The name of the backend environment.
 - `job_id`: The ID for the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"operation"`: Filters the list of response objects to include only those with the
+# Keyword Parameters
+- `operation`: Filters the list of response objects to include only those with the
   specified operation name.
-- `"status"`: Filters the list of response objects to include only those with the specified
+- `status`: Filters the list of response objects to include only those with the specified
   status.
 """
-function update_backend_job(
-    appId,
-    backendEnvironmentName,
-    jobId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_backend_job(appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -960,28 +525,7 @@ Updates an existing backend storage resource.
 - `resource_name`: The name of the storage resource.
 
 """
-function update_backend_storage(
-    appId,
-    backendEnvironmentName,
-    resourceConfig,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_backend_storage(appId, backendEnvironmentName, resourceConfig, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplifybackend(
-        "POST",
-        "/backend/$(appId)/storage/$(backendEnvironmentName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceConfig" => resourceConfig, "resourceName" => resourceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplifybackend("POST", "/backend/$(appId)/storage/$(backendEnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceConfig"=>resourceConfig, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

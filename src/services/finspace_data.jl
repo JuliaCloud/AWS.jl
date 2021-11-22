@@ -4,13 +4,8 @@ using AWS.AWSServices: finspace_data
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "location_type" => "locationType",
-    "format_type" => "formatType",
-    "tags" => "tags",
-    "format_params" => "formatParams",
-    "duration_in_minutes" => "durationInMinutes",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("location_type" => "locationType", "format_params" => "formatParams", "format_type" => "formatType", "tags" => "tags", "duration_in_minutes" => "durationInMinutes")
 
 """
     create_changeset(change_type, dataset_id, source_params, source_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,38 +23,14 @@ Creates a new changeset in a FinSpace dataset.
 - `source_type`: Type of the data source from which the files to create the changeset will
   be sourced.    S3 - Amazon S3.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"format_params"`: Options that define the structure of the source file(s).
-- `"format_type"`: Format type of the input files being loaded into the changeset.
-- `"tags"`: Metadata tags to apply to this changeset.
+# Keyword Parameters
+- `format_params`: Options that define the structure of the source file(s).
+- `format_type`: Format type of the input files being loaded into the changeset.
+- `tags`: Metadata tags to apply to this changeset.
 """
-function create_changeset(
-    changeType,
-    datasetId,
-    sourceParams,
-    sourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_changeset(changeType, datasetId, sourceParams, sourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace_data(
-        "POST",
-        "/datasets/$(datasetId)/changesets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "changeType" => changeType,
-                    "sourceParams" => sourceParams,
-                    "sourceType" => sourceType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace_data("POST", "/datasets/$(datasetId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("changeType"=>changeType, "sourceParams"=>sourceParams, "sourceType"=>sourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -70,23 +41,12 @@ Request programmatic credentials to use with Habanero SDK.
 # Arguments
 - `environment_id`: The habanero environment identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"duration_in_minutes"`: The time duration in which the credentials remain valid.
+# Keyword Parameters
+- `duration_in_minutes`: The time duration in which the credentials remain valid.
 """
-function get_programmatic_access_credentials(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_programmatic_access_credentials(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace_data(
-        "GET",
-        "/credentials/programmatic",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace_data("GET", "/credentials/programmatic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -95,23 +55,14 @@ end
 A temporary Amazon S3 location to copy your files from a source location to stage or use as
 a scratch space in Habanero notebook.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"location_type"`: Specify the type of the working location.    SAGEMAKER - Use the
-  Amazon S3 location as a temporary location to store data content when working with FinSpace
+# Keyword Parameters
+- `location_type`: Specify the type of the working location.    SAGEMAKER - Use the Amazon
+  S3 location as a temporary location to store data content when working with FinSpace
   Notebooks that run on SageMaker studio.    INGESTION - Use the Amazon S3 location as a
   staging location to copy your data content and then use the location with the changeset
   creation operation.
 """
-function get_working_location(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_working_location(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return finspace_data(
-        "POST",
-        "/workingLocationV1",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return finspace_data("POST", "/workingLocationV1", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

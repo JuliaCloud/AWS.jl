@@ -4,29 +4,8 @@ using AWS.AWSServices: machine_learning
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "mlmodel_name" => "MLModelName",
-    "lt" => "LT",
-    "eq" => "EQ",
-    "ge" => "GE",
-    "next_token" => "NextToken",
-    "filter_variable" => "FilterVariable",
-    "sort_order" => "SortOrder",
-    "parameters" => "Parameters",
-    "compute_statistics" => "ComputeStatistics",
-    "prefix" => "Prefix",
-    "recipe" => "Recipe",
-    "evaluation_name" => "EvaluationName",
-    "score_threshold" => "ScoreThreshold",
-    "verbose" => "Verbose",
-    "recipe_uri" => "RecipeUri",
-    "data_source_name" => "DataSourceName",
-    "gt" => "GT",
-    "le" => "LE",
-    "batch_prediction_name" => "BatchPredictionName",
-    "ne" => "NE",
-    "limit" => "Limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("verbose" => "Verbose", "evaluation_name" => "EvaluationName", "mlmodel_name" => "MLModelName", "score_threshold" => "ScoreThreshold", "compute_statistics" => "ComputeStatistics", "data_source_name" => "DataSourceName", "eq" => "EQ", "filter_variable" => "FilterVariable", "ge" => "GE", "gt" => "GT", "le" => "LE", "limit" => "Limit", "lt" => "LT", "ne" => "NE", "next_token" => "NextToken", "prefix" => "Prefix", "sort_order" => "SortOrder", "parameters" => "Parameters", "recipe" => "Recipe", "recipe_uri" => "RecipeUri", "batch_prediction_name" => "BatchPredictionName")
 
 """
     add_tags(resource_id, resource_type, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,30 +21,9 @@ AddTags updates the tag's value.
   specifying a value, Amazon ML creates a tag with the specified key and a value of null.
 
 """
-function add_tags(
-    ResourceId,
-    ResourceType,
-    Tags;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_tags(ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "AddTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId,
-                    "ResourceType" => ResourceType,
-                    "Tags" => Tags,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -93,37 +51,13 @@ appears, the results are available in the location specified by the OutputUri pa
   permissions to store and retrieve the logs on your behalf. For information about how to set
   permissions, see the Amazon Machine Learning Developer Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"batch_prediction_name"`: A user-supplied name or description of the BatchPrediction.
+# Keyword Parameters
+- `batch_prediction_name`: A user-supplied name or description of the BatchPrediction.
   BatchPredictionName can only use the UTF-8 character set.
 """
-function create_batch_prediction(
-    BatchPredictionDataSourceId,
-    BatchPredictionId,
-    MLModelId,
-    OutputUri;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_batch_prediction(BatchPredictionDataSourceId, BatchPredictionId, MLModelId, OutputUri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateBatchPrediction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BatchPredictionDataSourceId" => BatchPredictionDataSourceId,
-                    "BatchPredictionId" => BatchPredictionId,
-                    "MLModelId" => MLModelId,
-                    "OutputUri" => OutputUri,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionDataSourceId"=>BatchPredictionDataSourceId, "BatchPredictionId"=>BatchPredictionId, "MLModelId"=>MLModelId, "OutputUri"=>OutputUri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -167,38 +101,16 @@ Message attribute of the GetDataSource operation response.
   a data pipeline in the user's account and copy data using the SelectSqlQuery query from
   Amazon RDS to Amazon S3.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compute_statistics"`: The compute statistics for a DataSource. The statistics are
+# Keyword Parameters
+- `compute_statistics`: The compute statistics for a DataSource. The statistics are
   generated from the observation data referenced by a DataSource. Amazon ML uses the
   statistics internally during MLModel training. This parameter must be set to true if the
   DataSource needs to be used for MLModel training.
-- `"data_source_name"`: A user-supplied name or description of the DataSource.
+- `data_source_name`: A user-supplied name or description of the DataSource.
 """
-function create_data_source_from_rds(
-    DataSourceId,
-    RDSData,
-    RoleARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_data_source_from_rds(DataSourceId, RDSData, RoleARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateDataSourceFromRDS",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataSourceId" => DataSourceId,
-                    "RDSData" => RDSData,
-                    "RoleARN" => RoleARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateDataSourceFromRDS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "RDSData"=>RDSData, "RoleARN"=>RoleARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -247,38 +159,16 @@ required fields have the appropriate values.
   execute the SelectSqlQuery query on an Amazon Redshift cluster   An Amazon S3 bucket policy
   to grant Amazon ML read/write permissions on the S3StagingLocation
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compute_statistics"`: The compute statistics for a DataSource. The statistics are
+# Keyword Parameters
+- `compute_statistics`: The compute statistics for a DataSource. The statistics are
   generated from the observation data referenced by a DataSource. Amazon ML uses the
   statistics internally during MLModel training. This parameter must be set to true if the
   DataSource needs to be used for MLModel training.
-- `"data_source_name"`: A user-supplied name or description of the DataSource.
+- `data_source_name`: A user-supplied name or description of the DataSource.
 """
-function create_data_source_from_redshift(
-    DataSourceId,
-    DataSpec,
-    RoleARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_data_source_from_redshift(DataSourceId, DataSpec, RoleARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateDataSourceFromRedshift",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataSourceId" => DataSourceId,
-                    "DataSpec" => DataSpec,
-                    "RoleARN" => RoleARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateDataSourceFromRedshift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec, "RoleARN"=>RoleARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -314,30 +204,16 @@ combinations? The recipe provides answers to these questions.
   splitting and rearrangement requirements for the Datasource.   Sample -
   \"{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}\"
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compute_statistics"`: The compute statistics for a DataSource. The statistics are
+# Keyword Parameters
+- `compute_statistics`: The compute statistics for a DataSource. The statistics are
   generated from the observation data referenced by a DataSource. Amazon ML uses the
   statistics internally during MLModel training. This parameter must be set to true if the
   DataSource needs to be used for MLModel training.
-- `"data_source_name"`: A user-supplied name or description of the DataSource.
+- `data_source_name`: A user-supplied name or description of the DataSource.
 """
-function create_data_source_from_s3(
-    DataSourceId, DataSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_data_source_from_s3(DataSourceId, DataSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateDataSourceFromS3",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DataSourceId" => DataSourceId, "DataSpec" => DataSpec),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateDataSourceFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -362,34 +238,12 @@ GetEvaluation operation to check progress of the evaluation during the creation 
 - `mlmodel_id`: The ID of the MLModel to evaluate. The schema used in creating the MLModel
   must match the schema of the DataSource used in the Evaluation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"evaluation_name"`: A user-supplied name or description of the Evaluation.
+# Keyword Parameters
+- `evaluation_name`: A user-supplied name or description of the Evaluation.
 """
-function create_evaluation(
-    EvaluationDataSourceId,
-    EvaluationId,
-    MLModelId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_evaluation(EvaluationDataSourceId, EvaluationId, MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateEvaluation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EvaluationDataSourceId" => EvaluationDataSourceId,
-                    "EvaluationId" => EvaluationId,
-                    "MLModelId" => MLModelId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationDataSourceId"=>EvaluationDataSourceId, "EvaluationId"=>EvaluationId, "MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -415,10 +269,9 @@ operations.
   see the Amazon Machine Learning Developer Guide.
 - `training_data_source_id`: The DataSource that points to the training data.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"mlmodel_name"`: A user-supplied name or description of the MLModel.
-- `"parameters"`: A list of the training parameters in the MLModel. The list is implemented
+# Keyword Parameters
+- `mlmodel_name`: A user-supplied name or description of the MLModel.
+- `parameters`: A list of the training parameters in the MLModel. The list is implemented
   as a map of key-value pairs. The following is the current set of training parameters:
   sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input
   data, the size of the model might affect its performance.  The value is an integer that
@@ -439,36 +292,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   parameter, start by specifying a small value, such as 1.0E-08. The value is a double that
   ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter
   can't be used when L1 is specified. Use this parameter sparingly.
-- `"recipe"`: The data recipe for creating the MLModel. You must specify either the recipe
-  or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-- `"recipe_uri"`: The Amazon Simple Storage Service (Amazon S3) location and file name that
+- `recipe`: The data recipe for creating the MLModel. You must specify either the recipe or
+  its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
+- `recipe_uri`: The Amazon Simple Storage Service (Amazon S3) location and file name that
   contains the MLModel recipe. You must specify either the recipe or its URI. If you don't
   specify a recipe or its URI, Amazon ML creates a default.
 """
-function create_mlmodel(
-    MLModelId,
-    MLModelType,
-    TrainingDataSourceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_mlmodel(MLModelId, MLModelType, TrainingDataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateMLModel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MLModelId" => MLModelId,
-                    "MLModelType" => MLModelType,
-                    "TrainingDataSourceId" => TrainingDataSourceId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "MLModelType"=>MLModelType, "TrainingDataSourceId"=>TrainingDataSourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -481,18 +313,9 @@ that is, the location to send real-time prediction requests for the specified ML
 - `mlmodel_id`: The ID assigned to the MLModel during creation.
 
 """
-function create_realtime_endpoint(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_realtime_endpoint(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "CreateRealtimeEndpoint",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("CreateRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -507,20 +330,9 @@ DeleteBatchPrediction operation is irreversible.
 - `batch_prediction_id`: A user-supplied ID that uniquely identifies the BatchPrediction.
 
 """
-function delete_batch_prediction(
-    BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_batch_prediction(BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DeleteBatchPrediction",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("BatchPredictionId" => BatchPredictionId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DeleteBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -535,18 +347,9 @@ operation are irreversible.
 - `data_source_id`: A user-supplied ID that uniquely identifies the DataSource.
 
 """
-function delete_data_source(
-    DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DeleteDataSource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DataSourceId" => DataSourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DeleteDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -561,18 +364,9 @@ operation are irreversible.
 - `evaluation_id`: A user-supplied ID that uniquely identifies the Evaluation to delete.
 
 """
-function delete_evaluation(
-    EvaluationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DeleteEvaluation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EvaluationId" => EvaluationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DeleteEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -587,18 +381,9 @@ irreversible.
 - `mlmodel_id`: A user-supplied ID that uniquely identifies the MLModel.
 
 """
-function delete_mlmodel(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DeleteMLModel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DeleteMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -610,18 +395,9 @@ Deletes a real time endpoint of an MLModel.
 - `mlmodel_id`: The ID assigned to the MLModel during creation.
 
 """
-function delete_realtime_endpoint(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_realtime_endpoint(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DeleteRealtimeEndpoint",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DeleteRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -637,30 +413,9 @@ it.
 - `tag_keys`: One or more tags to delete.
 
 """
-function delete_tags(
-    ResourceId,
-    ResourceType,
-    TagKeys;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_tags(ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DeleteTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId,
-                    "ResourceType" => ResourceType,
-                    "TagKeys" => TagKeys,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -668,11 +423,10 @@ end
 
 Returns a list of BatchPrediction operations that match the search criteria in the request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"eq"`: The equal to operator. The BatchPrediction results will have FilterVariable
-  values that exactly match the value specified with EQ.
-- `"filter_variable"`: Use one of the following variables to filter a list of
+# Keyword Parameters
+- `eq`: The equal to operator. The BatchPrediction results will have FilterVariable values
+  that exactly match the value specified with EQ.
+- `filter_variable`: Use one of the following variables to filter a list of
   BatchPrediction:    CreatedAt - Sets the search criteria to the BatchPrediction creation
   date.    Status - Sets the search criteria to the BatchPrediction status.    Name - Sets
   the search criteria to the contents of the BatchPrediction   Name.    IAMUser - Sets the
@@ -681,37 +435,30 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Sets the search criteria to the DataSource used in the BatchPrediction.    DataURI - Sets
   the search criteria to the data file(s) used in the BatchPrediction. The URL can identify
   either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
-- `"ge"`: The greater than or equal to operator. The BatchPrediction results will have
+- `ge`: The greater than or equal to operator. The BatchPrediction results will have
   FilterVariable values that are greater than or equal to the value specified with GE.
-- `"gt"`: The greater than operator. The BatchPrediction results will have FilterVariable
+- `gt`: The greater than operator. The BatchPrediction results will have FilterVariable
   values that are greater than the value specified with GT.
-- `"le"`: The less than or equal to operator. The BatchPrediction results will have
+- `le`: The less than or equal to operator. The BatchPrediction results will have
   FilterVariable values that are less than or equal to the value specified with LE.
-- `"limit"`: The number of pages of information to include in the result. The range of
+- `limit`: The number of pages of information to include in the result. The range of
   acceptable values is 1 through 100. The default value is 100.
-- `"lt"`: The less than operator. The BatchPrediction results will have FilterVariable
-  values that are less than the value specified with LT.
-- `"ne"`: The not equal to operator. The BatchPrediction results will have FilterVariable
+- `lt`: The less than operator. The BatchPrediction results will have FilterVariable values
+  that are less than the value specified with LT.
+- `ne`: The not equal to operator. The BatchPrediction results will have FilterVariable
   values not equal to the value specified with NE.
-- `"next_token"`: An ID of the page in the paginated results.
-- `"prefix"`: A string that is found at the beginning of a variable, such as Name or Id.
-  For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer.
-  To search for this BatchPrediction, select Name for the FilterVariable and any of the
+- `next_token`: An ID of the page in the paginated results.
+- `prefix`: A string that is found at the beginning of a variable, such as Name or Id. For
+  example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To
+  search for this BatchPrediction, select Name for the FilterVariable and any of the
   following strings for the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
-- `"sort_order"`: A two-value parameter that determines the sequence of the resulting list
-  of MLModels.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges
-  the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
+- `sort_order`: A two-value parameter that determines the sequence of the resulting list of
+  MLModels.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the
+  list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_batch_predictions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_batch_predictions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DescribeBatchPredictions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DescribeBatchPredictions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -719,47 +466,39 @@ end
 
 Returns a list of DataSource that match the search criteria in the request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"eq"`: The equal to operator. The DataSource results will have FilterVariable values
-  that exactly match the value specified with EQ.
-- `"filter_variable"`: Use one of the following variables to filter a list of DataSource:
-   CreatedAt - Sets the search criteria to DataSource creation dates.    Status - Sets the
+# Keyword Parameters
+- `eq`: The equal to operator. The DataSource results will have FilterVariable values that
+  exactly match the value specified with EQ.
+- `filter_variable`: Use one of the following variables to filter a list of DataSource:
+  CreatedAt - Sets the search criteria to DataSource creation dates.    Status - Sets the
   search criteria to DataSource statuses.    Name - Sets the search criteria to the contents
   of DataSource Name.    DataUri - Sets the search criteria to the URI of data files used to
   create the DataSource. The URI can identify either a file or an Amazon Simple Storage
   Service (Amazon S3) bucket or directory.    IAMUser - Sets the search criteria to the user
   account that invoked the DataSource creation.
-- `"ge"`: The greater than or equal to operator. The DataSource results will have
+- `ge`: The greater than or equal to operator. The DataSource results will have
   FilterVariable values that are greater than or equal to the value specified with GE.
-- `"gt"`: The greater than operator. The DataSource results will have FilterVariable values
+- `gt`: The greater than operator. The DataSource results will have FilterVariable values
   that are greater than the value specified with GT.
-- `"le"`: The less than or equal to operator. The DataSource results will have
-  FilterVariable values that are less than or equal to the value specified with LE.
-- `"limit"`:  The maximum number of DataSource to include in the result.
-- `"lt"`: The less than operator. The DataSource results will have FilterVariable values
-  that are less than the value specified with LT.
-- `"ne"`: The not equal to operator. The DataSource results will have FilterVariable values
+- `le`: The less than or equal to operator. The DataSource results will have FilterVariable
+  values that are less than or equal to the value specified with LE.
+- `limit`:  The maximum number of DataSource to include in the result.
+- `lt`: The less than operator. The DataSource results will have FilterVariable values that
+  are less than the value specified with LT.
+- `ne`: The not equal to operator. The DataSource results will have FilterVariable values
   not equal to the value specified with NE.
-- `"next_token"`: The ID of the page in the paginated results.
-- `"prefix"`: A string that is found at the beginning of a variable, such as Name or Id.
-  For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for
-  this DataSource, select Name for the FilterVariable and any of the following strings for
-  the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
-- `"sort_order"`: A two-value parameter that determines the sequence of the resulting list
-  of DataSource.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges
-  the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
+- `next_token`: The ID of the page in the paginated results.
+- `prefix`: A string that is found at the beginning of a variable, such as Name or Id. For
+  example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this
+  DataSource, select Name for the FilterVariable and any of the following strings for the
+  Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
+- `sort_order`: A two-value parameter that determines the sequence of the resulting list of
+  DataSource.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the
+  list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_data_sources(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_data_sources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DescribeDataSources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DescribeDataSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -767,11 +506,10 @@ end
 
 Returns a list of DescribeEvaluations that match the search criteria in the request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"eq"`: The equal to operator. The Evaluation results will have FilterVariable values
-  that exactly match the value specified with EQ.
-- `"filter_variable"`: Use one of the following variable to filter a list of Evaluation
+# Keyword Parameters
+- `eq`: The equal to operator. The Evaluation results will have FilterVariable values that
+  exactly match the value specified with EQ.
+- `filter_variable`: Use one of the following variable to filter a list of Evaluation
   objects:    CreatedAt - Sets the search criteria to the Evaluation creation date.    Status
   - Sets the search criteria to the Evaluation status.    Name - Sets the search criteria to
   the contents of Evaluation   Name.    IAMUser - Sets the search criteria to the user
@@ -780,36 +518,29 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Evaluation.    DataUri - Sets the search criteria to the data file(s) used in Evaluation.
   The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket
   or directory.
-- `"ge"`: The greater than or equal to operator. The Evaluation results will have
+- `ge`: The greater than or equal to operator. The Evaluation results will have
   FilterVariable values that are greater than or equal to the value specified with GE.
-- `"gt"`: The greater than operator. The Evaluation results will have FilterVariable values
+- `gt`: The greater than operator. The Evaluation results will have FilterVariable values
   that are greater than the value specified with GT.
-- `"le"`: The less than or equal to operator. The Evaluation results will have
-  FilterVariable values that are less than or equal to the value specified with LE.
-- `"limit"`:  The maximum number of Evaluation to include in the result.
-- `"lt"`: The less than operator. The Evaluation results will have FilterVariable values
-  that are less than the value specified with LT.
-- `"ne"`: The not equal to operator. The Evaluation results will have FilterVariable values
+- `le`: The less than or equal to operator. The Evaluation results will have FilterVariable
+  values that are less than or equal to the value specified with LE.
+- `limit`:  The maximum number of Evaluation to include in the result.
+- `lt`: The less than operator. The Evaluation results will have FilterVariable values that
+  are less than the value specified with LT.
+- `ne`: The not equal to operator. The Evaluation results will have FilterVariable values
   not equal to the value specified with NE.
-- `"next_token"`: The ID of the page in the paginated results.
-- `"prefix"`: A string that is found at the beginning of a variable, such as Name or Id.
-  For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for
-  this Evaluation, select Name for the FilterVariable and any of the following strings for
-  the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
-- `"sort_order"`: A two-value parameter that determines the sequence of the resulting list
-  of Evaluation.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges
-  the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
+- `next_token`: The ID of the page in the paginated results.
+- `prefix`: A string that is found at the beginning of a variable, such as Name or Id. For
+  example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this
+  Evaluation, select Name for the FilterVariable and any of the following strings for the
+  Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
+- `sort_order`: A two-value parameter that determines the sequence of the resulting list of
+  Evaluation.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the
+  list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_evaluations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_evaluations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DescribeEvaluations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DescribeEvaluations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -817,11 +548,10 @@ end
 
 Returns a list of MLModel that match the search criteria in the request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"eq"`: The equal to operator. The MLModel results will have FilterVariable values that
+# Keyword Parameters
+- `eq`: The equal to operator. The MLModel results will have FilterVariable values that
   exactly match the value specified with EQ.
-- `"filter_variable"`: Use one of the following variables to filter a list of MLModel:
+- `filter_variable`: Use one of the following variables to filter a list of MLModel:
   CreatedAt - Sets the search criteria to MLModel creation date.    Status - Sets the search
   criteria to MLModel status.    Name - Sets the search criteria to the contents of MLModel
   Name.    IAMUser - Sets the search criteria to the user account that invoked the MLModel
@@ -832,32 +562,30 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   algorithm that the MLModel uses.    TrainingDataURI - Sets the search criteria to the data
   file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple
   Storage Service (Amazon S3) bucket or directory.
-- `"ge"`: The greater than or equal to operator. The MLModel results will have
-  FilterVariable values that are greater than or equal to the value specified with GE.
-- `"gt"`: The greater than operator. The MLModel results will have FilterVariable values
-  that are greater than the value specified with GT.
-- `"le"`: The less than or equal to operator. The MLModel results will have FilterVariable
+- `ge`: The greater than or equal to operator. The MLModel results will have FilterVariable
+  values that are greater than or equal to the value specified with GE.
+- `gt`: The greater than operator. The MLModel results will have FilterVariable values that
+  are greater than the value specified with GT.
+- `le`: The less than or equal to operator. The MLModel results will have FilterVariable
   values that are less than or equal to the value specified with LE.
-- `"limit"`: The number of pages of information to include in the result. The range of
+- `limit`: The number of pages of information to include in the result. The range of
   acceptable values is 1 through 100. The default value is 100.
-- `"lt"`: The less than operator. The MLModel results will have FilterVariable values that
+- `lt`: The less than operator. The MLModel results will have FilterVariable values that
   are less than the value specified with LT.
-- `"ne"`: The not equal to operator. The MLModel results will have FilterVariable values
-  not equal to the value specified with NE.
-- `"next_token"`: The ID of the page in the paginated results.
-- `"prefix"`: A string that is found at the beginning of a variable, such as Name or Id.
-  For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for
-  this MLModel, select Name for the FilterVariable and any of the following strings for the
+- `ne`: The not equal to operator. The MLModel results will have FilterVariable values not
+  equal to the value specified with NE.
+- `next_token`: The ID of the page in the paginated results.
+- `prefix`: A string that is found at the beginning of a variable, such as Name or Id. For
+  example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this
+  MLModel, select Name for the FilterVariable and any of the following strings for the
   Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
-- `"sort_order"`: A two-value parameter that determines the sequence of the resulting list
-  of MLModel.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the
+- `sort_order`: A two-value parameter that determines the sequence of the resulting list of
+  MLModel.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_mlmodels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DescribeMLModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return machine_learning("DescribeMLModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -870,24 +598,9 @@ Describes one or more of the tags for your Amazon ML object.
 - `resource_type`: The type of the ML object.
 
 """
-function describe_tags(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tags(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "DescribeTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId, "ResourceType" => ResourceType
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -900,20 +613,9 @@ information for a Batch Prediction request.
 - `batch_prediction_id`: An ID assigned to the BatchPrediction at creation.
 
 """
-function get_batch_prediction(
-    BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_batch_prediction(BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "GetBatchPrediction",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("BatchPredictionId" => BatchPredictionId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("GetBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -927,24 +629,13 @@ the DataSource to the normal format.
 # Arguments
 - `data_source_id`: The ID assigned to the DataSource at creation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"verbose"`: Specifies whether the GetDataSource operation should return
-  DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not
-  returned.
+# Keyword Parameters
+- `verbose`: Specifies whether the GetDataSource operation should return DataSourceSchema.
+  If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
 """
-function get_data_source(
-    DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "GetDataSource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DataSourceId" => DataSourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("GetDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -958,18 +649,9 @@ Evaluation.
   recorded and cataloged. The ID provides the means to access the information.
 
 """
-function get_evaluation(
-    EvaluationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "GetEvaluation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EvaluationId" => EvaluationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("GetEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -981,23 +663,13 @@ current status of the MLModel.  GetMLModel provides results in normal or verbose
 # Arguments
 - `mlmodel_id`: The ID assigned to the MLModel at creation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"verbose"`: Specifies whether the GetMLModel operation should return Recipe. If true,
+# Keyword Parameters
+- `verbose`: Specifies whether the GetMLModel operation should return Recipe. If true,
   Recipe is returned. If false, Recipe is not returned.
 """
-function get_mlmodel(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "GetMLModel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("GetMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1013,30 +685,9 @@ the type of model requested.
 - `record`:
 
 """
-function predict(
-    MLModelId,
-    PredictEndpoint,
-    Record;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function predict(MLModelId, PredictEndpoint, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "Predict",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MLModelId" => MLModelId,
-                    "PredictEndpoint" => PredictEndpoint,
-                    "Record" => Record,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("Predict", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "PredictEndpoint"=>PredictEndpoint, "Record"=>Record), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1050,28 +701,9 @@ operation to view the contents of the updated data element.
 - `batch_prediction_name`: A new user-supplied name or description of the BatchPrediction.
 
 """
-function update_batch_prediction(
-    BatchPredictionId,
-    BatchPredictionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_batch_prediction(BatchPredictionId, BatchPredictionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "UpdateBatchPrediction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BatchPredictionId" => BatchPredictionId,
-                    "BatchPredictionName" => BatchPredictionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("UpdateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId, "BatchPredictionName"=>BatchPredictionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1086,27 +718,9 @@ the contents of the updated data element.
   replace the current description.
 
 """
-function update_data_source(
-    DataSourceId,
-    DataSourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_data_source(DataSourceId, DataSourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "UpdateDataSource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataSourceId" => DataSourceId, "DataSourceName" => DataSourceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("UpdateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSourceName"=>DataSourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1121,27 +735,9 @@ view the contents of the updated data element.
   replace the current content.
 
 """
-function update_evaluation(
-    EvaluationId,
-    EvaluationName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_evaluation(EvaluationId, EvaluationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "UpdateEvaluation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EvaluationId" => EvaluationId, "EvaluationName" => EvaluationName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("UpdateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId, "EvaluationName"=>EvaluationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1153,25 +749,15 @@ operation to view the contents of the updated data element.
 # Arguments
 - `mlmodel_id`: The ID assigned to the MLModel during creation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"mlmodel_name"`: A user-supplied name or description of the MLModel.
-- `"score_threshold"`: The ScoreThreshold used in binary classification MLModel that marks
+# Keyword Parameters
+- `mlmodel_name`: A user-supplied name or description of the MLModel.
+- `score_threshold`: The ScoreThreshold used in binary classification MLModel that marks
   the boundary between a positive prediction and a negative prediction. Output values greater
   than or equal to the ScoreThreshold receive a positive result from the MLModel, such as
   true. Output values less than the ScoreThreshold receive a negative response from the
   MLModel, such as false.
 """
-function update_mlmodel(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return machine_learning(
-        "UpdateMLModel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return machine_learning("UpdateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

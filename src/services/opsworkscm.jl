@@ -4,31 +4,8 @@ using AWS.AWSServices: opsworkscm
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "backup_retention_count" => "BackupRetentionCount",
-    "server_name" => "ServerName",
-    "engine_version" => "EngineVersion",
-    "preferred_backup_window" => "PreferredBackupWindow",
-    "next_token" => "NextToken",
-    "custom_certificate" => "CustomCertificate",
-    "engine_model" => "EngineModel",
-    "key_pair" => "KeyPair",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "preferred_maintenance_window" => "PreferredMaintenanceWindow",
-    "input_attributes" => "InputAttributes",
-    "custom_domain" => "CustomDomain",
-    "backup_id" => "BackupId",
-    "attribute_value" => "AttributeValue",
-    "security_group_ids" => "SecurityGroupIds",
-    "subnet_ids" => "SubnetIds",
-    "custom_private_key" => "CustomPrivateKey",
-    "instance_type" => "InstanceType",
-    "engine_attributes" => "EngineAttributes",
-    "associate_public_ip_address" => "AssociatePublicIpAddress",
-    "disable_automated_backup" => "DisableAutomatedBackup",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "server_name" => "ServerName", "associate_public_ip_address" => "AssociatePublicIpAddress", "backup_id" => "BackupId", "backup_retention_count" => "BackupRetentionCount", "custom_certificate" => "CustomCertificate", "custom_domain" => "CustomDomain", "custom_private_key" => "CustomPrivateKey", "disable_automated_backup" => "DisableAutomatedBackup", "engine_attributes" => "EngineAttributes", "engine_model" => "EngineModel", "engine_version" => "EngineVersion", "key_pair" => "KeyPair", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "security_group_ids" => "SecurityGroupIds", "subnet_ids" => "SubnetIds", "tags" => "Tags", "instance_type" => "InstanceType", "description" => "Description", "attribute_value" => "AttributeValue", "input_attributes" => "InputAttributes")
 
 """
     associate_node(engine_attributes, node_name, server_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -59,30 +36,9 @@ Cloudformation templates, or the user data of a server's instance.
 - `server_name`: The name of the server with which to associate the node.
 
 """
-function associate_node(
-    EngineAttributes,
-    NodeName,
-    ServerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_node(EngineAttributes, NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "AssociateNode",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EngineAttributes" => EngineAttributes,
-                    "NodeName" => NodeName,
-                    "ServerName" => ServerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("AssociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -100,10 +56,9 @@ not found. A ValidationException is thrown when parameters of the request are no
 # Arguments
 - `server_name`: The name of the server that you want to back up.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:  A user-defined description of the backup.
-- `"tags"`: A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM
+# Keyword Parameters
+- `description`:  A user-defined description of the backup.
+- `tags`: A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM
   server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and
   can contain only Unicode letters, numbers, or separators, or the following special
   characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only
@@ -111,18 +66,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
      Leading and trailing white spaces are trimmed from both the key and value.   A maximum
   of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
 """
-function create_backup(
-    ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_backup(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "CreateBackup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -169,16 +115,15 @@ private key, specify values for CustomDomain, CustomCertificate, and CustomPriva
   ml. This template creates a CloudFormation stack that includes the service role and
   instance profile that you need.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"associate_public_ip_address"`:  Associate a public IP address with a server that you
-  are launching. Valid values are true or false. The default value is true.
-- `"backup_id"`:  If you specify this field, AWS OpsWorks CM creates the server by using
-  the backup represented by BackupId.
-- `"backup_retention_count"`:  The number of automated backups that you want to keep.
+# Keyword Parameters
+- `associate_public_ip_address`:  Associate a public IP address with a server that you are
+  launching. Valid values are true or false. The default value is true.
+- `backup_id`:  If you specify this field, AWS OpsWorks CM creates the server by using the
+  backup represented by BackupId.
+- `backup_retention_count`:  The number of automated backups that you want to keep.
   Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number
   is exceeded. The default value is 1.
-- `"custom_certificate"`: A PEM-formatted HTTPS certificate. The value can be be a single,
+- `custom_certificate`: A PEM-formatted HTTPS certificate. The value can be be a single,
   self-signed certificate, or a certificate chain. If you specify a custom certificate, you
   must also specify values for CustomDomain and CustomPrivateKey. The following are
   requirements for the CustomCertificate value:   You can provide either a self-signed,
@@ -188,20 +133,20 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The
   certificate’s common name or subject alternative names (SANs), if present, must match the
   value of CustomDomain.   The certificate must match the value of CustomPrivateKey.
-- `"custom_domain"`: An optional public endpoint of a server, such as
+- `custom_domain`: An optional public endpoint of a server, such as
   https://aws.my-company.com. To access the server, create a CNAME DNS record in your
   preferred DNS service that points the custom domain to the endpoint that is generated when
   the server is created (the value of the CreateServer Endpoint attribute). You cannot access
   the server by using the generated Endpoint value if the server is using a custom domain. If
   you specify a custom domain, you must also specify values for CustomCertificate and
   CustomPrivateKey.
-- `"custom_private_key"`: A private key in PEM format for connecting to the server by using
+- `custom_private_key`: A private key in PEM format for connecting to the server by using
   HTTPS. The private key must not be encrypted; it cannot be protected by a password or
   passphrase. If you specify a custom private key, you must also specify values for
   CustomDomain and CustomCertificate.
-- `"disable_automated_backup"`:  Enable or disable scheduled backups. Valid values are true
+- `disable_automated_backup`:  Enable or disable scheduled backups. Valid values are true
   or false. The default value is true.
-- `"engine_attributes"`: Optional engine attributes on a specified server.   Attributes
+- `engine_attributes`: Optional engine attributes on a specified server.   Attributes
   accepted in a Chef createServer request:     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded
   RSA public key. The corresponding private key is required to access the Chef API. When no
   CHEF_AUTOMATE_PIVOTAL_KEY is set, a private key is generated and returned in the response.
@@ -217,76 +162,49 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   ssh://git@your.git-repo.com:user/control-repo.git). Specifying an r10k remote opens TCP
   port 8170.    PUPPET_R10K_PRIVATE_KEY: If you are using a private Git repository, add
   PUPPET_R10K_PRIVATE_KEY to specify a PEM-encoded private SSH key.
-- `"engine_model"`:  The engine model of the server. Valid values in this release include
+- `engine_model`:  The engine model of the server. Valid values in this release include
   Monolithic for Puppet and Single for Chef.
-- `"engine_version"`:  The major release version of the engine that you want to use. For a
+- `engine_version`:  The major release version of the engine that you want to use. For a
   Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, valid
   values are 2019 or 2017.
-- `"key_pair"`:  The Amazon EC2 key pair to set for the instance. This parameter is
-  optional; if desired, you may specify this parameter to connect to your instances by using
-  SSH.
-- `"preferred_backup_window"`:  The start time for a one-hour period during which AWS
+- `key_pair`:  The Amazon EC2 key pair to set for the instance. This parameter is optional;
+  if desired, you may specify this parameter to connect to your instances by using SSH.
+- `preferred_backup_window`:  The start time for a one-hour period during which AWS
   OpsWorks CM backs up application-level data on your server if automated backups are
   enabled. Valid values must be specified in one of the following formats:     HH:MM for
   daily backups    DDD:HH:MM for weekly backups    MM must be specified as 00. The specified
   time is in coordinated universal time (UTC). The default value is a random, daily start
   time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example:
   Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-- `"preferred_maintenance_window"`:  The start time for a one-hour period each week during
+- `preferred_maintenance_window`:  The start time for a one-hour period each week during
   which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified
   in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in
   coordinated universal time (UTC). The default value is a random one-hour period on Tuesday,
   Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00,
   which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-- `"security_group_ids"`:  A list of security group IDs to attach to the Amazon EC2
-  instance. If you add this parameter, the specified security groups must be within the VPC
-  that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM
-  creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0
-  (everyone).
-- `"subnet_ids"`:  The IDs of subnets in which to launch the server EC2 instance.   Amazon
+- `security_group_ids`:  A list of security group IDs to attach to the Amazon EC2 instance.
+  If you add this parameter, the specified security groups must be within the VPC that is
+  specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one
+  new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
+- `subnet_ids`:  The IDs of subnets in which to launch the server EC2 instance.   Amazon
   EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC
   must have \"Auto Assign Public IP\" enabled.   EC2-VPC customers: This field is optional.
   If you do not specify subnet IDs, your EC2 instances are created in a default subnet that
   is selected by Amazon EC2. If you specify subnet IDs, the VPC must have \"Auto Assign
   Public IP\" enabled.  For more information about supported Amazon EC2 platforms, see
   Supported Platforms.
-- `"tags"`: A map that contains tag keys and tag values to attach to an AWS OpsWorks for
-  Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.
-  The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers,
-  or separators, or the following special characters: + - = . _ : / @    The value can be a
+- `tags`: A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef
+  Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key
+  can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or
+  separators, or the following special characters: + - = . _ : / @    The value can be a
   maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the
   following special characters: + - = . _ : / @    Leading and trailing white spaces are
   trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any
   AWS OpsWorks-CM server.
 """
-function create_server(
-    Engine,
-    InstanceProfileArn,
-    InstanceType,
-    ServerName,
-    ServiceRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "CreateServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Engine" => Engine,
-                    "InstanceProfileArn" => InstanceProfileArn,
-                    "InstanceType" => InstanceType,
-                    "ServerName" => ServerName,
-                    "ServiceRoleArn" => ServiceRoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("CreateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -302,18 +220,9 @@ ValidationException is thrown when parameters of the request are not valid.
   list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
 
 """
-function delete_backup(
-    BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DeleteBackup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("BackupId" => BackupId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -331,18 +240,9 @@ ValidationException is raised when parameters of the request are not valid.
 - `server_name`: The ID of the server to delete.
 
 """
-function delete_server(
-    ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DeleteServer",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -351,16 +251,9 @@ end
  Describes your OpsWorks-CM account attributes.   This operation is synchronous.
 
 """
-function describe_account_attributes(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DescribeAccountAttributes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("DescribeAccountAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -371,18 +264,15 @@ not specify a BackupId or ServerName, the command returns all backups.   This op
 synchronous.   A ResourceNotFoundException is thrown when the backup does not exist. A
 ValidationException is raised when parameters of the request are not valid.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backup_id"`: Describes a single backup.
-- `"max_results"`: This is not currently implemented for DescribeBackups requests.
-- `"next_token"`: This is not currently implemented for DescribeBackups requests.
-- `"server_name"`: Returns backups for the server with the specified ServerName.
+# Keyword Parameters
+- `backup_id`: Describes a single backup.
+- `max_results`: This is not currently implemented for DescribeBackups requests.
+- `next_token`: This is not currently implemented for DescribeBackups requests.
+- `server_name`: Returns backups for the server with the specified ServerName.
 """
 function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworkscm("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -396,13 +286,12 @@ not valid.
 # Arguments
 - `server_name`: The name of the server for which you want to view events.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: To receive a paginated response, use this parameter to specify the
-  maximum number of results to be returned with a single call. If the number of available
-  results exceeds this maximum, the response includes a NextToken value that you can assign
-  to the NextToken request parameter to get the next set of results.
-- `"next_token"`: NextToken is a string that is returned in some command responses. It
+# Keyword Parameters
+- `max_results`: To receive a paginated response, use this parameter to specify the maximum
+  number of results to be returned with a single call. If the number of available results
+  exceeds this maximum, the response includes a NextToken value that you can assign to the
+  NextToken request parameter to get the next set of results.
+- `next_token`: NextToken is a string that is returned in some command responses. It
   indicates that not all entries have been returned, and that you must run at least one more
   request to get remaining items. To get remaining results, call DescribeEvents again, and
   assign the token from the previous results as the value of the nextToken parameter. If
@@ -410,18 +299,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   a nextToken value that was not returned in your previous results causes an
   InvalidNextTokenException to occur.
 """
-function describe_events(
-    ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_events(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DescribeEvents",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("DescribeEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -438,28 +318,9 @@ is raised when parameters of the request are not valid.
 - `server_name`: The name of the server from which to disassociate the node.
 
 """
-function describe_node_association_status(
-    NodeAssociationStatusToken,
-    ServerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_node_association_status(NodeAssociationStatusToken, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DescribeNodeAssociationStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "NodeAssociationStatusToken" => NodeAssociationStatusToken,
-                    "ServerName" => ServerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -471,17 +332,14 @@ services.   This operation is synchronous.   A ResourceNotFoundException is thro
 server does not exist. A ValidationException is raised when parameters of the request are
 not valid.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: This is not currently implemented for DescribeServers requests.
-- `"next_token"`: This is not currently implemented for DescribeServers requests.
-- `"server_name"`: Describes the server with the specified ServerName.
+# Keyword Parameters
+- `max_results`: This is not currently implemented for DescribeServers requests.
+- `next_token`: This is not currently implemented for DescribeServers requests.
+- `server_name`: Describes the server with the specified ServerName.
 """
 function describe_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DescribeServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworkscm("DescribeServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -499,29 +357,15 @@ of the request are not valid.
 - `node_name`: The name of the client node.
 - `server_name`: The name of the server from which to disassociate the node.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine_attributes"`: Engine attributes that are used for disassociating the node. No
+# Keyword Parameters
+- `engine_attributes`: Engine attributes that are used for disassociating the node. No
   attributes are required for Puppet.   Attributes required in a DisassociateNode request for
   Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By
   default only one organization named default can exist.
 """
-function disassociate_node(
-    NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_node(NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "DisassociateNode",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("NodeName" => NodeName, "ServerName" => ServerName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("DisassociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -540,9 +384,8 @@ CREATING, TERMINATED, FAILED or DELETING.
   values provided in the InputAttributes list.
 - `server_name`: The name of the server from which you are exporting the attribute.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"input_attributes"`: The list of engine attributes. The list type is EngineAttribute. An
+# Keyword Parameters
+- `input_attributes`: The list of engine attributes. The list type is EngineAttribute. An
   EngineAttribute list item is a pair that includes an attribute name and its value. For the
   Userdata ExportAttributeName, the following are supported engine attribute names.
   RunList In Chef, a list of roles or recipes that are run in the specified order. In Puppet,
@@ -554,27 +397,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   attribute is empty, OpsWorks for Chef Automate uses the most current version. In Puppet,
   this parameter is ignored.
 """
-function export_server_engine_attribute(
-    ExportAttributeName,
-    ServerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function export_server_engine_attribute(ExportAttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "ExportServerEngineAttribute",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ExportAttributeName" => ExportAttributeName, "ServerName" => ServerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("ExportServerEngineAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -590,13 +415,12 @@ AWS OpsWorks for Puppet Enterprise servers or backups.
   arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1
   a2bEXAMPLE.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: To receive a paginated response, use this parameter to specify the
-  maximum number of results to be returned with a single call. If the number of available
-  results exceeds this maximum, the response includes a NextToken value that you can assign
-  to the NextToken request parameter to get the next set of results.
-- `"next_token"`: NextToken is a string that is returned in some command responses. It
+# Keyword Parameters
+- `max_results`: To receive a paginated response, use this parameter to specify the maximum
+  number of results to be returned with a single call. If the number of available results
+  exceeds this maximum, the response includes a NextToken value that you can assign to the
+  NextToken request parameter to get the next set of results.
+- `next_token`: NextToken is a string that is returned in some command responses. It
   indicates that not all entries have been returned, and that you must run at least one more
   request to get remaining items. To get remaining results, call ListTagsForResource again,
   and assign the token from the previous results as the value of the nextToken parameter. If
@@ -604,18 +428,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   a nextToken value that was not returned in your previous results causes an
   InvalidNextTokenException to occur.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -637,31 +452,17 @@ is raised when parameters of the request are not valid.
 - `backup_id`:  The ID of the backup that you want to use to restore a server.
 - `server_name`:  The name of the server that you want to restore.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_type"`:  The type of instance to restore. Valid values must be specified in
-  the following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large,
+# Keyword Parameters
+- `instance_type`:  The type of instance to restore. Valid values must be specified in the
+  following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large,
   r5.xlarge, and r5.2xlarge. If you do not specify this parameter, RestoreServer uses the
   instance type from the specified backup.
-- `"key_pair"`:  The name of the key pair to set on the new EC2 instance. This can be
-  helpful if the administrator no longer has the SSH key.
+- `key_pair`:  The name of the key pair to set on the new EC2 instance. This can be helpful
+  if the administrator no longer has the SSH key.
 """
-function restore_server(
-    BackupId, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function restore_server(BackupId, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "RestoreServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("BackupId" => BackupId, "ServerName" => ServerName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("RestoreServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -677,27 +478,17 @@ not exist. A ValidationException is raised when parameters of the request are no
 # Arguments
 - `server_name`: The name of the server on which to run maintenance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine_attributes"`: Engine attributes that are specific to the server on which you
-  want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef
+# Keyword Parameters
+- `engine_attributes`: Engine attributes that are specific to the server on which you want
+  to run maintenance.  Attributes accepted in a StartMaintenance request for Chef
   CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2,
   add this engine attribute to a StartMaintenance request and set the value to true to
   upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks
   for Chef Automate Server to Chef Automate 2.
 """
-function start_maintenance(
-    ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_maintenance(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "StartMaintenance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("StartMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -720,22 +511,9 @@ server, or to server backups.
   of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -751,22 +529,9 @@ Removes specified tags from an AWS OpsWorks-CM server or backup.
 - `tag_keys`: The keys of tags that you want to remove.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -777,26 +542,16 @@ end
 # Arguments
 - `server_name`: The name of the server to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backup_retention_count"`: Sets the number of automated backups that you want to keep.
-- `"disable_automated_backup"`: Setting DisableAutomatedBackup to true disables automated
-  or scheduled backups. Automated backups are enabled by default.
-- `"preferred_backup_window"`:
-- `"preferred_maintenance_window"`:
+# Keyword Parameters
+- `backup_retention_count`: Sets the number of automated backups that you want to keep.
+- `disable_automated_backup`: Setting DisableAutomatedBackup to true disables automated or
+  scheduled backups. Automated backups are enabled by default.
+- `preferred_backup_window`:
+- `preferred_maintenance_window`:
 """
-function update_server(
-    ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "UpdateServer",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -814,26 +569,10 @@ not exist. A ValidationException is raised when parameters of the request are no
 - `attribute_name`: The name of the engine attribute to update.
 - `server_name`: The name of the server to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_value"`: The value to set for the attribute.
+# Keyword Parameters
+- `attribute_value`: The value to set for the attribute.
 """
-function update_server_engine_attributes(
-    AttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_server_engine_attributes(AttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworkscm(
-        "UpdateServerEngineAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AttributeName" => AttributeName, "ServerName" => ServerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

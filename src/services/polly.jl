@@ -4,20 +4,8 @@ using AWS.AWSServices: polly
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "text_type" => "TextType",
-    "next_token" => "NextToken",
-    "status" => "Status",
-    "include_additional_language_codes" => "IncludeAdditionalLanguageCodes",
-    "max_results" => "MaxResults",
-    "sample_rate" => "SampleRate",
-    "speech_mark_types" => "SpeechMarkTypes",
-    "engine" => "Engine",
-    "lexicon_names" => "LexiconNames",
-    "output_s3_key_prefix" => "OutputS3KeyPrefix",
-    "sns_topic_arn" => "SnsTopicArn",
-    "language_code" => "LanguageCode",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("engine" => "Engine", "language_code" => "LanguageCode", "lexicon_names" => "LexiconNames", "sample_rate" => "SampleRate", "speech_mark_types" => "SpeechMarkTypes", "text_type" => "TextType", "include_additional_language_codes" => "IncludeAdditionalLanguageCodes", "next_token" => "NextToken", "max_results" => "MaxResults", "status" => "Status", "output_s3_key_prefix" => "OutputS3KeyPrefix", "sns_topic_arn" => "SnsTopicArn")
 
 """
     delete_lexicon(lexicon_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,17 +20,9 @@ Managing Lexicons.
   region.
 
 """
-function delete_lexicon(
-    LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "DELETE",
-        "/v1/lexicons/$(LexiconName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("DELETE", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -59,26 +39,23 @@ from.  You can optionally specify a language code to filter the available voices
 example, if you specify en-US, the operation returns a list of all available US English
 voices.  This operation requires permissions to perform the polly:DescribeVoices action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine"`: Specifies the engine (standard or neural) used by Amazon Polly when
-  processing input text for speech synthesis.
-- `"include_additional_language_codes"`: Boolean value indicating whether to return any
+# Keyword Parameters
+- `engine`: Specifies the engine (standard or neural) used by Amazon Polly when processing
+  input text for speech synthesis.
+- `include_additional_language_codes`: Boolean value indicating whether to return any
   bilingual voices that use the specified language as an additional language. For instance,
   if you request all languages that use US English (es-US), and there is an Italian voice
   that speaks both Italian (it-IT) and US English, that voice will be included if you specify
   yes but not if you specify no.
-- `"language_code"`:  The language identification tag (ISO 639 code for the language
-  name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify
-  this optional parameter, all available voices are returned.
-- `"next_token"`: An opaque pagination token returned from the previous DescribeVoices
+- `language_code`:  The language identification tag (ISO 639 code for the language name-ISO
+  3166 country code) for filtering the list of voices returned. If you don't specify this
+  optional parameter, all available voices are returned.
+- `next_token`: An opaque pagination token returned from the previous DescribeVoices
   operation. If present, this indicates where to continue the listing.
 """
 function describe_voices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "GET", "/v1/voices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return polly("GET", "/v1/voices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -91,17 +68,9 @@ Region. For more information, see Managing Lexicons.
 - `lexicon_name`: Name of the lexicon.
 
 """
-function get_lexicon(
-    LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "GET",
-        "/v1/lexicons/$(LexiconName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("GET", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -115,17 +84,9 @@ link to the S3 bucket containing the output of the task.
 - `task_id`: The Amazon Polly generated identifier for a speech synthesis task.
 
 """
-function get_speech_synthesis_task(
-    TaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_speech_synthesis_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "GET",
-        "/v1/synthesisTasks/$(TaskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("GET", "/v1/synthesisTasks/$(TaskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -134,20 +95,13 @@ end
 Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more
 information, see Managing Lexicons.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An opaque pagination token returned from previous ListLexicons operation.
+# Keyword Parameters
+- `next_token`: An opaque pagination token returned from previous ListLexicons operation.
   If present, indicates where to continue the list of lexicons.
 """
 function list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "GET",
-        "/v1/lexicons",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("GET", "/v1/lexicons", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,24 +111,15 @@ Returns a list of SpeechSynthesisTask objects ordered by their creation date. Th
 operation can filter the tasks by their status, for example, allowing users to list only
 tasks that are completed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of speech synthesis tasks returned in a List operation.
-- `"next_token"`: The pagination token to use in the next request to continue the listing
-  of speech synthesis tasks.
-- `"status"`: Status of the speech synthesis tasks returned in a List operation
+# Keyword Parameters
+- `max_results`: Maximum number of speech synthesis tasks returned in a List operation.
+- `next_token`: The pagination token to use in the next request to continue the listing of
+  speech synthesis tasks.
+- `status`: Status of the speech synthesis tasks returned in a List operation
 """
-function list_speech_synthesis_tasks(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "GET",
-        "/v1/synthesisTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("GET", "/v1/synthesisTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,17 +137,9 @@ available to the SynthesizeSpeech operation. For more information, see Managing 
   characters long.
 
 """
-function put_lexicon(
-    Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_lexicon(Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "PUT",
-        "/v1/lexicons/$(LexiconName)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("PUT", "/v1/lexicons/$(LexiconName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -225,59 +162,34 @@ synthesis task.
   SSML format for the input text.
 - `voice_id`: Voice ID to use for the synthesis.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine"`: Specifies the engine (standard or neural) for Amazon Polly to use when
+# Keyword Parameters
+- `engine`: Specifies the engine (standard or neural) for Amazon Polly to use when
   processing input text for speech synthesis. Using a voice that is not supported for the
   engine selected will result in an error.
-- `"language_code"`: Optional language code for the Speech Synthesis request. This is only
+- `language_code`: Optional language code for the Speech Synthesis request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is
   specified, Amazon Polly uses the default language of the bilingual voice. The default
   language for any voice is the one returned by the DescribeVoices operation for the
   LanguageCode parameter. For example, if no language code is specified, Aditi will use
   Indian English rather than Hindi.
-- `"lexicon_names"`: List of one or more pronunciation lexicon names you want the service
-  to apply during synthesis. Lexicons are applied only if the language of the lexicon is the
+- `lexicon_names`: List of one or more pronunciation lexicon names you want the service to
+  apply during synthesis. Lexicons are applied only if the language of the lexicon is the
   same as the language of the voice.
-- `"output_s3_key_prefix"`: The Amazon S3 key prefix for the output speech file.
-- `"sample_rate"`: The audio frequency specified in Hz. The valid values for mp3 and
+- `output_s3_key_prefix`: The Amazon S3 key prefix for the output speech file.
+- `sample_rate`: The audio frequency specified in Hz. The valid values for mp3 and
   ogg_vorbis are \"8000\", \"16000\", \"22050\", and \"24000\". The default value for
   standard voices is \"22050\". The default value for neural voices is \"24000\". Valid
   values for pcm are \"8000\" and \"16000\" The default value is \"16000\".
-- `"sns_topic_arn"`: ARN for the SNS topic optionally used for providing status
-  notification for a speech synthesis task.
-- `"speech_mark_types"`: The type of speech marks returned for the input text.
-- `"text_type"`: Specifies whether the input text is plain text or SSML. The default value
-  is plain text.
+- `sns_topic_arn`: ARN for the SNS topic optionally used for providing status notification
+  for a speech synthesis task.
+- `speech_mark_types`: The type of speech marks returned for the input text.
+- `text_type`: Specifies whether the input text is plain text or SSML. The default value is
+  plain text.
 """
-function start_speech_synthesis_task(
-    OutputFormat,
-    OutputS3BucketName,
-    Text,
-    VoiceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_speech_synthesis_task(OutputFormat, OutputS3BucketName, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "POST",
-        "/v1/synthesisTasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OutputFormat" => OutputFormat,
-                    "OutputS3BucketName" => OutputS3BucketName,
-                    "Text" => Text,
-                    "VoiceId" => VoiceId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("POST", "/v1/synthesisTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputFormat"=>OutputFormat, "OutputS3BucketName"=>OutputS3BucketName, "Text"=>Text, "VoiceId"=>VoiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,9 +210,8 @@ used. For more information, see How it Works.
 - `voice_id`:  Voice ID to use for the synthesis. You can get a list of available voice IDs
   by calling the DescribeVoices operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine"`: Specifies the engine (standard or neural) for Amazon Polly to use when
+# Keyword Parameters
+- `engine`: Specifies the engine (standard or neural) for Amazon Polly to use when
   processing input text for speech synthesis. For information on Amazon Polly voices and
   which voices are available in standard-only, NTTS-only, and both standard and NTTS formats,
   see Available Voices.  NTTS-only voices  When using NTTS-only voices such as Kevin (en-US),
@@ -309,45 +220,25 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   neural  Required: Yes  Standard voices  For standard voices, this is not required; the
   engine parameter defaults to standard. If the engine is not specified, or is set to
   standard and an NTTS-only voice is selected, this will result in an error.
-- `"language_code"`: Optional language code for the Synthesize Speech request. This is only
+- `language_code`: Optional language code for the Synthesize Speech request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is
   specified, Amazon Polly uses the default language of the bilingual voice. The default
   language for any voice is the one returned by the DescribeVoices operation for the
   LanguageCode parameter. For example, if no language code is specified, Aditi will use
   Indian English rather than Hindi.
-- `"lexicon_names"`: List of one or more pronunciation lexicon names you want the service
-  to apply during synthesis. Lexicons are applied only if the language of the lexicon is the
+- `lexicon_names`: List of one or more pronunciation lexicon names you want the service to
+  apply during synthesis. Lexicons are applied only if the language of the lexicon is the
   same as the language of the voice. For information about storing lexicons, see PutLexicon.
-- `"sample_rate"`: The audio frequency specified in Hz. The valid values for mp3 and
+- `sample_rate`: The audio frequency specified in Hz. The valid values for mp3 and
   ogg_vorbis are \"8000\", \"16000\", \"22050\", and \"24000\". The default value for
   standard voices is \"22050\". The default value for neural voices is \"24000\". Valid
   values for pcm are \"8000\" and \"16000\" The default value is \"16000\".
-- `"speech_mark_types"`: The type of speech marks returned for the input text.
-- `"text_type"`:  Specifies whether the input text is plain text or SSML. The default value
+- `speech_mark_types`: The type of speech marks returned for the input text.
+- `text_type`:  Specifies whether the input text is plain text or SSML. The default value
   is plain text. For more information, see Using SSML.
 """
-function synthesize_speech(
-    OutputFormat,
-    Text,
-    VoiceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function synthesize_speech(OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return polly(
-        "POST",
-        "/v1/speech",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OutputFormat" => OutputFormat, "Text" => Text, "VoiceId" => VoiceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return polly("POST", "/v1/speech", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputFormat"=>OutputFormat, "Text"=>Text, "VoiceId"=>VoiceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,7 +4,8 @@ using AWS.AWSServices: kinesis_video_media
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict("stream_name" => "StreamName", "stream_arn" => "StreamARN")
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("stream_arn" => "StreamARN", "stream_name" => "StreamName")
 
 """
     get_media(start_selector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -34,24 +35,13 @@ topic, as well as Common Errors.
 # Arguments
 - `start_selector`: Identifies the starting chunk to get from the specified stream.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"stream_arn"`: The ARN of the stream from where you want to get the media content. If
-  you don't specify the streamARN, you must specify the streamName.
-- `"stream_name"`: The Kinesis video stream name from where you want to get the media
+# Keyword Parameters
+- `stream_arn`: The ARN of the stream from where you want to get the media content. If you
+  don't specify the streamARN, you must specify the streamName.
+- `stream_name`: The Kinesis video stream name from where you want to get the media
   content. If you don't specify the streamName, you must specify the streamARN.
 """
-function get_media(
-    StartSelector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_media(StartSelector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_video_media(
-        "POST",
-        "/getMedia",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("StartSelector" => StartSelector), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

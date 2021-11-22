@@ -4,7 +4,8 @@ using AWS.AWSServices: workmailmessageflow
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict{String,String}()
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict{String, String, Vector{String}, Vector{String}}()
 
 """
     get_raw_message_content(message_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -15,17 +16,9 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 - `message_id`: The identifier of the email message to retrieve.
 
 """
-function get_raw_message_content(
-    messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_raw_message_content(messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workmailmessageflow(
-        "GET",
-        "/messages/$(messageId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workmailmessageflow("GET", "/messages/$(messageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -44,15 +37,7 @@ returns an updated message.
 - `message_id`: The identifier of the email message being updated.
 
 """
-function put_raw_message_content(
-    content, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_raw_message_content(content, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workmailmessageflow(
-        "POST",
-        "/messages/$(messageId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("content" => content), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workmailmessageflow("POST", "/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

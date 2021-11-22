@@ -4,47 +4,8 @@ using AWS.AWSServices: macie2
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "managed_data_identifier_ids" => "managedDataIdentifierIds",
-    "severity_levels" => "severityLevels",
-    "action" => "action",
-    "keywords" => "keywords",
-    "filter_by" => "filterBy",
-    "managed_data_identifier_selector" => "managedDataIdentifierSelector",
-    "next_token" => "nextToken",
-    "security_hub_configuration" => "securityHubConfiguration",
-    "filter_criteria" => "filterCriteria",
-    "name" => "name",
-    "regex" => "regex",
-    "account_id" => "accountId",
-    "status" => "status",
-    "custom_data_identifier_ids" => "customDataIdentifierIds",
-    "sort_by" => "sortBy",
-    "maximum_match_distance" => "maximumMatchDistance",
-    "position" => "position",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "time_range" => "timeRange",
-    "disable_email_notification" => "disableEmailNotification",
-    "client_token" => "clientToken",
-    "ids" => "ids",
-    "initial_run" => "initialRun",
-    "sampling_percentage" => "samplingPercentage",
-    "size" => "size",
-    "schedule_frequency" => "scheduleFrequency",
-    "master_account" => "masterAccount",
-    "finding_criteria" => "findingCriteria",
-    "criteria" => "criteria",
-    "bucket_criteria" => "bucketCriteria",
-    "finding_publishing_frequency" => "findingPublishingFrequency",
-    "message" => "message",
-    "ignore_words" => "ignoreWords",
-    "tags" => "tags",
-    "sort_criteria" => "sortCriteria",
-    "only_associated" => "onlyAssociated",
-    "administrator_account_id" => "administratorAccountId",
-    "finding_types" => "findingTypes",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "clientToken", "finding_publishing_frequency" => "findingPublishingFrequency", "status" => "status", "max_results" => "maxResults", "next_token" => "nextToken", "ids" => "ids", "finding_criteria" => "findingCriteria", "sort_criteria" => "sortCriteria", "only_associated" => "onlyAssociated", "finding_types" => "findingTypes", "account_id" => "accountId", "custom_data_identifier_ids" => "customDataIdentifierIds", "description" => "description", "initial_run" => "initialRun", "managed_data_identifier_ids" => "managedDataIdentifierIds", "managed_data_identifier_selector" => "managedDataIdentifierSelector", "sampling_percentage" => "samplingPercentage", "schedule_frequency" => "scheduleFrequency", "tags" => "tags", "filter_by" => "filterBy", "sort_by" => "sortBy", "time_range" => "timeRange", "ignore_words" => "ignoreWords", "keywords" => "keywords", "maximum_match_distance" => "maximumMatchDistance", "name" => "name", "regex" => "regex", "severity_levels" => "severityLevels", "criteria" => "criteria", "action" => "action", "position" => "position", "administrator_account_id" => "administratorAccountId", "master_account" => "masterAccount", "bucket_criteria" => "bucketCriteria", "size" => "size", "security_hub_configuration" => "securityHubConfiguration", "disable_email_notification" => "disableEmailNotification", "message" => "message", "filter_criteria" => "filterCriteria")
 
 """
     accept_invitation(invitation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -54,27 +15,16 @@ Accepts an Amazon Macie membership invitation that was received from a specific 
 # Arguments
 - `invitation_id`: The unique identifier for the invitation to accept.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"administrator_account_id"`: The Amazon Web Services account ID for the account that
-  sent the invitation.
-- `"master_account"`: (Deprecated) The Amazon Web Services account ID for the account that
+# Keyword Parameters
+- `administrator_account_id`: The Amazon Web Services account ID for the account that sent
+  the invitation.
+- `master_account`: (Deprecated) The Amazon Web Services account ID for the account that
   sent the invitation. This property has been replaced by the administratorAccountId property
   and is retained only for backward compatibility.
 """
-function accept_invitation(
-    invitationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/invitations/accept",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("invitationId" => invitationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -82,22 +32,13 @@ end
 
 Retrieves information about one or more custom data identifiers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ids"`: An array of custom data identifier IDs, one for each custom data identifier to
+# Keyword Parameters
+- `ids`: An array of custom data identifier IDs, one for each custom data identifier to
   retrieve information about.
 """
-function batch_get_custom_data_identifiers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/custom-data-identifiers/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/custom-data-identifiers/get", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -116,25 +57,24 @@ Creates and defines the settings for a classification job.
 - `s3_job_definition`: The S3 buckets that contain the objects to analyze, and the scope of
   that analysis.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_data_identifier_ids"`: An array of unique identifiers, one for each custom data
+# Keyword Parameters
+- `custom_data_identifier_ids`: An array of unique identifiers, one for each custom data
   identifier for the job to use when it analyzes data. To use only managed data identifiers,
   don't specify a value for this property and specify a value other than NONE for the
   managedDataIdentifierSelector property.
-- `"description"`: A custom description of the job. The description can contain as many as
+- `description`: A custom description of the job. The description can contain as many as
   200 characters.
-- `"initial_run"`: For a recurring job, specifies whether to analyze all existing, eligible
+- `initial_run`: For a recurring job, specifies whether to analyze all existing, eligible
   objects immediately after the job is created (true). To analyze only those objects that are
   created or changed after you create the job and before the job's first scheduled run, set
   this value to false.If you configure the job to run only once, don't specify a value for
   this property.
-- `"managed_data_identifier_ids"`: An array of unique identifiers, one for each managed
-  data identifier for the job to include (use) or exclude (not use) when it analyzes data.
+- `managed_data_identifier_ids`: An array of unique identifiers, one for each managed data
+  identifier for the job to include (use) or exclude (not use) when it analyzes data.
   Inclusion or exclusion depends on the managed data identifier selection type that you
   specify for the job (managedDataIdentifierSelector).To retrieve a list of valid values for
   this property, use the ListManagedDataIdentifiers operation.
-- `"managed_data_identifier_selector"`: The selection type to apply when determining which
+- `managed_data_identifier_selector`: The selection type to apply when determining which
   managed data identifiers the job uses to analyze data. Valid values are: ALL - Use all the
   managed data identifiers that Amazon Macie provides. If you specify this value, don't
   specify any values for the managedDataIdentifierIds property. EXCLUDE - Use all the managed
@@ -146,45 +86,21 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   property. If you don't specify a value for this property, the job uses all managed data
   identifiers. If you don't specify a value for this property or you specify ALL or EXCLUDE
   for a recurring job, the job also uses new managed data identifiers as they are released.
-- `"sampling_percentage"`: The sampling depth, as a percentage, for the job to apply when
+- `sampling_percentage`: The sampling depth, as a percentage, for the job to apply when
   processing objects. This value determines the percentage of eligible objects that the job
   analyzes. If this value is less than 100, Amazon Macie selects the objects to analyze at
   random, up to the specified percentage, and analyzes all the data in those objects.
-- `"schedule_frequency"`: The recurrence pattern for running the job. To run the job only
+- `schedule_frequency`: The recurrence pattern for running the job. To run the job only
   once, don't specify a value for this property and set the value for the jobType property to
   ONE_TIME.
-- `"tags"`: A map of key-value pairs that specifies the tags to associate with the job. A
-  job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag
-  value. The maximum length of a tag key is 128 characters. The maximum length of a tag value
-  is 256 characters.
+- `tags`: A map of key-value pairs that specifies the tags to associate with the job. A job
+  can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value.
+  The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256
+  characters.
 """
-function create_classification_job(
-    clientToken,
-    jobType,
-    name,
-    s3JobDefinition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_classification_job(clientToken, jobType, name, s3JobDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/jobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientToken" => clientToken,
-                    "jobType" => jobType,
-                    "name" => name,
-                    "s3JobDefinition" => s3JobDefinition,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,35 +108,34 @@ end
 
 Creates and defines the criteria and other settings for a custom data identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
-- `"description"`: A custom description of the custom data identifier. The description can
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `description`: A custom description of the custom data identifier. The description can
   contain as many as 512 characters. We strongly recommend that you avoid including any
   sensitive data in the description of a custom data identifier. Other users of your account
   might be able to see the identifier's description, depending on the actions that they're
   allowed to perform in Amazon Macie.
-- `"ignore_words"`: An array that lists specific character sequences (ignore words) to
+- `ignore_words`: An array that lists specific character sequences (ignore words) to
   exclude from the results. If the text matched by the regular expression contains any string
   in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words.
   Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
-- `"keywords"`: An array that lists specific character sequences (keywords), one of which
+- `keywords`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
   array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters.
   Keywords aren't case sensitive.
-- `"maximum_match_distance"`: The maximum number of characters that can exist between text
+- `maximum_match_distance`: The maximum number of characters that can exist between text
   that matches the regular expression and the character sequences specified by the keywords
   array. Amazon Macie includes or excludes a result based on the proximity of a keyword to
   text that matches the regular expression. The distance can be 1-300 characters. The default
   value is 50.
-- `"name"`: A custom name for the custom data identifier. The name can contain as many as
-  128 characters. We strongly recommend that you avoid including any sensitive data in the
-  name of a custom data identifier. Other users of your account might be able to see the
+- `name`: A custom name for the custom data identifier. The name can contain as many as 128
+  characters. We strongly recommend that you avoid including any sensitive data in the name
+  of a custom data identifier. Other users of your account might be able to see the
   identifier's name, depending on the actions that they're allowed to perform in Amazon Macie.
-- `"regex"`: The regular expression (regex) that defines the pattern to match. The
-  expression can contain as many as 512 characters.
-- `"severity_levels"`: The severity to assign to findings that the custom data identifier
+- `regex`: The regular expression (regex) that defines the pattern to match. The expression
+  can contain as many as 512 characters.
+- `severity_levels`: The severity to assign to findings that the custom data identifier
   produces, based on the number of occurrences of text that matches the custom data
   identifier's detection criteria. You can specify as many as three SeverityLevel objects in
   this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the
@@ -230,24 +145,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   you don't specify any values for this array, Macie creates findings for S3 objects that
   contain at least one occurrence of text that matches the detection criteria, and Macie
   assigns the MEDIUM severity to those findings.
-- `"tags"`: A map of key-value pairs that specifies the tags to associate with the custom
+- `tags`: A map of key-value pairs that specifies the tags to associate with the custom
   data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists
   of a tag key and an associated tag value. The maximum length of a tag key is 128
   characters. The maximum length of a tag value is 256 characters.
 """
-function create_custom_data_identifier(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_custom_data_identifier(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/custom-data-identifiers",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/custom-data-identifiers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -265,48 +170,24 @@ Creates and defines the criteria and other settings for a findings filter.
   sensitive data in the name of a filter. Other users of your account might be able to see
   the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
-- `"description"`: A custom description of the filter. The description can contain as many
-  as 512 characters. We strongly recommend that you avoid including any sensitive data in the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `description`: A custom description of the filter. The description can contain as many as
+  512 characters. We strongly recommend that you avoid including any sensitive data in the
   description of a filter. Other users of your account might be able to see the filter's
   description, depending on the actions that they're allowed to perform in Amazon Macie.
-- `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
+- `position`: The position of the filter in the list of saved filters on the Amazon Macie
   console. This value also determines the order in which the filter is applied to findings,
   relative to other filters that are also applied to the findings.
-- `"tags"`: A map of key-value pairs that specifies the tags to associate with the filter.
-  A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an
+- `tags`: A map of key-value pairs that specifies the tags to associate with the filter. A
+  findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an
   associated tag value. The maximum length of a tag key is 128 characters. The maximum length
   of a tag value is 256 characters.
 """
-function create_findings_filter(
-    action,
-    findingCriteria,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_findings_filter(action, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/findingsfilters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "action" => action,
-                    "findingCriteria" => findingCriteria,
-                    "name" => name,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/findingsfilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -318,28 +199,17 @@ Sends an Amazon Macie membership invitation to one or more accounts.
 - `account_ids`: An array that lists Amazon Web Services account IDs, one for each account
   to send the invitation to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disable_email_notification"`: Specifies whether to send an email notification to the
-  root user of each account that the invitation will be sent to. This notification is in
-  addition to an alert that the root user receives in Personal Health Dashboard. To send an
-  email notification to the root user of each account, set this value to true.
-- `"message"`: A custom message to include in the invitation. Amazon Macie adds this
-  message to the standard content that it sends for an invitation.
+# Keyword Parameters
+- `disable_email_notification`: Specifies whether to send an email notification to the root
+  user of each account that the invitation will be sent to. This notification is in addition
+  to an alert that the root user receives in Personal Health Dashboard. To send an email
+  notification to the root user of each account, set this value to true.
+- `message`: A custom message to include in the invitation. Amazon Macie adds this message
+  to the standard content that it sends for an invitation.
 """
-function create_invitations(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/invitations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/invitations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -350,24 +220,15 @@ Associates an account with an Amazon Macie administrator account.
 # Arguments
 - `account`: The details of the account to associate with the administrator account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A map of key-value pairs that specifies the tags to associate with the account
-  in Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key
-  and an associated tag value. The maximum length of a tag key is 128 characters. The maximum
+# Keyword Parameters
+- `tags`: A map of key-value pairs that specifies the tags to associate with the account in
+  Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key and
+  an associated tag value. The maximum length of a tag key is 128 characters. The maximum
   length of a tag value is 256 characters.
 """
-function create_member(
-    account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_member(account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/members",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("account" => account), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account"=>account), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -375,23 +236,14 @@ end
 
 Creates sample findings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"finding_types"`: An array of finding types, one for each type of sample finding to
+# Keyword Parameters
+- `finding_types`: An array of finding types, one for each type of sample finding to
   create. To create a sample of every type of finding that Amazon Macie supports, don't
   include this array in your request.
 """
-function create_sample_findings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_sample_findings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/findings/sample",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/findings/sample", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -404,19 +256,9 @@ Declines Amazon Macie membership invitations that were received from specific ac
   that sent an invitation to decline.
 
 """
-function decline_invitations(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/invitations/decline",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -429,17 +271,9 @@ Soft deletes a custom data identifier.
   applies to.
 
 """
-function delete_custom_data_identifier(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "DELETE",
-        "/custom-data-identifiers/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("DELETE", "/custom-data-identifiers/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -452,17 +286,9 @@ Deletes a findings filter.
   applies to.
 
 """
-function delete_findings_filter(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "DELETE",
-        "/findingsfilters/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("DELETE", "/findingsfilters/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -475,19 +301,9 @@ Deletes Amazon Macie membership invitations that were received from specific acc
   that sent an invitation to delete.
 
 """
-function delete_invitations(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/invitations/delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -502,13 +318,7 @@ Deletes the association between an Amazon Macie administrator account and an acc
 """
 function delete_member(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "DELETE",
-        "/members/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("DELETE", "/members/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -517,24 +327,17 @@ end
  Retrieves (queries) statistical data and other information about one or more S3 buckets
 that Amazon Macie monitors and analyzes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"criteria"`: The criteria to use to filter the query results.
-- `"max_results"`: The maximum number of items to include in each page of the response. The
+# Keyword Parameters
+- `criteria`: The criteria to use to filter the query results.
+- `max_results`: The maximum number of items to include in each page of the response. The
   default value is 50.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
-- `"sort_criteria"`: The criteria to use to sort the query results.
+- `sort_criteria`: The criteria to use to sort the query results.
 """
 function describe_buckets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/datasources/s3",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/datasources/s3", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -546,17 +349,9 @@ Retrieves the status and settings for a classification job.
 - `job_id`: The unique identifier for the classification job.
 
 """
-function describe_classification_job(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_classification_job(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -565,17 +360,9 @@ end
 Retrieves the Amazon Macie configuration settings for an Amazon Web Services organization.
 
 """
-function describe_organization_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/admin/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/admin/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -586,9 +373,7 @@ Disables an Amazon Macie account and deletes Macie resources for the account.
 """
 function disable_macie(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "DELETE", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("DELETE", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -602,19 +387,9 @@ Services organization.
   administrator account.
 
 """
-function disable_organization_admin_account(
-    adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "DELETE",
-        "/admin",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("DELETE", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -623,17 +398,9 @@ end
 Disassociates a member account from its Amazon Macie administrator account.
 
 """
-function disassociate_from_administrator_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_from_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/administrator/disassociate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/administrator/disassociate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -643,17 +410,9 @@ end
 This operation has been replaced by the DisassociateFromAdministratorAccount operation.
 
 """
-function disassociate_from_master_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/master/disassociate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/master/disassociate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -666,17 +425,9 @@ Disassociates an Amazon Macie administrator account from a member account.
   applies to.
 
 """
-function disassociate_member(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_member(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/members/disassociate/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/members/disassociate/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -684,27 +435,18 @@ end
 
 Enables Amazon Macie and specifies the configuration settings for a Macie account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
-- `"finding_publishing_frequency"`: Specifies how often to publish updates to policy
-  findings for the account. This includes publishing updates to Security Hub and Amazon
-  EventBridge (formerly called Amazon CloudWatch Events).
-- `"status"`: Specifies the new status for the account. To enable Amazon Macie and start
-  all Macie activities for the account, set this value to ENABLED.
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `finding_publishing_frequency`: Specifies how often to publish updates to policy findings
+  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
+  (formerly called Amazon CloudWatch Events).
+- `status`: Specifies the new status for the account. To enable Amazon Macie and start all
+  Macie activities for the account, set this value to ENABLED.
 """
 function enable_macie(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/macie",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -717,30 +459,13 @@ Services organization.
 - `admin_account_id`: The Amazon Web Services account ID for the account to designate as
   the delegated Amazon Macie administrator account for the organization.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
 """
-function enable_organization_admin_account(
-    adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/admin",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "adminAccountId" => adminAccountId, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -749,17 +474,9 @@ end
 Retrieves information about the Amazon Macie administrator account for an account.
 
 """
-function get_administrator_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/administrator",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/administrator", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -768,21 +485,12 @@ end
  Retrieves (queries) aggregated statistical data for all the S3 buckets that Amazon Macie
 monitors and analyzes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: The unique identifier for the Amazon Web Services account.
+# Keyword Parameters
+- `account_id`: The unique identifier for the Amazon Web Services account.
 """
-function get_bucket_statistics(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_statistics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/datasources/s3/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/datasources/s3/statistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -791,17 +499,9 @@ end
 Retrieves the configuration settings for storing data classification results.
 
 """
-function get_classification_export_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_classification_export_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/classification-export-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/classification-export-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -814,17 +514,9 @@ Retrieves the criteria and other settings for a custom data identifier.
   applies to.
 
 """
-function get_custom_data_identifier(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/custom-data-identifiers/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/custom-data-identifiers/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -840,23 +532,14 @@ end
   or Medium. type - The type of finding, such as Policy:IAMUser/S3BucketPublic and
   SensitiveData:S3Object/Personal.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"finding_criteria"`: The criteria to use to filter the query results.
-- `"size"`: The maximum number of items to include in each page of the response.
-- `"sort_criteria"`: The criteria to use to sort the query results.
+# Keyword Parameters
+- `finding_criteria`: The criteria to use to filter the query results.
+- `size`: The maximum number of items to include in each page of the response.
+- `sort_criteria`: The criteria to use to sort the query results.
 """
-function get_finding_statistics(
-    groupBy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/findings/statistics",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("groupBy" => groupBy), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupBy"=>groupBy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -868,23 +551,12 @@ Retrieves the details of one or more findings.
 - `finding_ids`: An array of strings that lists the unique identifiers for the findings to
   retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"sort_criteria"`: The criteria for sorting the results of the request.
+# Keyword Parameters
+- `sort_criteria`: The criteria for sorting the results of the request.
 """
-function get_findings(
-    findingIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_findings(findingIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/findings/describe",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("findingIds" => findingIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/findings/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -897,17 +569,9 @@ Retrieves the criteria and other settings for a findings filter.
   applies to.
 
 """
-function get_findings_filter(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/findingsfilters/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/findingsfilters/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -916,17 +580,9 @@ end
 Retrieves the configuration settings for publishing findings to Security Hub.
 
 """
-function get_findings_publication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/findings-publication-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/findings-publication-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -935,17 +591,9 @@ end
 Retrieves the count of Amazon Macie membership invitations that were received by an account.
 
 """
-function get_invitations_count(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/invitations/count",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/invitations/count", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -956,9 +604,7 @@ Retrieves the current status and configuration settings for an Amazon Macie acco
 """
 function get_macie_session(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -970,9 +616,7 @@ account. This operation has been replaced by the GetAdministratorAccount operati
 """
 function get_master_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET", "/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -988,13 +632,7 @@ account.
 """
 function get_member(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/members/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/members/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1002,31 +640,22 @@ end
 
 Retrieves (queries) quotas and aggregated usage data for one or more accounts.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_by"`: An array of objects, one for each condition to use to filter the query
+# Keyword Parameters
+- `filter_by`: An array of objects, one for each condition to use to filter the query
   results. If you specify more than one condition, Amazon Macie uses an AND operator to join
   the conditions.
-- `"max_results"`: The maximum number of items to include in each page of the response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `max_results`: The maximum number of items to include in each page of the response.
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
-- `"sort_by"`: The criteria to use to sort the query results.
-- `"time_range"`: The inclusive time period to query usage data for. Valid values are:
+- `sort_by`: The criteria to use to sort the query results.
+- `time_range`: The inclusive time period to query usage data for. Valid values are:
   MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding
   30 days. If you don't specify a value, Amazon Macie provides usage data for the preceding
   30 days.
 """
-function get_usage_statistics(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_usage_statistics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/usage/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/usage/statistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1034,18 +663,15 @@ end
 
 Retrieves (queries) aggregated usage data for an account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"time_range"`: The inclusive time period to retrieve the data for. Valid values are:
+# Keyword Parameters
+- `time_range`: The inclusive time period to retrieve the data for. Valid values are:
   MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding
   30 days. If you don't specify a value for this parameter, Amazon Macie provides aggregated
   usage data for the preceding 30 days.
 """
 function get_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET", "/usage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/usage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1053,21 +679,16 @@ end
 
 Retrieves a subset of information about one or more classification jobs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_criteria"`: The criteria to use to filter the results.
-- `"max_results"`: The maximum number of items to include in each page of the response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+# Keyword Parameters
+- `filter_criteria`: The criteria to use to filter the results.
+- `max_results`: The maximum number of items to include in each page of the response.
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
-- `"sort_criteria"`: The criteria to use to sort the results.
+- `sort_criteria`: The criteria to use to sort the results.
 """
-function list_classification_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_classification_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST", "/jobs/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/jobs/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1075,23 +696,14 @@ end
 
 Retrieves a subset of information about all the custom data identifiers for an account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to include in each page of the response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+# Keyword Parameters
+- `max_results`: The maximum number of items to include in each page of the response.
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_custom_data_identifiers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/custom-data-identifiers/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/custom-data-identifiers/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1099,19 +711,16 @@ end
 
 Retrieves a subset of information about one or more findings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"finding_criteria"`: The criteria to use to filter the results.
-- `"max_results"`: The maximum number of items to include in each page of the response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+# Keyword Parameters
+- `finding_criteria`: The criteria to use to filter the results.
+- `max_results`: The maximum number of items to include in each page of the response.
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
-- `"sort_criteria"`: The criteria to use to sort the results.
+- `sort_criteria`: The criteria to use to sort the results.
 """
 function list_findings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST", "/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1119,24 +728,15 @@ end
 
 Retrieves a subset of information about all the findings filters for an account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to include in each page of a paginated
+# Keyword Parameters
+- `max_results`: The maximum number of items to include in each page of a paginated
   response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_findings_filters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_findings_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/findingsfilters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/findingsfilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1145,22 +745,15 @@ end
 Retrieves information about the Amazon Macie membership invitations that were received by
 an account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to include in each page of a paginated
+# Keyword Parameters
+- `max_results`: The maximum number of items to include in each page of a paginated
   response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
 function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/invitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/invitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1169,22 +762,13 @@ end
 Retrieves information about all the managed data identifiers that Amazon Macie currently
 provides.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+# Keyword Parameters
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_managed_data_identifiers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_managed_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/managed-data-identifiers/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/managed-data-identifiers/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1193,22 +777,19 @@ end
 Retrieves information about the accounts that are associated with an Amazon Macie
 administrator account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to include in each page of a paginated
+# Keyword Parameters
+- `max_results`: The maximum number of items to include in each page of a paginated
   response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
-- `"only_associated"`: Specifies which accounts to include in the response, based on the
+- `only_associated`: Specifies which accounts to include in the response, based on the
   status of an account's relationship with the administrator account. By default, the
   response includes only current member accounts. To include all accounts, set this value to
   false.
 """
 function list_members(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET", "/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1217,20 +798,15 @@ end
 Retrieves information about the delegated Amazon Macie administrator account for an Amazon
 Web Services organization.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to include in each page of a paginated
+# Keyword Parameters
+- `max_results`: The maximum number of items to include in each page of a paginated
   response.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_organization_admin_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1244,17 +820,9 @@ data identifier, findings filter, or member account.
   identifier, findings filter, or member account.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1267,19 +835,9 @@ Creates or updates the configuration settings for storing data classification re
   settings to use when storing results in that location.
 
 """
-function put_classification_export_configuration(
-    configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_classification_export_configuration(configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PUT",
-        "/classification-export-configuration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("PUT", "/classification-export-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1287,26 +845,15 @@ end
 
 Updates the configuration settings for publishing findings to Security Hub.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
-- `"security_hub_configuration"`: The configuration settings that determine which findings
-  to publish to Security Hub.
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `security_hub_configuration`: The configuration settings that determine which findings to
+  publish to Security Hub.
 """
-function put_findings_publication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PUT",
-        "/findings-publication-configuration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("PUT", "/findings-publication-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1315,25 +862,18 @@ end
 Retrieves (queries) statistical data and other information about Amazon Web Services
 resources that Amazon Macie monitors and analyzes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bucket_criteria"`: The filter conditions that determine which S3 buckets to include or
+# Keyword Parameters
+- `bucket_criteria`: The filter conditions that determine which S3 buckets to include or
   exclude from the query results.
-- `"max_results"`: The maximum number of items to include in each page of the response. The
+- `max_results`: The maximum number of items to include in each page of the response. The
   default value is 50.
-- `"next_token"`: The nextToken string that specifies which page of results to return in a
+- `next_token`: The nextToken string that specifies which page of results to return in a
   paginated response.
-- `"sort_criteria"`: The criteria to use to sort the results.
+- `sort_criteria`: The criteria to use to sort the results.
 """
 function search_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/datasources/search-resources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/datasources/search-resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1351,17 +891,9 @@ classification job, custom data identifier, findings filter, or member account.
   value is 256 characters.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1375,39 +907,24 @@ Tests a custom data identifier.
 - `sample_text`: The sample text to inspect by using the custom data identifier. The text
   can contain as many as 1,000 characters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ignore_words"`: An array that lists specific character sequences (ignore words) to
+# Keyword Parameters
+- `ignore_words`: An array that lists specific character sequences (ignore words) to
   exclude from the results. If the text matched by the regular expression contains any string
   in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words.
   Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
-- `"keywords"`: An array that lists specific character sequences (keywords), one of which
+- `keywords`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
   array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters.
   Keywords aren't case sensitive.
-- `"maximum_match_distance"`: The maximum number of characters that can exist between text
+- `maximum_match_distance`: The maximum number of characters that can exist between text
   that matches the regular expression and the character sequences specified by the keywords
   array. Amazon Macie includes or excludes a result based on the proximity of a keyword to
   text that matches the regular expression. The distance can be 1-300 characters. The default
   value is 50.
 """
-function test_custom_data_identifier(
-    regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function test_custom_data_identifier(regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "POST",
-        "/custom-data-identifiers/test",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("regex" => regex, "sampleText" => sampleText),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1424,17 +941,9 @@ identifier, findings filter, or member account.
   an ampersand (&amp;).
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1462,19 +971,9 @@ Changes the status of a classification job.
   the UserPausedDetails.jobExpiresAt property.
 
 """
-function update_classification_job(
-    jobId, jobStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_classification_job(jobId, jobStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PATCH",
-        "/jobs/$(jobId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("jobStatus" => jobStatus), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobStatus"=>jobStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1486,39 +985,28 @@ Updates the criteria and other settings for a findings filter.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request
   applies to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action"`: The action to perform on findings that meet the filter criteria
+# Keyword Parameters
+- `action`: The action to perform on findings that meet the filter criteria
   (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
   findings; and, NOOP, don't perform any action on the findings.
-- `"client_token"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
-- `"description"`: A custom description of the filter. The description can contain as many
-  as 512 characters. We strongly recommend that you avoid including any sensitive data in the
+- `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `description`: A custom description of the filter. The description can contain as many as
+  512 characters. We strongly recommend that you avoid including any sensitive data in the
   description of a filter. Other users might be able to see the filter's description,
   depending on the actions that they're allowed to perform in Amazon Macie.
-- `"finding_criteria"`: The criteria to use to filter findings.
-- `"name"`: A custom name for the filter. The name must contain at least 3 characters and
-  can contain as many as 64 characters. We strongly recommend that you avoid including any
+- `finding_criteria`: The criteria to use to filter findings.
+- `name`: A custom name for the filter. The name must contain at least 3 characters and can
+  contain as many as 64 characters. We strongly recommend that you avoid including any
   sensitive data in the name of a filter. Other users might be able to see the filter's name,
   depending on the actions that they're allowed to perform in Amazon Macie.
-- `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
+- `position`: The position of the filter in the list of saved filters on the Amazon Macie
   console. This value also determines the order in which the filter is applied to findings,
   relative to other filters that are also applied to the findings.
 """
-function update_findings_filter(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PATCH",
-        "/findingsfilters/$(id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("PATCH", "/findingsfilters/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1527,22 +1015,17 @@ end
 Suspends or re-enables an Amazon Macie account, or updates the configuration settings for a
 Macie account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"finding_publishing_frequency"`: Specifies how often to publish updates to policy
-  findings for the account. This includes publishing updates to Security Hub and Amazon
-  EventBridge (formerly called Amazon CloudWatch Events).
-- `"status"`: Specifies a new status for the account. Valid values are: ENABLED, resume all
+# Keyword Parameters
+- `finding_publishing_frequency`: Specifies how often to publish updates to policy findings
+  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
+  (formerly called Amazon CloudWatch Events).
+- `status`: Specifies a new status for the account. Valid values are: ENABLED, resume all
   Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the
   account.
 """
-function update_macie_session(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_macie_session(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PATCH", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("PATCH", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1558,17 +1041,9 @@ Enables an Amazon Macie administrator to suspend or re-enable Macie for a member
   account.
 
 """
-function update_member_session(
-    id, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_member_session(id, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PATCH",
-        "/macie/members/$(id)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1581,17 +1056,7 @@ Updates the Amazon Macie configuration settings for an Amazon Web Services organ
   when the account is added to the Amazon Web Services organization.
 
 """
-function update_organization_configuration(
-    autoEnable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_organization_configuration(autoEnable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return macie2(
-        "PATCH",
-        "/admin/configuration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("autoEnable" => autoEnable), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return macie2("PATCH", "/admin/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

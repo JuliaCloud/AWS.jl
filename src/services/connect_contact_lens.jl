@@ -4,7 +4,8 @@ using AWS.AWSServices: connect_contact_lens
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict("next_token" => "NextToken", "max_results" => "MaxResults")
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken")
 
 """
     list_realtime_contact_analysis_segments(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -15,27 +16,12 @@ Provides a list of analysis segments for a real-time analysis session.
 - `contact_id`: The identifier of the contact.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximimum number of results to return per page.
-- `"next_token"`: The token for the next set of results. Use the value returned in the
+# Keyword Parameters
+- `max_results`: The maximimum number of results to return per page.
+- `next_token`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_realtime_contact_analysis_segments(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_realtime_contact_analysis_segments(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return connect_contact_lens(
-        "POST",
-        "/realtime-contact-analysis/analysis-segments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

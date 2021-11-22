@@ -4,110 +4,8 @@ using AWS.AWSServices: opsworks
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "rsa_public_key_fingerprint" => "RsaPublicKeyFingerprint",
-    "custom_security_group_ids" => "CustomSecurityGroupIds",
-    "agent_version" => "AgentVersion",
-    "use_opsworks_security_groups" => "UseOpsworksSecurityGroups",
-    "environment" => "Environment",
-    "stack_id" => "StackId",
-    "stack_ids" => "StackIds",
-    "install_updates_on_boot" => "InstallUpdatesOnBoot",
-    "auto_assign_public_ips" => "AutoAssignPublicIps",
-    "force" => "Force",
-    "valid_for_in_minutes" => "ValidForInMinutes",
-    "ips" => "Ips",
-    "ssh_public_key" => "SshPublicKey",
-    "public_ip" => "PublicIp",
-    "deployment_id" => "DeploymentId",
-    "tenancy" => "Tenancy",
-    "db_user" => "DbUser",
-    "shortname" => "Shortname",
-    "rds_db_instance_arns" => "RdsDbInstanceArns",
-    "layer_ids" => "LayerIds",
-    "instance_ids" => "InstanceIds",
-    "attributes" => "Attributes",
-    "default_instance_profile_arn" => "DefaultInstanceProfileArn",
-    "domains" => "Domains",
-    "os" => "Os",
-    "allow_sudo" => "AllowSudo",
-    "db_password" => "DbPassword",
-    "use_ebs_optimized_instances" => "UseEbsOptimizedInstances",
-    "configuration_manager" => "ConfigurationManager",
-    "layer_id" => "LayerId",
-    "cloud_watch_logs_configuration" => "CloudWatchLogsConfiguration",
-    "name" => "Name",
-    "app_ids" => "AppIds",
-    "auto_scaling_schedule" => "AutoScalingSchedule",
-    "architecture" => "Architecture",
-    "use_custom_cookbooks" => "UseCustomCookbooks",
-    "clone_app_ids" => "CloneAppIds",
-    "ec2_volume_id" => "Ec2VolumeId",
-    "data_sources" => "DataSources",
-    "comment" => "Comment",
-    "max_results" => "MaxResults",
-    "enable_ssl" => "EnableSsl",
-    "vpc_id" => "VpcId",
-    "root_device_type" => "RootDeviceType",
-    "service_error_ids" => "ServiceErrorIds",
-    "command_ids" => "CommandIds",
-    "app_source" => "AppSource",
-    "instance_id" => "InstanceId",
-    "ebs_optimized" => "EbsOptimized",
-    "virtualization_type" => "VirtualizationType",
-    "ssh_username" => "SshUsername",
-    "block_device_mappings" => "BlockDeviceMappings",
-    "volume_configurations" => "VolumeConfigurations",
-    "mount_point" => "MountPoint",
-    "private_ip" => "PrivateIp",
-    "clone_permissions" => "ClonePermissions",
-    "default_subnet_id" => "DefaultSubnetId",
-    "instance_identity" => "InstanceIdentity",
-    "next_token" => "NextToken",
-    "level" => "Level",
-    "service_role_arn" => "ServiceRoleArn",
-    "ami_id" => "AmiId",
-    "down_scaling" => "DownScaling",
-    "enable_auto_healing" => "EnableAutoHealing",
-    "lifecycle_event_configuration" => "LifecycleEventConfiguration",
-    "delete_volumes" => "DeleteVolumes",
-    "ssl_configuration" => "SslConfiguration",
-    "auto_scaling_type" => "AutoScalingType",
-    "custom_recipes" => "CustomRecipes",
-    "iam_user_arn" => "IamUserArn",
-    "raid_array_ids" => "RaidArrayIds",
-    "rsa_public_key" => "RsaPublicKey",
-    "enable" => "Enable",
-    "hostname_theme" => "HostnameTheme",
-    "default_root_device_type" => "DefaultRootDeviceType",
-    "custom_cookbooks_source" => "CustomCookbooksSource",
-    "iam_user_arns" => "IamUserArns",
-    "delete_elastic_ip" => "DeleteElasticIp",
-    "ecs_cluster_arns" => "EcsClusterArns",
-    "default_ssh_key_name" => "DefaultSshKeyName",
-    "default_availability_zone" => "DefaultAvailabilityZone",
-    "ssh_key_name" => "SshKeyName",
-    "packages" => "Packages",
-    "allow_self_management" => "AllowSelfManagement",
-    "allow_ssh" => "AllowSsh",
-    "description" => "Description",
-    "raid_array_id" => "RaidArrayId",
-    "chef_configuration" => "ChefConfiguration",
-    "deployment_ids" => "DeploymentIds",
-    "hostname" => "Hostname",
-    "region" => "Region",
-    "availability_zone" => "AvailabilityZone",
-    "custom_json" => "CustomJson",
-    "up_scaling" => "UpScaling",
-    "volume_ids" => "VolumeIds",
-    "auto_assign_elastic_ips" => "AutoAssignElasticIps",
-    "subnet_id" => "SubnetId",
-    "instance_type" => "InstanceType",
-    "custom_instance_profile_arn" => "CustomInstanceProfileArn",
-    "default_os" => "DefaultOs",
-    "app_id" => "AppId",
-    "type" => "Type",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("instance_id" => "InstanceId", "ips" => "Ips", "stack_id" => "StackId", "raid_array_id" => "RaidArrayId", "volume_ids" => "VolumeIds", "allow_self_management" => "AllowSelfManagement", "ssh_public_key" => "SshPublicKey", "ssh_username" => "SshUsername", "layer_ids" => "LayerIds", "hostname" => "Hostname", "instance_identity" => "InstanceIdentity", "private_ip" => "PrivateIp", "public_ip" => "PublicIp", "rsa_public_key" => "RsaPublicKey", "rsa_public_key_fingerprint" => "RsaPublicKeyFingerprint", "iam_user_arn" => "IamUserArn", "stack_ids" => "StackIds", "agent_version" => "AgentVersion", "attributes" => "Attributes", "chef_configuration" => "ChefConfiguration", "clone_app_ids" => "CloneAppIds", "clone_permissions" => "ClonePermissions", "configuration_manager" => "ConfigurationManager", "custom_cookbooks_source" => "CustomCookbooksSource", "custom_json" => "CustomJson", "default_availability_zone" => "DefaultAvailabilityZone", "default_instance_profile_arn" => "DefaultInstanceProfileArn", "default_os" => "DefaultOs", "default_root_device_type" => "DefaultRootDeviceType", "default_ssh_key_name" => "DefaultSshKeyName", "default_subnet_id" => "DefaultSubnetId", "hostname_theme" => "HostnameTheme", "name" => "Name", "region" => "Region", "use_custom_cookbooks" => "UseCustomCookbooks", "use_opsworks_security_groups" => "UseOpsworksSecurityGroups", "vpc_id" => "VpcId", "auto_scaling_schedule" => "AutoScalingSchedule", "ami_id" => "AmiId", "architecture" => "Architecture", "auto_scaling_type" => "AutoScalingType", "availability_zone" => "AvailabilityZone", "block_device_mappings" => "BlockDeviceMappings", "ebs_optimized" => "EbsOptimized", "install_updates_on_boot" => "InstallUpdatesOnBoot", "os" => "Os", "root_device_type" => "RootDeviceType", "ssh_key_name" => "SshKeyName", "subnet_id" => "SubnetId", "tenancy" => "Tenancy", "virtualization_type" => "VirtualizationType", "app_id" => "AppId", "comment" => "Comment", "instance_ids" => "InstanceIds", "command_ids" => "CommandIds", "deployment_id" => "DeploymentId", "rds_db_instance_arns" => "RdsDbInstanceArns", "ecs_cluster_arns" => "EcsClusterArns", "max_results" => "MaxResults", "next_token" => "NextToken", "iam_user_arns" => "IamUserArns", "instance_type" => "InstanceType", "layer_id" => "LayerId", "service_error_ids" => "ServiceErrorIds", "app_source" => "AppSource", "data_sources" => "DataSources", "description" => "Description", "domains" => "Domains", "enable_ssl" => "EnableSsl", "environment" => "Environment", "ssl_configuration" => "SslConfiguration", "type" => "Type", "auto_assign_elastic_ips" => "AutoAssignElasticIps", "auto_assign_public_ips" => "AutoAssignPublicIps", "cloud_watch_logs_configuration" => "CloudWatchLogsConfiguration", "custom_instance_profile_arn" => "CustomInstanceProfileArn", "custom_recipes" => "CustomRecipes", "custom_security_group_ids" => "CustomSecurityGroupIds", "enable_auto_healing" => "EnableAutoHealing", "lifecycle_event_configuration" => "LifecycleEventConfiguration", "packages" => "Packages", "shortname" => "Shortname", "use_ebs_optimized_instances" => "UseEbsOptimizedInstances", "volume_configurations" => "VolumeConfigurations", "ec2_volume_id" => "Ec2VolumeId", "deployment_ids" => "DeploymentIds", "mount_point" => "MountPoint", "allow_ssh" => "AllowSsh", "allow_sudo" => "AllowSudo", "level" => "Level", "force" => "Force", "delete_elastic_ip" => "DeleteElasticIp", "delete_volumes" => "DeleteVolumes", "app_ids" => "AppIds", "valid_for_in_minutes" => "ValidForInMinutes", "db_password" => "DbPassword", "db_user" => "DbUser", "service_role_arn" => "ServiceRoleArn", "raid_array_ids" => "RaidArrayIds", "down_scaling" => "DownScaling", "enable" => "Enable", "up_scaling" => "UpScaling")
 
 """
     assign_instance(instance_id, layer_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -125,22 +23,9 @@ grants permissions. For more information on user permissions, see Managing User 
   registered instance to a built-in layer.
 
 """
-function assign_instance(
-    InstanceId, LayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function assign_instance(InstanceId, LayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "AssignInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstanceId" => InstanceId, "LayerIds" => LayerIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("AssignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,22 +42,12 @@ Managing User Permissions.
 # Arguments
 - `volume_id`: The volume ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: The instance ID.
+# Keyword Parameters
+- `instance_id`: The instance ID.
 """
-function assign_volume(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function assign_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "AssignVolume",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("AssignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -188,22 +63,12 @@ Permissions.
 # Arguments
 - `elastic_ip`: The Elastic IP address.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: The instance ID.
+# Keyword Parameters
+- `instance_id`: The instance ID.
 """
-function associate_elastic_ip(
-    ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "AssociateElasticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ElasticIp" => ElasticIp), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("AssociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -224,28 +89,9 @@ user permissions, see Managing User Permissions.
   attached.
 
 """
-function attach_elastic_load_balancer(
-    ElasticLoadBalancerName,
-    LayerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "AttachElasticLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ElasticLoadBalancerName" => ElasticLoadBalancerName,
-                    "LayerId" => LayerId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("AttachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -267,9 +113,8 @@ permissions. For more information about user permissions, see Managing User Perm
   service role ARN, if you prefer, but you must do so explicitly.
 - `source_stack_id`: The source stack ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_version"`: The default AWS OpsWorks Stacks agent version. You have the following
+# Keyword Parameters
+- `agent_version`: The default AWS OpsWorks Stacks agent version. You have the following
   options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically
   installs new agent versions on the stack's instances as soon as they are available.   Fixed
   version - Set this parameter to your preferred agent version. To update the agent version,
@@ -280,33 +125,33 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify
   an agent version when you create or update an instance, which overrides the stack's default
   setting.
-- `"attributes"`: A list of stack attributes and values as key/value pairs to be added to
-  the cloned stack.
-- `"chef_configuration"`: A ChefConfiguration object that specifies whether to enable
+- `attributes`: A list of stack attributes and values as key/value pairs to be added to the
+  cloned stack.
+- `chef_configuration`: A ChefConfiguration object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create
   a New Stack.
-- `"clone_app_ids"`: A list of source stack app IDs to be included in the cloned stack.
-- `"clone_permissions"`: Whether to clone the source stack's permissions.
-- `"configuration_manager"`: The configuration manager. When you clone a stack we recommend
+- `clone_app_ids`: A list of source stack app IDs to be included in the cloned stack.
+- `clone_permissions`: Whether to clone the source stack's permissions.
+- `configuration_manager`: The configuration manager. When you clone a stack we recommend
   that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for
   Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently
   12.
-- `"custom_cookbooks_source"`: Contains the information required to retrieve an app or
+- `custom_cookbooks_source`: Contains the information required to retrieve an app or
   cookbook from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
-- `"custom_json"`: A string that contains user-defined, custom JSON. It is used to override
+- `custom_json`: A string that contains user-defined, custom JSON. It is used to override
   the corresponding default stack configuration JSON values. The string should be in the
   following format:  \"{\"key1\": \"value1\", \"key2\": \"value2\",...}\"  For more
   information about custom JSON, see Use Custom JSON to Modify the Stack Configuration
   Attributes
-- `"default_availability_zone"`: The cloned stack's default Availability Zone, which must
-  be in the specified region. For more information, see Regions and Endpoints. If you also
+- `default_availability_zone`: The cloned stack's default Availability Zone, which must be
+  in the specified region. For more information, see Regions and Endpoints. If you also
   specify a value for DefaultSubnetId, the subnet must be in the same zone. For more
   information, see the VpcId parameter description.
-- `"default_instance_profile_arn"`: The Amazon Resource Name (ARN) of an IAM profile that
-  is the default profile for all of the stack's EC2 instances. For more information about IAM
+- `default_instance_profile_arn`: The Amazon Resource Name (ARN) of an IAM profile that is
+  the default profile for all of the stack's EC2 instances. For more information about IAM
   ARNs, see Using Identifiers.
-- `"default_os"`: The stack's operating system, which must be set to one of the following.
-   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
+- `default_os`: The stack's operating system, which must be set to one of the following.
+  A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
   Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03,
   Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such
   as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat
@@ -318,21 +163,21 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   stack's operating system. For more information about supported operating systems, see AWS
   OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for
   the cloned stack, but you cannot change from Linux to Windows or Windows to Linux.
-- `"default_root_device_type"`: The default root device type. This value is used by default
+- `default_root_device_type`: The default root device type. This value is used by default
   for all instances in the cloned stack, but you can override it when you create an instance.
   For more information, see Storage for the Root Device.
-- `"default_ssh_key_name"`: A default Amazon EC2 key pair name. The default value is none.
-  If you specify a key pair name, AWS OpsWorks installs the public key on the instance and
-  you can use the private key with an SSH client to log in to the instance. For more
-  information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You
-  can override this setting by specifying a different key pair, or no key pair, when you
-  create an instance.
-- `"default_subnet_id"`: The stack's default VPC subnet ID. This parameter is required if
-  you specify a value for the VpcId parameter. All instances are launched into this subnet
-  unless you specify otherwise when you create the instance. If you also specify a value for
+- `default_ssh_key_name`: A default Amazon EC2 key pair name. The default value is none. If
+  you specify a key pair name, AWS OpsWorks installs the public key on the instance and you
+  can use the private key with an SSH client to log in to the instance. For more information,
+  see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override
+  this setting by specifying a different key pair, or no key pair, when you  create an
+  instance.
+- `default_subnet_id`: The stack's default VPC subnet ID. This parameter is required if you
+  specify a value for the VpcId parameter. All instances are launched into this subnet unless
+  you specify otherwise when you create the instance. If you also specify a value for
   DefaultAvailabilityZone, the subnet must be in that zone. For information on default values
   and when this parameter is required, see the VpcId parameter description.
-- `"hostname_theme"`: The stack's host name theme, with spaces are replaced by underscores.
+- `hostname_theme`: The stack's host name theme, with spaces are replaced by underscores.
   The theme is used to generate host names for the stack's instances. By default,
   HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to
   the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities
@@ -340,11 +185,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To
   obtain a generated host name, call GetHostNameSuggestion, which returns a host name based
   on the current theme.
-- `"name"`: The cloned stack name.
-- `"region"`: The cloned stack AWS region, such as \"ap-northeast-2\". For more information
+- `name`: The cloned stack name.
+- `region`: The cloned stack AWS region, such as \"ap-northeast-2\". For more information
   about AWS regions, see Regions and Endpoints.
-- `"use_custom_cookbooks"`: Whether to use custom cookbooks.
-- `"use_opsworks_security_groups"`: Whether to associate the AWS OpsWorks Stacks built-in
+- `use_custom_cookbooks`: Whether to use custom cookbooks.
+- `use_opsworks_security_groups`: Whether to associate the AWS OpsWorks Stacks built-in
   security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of
   built-in security groups, one for each layer, which are associated with layers by default.
   With UseOpsworksSecurityGroups you can instead provide your own custom security groups.
@@ -357,7 +202,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   that you create. However, you can still manually associate a built-in security group with a
   layer on creation; custom security groups are required only for those layers that need
   custom settings.   For more information, see Create a New Stack.
-- `"vpc_id"`: The ID of the VPC that the cloned stack is to be launched into. It must be in
+- `vpc_id`: The ID of the VPC that the cloned stack is to be launched into. It must be in
   the specified region. All instances are launched into this VPC, and you cannot change the
   ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your
   account does not support EC2 Classic, the default value is the default VPC for the
@@ -371,27 +216,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC.
   For more information about default VPC and EC2 Classic, see Supported Platforms.
 """
-function clone_stack(
-    ServiceRoleArn,
-    SourceStackId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function clone_stack(ServiceRoleArn, SourceStackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CloneStack",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServiceRoleArn" => ServiceRoleArn, "SourceStackId" => SourceStackId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CloneStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -411,44 +238,30 @@ user permissions, see Managing User Permissions.
   isn't one of the standard types, or you prefer to implement your own Deploy recipes,
   specify other.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_source"`: A Source object that specifies the app repository.
-- `"attributes"`: One or more user-defined key/value pairs to be added to the stack
+# Keyword Parameters
+- `app_source`: A Source object that specifies the app repository.
+- `attributes`: One or more user-defined key/value pairs to be added to the stack
   attributes.
-- `"data_sources"`: The app's data source.
-- `"description"`: A description of the app.
-- `"domains"`: The app virtual host settings, with multiple domains separated by commas.
-  For example: 'www.example.com, example.com'
-- `"enable_ssl"`: Whether to enable SSL for the app.
-- `"environment"`: An array of EnvironmentVariable objects that specify environment
-  variables to be associated with the app. After you deploy the app, these variables are
-  defined on the associated app server instance. For more information, see  Environment
-  Variables. There is no specific limit on the number of environment variables. However, the
-  size of the associated data structure - which includes the variables' names, values, and
-  protected flag values - cannot exceed 20 KB. This limit should accommodate most if not all
-  use cases. Exceeding it will cause an exception with the message, \"Environment: is too
-  large (maximum is 20KB).\"  If you have specified one or more environment variables, you
-  cannot modify the stack's Chef version.
-- `"shortname"`: The app's short name.
-- `"ssl_configuration"`: An SslConfiguration object with the SSL configuration.
+- `data_sources`: The app's data source.
+- `description`: A description of the app.
+- `domains`: The app virtual host settings, with multiple domains separated by commas. For
+  example: 'www.example.com, example.com'
+- `enable_ssl`: Whether to enable SSL for the app.
+- `environment`: An array of EnvironmentVariable objects that specify environment variables
+  to be associated with the app. After you deploy the app, these variables are defined on the
+  associated app server instance. For more information, see  Environment Variables. There is
+  no specific limit on the number of environment variables. However, the size of the
+  associated data structure - which includes the variables' names, values, and protected flag
+  values - cannot exceed 20 KB. This limit should accommodate most if not all use cases.
+  Exceeding it will cause an exception with the message, \"Environment: is too large (maximum
+  is 20KB).\"  If you have specified one or more environment variables, you cannot modify the
+  stack's Chef version.
+- `shortname`: The app's short name.
+- `ssl_configuration`: An SslConfiguration object with the SSL configuration.
 """
-function create_app(
-    Name, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_app(Name, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CreateApp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "StackId" => StackId, "Type" => Type),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -464,33 +277,21 @@ permissions. For more information on user permissions, see Managing User Permiss
   associated arguments.
 - `stack_id`: The stack ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The app ID. This parameter is required for app deployments, but not for other
+# Keyword Parameters
+- `app_id`: The app ID. This parameter is required for app deployments, but not for other
   deployment commands.
-- `"comment"`: A user-defined comment.
-- `"custom_json"`: A string that contains user-defined, custom JSON. You can use this
+- `comment`: A user-defined comment.
+- `custom_json`: A string that contains user-defined, custom JSON. You can use this
   parameter to override some corresponding default stack configuration JSON values. The
   string should be in the following format:  \"{\"key1\": \"value1\", \"key2\":
   \"value2\",...}\"  For more information about custom JSON, see Use Custom JSON to Modify
   the Stack Configuration Attributes and Overriding Attributes With Custom JSON.
-- `"instance_ids"`: The instance IDs for the deployment targets.
-- `"layer_ids"`: The layer IDs for the deployment targets.
+- `instance_ids`: The instance IDs for the deployment targets.
+- `layer_ids`: The layer IDs for the deployment targets.
 """
-function create_deployment(
-    Command, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_deployment(Command, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CreateDeployment",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Command" => Command, "StackId" => StackId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -510,9 +311,8 @@ For more information on user permissions, see Managing User Permissions.
 - `layer_ids`: An array that contains the instance's layer IDs.
 - `stack_id`: The stack ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_version"`: The default AWS OpsWorks Stacks agent version. You have the following
+# Keyword Parameters
+- `agent_version`: The default AWS OpsWorks Stacks agent version. You have the following
   options:    INHERIT - Use the stack's default agent version setting.    version_number -
   Use the specified agent version. This value overrides the stack's default setting. To
   update the agent version, edit the instance configuration and specify a new version. AWS
@@ -520,28 +320,28 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   setting is INHERIT. To specify an agent version, you must use the complete version number,
   not the abbreviated number shown on the console. For a list of available agent version
   numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
-- `"ami_id"`: A custom AMI ID to be used to create the instance. The AMI should be based on
+- `ami_id`: A custom AMI ID to be used to create the instance. The AMI should be based on
   one of the supported operating systems. For more information, see Using Custom AMIs.  If
   you specify a custom AMI, you must set Os to Custom.
-- `"architecture"`: The instance architecture. The default option is x86_64. Instance types
+- `architecture`: The instance architecture. The default option is x86_64. Instance types
   do not necessarily support both architectures. For a list of the architectures that are
   supported by the different instance types, see Instance Families and Types.
-- `"auto_scaling_type"`: For load-based or time-based instances, the type. Windows stacks
-  can use only time-based instances.
-- `"availability_zone"`: The instance Availability Zone. For more information, see Regions
+- `auto_scaling_type`: For load-based or time-based instances, the type. Windows stacks can
+  use only time-based instances.
+- `availability_zone`: The instance Availability Zone. For more information, see Regions
   and Endpoints.
-- `"block_device_mappings"`: An array of BlockDeviceMapping objects that specify the
+- `block_device_mappings`: An array of BlockDeviceMapping objects that specify the
   instance's block devices. For more information, see Block Device Mapping. Note that block
   device mappings are not supported for custom AMIs.
-- `"ebs_optimized"`: Whether to create an Amazon EBS-optimized instance.
-- `"hostname"`: The instance host name.
-- `"install_updates_on_boot"`: Whether to install operating system and package updates when
+- `ebs_optimized`: Whether to create an Amazon EBS-optimized instance.
+- `hostname`: The instance host name.
+- `install_updates_on_boot`: Whether to install operating system and package updates when
   the instance boots. The default value is true. To control when updates are installed, set
   this value to false. You must then update your instances manually by using CreateDeployment
   to run the update_dependencies stack command or by manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true
   to ensure that your instances have the latest security updates.
-- `"os"`: The instance's operating system, which must be set to one of the following.   A
+- `os`: The instance's operating system, which must be set to one of the following.   A
   supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
   Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03,
   Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such
@@ -556,45 +356,24 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Block device mappings are not supported if the value is Custom. For more information about
   supported operating systems, see Operating SystemsFor more information about how to use
   custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
-- `"root_device_type"`: The instance root device type. For more information, see Storage
-  for the Root Device.
-- `"ssh_key_name"`: The instance's Amazon EC2 key-pair name.
-- `"subnet_id"`: The ID of the instance's subnet. If the stack is running in a VPC, you can
+- `root_device_type`: The instance root device type. For more information, see Storage for
+  the Root Device.
+- `ssh_key_name`: The instance's Amazon EC2 key-pair name.
+- `subnet_id`: The ID of the instance's subnet. If the stack is running in a VPC, you can
   use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks
   Stacks to launch the instance in a different subnet.
-- `"tenancy"`: The instance's tenancy option. The default option is no tenancy, or if the
+- `tenancy`: The instance's tenancy option. The default option is no tenancy, or if the
   instance is running in a VPC, inherit tenancy settings from the VPC. The following are
   valid values for this parameter: dedicated, default, or host. Because there are costs
   associated with changes in tenancy options, we recommend that you research tenancy options
   before choosing them for your instances. For more information about dedicated hosts, see
   Dedicated Hosts Overview and Amazon EC2 Dedicated Hosts. For more information about
   dedicated instances, see Dedicated Instances and Amazon EC2 Dedicated Instances.
-- `"virtualization_type"`: The instance's virtualization type, paravirtual or hvm.
+- `virtualization_type`: The instance's virtualization type, paravirtual or hvm.
 """
-function create_instance(
-    InstanceType,
-    LayerIds,
-    StackId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_instance(InstanceType, LayerIds, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CreateInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceType" => InstanceType,
-                    "LayerIds" => LayerIds,
-                    "StackId" => StackId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -622,65 +401,41 @@ permissions. For more information on user permissions, see Managing User Permiss
   type. It can have any number of custom layers. Built-in layers are not available in Chef 12
   stacks.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attributes"`: One or more user-defined key-value pairs to be added to the stack
+# Keyword Parameters
+- `attributes`: One or more user-defined key-value pairs to be added to the stack
   attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
-- `"auto_assign_elastic_ips"`: Whether to automatically assign an Elastic IP address to the
+- `auto_assign_elastic_ips`: Whether to automatically assign an Elastic IP address to the
   layer's instances. For more information, see How to Edit a Layer.
-- `"auto_assign_public_ips"`: For stacks that are running in a VPC, whether to
-  automatically assign a public IP address to the layer's instances. For more information,
-  see How to Edit a Layer.
-- `"cloud_watch_logs_configuration"`: Specifies CloudWatch Logs configuration options for
-  the layer. For more information, see CloudWatchLogsLogStream.
-- `"custom_instance_profile_arn"`: The ARN of an IAM profile to be used for the layer's EC2
+- `auto_assign_public_ips`: For stacks that are running in a VPC, whether to automatically
+  assign a public IP address to the layer's instances. For more information, see How to Edit
+  a Layer.
+- `cloud_watch_logs_configuration`: Specifies CloudWatch Logs configuration options for the
+  layer. For more information, see CloudWatchLogsLogStream.
+- `custom_instance_profile_arn`: The ARN of an IAM profile to be used for the layer's EC2
   instances. For more information about IAM ARNs, see Using Identifiers.
-- `"custom_json"`: A JSON-formatted string containing custom stack configuration and
+- `custom_json`: A JSON-formatted string containing custom stack configuration and
   deployment attributes to be installed on the layer's instances. For more information, see
   Using Custom JSON. This feature is supported as of version 1.7.42 of the AWS CLI.
-- `"custom_recipes"`: A LayerCustomRecipes object that specifies the layer custom recipes.
-- `"custom_security_group_ids"`: An array containing the layer custom security group IDs.
-- `"enable_auto_healing"`: Whether to disable auto healing for the layer.
-- `"install_updates_on_boot"`: Whether to install operating system and package updates when
+- `custom_recipes`: A LayerCustomRecipes object that specifies the layer custom recipes.
+- `custom_security_group_ids`: An array containing the layer custom security group IDs.
+- `enable_auto_healing`: Whether to disable auto healing for the layer.
+- `install_updates_on_boot`: Whether to install operating system and package updates when
   the instance boots. The default value is true. To control when updates are installed, set
   this value to false. You must then update your instances manually by using CreateDeployment
   to run the update_dependencies stack command or by manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   To ensure that your instances have the latest security
   updates, we strongly recommend using the default value of true.
-- `"lifecycle_event_configuration"`: A LifeCycleEventConfiguration object that you can use
-  to configure the Shutdown event to specify an execution timeout and enable or disable
-  Elastic Load Balancer connection draining.
-- `"packages"`: An array of Package objects that describes the layer packages.
-- `"use_ebs_optimized_instances"`: Whether to use Amazon EBS-optimized instances.
-- `"volume_configurations"`: A VolumeConfigurations object that describes the layer's
-  Amazon EBS volumes.
+- `lifecycle_event_configuration`: A LifeCycleEventConfiguration object that you can use to
+  configure the Shutdown event to specify an execution timeout and enable or disable Elastic
+  Load Balancer connection draining.
+- `packages`: An array of Package objects that describes the layer packages.
+- `use_ebs_optimized_instances`: Whether to use Amazon EBS-optimized instances.
+- `volume_configurations`: A VolumeConfigurations object that describes the layer's Amazon
+  EBS volumes.
 """
-function create_layer(
-    Name,
-    Shortname,
-    StackId,
-    Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_layer(Name, Shortname, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CreateLayer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "Shortname" => Shortname,
-                    "StackId" => StackId,
-                    "Type" => Type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CreateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -714,9 +469,8 @@ permissions. For more information about user permissions, see Managing User Perm
   parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information
   about IAM ARNs, see Using Identifiers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_version"`: The default AWS OpsWorks Stacks agent version. You have the following
+# Keyword Parameters
+- `agent_version`: The default AWS OpsWorks Stacks agent version. You have the following
   options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically
   installs new agent versions on the stack's instances as soon as they are available.   Fixed
   version - Set this parameter to your preferred agent version. To update the agent version,
@@ -727,29 +481,29 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
    You can also specify an agent version when you create or update an instance, which
   overrides the stack's default setting.
-- `"attributes"`: One or more user-defined key-value pairs to be added to the stack
+- `attributes`: One or more user-defined key-value pairs to be added to the stack
   attributes.
-- `"chef_configuration"`: A ChefConfiguration object that specifies whether to enable
+- `chef_configuration`: A ChefConfiguration object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create
   a New Stack.
-- `"configuration_manager"`: The configuration manager. When you create a stack we
-  recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or
-  11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is
-  currently 12.
-- `"custom_cookbooks_source"`: Contains the information required to retrieve an app or
+- `configuration_manager`: The configuration manager. When you create a stack we recommend
+  that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for
+  Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently
+  12.
+- `custom_cookbooks_source`: Contains the information required to retrieve an app or
   cookbook from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
-- `"custom_json"`: A string that contains user-defined, custom JSON. It can be used to
+- `custom_json`: A string that contains user-defined, custom JSON. It can be used to
   override the corresponding default stack configuration attribute values or to pass data to
   recipes. The string should be in the following format:  \"{\"key1\": \"value1\", \"key2\":
   \"value2\",...}\"  For more information about custom JSON, see Use Custom JSON to Modify
   the Stack Configuration Attributes.
-- `"default_availability_zone"`: The stack's default Availability Zone, which must be in
-  the specified region. For more information, see Regions and Endpoints. If you also specify
-  a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see
+- `default_availability_zone`: The stack's default Availability Zone, which must be in the
+  specified region. For more information, see Regions and Endpoints. If you also specify a
+  value for DefaultSubnetId, the subnet must be in the same zone. For more information, see
   the VpcId parameter description.
-- `"default_os"`: The stack's default operating system, which is installed on every
-  instance unless you specify a different operating system when you create the instance. You
-  can specify one of the following.   A supported Linux operating system: An Amazon Linux
+- `default_os`: The stack's default operating system, which is installed on every instance
+  unless you specify a different operating system when you create the instance. You can
+  specify one of the following.   A supported Linux operating system: An Amazon Linux
   version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon
   Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A
   supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu
@@ -760,29 +514,29 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   specify the custom AMI you want to use when you create instances. For more information, see
    Using Custom AMIs.   The default option is the current Amazon Linux version. For more
   information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
-- `"default_root_device_type"`: The default root device type. This value is the default for
+- `default_root_device_type`: The default root device type. This value is the default for
   all instances in the stack, but you can override it when you create an instance. The
   default option is instance-store. For more information, see Storage for the Root Device.
-- `"default_ssh_key_name"`: A default Amazon EC2 key pair name. The default value is none.
-  If you specify a key pair name, AWS OpsWorks installs the public key on the instance and
-  you can use the private key with an SSH client to log in to the instance. For more
-  information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You
-  can override this setting by specifying a different key pair, or no key pair, when you
-  create an instance.
-- `"default_subnet_id"`: The stack's default VPC subnet ID. This parameter is required if
-  you specify a value for the VpcId parameter. All instances are launched into this subnet
-  unless you specify otherwise when you create the instance. If you also specify a value for
+- `default_ssh_key_name`: A default Amazon EC2 key pair name. The default value is none. If
+  you specify a key pair name, AWS OpsWorks installs the public key on the instance and you
+  can use the private key with an SSH client to log in to the instance. For more information,
+  see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override
+  this setting by specifying a different key pair, or no key pair, when you  create an
+  instance.
+- `default_subnet_id`: The stack's default VPC subnet ID. This parameter is required if you
+  specify a value for the VpcId parameter. All instances are launched into this subnet unless
+  you specify otherwise when you create the instance. If you also specify a value for
   DefaultAvailabilityZone, the subnet must be in that zone. For information on default values
   and when this parameter is required, see the VpcId parameter description.
-- `"hostname_theme"`: The stack's host name theme, with spaces replaced by underscores. The
+- `hostname_theme`: The stack's host name theme, with spaces replaced by underscores. The
   theme is used to generate host names for the stack's instances. By default, HostnameTheme
   is set to Layer_Dependent, which creates host names by appending integers to the layer's
   short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits
    Greek_Deities_and_Titans     Legendary_creatures_from_Japan     Planets_and_Moons
   Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated
   host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-- `"use_custom_cookbooks"`: Whether the stack uses custom cookbooks.
-- `"use_opsworks_security_groups"`: Whether to associate the AWS OpsWorks Stacks built-in
+- `use_custom_cookbooks`: Whether the stack uses custom cookbooks.
+- `use_opsworks_security_groups`: Whether to associate the AWS OpsWorks Stacks built-in
   security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of
   built-in security groups, one for each layer, which are associated with layers by default.
   With UseOpsworksSecurityGroups you can instead provide your own custom security groups.
@@ -795,46 +549,23 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   still manually associate a built-in security group with a layer on creation; custom
   security groups are required only for those layers that need custom settings.   For more
   information, see Create a New Stack.
-- `"vpc_id"`: The ID of the VPC that the stack is to be launched into. The VPC must be in
-  the stack's region. All instances are launched into this VPC. You cannot change the ID
-  later.   If your account supports EC2-Classic, the default value is no VPC.   If your
-  account does not support EC2-Classic, the default value is the default VPC for the
-  specified region.   If the VPC ID corresponds to a default VPC and you have specified
-  either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks
-  Stacks infers the value of the other parameter. If you specify neither parameter, AWS
-  OpsWorks Stacks sets these parameters to the first valid Availability Zone for the
-  specified region and the corresponding default VPC subnet ID, respectively. If you specify
-  a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is
-  in the specified region.   You must specify a value for DefaultSubnetId.   For more
-  information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC.
-  For more information about default VPC and EC2-Classic, see Supported Platforms.
+- `vpc_id`: The ID of the VPC that the stack is to be launched into. The VPC must be in the
+  stack's region. All instances are launched into this VPC. You cannot change the ID later.
+  If your account supports EC2-Classic, the default value is no VPC.   If your account does
+  not support EC2-Classic, the default value is the default VPC for the specified region.
+  If the VPC ID corresponds to a default VPC and you have specified either the
+  DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers
+  the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks
+  sets these parameters to the first valid Availability Zone for the specified region and the
+  corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note
+  the following:   It must belong to a VPC in your account that is in the specified region.
+  You must specify a value for DefaultSubnetId.   For more information about how to use AWS
+  OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about
+  default VPC and EC2-Classic, see Supported Platforms.
 """
-function create_stack(
-    DefaultInstanceProfileArn,
-    Name,
-    Region,
-    ServiceRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CreateStack",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DefaultInstanceProfileArn" => DefaultInstanceProfileArn,
-                    "Name" => Name,
-                    "Region" => Region,
-                    "ServiceRoleArn" => ServiceRoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -847,28 +578,18 @@ permissions, see Managing User Permissions.
 # Arguments
 - `iam_user_arn`: The user's IAM ARN; this can also be a federated user's ARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_self_management"`: Whether users can specify their own SSH public key through the
+# Keyword Parameters
+- `allow_self_management`: Whether users can specify their own SSH public key through the
   My Settings page. For more information, see Setting an IAM User's Public SSH Key.
-- `"ssh_public_key"`: The user's public SSH key.
-- `"ssh_username"`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
+- `ssh_public_key`: The user's public SSH key.
+- `ssh_username`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
   [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks
   Stacks removes them. For example, my.name will be changed to myname. If you do not specify
   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
 """
-function create_user_profile(
-    IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "CreateUserProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("IamUserArn" => IamUserArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -884,12 +605,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 """
 function delete_app(AppId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeleteApp",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AppId" => AppId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -904,23 +620,13 @@ information on user permissions, see Managing User Permissions.
 # Arguments
 - `instance_id`: The instance ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delete_elastic_ip"`: Whether to delete the instance Elastic IP address.
-- `"delete_volumes"`: Whether to delete the instance's Amazon EBS volumes.
+# Keyword Parameters
+- `delete_elastic_ip`: Whether to delete the instance Elastic IP address.
+- `delete_volumes`: Whether to delete the instance's Amazon EBS volumes.
 """
-function delete_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeleteInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -938,12 +644,7 @@ user permissions, see Managing User Permissions.
 """
 function delete_layer(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeleteLayer",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LayerId" => LayerId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeleteLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -961,12 +662,7 @@ user permissions, see Managing User Permissions.
 """
 function delete_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeleteStack",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -980,18 +676,9 @@ permissions, see Managing User Permissions.
 - `iam_user_arn`: The user's IAM ARN. This can also be a federated user's ARN.
 
 """
-function delete_user_profile(
-    IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeleteUserProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("IamUserArn" => IamUserArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1007,18 +694,9 @@ https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.ht
 - `ecs_cluster_arn`: The cluster's Amazon Resource Number (ARN).
 
 """
-function deregister_ecs_cluster(
-    EcsClusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_ecs_cluster(EcsClusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeregisterEcsCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EcsClusterArn" => EcsClusterArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeregisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1034,18 +712,9 @@ Managing User Permissions.
 - `elastic_ip`: The Elastic IP address.
 
 """
-function deregister_elastic_ip(
-    ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeregisterElasticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ElasticIp" => ElasticIp), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeregisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1062,18 +731,9 @@ Managing User Permissions.
 - `instance_id`: The instance ID.
 
 """
-function deregister_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeregisterInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1087,20 +747,9 @@ grants permissions. For more information on user permissions, see Managing User 
 - `rds_db_instance_arn`: The Amazon RDS instance's ARN.
 
 """
-function deregister_rds_db_instance(
-    RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_rds_db_instance(RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeregisterRdsDbInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RdsDbInstanceArn" => RdsDbInstanceArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeregisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1118,18 +767,9 @@ Permissions.
   Amazon EC2 volume ID.
 
 """
-function deregister_volume(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DeregisterVolume",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DeregisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1139,21 +779,13 @@ Describes the available AWS OpsWorks Stacks agent versions. You must specify a s
 a configuration manager. DescribeAgentVersions returns a list of available agent versions
 for the specified stack or configuration manager.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration_manager"`: The configuration manager.
-- `"stack_id"`: The stack ID.
+# Keyword Parameters
+- `configuration_manager`: The configuration manager.
+- `stack_id`: The stack ID.
 """
-function describe_agent_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_agent_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeAgentVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeAgentVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1165,19 +797,16 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_ids"`: An array of app IDs for the apps to be described. If you use this parameter,
+# Keyword Parameters
+- `app_ids`: An array of app IDs for the apps to be described. If you use this parameter,
   DescribeApps returns a description of the specified apps. Otherwise, it returns a
   description of every app.
-- `"stack_id"`: The app stack ID. If you use this parameter, DescribeApps returns a
+- `stack_id`: The app stack ID. If you use this parameter, DescribeApps returns a
   description of the apps in the specified stack.
 """
 function describe_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeApps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeApps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1189,21 +818,18 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"command_ids"`: An array of command IDs. If you include this parameter, DescribeCommands
+# Keyword Parameters
+- `command_ids`: An array of command IDs. If you include this parameter, DescribeCommands
   returns a description of the specified commands. Otherwise, it returns a description of
   every command.
-- `"deployment_id"`: The deployment ID. If you include this parameter, DescribeCommands
+- `deployment_id`: The deployment ID. If you include this parameter, DescribeCommands
   returns a description of the commands associated with the specified deployment.
-- `"instance_id"`: The instance ID. If you include this parameter, DescribeCommands returns
-  a description of the commands associated with the specified instance.
+- `instance_id`: The instance ID. If you include this parameter, DescribeCommands returns a
+  description of the commands associated with the specified instance.
 """
 function describe_commands(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeCommands", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeCommands", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1215,26 +841,18 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The app ID. If you include this parameter, the command returns a description
-  of the commands associated with the specified app.
-- `"deployment_ids"`: An array of deployment IDs to be described. If you include this
+# Keyword Parameters
+- `app_id`: The app ID. If you include this parameter, the command returns a description of
+  the commands associated with the specified app.
+- `deployment_ids`: An array of deployment IDs to be described. If you include this
   parameter, the command returns a description of the specified deployments. Otherwise, it
   returns a description of every deployment.
-- `"stack_id"`: The stack ID. If you include this parameter, the command returns a
+- `stack_id`: The stack ID. If you include this parameter, the command returns a
   description of the commands associated with the specified stack.
 """
-function describe_deployments(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_deployments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeDeployments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1248,31 +866,23 @@ Show, Deploy, or Manage permissions level for the stack or an attached policy th
 explicitly grants permission. For more information about user permissions, see Managing
 User Permissions. This call accepts only one resource-identifying parameter.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ecs_cluster_arns"`: A list of ARNs, one for each cluster to be described.
-- `"max_results"`: To receive a paginated response, use this parameter to specify the
-  maximum number of results to be returned with a single call. If the number of available
-  results exceeds this maximum, the response includes a NextToken value that you can assign
-  to the NextToken request parameter to get the next set of results.
-- `"next_token"`: If the previous paginated request did not return all of the remaining
+# Keyword Parameters
+- `ecs_cluster_arns`: A list of ARNs, one for each cluster to be described.
+- `max_results`: To receive a paginated response, use this parameter to specify the maximum
+  number of results to be returned with a single call. If the number of available results
+  exceeds this maximum, the response includes a NextToken value that you can assign to the
+  NextToken request parameter to get the next set of results.
+- `next_token`: If the previous paginated request did not return all of the remaining
   results, the response object'sNextToken parameter value is set to a token. To retrieve the
   next set of results, call DescribeEcsClusters again and assign that token to the request
   object's NextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
-- `"stack_id"`: A stack ID. DescribeEcsClusters returns a description of the cluster that
-  is registered with the stack.
+- `stack_id`: A stack ID. DescribeEcsClusters returns a description of the cluster that is
+  registered with the stack.
 """
-function describe_ecs_clusters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_ecs_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeEcsClusters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeEcsClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1283,23 +893,18 @@ Describes Elastic IP addresses.  This call accepts only one resource-identifying
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information about user permissions, see Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: The instance ID. If you include this parameter, DescribeElasticIps
-  returns a description of the Elastic IP addresses associated with the specified instance.
-- `"ips"`: An array of Elastic IP addresses to be described. If you include this parameter,
+# Keyword Parameters
+- `instance_id`: The instance ID. If you include this parameter, DescribeElasticIps returns
+  a description of the Elastic IP addresses associated with the specified instance.
+- `ips`: An array of Elastic IP addresses to be described. If you include this parameter,
   DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise,
   it returns a description of every Elastic IP address.
-- `"stack_id"`: A stack ID. If you include this parameter, DescribeElasticIps returns a
+- `stack_id`: A stack ID. If you include this parameter, DescribeElasticIps returns a
   description of the Elastic IP addresses that are registered with the specified stack.
 """
-function describe_elastic_ips(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_elastic_ips(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeElasticIps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeElasticIps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1311,23 +916,14 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"layer_ids"`: A list of layer IDs. The action describes the Elastic Load Balancing
+# Keyword Parameters
+- `layer_ids`: A list of layer IDs. The action describes the Elastic Load Balancing
   instances for the specified layers.
-- `"stack_id"`: A stack ID. The action describes the stack's Elastic Load Balancing
-  instances.
+- `stack_id`: A stack ID. The action describes the stack's Elastic Load Balancing instances.
 """
-function describe_elastic_load_balancers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_elastic_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeElasticLoadBalancers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeElasticLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1339,21 +935,18 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_ids"`: An array of instance IDs to be described. If you use this parameter,
+# Keyword Parameters
+- `instance_ids`: An array of instance IDs to be described. If you use this parameter,
   DescribeInstances returns a description of the specified instances. Otherwise, it returns a
   description of every instance.
-- `"layer_id"`: A layer ID. If you use this parameter, DescribeInstances returns
-  descriptions of the instances associated with the specified layer.
-- `"stack_id"`: A stack ID. If you use this parameter, DescribeInstances returns
-  descriptions of the instances associated with the specified stack.
+- `layer_id`: A layer ID. If you use this parameter, DescribeInstances returns descriptions
+  of the instances associated with the specified layer.
+- `stack_id`: A stack ID. If you use this parameter, DescribeInstances returns descriptions
+  of the instances associated with the specified stack.
 """
 function describe_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1365,17 +958,14 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"layer_ids"`: An array of layer IDs that specify the layers to be described. If you omit
+# Keyword Parameters
+- `layer_ids`: An array of layer IDs that specify the layers to be described. If you omit
   this parameter, DescribeLayers returns a description of every layer in the specified stack.
-- `"stack_id"`: The stack ID.
+- `stack_id`: The stack ID.
 """
 function describe_layers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeLayers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeLayers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1391,18 +981,9 @@ User Permissions.
 - `layer_ids`: An array of layer IDs.
 
 """
-function describe_load_based_auto_scaling(
-    LayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_based_auto_scaling(LayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeLoadBasedAutoScaling",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LayerIds" => LayerIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerIds"=>LayerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1413,16 +994,9 @@ must have self-management enabled or an attached policy that explicitly grants p
 For more information about user permissions, see Managing User Permissions.
 
 """
-function describe_my_user_profile(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_my_user_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeMyUserProfile",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeMyUserProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1431,16 +1005,9 @@ end
 Describes the operating systems that are supported by AWS OpsWorks Stacks.
 
 """
-function describe_operating_systems(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_operating_systems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeOperatingSystems",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeOperatingSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1451,22 +1018,14 @@ an IAM user must have a Manage permissions level for the stack, or an attached p
 explicitly grants permissions. For more information on user permissions, see Managing User
 Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"iam_user_arn"`: The user's IAM ARN. This can also be a federated user's ARN. For more
+# Keyword Parameters
+- `iam_user_arn`: The user's IAM ARN. This can also be a federated user's ARN. For more
   information about IAM ARNs, see Using Identifiers.
-- `"stack_id"`: The stack ID.
+- `stack_id`: The stack ID.
 """
-function describe_permissions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribePermissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribePermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1478,22 +1037,17 @@ Deploy, or Manage permissions level for the stack, or an attached policy that ex
 grants permissions. For more information about user permissions, see Managing User
 Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: The instance ID. If you use this parameter, DescribeRaidArrays returns
+# Keyword Parameters
+- `instance_id`: The instance ID. If you use this parameter, DescribeRaidArrays returns
   descriptions of the RAID arrays associated with the specified instance.
-- `"raid_array_ids"`: An array of RAID array IDs. If you use this parameter,
+- `raid_array_ids`: An array of RAID array IDs. If you use this parameter,
   DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a
   description of every array.
-- `"stack_id"`: The stack ID.
+- `stack_id`: The stack ID.
 """
-function describe_raid_arrays(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_raid_arrays(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeRaidArrays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeRaidArrays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1508,20 +1062,12 @@ User Permissions. This call accepts only one resource-identifying parameter.
 - `stack_id`: The ID of the stack with which the instances are registered. The operation
   returns descriptions of all registered Amazon RDS instances.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"rds_db_instance_arns"`: An array containing the ARNs of the instances to be described.
+# Keyword Parameters
+- `rds_db_instance_arns`: An array containing the ARNs of the instances to be described.
 """
-function describe_rds_db_instances(
-    StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_rds_db_instances(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeRdsDbInstances",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeRdsDbInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1533,26 +1079,18 @@ attached policy that explicitly grants permissions. For more information about u
 permissions, see Managing User Permissions. This call accepts only one resource-identifying
 parameter.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: The instance ID. If you use this parameter, DescribeServiceErrors
-  returns descriptions of the errors associated with the specified instance.
-- `"service_error_ids"`: An array of service error IDs. If you use this parameter,
+# Keyword Parameters
+- `instance_id`: The instance ID. If you use this parameter, DescribeServiceErrors returns
+  descriptions of the errors associated with the specified instance.
+- `service_error_ids`: An array of service error IDs. If you use this parameter,
   DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a
   description of every error.
-- `"stack_id"`: The stack ID. If you use this parameter, DescribeServiceErrors returns
+- `stack_id`: The stack ID. If you use this parameter, DescribeServiceErrors returns
   descriptions of the errors associated with the specified stack.
 """
-function describe_service_errors(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_service_errors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeServiceErrors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeServiceErrors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1567,16 +1105,9 @@ user permissions, see Managing User Permissions.
 - `stack_id`: The stack ID.
 
 """
-function describe_stack_provisioning_parameters(
-    StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_stack_provisioning_parameters(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeStackProvisioningParameters",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeStackProvisioningParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1592,16 +1123,9 @@ permissions, see Managing User Permissions.
 - `stack_id`: The stack ID.
 
 """
-function describe_stack_summary(
-    StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_stack_summary(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeStackSummary",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeStackSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1612,16 +1136,13 @@ IAM user must have a Show, Deploy, or Manage permissions level for the stack, or
 attached policy that explicitly grants permissions. For more information about user
 permissions, see Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"stack_ids"`: An array of stack IDs that specify the stacks to be described. If you omit
+# Keyword Parameters
+- `stack_ids`: An array of stack IDs that specify the stacks to be described. If you omit
   this parameter, DescribeStacks returns a description of every stack.
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1637,18 +1158,9 @@ Managing User Permissions.
 - `instance_ids`: An array of instance IDs.
 
 """
-function describe_time_based_auto_scaling(
-    InstanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_time_based_auto_scaling(InstanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeTimeBasedAutoScaling",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceIds" => InstanceIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1658,21 +1170,13 @@ Describe specified users.  Required Permissions: To use this action, an IAM user
 an attached policy that explicitly grants permissions. For more information about user
 permissions, see Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"iam_user_arns"`: An array of IAM or federated user ARNs that identify the users to be
+# Keyword Parameters
+- `iam_user_arns`: An array of IAM or federated user ARNs that identify the users to be
   described.
 """
-function describe_user_profiles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeUserProfiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DescribeUserProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1684,22 +1188,18 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: The instance ID. If you use this parameter, DescribeVolumes returns
+# Keyword Parameters
+- `instance_id`: The instance ID. If you use this parameter, DescribeVolumes returns
   descriptions of the volumes associated with the specified instance.
-- `"raid_array_id"`: The RAID array ID. If you use this parameter, DescribeVolumes returns
+- `raid_array_id`: The RAID array ID. If you use this parameter, DescribeVolumes returns
   descriptions of the volumes associated with the specified RAID array.
-- `"stack_id"`: A stack ID. The action describes the stack's registered Amazon EBS volumes.
-- `"volume_ids"`: Am array of volume IDs. If you use this parameter, DescribeVolumes
-  returns descriptions of the specified volumes. Otherwise, it returns a description of every
-  volume.
+- `stack_id`: A stack ID. The action describes the stack's registered Amazon EBS volumes.
+- `volume_ids`: Am array of volume IDs. If you use this parameter, DescribeVolumes returns
+  descriptions of the specified volumes. Otherwise, it returns a description of every volume.
 """
 function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworks("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1715,28 +1215,9 @@ permissions, see Managing User Permissions.
 - `layer_id`: The ID of the layer that the Elastic Load Balancing instance is attached to.
 
 """
-function detach_elastic_load_balancer(
-    ElasticLoadBalancerName,
-    LayerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DetachElasticLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ElasticLoadBalancerName" => ElasticLoadBalancerName,
-                    "LayerId" => LayerId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DetachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1752,18 +1233,9 @@ Managing User Permissions.
 - `elastic_ip`: The Elastic IP address.
 
 """
-function disassociate_elastic_ip(
-    ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "DisassociateElasticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ElasticIp" => ElasticIp), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("DisassociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1778,16 +1250,9 @@ information on user permissions, see Managing User Permissions.
 - `layer_id`: The layer ID.
 
 """
-function get_hostname_suggestion(
-    LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_hostname_suggestion(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "GetHostnameSuggestion",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LayerId" => LayerId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("GetHostnameSuggestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1799,25 +1264,15 @@ for a specified time period.
 # Arguments
 - `instance_id`: The instance's AWS OpsWorks Stacks ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"valid_for_in_minutes"`: The length of time (in minutes) that the grant is valid. When
-  the grant expires at the end of this period, the user will no longer be able to use the
+# Keyword Parameters
+- `valid_for_in_minutes`: The length of time (in minutes) that the grant is valid. When the
+  grant expires at the end of this period, the user will no longer be able to use the
   credentials to log in. If the user is logged in at the time, he or she automatically will
   be logged out.
 """
-function grant_access(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function grant_access(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "GrantAccess",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("GrantAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1828,25 +1283,15 @@ Returns a list of tags that are applied to the specified stack or layer.
 # Arguments
 - `resource_arn`: The stack or layer's Amazon Resource Number (ARN).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Do not use. A validation exception occurs if you add a MaxResults
+# Keyword Parameters
+- `max_results`: Do not use. A validation exception occurs if you add a MaxResults
   parameter to a ListTagsRequest call.
-- `"next_token"`: Do not use. A validation exception occurs if you add a NextToken
-  parameter to a ListTagsRequest call.
+- `next_token`: Do not use. A validation exception occurs if you add a NextToken parameter
+  to a ListTagsRequest call.
 """
-function list_tags(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "ListTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1861,18 +1306,9 @@ For more information on user permissions, see Managing User Permissions.
 - `instance_id`: The instance ID.
 
 """
-function reboot_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "RebootInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1889,22 +1325,9 @@ permissions. For more information on user permissions, see  Managing User Permis
 - `stack_id`: The stack ID.
 
 """
-function register_ecs_cluster(
-    EcsClusterArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_ecs_cluster(EcsClusterArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "RegisterEcsCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EcsClusterArn" => EcsClusterArn, "StackId" => StackId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("RegisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1922,22 +1345,9 @@ user permissions, see Managing User Permissions.
 - `stack_id`: The stack ID.
 
 """
-function register_elastic_ip(
-    ElasticIp, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_elastic_ip(ElasticIp, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "RegisterElasticIp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ElasticIp" => ElasticIp, "StackId" => StackId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("RegisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1960,26 +1370,18 @@ permissions. For more information on user permissions, see Managing User Permiss
 # Arguments
 - `stack_id`: The ID of the stack that the instance is to be registered with.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hostname"`: The instance's hostname.
-- `"instance_identity"`: An InstanceIdentity object that contains the instance's identity.
-- `"private_ip"`: The instance's private IP address.
-- `"public_ip"`: The instance's public IP address.
-- `"rsa_public_key"`: The instances public RSA key. This key is used to encrypt
-  communication between the instance and the service.
-- `"rsa_public_key_fingerprint"`: The instances public RSA key fingerprint.
+# Keyword Parameters
+- `hostname`: The instance's hostname.
+- `instance_identity`: An InstanceIdentity object that contains the instance's identity.
+- `private_ip`: The instance's private IP address.
+- `public_ip`: The instance's public IP address.
+- `rsa_public_key`: The instances public RSA key. This key is used to encrypt communication
+  between the instance and the service.
+- `rsa_public_key_fingerprint`: The instances public RSA key fingerprint.
 """
-function register_instance(
-    StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_instance(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "RegisterInstance",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1997,32 +1399,9 @@ Permissions.
 - `stack_id`: The stack ID.
 
 """
-function register_rds_db_instance(
-    DbPassword,
-    DbUser,
-    RdsDbInstanceArn,
-    StackId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "RegisterRdsDbInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DbPassword" => DbPassword,
-                    "DbUser" => DbUser,
-                    "RdsDbInstanceArn" => RdsDbInstanceArn,
-                    "StackId" => StackId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("RegisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2038,20 +1417,12 @@ user permissions, see Managing User Permissions.
 # Arguments
 - `stack_id`: The stack ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ec2_volume_id"`: The Amazon EBS volume ID.
+# Keyword Parameters
+- `ec2_volume_id`: The Amazon EBS volume ID.
 """
-function register_volume(
-    StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_volume(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "RegisterVolume",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("RegisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2069,26 +1440,18 @@ permissions, see Managing User Permissions.
 # Arguments
 - `layer_id`: The layer ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"down_scaling"`: An AutoScalingThresholds object with the downscaling threshold
+# Keyword Parameters
+- `down_scaling`: An AutoScalingThresholds object with the downscaling threshold
   configuration. If the load falls below these thresholds for a specified amount of time, AWS
   OpsWorks Stacks stops a specified number of instances.
-- `"enable"`: Enables load-based auto scaling for the layer.
-- `"up_scaling"`: An AutoScalingThresholds object with the upscaling threshold
-  configuration. If the load exceeds these thresholds for a specified amount of time, AWS
-  OpsWorks Stacks starts a specified number of instances.
+- `enable`: Enables load-based auto scaling for the layer.
+- `up_scaling`: An AutoScalingThresholds object with the upscaling threshold configuration.
+  If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks
+  starts a specified number of instances.
 """
-function set_load_based_auto_scaling(
-    LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_load_based_auto_scaling(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "SetLoadBasedAutoScaling",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LayerId" => LayerId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("SetLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2103,31 +1466,17 @@ information on user permissions, see Managing User Permissions.
 - `iam_user_arn`: The user's IAM ARN. This can also be a federated user's ARN.
 - `stack_id`: The stack ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_ssh"`: The user is allowed to use SSH to communicate with the instance.
-- `"allow_sudo"`: The user is allowed to use sudo to elevate privileges.
-- `"level"`: The user's permission level, which must be set to one of the following
-  strings. You cannot set your own permissions level.    deny     show     deploy     manage
-     iam_only    For more information about the permissions associated with these levels, see
+# Keyword Parameters
+- `allow_ssh`: The user is allowed to use SSH to communicate with the instance.
+- `allow_sudo`: The user is allowed to use sudo to elevate privileges.
+- `level`: The user's permission level, which must be set to one of the following strings.
+  You cannot set your own permissions level.    deny     show     deploy     manage
+  iam_only    For more information about the permissions associated with these levels, see
   Managing User Permissions.
 """
-function set_permission(
-    IamUserArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_permission(IamUserArn, StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "SetPermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("IamUserArn" => IamUserArn, "StackId" => StackId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("SetPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2142,22 +1491,12 @@ user permissions, see Managing User Permissions.
 # Arguments
 - `instance_id`: The instance ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_scaling_schedule"`: An AutoScalingSchedule with the instance schedule.
+# Keyword Parameters
+- `auto_scaling_schedule`: An AutoScalingSchedule with the instance schedule.
 """
-function set_time_based_auto_scaling(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_time_based_auto_scaling(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "SetTimeBasedAutoScaling",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("SetTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2172,18 +1511,9 @@ For more information on user permissions, see Managing User Permissions.
 - `instance_id`: The instance ID.
 
 """
-function start_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "StartInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2199,12 +1529,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 """
 function start_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "StartStack",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("StartStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2220,26 +1545,16 @@ information on user permissions, see Managing User Permissions.
 # Arguments
 - `instance_id`: The instance ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`: Specifies whether to force an instance to stop. If the instance's root device
+# Keyword Parameters
+- `force`: Specifies whether to force an instance to stop. If the instance's root device
   type is ebs, or EBS-backed, adding the Force parameter to the StopInstances API call
   disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the
   OpsWorks Stacks instance. You must also delete the formerly-associated instance in EC2
   after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
 """
-function stop_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "StopInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2255,12 +1570,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 """
 function stop_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "StopStack",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("StopStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2280,22 +1590,9 @@ information about how tagging works, see Tags in the AWS OpsWorks User Guide.
   40 tags is allowed for any resource.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2312,18 +1609,9 @@ For more information about user permissions, see Managing User Permissions.
 - `instance_id`: The instance ID.
 
 """
-function unassign_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function unassign_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UnassignInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UnassignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2339,18 +1627,9 @@ Permissions.
 - `volume_id`: The volume ID.
 
 """
-function unassign_volume(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function unassign_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UnassignVolume",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UnassignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2363,22 +1642,9 @@ Removes tags from a specified stack or layer.
 - `tag_keys`: A list of the keys of tags to be removed from a stack or layer.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2391,37 +1657,31 @@ grants permissions. For more information on user permissions, see Managing User 
 # Arguments
 - `app_id`: The app ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_source"`: A Source object that specifies the app repository.
-- `"attributes"`: One or more user-defined key/value pairs to be added to the stack
+# Keyword Parameters
+- `app_source`: A Source object that specifies the app repository.
+- `attributes`: One or more user-defined key/value pairs to be added to the stack
   attributes.
-- `"data_sources"`: The app's data sources.
-- `"description"`: A description of the app.
-- `"domains"`: The app's virtual host settings, with multiple domains separated by commas.
+- `data_sources`: The app's data sources.
+- `description`: A description of the app.
+- `domains`: The app's virtual host settings, with multiple domains separated by commas.
   For example: 'www.example.com, example.com'
-- `"enable_ssl"`: Whether SSL is enabled for the app.
-- `"environment"`: An array of EnvironmentVariable objects that specify environment
-  variables to be associated with the app. After you deploy the app, these variables are
-  defined on the associated app server instances.For more information, see  Environment
-  Variables. There is no specific limit on the number of environment variables. However, the
-  size of the associated data structure - which includes the variables' names, values, and
-  protected flag values - cannot exceed 20 KB. This limit should accommodate most if not all
-  use cases. Exceeding it will cause an exception with the message, \"Environment: is too
-  large (maximum is 20 KB).\"  If you have specified one or more environment variables, you
-  cannot modify the stack's Chef version.
-- `"name"`: The app name.
-- `"ssl_configuration"`: An SslConfiguration object with the SSL configuration.
-- `"type"`: The app type.
+- `enable_ssl`: Whether SSL is enabled for the app.
+- `environment`: An array of EnvironmentVariable objects that specify environment variables
+  to be associated with the app. After you deploy the app, these variables are defined on the
+  associated app server instances.For more information, see  Environment Variables. There is
+  no specific limit on the number of environment variables. However, the size of the
+  associated data structure - which includes the variables' names, values, and protected flag
+  values - cannot exceed 20 KB. This limit should accommodate most if not all use cases.
+  Exceeding it will cause an exception with the message, \"Environment: is too large (maximum
+  is 20 KB).\"  If you have specified one or more environment variables, you cannot modify
+  the stack's Chef version.
+- `name`: The app name.
+- `ssl_configuration`: An SslConfiguration object with the SSL configuration.
+- `type`: The app type.
 """
 function update_app(AppId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateApp",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AppId" => AppId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2435,22 +1695,12 @@ For more information on user permissions, see Managing User Permissions.
 # Arguments
 - `elastic_ip`: The IP address for which you want to update the name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: The new name.
+# Keyword Parameters
+- `name`: The new name.
 """
-function update_elastic_ip(
-    ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateElasticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ElasticIp" => ElasticIp), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2463,9 +1713,8 @@ permissions. For more information on user permissions, see Managing User Permiss
 # Arguments
 - `instance_id`: The instance ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_version"`: The default AWS OpsWorks Stacks agent version. You have the following
+# Keyword Parameters
+- `agent_version`: The default AWS OpsWorks Stacks agent version. You have the following
   options:    INHERIT - Use the stack's default agent version setting.    version_number -
   Use the specified agent version. This value overrides the stack's default setting. To
   update the agent version, you must edit the instance configuration and specify a new
@@ -2473,30 +1722,30 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   The default setting is INHERIT. To specify an agent version, you must use the complete
   version number, not the abbreviated number shown on the console. For a list of available
   agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
-- `"ami_id"`: The ID of the AMI that was used to create the instance. The value of this
+- `ami_id`: The ID of the AMI that was used to create the instance. The value of this
   parameter must be the same AMI ID that the instance is already using. You cannot apply a
   new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances
   that are using custom AMIs.
-- `"architecture"`: The instance architecture. Instance types do not necessarily support
-  both architectures. For a list of the architectures that are supported by the different
-  instance types, see Instance Families and Types.
-- `"auto_scaling_type"`: For load-based or time-based instances, the type. Windows stacks
-  can use only time-based instances.
-- `"ebs_optimized"`: This property cannot be updated.
-- `"hostname"`: The instance host name.
-- `"install_updates_on_boot"`: Whether to install operating system and package updates when
+- `architecture`: The instance architecture. Instance types do not necessarily support both
+  architectures. For a list of the architectures that are supported by the different instance
+  types, see Instance Families and Types.
+- `auto_scaling_type`: For load-based or time-based instances, the type. Windows stacks can
+  use only time-based instances.
+- `ebs_optimized`: This property cannot be updated.
+- `hostname`: The instance host name.
+- `install_updates_on_boot`: Whether to install operating system and package updates when
   the instance boots. The default value is true. To control when updates are installed, set
   this value to false. You must then update your instances manually by using CreateDeployment
   to run the update_dependencies stack command or by manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true,
   to ensure that your instances have the latest security updates.
-- `"instance_type"`: The instance type, such as t2.micro. For a list of supported instance
+- `instance_type`: The instance type, such as t2.micro. For a list of supported instance
   types, open the stack in the console, choose Instances, and choose + Instance. The Size
   list contains the currently supported types. For more information, see Instance Families
   and Types. The parameter values that you use to specify the various types are in the API
   Name column of the Available Instance Types table.
-- `"layer_ids"`: The instance's layer IDs.
-- `"os"`: The instance's operating system, which must be set to one of the following. You
+- `layer_ids`: The instance's layer IDs.
+- `os`: The instance's operating system, which must be set to one of the following. You
   cannot update an instance that is using a custom AMI.   A supported Linux operating system:
   An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux
   2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux
@@ -2512,20 +1761,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a
   different Linux operating system for the updated stack, but you cannot change from Linux to
   Windows or Windows to Linux.
-- `"ssh_key_name"`: The instance's Amazon EC2 key name.
+- `ssh_key_name`: The instance's Amazon EC2 key name.
 """
-function update_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2538,52 +1778,46 @@ permissions. For more information on user permissions, see Managing User Permiss
 # Arguments
 - `layer_id`: The layer ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attributes"`: One or more user-defined key/value pairs to be added to the stack
+# Keyword Parameters
+- `attributes`: One or more user-defined key/value pairs to be added to the stack
   attributes.
-- `"auto_assign_elastic_ips"`: Whether to automatically assign an Elastic IP address to the
+- `auto_assign_elastic_ips`: Whether to automatically assign an Elastic IP address to the
   layer's instances. For more information, see How to Edit a Layer.
-- `"auto_assign_public_ips"`: For stacks that are running in a VPC, whether to
-  automatically assign a public IP address to the layer's instances. For more information,
-  see How to Edit a Layer.
-- `"cloud_watch_logs_configuration"`: Specifies CloudWatch Logs configuration options for
-  the layer. For more information, see CloudWatchLogsLogStream.
-- `"custom_instance_profile_arn"`: The ARN of an IAM profile to be used for all of the
+- `auto_assign_public_ips`: For stacks that are running in a VPC, whether to automatically
+  assign a public IP address to the layer's instances. For more information, see How to Edit
+  a Layer.
+- `cloud_watch_logs_configuration`: Specifies CloudWatch Logs configuration options for the
+  layer. For more information, see CloudWatchLogsLogStream.
+- `custom_instance_profile_arn`: The ARN of an IAM profile to be used for all of the
   layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-- `"custom_json"`: A JSON-formatted string containing custom stack configuration and
+- `custom_json`: A JSON-formatted string containing custom stack configuration and
   deployment attributes to be installed on the layer's instances. For more information, see
   Using Custom JSON.
-- `"custom_recipes"`: A LayerCustomRecipes object that specifies the layer's custom recipes.
-- `"custom_security_group_ids"`: An array containing the layer's custom security group IDs.
-- `"enable_auto_healing"`: Whether to disable auto healing for the layer.
-- `"install_updates_on_boot"`: Whether to install operating system and package updates when
+- `custom_recipes`: A LayerCustomRecipes object that specifies the layer's custom recipes.
+- `custom_security_group_ids`: An array containing the layer's custom security group IDs.
+- `enable_auto_healing`: Whether to disable auto healing for the layer.
+- `install_updates_on_boot`: Whether to install operating system and package updates when
   the instance boots. The default value is true. To control when updates are installed, set
   this value to false. You must then update your instances manually by using CreateDeployment
   to run the update_dependencies stack command or manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true,
   to ensure that your instances have the latest security updates.
-- `"lifecycle_event_configuration"`:
-- `"name"`: The layer name, which is used by the console.
-- `"packages"`: An array of Package objects that describe the layer's packages.
-- `"shortname"`: For custom layers only, use this parameter to specify the layer's short
+- `lifecycle_event_configuration`:
+- `name`: The layer name, which is used by the console.
+- `packages`: An array of Package objects that describe the layer's packages.
+- `shortname`: For custom layers only, use this parameter to specify the layer's short
   name, which is used internally by AWS OpsWorks Stacks and by Chef. The short name is also
   used as the name for the directory where your app files are installed. It can have a
   maximum of 200 characters and must be in the following format: /A[a-z0-9-_.]+Z/. The
   built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see
   the Layer Reference
-- `"use_ebs_optimized_instances"`: Whether to use Amazon EBS-optimized instances.
-- `"volume_configurations"`: A VolumeConfigurations object that describes the layer's
-  Amazon EBS volumes.
+- `use_ebs_optimized_instances`: Whether to use Amazon EBS-optimized instances.
+- `volume_configurations`: A VolumeConfigurations object that describes the layer's Amazon
+  EBS volumes.
 """
 function update_layer(LayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateLayer",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LayerId" => LayerId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2593,20 +1827,12 @@ Updates a user's SSH public key.  Required Permissions: To use this action, an I
 must have self-management enabled or an attached policy that explicitly grants permissions.
 For more information about user permissions, see Managing User Permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ssh_public_key"`: The user's SSH public key.
+# Keyword Parameters
+- `ssh_public_key`: The user's SSH public key.
 """
-function update_my_user_profile(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_my_user_profile(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateMyUserProfile",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateMyUserProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2619,25 +1845,13 @@ permissions. For more information on user permissions, see Managing User Permiss
 # Arguments
 - `rds_db_instance_arn`: The Amazon RDS instance's ARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"db_password"`: The database password.
-- `"db_user"`: The master user name.
+# Keyword Parameters
+- `db_password`: The database password.
+- `db_user`: The master user name.
 """
-function update_rds_db_instance(
-    RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_rds_db_instance(RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateRdsDbInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RdsDbInstanceArn" => RdsDbInstanceArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2650,9 +1864,8 @@ permissions. For more information on user permissions, see Managing User Permiss
 # Arguments
 - `stack_id`: The stack ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_version"`: The default AWS OpsWorks Stacks agent version. You have the following
+# Keyword Parameters
+- `agent_version`: The default AWS OpsWorks Stacks agent version. You have the following
   options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically
   installs new agent versions on the stack's instances as soon as they are available.   Fixed
   version - Set this parameter to your preferred agent version. To update the agent version,
@@ -2663,31 +1876,31 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify
   an agent version when you create or update an instance, which overrides the stack's default
   setting.
-- `"attributes"`: One or more user-defined key-value pairs to be added to the stack
+- `attributes`: One or more user-defined key-value pairs to be added to the stack
   attributes.
-- `"chef_configuration"`: A ChefConfiguration object that specifies whether to enable
+- `chef_configuration`: A ChefConfiguration object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create
   a New Stack.
-- `"configuration_manager"`: The configuration manager. When you update a stack, we
-  recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or
-  11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is
-  currently 12.
-- `"custom_cookbooks_source"`: Contains the information required to retrieve an app or
+- `configuration_manager`: The configuration manager. When you update a stack, we recommend
+  that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for
+  Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently
+  12.
+- `custom_cookbooks_source`: Contains the information required to retrieve an app or
   cookbook from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
-- `"custom_json"`: A string that contains user-defined, custom JSON. It can be used to
+- `custom_json`: A string that contains user-defined, custom JSON. It can be used to
   override the corresponding default stack configuration JSON values or to pass data to
   recipes. The string should be in the following format:  \"{\"key1\": \"value1\", \"key2\":
   \"value2\",...}\"  For more information about custom JSON, see Use Custom JSON to Modify
   the Stack Configuration Attributes.
-- `"default_availability_zone"`: The stack's default Availability Zone, which must be in
-  the stack's region. For more information, see Regions and Endpoints. If you also specify a
+- `default_availability_zone`: The stack's default Availability Zone, which must be in the
+  stack's region. For more information, see Regions and Endpoints. If you also specify a
   value for DefaultSubnetId, the subnet must be in the same zone. For more information, see
   CreateStack.
-- `"default_instance_profile_arn"`: The ARN of an IAM profile that is the default profile
-  for all of the stack's EC2 instances. For more information about IAM ARNs, see Using
+- `default_instance_profile_arn`: The ARN of an IAM profile that is the default profile for
+  all of the stack's EC2 instances. For more information about IAM ARNs, see Using
   Identifiers.
-- `"default_os"`: The stack's operating system, which must be set to one of the following:
-   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
+- `default_os`: The stack's operating system, which must be set to one of the following:
+  A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
   Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03,
   Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such
   as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat
@@ -2698,21 +1911,21 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   create instances. For more information about how to use custom AMIs with OpsWorks, see
   Using Custom AMIs.   The default option is the stack's current operating system. For more
   information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
-- `"default_root_device_type"`: The default root device type. This value is used by default
+- `default_root_device_type`: The default root device type. This value is used by default
   for all instances in the stack, but you can override it when you create an instance. For
   more information, see Storage for the Root Device.
-- `"default_ssh_key_name"`: A default Amazon EC2 key-pair name. The default value is none.
-  If you specify a key-pair name, AWS OpsWorks Stacks installs the public key on the instance
+- `default_ssh_key_name`: A default Amazon EC2 key-pair name. The default value is none. If
+  you specify a key-pair name, AWS OpsWorks Stacks installs the public key on the instance
   and you can use the private key with an SSH client to log in to the instance. For more
   information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You
   can override this setting by specifying a different key pair, or no key pair, when you
   create an instance.
-- `"default_subnet_id"`: The stack's default VPC subnet ID. This parameter is required if
-  you specify a value for the VpcId parameter. All instances are launched into this subnet
-  unless you specify otherwise when you create the instance. If you also specify a value for
+- `default_subnet_id`: The stack's default VPC subnet ID. This parameter is required if you
+  specify a value for the VpcId parameter. All instances are launched into this subnet unless
+  you specify otherwise when you create the instance. If you also specify a value for
   DefaultAvailabilityZone, the subnet must be in that zone. For information on default values
   and when this parameter is required, see the VpcId parameter description.
-- `"hostname_theme"`: The stack's new host name theme, with spaces replaced by underscores.
+- `hostname_theme`: The stack's new host name theme, with spaces replaced by underscores.
   The theme is used to generate host names for the stack's instances. By default,
   HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to
   the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities
@@ -2720,10 +1933,10 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To
   obtain a generated host name, call GetHostNameSuggestion, which returns a host name based
   on the current theme.
-- `"name"`: The stack's new name.
-- `"service_role_arn"`: Do not use this parameter. You cannot update a stack's service role.
-- `"use_custom_cookbooks"`: Whether the stack uses custom cookbooks.
-- `"use_opsworks_security_groups"`: Whether to associate the AWS OpsWorks Stacks built-in
+- `name`: The stack's new name.
+- `service_role_arn`: Do not use this parameter. You cannot update a stack's service role.
+- `use_custom_cookbooks`: Whether the stack uses custom cookbooks.
+- `use_opsworks_security_groups`: Whether to associate the AWS OpsWorks Stacks built-in
   security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of
   built-in security groups, one for each layer, which are associated with layers by default.
   UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of
@@ -2739,12 +1952,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateStack",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("StackId" => StackId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2757,28 +1965,18 @@ user permissions, see Managing User Permissions.
 # Arguments
 - `iam_user_arn`: The user IAM ARN. This can also be a federated user's ARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_self_management"`: Whether users can specify their own SSH public key through the
+# Keyword Parameters
+- `allow_self_management`: Whether users can specify their own SSH public key through the
   My Settings page. For more information, see Managing User Permissions.
-- `"ssh_public_key"`: The user's new SSH public key.
-- `"ssh_username"`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
+- `ssh_public_key`: The user's new SSH public key.
+- `ssh_username`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
   [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks
   Stacks removes them. For example, my.name will be changed to myname. If you do not specify
   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
 """
-function update_user_profile(
-    IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateUserProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("IamUserArn" => IamUserArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2792,21 +1990,11 @@ For more information on user permissions, see Managing User Permissions.
 # Arguments
 - `volume_id`: The volume ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"mount_point"`: The new mount point.
-- `"name"`: The new name.
+# Keyword Parameters
+- `mount_point`: The new mount point.
+- `name`: The new name.
 """
-function update_volume(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return opsworks(
-        "UpdateVolume",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeId" => VolumeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return opsworks("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

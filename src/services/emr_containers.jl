@@ -4,20 +4,8 @@ using AWS.AWSServices: emr_containers
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "types" => "types",
-    "created_before" => "createdBefore",
-    "next_token" => "nextToken",
-    "states" => "states",
-    "name" => "name",
-    "container_provider_type" => "containerProviderType",
-    "certificate_arn" => "certificateArn",
-    "configuration_overrides" => "configurationOverrides",
-    "container_provider_id" => "containerProviderId",
-    "max_results" => "maxResults",
-    "created_after" => "createdAfter",
-    "tags" => "tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("created_after" => "createdAfter", "created_before" => "createdBefore", "max_results" => "maxResults", "next_token" => "nextToken", "states" => "states", "types" => "types", "container_provider_id" => "containerProviderId", "container_provider_type" => "containerProviderType", "configuration_overrides" => "configurationOverrides", "name" => "name", "tags" => "tags", "certificate_arn" => "certificateArn")
 
 """
     cancel_job_run(job_run_id, virtual_cluster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -31,17 +19,9 @@ SparkSQL query, that you submit to Amazon EMR on EKS.
   canceled.
 
 """
-function cancel_job_run(
-    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_job_run(jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "DELETE",
-        "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -59,44 +39,16 @@ Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 - `virtual_cluster_id`: The ID of the virtual cluster for which a managed endpoint is
   created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_arn"`: The certificate ARN provided by users for the managed endpoint. This
+# Keyword Parameters
+- `certificate_arn`: The certificate ARN provided by users for the managed endpoint. This
   fiedd is under deprecation and will be removed in future releases.
-- `"configuration_overrides"`: The configuration settings that will be used to override
+- `configuration_overrides`: The configuration settings that will be used to override
   existing configurations.
-- `"tags"`: The tags of the managed endpoint.
+- `tags`: The tags of the managed endpoint.
 """
-function create_managed_endpoint(
-    clientToken,
-    executionRoleArn,
-    name,
-    releaseLabel,
-    type,
-    virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_managed_endpoint(clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "POST",
-        "/virtualclusters/$(virtualClusterId)/endpoints",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientToken" => clientToken,
-                    "executionRoleArn" => executionRoleArn,
-                    "name" => name,
-                    "releaseLabel" => releaseLabel,
-                    "type" => type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -113,35 +65,12 @@ namespaces to meet your requirements.
 - `container_provider`: The container provider of the virtual cluster.
 - `name`: The specified name of the virtual cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags assigned to the virtual cluster.
+# Keyword Parameters
+- `tags`: The tags assigned to the virtual cluster.
 """
-function create_virtual_cluster(
-    clientToken,
-    containerProvider,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_virtual_cluster(clientToken, containerProvider, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "POST",
-        "/virtualclusters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientToken" => clientToken,
-                    "containerProvider" => containerProvider,
-                    "name" => name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("POST", "/virtualclusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "containerProvider"=>containerProvider, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -155,20 +84,9 @@ Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 - `virtual_cluster_id`: The ID of the endpoint's virtual cluster.
 
 """
-function delete_managed_endpoint(
-    endpointId,
-    virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_managed_endpoint(endpointId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "DELETE",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -184,17 +102,9 @@ namespaces to meet your requirements.
 - `virtual_cluster_id`: The ID of the virtual cluster that will be deleted.
 
 """
-function delete_virtual_cluster(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_virtual_cluster(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "DELETE",
-        "/virtualclusters/$(virtualClusterId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -208,17 +118,9 @@ jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 - `virtual_cluster_id`: The ID of the virtual cluster for which the job run is submitted.
 
 """
-function describe_job_run(
-    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_job_run(jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -233,20 +135,9 @@ virtual cluster.
 - `virtual_cluster_id`: The ID of the endpoint's virtual cluster.
 
 """
-function describe_managed_endpoint(
-    endpointId,
-    virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_managed_endpoint(endpointId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -262,17 +153,9 @@ virtual clusters the same way you model Kubernetes namespaces to meet your requi
 - `virtual_cluster_id`: The ID of the virtual cluster that will be described.
 
 """
-function describe_virtual_cluster(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_virtual_cluster(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/virtualclusters/$(virtualClusterId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -284,26 +167,17 @@ jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 # Arguments
 - `virtual_cluster_id`: The ID of the virtual cluster for which to list the job run.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"created_after"`: The date and time after which the job runs were submitted.
-- `"created_before"`: The date and time before which the job runs were submitted.
-- `"max_results"`: The maximum number of job runs that can be listed.
-- `"name"`: The name of the job run.
-- `"next_token"`: The token for the next set of job runs to return.
-- `"states"`: The states of the job run.
+# Keyword Parameters
+- `created_after`: The date and time after which the job runs were submitted.
+- `created_before`: The date and time before which the job runs were submitted.
+- `max_results`: The maximum number of job runs that can be listed.
+- `name`: The name of the job run.
+- `next_token`: The token for the next set of job runs to return.
+- `states`: The states of the job run.
 """
-function list_job_runs(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_job_runs(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)/jobruns",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -316,26 +190,17 @@ virtual cluster.
 # Arguments
 - `virtual_cluster_id`: The ID of the virtual cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"created_after"`:  The date and time after which the endpoints are created.
-- `"created_before"`: The date and time before which the endpoints are created.
-- `"max_results"`: The maximum number of managed endpoints that can be listed.
-- `"next_token"`:  The token for the next set of managed endpoints to return.
-- `"states"`: The states of the managed endpoints.
-- `"types"`: The types of the managed endpoints.
+# Keyword Parameters
+- `created_after`:  The date and time after which the endpoints are created.
+- `created_before`: The date and time before which the endpoints are created.
+- `max_results`: The maximum number of managed endpoints that can be listed.
+- `next_token`:  The token for the next set of managed endpoints to return.
+- `states`: The states of the managed endpoints.
+- `types`: The types of the managed endpoints.
 """
-function list_managed_endpoints(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_managed_endpoints(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)/endpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -347,17 +212,9 @@ Lists the tags assigned to the resources.
 - `resource_arn`: The ARN of tagged resources.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -369,28 +226,19 @@ not consume any additional resource in your system. A single virtual cluster map
 single Kubernetes namespace. Given this relationship, you can model virtual clusters the
 same way you model Kubernetes namespaces to meet your requirements.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"container_provider_id"`: The container provider ID of the virtual cluster.
-- `"container_provider_type"`: The container provider type of the virtual cluster. EKS is
-  the only supported type as of now.
-- `"created_after"`: The date and time after which the virtual clusters are created.
-- `"created_before"`: The date and time before which the virtual clusters are created.
-- `"max_results"`: The maximum number of virtual clusters that can be listed.
-- `"next_token"`: The token for the next set of virtual clusters to return.
-- `"states"`: The states of the requested virtual clusters.
+# Keyword Parameters
+- `container_provider_id`: The container provider ID of the virtual cluster.
+- `container_provider_type`: The container provider type of the virtual cluster. EKS is the
+  only supported type as of now.
+- `created_after`: The date and time after which the virtual clusters are created.
+- `created_before`: The date and time before which the virtual clusters are created.
+- `max_results`: The maximum number of virtual clusters that can be listed.
+- `next_token`: The token for the next set of virtual clusters to return.
+- `states`: The states of the requested virtual clusters.
 """
-function list_virtual_clusters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_virtual_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "GET",
-        "/virtualclusters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("GET", "/virtualclusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -406,40 +254,14 @@ SparkSQL query, that you submit to Amazon EMR on EKS.
 - `release_label`: The Amazon EMR release version to use for the job run.
 - `virtual_cluster_id`: The virtual cluster ID for which the job run request is submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration_overrides"`: The configuration overrides for the job run.
-- `"name"`: The name of the job run.
-- `"tags"`: The tags assigned to job runs.
+# Keyword Parameters
+- `configuration_overrides`: The configuration overrides for the job run.
+- `name`: The name of the job run.
+- `tags`: The tags assigned to job runs.
 """
-function start_job_run(
-    clientToken,
-    executionRoleArn,
-    jobDriver,
-    releaseLabel,
-    virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_job_run(clientToken, executionRoleArn, jobDriver, releaseLabel, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "POST",
-        "/virtualclusters/$(virtualClusterId)/jobruns",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientToken" => clientToken,
-                    "executionRoleArn" => executionRoleArn,
-                    "jobDriver" => jobDriver,
-                    "releaseLabel" => releaseLabel,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("POST", "/virtualclusters/$(virtualClusterId)/jobruns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "jobDriver"=>jobDriver, "releaseLabel"=>releaseLabel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -459,17 +281,9 @@ search and filter the resources based on the tags that you add.
 - `tags`: The tags assigned to resources.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -482,15 +296,7 @@ Removes tags from resources.
 - `tag_keys`: The tag keys of the resources.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return emr_containers(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return emr_containers("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,47 +4,8 @@ using AWS.AWSServices: lex_model_building_service
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "abort_statement" => "abortStatement",
-    "name_contains" => "nameContains",
-    "parent_slot_type_signature" => "parentSlotTypeSignature",
-    "sort_by_order" => "sortByOrder",
-    "sample_utterances" => "sampleUtterances",
-    "dialog_code_hook" => "dialogCodeHook",
-    "sort_by_attribute" => "sortByAttribute",
-    "rejection_statement" => "rejectionStatement",
-    "next_token" => "nextToken",
-    "voice_id" => "voiceId",
-    "clarification_prompt" => "clarificationPrompt",
-    "nlu_intent_confidence_threshold" => "nluIntentConfidenceThreshold",
-    "follow_up_prompt" => "followUpPrompt",
-    "checksum" => "checksum",
-    "fulfillment_activity" => "fulfillmentActivity",
-    "kendra_configuration" => "kendraConfiguration",
-    "process_behavior" => "processBehavior",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "create_version" => "createVersion",
-    "output_contexts" => "outputContexts",
-    "idle_session_ttlin_seconds" => "idleSessionTTLInSeconds",
-    "conclusion_statement" => "conclusionStatement",
-    "parent_intent_signature" => "parentIntentSignature",
-    "confirmation_prompt" => "confirmationPrompt",
-    "detect_sentiment" => "detectSentiment",
-    "v1_bot_name_contains" => "v1BotNameContains",
-    "input_contexts" => "inputContexts",
-    "conversation_logs" => "conversationLogs",
-    "enumeration_values" => "enumerationValues",
-    "locale" => "locale",
-    "signature_contains" => "signatureContains",
-    "intents" => "intents",
-    "slot_type_configurations" => "slotTypeConfigurations",
-    "migration_status_equals" => "migrationStatusEquals",
-    "tags" => "tags",
-    "value_selection_strategy" => "valueSelectionStrategy",
-    "slots" => "slots",
-    "enable_model_improvements" => "enableModelImprovements",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "name_contains" => "nameContains", "next_token" => "nextToken", "migration_status_equals" => "migrationStatusEquals", "sort_by_attribute" => "sortByAttribute", "sort_by_order" => "sortByOrder", "v1_bot_name_contains" => "v1BotNameContains", "abort_statement" => "abortStatement", "checksum" => "checksum", "clarification_prompt" => "clarificationPrompt", "create_version" => "createVersion", "description" => "description", "detect_sentiment" => "detectSentiment", "enable_model_improvements" => "enableModelImprovements", "idle_session_ttlin_seconds" => "idleSessionTTLInSeconds", "intents" => "intents", "nlu_intent_confidence_threshold" => "nluIntentConfidenceThreshold", "process_behavior" => "processBehavior", "tags" => "tags", "voice_id" => "voiceId", "enumeration_values" => "enumerationValues", "parent_slot_type_signature" => "parentSlotTypeSignature", "slot_type_configurations" => "slotTypeConfigurations", "value_selection_strategy" => "valueSelectionStrategy", "conclusion_statement" => "conclusionStatement", "confirmation_prompt" => "confirmationPrompt", "dialog_code_hook" => "dialogCodeHook", "follow_up_prompt" => "followUpPrompt", "fulfillment_activity" => "fulfillmentActivity", "input_contexts" => "inputContexts", "kendra_configuration" => "kendraConfiguration", "output_contexts" => "outputContexts", "parent_intent_signature" => "parentIntentSignature", "rejection_statement" => "rejectionStatement", "sample_utterances" => "sampleUtterances", "slots" => "slots", "conversation_logs" => "conversationLogs", "locale" => "locale", "signature_contains" => "signatureContains")
 
 """
     create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -61,24 +22,15 @@ operation requires permission for the lex:CreateBotVersion action.
 - `name`: The name of the bot that you want to create a new version of. The name is case
   sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checksum"`: Identifies a specific revision of the LATEST version of the bot. If you
+# Keyword Parameters
+- `checksum`: Identifies a specific revision of the LATEST version of the bot. If you
   specify a checksum and the LATEST version of the bot has a different checksum, a
   PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-function create_bot_version(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "POST",
-        "/bots/$(name)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("POST", "/bots/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -97,25 +49,16 @@ lex:CreateIntentVersion action.
 - `name`: The name of the intent that you want to create a new version of. The name is case
   sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checksum"`: Checksum of the LATEST version of the intent that should be used to create
+# Keyword Parameters
+- `checksum`: Checksum of the LATEST version of the intent that should be used to create
   the new version. If you specify a checksum and the LATEST version of the intent has a
   different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't
   publish a new version. If you don't specify a checksum, Amazon Lex publishes the LATEST
   version.
 """
-function create_intent_version(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_intent_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "POST",
-        "/intents/$(name)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("POST", "/intents/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -134,24 +77,15 @@ permissions for the lex:CreateSlotTypeVersion action.
 - `name`: The name of the slot type that you want to create a new version for. The name is
   case sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checksum"`: Checksum for the LATEST version of the slot type that you want to publish.
-  If you specify a checksum and the LATEST version of the slot type has a different checksum,
+# Keyword Parameters
+- `checksum`: Checksum for the LATEST version of the slot type that you want to publish. If
+  you specify a checksum and the LATEST version of the slot type has a different checksum,
   Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-function create_slot_type_version(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_slot_type_version(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "POST",
-        "/slottypes/$(name)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("POST", "/slottypes/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -175,13 +109,7 @@ lex:DeleteBot action.
 """
 function delete_bot(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/bots/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/bots/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -199,17 +127,9 @@ again, delete the referring association until the DeleteBotAlias operation is su
 - `name`: The name of the alias to delete. The name is case sensitive.
 
 """
-function delete_bot_alias(
-    botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/bots/$(botName)/aliases/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -225,17 +145,9 @@ requires permission for the lex:DeleteBotChannelAssociation action.
 - `name`: The name of the association. The name is case sensitive.
 
 """
-function delete_bot_channel_association(
-    aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -250,17 +162,9 @@ operation.  This operation requires permissions for the lex:DeleteBotVersion act
   bot. To delete the LATEST version, use the DeleteBot operation.
 
 """
-function delete_bot_version(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bot_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/bots/$(name)/versions/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -282,13 +186,7 @@ This operation requires permission for the lex:DeleteIntent action.
 """
 function delete_intent(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/intents/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/intents/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -304,17 +202,9 @@ lex:DeleteIntentVersion action.
   the intent. To delete the LATEST version, use the DeleteIntent operation.
 
 """
-function delete_intent_version(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_intent_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/intents/$(name)/versions/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -335,17 +225,9 @@ lex:DeleteSlotType action.
 - `name`: The name of the slot type. The name is case sensitive.
 
 """
-function delete_slot_type(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/slottypes/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/slottypes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -361,17 +243,9 @@ lex:DeleteSlotTypeVersion action.
   of the slot type. To delete the LATEST version, use the DeleteSlotType operation.
 
 """
-function delete_slot_type_version(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_slot_type_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/slottypes/$(name)/version/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -393,17 +267,9 @@ permissions for the lex:DeleteUtterances action.
   utterance.
 
 """
-function delete_utterances(
-    botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_utterances(botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/bots/$(botName)/utterances/$(userId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -417,17 +283,9 @@ version or alias.   This operation requires permissions for the lex:GetBot actio
 - `versionoralias`: The version or alias of the bot.
 
 """
-function get_bot(
-    name, versionoralias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(name)/versions/$(versionoralias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -441,17 +299,9 @@ versioning-aliases. This operation requires permissions for the lex:GetBotAlias 
 - `name`: The name of the bot alias. The name is case sensitive.
 
 """
-function get_bot_alias(
-    botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(botName)/aliases/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -463,28 +313,19 @@ permissions for the lex:GetBotAliases action.
 # Arguments
 - `bot_name`: The name of the bot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of aliases to return in the response. The default is
+# Keyword Parameters
+- `max_results`: The maximum number of aliases to return in the response. The default is
   50. .
-- `"name_contains"`: Substring to match in bot alias names. An alias will be returned if
-  any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\"
-  and \"abcxyz.\"
-- `"next_token"`: A pagination token for fetching the next page of aliases. If the response
+- `name_contains`: Substring to match in bot alias names. An alias will be returned if any
+  part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and
+  \"abcxyz.\"
+- `next_token`: A pagination token for fetching the next page of aliases. If the response
   to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch
   the next page of aliases, specify the pagination token in the next request.
 """
-function get_bot_aliases(
-    botName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot_aliases(botName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(botName)/aliases/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(botName)/aliases/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -501,17 +342,9 @@ platform. This operation requires permissions for the lex:GetBotChannelAssociati
   sensitive.
 
 """
-function get_bot_channel_association(
-    aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -526,29 +359,20 @@ lex:GetBotChannelAssociations action.
   this association is being made.
 - `bot_name`: The name of the Amazon Lex bot in the association.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of associations to return in the response. The
-  default is 50.
-- `"name_contains"`: Substring to match in channel association names. An association will
-  be returned if any part of its name matches the substring. For example, \"xyz\" matches
-  both \"xyzabc\" and \"abcxyz.\" To return all bot channel associations, use a hyphen
-  (\"-\") as the nameContains parameter.
-- `"next_token"`: A pagination token for fetching the next page of associations. If the
+# Keyword Parameters
+- `max_results`: The maximum number of associations to return in the response. The default
+  is 50.
+- `name_contains`: Substring to match in channel association names. An association will be
+  returned if any part of its name matches the substring. For example, \"xyz\" matches both
+  \"xyzabc\" and \"abcxyz.\" To return all bot channel associations, use a hyphen (\"-\") as
+  the nameContains parameter.
+- `next_token`: A pagination token for fetching the next page of associations. If the
   response to this call is truncated, Amazon Lex returns a pagination token in the response.
   To fetch the next page of associations, specify the pagination token in the next request.
 """
-function get_bot_channel_associations(
-    aliasName, botName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot_channel_associations(aliasName, botName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -564,25 +388,16 @@ permissions for the lex:GetBotVersions action.
 # Arguments
 - `name`: The name of the bot for which versions should be returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of bot versions to return in the response. The
-  default is 10.
-- `"next_token"`: A pagination token for fetching the next page of bot versions. If the
+# Keyword Parameters
+- `max_results`: The maximum number of bot versions to return in the response. The default
+  is 10.
+- `next_token`: A pagination token for fetching the next page of bot versions. If the
   response to this call is truncated, Amazon Lex returns a pagination token in the response.
   To fetch the next page of versions, specify the pagination token in the next request.
 """
-function get_bot_versions(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(name)/versions/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -594,21 +409,18 @@ string.   If you don't specify the nameContains field, the operation returns inf
 about the LATEST version of all of your bots.   This operation requires permission for the
 lex:GetBots action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of bots to return in the response that the request
-  will return. The default is 10.
-- `"name_contains"`: Substring to match in bot names. A bot will be returned if any part of
+# Keyword Parameters
+- `max_results`: The maximum number of bots to return in the response that the request will
+  return. The default is 10.
+- `name_contains`: Substring to match in bot names. A bot will be returned if any part of
   its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\"
-- `"next_token"`: A pagination token that fetches the next page of bots. If the response to
+- `next_token`: A pagination token that fetches the next page of bots. If the response to
   this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the
   next page of bots, specify the pagination token in the next request.
 """
 function get_bots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lex_model_building_service("GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -622,17 +434,9 @@ lex:GetBuiltinIntent action.
   intent, see Standard Built-in Intents in the Alexa Skills Kit.
 
 """
-function get_builtin_intent(
-    signature; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_builtin_intent(signature; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/builtins/intents/$(signature)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/builtins/intents/$(signature)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -641,28 +445,20 @@ end
 Gets a list of built-in intents that meet the specified criteria. This operation requires
 permission for the lex:GetBuiltinIntents action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: A list of locales that the intent supports.
-- `"max_results"`: The maximum number of intents to return in the response. The default is
-  10.
-- `"next_token"`: A pagination token that fetches the next page of intents. If this API
-  call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next
-  page of intents, use the pagination token in the next request.
-- `"signature_contains"`: Substring to match in built-in intent signatures. An intent will
-  be returned if any part of its signature matches the substring. For example, \"xyz\"
-  matches both \"xyzabc\" and \"abcxyz.\" To find the signature for an intent, see Standard
-  Built-in Intents in the Alexa Skills Kit.
+# Keyword Parameters
+- `locale`: A list of locales that the intent supports.
+- `max_results`: The maximum number of intents to return in the response. The default is 10.
+- `next_token`: A pagination token that fetches the next page of intents. If this API call
+  is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page
+  of intents, use the pagination token in the next request.
+- `signature_contains`: Substring to match in built-in intent signatures. An intent will be
+  returned if any part of its signature matches the substring. For example, \"xyz\" matches
+  both \"xyzabc\" and \"abcxyz.\" To find the signature for an intent, see Standard Built-in
+  Intents in the Alexa Skills Kit.
 """
 function get_builtin_intents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/builtins/intents/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/builtins/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -672,30 +468,21 @@ Gets a list of built-in slot types that meet the specified criteria. For a list 
 slot types, see Slot Type Reference in the Alexa Skills Kit. This operation requires
 permission for the lex:GetBuiltInSlotTypes action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: A list of locales that the slot type supports.
-- `"max_results"`: The maximum number of slot types to return in the response. The default
-  is 10.
-- `"next_token"`: A pagination token that fetches the next page of slot types. If the
+# Keyword Parameters
+- `locale`: A list of locales that the slot type supports.
+- `max_results`: The maximum number of slot types to return in the response. The default is
+  10.
+- `next_token`: A pagination token that fetches the next page of slot types. If the
   response to this API call is truncated, Amazon Lex returns a pagination token in the
   response. To fetch the next page of slot types, specify the pagination token in the next
   request.
-- `"signature_contains"`: Substring to match in built-in slot type signatures. A slot type
+- `signature_contains`: Substring to match in built-in slot type signatures. A slot type
   will be returned if any part of its signature matches the substring. For example, \"xyz\"
   matches both \"xyzabc\" and \"abcxyz.\"
 """
-function get_builtin_slot_types(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_builtin_slot_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/builtins/slottypes/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/builtins/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -710,33 +497,9 @@ Exports the contents of a Amazon Lex resource in a specified format.
 - `version`: The version of the bot to export.
 
 """
-function get_export(
-    exportType,
-    name,
-    resourceType,
-    version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_export(exportType, name, resourceType, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/exports/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "exportType" => exportType,
-                    "name" => name,
-                    "resourceType" => resourceType,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/exports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -750,13 +513,7 @@ Gets information about an import job started with the StartImport operation.
 """
 function get_import(importId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/imports/$(importId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/imports/$(importId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -770,17 +527,9 @@ intent version.   This operation requires permissions to perform the lex:GetInte
 - `version`: The version of the intent.
 
 """
-function get_intent(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_intent(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/intents/$(name)/versions/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -796,25 +545,16 @@ operation requires permissions for the lex:GetIntentVersions action.
 # Arguments
 - `name`: The name of the intent for which versions should be returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of intent versions to return in the response. The
+# Keyword Parameters
+- `max_results`: The maximum number of intent versions to return in the response. The
   default is 10.
-- `"next_token"`: A pagination token for fetching the next page of intent versions. If the
+- `next_token`: A pagination token for fetching the next page of intent versions. If the
   response to this call is truncated, Amazon Lex returns a pagination token in the response.
   To fetch the next page of versions, specify the pagination token in the next request.
 """
-function get_intent_versions(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_intent_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/intents/$(name)/versions/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/intents/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -825,22 +565,18 @@ the LATEST version of all intents that contain the specified string.    If you d
 specify the nameContains field, returns information about the LATEST version of all
 intents.     The operation requires permission for the lex:GetIntents action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of intents to return in the response. The default is
-  10.
-- `"name_contains"`: Substring to match in intent names. An intent will be returned if any
+# Keyword Parameters
+- `max_results`: The maximum number of intents to return in the response. The default is 10.
+- `name_contains`: Substring to match in intent names. An intent will be returned if any
   part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and
   \"abcxyz.\"
-- `"next_token"`: A pagination token that fetches the next page of intents. If the response
+- `next_token`: A pagination token that fetches the next page of intents. If the response
   to this API call is truncated, Amazon Lex returns a pagination token in the response. To
   fetch the next page of intents, specify the pagination token in the next request.
 """
 function get_intents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lex_model_building_service("GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -855,17 +591,9 @@ the migration.
   returned by the operation.
 
 """
-function get_migration(
-    migrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_migration(migrationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/migrations/$(migrationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/migrations/$(migrationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -873,26 +601,23 @@ end
 
 Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of migrations to return in the response. The default
-  is 10.
-- `"migration_status_equals"`: Filters the list to contain only migrations in the specified
+# Keyword Parameters
+- `max_results`: The maximum number of migrations to return in the response. The default is
+  10.
+- `migration_status_equals`: Filters the list to contain only migrations in the specified
   state.
-- `"next_token"`: A pagination token that fetches the next page of migrations. If the
+- `next_token`: A pagination token that fetches the next page of migrations. If the
   response to this operation is truncated, Amazon Lex returns a pagination token in the
   response. To fetch the next page of migrations, specify the pagination token in the request.
-- `"sort_by_attribute"`: The field to sort the list of migrations by. You can sort by the
+- `sort_by_attribute`: The field to sort the list of migrations by. You can sort by the
   Amazon Lex V1 bot name or the date and time that the migration was started.
-- `"sort_by_order"`: The order so sort the list.
-- `"v1_bot_name_contains"`: Filters the list to contain only bots whose name contains the
+- `sort_by_order`: The order so sort the list.
+- `v1_bot_name_contains`: Filters the list to contain only bots whose name contains the
   specified string. The string is matched anywhere in bot name.
 """
 function get_migrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET", "/migrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lex_model_building_service("GET", "/migrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -907,17 +632,9 @@ for the lex:GetSlotType action.
 - `version`: The version of the slot type.
 
 """
-function get_slot_type(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_slot_type(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/slottypes/$(name)/versions/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -933,26 +650,16 @@ LATEST version. This operation requires permissions for the lex:GetSlotTypeVersi
 # Arguments
 - `name`: The name of the slot type for which versions should be returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of slot type versions to return in the response. The
+# Keyword Parameters
+- `max_results`: The maximum number of slot type versions to return in the response. The
   default is 10.
-- `"next_token"`: A pagination token for fetching the next page of slot type versions. If
-  the response to this call is truncated, Amazon Lex returns a pagination token in the
-  response. To fetch the next page of versions, specify the pagination token in the next
-  request.
+- `next_token`: A pagination token for fetching the next page of slot type versions. If the
+  response to this call is truncated, Amazon Lex returns a pagination token in the response.
+  To fetch the next page of versions, specify the pagination token in the next request.
 """
-function get_slot_type_versions(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_slot_type_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/slottypes/$(name)/versions/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/slottypes/$(name)/versions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -963,23 +670,20 @@ the LATEST version of all slot types that contain the specified string.    If yo
 specify the nameContains field, returns information about the LATEST version of all slot
 types.     The operation requires permission for the lex:GetSlotTypes action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of slot types to return in the response. The default
-  is 10.
-- `"name_contains"`: Substring to match in slot type names. A slot type will be returned if
+# Keyword Parameters
+- `max_results`: The maximum number of slot types to return in the response. The default is
+  10.
+- `name_contains`: Substring to match in slot type names. A slot type will be returned if
   any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\"
   and \"abcxyz.\"
-- `"next_token"`: A pagination token that fetches the next page of slot types. If the
+- `next_token`: A pagination token that fetches the next page of slot types. If the
   response to this API call is truncated, Amazon Lex returns a pagination token in the
   response. To fetch next page of slot types, specify the pagination token in the next
   request.
 """
 function get_slot_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET", "/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1010,29 +714,9 @@ the lex:GetUtterancesView action.
   return utterances that were not recognized, use Missed.
 
 """
-function get_utterances_view(
-    bot_versions,
-    botname,
-    status_type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_utterances_view(bot_versions, botname, status_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/bots/$(botname)/utterances?view=aggregation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "bot_versions" => bot_versions, "status_type" => status_type
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1045,17 +729,9 @@ channels can have tags associated with them.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get a list of tags for.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1097,27 +773,26 @@ for the lex:PutBot action. For more information, see security-iam.
   compatible with the locale of the bot.  The default is en-US.
 - `name`: The name of the bot. The name is not case sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"abort_statement"`: When Amazon Lex can't understand the user's input in context, it
-  tries to elicit the information a few times. After that, Amazon Lex sends the message
-  defined in abortStatement to the user, and then cancels the conversation. To set the number
-  of retries, use the valueElicitationPrompt field for the slot type.  For example, in a
-  pizza ordering bot, Amazon Lex might ask a user \"What type of crust would you like?\" If
-  the user's response is not one of the expected responses (for example, \"thin crust, \"deep
+# Keyword Parameters
+- `abort_statement`: When Amazon Lex can't understand the user's input in context, it tries
+  to elicit the information a few times. After that, Amazon Lex sends the message defined in
+  abortStatement to the user, and then cancels the conversation. To set the number of
+  retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza
+  ordering bot, Amazon Lex might ask a user \"What type of crust would you like?\" If the
+  user's response is not one of the expected responses (for example, \"thin crust, \"deep
   dish,\" etc.), Amazon Lex tries to elicit a correct response a few more times.  For
   example, in a pizza ordering application, OrderPizza might be one of the intents. This
   intent might require the CrustType slot. You specify the valueElicitationPrompt field when
   you create the CrustType slot. If you have defined a fallback intent the cancel statement
   will not be sent to the user, the fallback intent is used instead. For more information,
   see  AMAZON.FallbackIntent.
-- `"checksum"`: Identifies a specific revision of the LATEST version. When you create a new
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new
   bot, leave the checksum field blank. If you specify a checksum you get a
   BadRequestException exception. When you want to update a bot, set the checksum field to the
   checksum of the most recent revision of the LATEST version. If you don't specify the
   checksum field, or if the checksum does not match the LATEST version, you get a
   PreconditionFailedException exception.
-- `"clarification_prompt"`: When Amazon Lex doesn't understand the user's intent, it uses
+- `clarification_prompt`: When Amazon Lex doesn't understand the user's intent, it uses
   this message to get clarification. To specify how many times Amazon Lex should repeat the
   clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it
   sends the message in the abortStatement field.  When you create a clarification prompt,
@@ -1137,13 +812,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   using the PutSession operation, you send an ElicitIntent dialog type. Since Amazon Lex does
   not have a clarification prompt to get an intent from the user, it returns a 400 Bad
   Request exception.
-- `"create_version"`: When set to true a new numbered version of the bot is created. This
-  is the same as calling the CreateBotVersion operation. If you don't specify createVersion,
-  the default is false.
-- `"description"`: A description of the bot.
-- `"detect_sentiment"`: When set to true user utterances are sent to Amazon Comprehend for
+- `create_version`: When set to true a new numbered version of the bot is created. This is
+  the same as calling the CreateBotVersion operation. If you don't specify createVersion, the
+  default is false.
+- `description`: A description of the bot.
+- `detect_sentiment`: When set to true user utterances are sent to Amazon Comprehend for
   sentiment analysis. If you don't specify detectSentiment, the default is false.
-- `"enable_model_improvements"`: Set to true to enable access to natural language
+- `enable_model_improvements`: Set to true to enable access to natural language
   understanding improvements.  When you set the enableModelImprovements parameter to true you
   can use the nluIntentConfidenceThreshold parameter to configure confidence scores. For more
   information, see Confidence Scores. You can only set the enableModelImprovements parameter
@@ -1153,7 +828,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   (Sydney) (ap-southeast-2)   EU (Ireland) (eu-west-1)   In other Regions, the
   enableModelImprovements parameter is set to true by default. In these Regions setting the
   parameter to false throws a ValidationException exception.
-- `"idle_session_ttlin_seconds"`: The maximum time in seconds that Amazon Lex retains the
+- `idle_session_ttlin_seconds`: The maximum time in seconds that Amazon Lex retains the
   data gathered in a conversation. A user interaction session remains active for the amount
   of time specified. If no conversation occurs during this time, the session expires and
   Amazon Lex deletes any data provided before the timeout. For example, suppose that a user
@@ -1163,12 +838,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default
   value. This is also true if the request replaces an existing bot. The default is 300
   seconds (5 minutes).
-- `"intents"`: An array of Intent objects. Each intent represents a command that a user can
+- `intents`: An array of Intent objects. Each intent represents a command that a user can
   express. For example, a pizza ordering bot might support an OrderPizza intent. For more
   information, see how-it-works.
-- `"nlu_intent_confidence_threshold"`: Determines the threshold where Amazon Lex will
-  insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning
-  alternative intents in a PostContent or PostText response. AMAZON.FallbackIntent and
+- `nlu_intent_confidence_threshold`: Determines the threshold where Amazon Lex will insert
+  the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative
+  intents in a PostContent or PostText response. AMAZON.FallbackIntent and
   AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. You must
   set the enableModelImprovements parameter to true to use confidence scores in the following
   regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Asia Pacific
@@ -1178,38 +853,20 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   returns three alternative intents with the following confidence scores: IntentA (0.70),
   IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:
   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
-- `"process_behavior"`: If you set the processBehavior element to BUILD, Amazon Lex builds
+- `process_behavior`: If you set the processBehavior element to BUILD, Amazon Lex builds
   the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but
   doesn't build it.  If you don't specify this value, the default value is BUILD.
-- `"tags"`: A list of tags to add to the bot. You can only add tags when you create a bot,
+- `tags`: A list of tags to add to the bot. You can only add tags when you create a bot,
   you can't use the PutBot operation to update the tags on a bot. To update tags, use the
   TagResource operation.
-- `"voice_id"`: The Amazon Polly voice ID that you want Amazon Lex to use for voice
+- `voice_id`: The Amazon Polly voice ID that you want Amazon Lex to use for voice
   interactions with the user. The locale configured for the voice must match the locale of
   the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer
   Guide.
 """
-function put_bot(
-    childDirected,
-    locale,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bot(childDirected, locale, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "PUT",
-        "/bots/$(name)/versions/$LATEST",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("childDirected" => childDirected, "locale" => locale),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1225,33 +882,22 @@ permissions for the lex:PutBotAlias action.
 - `bot_version`: The version of the bot.
 - `name`: The name of the alias. The name is not case sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checksum"`: Identifies a specific revision of the LATEST version. When you create a new
+# Keyword Parameters
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new
   bot alias, leave the checksum field blank. If you specify a checksum you get a
   BadRequestException exception. When you want to update a bot alias, set the checksum field
   to the checksum of the most recent revision of the LATEST version. If you don't specify the
    checksum field, or if the checksum does not match the LATEST version, you get a
   PreconditionFailedException exception.
-- `"conversation_logs"`: Settings for conversation logs for the alias.
-- `"description"`: A description of the alias.
-- `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create
-  an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To
-  update tags, use the TagResource operation.
+- `conversation_logs`: Settings for conversation logs for the alias.
+- `description`: A description of the alias.
+- `tags`: A list of tags to add to the bot alias. You can only add tags when you create an
+  alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update
+  tags, use the TagResource operation.
 """
-function put_bot_alias(
-    botName, botVersion, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bot_alias(botName, botVersion, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "PUT",
-        "/bots/$(botName)/aliases/$(name)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("botVersion" => botVersion), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersion"=>botVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1288,37 +934,36 @@ This operation requires permissions for the lex:PutIntent action.
   intent called HelpIntent. For a list of built-in intents, see Standard Built-in Intents in
   the Alexa Skills Kit.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checksum"`: Identifies a specific revision of the LATEST version. When you create a new
+# Keyword Parameters
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new
   intent, leave the checksum field blank. If you specify a checksum you get a
   BadRequestException exception. When you want to update a intent, set the checksum field to
   the checksum of the most recent revision of the LATEST version. If you don't specify the
   checksum field, or if the checksum does not match the LATEST version, you get a
   PreconditionFailedException exception.
-- `"conclusion_statement"`:  The statement that you want Amazon Lex to convey to the user
+- `conclusion_statement`:  The statement that you want Amazon Lex to convey to the user
   after the intent is successfully fulfilled by the Lambda function.  This element is
   relevant only if you provide a Lambda function in the fulfillmentActivity. If you return
   the intent to the client application, you can't specify this element.  The followUpPrompt
   and conclusionStatement are mutually exclusive. You can specify only one.
-- `"confirmation_prompt"`: Prompts the user to confirm the intent. This question should
-  have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges
-  that the intent is ready for fulfillment. For example, with the OrderPizza intent, you
-  might want to confirm that the order is correct before placing it. For other intents, such
-  as intents that simply respond to user questions, you might not need to ask the user for
+- `confirmation_prompt`: Prompts the user to confirm the intent. This question should have
+  a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that
+  the intent is ready for fulfillment. For example, with the OrderPizza intent, you might
+  want to confirm that the order is correct before placing it. For other intents, such as
+  intents that simply respond to user questions, you might not need to ask the user for
   confirmation before providing the information.   You you must provide both the
   rejectionStatement and the confirmationPrompt, or neither.
-- `"create_version"`: When set to true a new numbered version of the intent is created.
-  This is the same as calling the CreateIntentVersion operation. If you do not specify
+- `create_version`: When set to true a new numbered version of the intent is created. This
+  is the same as calling the CreateIntentVersion operation. If you do not specify
   createVersion, the default is false.
-- `"description"`: A description of the intent.
-- `"dialog_code_hook"`:  Specifies a Lambda function to invoke for each user input. You can
+- `description`: A description of the intent.
+- `dialog_code_hook`:  Specifies a Lambda function to invoke for each user input. You can
   invoke this Lambda function to personalize user interaction.  For example, suppose your bot
   determines that the user is John. Your Lambda function might retrieve John's information
   from a backend database and prepopulate some of the values. For example, if you find that
   John is gluten intolerant, you might set the corresponding intent slot, GlutenIntolerant,
   to true. You might find John's phone number and set the corresponding session attribute.
-- `"follow_up_prompt"`: Amazon Lex uses this prompt to solicit additional activity after
+- `follow_up_prompt`: Amazon Lex uses this prompt to solicit additional activity after
   fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might
   prompt the user to order a drink. The action that Amazon Lex takes depends on the user's
   response, as follows:   If the user says \"Yes\" it responds with the clarification prompt
@@ -1327,40 +972,34 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   it responds with the rejection statement configured for the the follow-up prompt.   If it
   doesn't recognize the utterance it repeats the follow-up prompt again.   The followUpPrompt
   field and the conclusionStatement field are mutually exclusive. You can specify only one.
-- `"fulfillment_activity"`: Required. Describes how the intent is fulfilled. For example,
+- `fulfillment_activity`: Required. Describes how the intent is fulfilled. For example,
   after a user provides all of the information for a pizza order, fulfillmentActivity defines
   how the bot places an order with a local pizza store.   You might configure Amazon Lex to
   return all of the intent information to the client application, or direct it to invoke a
   Lambda function that can process the intent (for example, place an order with a pizzeria).
-- `"input_contexts"`: An array of InputContext objects that lists the contexts that must be
+- `input_contexts`: An array of InputContext objects that lists the contexts that must be
   active for Amazon Lex to choose the intent in a conversation with the user.
-- `"kendra_configuration"`: Configuration information required to use the
+- `kendra_configuration`: Configuration information required to use the
   AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. For more
   information, see  AMAZON.KendraSearchIntent.
-- `"output_contexts"`: An array of OutputContext objects that lists the contexts that the
+- `output_contexts`: An array of OutputContext objects that lists the contexts that the
   intent activates when the intent is fulfilled.
-- `"parent_intent_signature"`: A unique identifier for the built-in intent to base this
+- `parent_intent_signature`: A unique identifier for the built-in intent to base this
   intent on. To find the signature for an intent, see Standard Built-in Intents in the Alexa
   Skills Kit.
-- `"rejection_statement"`: When the user answers \"no\" to the question defined in
+- `rejection_statement`: When the user answers \"no\" to the question defined in
   confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent
   was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or
   neither.
-- `"sample_utterances"`: An array of utterances (strings) that a user might say to signal
-  the intent. For example, \"I want {PizzaSize} pizza\", \"Order {Quantity} {PizzaSize}
-  pizzas\".  In each utterance, a slot name is enclosed in curly braces.
-- `"slots"`: An array of intent slots. At runtime, Amazon Lex elicits required slot values
+- `sample_utterances`: An array of utterances (strings) that a user might say to signal the
+  intent. For example, \"I want {PizzaSize} pizza\", \"Order {Quantity} {PizzaSize} pizzas\".
+   In each utterance, a slot name is enclosed in curly braces.
+- `slots`: An array of intent slots. At runtime, Amazon Lex elicits required slot values
   from the user using prompts defined in the slots. For more information, see how-it-works.
 """
 function put_intent(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "PUT",
-        "/intents/$(name)/versions/$LATEST",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1383,20 +1022,19 @@ NOT_BUILT. This operation requires permissions for the lex:PutSlotType action.
   custom slot type called DATE. For a list of built-in slot types, see Slot Type Reference in
   the Alexa Skills Kit.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checksum"`: Identifies a specific revision of the LATEST version. When you create a new
+# Keyword Parameters
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new
   slot type, leave the checksum field blank. If you specify a checksum you get a
   BadRequestException exception. When you want to update a slot type, set the checksum field
   to the checksum of the most recent revision of the LATEST version. If you don't specify the
    checksum field, or if the checksum does not match the LATEST version, you get a
   PreconditionFailedException exception.
-- `"create_version"`: When set to true a new numbered version of the slot type is created.
+- `create_version`: When set to true a new numbered version of the slot type is created.
   This is the same as calling the CreateSlotTypeVersion operation. If you do not specify
   createVersion, the default is false.
-- `"description"`: A description of the slot type.
-- `"enumeration_values"`: A list of EnumerationValue objects that defines the values that
-  the slot type can take. Each value can have a list of synonyms, which are additional values
+- `description`: A description of the slot type.
+- `enumeration_values`: A list of EnumerationValue objects that defines the values that the
+  slot type can take. Each value can have a list of synonyms, which are additional values
   that help train the machine learning model about the values that it resolves for a slot.  A
   regular expression slot type doesn't require enumeration values. All other slot types
   require a list of enumeration values. When Amazon Lex resolves a slot value, it generates a
@@ -1405,13 +1043,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Lambda function you can choose to return the value that the user entered or the first value
   in the resolution list as the slot value. The valueSelectionStrategy field indicates the
   option to use.
-- `"parent_slot_type_signature"`: The built-in slot type used as the parent of the slot
-  type. When you define a parent slot type, the new slot type has all of the same
-  configuration as the parent. Only AMAZON.AlphaNumeric is supported.
-- `"slot_type_configurations"`: Configuration information that extends the parent built-in
+- `parent_slot_type_signature`: The built-in slot type used as the parent of the slot type.
+  When you define a parent slot type, the new slot type has all of the same configuration as
+  the parent. Only AMAZON.AlphaNumeric is supported.
+- `slot_type_configurations`: Configuration information that extends the parent built-in
   slot type. The configuration is added to the settings for the parent slot type.
-- `"value_selection_strategy"`: Determines the slot resolution strategy that Amazon Lex
-  uses to return slot type values. The field can be set to one of the following values:
+- `value_selection_strategy`: Determines the slot resolution strategy that Amazon Lex uses
+  to return slot type values. The field can be set to one of the following values:
   ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the
   slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the
   first value in the resolution list as the slot type value. If there is no resolution list,
@@ -1420,13 +1058,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function put_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "PUT",
-        "/slottypes/$(name)/versions/$LATEST",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1449,36 +1081,13 @@ Starts a job to import a resource to Amazon Lex.
   resources that it depends on.    A bot exports dependent intents.   An intent exports
   dependent slot types.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of tags to add to the imported bot. You can only add tags when you
-  import a bot, you can't add tags to an intent or slot type.
+# Keyword Parameters
+- `tags`: A list of tags to add to the imported bot. You can only add tags when you import
+  a bot, you can't add tags to an intent or slot type.
 """
-function start_import(
-    mergeStrategy,
-    payload,
-    resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_import(mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "POST",
-        "/imports/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "mergeStrategy" => mergeStrategy,
-                    "payload" => payload,
-                    "resourceType" => resourceType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("POST", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1504,35 +1113,9 @@ a bot in the Amazon Lex developer guide.
 - `v2_bot_role`: The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
 
 """
-function start_migration(
-    migrationStrategy,
-    v1BotName,
-    v1BotVersion,
-    v2BotName,
-    v2BotRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_migration(migrationStrategy, v1BotName, v1BotVersion, v2BotName, v2BotRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "POST",
-        "/migrations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "migrationStrategy" => migrationStrategy,
-                    "v1BotName" => v1BotName,
-                    "v1BotVersion" => v1BotVersion,
-                    "v2BotName" => v2BotName,
-                    "v2BotRole" => v2BotRole,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("POST", "/migrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("migrationStrategy"=>migrationStrategy, "v1BotName"=>v1BotName, "v1BotVersion"=>v1BotVersion, "v2BotName"=>v2BotName, "v2BotRole"=>v2BotRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1548,17 +1131,9 @@ existing value is replaced with the new value.
   existing value is replaced with the new value.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1572,15 +1147,7 @@ Removes tags from a bot, bot alias or bot channel.
   on the resource, it is ignored.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_model_building_service(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

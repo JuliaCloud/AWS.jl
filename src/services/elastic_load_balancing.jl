@@ -4,22 +4,8 @@ using AWS.AWSServices: elastic_load_balancing
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "availability_zones" => "AvailabilityZones",
-    "page_size" => "PageSize",
-    "policy_attributes" => "PolicyAttributes",
-    "cookie_expiration_period" => "CookieExpirationPeriod",
-    "security_groups" => "SecurityGroups",
-    "policy_names" => "PolicyNames",
-    "instances" => "Instances",
-    "scheme" => "Scheme",
-    "load_balancer_name" => "LoadBalancerName",
-    "subnets" => "Subnets",
-    "load_balancer_names" => "LoadBalancerNames",
-    "marker" => "Marker",
-    "tags" => "Tags",
-    "policy_type_names" => "PolicyTypeNames",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("load_balancer_name" => "LoadBalancerName", "policy_names" => "PolicyNames", "load_balancer_names" => "LoadBalancerNames", "marker" => "Marker", "page_size" => "PageSize", "policy_type_names" => "PolicyTypeNames", "availability_zones" => "AvailabilityZones", "scheme" => "Scheme", "security_groups" => "SecurityGroups", "subnets" => "Subnets", "tags" => "Tags", "policy_attributes" => "PolicyAttributes", "cookie_expiration_period" => "CookieExpirationPeriod", "instances" => "Instances")
 
 """
     add_tags(load_balancer_names, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,22 +21,9 @@ information, see Tag Your Classic Load Balancer in the Classic Load Balancers Gu
 - `tags`: The tags.
 
 """
-function add_tags(
-    LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags(LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "AddTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LoadBalancerNames" => LoadBalancerNames, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -67,28 +40,9 @@ Balancers Guide.
   Note that you cannot specify the name of the security group.
 
 """
-function apply_security_groups_to_load_balancer(
-    LoadBalancerName,
-    SecurityGroups;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function apply_security_groups_to_load_balancer(LoadBalancerName, SecurityGroups; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "ApplySecurityGroupsToLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName,
-                    "SecurityGroups" => SecurityGroups,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("ApplySecurityGroupsToLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "SecurityGroups"=>SecurityGroups), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -105,24 +59,9 @@ Balancers Guide.
   Zone.
 
 """
-function attach_load_balancer_to_subnets(
-    LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_load_balancer_to_subnets(LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "AttachLoadBalancerToSubnets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName, "Subnets" => Subnets
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("AttachLoadBalancerToSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -137,27 +76,9 @@ Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function configure_health_check(
-    HealthCheck,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function configure_health_check(HealthCheck, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "ConfigureHealthCheck",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HealthCheck" => HealthCheck, "LoadBalancerName" => LoadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("ConfigureHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheck"=>HealthCheck, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -181,30 +102,9 @@ Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
   for this load balancer.
 
 """
-function create_app_cookie_stickiness_policy(
-    CookieName,
-    LoadBalancerName,
-    PolicyName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_app_cookie_stickiness_policy(CookieName, LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "CreateAppCookieStickinessPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CookieName" => CookieName,
-                    "LoadBalancerName" => LoadBalancerName,
-                    "PolicyName" => PolicyName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("CreateAppCookieStickinessPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CookieName"=>CookieName, "LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -228,33 +128,14 @@ information, see Duration-Based Session Stickiness in the Classic Load Balancers
   alphanumeric characters and dashes (-). This name must be unique within the set of policies
   for this load balancer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cookie_expiration_period"`: The time period, in seconds, after which the cookie should
-  be considered stale. If you do not specify this parameter, the default value is 0, which
+# Keyword Parameters
+- `cookie_expiration_period`: The time period, in seconds, after which the cookie should be
+  considered stale. If you do not specify this parameter, the default value is 0, which
   indicates that the sticky session should last for the duration of the browser session.
 """
-function create_lbcookie_stickiness_policy(
-    LoadBalancerName,
-    PolicyName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_lbcookie_stickiness_policy(LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "CreateLBCookieStickinessPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName, "PolicyName" => PolicyName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("CreateLBCookieStickinessPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -276,45 +157,25 @@ information, see Limits for Your Classic Load Balancer in the Classic Load Balan
   set of load balancers for the region, must have a maximum of 32 characters, must contain
   only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: One or more Availability Zones from the same region as the load
+# Keyword Parameters
+- `availability_zones`: One or more Availability Zones from the same region as the load
   balancer. You must specify at least one Availability Zone. You can add more Availability
   Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
-- `"scheme"`: The type of a load balancer. Valid only for load balancers in a VPC. By
+- `scheme`: The type of a load balancer. Valid only for load balancers in a VPC. By
   default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name
   that resolves to public IP addresses. For more information about Internet-facing and
   Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide.
   Specify internal to create a load balancer with a DNS name that resolves to private IP
   addresses.
-- `"security_groups"`: The IDs of the security groups to assign to the load balancer.
-- `"subnets"`: The IDs of the subnets in your VPC to attach to the load balancer. Specify
-  one subnet per Availability Zone specified in AvailabilityZones.
-- `"tags"`: A list of tags to assign to the load balancer. For more information about
-  tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load
-  Balancers Guide.
+- `security_groups`: The IDs of the security groups to assign to the load balancer.
+- `subnets`: The IDs of the subnets in your VPC to attach to the load balancer. Specify one
+  subnet per Availability Zone specified in AvailabilityZones.
+- `tags`: A list of tags to assign to the load balancer. For more information about tagging
+  your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
 """
-function create_load_balancer(
-    Listeners,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_load_balancer(Listeners, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "CreateLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Listeners" => Listeners, "LoadBalancerName" => LoadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -330,27 +191,9 @@ Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function create_load_balancer_listeners(
-    Listeners,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_load_balancer_listeners(Listeners, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "CreateLoadBalancerListeners",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Listeners" => Listeners, "LoadBalancerName" => LoadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("CreateLoadBalancerListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -367,34 +210,12 @@ or the application server, depending on the policy type.
 - `policy_type_name`: The name of the base policy type. To get the list of policy types,
   use DescribeLoadBalancerPolicyTypes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"policy_attributes"`: The policy attributes.
+# Keyword Parameters
+- `policy_attributes`: The policy attributes.
 """
-function create_load_balancer_policy(
-    LoadBalancerName,
-    PolicyName,
-    PolicyTypeName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_load_balancer_policy(LoadBalancerName, PolicyName, PolicyTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "CreateLoadBalancerPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName,
-                    "PolicyName" => PolicyName,
-                    "PolicyTypeName" => PolicyTypeName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("CreateLoadBalancerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName, "PolicyTypeName"=>PolicyTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -411,20 +232,9 @@ DeleteLoadBalancer still succeeds.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function delete_load_balancer(
-    LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_load_balancer(LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DeleteLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerName" => LoadBalancerName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -437,28 +247,9 @@ Deletes the specified listeners from the specified load balancer.
 - `load_balancer_ports`: The client port numbers of the listeners.
 
 """
-function delete_load_balancer_listeners(
-    LoadBalancerName,
-    LoadBalancerPorts;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_load_balancer_listeners(LoadBalancerName, LoadBalancerPorts; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DeleteLoadBalancerListeners",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName,
-                    "LoadBalancerPorts" => LoadBalancerPorts,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DeleteLoadBalancerListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPorts"=>LoadBalancerPorts), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -472,27 +263,9 @@ enabled for any listeners.
 - `policy_name`: The name of the policy.
 
 """
-function delete_load_balancer_policy(
-    LoadBalancerName,
-    PolicyName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_load_balancer_policy(LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DeleteLoadBalancerPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName, "PolicyName" => PolicyName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DeleteLoadBalancerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -509,27 +282,9 @@ Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function deregister_instances_from_load_balancer(
-    Instances,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function deregister_instances_from_load_balancer(Instances, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DeregisterInstancesFromLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Instances" => Instances, "LoadBalancerName" => LoadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DeregisterInstancesFromLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -538,22 +293,14 @@ end
 Describes the current Elastic Load Balancing resource limits for your AWS account. For more
 information, see Limits for Your Classic Load Balancer in the Classic Load Balancers Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"page_size"`: The maximum number of results to return with this call.
+- `page_size`: The maximum number of results to return with this call.
 """
-function describe_account_limits(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeAccountLimits",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeAccountLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -568,24 +315,12 @@ terminated instances is not returned.
 # Arguments
 - `load_balancer_name`: The name of the load balancer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instances"`: The IDs of the instances.
+# Keyword Parameters
+- `instances`: The IDs of the instances.
 """
-function describe_instance_health(
-    LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_instance_health(LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeInstanceHealth",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerName" => LoadBalancerName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeInstanceHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -597,20 +332,9 @@ Describes the attributes for the specified load balancer.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function describe_load_balancer_attributes(
-    LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_balancer_attributes(LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeLoadBalancerAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerName" => LoadBalancerName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -623,21 +347,13 @@ If you don't specify a load balancer name, the action returns descriptions of th
 sample policies, or descriptions of all sample policies. The names of the sample policies
 have the ELBSample- prefix.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"load_balancer_name"`: The name of the load balancer.
-- `"policy_names"`: The names of the policies.
+# Keyword Parameters
+- `load_balancer_name`: The name of the load balancer.
+- `policy_names`: The names of the policies.
 """
-function describe_load_balancer_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_balancer_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeLoadBalancerPolicies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeLoadBalancerPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -651,21 +367,13 @@ CreateLoadBalancerPolicy to create a policy configuration for any of these polic
 Then, depending on the policy type, use either SetLoadBalancerPoliciesOfListener or
 SetLoadBalancerPoliciesForBackendServer to set the policy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"policy_type_names"`: The names of the policy types. If no names are specified,
-  describes all policy types defined by Elastic Load Balancing.
+# Keyword Parameters
+- `policy_type_names`: The names of the policy types. If no names are specified, describes
+  all policy types defined by Elastic Load Balancing.
 """
-function describe_load_balancer_policy_types(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_balancer_policy_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeLoadBalancerPolicyTypes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeLoadBalancerPolicyTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -674,24 +382,16 @@ end
 Describes the specified the load balancers. If no load balancers are specified, the call
 describes all of your load balancers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"load_balancer_names"`: The names of the load balancers.
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `load_balancer_names`: The names of the load balancers.
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"page_size"`: The maximum number of results to return with this call (a number from 1 to
+- `page_size`: The maximum number of results to return with this call (a number from 1 to
   400). The default is 400.
 """
-function describe_load_balancers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeLoadBalancers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -703,20 +403,9 @@ Describes the tags associated with the specified load balancers.
 - `load_balancer_names`: The names of the load balancers.
 
 """
-function describe_tags(
-    LoadBalancerNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tags(LoadBalancerNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DescribeTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerNames" => LoadBalancerNames), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -732,24 +421,9 @@ among the remaining routable subnets.
 - `subnets`: The IDs of the subnets.
 
 """
-function detach_load_balancer_from_subnets(
-    LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_load_balancer_from_subnets(LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DetachLoadBalancerFromSubnets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName, "Subnets" => Subnets
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DetachLoadBalancerFromSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -769,28 +443,9 @@ Availability Zones in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function disable_availability_zones_for_load_balancer(
-    AvailabilityZones,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "DisableAvailabilityZonesForLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AvailabilityZones" => AvailabilityZones,
-                    "LoadBalancerName" => LoadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("DisableAvailabilityZonesForLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -808,28 +463,9 @@ Remove Availability Zones in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function enable_availability_zones_for_load_balancer(
-    AvailabilityZones,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function enable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "EnableAvailabilityZonesForLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AvailabilityZones" => AvailabilityZones,
-                    "LoadBalancerName" => LoadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("EnableAvailabilityZonesForLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -847,28 +483,9 @@ Load Balancing     Connection Draining     Access Logs     Idle Connection Timeo
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function modify_load_balancer_attributes(
-    LoadBalancerAttributes,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_load_balancer_attributes(LoadBalancerAttributes, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "ModifyLoadBalancerAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerAttributes" => LoadBalancerAttributes,
-                    "LoadBalancerName" => LoadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerAttributes"=>LoadBalancerAttributes, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -894,27 +511,9 @@ Instances in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function register_instances_with_load_balancer(
-    Instances,
-    LoadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_instances_with_load_balancer(Instances, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "RegisterInstancesWithLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Instances" => Instances, "LoadBalancerName" => LoadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("RegisterInstancesWithLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -928,22 +527,9 @@ Removes one or more tags from the specified load balancer.
 - `tags`: The list of tag keys to remove.
 
 """
-function remove_tags(
-    LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags(LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "RemoveTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LoadBalancerNames" => LoadBalancerNames, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -960,30 +546,9 @@ the SSL Certificate for Your Load Balancer in the Classic Load Balancers Guide.
 - `sslcertificate_id`: The Amazon Resource Name (ARN) of the SSL certificate.
 
 """
-function set_load_balancer_listener_sslcertificate(
-    LoadBalancerName,
-    LoadBalancerPort,
-    SSLCertificateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_load_balancer_listener_sslcertificate(LoadBalancerName, LoadBalancerPort, SSLCertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "SetLoadBalancerListenerSSLCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName,
-                    "LoadBalancerPort" => LoadBalancerPort,
-                    "SSLCertificateId" => SSLCertificateId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("SetLoadBalancerListenerSSLCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "SSLCertificateId"=>SSLCertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1008,30 +573,9 @@ Balancers Guide.
   are removed from the EC2 instance.
 
 """
-function set_load_balancer_policies_for_backend_server(
-    InstancePort,
-    LoadBalancerName,
-    PolicyNames;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_load_balancer_policies_for_backend_server(InstancePort, LoadBalancerName, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "SetLoadBalancerPoliciesForBackendServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstancePort" => InstancePort,
-                    "LoadBalancerName" => LoadBalancerName,
-                    "PolicyNames" => PolicyNames,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("SetLoadBalancerPoliciesForBackendServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstancePort"=>InstancePort, "LoadBalancerName"=>LoadBalancerName, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1051,28 +595,7 @@ Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
   empty, all current policies are disabled.
 
 """
-function set_load_balancer_policies_of_listener(
-    LoadBalancerName,
-    LoadBalancerPort,
-    PolicyNames;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_load_balancer_policies_of_listener(LoadBalancerName, LoadBalancerPort, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing(
-        "SetLoadBalancerPoliciesOfListener",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerName" => LoadBalancerName,
-                    "LoadBalancerPort" => LoadBalancerPort,
-                    "PolicyNames" => PolicyNames,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing("SetLoadBalancerPoliciesOfListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

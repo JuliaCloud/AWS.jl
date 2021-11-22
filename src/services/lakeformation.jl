@@ -4,22 +4,8 @@ using AWS.AWSServices: lakeformation
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "resource_type" => "ResourceType",
-    "use_service_linked_role" => "UseServiceLinkedRole",
-    "next_token" => "NextToken",
-    "principal" => "Principal",
-    "resource" => "Resource",
-    "role_arn" => "RoleArn",
-    "show_assigned_lftags" => "ShowAssignedLFTags",
-    "tag_values_to_delete" => "TagValuesToDelete",
-    "max_results" => "MaxResults",
-    "resource_share_type" => "ResourceShareType",
-    "tag_values_to_add" => "TagValuesToAdd",
-    "filter_condition_list" => "FilterConditionList",
-    "catalog_id" => "CatalogId",
-    "permissions_with_grant_option" => "PermissionsWithGrantOption",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("catalog_id" => "CatalogId", "max_results" => "MaxResults", "next_token" => "NextToken", "show_assigned_lftags" => "ShowAssignedLFTags", "resource_share_type" => "ResourceShareType", "principal" => "Principal", "resource" => "Resource", "resource_type" => "ResourceType", "role_arn" => "RoleArn", "use_service_linked_role" => "UseServiceLinkedRole", "permissions_with_grant_option" => "PermissionsWithGrantOption", "tag_values_to_add" => "TagValuesToAdd", "tag_values_to_delete" => "TagValuesToDelete", "filter_condition_list" => "FilterConditionList")
 
 """
     add_lftags_to_resource(lftags, resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,26 +16,14 @@ Attaches one or more tags to an existing resource.
 - `lftags`: The tags to attach to the resource.
 - `resource`: The resource to which to attach a tag.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function add_lftags_to_resource(
-    LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_lftags_to_resource(LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "AddLFTagsToResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("AddLFTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -61,22 +35,14 @@ Batch operation to grant permissions to the principal.
 - `entries`: A list of up to 20 entries for resource permissions to be granted by batch
   operation to the principal.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function batch_grant_permissions(
-    Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "BatchGrantPermissions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -88,22 +54,14 @@ Batch operation to revoke permissions from the principal.
 - `entries`: A list of up to 20 entries for resource permissions to be revoked by batch
   operation to the principal.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function batch_revoke_permissions(
-    Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_revoke_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "BatchRevokePermissions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -115,28 +73,14 @@ Creates a tag with the specified name and values.
 - `tag_key`: The key-name for the tag.
 - `tag_values`: A list of possible values an attribute can take.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function create_lftag(
-    TagKey, TagValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "CreateLFTag",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("TagKey" => TagKey, "TagValues" => TagValues),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("CreateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey, "TagValues"=>TagValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -151,20 +95,14 @@ attached with resources. You can consider untagging resources with this tag key.
 # Arguments
 - `tag_key`: The key-name for the tag to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "DeleteLFTag",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("DeleteLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -178,18 +116,9 @@ Formation removes the path from the inline policy attached to your service-linke
   deregister.
 
 """
-function deregister_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "DeregisterResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -202,18 +131,9 @@ Formation.
 - `resource_arn`: The resource ARN.
 
 """
-function describe_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "DescribeResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -221,22 +141,14 @@ end
 
 Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function get_data_lake_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "GetDataLakeSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("GetDataLakeSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -250,26 +162,16 @@ if the catalog is encrypted.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to get
   permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A continuation token, if this is not the first call to retrieve this list.
+- `max_results`: The maximum number of results to return.
+- `next_token`: A continuation token, if this is not the first call to retrieve this list.
 """
-function get_effective_permissions_for_path(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_effective_permissions_for_path(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "GetEffectivePermissionsForPath",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -280,20 +182,14 @@ Returns a tag definition.
 # Arguments
 - `tag_key`: The key-name for the tag.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "GetLFTag",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("GetLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -304,25 +200,15 @@ Returns the tags applied to a resource.
 # Arguments
 - `resource`: The resource for which you want to return tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"show_assigned_lftags"`: Indicates whether to show the assigned tags.
+- `show_assigned_lftags`: Indicates whether to show the assigned tags.
 """
-function get_resource_lftags(
-    Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "GetResourceLFTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("GetResourceLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -346,39 +232,17 @@ see Security and Access Control to Metadata and Data.
 - `resource`: The resource to which permissions are to be granted. Resources in AWS Lake
   Formation are the Data Catalog, databases, and tables.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"permissions_with_grant_option"`: Indicates a list of the granted permissions that the
+- `permissions_with_grant_option`: Indicates a list of the granted permissions that the
   principal may pass to other users. These permissions may only be a subset of the
   permissions granted in the Privileges.
 """
-function grant_permissions(
-    Permissions,
-    Principal,
-    Resource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function grant_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "GrantPermissions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Permissions" => Permissions,
-                    "Principal" => Principal,
-                    "Resource" => Resource,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -386,23 +250,20 @@ end
 
 Lists tags that the requester has permission to view.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A continuation token, if this is not the first call to retrieve this list.
-- `"resource_share_type"`: If resource share type is ALL, returns both in-account tags and
+- `max_results`: The maximum number of results to return.
+- `next_token`: A continuation token, if this is not the first call to retrieve this list.
+- `resource_share_type`: If resource share type is ALL, returns both in-account tags and
   shared tags that the requester has permission to view. If resource share type is FOREIGN,
   returns all share tags that the requester can view. If no resource share type is passed,
   lists tags in the given catalog ID that the requester has permission to view.
 """
 function list_lftags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "ListLFTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lakeformation("ListLFTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -414,24 +275,21 @@ the principal permissions for ALTER. This operation returns only those permissio
 have been explicitly granted. For information about permissions, see Security and Access
 Control to Metadata and Data.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A continuation token, if this is not the first call to retrieve this list.
-- `"principal"`: Specifies a principal to filter the permissions returned.
-- `"resource"`: A resource where you will get a list of the principal permissions. This
+- `max_results`: The maximum number of results to return.
+- `next_token`: A continuation token, if this is not the first call to retrieve this list.
+- `principal`: Specifies a principal to filter the permissions returned.
+- `resource`: A resource where you will get a list of the principal permissions. This
   operation does not support getting privileges on a table with columns. Instead, call this
   operation on the table, and the operation returns the table and the table w columns.
-- `"resource_type"`: Specifies a resource type to filter the permissions returned.
+- `resource_type`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "ListPermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lakeformation("ListPermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -439,19 +297,16 @@ end
 
 Lists the resources registered to be managed by the Data Catalog.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_condition_list"`: Any applicable row-level and/or column-level filtering
+# Keyword Parameters
+- `filter_condition_list`: Any applicable row-level and/or column-level filtering
   conditions for the resources.
-- `"max_results"`: The maximum number of resource results.
-- `"next_token"`: A continuation token, if this is not the first call to retrieve these
+- `max_results`: The maximum number of resource results.
+- `next_token`: A continuation token, if this is not the first call to retrieve these
   resources.
 """
 function list_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "ListResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lakeformation("ListResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -467,26 +322,14 @@ list and pass that list in this API.
 - `data_lake_settings`: A structure representing a list of AWS Lake Formation principals
   designated as data lake administrators.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function put_data_lake_settings(
-    DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_data_lake_settings(DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "PutDataLakeSettings",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DataLakeSettings" => DataLakeSettings), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -507,26 +350,16 @@ arn:aws:iam::12345:role/my-data-access-role
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to register.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"role_arn"`: The identifier for the role that registers the resource.
-- `"use_service_linked_role"`: Designates an AWS Identity and Access Management (IAM)
+# Keyword Parameters
+- `role_arn`: The identifier for the role that registers the resource.
+- `use_service_linked_role`: Designates an AWS Identity and Access Management (IAM)
   service-linked role by registering this role with the Data Catalog. A service-linked role
   is a unique type of IAM role that is linked directly to Lake Formation. For more
   information, see Using Service-Linked Roles for Lake Formation.
 """
-function register_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "RegisterResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -540,26 +373,14 @@ column input.
 - `lftags`: The tags to be removed from the resource.
 - `resource`: The resource where you want to remove a tag.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-function remove_lftags_from_resource(
-    LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_lftags_from_resource(LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "RemoveLFTagsFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("RemoveLFTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -574,38 +395,16 @@ organized in underlying data storage such as Amazon S3.
 - `principal`: The principal to be revoked permissions on the resource.
 - `resource`: The resource to which permissions are to be revoked.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"permissions_with_grant_option"`: Indicates a list of permissions for which to revoke
-  the grant option allowing the principal to pass permissions to other principals.
+- `permissions_with_grant_option`: Indicates a list of permissions for which to revoke the
+  grant option allowing the principal to pass permissions to other principals.
 """
-function revoke_permissions(
-    Permissions,
-    Principal,
-    Resource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function revoke_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "RevokePermissions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Permissions" => Permissions,
-                    "Principal" => Principal,
-                    "Resource" => Resource,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -619,26 +418,16 @@ TagConditions are valid to verify whether the returned resources can be shared.
 # Arguments
 - `expression`: A list of conditions (LFTag structures) to search for in database resources.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A continuation token, if this is not the first call to retrieve this list.
+- `max_results`: The maximum number of results to return.
+- `next_token`: A continuation token, if this is not the first call to retrieve this list.
 """
-function search_databases_by_lftags(
-    Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_databases_by_lftags(Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "SearchDatabasesByLFTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("SearchDatabasesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -652,26 +441,16 @@ whether the returned resources can be shared.
 # Arguments
 - `expression`: A list of conditions (LFTag structures) to search for in table resources.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A continuation token, if this is not the first call to retrieve this list.
+- `max_results`: The maximum number of results to return.
+- `next_token`: A continuation token, if this is not the first call to retrieve this list.
 """
-function search_tables_by_lftags(
-    Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_tables_by_lftags(Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "SearchTablesByLFTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("SearchTablesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -686,22 +465,16 @@ attribute before deleting the tag key's value.
 # Arguments
 - `tag_key`: The key-name for the tag for which to add or delete values.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_id"`: The identifier for the Data Catalog. By default, the account ID. The Data
+# Keyword Parameters
+- `catalog_id`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
-- `"tag_values_to_add"`: A list of tag values to add from the tag.
-- `"tag_values_to_delete"`: A list of tag values to delete from the tag.
+- `tag_values_to_add`: A list of tag values to add from the tag.
+- `tag_values_to_delete`: A list of tag values to delete from the tag.
 """
 function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "UpdateLFTag",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("UpdateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -715,20 +488,7 @@ AWS Lake Formation.
 - `role_arn`: The new role to use for the given resource registered in AWS Lake Formation.
 
 """
-function update_resource(
-    ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_resource(ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lakeformation(
-        "UpdateResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "RoleArn" => RoleArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

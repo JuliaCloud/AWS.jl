@@ -4,37 +4,8 @@ using AWS.AWSServices: securityhub
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "enable_default_standards" => "EnableDefaultStandards",
-    "types" => "Types",
-    "action_target_arns" => "ActionTargetArns",
-    "auto_enable_controls" => "AutoEnableControls",
-    "next_token" => "NextToken",
-    "confidence" => "Confidence",
-    "product_arn" => "ProductArn",
-    "name" => "Name",
-    "related_findings" => "RelatedFindings",
-    "workflow" => "Workflow",
-    "record_state" => "RecordState",
-    "control_status" => "ControlStatus",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "user_defined_fields" => "UserDefinedFields",
-    "note" => "Note",
-    "hub_arn" => "HubArn",
-    "group_by_attribute" => "GroupByAttribute",
-    "criticality" => "Criticality",
-    "severity" => "Severity",
-    "insight_arns" => "InsightArns",
-    "standards_subscription_arns" => "StandardsSubscriptionArns",
-    "filters" => "Filters",
-    "disabled_reason" => "DisabledReason",
-    "tags" => "Tags",
-    "sort_criteria" => "SortCriteria",
-    "only_associated" => "OnlyAssociated",
-    "verification_state" => "VerificationState",
-    "regions" => "Regions",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "action_target_arns" => "ActionTargetArns", "product_arn" => "ProductArn", "confidence" => "Confidence", "criticality" => "Criticality", "note" => "Note", "related_findings" => "RelatedFindings", "severity" => "Severity", "types" => "Types", "user_defined_fields" => "UserDefinedFields", "verification_state" => "VerificationState", "workflow" => "Workflow", "standards_subscription_arns" => "StandardsSubscriptionArns", "regions" => "Regions", "description" => "Description", "name" => "Name", "filters" => "Filters", "group_by_attribute" => "GroupByAttribute", "auto_enable_controls" => "AutoEnableControls", "insight_arns" => "InsightArns", "only_associated" => "OnlyAssociated", "hub_arn" => "HubArn", "control_status" => "ControlStatus", "disabled_reason" => "DisabledReason", "sort_criteria" => "SortCriteria", "enable_default_standards" => "EnableDefaultStandards", "tags" => "Tags", "record_state" => "RecordState")
 
 """
     accept_administrator_invitation(administrator_id, invitation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -52,28 +23,9 @@ generated in the member account.
   administrator account.
 
 """
-function accept_administrator_invitation(
-    AdministratorId,
-    InvitationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function accept_administrator_invitation(AdministratorId, InvitationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/administrator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AdministratorId" => AdministratorId, "InvitationId" => InvitationId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/administrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdministratorId"=>AdministratorId, "InvitationId"=>InvitationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -98,23 +50,9 @@ account.
   invitation.
 
 """
-function accept_invitation(
-    InvitationId, MasterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_invitation(InvitationId, MasterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/master",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InvitationId" => InvitationId, "MasterId" => MasterId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -127,23 +65,9 @@ information, see Security Standards section of the Security Hub User Guide.
 - `standards_subscription_arns`: The ARNs of the standards subscriptions to disable.
 
 """
-function batch_disable_standards(
-    StandardsSubscriptionArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_disable_standards(StandardsSubscriptionArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/standards/deregister",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("StandardsSubscriptionArns" => StandardsSubscriptionArns),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/standards/deregister", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,27 +81,9 @@ Standards section of the Security Hub User Guide.
 - `standards_subscription_requests`: The list of standards checks to enable.
 
 """
-function batch_enable_standards(
-    StandardsSubscriptionRequests;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_enable_standards(StandardsSubscriptionRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/standards/register",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "StandardsSubscriptionRequests" => StandardsSubscriptionRequests
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/standards/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -198,19 +104,9 @@ Instead, finding providers use FindingProviderFields to provide values for these
   follow the Amazon Web Services Security Finding Format. Maximum of 100 findings per request.
 
 """
-function batch_import_findings(
-    Findings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_import_findings(Findings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/findings/import",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Findings" => Findings), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/findings/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Findings"=>Findings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -233,46 +129,33 @@ User Guide.
   update up to 100 findings at a time. For each finding, the list provides the finding
   identifier and the ARN of the finding provider.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"confidence"`: The updated value for the finding confidence. Confidence is defined as
-  the likelihood that a finding accurately identifies the behavior or issue that it was
-  intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0
-  means zero percent confidence and 100 means 100 percent confidence.
-- `"criticality"`: The updated value for the level of importance assigned to the resources
+# Keyword Parameters
+- `confidence`: The updated value for the finding confidence. Confidence is defined as the
+  likelihood that a finding accurately identifies the behavior or issue that it was intended
+  to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero
+  percent confidence and 100 means 100 percent confidence.
+- `criticality`: The updated value for the level of importance assigned to the resources
   associated with the findings. A score of 0 means that the underlying resources have no
   criticality, and a score of 100 is reserved for the most critical resources.
-- `"note"`:
-- `"related_findings"`: A list of findings that are related to the updated findings.
-- `"severity"`: Used to update the finding severity.
-- `"types"`: One or more finding types in the format of namespace/category/classifier that
+- `note`:
+- `related_findings`: A list of findings that are related to the updated findings.
+- `severity`: Used to update the finding severity.
+- `types`: One or more finding types in the format of namespace/category/classifier that
   classify a finding. Valid namespace values are as follows.   Software and Configuration
   Checks   TTPs   Effects   Unusual Behaviors   Sensitive Data Identifications
-- `"user_defined_fields"`: A list of name/value string pairs associated with the finding.
+- `user_defined_fields`: A list of name/value string pairs associated with the finding.
   These are custom, user-defined fields added to a finding.
-- `"verification_state"`: Indicates the veracity of a finding. The available values for
+- `verification_state`: Indicates the veracity of a finding. The available values for
   VerificationState are as follows.    UNKNOWN – The default disposition of a security
   finding    TRUE_POSITIVE – The security finding is confirmed    FALSE_POSITIVE – The
   security finding was determined to be a false alarm    BENIGN_POSITIVE – A special case
   of TRUE_POSITIVE where the finding doesn't pose any threat, is expected, or both
-- `"workflow"`: Used to update the workflow status of a finding. The workflow status
+- `workflow`: Used to update the workflow status of a finding. The workflow status
   indicates the progress of the investigation into the finding.
 """
-function batch_update_findings(
-    FindingIdentifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_update_findings(FindingIdentifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH",
-        "/findings/batchupdate",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("FindingIdentifiers" => FindingIdentifiers), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -287,23 +170,9 @@ insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
 - `name`: The name of the custom action target. Can contain up to 20 characters.
 
 """
-function create_action_target(
-    Description, Id, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_action_target(Description, Id, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/actionTargets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Description" => Description, "Id" => Id, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/actionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -328,28 +197,15 @@ Hub User Guide.
   Indicates to aggregate findings only from the Regions listed in the Regions parameter.
   Security Hub does not automatically aggregate findings from new Regions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
+# Keyword Parameters
+- `regions`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
   comma-separated list of Regions that do not aggregate findings to the aggregation Region.
   If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions
   that do aggregate findings to the aggregation Region.
 """
-function create_finding_aggregator(
-    RegionLinkingMode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_finding_aggregator(RegionLinkingMode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/findingAggregator/create",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/findingAggregator/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegionLinkingMode"=>RegionLinkingMode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -369,31 +225,9 @@ findings in the insight, use the GroupByAttribute.
 - `name`: The name of the custom insight to create.
 
 """
-function create_insight(
-    Filters,
-    GroupByAttribute,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_insight(Filters, GroupByAttribute, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/insights",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Filters" => Filters,
-                    "GroupByAttribute" => GroupByAttribute,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -429,19 +263,9 @@ DisassociateFromMasterAccount or DisassociateMembers operation.
   address.
 
 """
-function create_members(
-    AccountDetails; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_members(AccountDetails; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/members",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountDetails" => AccountDetails), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountDetails"=>AccountDetails), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -455,19 +279,9 @@ that are not part of an organization. Organization accounts do not receive invit
   invitations to Security Hub.
 
 """
-function decline_invitations(
-    AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function decline_invitations(AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/invitations/decline",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -481,17 +295,9 @@ the custom action.
 - `action_target_arn`: The ARN of the custom action target to delete.
 
 """
-function delete_action_target(
-    ActionTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_action_target(ActionTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "DELETE",
-        "/actionTargets/$(ActionTargetArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("DELETE", "/actionTargets/$(ActionTargetArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -507,17 +313,9 @@ finding updates are not aggregated.
   use ListFindingAggregators.
 
 """
-function delete_finding_aggregator(
-    FindingAggregatorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_finding_aggregator(FindingAggregatorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "DELETE",
-        "/findingAggregator/delete/$(FindingAggregatorArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("DELETE", "/findingAggregator/delete/$(FindingAggregatorArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -529,17 +327,9 @@ Deletes the insight specified by the InsightArn.
 - `insight_arn`: The ARN of the insight to delete.
 
 """
-function delete_insight(
-    InsightArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_insight(InsightArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "DELETE",
-        "/insights/$(InsightArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("DELETE", "/insights/$(InsightArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -553,19 +343,9 @@ accounts do not receive invitations.
 - `account_ids`: The list of the account IDs that sent the invitations to delete.
 
 """
-function delete_invitations(
-    AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_invitations(AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/invitations/delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -579,19 +359,9 @@ manually.
 - `account_ids`: The list of account IDs for the member accounts to delete.
 
 """
-function delete_members(
-    AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/members/delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/members/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -599,27 +369,18 @@ end
 
 Returns a list of the custom action targets in Security Hub in your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_target_arns"`: A list of custom action target ARNs for the custom action targets
+# Keyword Parameters
+- `action_target_arns`: A list of custom action target ARNs for the custom action targets
   to retrieve.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token that is required for pagination. On your first call to the
   DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent
   calls to the operation, to continue listing data, set the value of this parameter to the
   value returned from the previous response.
 """
-function describe_action_targets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_action_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/actionTargets/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/actionTargets/get", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -628,15 +389,12 @@ end
 Returns details about the Hub resource in your account, including the HubArn and the time
 when you enabled Security Hub.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hub_arn"`: The ARN of the Hub resource to retrieve.
+# Keyword Parameters
+- `hub_arn`: The ARN of the Hub resource to retrieve.
 """
 function describe_hub(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -646,17 +404,9 @@ Returns information about the Organizations configuration for Security Hub. Can 
 called from a Security Hub administrator account.
 
 """
-function describe_organization_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/organization/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/organization/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -667,20 +417,17 @@ an integration ARN. If you provide an integration ARN, then the results only inc
 integration. If you do not provide an integration ARN, then the results include all of the
 available product integrations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token that is required for pagination. On your first call to the
   DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls
   to the operation, to continue listing data, set the value of this parameter to the value
   returned from the previous response.
-- `"product_arn"`: The ARN of the integration to return.
+- `product_arn`: The ARN of the integration to return.
 """
 function describe_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET", "/products", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/products", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -689,19 +436,16 @@ end
 Returns a list of the available standards in Security Hub. For each standard, the results
 include the standard ARN, the name, and a description.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of standards to return.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of standards to return.
+- `next_token`: The token that is required for pagination. On your first call to the
   DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls
   to the operation, to continue listing data, set the value of this parameter to the value
   returned from the previous response.
 """
 function describe_standards(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET", "/standards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/standards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -716,25 +460,16 @@ information.
   a supported standard. To get the subscription ARNs of the standards you have enabled, use
   the GetEnabledStandards operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of security standard controls to return.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of security standard controls to return.
+- `next_token`: The token that is required for pagination. On your first call to the
   DescribeStandardsControls operation, set the value of this parameter to NULL. For
   subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
 """
-function describe_standards_controls(
-    StandardsSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_standards_controls(StandardsSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/standards/controls/$(StandardsSubscriptionArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -748,17 +483,9 @@ is disabled, findings from that product are no longer sent to Security Hub.
   for.
 
 """
-function disable_import_findings_for_product(
-    ProductSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_import_findings_for_product(ProductSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "DELETE",
-        "/productSubscriptions/$(ProductSubscriptionArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -772,19 +499,9 @@ management account.
   administrator account.
 
 """
-function disable_organization_admin_account(
-    AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/organization/admin/disable",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AdminAccountId" => AdminAccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/organization/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -800,17 +517,9 @@ and member account associations are removed. If you want to save your existing f
 you must export them before you disable Security Hub.
 
 """
-function disable_security_hub(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "DELETE",
-        "/accounts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("DELETE", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -821,17 +530,9 @@ account. This operation is only used by accounts that are not part of an organiz
 organization accounts, only the administrator account can disassociate a member account.
 
 """
-function disassociate_from_administrator_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_from_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/administrator/disassociate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/administrator/disassociate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -849,17 +550,9 @@ not part of an organization. For organization accounts, only the administrator a
 disassociate a member account.
 
 """
-function disassociate_from_master_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/master/disassociate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/master/disassociate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -874,19 +567,9 @@ that were invited manually.
   administrator account.
 
 """
-function disassociate_members(
-    AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/members/disassociate",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/members/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -900,19 +583,9 @@ grants permission for the product to send findings to Security Hub is applied.
 - `product_arn`: The ARN of the product to enable the integration for.
 
 """
-function enable_import_findings_for_product(
-    ProductArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_import_findings_for_product(ProductArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/productSubscriptions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProductArn" => ProductArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/productSubscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductArn"=>ProductArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -926,19 +599,9 @@ by the organization management account.
   designate as the Security Hub administrator account.
 
 """
-function enable_organization_admin_account(
-    AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/organization/admin/enable",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AdminAccountId" => AdminAccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/organization/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -956,19 +619,16 @@ use the BatchEnableStandards operation. To disable a standard, use the
 BatchDisableStandards operation. To learn more, see the setup information in the Security
 Hub User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enable_default_standards"`: Whether to enable the security standards that Security Hub
+# Keyword Parameters
+- `enable_default_standards`: Whether to enable the security standards that Security Hub
   has designated as automatically enabled. If you do not provide a value for
   EnableDefaultStandards, it is set to true. To not enable the automatically enabled
   standards, set EnableDefaultStandards to false.
-- `"tags"`: The tags to add to the hub resource when you enable Security Hub.
+- `tags`: The tags to add to the hub resource when you enable Security Hub.
 """
 function enable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("POST", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -979,17 +639,9 @@ account. Can be used by both member accounts that are managed using Organization
 accounts that were invited manually.
 
 """
-function get_administrator_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/administrator",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/administrator", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -997,27 +649,18 @@ end
 
 Returns a list of the standards that are currently enabled.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: The token that is required for pagination. On your first call to the
   GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent
   calls to the operation, to continue listing data, set the value of this parameter to the
   value returned from the previous response.
-- `"standards_subscription_arns"`: The list of the standards subscription ARNs for the
+- `standards_subscription_arns`: The list of the standards subscription ARNs for the
   standards to retrieve.
 """
-function get_enabled_standards(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_enabled_standards(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/standards/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/standards/get", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1030,17 +673,9 @@ Returns the current finding aggregation configuration.
   obtain the ARN, use ListFindingAggregators.
 
 """
-function get_finding_aggregator(
-    FindingAggregatorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_finding_aggregator(FindingAggregatorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/findingAggregator/get/$(FindingAggregatorArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/findingAggregator/get/$(FindingAggregatorArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1050,24 +685,21 @@ Returns a list of findings that match the specified criteria. If finding aggrega
 enabled, then when you call GetFindings from the aggregation Region, the results include
 all of the matching findings from both the aggregation Region and the linked Regions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The finding attributes used to define a condition to filter the returned
+# Keyword Parameters
+- `filters`: The finding attributes used to define a condition to filter the returned
   findings. You can filter by up to 10 finding attributes. For each attribute, you can
   provide up to 20 filter values. Note that in the available filter fields, WorkflowState is
   deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
-- `"max_results"`: The maximum number of findings to return.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+- `max_results`: The maximum number of findings to return.
+- `next_token`: The token that is required for pagination. On your first call to the
   GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the
   operation, to continue listing data, set the value of this parameter to the value returned
   from the previous response.
-- `"sort_criteria"`: The finding attributes used to sort the list of returned findings.
+- `sort_criteria`: The finding attributes used to sort the list of returned findings.
 """
 function get_findings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST", "/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("POST", "/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1079,17 +711,9 @@ Lists the results of the Security Hub insight specified by the insight ARN.
 - `insight_arn`: The ARN of the insight for which to return results.
 
 """
-function get_insight_results(
-    InsightArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_insight_results(InsightArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/insights/results/$(InsightArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/insights/results/$(InsightArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1097,26 +721,19 @@ end
 
 Lists and describes insights for the specified insight ARNs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"insight_arns"`: The ARNs of the insights to describe. If you do not provide any insight
+# Keyword Parameters
+- `insight_arns`: The ARNs of the insights to describe. If you do not provide any insight
   ARNs, then GetInsights returns all of your custom insights. It does not return any managed
   insights.
-- `"max_results"`: The maximum number of items to return in the response.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+- `max_results`: The maximum number of items to return in the response.
+- `next_token`: The token that is required for pagination. On your first call to the
   GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the
   operation, to continue listing data, set the value of this parameter to the value returned
   from the previous response.
 """
 function get_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/insights/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/insights/get", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1126,17 +743,9 @@ Returns the count of all Security Hub membership invitations that were sent to t
 member account, not including the currently accepted invitation.
 
 """
-function get_invitations_count(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/invitations/count",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/invitations/count", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1154,9 +763,7 @@ managed using Organizations and accounts that were invited manually.
 """
 function get_master_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET", "/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1173,19 +780,9 @@ invited manually.
   details for.
 
 """
-function get_members(
-    AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/members/get",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1204,19 +801,9 @@ administrator account can view the findings generated from the member account.
   Security Hub as members.
 
 """
-function invite_members(
-    AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function invite_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/members/invite",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/members/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1225,25 +812,16 @@ end
 Lists all findings-generating solutions (products) that you are subscribed to receive
 findings from in Security Hub.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return in the response.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of items to return in the response.
+- `next_token`: The token that is required for pagination. On your first call to the
   ListEnabledProductsForImport operation, set the value of this parameter to NULL. For
   subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
 """
-function list_enabled_products_for_import(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_enabled_products_for_import(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/productSubscriptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/productSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1252,24 +830,15 @@ end
 If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the
 finding aggregator. You can run this operation from any Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return. This operation currently only
+# Keyword Parameters
+- `max_results`: The maximum number of results to return. This operation currently only
   returns a single result.
-- `"next_token"`: The token returned with the previous set of results. Identifies the next
+- `next_token`: The token returned with the previous set of results. Identifies the next
   set of results to return.
 """
-function list_finding_aggregators(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_finding_aggregators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/findingAggregator/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/findingAggregator/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1280,23 +849,16 @@ Services account. This operation is only used by accounts that are managed by in
 Accounts that are managed using the integration with Organizations do not receive
 invitations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return in the response.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of items to return in the response.
+- `next_token`: The token that is required for pagination. On your first call to the
   ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to
   the operation, to continue listing data, set the value of this parameter to the value
   returned from the previous response.
 """
 function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/invitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/invitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1306,14 +868,13 @@ Lists details about all member accounts for the current Security Hub administrat
 The results include both member accounts that belong to an organization and member accounts
 that were invited manually.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return in the response.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of items to return in the response.
+- `next_token`: The token that is required for pagination. On your first call to the
   ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the
   operation, to continue listing data, set the value of this parameter to the value returned
   from the previous response.
-- `"only_associated"`: Specifies which member accounts to include in the response based on
+- `only_associated`: Specifies which member accounts to include in the response based on
   their relationship status with the administrator account. The default value is TRUE. If
   OnlyAssociated is set to TRUE, the response includes member accounts whose relationship
   status with the administrator account is set to ENABLED. If OnlyAssociated is set to FALSE,
@@ -1321,9 +882,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_members(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET", "/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1332,25 +891,16 @@ end
 Lists the Security Hub administrator accounts. Can only be called by the organization
 management account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return in the response.
-- `"next_token"`: The token that is required for pagination. On your first call to the
+# Keyword Parameters
+- `max_results`: The maximum number of items to return in the response.
+- `next_token`: The token that is required for pagination. On your first call to the
   ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For
   subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
 """
-function list_organization_admin_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/organization/admin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/organization/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1362,17 +912,9 @@ Returns a list of tags associated with a resource.
 - `resource_arn`: The ARN of the resource to retrieve tags for.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1387,17 +929,9 @@ Adds one or more tags to a resource.
   characters.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1411,17 +945,9 @@ Removes one or more tags from a resource.
   remove up to 50 tags at a time.
 
 """
-function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1432,22 +958,13 @@ Updates the name and description of a custom action target in Security Hub.
 # Arguments
 - `action_target_arn`: The ARN of the custom action target to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The updated description for the custom action target.
-- `"name"`: The updated name of the custom action target.
+# Keyword Parameters
+- `description`: The updated description for the custom action target.
+- `name`: The updated name of the custom action target.
 """
-function update_action_target(
-    ActionTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_action_target(ActionTargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH",
-        "/actionTargets/$(ActionTargetArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("PATCH", "/actionTargets/$(ActionTargetArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1475,36 +992,15 @@ Region.
   Indicates to aggregate findings only from the Regions listed in the Regions parameter.
   Security Hub does not automatically aggregate findings from new Regions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
+# Keyword Parameters
+- `regions`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
   comma-separated list of Regions that do not aggregate findings to the aggregation Region.
   If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions
   that do aggregate findings to the aggregation Region.
 """
-function update_finding_aggregator(
-    FindingAggregatorArn,
-    RegionLinkingMode;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_finding_aggregator(FindingAggregatorArn, RegionLinkingMode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH",
-        "/findingAggregator/update",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FindingAggregatorArn" => FindingAggregatorArn,
-                    "RegionLinkingMode" => RegionLinkingMode,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("PATCH", "/findingAggregator/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingAggregatorArn"=>FindingAggregatorArn, "RegionLinkingMode"=>RegionLinkingMode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1517,22 +1013,13 @@ specify. Any member account that can view the finding also sees the update to th
 # Arguments
 - `filters`: A collection of attributes that specify which findings you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"note"`: The updated note for the finding.
-- `"record_state"`: The updated record state for the finding.
+# Keyword Parameters
+- `note`: The updated note for the finding.
+- `record_state`: The updated record state for the finding.
 """
-function update_findings(
-    Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_findings(Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH",
-        "/findings",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("PATCH", "/findings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1543,23 +1030,14 @@ Updates the Security Hub insight identified by the specified insight ARN.
 # Arguments
 - `insight_arn`: The ARN of the insight that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The updated filters that define this insight.
-- `"group_by_attribute"`: The updated GroupBy attribute that defines this insight.
-- `"name"`: The updated name for the insight.
+# Keyword Parameters
+- `filters`: The updated filters that define this insight.
+- `group_by_attribute`: The updated GroupBy attribute that defines this insight.
+- `name`: The updated name for the insight.
 """
-function update_insight(
-    InsightArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_insight(InsightArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH",
-        "/insights/$(InsightArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("PATCH", "/insights/$(InsightArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1574,19 +1052,9 @@ Security Hub administrator account.
   automatically enable Security Hub for new accounts, set this to true.
 
 """
-function update_organization_configuration(
-    AutoEnable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_organization_configuration(AutoEnable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "POST",
-        "/organization/configuration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AutoEnable" => AutoEnable), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("POST", "/organization/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoEnable"=>AutoEnable), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1594,19 +1062,14 @@ end
 
 Updates configuration options for Security Hub.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_enable_controls"`: Whether to automatically enable new controls when they are
-  added to standards that are enabled. By default, this is set to true, and new controls are
+# Keyword Parameters
+- `auto_enable_controls`: Whether to automatically enable new controls when they are added
+  to standards that are enabled. By default, this is set to true, and new controls are
   enabled automatically. To not automatically enable new controls, set this to false.
 """
-function update_security_hub_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_security_hub_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("PATCH", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1617,21 +1080,12 @@ Used to control whether an individual security standard control is enabled or di
 # Arguments
 - `standards_control_arn`: The ARN of the security standard control to enable or disable.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"control_status"`: The updated status of the security standard control.
-- `"disabled_reason"`: A description of the reason why you are disabling a security
-  standard control. If you are disabling a control, then this is required.
+# Keyword Parameters
+- `control_status`: The updated status of the security standard control.
+- `disabled_reason`: A description of the reason why you are disabling a security standard
+  control. If you are disabling a control, then this is required.
 """
-function update_standards_control(
-    StandardsControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_standards_control(StandardsControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return securityhub(
-        "PATCH",
-        "/standards/control/$(StandardsControlArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return securityhub("PATCH", "/standards/control/$(StandardsControlArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,14 +4,8 @@ using AWS.AWSServices: iot_jobs_data_plane
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "execution_number" => "executionNumber",
-    "include_job_document" => "includeJobDocument",
-    "step_timeout_in_minutes" => "stepTimeoutInMinutes",
-    "expected_version" => "expectedVersion",
-    "status_details" => "statusDetails",
-    "include_job_execution_state" => "includeJobExecutionState",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("execution_number" => "executionNumber", "expected_version" => "expectedVersion", "include_job_document" => "includeJobDocument", "include_job_execution_state" => "includeJobExecutionState", "status_details" => "statusDetails", "step_timeout_in_minutes" => "stepTimeoutInMinutes")
 
 """
     describe_job_execution(job_id, thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,24 +16,15 @@ Gets details of a job execution.
 - `job_id`: The unique identifier assigned to this job when it was created.
 - `thing_name`: The thing name associated with the device the job execution is running on.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"execution_number"`: Optional. A number that identifies a particular job execution on a
+# Keyword Parameters
+- `execution_number`: Optional. A number that identifies a particular job execution on a
   particular device. If not specified, the latest job execution is returned.
-- `"include_job_document"`: Optional. When set to true, the response contains the job
+- `include_job_document`: Optional. When set to true, the response contains the job
   document. The default is false.
 """
-function describe_job_execution(
-    jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_jobs_data_plane(
-        "GET",
-        "/things/$(thingName)/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -51,17 +36,9 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 - `thing_name`: The name of the thing that is executing the job.
 
 """
-function get_pending_job_executions(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_pending_job_executions(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_jobs_data_plane(
-        "GET",
-        "/things/$(thingName)/jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -72,11 +49,10 @@ Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution fo
 # Arguments
 - `thing_name`: The name of the thing associated with the device.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"status_details"`: A collection of name/value pairs that describe the status of the job
+# Keyword Parameters
+- `status_details`: A collection of name/value pairs that describe the status of the job
   execution. If not specified, the statusDetails are unchanged.
-- `"step_timeout_in_minutes"`: Specifies the amount of time this device has to finish
+- `step_timeout_in_minutes`: Specifies the amount of time this device has to finish
   execution of this job. If the job execution status is not set to a terminal state before
   this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting
   the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes)
@@ -84,17 +60,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   timeout has no effect on that job execution timeout which may have been specified when the
   job was created (CreateJob using field timeoutConfig).
 """
-function start_next_pending_job_execution(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_next_pending_job_execution(thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_jobs_data_plane(
-        "PUT",
-        "/things/$(thingName)/jobs/$next",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -108,23 +76,22 @@ Updates the status of a job execution.
   REJECTED). This must be specified on every update.
 - `thing_name`: The name of the thing associated with the device.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"execution_number"`: Optional. A number that identifies a particular job execution on a
+# Keyword Parameters
+- `execution_number`: Optional. A number that identifies a particular job execution on a
   particular device.
-- `"expected_version"`: Optional. The expected current version of the job execution. Each
+- `expected_version`: Optional. The expected current version of the job execution. Each
   time you update the job execution, its version is incremented. If the version of the job
   execution stored in Jobs does not match, the update is rejected with a VersionMismatch
   error, and an ErrorResponse that contains the current job execution status data is
   returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in
   order to obtain the job execution status data.)
-- `"include_job_document"`: Optional. When set to true, the response contains the job
+- `include_job_document`: Optional. When set to true, the response contains the job
   document. The default is false.
-- `"include_job_execution_state"`: Optional. When included and set to true, the response
+- `include_job_execution_state`: Optional. When included and set to true, the response
   contains the JobExecutionState data. The default is false.
-- `"status_details"`:  Optional. A collection of name/value pairs that describe the status
-  of the job execution. If not specified, the statusDetails are unchanged.
-- `"step_timeout_in_minutes"`: Specifies the amount of time this device has to finish
+- `status_details`:  Optional. A collection of name/value pairs that describe the status of
+  the job execution. If not specified, the statusDetails are unchanged.
+- `step_timeout_in_minutes`: Specifies the amount of time this device has to finish
   execution of this job. If the job execution status is not set to a terminal state before
   this timer expires, or before the timer is reset (by again calling UpdateJobExecution,
   setting the status to IN_PROGRESS and specifying a new timeout value in this field) the job
@@ -132,15 +99,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   this timeout has no effect on that job execution timeout which may have been specified when
   the job was created (CreateJob using field timeoutConfig).
 """
-function update_job_execution(
-    jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_job_execution(jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iot_jobs_data_plane(
-        "POST",
-        "/things/$(thingName)/jobs/$(jobId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

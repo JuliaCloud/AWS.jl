@@ -4,24 +4,8 @@ using AWS.AWSServices: accessanalyzer
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "resource_type" => "resourceType",
-    "filter" => "filter",
-    "next_token" => "nextToken",
-    "include_resource_placeholders" => "includeResourcePlaceholders",
-    "include_service_level_template" => "includeServiceLevelTemplate",
-    "max_results" => "maxResults",
-    "client_token" => "clientToken",
-    "ids" => "ids",
-    "archive_rules" => "archiveRules",
-    "principal_arn" => "principalArn",
-    "locale" => "locale",
-    "resource_arn" => "resourceArn",
-    "sort" => "sort",
-    "cloud_trail_details" => "cloudTrailDetails",
-    "tags" => "tags",
-    "type" => "type",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "clientToken", "ids" => "ids", "resource_arn" => "resourceArn", "archive_rules" => "archiveRules", "tags" => "tags", "cloud_trail_details" => "cloudTrailDetails", "filter" => "filter", "max_results" => "maxResults", "next_token" => "nextToken", "sort" => "sort", "type" => "type", "locale" => "locale", "resource_type" => "resourceType", "principal_arn" => "principalArn", "include_resource_placeholders" => "includeResourcePlaceholders", "include_service_level_template" => "includeServiceLevelTemplate")
 
 """
     apply_archive_rule(analyzer_arn, rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -33,31 +17,12 @@ criteria.
 - `analyzer_arn`: The Amazon resource name (ARN) of the analyzer.
 - `rule_name`: The name of the rule to apply.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
+# Keyword Parameters
+- `client_token`: A client token.
 """
-function apply_archive_rule(
-    analyzerArn, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function apply_archive_rule(analyzerArn, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/archive-rule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "analyzerArn" => analyzerArn,
-                    "ruleName" => ruleName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -71,17 +36,9 @@ Cancels the requested policy generation.
   CancelPolicyGeneration to cancel the policy generation request.
 
 """
-function cancel_policy_generation(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/policy/generation/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/policy/generation/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -98,34 +55,12 @@ resource before deploying resource permissions.
   resource with the proposed access control configuration. The configuration must contain
   exactly one element.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
+# Keyword Parameters
+- `client_token`: A client token.
 """
-function create_access_preview(
-    analyzerArn,
-    configurations;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_access_preview(analyzerArn, configurations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/access-preview",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "analyzerArn" => analyzerArn,
-                    "configurations" => configurations,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -139,34 +74,15 @@ Creates an analyzer for your account.
   supported. You can create only one analyzer per account per Region. You can create up to 5
   analyzers per organization per Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"archive_rules"`: Specifies the archive rules to add for the analyzer. Archive rules
+# Keyword Parameters
+- `archive_rules`: Specifies the archive rules to add for the analyzer. Archive rules
   automatically archive findings that meet the criteria you define for the rule.
-- `"client_token"`: A client token.
-- `"tags"`: The tags to apply to the analyzer.
+- `client_token`: A client token.
+- `tags`: The tags to apply to the analyzer.
 """
-function create_analyzer(
-    analyzerName, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_analyzer(analyzerName, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/analyzer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "analyzerName" => analyzerName,
-                    "type" => type,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/analyzer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -182,35 +98,12 @@ IAM User Guide.
 - `filter`: The criteria for the rule.
 - `rule_name`: The name of the rule to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
+# Keyword Parameters
+- `client_token`: A client token.
 """
-function create_archive_rule(
-    analyzerName,
-    filter,
-    ruleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/analyzer/$(analyzerName)/archive-rule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "filter" => filter,
-                    "ruleName" => ruleName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -223,23 +116,12 @@ that were generated by the analyzer are deleted. You cannot undo this action.
 # Arguments
 - `analyzer_name`: The name of the analyzer to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
+# Keyword Parameters
+- `client_token`: A client token.
 """
-function delete_analyzer(
-    analyzerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "DELETE",
-        "/analyzer/$(analyzerName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,23 +133,12 @@ Deletes the specified archive rule.
 - `analyzer_name`: The name of the analyzer that associated with the archive rule to delete.
 - `rule_name`: The name of the rule to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
+# Keyword Parameters
+- `client_token`: A client token.
 """
-function delete_archive_rule(
-    analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "DELETE",
-        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -280,22 +151,9 @@ Retrieves information about an access preview for the specified analyzer.
 - `analyzer_arn`: The ARN of the analyzer used to generate the access preview.
 
 """
-function get_access_preview(
-    accessPreviewId,
-    analyzerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_access_preview(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/access-preview/$(accessPreviewId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -308,25 +166,9 @@ Retrieves information about a resource that was analyzed.
 - `resource_arn`: The ARN of the resource to retrieve information about.
 
 """
-function get_analyzed_resource(
-    analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_analyzed_resource(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/analyzed-resource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "analyzerArn" => analyzerArn, "resourceArn" => resourceArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -338,17 +180,9 @@ Retrieves information about the specified analyzer.
 - `analyzer_name`: The name of the analyzer retrieved.
 
 """
-function get_analyzer(
-    analyzerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/analyzer/$(analyzerName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/analyzer/$(analyzerName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -362,17 +196,9 @@ create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guid
 - `rule_name`: The name of the rule to retrieve.
 
 """
-function get_archive_rule(
-    analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -385,19 +211,9 @@ Retrieves information about the specified finding.
 - `id`: The ID of the finding to retrieve.
 
 """
-function get_finding(
-    analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/finding/$(id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -410,29 +226,20 @@ Retrieves the policy that was generated using StartPolicyGeneration.
   can be used with GetGeneratedPolicy to retrieve the generated policies or used with
   CancelPolicyGeneration to cancel the policy generation request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_resource_placeholders"`: The level of detail that you want to generate. You can
+# Keyword Parameters
+- `include_resource_placeholders`: The level of detail that you want to generate. You can
   specify whether to generate policies with placeholders for resource ARNs for actions that
   support resource level granularity in policies. For example, in the resource section of a
   policy, you can receive a placeholder such as \"Resource\":\"arn:aws:s3:::{BucketName}\"
   instead of \"*\".
-- `"include_service_level_template"`: The level of detail that you want to generate. You
-  can specify whether to generate service-level policies.  IAM Access Analyzer uses
+- `include_service_level_template`: The level of detail that you want to generate. You can
+  specify whether to generate service-level policies.  IAM Access Analyzer uses
   iam:servicelastaccessed to identify services that have been used recently to create this
   service-level template.
 """
-function get_generated_policy(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_generated_policy(jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/policy/generation/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/policy/generation/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -444,28 +251,14 @@ Retrieves a list of access preview findings generated by the specified access pr
 - `access_preview_id`: The unique ID for the access preview.
 - `analyzer_arn`: The ARN of the analyzer used to generate the access.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Criteria to filter the returned findings.
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
+# Keyword Parameters
+- `filter`: Criteria to filter the returned findings.
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
 """
-function list_access_preview_findings(
-    accessPreviewId,
-    analyzerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_access_preview_findings(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "POST",
-        "/access-preview/$(accessPreviewId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -476,24 +269,13 @@ Retrieves a list of access previews for the specified analyzer.
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer used to generate the access preview.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
 """
-function list_access_previews(
-    analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_access_previews(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/access-preview",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -505,25 +287,14 @@ specified analyzer..
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer to retrieve a list of analyzed resources from.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
-- `"resource_type"`: The type of resource.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
+- `resource_type`: The type of resource.
 """
-function list_analyzed_resources(
-    analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_analyzed_resources(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "POST",
-        "/analyzed-resource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -531,17 +302,14 @@ end
 
 Retrieves a list of analyzers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
-- `"type"`: The type of analyzer.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
+- `type`: The type of analyzer.
 """
 function list_analyzers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET", "/analyzer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return accessanalyzer("GET", "/analyzer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -552,22 +320,13 @@ Retrieves a list of archive rules created for the specified analyzer.
 # Arguments
 - `analyzer_name`: The name of the analyzer to retrieve rules from.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the request.
-- `"next_token"`: A token used for pagination of results returned.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the request.
+- `next_token`: A token used for pagination of results returned.
 """
-function list_archive_rules(
-    analyzerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_archive_rules(analyzerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/analyzer/$(analyzerName)/archive-rule",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -580,26 +339,15 @@ in the IAM User Guide.
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer to retrieve findings from.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: A filter to match for the findings to return.
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
-- `"sort"`: The sort order for the findings returned.
+# Keyword Parameters
+- `filter`: A filter to match for the findings to return.
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
+- `sort`: The sort order for the findings returned.
 """
-function list_findings(
-    analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_findings(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "POST",
-        "/finding",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -607,25 +355,16 @@ end
 
 Lists all of the policy generations requested in the last seven days.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
-- `"principal_arn"`: The ARN of the IAM entity (user or role) for which you are generating
-  a policy. Use this with ListGeneratedPolicies to filter the results to only include results
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
+- `principal_arn`: The ARN of the IAM entity (user or role) for which you are generating a
+  policy. Use this with ListGeneratedPolicies to filter the results to only include results
   for a specific principal.
 """
-function list_policy_generations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policy_generations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/policy/generation",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -637,17 +376,9 @@ Retrieves a list of tags applied to the specified resource.
 - `resource_arn`: The ARN of the resource to retrieve tags from.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -659,37 +390,19 @@ Starts the policy generation request.
 - `policy_generation_details`: Contains the ARN of the IAM entity (user or role) for which
   you are generating a policy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Idempotency ensures that an API request completes only once.
   With an idempotent request, if the original request completes successfully, the subsequent
   retries with the same client token return the result from the original successful request
   and they have no additional effect. If you do not specify a client token, one is
   automatically generated by the Amazon Web Services SDK.
-- `"cloud_trail_details"`: A CloudTrailDetails object that contains details about a Trail
+- `cloud_trail_details`: A CloudTrailDetails object that contains details about a Trail
   that you want to analyze to generate policies.
 """
-function start_policy_generation(
-    policyGenerationDetails; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_policy_generation(policyGenerationDetails; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/policy/generation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "policyGenerationDetails" => policyGenerationDetails,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/policy/generation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -703,25 +416,9 @@ Immediately starts a scan of the policies applied to the specified resource.
 - `resource_arn`: The ARN of the resource to scan.
 
 """
-function start_resource_scan(
-    analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_resource_scan(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "POST",
-        "/resource/scan",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "analyzerArn" => analyzerArn, "resourceArn" => resourceArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("POST", "/resource/scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -734,17 +431,9 @@ Adds a tag to the specified resource.
 - `tags`: The tags to add to the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -757,17 +446,9 @@ Removes a tag from the specified resource.
 - `tag_keys`: The key for the tag to add.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -781,31 +462,12 @@ Updates the criteria and values for the specified archive rule.
   updated.
 - `rule_name`: The name of the rule to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
+# Keyword Parameters
+- `client_token`: A client token.
 """
-function update_archive_rule(
-    analyzerName,
-    filter,
-    ruleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("filter" => filter, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -819,33 +481,14 @@ Updates the status for the specified findings.
   ARCHIVE to change an Active finding to an Archived finding. Use ACTIVE to change an
   Archived finding to an Active finding.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A client token.
-- `"ids"`: The IDs of the findings to update.
-- `"resource_arn"`: The ARN of the resource identified in the finding.
+# Keyword Parameters
+- `client_token`: A client token.
+- `ids`: The IDs of the findings to update.
+- `resource_arn`: The ARN of the resource identified in the finding.
 """
-function update_findings(
-    analyzerArn, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "PUT",
-        "/finding",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "analyzerArn" => analyzerArn,
-                    "status" => status,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -866,29 +509,12 @@ to author functional policies that meet security best practices.
   as identity policy or resource policy or a specific input such as managed policy or Amazon
   S3 bucket policy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: The locale to use for localizing the findings.
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: A token used for pagination of results returned.
+# Keyword Parameters
+- `locale`: The locale to use for localizing the findings.
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: A token used for pagination of results returned.
 """
-function validate_policy(
-    policyDocument, policyType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function validate_policy(policyDocument, policyType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return accessanalyzer(
-        "POST",
-        "/policy/validation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "policyDocument" => policyDocument, "policyType" => policyType
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return accessanalyzer("POST", "/policy/validation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

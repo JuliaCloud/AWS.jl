@@ -4,13 +4,8 @@ using AWS.AWSServices: sso_oidc
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "redirect_uri" => "redirectUri",
-    "refresh_token" => "refreshToken",
-    "scope" => "scope",
-    "scopes" => "scopes",
-    "code" => "code",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("code" => "code", "redirect_uri" => "redirectUri", "refresh_token" => "refreshToken", "scope" => "scope", "scopes" => "scopes")
 
 """
     create_token(client_id, client_secret, device_code, grant_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,44 +24,19 @@ be used to fetch short-term credentials for the assigned roles in the AWS accoun
 - `grant_type`: Supports grant types for authorization code, refresh token, and device code
   request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"code"`: The authorization code received from the authorization service. This parameter
-  is required to perform an authorization grant request to get access to a token.
-- `"redirect_uri"`: The location of the application that will receive the authorization
-  code. Users authorize the service to send the request to this location.
-- `"refresh_token"`: The token used to obtain an access token in the event that the access
+# Keyword Parameters
+- `code`: The authorization code received from the authorization service. This parameter is
+  required to perform an authorization grant request to get access to a token.
+- `redirect_uri`: The location of the application that will receive the authorization code.
+  Users authorize the service to send the request to this location.
+- `refresh_token`: The token used to obtain an access token in the event that the access
   token is invalid or expired. This token is not issued by the service.
-- `"scope"`: The list of scopes that is defined by the client. Upon authorization, this
-  list is used to restrict permissions when granting an access token.
+- `scope`: The list of scopes that is defined by the client. Upon authorization, this list
+  is used to restrict permissions when granting an access token.
 """
-function create_token(
-    clientId,
-    clientSecret,
-    deviceCode,
-    grantType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_token(clientId, clientSecret, deviceCode, grantType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sso_oidc(
-        "POST",
-        "/token",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientId" => clientId,
-                    "clientSecret" => clientSecret,
-                    "deviceCode" => deviceCode,
-                    "grantType" => grantType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -80,28 +50,13 @@ output should be persisted for reuse through many authentication requests.
 - `client_type`: The type of client. The service supports only public as a client type.
   Anything other than public will be rejected by the service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"scopes"`: The list of scopes that are defined by the client. Upon authorization, this
+# Keyword Parameters
+- `scopes`: The list of scopes that are defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
-function register_client(
-    clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_client(clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sso_oidc(
-        "POST",
-        "/client/register",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("clientName" => clientName, "clientType" => clientType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,29 +74,7 @@ authorization service.
   User Portal in the AWS Single Sign-On User Guide.
 
 """
-function start_device_authorization(
-    clientId,
-    clientSecret,
-    startUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_device_authorization(clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sso_oidc(
-        "POST",
-        "/device_authorization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "clientId" => clientId,
-                    "clientSecret" => clientSecret,
-                    "startUrl" => startUrl,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

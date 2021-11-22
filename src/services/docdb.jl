@@ -4,79 +4,8 @@ using AWS.AWSServices: docdb
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "values_to_add" => "AttributeValue",
-    "dbinstance_class" => "DBInstanceClass",
-    "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration",
-    "pre_signed_url" => "PreSignedUrl",
-    "deletion_protection" => "DeletionProtection",
-    "database_name" => "DatabaseName",
-    "dbcluster_parameter_group_name" => "DBClusterParameterGroupName",
-    "vpc" => "Vpc",
-    "default_only" => "DefaultOnly",
-    "global_cluster_identifier" => "GlobalClusterIdentifier",
-    "backup_retention_period" => "BackupRetentionPeriod",
-    "sns_topic_arn" => "SnsTopicArn",
-    "max_records" => "MaxRecords",
-    "list_supported_timezones" => "ListSupportedTimezones",
-    "source_ids" => "SourceId",
-    "kms_key_id" => "KmsKeyId",
-    "license_model" => "LicenseModel",
-    "master_username" => "MasterUsername",
-    "preferred_backup_window" => "PreferredBackupWindow",
-    "vpc_security_group_ids" => "VpcSecurityGroupId",
-    "cacertificate_identifier" => "CACertificateIdentifier",
-    "start_time" => "StartTime",
-    "new_dbinstance_identifier" => "NewDBInstanceIdentifier",
-    "parameters" => "Parameter",
-    "reset_all_parameters" => "ResetAllParameters",
-    "event_categories" => "EventCategory",
-    "force_failover" => "ForceFailover",
-    "port" => "Port",
-    "snapshot_type" => "SnapshotType",
-    "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier",
-    "include_shared" => "IncludeShared",
-    "new_global_cluster_identifier" => "NewGlobalClusterIdentifier",
-    "use_latest_restorable_time" => "UseLatestRestorableTime",
-    "certificate_identifier" => "CertificateIdentifier",
-    "values_to_remove" => "AttributeValue",
-    "master_user_password" => "MasterUserPassword",
-    "enabled" => "Enabled",
-    "apply_immediately" => "ApplyImmediately",
-    "resource_identifier" => "ResourceIdentifier",
-    "engine_version" => "EngineVersion",
-    "dbinstance_identifier" => "DBInstanceIdentifier",
-    "source_dbcluster_identifier" => "SourceDBClusterIdentifier",
-    "include_public" => "IncludePublic",
-    "dbsubnet_group_description" => "DBSubnetGroupDescription",
-    "copy_tags" => "CopyTags",
-    "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier",
-    "storage_encrypted" => "StorageEncrypted",
-    "source" => "Source",
-    "marker" => "Marker",
-    "tags" => "Tag",
-    "availability_zones" => "AvailabilityZone",
-    "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade",
-    "end_time" => "EndTime",
-    "dbparameter_group_family" => "DBParameterGroupFamily",
-    "source_type" => "SourceType",
-    "duration" => "Duration",
-    "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports",
-    "new_dbcluster_identifier" => "NewDBClusterIdentifier",
-    "preferred_maintenance_window" => "PreferredMaintenanceWindow",
-    "promotion_tier" => "PromotionTier",
-    "dbsubnet_group_name" => "DBSubnetGroupName",
-    "subscription_name" => "SubscriptionName",
-    "skip_final_snapshot" => "SkipFinalSnapshot",
-    "availability_zone" => "AvailabilityZone",
-    "restore_to_time" => "RestoreToTime",
-    "list_supported_character_sets" => "ListSupportedCharacterSets",
-    "dbcluster_identifier" => "DBClusterIdentifier",
-    "filters" => "Filter",
-    "engine" => "Engine",
-    "target_dbinstance_identifier" => "TargetDBInstanceIdentifier",
-    "source_identifier" => "SourceIdentifier",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dbparameter_group_family" => "DBParameterGroupFamily", "default_only" => "DefaultOnly", "engine" => "Engine", "engine_version" => "EngineVersion", "filters" => "Filter", "list_supported_character_sets" => "ListSupportedCharacterSets", "list_supported_timezones" => "ListSupportedTimezones", "marker" => "Marker", "max_records" => "MaxRecords", "dbinstance_identifier" => "DBInstanceIdentifier", "dbcluster_identifier" => "DBClusterIdentifier", "target_dbinstance_identifier" => "TargetDBInstanceIdentifier", "source_type" => "SourceType", "availability_zones" => "AvailabilityZone", "dbsubnet_group_name" => "DBSubnetGroupName", "deletion_protection" => "DeletionProtection", "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports", "kms_key_id" => "KmsKeyId", "port" => "Port", "tags" => "Tag", "vpc_security_group_ids" => "VpcSecurityGroupId", "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier", "skip_final_snapshot" => "SkipFinalSnapshot", "database_name" => "DatabaseName", "source_dbcluster_identifier" => "SourceDBClusterIdentifier", "storage_encrypted" => "StorageEncrypted", "enabled" => "Enabled", "event_categories" => "EventCategory", "sns_topic_arn" => "SnsTopicArn", "dbinstance_class" => "DBInstanceClass", "license_model" => "LicenseModel", "vpc" => "Vpc", "source" => "Source", "new_global_cluster_identifier" => "NewGlobalClusterIdentifier", "source_ids" => "SourceId", "backup_retention_period" => "BackupRetentionPeriod", "dbcluster_parameter_group_name" => "DBClusterParameterGroupName", "global_cluster_identifier" => "GlobalClusterIdentifier", "master_user_password" => "MasterUserPassword", "master_username" => "MasterUsername", "pre_signed_url" => "PreSignedUrl", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "apply_immediately" => "ApplyImmediately", "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration", "new_dbcluster_identifier" => "NewDBClusterIdentifier", "restore_to_time" => "RestoreToTime", "use_latest_restorable_time" => "UseLatestRestorableTime", "values_to_add" => "AttributeValue", "values_to_remove" => "AttributeValue", "force_failover" => "ForceFailover", "copy_tags" => "CopyTags", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "availability_zone" => "AvailabilityZone", "promotion_tier" => "PromotionTier", "dbsubnet_group_description" => "DBSubnetGroupDescription", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "cacertificate_identifier" => "CACertificateIdentifier", "new_dbinstance_identifier" => "NewDBInstanceIdentifier", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "certificate_identifier" => "CertificateIdentifier", "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier", "include_public" => "IncludePublic", "include_shared" => "IncludeShared", "snapshot_type" => "SnapshotType", "resource_identifier" => "ResourceIdentifier")
 
 """
     add_source_identifier_to_subscription(source_identifier, subscription_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -93,28 +22,9 @@ Adds a source identifier to an existing event notification subscription.
   that you want to add a source identifier to.
 
 """
-function add_source_identifier_to_subscription(
-    SourceIdentifier,
-    SubscriptionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "AddSourceIdentifierToSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceIdentifier" => SourceIdentifier,
-                    "SubscriptionName" => SubscriptionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -131,22 +41,9 @@ DocumentDB.
 - `tag`: The tags to be assigned to the Amazon DocumentDB resource.
 
 """
-function add_tags_to_resource(
-    ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "AddTagsToResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -167,30 +64,9 @@ instance).
   maintenance action applies to.
 
 """
-function apply_pending_maintenance_action(
-    ApplyAction,
-    OptInType,
-    ResourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ApplyPendingMaintenanceAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplyAction" => ApplyAction,
-                    "OptInType" => OptInType,
-                    "ResourceIdentifier" => ResourceIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -213,37 +89,12 @@ Copies the specified cluster parameter group.
   255 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end
   with a hyphen or contain two consecutive hyphens.    Example: my-cluster-param-group1
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags that are to be assigned to the parameter group.
+# Keyword Parameters
+- `tags`: The tags that are to be assigned to the parameter group.
 """
-function copy_dbcluster_parameter_group(
-    SourceDBClusterParameterGroupIdentifier,
-    TargetDBClusterParameterGroupDescription,
-    TargetDBClusterParameterGroupIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CopyDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceDBClusterParameterGroupIdentifier" =>
-                        SourceDBClusterParameterGroupIdentifier,
-                    "TargetDBClusterParameterGroupDescription" =>
-                        TargetDBClusterParameterGroupDescription,
-                    "TargetDBClusterParameterGroupIdentifier" =>
-                        TargetDBClusterParameterGroupIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -268,11 +119,10 @@ cluster snapshot is in the copying status.
   letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example:
   my-cluster-snapshot2
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"copy_tags"`: Set to true to copy all tags from the source cluster snapshot to the
-  target cluster snapshot, and otherwise false. The default is false.
-- `"kms_key_id"`: The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the
+# Keyword Parameters
+- `copy_tags`: Set to true to copy all tags from the source cluster snapshot to the target
+  cluster snapshot, and otherwise false. The default is false.
+- `kms_key_id`: The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the
   Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption
   key.  If you copy an encrypted cluster snapshot from your account, you can specify a value
   for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a
@@ -284,7 +134,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   encryption keys are specific to the Region that they are created in, and you can't use
   encryption keys from one Region in another Region. If you copy an unencrypted cluster
   snapshot and specify a value for the KmsKeyId parameter, an error is returned.
-- `"pre_signed_url"`: The URL that contains a Signature Version 4 signed request for
+- `pre_signed_url`: The URL that contains a Signature Version 4 signed request for
   theCopyDBClusterSnapshot API action in the Region that contains the source cluster snapshot
   to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from
   another Region. If you are using an Amazon Web Services SDK tool or the CLI, you can
@@ -302,32 +152,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.
   TargetDBClusterSnapshotIdentifier - The identifier for the new cluster snapshot to be
   created. This parameter isn't case sensitive.
-- `"tags"`: The tags to be assigned to the cluster snapshot.
+- `tags`: The tags to be assigned to the cluster snapshot.
 """
-function copy_dbcluster_snapshot(
-    SourceDBClusterSnapshotIdentifier,
-    TargetDBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CopyDBClusterSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceDBClusterSnapshotIdentifier" =>
-                        SourceDBClusterSnapshotIdentifier,
-                    "TargetDBClusterSnapshotIdentifier" =>
-                        TargetDBClusterSnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -343,81 +172,62 @@ Creates a new Amazon DocumentDB cluster.
 - `engine`: The name of the database engine to be used for this cluster. Valid values:
   docdb
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: A list of Amazon EC2 Availability Zones that instances in the
+# Keyword Parameters
+- `availability_zones`: A list of Amazon EC2 Availability Zones that instances in the
   cluster can be created in.
-- `"backup_retention_period"`: The number of days for which automated backups are retained.
+- `backup_retention_period`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35.
-- `"dbcluster_parameter_group_name"`: The name of the cluster parameter group to associate
+- `dbcluster_parameter_group_name`: The name of the cluster parameter group to associate
   with this cluster.
-- `"dbsubnet_group_name"`: A subnet group to associate with this cluster. Constraints: Must
+- `dbsubnet_group_name`: A subnet group to associate with this cluster. Constraints: Must
   match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
-- `"deletion_protection"`: Specifies whether this cluster can be deleted. If
+- `deletion_protection`: Specifies whether this cluster can be deleted. If
   DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and
   DeletionProtection is disabled. DeletionProtection protects clusters from being
   accidentally deleted.
-- `"enable_cloudwatch_logs_exports"`: A list of log types that need to be enabled for
+- `enable_cloudwatch_logs_exports`: A list of log types that need to be enabled for
   exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more
   information, see  Auditing Amazon DocumentDB Events and  Profiling Amazon DocumentDB
   Operations.
-- `"engine_version"`: The version number of the database engine to use. The
-  --engine-version will default to the latest major engine version. For production workloads,
-  we recommend explicitly declaring this parameter with the intended major engine version.
-- `"global_cluster_identifier"`: The cluster identifier of the new global cluster.
-- `"kms_key_id"`: The KMS key identifier for an encrypted cluster. The KMS key identifier
-  is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster
+- `engine_version`: The version number of the database engine to use. The --engine-version
+  will default to the latest major engine version. For production workloads, we recommend
+  explicitly declaring this parameter with the intended major engine version.
+- `global_cluster_identifier`: The cluster identifier of the new global cluster.
+- `kms_key_id`: The KMS key identifier for an encrypted cluster. The KMS key identifier is
+  the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster
   using the same account that owns the KMS encryption key that is used to encrypt the new
   cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an
   encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true,
   Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption
   key for your account. Your account has a different default encryption key for each Regions.
-- `"master_user_password"`: The password for the master database user. This password can
+- `master_user_password`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote (\"), or the
   \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
-- `"master_username"`: The name of the master user for the cluster. Constraints:   Must be
+- `master_username`: The name of the master user for the cluster. Constraints:   Must be
   from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a
   reserved word for the chosen database engine.
-- `"port"`: The port number on which the instances in the cluster accept connections.
-- `"pre_signed_url"`: Not currently supported.
-- `"preferred_backup_window"`: The daily time range during which automated backups are
+- `port`: The port number on which the instances in the cluster accept connections.
+- `pre_signed_url`: Not currently supported.
+- `preferred_backup_window`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
   Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must
   be at least 30 minutes.
-- `"preferred_maintenance_window"`: The weekly time range during which system maintenance
-  can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The
-  default is a 30-minute window selected at random from an 8-hour block of time for each
-  Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
-  Sun Constraints: Minimum 30-minute window.
-- `"storage_encrypted"`: Specifies whether the cluster is encrypted.
-- `"tags"`: The tags to be assigned to the cluster.
-- `"vpc_security_group_ids"`: A list of EC2 VPC security groups to associate with this
+- `preferred_maintenance_window`: The weekly time range during which system maintenance can
+  occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
+  a 30-minute window selected at random from an 8-hour block of time for each Region,
+  occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  Constraints: Minimum 30-minute window.
+- `storage_encrypted`: Specifies whether the cluster is encrypted.
+- `tags`: The tags to be assigned to the cluster.
+- `vpc_security_group_ids`: A list of EC2 VPC security groups to associate with this
   cluster.
 """
-function create_dbcluster(
-    DBClusterIdentifier,
-    Engine;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster(DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier, "Engine" => Engine
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -441,34 +251,12 @@ information, see  Modifying Amazon DocumentDB Cluster Parameter Groups.
 - `dbparameter_group_family`: The cluster parameter group family name.
 - `description`: The description for the cluster parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the cluster parameter group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the cluster parameter group.
 """
-function create_dbcluster_parameter_group(
-    DBClusterParameterGroupName,
-    DBParameterGroupFamily,
-    Description;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName,
-                    "DBParameterGroupFamily" => DBParameterGroupFamily,
-                    "Description" => Description,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -485,32 +273,12 @@ Creates a snapshot of a cluster.
   or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain
   two consecutive hyphens.    Example: my-cluster-snapshot1
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the cluster snapshot.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the cluster snapshot.
 """
-function create_dbcluster_snapshot(
-    DBClusterIdentifier,
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateDBClusterSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -529,51 +297,27 @@ Creates a new instance.
 - `engine`: The name of the database engine to be used for this instance. Valid value:
   docdb
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_minor_version_upgrade"`: This parameter does not apply to Amazon DocumentDB.
-  Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
-  Default: false
-- `"availability_zone"`: The Amazon EC2 Availability Zone that the instance is created in.
+# Keyword Parameters
+- `auto_minor_version_upgrade`: This parameter does not apply to Amazon DocumentDB. Amazon
+  DocumentDB does not perform minor version upgrades regardless of the value set. Default:
+  false
+- `availability_zone`: The Amazon EC2 Availability Zone that the instance is created in.
   Default: A random, system-chosen Availability Zone in the endpoint's Region. Example:
   us-east-1d
-- `"preferred_maintenance_window"`: The time range each week during which system
-  maintenance can occur, in Universal Coordinated Time (UTC).  Format:
-  ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an
-  8-hour block of time for each Region, occurring on a random day of the week.  Valid days:
-  Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-- `"promotion_tier"`: A value that specifies the order in which an Amazon DocumentDB
-  replica is promoted to the primary instance after a failure of the existing primary
-  instance. Default: 1 Valid values: 0-15
-- `"tags"`: The tags to be assigned to the instance. You can assign up to 10 tags to an
+- `preferred_maintenance_window`: The time range each week during which system maintenance
+  can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The
+  default is a 30-minute window selected at random from an 8-hour block of time for each
+  Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
+  Sun Constraints: Minimum 30-minute window.
+- `promotion_tier`: A value that specifies the order in which an Amazon DocumentDB replica
+  is promoted to the primary instance after a failure of the existing primary instance.
+  Default: 1 Valid values: 0-15
+- `tags`: The tags to be assigned to the instance. You can assign up to 10 tags to an
   instance.
 """
-function create_dbinstance(
-    DBClusterIdentifier,
-    DBInstanceClass,
-    DBInstanceIdentifier,
-    Engine;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbinstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "DBInstanceClass" => DBInstanceClass,
-                    "DBInstanceIdentifier" => DBInstanceIdentifier,
-                    "Engine" => Engine,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -589,34 +333,12 @@ Availability Zones in the Region.
   spaces, or hyphens. Must not be default. Example: mySubnetgroup
 - `subnet_identifier`: The Amazon EC2 subnet IDs for the subnet group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the subnet group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the subnet group.
 """
-function create_dbsubnet_group(
-    DBSubnetGroupDescription,
-    DBSubnetGroupName,
-    SubnetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateDBSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBSubnetGroupDescription" => DBSubnetGroupDescription,
-                    "DBSubnetGroupName" => DBSubnetGroupName,
-                    "SubnetIdentifier" => SubnetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -644,48 +366,29 @@ all Amazon DocumentDB sources belonging to your customer account.
 - `subscription_name`: The name of the subscription. Constraints: The name must be fewer
   than 255 characters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`:  A Boolean value; set to true to activate the subscription, set to false to
+# Keyword Parameters
+- `enabled`:  A Boolean value; set to true to activate the subscription, set to false to
   create the subscription but not active it.
-- `"event_categories"`:  A list of event categories for a SourceType that you want to
+- `event_categories`:  A list of event categories for a SourceType that you want to
   subscribe to.
-- `"source_ids"`: The list of identifiers of the event sources for which events are
-  returned. If not specified, then all sources are included in the response. An identifier
-  must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't
-  end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are
-  provided, SourceType must also be provided.   If the source type is an instance, a
+- `source_ids`: The list of identifiers of the event sources for which events are returned.
+  If not specified, then all sources are included in the response. An identifier must begin
+  with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a
+  hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are provided,
+  SourceType must also be provided.   If the source type is an instance, a
   DBInstanceIdentifier must be provided.   If the source type is a security group, a
   DBSecurityGroupName must be provided.   If the source type is a parameter group, a
   DBParameterGroupName must be provided.   If the source type is a snapshot, a
   DBSnapshotIdentifier must be provided.
-- `"source_type"`: The type of source that is generating the events. For example, if you
-  want to be notified of events generated by an instance, you would set this parameter to
+- `source_type`: The type of source that is generating the events. For example, if you want
+  to be notified of events generated by an instance, you would set this parameter to
   db-instance. If this value is not specified, all events are returned. Valid values:
   db-instance, db-cluster, db-parameter-group, db-security-group, db-cluster-snapshot
-- `"tags"`: The tags to be assigned to the event subscription.
+- `tags`: The tags to be assigned to the event subscription.
 """
-function create_event_subscription(
-    SnsTopicArn,
-    SubscriptionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateEventSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -703,35 +406,21 @@ action only applies to Amazon DocumentDB clusters.
 # Arguments
 - `global_cluster_identifier`: The cluster identifier of the new global cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"database_name"`: The name for your database of up to 64 alpha-numeric characters. If
-  you do not provide a name, Amazon DocumentDB will not create a database in the global
-  cluster you are creating.
-- `"deletion_protection"`: The deletion protection setting for the new global cluster. The
+# Keyword Parameters
+- `database_name`: The name for your database of up to 64 alpha-numeric characters. If you
+  do not provide a name, Amazon DocumentDB will not create a database in the global cluster
+  you are creating.
+- `deletion_protection`: The deletion protection setting for the new global cluster. The
   global cluster can't be deleted when deletion protection is enabled.
-- `"engine"`: The name of the database engine to be used for this cluster.
-- `"engine_version"`: The engine version of the global cluster.
-- `"source_dbcluster_identifier"`: The Amazon Resource Name (ARN) to use as the primary
+- `engine`: The name of the database engine to be used for this cluster.
+- `engine_version`: The engine version of the global cluster.
+- `source_dbcluster_identifier`: The Amazon Resource Name (ARN) to use as the primary
   cluster of the global cluster. This parameter is optional.
-- `"storage_encrypted"`: The storage encryption setting for the new global cluster.
+- `storage_encrypted`: The storage encryption setting for the new global cluster.
 """
-function create_global_cluster(
-    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "CreateGlobalCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("CreateGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -745,35 +434,21 @@ specified cluster are not deleted.
 - `dbcluster_identifier`: The cluster identifier for the cluster to be deleted. This
   parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"final_dbsnapshot_identifier"`:  The cluster snapshot identifier of the new cluster
+# Keyword Parameters
+- `final_dbsnapshot_identifier`:  The cluster snapshot identifier of the new cluster
   snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and
   also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:
   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.
     Cannot end with a hyphen or contain two consecutive hyphens.
-- `"skip_final_snapshot"`:  Determines whether a final cluster snapshot is created before
-  the cluster is deleted. If true is specified, no cluster snapshot is created. If false is
+- `skip_final_snapshot`:  Determines whether a final cluster snapshot is created before the
+  cluster is deleted. If true is specified, no cluster snapshot is created. If false is
   specified, a cluster snapshot is created before the DB cluster is deleted.   If
   SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.
   Default: false
 """
-function delete_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -788,26 +463,9 @@ can't be associated with any clusters.
   cluster parameter group.   Cannot be associated with any clusters.
 
 """
-function delete_dbcluster_parameter_group(
-    DBClusterParameterGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -821,26 +479,9 @@ terminated.  The cluster snapshot must be in the available state to be deleted.
   Constraints: Must be the name of an existing cluster snapshot in the available state.
 
 """
-function delete_dbcluster_snapshot(
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_dbcluster_snapshot(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteDBClusterSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -854,22 +495,9 @@ Deletes a previously provisioned instance.
   
 
 """
-function delete_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -884,20 +512,9 @@ any DB instances.
   Must not be default. Example: mySubnetgroup
 
 """
-function delete_dbsubnet_group(
-    DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteDBSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DBSubnetGroupName" => DBSubnetGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -910,20 +527,9 @@ Deletes an Amazon DocumentDB event notification subscription.
   that you want to delete.
 
 """
-function delete_event_subscription(
-    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteEventSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -937,22 +543,9 @@ DocumentDB clusters.
 - `global_cluster_identifier`: The cluster identifier of the global cluster being deleted.
 
 """
-function delete_global_cluster(
-    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DeleteGlobalCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DeleteGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -961,31 +554,23 @@ end
 Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for
 this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_identifier"`: The user-supplied certificate identifier. If this parameter
-  is specified, information for only the specified certificate is returned. If this parameter
-  is omitted, a list of up to MaxRecords certificates is returned. This parameter is not case
+# Keyword Parameters
+- `certificate_identifier`: The user-supplied certificate identifier. If this parameter is
+  specified, information for only the specified certificate is returned. If this parameter is
+  omitted, a list of up to MaxRecords certificates is returned. This parameter is not case
   sensitive. Constraints   Must match an existing CertificateIdentifier.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous DescribeCertificates
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous DescribeCertificates
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints:   Minimum: 20   Maximum: 100
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum: 20   Maximum: 100
 """
-function describe_certificates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeCertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -995,30 +580,22 @@ Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterG
 parameter is specified, the list contains only the description of the specified cluster
 parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_parameter_group_name"`: The name of a specific cluster parameter group to
+# Keyword Parameters
+- `dbcluster_parameter_group_name`: The name of a specific cluster parameter group to
   return details for. Constraints:   If provided, must match the name of an existing
   DBClusterParameterGroup.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
 """
-function describe_dbcluster_parameter_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBClusterParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBClusterParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1031,39 +608,21 @@ Returns the detailed parameter list for a particular cluster parameter group.
   return parameter details for. Constraints:   If provided, must match the name of an
   existing DBClusterParameterGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-- `"source"`:  A value that indicates to return only parameters for a specific source.
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
+- `source`:  A value that indicates to return only parameters for a specific source.
   Parameter sources can be engine, service, or customer.
 """
-function describe_dbcluster_parameters(
-    DBClusterParameterGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_dbcluster_parameters(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBClusterParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1081,26 +640,9 @@ restored by all accounts.
   attributes for.
 
 """
-function describe_dbcluster_snapshot_attributes(
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBClusterSnapshotAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1108,34 +650,33 @@ end
 
 Returns information about cluster snapshots. This API operation supports pagination.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_identifier"`: The ID of the cluster to retrieve the list of cluster snapshots
+# Keyword Parameters
+- `dbcluster_identifier`: The ID of the cluster to retrieve the list of cluster snapshots
   for. This parameter can't be used with the DBClusterSnapshotIdentifier parameter. This
   parameter is not case sensitive.  Constraints:   If provided, must match the identifier of
   an existing DBCluster.
-- `"dbcluster_snapshot_identifier"`: A specific cluster snapshot identifier to describe.
-  This parameter can't be used with the DBClusterIdentifier parameter. This value is stored
-  as a lowercase string.  Constraints:   If provided, must match the identifier of an
-  existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the
-  SnapshotType parameter must also be specified.
-- `"filters"`: This parameter is not currently supported.
-- `"include_public"`: Set to true to include manual cluster snapshots that are public and
-  can be copied or restored by any account, and otherwise false. The default is false.
-- `"include_shared"`: Set to true to include shared manual cluster snapshots from other
+- `dbcluster_snapshot_identifier`: A specific cluster snapshot identifier to describe. This
+  parameter can't be used with the DBClusterIdentifier parameter. This value is stored as a
+  lowercase string.  Constraints:   If provided, must match the identifier of an existing
+  DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType
+  parameter must also be specified.
+- `filters`: This parameter is not currently supported.
+- `include_public`: Set to true to include manual cluster snapshots that are public and can
+  be copied or restored by any account, and otherwise false. The default is false.
+- `include_shared`: Set to true to include shared manual cluster snapshots from other
   accounts that this account has been given permission to copy or restore, and otherwise
   false. The default is false.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-- `"snapshot_type"`: The type of cluster snapshots to be returned. You can specify one of
-  the following values:    automated - Return all cluster snapshots that Amazon DocumentDB
-  has automatically created for your account.    manual - Return all cluster snapshots that
-  you have manually created for your account.    shared - Return all manual cluster snapshots
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
+- `snapshot_type`: The type of cluster snapshots to be returned. You can specify one of the
+  following values:    automated - Return all cluster snapshots that Amazon DocumentDB has
+  automatically created for your account.    manual - Return all cluster snapshots that you
+  have manually created for your account.    shared - Return all manual cluster snapshots
   that have been shared to your account.    public - Return all cluster snapshots that have
   been marked as public.   If you don't specify a SnapshotType value, then both automated and
   manual cluster snapshots are returned. You can include shared cluster snapshots with these
@@ -1145,16 +686,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared.
   The IncludeShared parameter doesn't apply when SnapshotType is set to public.
 """
-function describe_dbcluster_snapshots(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBClusterSnapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBClusterSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1166,27 +700,24 @@ management, Amazon DocumentDB leverages operational technology that is shared wi
 RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return
 only Amazon DocumentDB clusters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_identifier"`: The user-provided cluster identifier. If this parameter is
+# Keyword Parameters
+- `dbcluster_identifier`: The user-provided cluster identifier. If this parameter is
   specified, information from only the specific cluster is returned. This parameter isn't
   case sensitive. Constraints:   If provided, must match an existing DBClusterIdentifier.
-- `"filters"`: A filter that specifies one or more clusters to describe. Supported filters:
-     db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs).
-  The results list only includes information about the clusters identified by these ARNs.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
+- `filters`: A filter that specifies one or more clusters to describe. Supported filters:
+   db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The
+  results list only includes information about the clusters identified by these ARNs.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
 """
 function describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return docdb("DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1194,39 +725,31 @@ end
 
 Returns a list of the available engines.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbparameter_group_family"`: The name of a specific parameter group family to return
+# Keyword Parameters
+- `dbparameter_group_family`: The name of a specific parameter group family to return
   details for. Constraints:   If provided, must match an existing DBParameterGroupFamily.
-- `"default_only"`: Indicates that only the default version of the specified engine or
-  engine and major version combination is returned.
-- `"engine"`: The database engine to return.
-- `"engine_version"`: The database engine version to return. Example: 3.6.0
-- `"filters"`: This parameter is not currently supported.
-- `"list_supported_character_sets"`: If this parameter is specified and the requested
-  engine supports the CharacterSetName parameter for CreateDBInstance, the response includes
-  a list of supported character sets for each engine version.
-- `"list_supported_timezones"`: If this parameter is specified and the requested engine
+- `default_only`: Indicates that only the default version of the specified engine or engine
+  and major version combination is returned.
+- `engine`: The database engine to return.
+- `engine_version`: The database engine version to return. Example: 3.6.0
+- `filters`: This parameter is not currently supported.
+- `list_supported_character_sets`: If this parameter is specified and the requested engine
+  supports the CharacterSetName parameter for CreateDBInstance, the response includes a list
+  of supported character sets for each engine version.
+- `list_supported_timezones`: If this parameter is specified and the requested engine
   supports the TimeZone parameter for CreateDBInstance, the response includes a list of
   supported time zones for each engine version.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
 """
-function describe_dbengine_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBEngineVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1235,36 +758,28 @@ end
 Returns information about provisioned Amazon DocumentDB instances. This API supports
 pagination.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbinstance_identifier"`: The user-provided instance identifier. If this parameter is
+# Keyword Parameters
+- `dbinstance_identifier`: The user-provided instance identifier. If this parameter is
   specified, information from only the specific instance is returned. This parameter isn't
   case sensitive. Constraints:   If provided, must match the identifier of an existing
   DBInstance.
-- `"filters"`: A filter that specifies one or more instances to describe. Supported
-  filters:    db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names
-  (ARNs). The results list includes only the information about the instances that are
-  associated with the clusters that are identified by these ARNs.    db-instance-id - Accepts
-  instance identifiers and instance ARNs. The results list includes only the information
-  about the instances that are identified by these ARNs.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
+- `filters`: A filter that specifies one or more instances to describe. Supported filters:
+    db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The
+  results list includes only the information about the instances that are associated with the
+  clusters that are identified by these ARNs.    db-instance-id - Accepts instance
+  identifiers and instance ARNs. The results list includes only the information about the
+  instances that are identified by these ARNs.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
 """
-function describe_dbinstances(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1273,28 +788,20 @@ end
 Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list
 will contain only the descriptions of the specified DBSubnetGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbsubnet_group_name"`: The name of the subnet group to return details for.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
+# Keyword Parameters
+- `dbsubnet_group_name`: The name of the subnet group to return details for.
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
 """
-function describe_dbsubnet_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeDBSubnetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeDBSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1306,33 +813,19 @@ Returns the default engine and system parameter information for the cluster data
 - `dbparameter_group_family`: The name of the cluster parameter group family to return the
   engine parameter information for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
 """
-function describe_engine_default_cluster_parameters(
-    DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_engine_default_cluster_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeEngineDefaultClusterParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1341,22 +834,14 @@ end
 Displays a list of categories for all event source types, or, if specified, for a specified
 source type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"source_type"`: The type of source that is generating the events. Valid values:
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `source_type`: The type of source that is generating the events. Valid values:
   db-instance, db-parameter-group, db-security-group
 """
-function describe_event_categories(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeEventCategories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1367,29 +852,21 @@ subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, Sou
 CreationTime, and Status. If you specify a SubscriptionName, lists the description for that
 subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-- `"subscription_name"`: The name of the Amazon DocumentDB event notification subscription
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
+- `subscription_name`: The name of the Amazon DocumentDB event notification subscription
   that you want to describe.
 """
-function describe_event_subscriptions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeEventSubscriptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1400,39 +877,36 @@ for the past 14 days. You can obtain events specific to a particular DB instance
 group, snapshot, or parameter group by providing the name as a parameter. By default, the
 events of the past hour are returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"duration"`: The number of minutes to retrieve events for. Default: 60
-- `"end_time"`:  The end of the time interval for which to retrieve events, specified in
-  ISO 8601 format.  Example: 2009-07-08T18:00Z
-- `"event_categories"`: A list of event categories that trigger notifications for an event
+# Keyword Parameters
+- `duration`: The number of minutes to retrieve events for. Default: 60
+- `end_time`:  The end of the time interval for which to retrieve events, specified in ISO
+  8601 format.  Example: 2009-07-08T18:00Z
+- `event_categories`: A list of event categories that trigger notifications for an event
   notification subscription.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-- `"source_identifier"`: The identifier of the event source for which events are returned.
-  If not specified, then all sources are included in the response. Constraints:   If
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
+- `source_identifier`: The identifier of the event source for which events are returned. If
+  not specified, then all sources are included in the response. Constraints:   If
   SourceIdentifier is provided, SourceType must also be provided.   If the source type is
   DBInstance, a DBInstanceIdentifier must be provided.   If the source type is
   DBSecurityGroup, a DBSecurityGroupName must be provided.   If the source type is
   DBParameterGroup, a DBParameterGroupName must be provided.   If the source type is
   DBSnapshot, a DBSnapshotIdentifier must be provided.   Cannot end with a hyphen or contain
   two consecutive hyphens.
-- `"source_type"`: The event source to retrieve events for. If no value is specified, all
+- `source_type`: The event source to retrieve events for. If no value is specified, all
   events are returned.
-- `"start_time"`:  The beginning of the time interval to retrieve events for, specified in
+- `start_time`:  The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format.  Example: 2009-07-08T18:00Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return docdb("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1441,32 +915,24 @@ end
 Returns information about Amazon DocumentDB global clusters. This API supports pagination.
 This action only applies to Amazon DocumentDB clusters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: A filter that specifies one or more global DB clusters to describe.
-  Supported filters: db-cluster-id accepts cluster identifiers and cluster Amazon Resource
-  Names (ARNs). The results list will only include information about the clusters identified
-  by these ARNs.
-- `"global_cluster_identifier"`: The user-supplied cluster identifier. If this parameter is
+# Keyword Parameters
+- `filters`: A filter that specifies one or more global DB clusters to describe. Supported
+  filters: db-cluster-id accepts cluster identifiers and cluster Amazon Resource Names
+  (ARNs). The results list will only include information about the clusters identified by
+  these ARNs.
+- `global_cluster_identifier`: The user-supplied cluster identifier. If this parameter is
   specified, information from only the specific cluster is returned. This parameter isn't
   case-sensitive.
-- `"marker"`: An optional pagination token provided by a previous DescribeGlobalClusters
+- `marker`: An optional pagination token provided by a previous DescribeGlobalClusters
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that you can retrieve the remaining results.
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results.
 """
-function describe_global_clusters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeGlobalClusters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeGlobalClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1477,35 +943,27 @@ Returns a list of orderable instance options for the specified engine.
 # Arguments
 - `engine`: The name of the engine to retrieve instance options for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbinstance_class"`: The instance class filter value. Specify this parameter to show
-  only the available offerings that match the specified instance class.
-- `"engine_version"`: The engine version filter value. Specify this parameter to show only
+# Keyword Parameters
+- `dbinstance_class`: The instance class filter value. Specify this parameter to show only
+  the available offerings that match the specified instance class.
+- `engine_version`: The engine version filter value. Specify this parameter to show only
   the available offerings that match the specified engine version.
-- `"filters"`: This parameter is not currently supported.
-- `"license_model"`: The license model filter value. Specify this parameter to show only
-  the available offerings that match the specified license model.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-- `"vpc"`: The virtual private cloud (VPC) filter value. Specify this parameter to show
-  only the available VPC or non-VPC offerings.
+- `filters`: This parameter is not currently supported.
+- `license_model`: The license model filter value. Specify this parameter to show only the
+  available offerings that match the specified license model.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
+- `vpc`: The virtual private cloud (VPC) filter value. Specify this parameter to show only
+  the available VPC or non-VPC offerings.
 """
-function describe_orderable_dbinstance_options(
-    Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_orderable_dbinstance_options(Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribeOrderableDBInstanceOptions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Engine" => Engine), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1514,33 +972,25 @@ end
 Returns a list of resources (for example, instances) that have at least one pending
 maintenance action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: A filter that specifies one or more resources to return pending maintenance
+# Keyword Parameters
+- `filters`: A filter that specifies one or more resources to return pending maintenance
   actions for. Supported filters:    db-cluster-id - Accepts cluster identifiers and cluster
   Amazon Resource Names (ARNs). The results list includes only pending maintenance actions
   for the clusters identified by these ARNs.    db-instance-id - Accepts instance identifiers
   and instance ARNs. The results list includes only pending maintenance actions for the DB
   instances identified by these ARNs.
-- `"marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token (marker) is included
-  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
-  Minimum 20, maximum 100.
-- `"resource_identifier"`: The ARN of a resource to return pending maintenance actions for.
+- `marker`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token (marker) is included in the
+  response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum
+  20, maximum 100.
+- `resource_identifier`: The ARN of a resource to return pending maintenance actions for.
 """
-function describe_pending_maintenance_actions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "DescribePendingMaintenanceActions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("DescribePendingMaintenanceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1552,19 +1002,16 @@ cluster writer). If the primary instance fails, Amazon DocumentDB automatically 
 to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to
 simulate a failure of a primary instance for testing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_identifier"`: A cluster identifier to force a failover for. This parameter is
+# Keyword Parameters
+- `dbcluster_identifier`: A cluster identifier to force a failover for. This parameter is
   not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.
-- `"target_dbinstance_identifier"`: The name of the instance to promote to the primary
+- `target_dbinstance_identifier`: The name of the instance to promote to the primary
   instance. You must specify the instance identifier for an Amazon DocumentDB replica in the
   cluster. For example, mydbcluster-replica1.
 """
 function failover_dbcluster(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return docdb("FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1576,22 +1023,12 @@ Lists all tags on an Amazon DocumentDB resource.
 - `resource_name`: The Amazon DocumentDB resource with tags to be listed. This value is an
   Amazon Resource Name (ARN).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
 """
-function list_tags_for_resource(
-    ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceName" => ResourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1605,9 +1042,8 @@ configuration parameters by specifying these parameters and the new values in th
   This parameter is not case sensitive. Constraints:   Must match the identifier of an
   existing DBCluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"apply_immediately"`: A value that specifies whether the changes in this request and any
+# Keyword Parameters
+- `apply_immediately`: A value that specifies whether the changes in this request and any
   pending changes are asynchronously applied as soon as possible, regardless of the
   PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false,
   changes to the cluster are applied during the next maintenance window. The ApplyImmediately
@@ -1616,60 +1052,47 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   MasterUserPassword values are applied during the next maintenance window. All other changes
   are applied immediately, regardless of the value of the ApplyImmediately parameter.
   Default: false
-- `"backup_retention_period"`: The number of days for which automated backups are retained.
+- `backup_retention_period`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35.
-- `"cloudwatch_logs_export_configuration"`: The configuration setting for the log types to
-  be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The
+- `cloudwatch_logs_export_configuration`: The configuration setting for the log types to be
+  enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The
   EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not
   exported) to CloudWatch Logs.
-- `"dbcluster_parameter_group_name"`: The name of the cluster parameter group to use for
-  the cluster.
-- `"deletion_protection"`: Specifies whether this cluster can be deleted. If
+- `dbcluster_parameter_group_name`: The name of the cluster parameter group to use for the
+  cluster.
+- `deletion_protection`: Specifies whether this cluster can be deleted. If
   DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and
   DeletionProtection is disabled. DeletionProtection protects clusters from being
   accidentally deleted.
-- `"engine_version"`: The version number of the database engine to which you want to
-  upgrade. Modifying engine version is not supported on Amazon DocumentDB.
-- `"master_user_password"`: The password for the master database user. This password can
+- `engine_version`: The version number of the database engine to which you want to upgrade.
+  Modifying engine version is not supported on Amazon DocumentDB.
+- `master_user_password`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote (\"), or the
   \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
-- `"new_dbcluster_identifier"`: The new cluster identifier for the cluster when renaming a
+- `new_dbcluster_identifier`: The new cluster identifier for the cluster when renaming a
   cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to
   63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with
   a hyphen or contain two consecutive hyphens.   Example: my-cluster2
-- `"port"`: The port number on which the cluster accepts connections. Constraints: Must be
-  a value from 1150 to 65535.  Default: The same port as the original cluster.
-- `"preferred_backup_window"`: The daily time range during which automated backups are
+- `port`: The port number on which the cluster accepts connections. Constraints: Must be a
+  value from 1150 to 65535.  Default: The same port as the original cluster.
+- `preferred_backup_window`: The daily time range during which automated backups are
   created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
   Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
   be at least 30 minutes.
-- `"preferred_maintenance_window"`: The weekly time range during which system maintenance
-  can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The
-  default is a 30-minute window selected at random from an 8-hour block of time for each
-  Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
-  Sun Constraints: Minimum 30-minute window.
-- `"vpc_security_group_ids"`: A list of virtual private cloud (VPC) security groups that
-  the cluster will belong to.
+- `preferred_maintenance_window`: The weekly time range during which system maintenance can
+  occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
+  a 30-minute window selected at random from an 8-hour block of time for each Region,
+  occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  Constraints: Minimum 30-minute window.
+- `vpc_security_group_ids`: A list of virtual private cloud (VPC) security groups that the
+  cluster will belong to.
 """
-function modify_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1692,28 +1115,9 @@ character_set_database parameter.
 - `parameter`: A list of parameters in the cluster parameter group to modify.
 
 """
-function modify_dbcluster_parameter_group(
-    DBClusterParameterGroupName,
-    Parameter;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName,
-                    "Parameter" => Parameter,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1736,43 +1140,23 @@ ValuesToAdd parameter. You can't use all as a value for that parameter in this c
 - `dbcluster_snapshot_identifier`: The identifier for the cluster snapshot to modify the
   attributes for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"values_to_add"`: A list of cluster snapshot attributes to add to the attribute
-  specified by AttributeName. To authorize other accounts to copy or restore a manual cluster
-  snapshot, set this list to include one or more account IDs. To make the manual cluster
-  snapshot restorable by any account, set it to all. Do not add the all value for any manual
-  cluster snapshots that contain private information that you don't want to be available to
-  all accounts.
-- `"values_to_remove"`: A list of cluster snapshot attributes to remove from the attribute
+# Keyword Parameters
+- `values_to_add`: A list of cluster snapshot attributes to add to the attribute specified
+  by AttributeName. To authorize other accounts to copy or restore a manual cluster snapshot,
+  set this list to include one or more account IDs. To make the manual cluster snapshot
+  restorable by any account, set it to all. Do not add the all value for any manual cluster
+  snapshots that contain private information that you don't want to be available to all
+  accounts.
+- `values_to_remove`: A list of cluster snapshot attributes to remove from the attribute
   specified by AttributeName. To remove authorization for other accounts to copy or restore a
   manual cluster snapshot, set this list to include one or more account identifiers. To
   remove authorization for any account to copy or restore the cluster snapshot, set it to all
   . If you specify all, an account whose account ID is explicitly added to the restore
   attribute can still copy or restore a manual cluster snapshot.
 """
-function modify_dbcluster_snapshot_attribute(
-    AttributeName,
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyDBClusterSnapshotAttribute",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AttributeName" => AttributeName,
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1785,30 +1169,29 @@ parameters by specifying these parameters and the new values in the request.
 - `dbinstance_identifier`: The instance identifier. This value is stored as a lowercase
   string. Constraints:   Must match the identifier of an existing DBInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"apply_immediately"`: Specifies whether the modifications in this request and any
-  pending modifications are asynchronously applied as soon as possible, regardless of the
+# Keyword Parameters
+- `apply_immediately`: Specifies whether the modifications in this request and any pending
+  modifications are asynchronously applied as soon as possible, regardless of the
   PreferredMaintenanceWindow setting for the instance.   If this parameter is set to false,
   changes to the instance are applied during the next maintenance window. Some parameter
   changes can cause an outage and are applied on the next reboot. Default: false
-- `"auto_minor_version_upgrade"`: This parameter does not apply to Amazon DocumentDB.
-  Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
-- `"cacertificate_identifier"`: Indicates the certificate that needs to be associated with
+- `auto_minor_version_upgrade`: This parameter does not apply to Amazon DocumentDB. Amazon
+  DocumentDB does not perform minor version upgrades regardless of the value set.
+- `cacertificate_identifier`: Indicates the certificate that needs to be associated with
   the instance.
-- `"dbinstance_class"`: The new compute and memory capacity of the instance; for example,
+- `dbinstance_class`: The new compute and memory capacity of the instance; for example,
   db.r5.large. Not all instance classes are available in all Regions.  If you modify the
   instance class, an outage occurs during the change. The change is applied during the next
   maintenance window, unless ApplyImmediately is specified as true for this request.
   Default: Uses existing setting.
-- `"new_dbinstance_identifier"`:  The new instance identifier for the instance when
-  renaming an instance. When you change the instance identifier, an instance reboot occurs
-  immediately if you set Apply Immediately to true. It occurs during the next maintenance
-  window if you set Apply Immediately to false. This value is stored as a lowercase string.
-  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first
-  character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
-   Example: mydbinstance
-- `"preferred_maintenance_window"`: The weekly time range (in UTC) during which system
+- `new_dbinstance_identifier`:  The new instance identifier for the instance when renaming
+  an instance. When you change the instance identifier, an instance reboot occurs immediately
+  if you set Apply Immediately to true. It occurs during the next maintenance window if you
+  set Apply Immediately to false. This value is stored as a lowercase string.  Constraints:
+  Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a
+  letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example:
+  mydbinstance
+- `preferred_maintenance_window`: The weekly time range (in UTC) during which system
   maintenance can occur, which might result in an outage. Changing this parameter doesn't
   result in an outage except in the following situation, and the change is asynchronously
   applied as soon as possible. If there are pending actions that cause a reboot, and the
@@ -1817,26 +1200,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   least 30 minutes between the current time and end of the window to ensure that pending
   changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi  Valid
   days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
-- `"promotion_tier"`: A value that specifies the order in which an Amazon DocumentDB
-  replica is promoted to the primary instance after a failure of the existing primary
-  instance. Default: 1 Valid values: 0-15
+- `promotion_tier`: A value that specifies the order in which an Amazon DocumentDB replica
+  is promoted to the primary instance after a failure of the existing primary instance.
+  Default: 1 Valid values: 0-15
 """
-function modify_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1851,32 +1221,12 @@ least two Availability Zones in the Region.
   existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
 - `subnet_identifier`: The Amazon EC2 subnet IDs for the subnet group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbsubnet_group_description"`: The description for the subnet group.
+# Keyword Parameters
+- `dbsubnet_group_description`: The description for the subnet group.
 """
-function modify_dbsubnet_group(
-    DBSubnetGroupName,
-    SubnetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyDBSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBSubnetGroupName" => DBSubnetGroupName,
-                    "SubnetIdentifier" => SubnetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1887,32 +1237,20 @@ Modifies an existing Amazon DocumentDB event notification subscription.
 # Arguments
 - `subscription_name`: The name of the Amazon DocumentDB event notification subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`:  A Boolean value; set to true to activate the subscription.
-- `"event_categories"`:  A list of event categories for a SourceType that you want to
+# Keyword Parameters
+- `enabled`:  A Boolean value; set to true to activate the subscription.
+- `event_categories`:  A list of event categories for a SourceType that you want to
   subscribe to.
-- `"sns_topic_arn"`: The Amazon Resource Name (ARN) of the SNS topic created for event
+- `sns_topic_arn`: The Amazon Resource Name (ARN) of the SNS topic created for event
   notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-- `"source_type"`: The type of source that is generating the events. For example, if you
-  want to be notified of events generated by an instance, set this parameter to db-instance.
-  If this value is not specified, all events are returned. Valid values: db-instance,
+- `source_type`: The type of source that is generating the events. For example, if you want
+  to be notified of events generated by an instance, set this parameter to db-instance. If
+  this value is not specified, all events are returned. Valid values: db-instance,
   db-parameter-group, db-security-group
 """
-function modify_event_subscription(
-    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyEventSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1928,31 +1266,17 @@ only applies to Amazon DocumentDB clusters.
   parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing
   global cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deletion_protection"`: Indicates if the global cluster has deletion protection enabled.
+# Keyword Parameters
+- `deletion_protection`: Indicates if the global cluster has deletion protection enabled.
   The global cluster can't be deleted when deletion protection is enabled.
-- `"new_global_cluster_identifier"`: The new identifier for a global cluster when you
-  modify a global cluster. This value is stored as a lowercase string.   Must contain from 1
-  to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a
-  hyphen or contain two consecutive hyphens   Example: my-cluster2
+- `new_global_cluster_identifier`: The new identifier for a global cluster when you modify
+  a global cluster. This value is stored as a lowercase string.   Must contain from 1 to 63
+  letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen
+  or contain two consecutive hyphens   Example: my-cluster2
 """
-function modify_global_cluster(
-    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ModifyGlobalCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ModifyGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1968,27 +1292,13 @@ momentary outage, during which the instance status is set to rebooting.
 - `dbinstance_identifier`: The instance identifier. This parameter is stored as a lowercase
   string. Constraints:   Must match the identifier of an existing DBInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_failover"`:  When true, the reboot is conducted through a Multi-AZ failover.
+# Keyword Parameters
+- `force_failover`:  When true, the reboot is conducted through a Multi-AZ failover.
   Constraint: You can't specify true if the instance is not configured for Multi-AZ.
 """
-function reboot_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "RebootDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2006,28 +1316,9 @@ clusters.
   global cluster.
 
 """
-function remove_from_global_cluster(
-    DbClusterIdentifier,
-    GlobalClusterIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_from_global_cluster(DbClusterIdentifier, GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "RemoveFromGlobalCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DbClusterIdentifier" => DbClusterIdentifier,
-                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("RemoveFromGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbClusterIdentifier"=>DbClusterIdentifier, "GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2043,28 +1334,9 @@ subscription.
   that you want to remove a source identifier from.
 
 """
-function remove_source_identifier_from_subscription(
-    SourceIdentifier,
-    SubscriptionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "RemoveSourceIdentifierFromSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceIdentifier" => SourceIdentifier,
-                    "SubscriptionName" => SubscriptionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2078,22 +1350,9 @@ Removes metadata tags from an Amazon DocumentDB resource.
 - `tag_keys`: The tag key (name) of the tag to be removed.
 
 """
-function remove_tags_from_resource(
-    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "RemoveTagsFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2109,35 +1368,17 @@ next DB instance reboot.
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the cluster parameter group to reset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameters"`: A list of parameter names in the cluster parameter group to reset to the
+# Keyword Parameters
+- `parameters`: A list of parameter names in the cluster parameter group to reset to the
   default values. You can't use this parameter if the ResetAllParameters parameter is set to
   true.
-- `"reset_all_parameters"`: A value that is set to true to reset all parameters in the
+- `reset_all_parameters`: A value that is set to true to reset all parameters in the
   cluster parameter group to their default values, and false otherwise. You can't use this
   parameter if there is a list of parameter names specified for the Parameters parameter.
 """
-function reset_dbcluster_parameter_group(
-    DBClusterParameterGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function reset_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "ResetDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2161,60 +1402,38 @@ cluster, except that the new cluster is created with the default security group.
   snapshot. However, you can use only the ARN to specify a snapshot. Constraints:   Must
   match the identifier of an existing snapshot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: Provides the list of Amazon EC2 Availability Zones that instances
+# Keyword Parameters
+- `availability_zones`: Provides the list of Amazon EC2 Availability Zones that instances
   in the restored DB cluster can be created in.
-- `"dbsubnet_group_name"`: The name of the subnet group to use for the new cluster.
+- `dbsubnet_group_name`: The name of the subnet group to use for the new cluster.
   Constraints: If provided, must match the name of an existing DBSubnetGroup. Example:
   mySubnetgroup
-- `"deletion_protection"`: Specifies whether this cluster can be deleted. If
+- `deletion_protection`: Specifies whether this cluster can be deleted. If
   DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and
   DeletionProtection is disabled. DeletionProtection protects clusters from being
   accidentally deleted.
-- `"enable_cloudwatch_logs_exports"`: A list of log types that must be enabled for
-  exporting to Amazon CloudWatch Logs.
-- `"engine_version"`: The version of the database engine to use for the new cluster.
-- `"kms_key_id"`: The KMS key identifier to use when restoring an encrypted cluster from a
-  DB snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN)
-  for the KMS encryption key. If you are restoring a cluster with the same account that owns
-  the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias
+- `enable_cloudwatch_logs_exports`: A list of log types that must be enabled for exporting
+  to Amazon CloudWatch Logs.
+- `engine_version`: The version of the database engine to use for the new cluster.
+- `kms_key_id`: The KMS key identifier to use when restoring an encrypted cluster from a DB
+  snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for
+  the KMS encryption key. If you are restoring a cluster with the same account that owns the
+  KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias
   instead of the ARN for the KMS encryption key. If you do not specify a value for the
   KmsKeyId parameter, then the following occurs:   If the snapshot or cluster snapshot in
   SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the KMS key
   that was used to encrypt the snapshot or the cluster snapshot.   If the snapshot or the
   cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is
   not encrypted.
-- `"port"`: The port number on which the new cluster accepts connections. Constraints: Must
+- `port`: The port number on which the new cluster accepts connections. Constraints: Must
   be a value from 1150 to 65535. Default: The same port as the original cluster.
-- `"tags"`: The tags to be assigned to the restored cluster.
-- `"vpc_security_group_ids"`: A list of virtual private cloud (VPC) security groups that
-  the new cluster will belong to.
+- `tags`: The tags to be assigned to the restored cluster.
+- `vpc_security_group_ids`: A list of virtual private cloud (VPC) security groups that the
+  new cluster will belong to.
 """
-function restore_dbcluster_from_snapshot(
-    DBClusterIdentifier,
-    Engine,
-    SnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "RestoreDBClusterFromSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "Engine" => Engine,
-                    "SnapshotIdentifier" => SnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2232,17 +1451,16 @@ that the new cluster is created with the default security group.
 - `source_dbcluster_identifier`: The identifier of the source cluster from which to
   restore. Constraints:   Must match the identifier of an existing DBCluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbsubnet_group_name"`: The subnet group name to use for the new cluster. Constraints:
-  If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
-- `"deletion_protection"`: Specifies whether this cluster can be deleted. If
+# Keyword Parameters
+- `dbsubnet_group_name`: The subnet group name to use for the new cluster. Constraints: If
+  provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
+- `deletion_protection`: Specifies whether this cluster can be deleted. If
   DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and
   DeletionProtection is disabled. DeletionProtection protects clusters from being
   accidentally deleted.
-- `"enable_cloudwatch_logs_exports"`: A list of log types that must be enabled for
-  exporting to Amazon CloudWatch Logs.
-- `"kms_key_id"`: The KMS key identifier to use when restoring an encrypted cluster from an
+- `enable_cloudwatch_logs_exports`: A list of log types that must be enabled for exporting
+  to Amazon CloudWatch Logs.
+- `kms_key_id`: The KMS key identifier to use when restoring an encrypted cluster from an
   encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
   encryption key. If you are restoring a cluster with the same account that owns the KMS
   encryption key used to encrypt the new cluster, then you can use the KMS key alias instead
@@ -2254,42 +1472,23 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   key that was used to encrypt the source cluster.   If the cluster is not encrypted, then
   the restored cluster is not encrypted.   If DBClusterIdentifier refers to a cluster that is
   not encrypted, then the restore request is rejected.
-- `"port"`: The port number on which the new cluster accepts connections. Constraints: Must
+- `port`: The port number on which the new cluster accepts connections. Constraints: Must
   be a value from 1150 to 65535.  Default: The default port for the engine.
-- `"restore_to_time"`: The date and time to restore the cluster to. Valid values: A time in
+- `restore_to_time`: The date and time to restore the cluster to. Valid values: A time in
   Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest
   restorable time for the instance.   Must be specified if the UseLatestRestorableTime
   parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter
   is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example:
   2015-03-07T23:45:00Z
-- `"tags"`: The tags to be assigned to the restored cluster.
-- `"use_latest_restorable_time"`: A value that is set to true to restore the cluster to the
+- `tags`: The tags to be assigned to the restored cluster.
+- `use_latest_restorable_time`: A value that is set to true to restore the cluster to the
   latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be
   specified if the RestoreToTime parameter is provided.
-- `"vpc_security_group_ids"`: A list of VPC security groups that the new cluster belongs to.
+- `vpc_security_group_ids`: A list of VPC security groups that the new cluster belongs to.
 """
-function restore_dbcluster_to_point_in_time(
-    DBClusterIdentifier,
-    SourceDBClusterIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "RestoreDBClusterToPointInTime",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "SourceDBClusterIdentifier" => SourceDBClusterIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2303,22 +1502,9 @@ information, see Stopping and Starting an Amazon DocumentDB Cluster.
   docdb-2019-05-28-15-24-52
 
 """
-function start_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "StartDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2333,20 +1519,7 @@ Cluster.
   docdb-2019-05-28-15-24-52
 
 """
-function stop_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return docdb(
-        "StopDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return docdb("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

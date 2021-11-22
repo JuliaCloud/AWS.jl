@@ -4,22 +4,8 @@ using AWS.AWSServices: organizations
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "feature_set" => "FeatureSet",
-    "target_id" => "TargetId",
-    "filter" => "Filter",
-    "next_token" => "NextToken",
-    "states" => "States",
-    "name" => "Name",
-    "notes" => "Notes",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "iam_user_access_to_billing" => "IamUserAccessToBilling",
-    "role_name" => "RoleName",
-    "content" => "Content",
-    "service_principal" => "ServicePrincipal",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("target_id" => "TargetId", "max_results" => "MaxResults", "next_token" => "NextToken", "states" => "States", "feature_set" => "FeatureSet", "service_principal" => "ServicePrincipal", "name" => "Name", "tags" => "Tags", "notes" => "Notes", "content" => "Content", "description" => "Description", "iam_user_access_to_billing" => "IamUserAccessToBilling", "role_name" => "RoleName", "filter" => "Filter")
 
 """
     accept_handshake(handshake_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -46,18 +32,9 @@ results of relevant APIs for only 30 days. After that, it's deleted.
   letters or digits.
 
 """
-function accept_handshake(
-    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "AcceptHandshake",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("AcceptHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -85,22 +62,9 @@ only from the organization's management account.
   letters or digits.
 
 """
-function attach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "AttachPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("AttachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,18 +83,9 @@ that, it's deleted.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function cancel_handshake(
-    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "CancelHandshake",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("CancelHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,16 +140,15 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   address to complete account creation. You can't access the root user of the account or
   remove an account that was created with an invalid email address.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"iam_user_access_to_billing"`: If set to ALLOW, the new account enables IAM users to
+# Keyword Parameters
+- `iam_user_access_to_billing`: If set to ALLOW, the new account enables IAM users to
   access account billing information if they have the required permissions. If set to DENY,
   only the root user of the new account can access account billing information. For more
   information, see Activating Access to the Billing and Cost Management Console in the AWS
   Billing and Cost Management User Guide. If you don't specify this parameter, the value
   defaults to ALLOW, and IAM users and roles with the required permissions can access billing
   information for the new account.
-- `"role_name"`: (Optional) The name of an IAM role that AWS Organizations automatically
+- `role_name`: (Optional) The name of an IAM role that AWS Organizations automatically
   preconfigures in the new member account. This role trusts the management account, allowing
   users in the management account to assume the role, as permitted by the management account
   administrator. The role has administrator permissions in the new member account. If you
@@ -205,29 +159,16 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Using IAM Roles in the IAM User Guide    The regex pattern that is used to validate this
   parameter. The pattern can include uppercase letters, lowercase letters, digits with no
   spaces, and any of the following characters: =,.@-
-- `"tags"`: A list of tags that you want to attach to the newly created account. For each
-  tag in the list, you must specify both a tag key and a value. You can set the value to an
-  empty string, but you can't set it to null. For more information about tagging, see Tagging
-  AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
+- `tags`: A list of tags that you want to attach to the newly created account. For each tag
+  in the list, you must specify both a tag key and a value. You can set the value to an empty
+  string, but you can't set it to null. For more information about tagging, see Tagging AWS
+  Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
   invalid or if you exceed the allowed number of tags for an account, then the entire request
   fails and the account is not created.
 """
-function create_account(
-    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "CreateAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountName" => AccountName, "Email" => Email),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("CreateAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -306,16 +247,15 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   address for the AWS GovCloud (US) account originates from the commercial Region, not from
   the AWS GovCloud (US) Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"iam_user_access_to_billing"`: If set to ALLOW, the new linked account in the commercial
+# Keyword Parameters
+- `iam_user_access_to_billing`: If set to ALLOW, the new linked account in the commercial
   Region enables IAM users to access account billing information if they have the required
   permissions. If set to DENY, only the root user of the new account can access account
   billing information. For more information, see Activating Access to the Billing and Cost
   Management Console in the AWS Billing and Cost Management User Guide.  If you don't specify
   this parameter, the value defaults to ALLOW, and IAM users and roles with the required
   permissions can access billing information for the new account.
-- `"role_name"`: (Optional) The name of an IAM role that AWS Organizations automatically
+- `role_name`: (Optional) The name of an IAM role that AWS Organizations automatically
   preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the
   commercial Region. This role trusts the management account, allowing users in the
   management account to assume the role, as permitted by the management account
@@ -327,7 +267,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can
   include uppercase letters, lowercase letters, digits with no spaces, and any of the
   following characters: =,.@-
-- `"tags"`: A list of tags that you want to attach to the newly created account. These tags
+- `tags`: A list of tags that you want to attach to the newly created account. These tags
   are attached to the commercial account associated with the GovCloud account, and not to the
   GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource
   operation in the GovCloud region after the new GovCloud account exists. For each tag in the
@@ -337,22 +277,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   invalid or if you exceed the allowed number of tags for an account, then the entire request
   fails and the account is not created.
 """
-function create_gov_cloud_account(
-    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_gov_cloud_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "CreateGovCloudAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountName" => AccountName, "Email" => Email),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("CreateGovCloudAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -369,10 +296,9 @@ supporting only the consolidated billing features by setting the FeatureSet para
 CONSOLIDATED_BILLING\", no policy types are enabled by default, and you can't use
 organization policies
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"feature_set"`: Specifies the feature set supported by the new organization. Each
-  feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member
+# Keyword Parameters
+- `feature_set`: Specifies the feature set supported by the new organization. Each feature
+  set supports different levels of functionality.    CONSOLIDATED_BILLING: All member
   accounts have their bills consolidated to and paid by the management account. For more
   information, see Consolidated billing in the AWS Organizations User Guide.   The
   consolidated billing feature subset isn't available for organizations in the AWS GovCloud
@@ -383,9 +309,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function create_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "CreateOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return organizations("CreateOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,29 +333,17 @@ organization's management account.
   to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of tags that you want to attach to the newly created OU. For each tag in
+# Keyword Parameters
+- `tags`: A list of tags that you want to attach to the newly created OU. For each tag in
   the list, you must specify both a tag key and a value. You can set the value to an empty
   string, but you can't set it to null. For more information about tagging, see Tagging AWS
   Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
   invalid or if you exceed the allowed number of tags for an OU, then the entire request
   fails and the OU is not created.
 """
-function create_organizational_unit(
-    Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_organizational_unit(Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "CreateOrganizationalUnit",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Name" => Name, "ParentId" => ParentId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("CreateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ParentId"=>ParentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -452,41 +364,17 @@ organization's management account.
 - `type`: The type of policy to create. You can specify one of the following values:
   AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of tags that you want to attach to the newly created policy. For each
-  tag in the list, you must specify both a tag key and a value. You can set the value to an
-  empty string, but you can't set it to null. For more information about tagging, see Tagging
-  AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
+# Keyword Parameters
+- `tags`: A list of tags that you want to attach to the newly created policy. For each tag
+  in the list, you must specify both a tag key and a value. You can set the value to an empty
+  string, but you can't set it to null. For more information about tagging, see Tagging AWS
+  Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
   invalid or if you exceed the allowed number of tags for a policy, then the entire request
   fails and the policy is not created.
 """
-function create_policy(
-    Content,
-    Description,
-    Name,
-    Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_policy(Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "CreatePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Content" => Content,
-                    "Description" => Description,
-                    "Name" => Name,
-                    "Type" => Type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Description"=>Description, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -505,18 +393,9 @@ relevant APIs for only 30 days. After that, it's deleted.
   ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function decline_handshake(
-    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DeclineHandshake",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DeclineHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -528,9 +407,7 @@ management account. The organization must be empty of member accounts.
 """
 function delete_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DeleteOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return organizations("DeleteOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -548,22 +425,9 @@ only from the organization's management account.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-function delete_organizational_unit(
-    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DeleteOrganizationalUnit",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DeleteOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -580,18 +444,9 @@ operation can be called only from the organization's management account.
   letters, digits, or the underscore character (_).
 
 """
-function delete_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DeletePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -617,27 +472,9 @@ management account.
   Organizations read action permissions.
 
 """
-function deregister_delegated_administrator(
-    AccountId,
-    ServicePrincipal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function deregister_delegated_administrator(AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DeregisterDelegatedAdministrator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DeregisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -653,18 +490,9 @@ is a delegated administrator for an AWS service.
   regex pattern for an account ID string requires exactly 12 digits.
 
 """
-function describe_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribeAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribeAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -682,22 +510,9 @@ account that is a delegated administrator for an AWS service.
   lowercase letters or digits.
 
 """
-function describe_create_account_status(
-    CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_create_account_status(CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribeCreateAccountStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribeCreateAccountStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateAccountRequestId"=>CreateAccountRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -716,24 +531,14 @@ service.
 - `policy_type`: The type of policy that you want information about. You can specify one of
   the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     TAG_POLICY
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"target_id"`: When you're signed in as the management account, specify the ID of the
+# Keyword Parameters
+- `target_id`: When you're signed in as the management account, specify the ID of the
   account that you want details about. Specifying an organization root or organizational unit
   (OU) as the target is not supported.
 """
-function describe_effective_policy(
-    PolicyType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_effective_policy(PolicyType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribeEffectivePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyType" => PolicyType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribeEffectivePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -752,18 +557,9 @@ operation can be called from any account in the organization.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function describe_handshake(
-    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribeHandshake",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribeHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -776,16 +572,9 @@ with DisablePolicyType. Use ListRoots to see the status of policy types for a sp
 root.
 
 """
-function describe_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribeOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribeOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -803,22 +592,9 @@ administrator for an AWS service.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-function describe_organizational_unit(
-    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribeOrganizationalUnit",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribeOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -835,18 +611,9 @@ for an AWS service.
   letters, digits, or the underscore character (_).
 
 """
-function describe_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DescribePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DescribePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -880,22 +647,9 @@ only from the organization's management account.
   letters or digits.
 
 """
-function detach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DetachPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DetachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -942,20 +696,9 @@ This operation can be called only from the organization's management account.
    service-abbreviation.amazonaws.com.
 
 """
-function disable_awsservice_access(
-    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DisableAWSServiceAccess",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ServicePrincipal" => ServicePrincipal), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DisableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -982,22 +725,9 @@ DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-function disable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "DisablePolicyType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("DisablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1027,9 +757,7 @@ organization's management account.
 """
 function enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "EnableAllFeatures", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return organizations("EnableAllFeatures", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1055,20 +783,9 @@ organization's management account and only if the organization has enabled all f
   service-abbreviation.amazonaws.com.
 
 """
-function enable_awsservice_access(
-    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "EnableAWSServiceAccess",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ServicePrincipal" => ServicePrincipal), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("EnableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1092,22 +809,9 @@ available policy types in the organization, use DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-function enable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "EnablePolicyType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("EnablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1137,12 +841,11 @@ permission. This operation can be called only from the organization's management
   email address that is associated with the account.  --target
   Id=diego@example.com,Type=EMAIL
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"notes"`: Additional information that you want to include in the generated email to the
+# Keyword Parameters
+- `notes`: Additional information that you want to include in the generated email to the
   recipient account owner.
-- `"tags"`: A list of tags that you want to attach to the account when it becomes a member
-  of the organization. For each tag in the list, you must specify both a tag key and a value.
+- `tags`: A list of tags that you want to attach to the account when it becomes a member of
+  the organization. For each tag in the list, you must specify both a tag key and a value.
   You can set the value to an empty string, but you can't set it to null. For more
   information about tagging, see Tagging AWS Organizations resources in the AWS Organizations
   User Guide.  Any tags in the request are checked for compliance with any applicable tag
@@ -1154,16 +857,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   exceed the allowed number of tags for an account, then the entire request fails and
   invitations are not sent.
 """
-function invite_account_to_organization(
-    Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function invite_account_to_organization(Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "InviteAccountToOrganization",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("InviteAccountToOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1201,9 +897,7 @@ required, then try again in a few days.
 """
 function leave_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "LeaveOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return organizations("LeaveOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1218,9 +912,8 @@ more results to display.  This operation can be called only from the organizatio
 management account or by a member account that is a delegated administrator for an AWS
 service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1228,16 +921,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return organizations("ListAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1258,9 +949,8 @@ administrator for an AWS service.
 - `parent_id`: The unique identifier (ID) for the parent root or organization unit (OU)
   whose accounts you want to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1268,23 +958,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_accounts_for_parent(
-    ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_accounts_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListAccountsForParent",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ParentId" => ParentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListAccountsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1299,9 +980,8 @@ Services in the AWS Organizations User Guide.  This operation can be called only
 organization's management account or by a member account that is a delegated administrator
 for an AWS service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1309,21 +989,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_awsservice_access_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_awsservice_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListAWSServiceAccessForOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListAWSServiceAccessForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1347,9 +1020,8 @@ delegated administrator for an AWS service.
   lowercase letters or digits (the ID of the root that the OU is in). This string is followed
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1357,27 +1029,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_children(
-    ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_children(ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListChildren",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChildType" => ChildType, "ParentId" => ParentId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListChildren", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildType"=>ChildType, "ParentId"=>ParentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1391,9 +1050,8 @@ value is null only when there are no more results to display.  This operation ca
 only from the organization's management account or by a member account that is a delegated
 administrator for an AWS service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1401,23 +1059,16 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
-- `"states"`: A list of one or more states that you want included in the response. If this
+- `states`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
-function list_create_account_status(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListCreateAccountStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListCreateAccountStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1427,9 +1078,8 @@ Lists the AWS accounts that are designated as delegated administrators in this
 organization. This operation can be called only from the organization's management account
 or by a member account that is a delegated administrator for an AWS service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1437,25 +1087,18 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
-- `"service_principal"`: Specifies a service principal name. If specified, then the
-  operation lists the delegated administrators only for the specified service. If you don't
-  specify a service principal, the operation lists all delegated administrators for all
-  services in your organization.
+- `service_principal`: Specifies a service principal name. If specified, then the operation
+  lists the delegated administrators only for the specified service. If you don't specify a
+  service principal, the operation lists all delegated administrators for all services in
+  your organization.
 """
-function list_delegated_administrators(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListDelegatedAdministrators",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListDelegatedAdministrators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1469,9 +1112,8 @@ account that is a delegated administrator for an AWS service.
 - `account_id`: The account ID number of a delegated administrator account in the
   organization.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1479,23 +1121,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_delegated_services_for_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_delegated_services_for_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListDelegatedServicesForAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListDelegatedServicesForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1510,15 +1143,14 @@ there are more results available. The NextToken response parameter value is null
 there are no more results to display.  This operation can be called from any account in the
 organization.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the handshakes that you want included in the response. The default is
+# Keyword Parameters
+- `filter`: Filters the handshakes that you want included in the response. The default is
   all types. Use the ActionType element to limit the output to only a specified type, such as
   INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the
   ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member
   account, you can specify ParentHandshakeId to see only the handshakes that were generated
   by that parent request.
-- `"max_results"`: The total number of results that you want included on each page of the
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1526,21 +1158,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListHandshakesForAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListHandshakesForAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1558,15 +1183,14 @@ more results to display.  This operation can be called only from the organizatio
 management account or by a member account that is a delegated administrator for an AWS
 service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: A filter of the handshakes that you want included in the response. The
-  default is all types. Use the ActionType element to limit the output to only a specified
-  type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the
+# Keyword Parameters
+- `filter`: A filter of the handshakes that you want included in the response. The default
+  is all types. Use the ActionType element to limit the output to only a specified type, such
+  as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the
   ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member
   account, you can specify the ParentHandshakeId to see only the handshakes that were
   generated by that parent request.
-- `"max_results"`: The total number of results that you want included on each page of the
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1574,21 +1198,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_handshakes_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListHandshakesForOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListHandshakesForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1609,9 +1226,8 @@ account or by a member account that is a delegated administrator for an AWS serv
   lowercase letters or digits (the ID of the root that the OU is in). This string is followed
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1619,23 +1235,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_organizational_units_for_parent(
-    ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_organizational_units_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListOrganizationalUnitsForParent",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ParentId" => ParentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListOrganizationalUnitsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1659,9 +1266,8 @@ child can have only a single parent.
   digits (the ID of the root that contains the OU). This string is followed by a second \"-\"
   dash and from 8 to 32 additional lowercase letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1669,19 +1275,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListParents",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ChildId" => ChildId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListParents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildId"=>ChildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1699,9 +1300,8 @@ account or by a member account that is a delegated administrator for an AWS serv
   specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY
   SERVICE_CONTROL_POLICY     TAG_POLICY
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1709,19 +1309,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListPolicies",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filter" => Filter), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1748,9 +1343,8 @@ for an AWS service.
   lowercase letters or digits (the ID of the root that the OU is in). This string is followed
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1758,25 +1352,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_policies_for_target(
-    Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policies_for_target(Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListPoliciesForTarget",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListPoliciesForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TargetId"=>TargetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1793,9 +1376,8 @@ When you enable all features, you make policy types available for use in that or
 Individual policy types can then be enabled and disabled in a root. To see the availability
 of a policy type in an organization, use DescribeOrganization.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1803,16 +1385,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_roots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListRoots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return organizations("ListRoots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1832,25 +1412,15 @@ for an AWS service.
   r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to:
   p-12abcdefg3
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+# Keyword Parameters
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1869,9 +1439,8 @@ for an AWS service.
   The regex pattern for a policy ID string requires \"p-\" followed by from 8 to 128
   lowercase or uppercase letters, digits, or the underscore character (_).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The total number of results that you want included on each page of the
+# Keyword Parameters
+- `max_results`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1879,23 +1448,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
+- `next_token`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_targets_for_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_targets_for_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "ListTargetsForPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("ListTargetsForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1924,30 +1484,9 @@ organization's management account.
   lowercase letters or digits.
 
 """
-function move_account(
-    AccountId,
-    DestinationParentId,
-    SourceParentId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function move_account(AccountId, DestinationParentId, SourceParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "MoveAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "DestinationParentId" => DestinationParentId,
-                    "SourceParentId" => SourceParentId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("MoveAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DestinationParentId"=>DestinationParentId, "SourceParentId"=>SourceParentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1968,27 +1507,9 @@ This operation can be called only from the organization's management account.
   the member account a delegated administrator.
 
 """
-function register_delegated_administrator(
-    AccountId,
-    ServicePrincipal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_delegated_administrator(AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "RegisterDelegatedAdministrator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("RegisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2023,18 +1544,9 @@ outside of an organization do not support tags.
   digits.
 
 """
-function remove_account_from_organization(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_account_from_organization(AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "RemoveAccountFromOrganization",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("RemoveAccountFromOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2058,20 +1570,9 @@ organization's management account.
   request fails and the account is not created.
 
 """
-function tag_resource(
-    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2092,22 +1593,9 @@ organization's management account.
 - `tag_keys`: The list of keys for tags to remove from the specified resource.
 
 """
-function untag_resource(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2124,28 +1612,13 @@ operation can be called only from the organization's management account.
   letters or digits (the ID of the root that contains the OU). This string is followed by a
   second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: The new name that you want to assign to the OU. The regex pattern that is used
-  to validate this parameter is a string of any of the characters in the ASCII character
-  range.
+# Keyword Parameters
+- `name`: The new name that you want to assign to the OU. The regex pattern that is used to
+  validate this parameter is a string of any of the characters in the ASCII character range.
 """
-function update_organizational_unit(
-    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "UpdateOrganizationalUnit",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("UpdateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2160,25 +1633,15 @@ operation can be called only from the organization's management account.
   pattern for a policy ID string requires \"p-\" followed by from 8 to 128 lowercase or
   uppercase letters, digits, or the underscore character (_).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content"`: If provided, the new content for the policy. The text must be correctly
+# Keyword Parameters
+- `content`: If provided, the new content for the policy. The text must be correctly
   formatted JSON that complies with the syntax for the policy's type. For more information,
   see Service Control Policy Syntax in the AWS Organizations User Guide.
-- `"description"`: If provided, the new description for the policy.
-- `"name"`: If provided, the new name for the policy. The regex pattern that is used to
+- `description`: If provided, the new description for the policy.
+- `name`: If provided, the new name for the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
-function update_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return organizations(
-        "UpdatePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return organizations("UpdatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,106 +4,8 @@ using AWS.AWSServices: neptune
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "values_to_add" => "AttributeValue",
-    "allocated_storage" => "AllocatedStorage",
-    "storage_type" => "StorageType",
-    "dbinstance_class" => "DBInstanceClass",
-    "publicly_accessible" => "PubliclyAccessible",
-    "dbport_number" => "DBPortNumber",
-    "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration",
-    "pre_signed_url" => "PreSignedUrl",
-    "enable_performance_insights" => "EnablePerformanceInsights",
-    "database_name" => "DatabaseName",
-    "deletion_protection" => "DeletionProtection",
-    "dbcluster_parameter_group_name" => "DBClusterParameterGroupName",
-    "replication_source_identifier" => "ReplicationSourceIdentifier",
-    "monitoring_role_arn" => "MonitoringRoleArn",
-    "vpc" => "Vpc",
-    "default_only" => "DefaultOnly",
-    "multi_az" => "MultiAZ",
-    "performance_insights_kmskey_id" => "PerformanceInsightsKMSKeyId",
-    "backup_retention_period" => "BackupRetentionPeriod",
-    "option_group_name" => "OptionGroupName",
-    "sns_topic_arn" => "SnsTopicArn",
-    "dbparameter_group_name" => "DBParameterGroupName",
-    "max_records" => "MaxRecords",
-    "list_supported_timezones" => "ListSupportedTimezones",
-    "source_ids" => "SourceId",
-    "kms_key_id" => "KmsKeyId",
-    "license_model" => "LicenseModel",
-    "master_username" => "MasterUsername",
-    "dbinstance_parameter_group_name" => "DBInstanceParameterGroupName",
-    "preferred_backup_window" => "PreferredBackupWindow",
-    "vpc_security_group_ids" => "VpcSecurityGroupId",
-    "cacertificate_identifier" => "CACertificateIdentifier",
-    "start_time" => "StartTime",
-    "parameters" => "Parameter",
-    "new_dbinstance_identifier" => "NewDBInstanceIdentifier",
-    "reset_all_parameters" => "ResetAllParameters",
-    "event_categories" => "EventCategory",
-    "force_failover" => "ForceFailover",
-    "port" => "Port",
-    "snapshot_type" => "SnapshotType",
-    "copy_tags_to_snapshot" => "CopyTagsToSnapshot",
-    "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier",
-    "include_shared" => "IncludeShared",
-    "use_latest_restorable_time" => "UseLatestRestorableTime",
-    "endpoint_type" => "EndpointType",
-    "values_to_remove" => "AttributeValue",
-    "master_user_password" => "MasterUserPassword",
-    "enabled" => "Enabled",
-    "allow_major_version_upgrade" => "AllowMajorVersionUpgrade",
-    "apply_immediately" => "ApplyImmediately",
-    "resource_identifier" => "ResourceIdentifier",
-    "engine_version" => "EngineVersion",
-    "domain_iamrole_name" => "DomainIAMRoleName",
-    "enable_iamdatabase_authentication" => "EnableIAMDatabaseAuthentication",
-    "character_set_name" => "CharacterSetName",
-    "timezone" => "Timezone",
-    "dbinstance_identifier" => "DBInstanceIdentifier",
-    "monitoring_interval" => "MonitoringInterval",
-    "include_public" => "IncludePublic",
-    "dbsubnet_group_description" => "DBSubnetGroupDescription",
-    "copy_tags" => "CopyTags",
-    "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier",
-    "storage_encrypted" => "StorageEncrypted",
-    "excluded_members" => "ExcludedMembers",
-    "iops" => "Iops",
-    "static_members" => "StaticMembers",
-    "source" => "Source",
-    "marker" => "Marker",
-    "tags" => "Tag",
-    "tde_credential_password" => "TdeCredentialPassword",
-    "availability_zones" => "AvailabilityZone",
-    "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade",
-    "end_time" => "EndTime",
-    "dbsecurity_groups" => "DBSecurityGroupName",
-    "restore_type" => "RestoreType",
-    "dbparameter_group_family" => "DBParameterGroupFamily",
-    "source_type" => "SourceType",
-    "duration" => "Duration",
-    "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports",
-    "tde_credential_arn" => "TdeCredentialArn",
-    "new_dbcluster_identifier" => "NewDBClusterIdentifier",
-    "preferred_maintenance_window" => "PreferredMaintenanceWindow",
-    "promotion_tier" => "PromotionTier",
-    "dbsubnet_group_name" => "DBSubnetGroupName",
-    "dbname" => "DBName",
-    "subscription_name" => "SubscriptionName",
-    "skip_final_snapshot" => "SkipFinalSnapshot",
-    "availability_zone" => "AvailabilityZone",
-    "restore_to_time" => "RestoreToTime",
-    "list_supported_character_sets" => "ListSupportedCharacterSets",
-    "engine" => "Engine",
-    "filters" => "Filter",
-    "dbcluster_identifier" => "DBClusterIdentifier",
-    "dbcluster_endpoint_identifier" => "DBClusterEndpointIdentifier",
-    "target_dbinstance_identifier" => "TargetDBInstanceIdentifier",
-    "feature_name" => "FeatureName",
-    "domain" => "Domain",
-    "source_identifier" => "SourceIdentifier",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("endpoint_type" => "EndpointType", "excluded_members" => "ExcludedMembers", "static_members" => "StaticMembers", "dbparameter_group_family" => "DBParameterGroupFamily", "default_only" => "DefaultOnly", "engine" => "Engine", "engine_version" => "EngineVersion", "filters" => "Filter", "list_supported_character_sets" => "ListSupportedCharacterSets", "list_supported_timezones" => "ListSupportedTimezones", "marker" => "Marker", "max_records" => "MaxRecords", "dbinstance_identifier" => "DBInstanceIdentifier", "dbcluster_identifier" => "DBClusterIdentifier", "target_dbinstance_identifier" => "TargetDBInstanceIdentifier", "feature_name" => "FeatureName", "source_type" => "SourceType", "tags" => "Tag", "availability_zones" => "AvailabilityZone", "copy_tags_to_snapshot" => "CopyTagsToSnapshot", "database_name" => "DatabaseName", "dbcluster_parameter_group_name" => "DBClusterParameterGroupName", "dbsubnet_group_name" => "DBSubnetGroupName", "deletion_protection" => "DeletionProtection", "enable_cloudwatch_logs_exports" => "EnableCloudwatchLogsExports", "enable_iamdatabase_authentication" => "EnableIAMDatabaseAuthentication", "kms_key_id" => "KmsKeyId", "option_group_name" => "OptionGroupName", "port" => "Port", "vpc_security_group_ids" => "VpcSecurityGroupId", "final_dbsnapshot_identifier" => "FinalDBSnapshotIdentifier", "skip_final_snapshot" => "SkipFinalSnapshot", "parameters" => "Parameter", "reset_all_parameters" => "ResetAllParameters", "enabled" => "Enabled", "event_categories" => "EventCategory", "sns_topic_arn" => "SnsTopicArn", "dbinstance_class" => "DBInstanceClass", "license_model" => "LicenseModel", "vpc" => "Vpc", "source" => "Source", "dbparameter_group_name" => "DBParameterGroupName", "source_ids" => "SourceId", "backup_retention_period" => "BackupRetentionPeriod", "character_set_name" => "CharacterSetName", "master_user_password" => "MasterUserPassword", "master_username" => "MasterUsername", "pre_signed_url" => "PreSignedUrl", "preferred_backup_window" => "PreferredBackupWindow", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "replication_source_identifier" => "ReplicationSourceIdentifier", "storage_encrypted" => "StorageEncrypted", "dbcluster_endpoint_identifier" => "DBClusterEndpointIdentifier", "allow_major_version_upgrade" => "AllowMajorVersionUpgrade", "apply_immediately" => "ApplyImmediately", "cloudwatch_logs_export_configuration" => "CloudwatchLogsExportConfiguration", "dbinstance_parameter_group_name" => "DBInstanceParameterGroupName", "new_dbcluster_identifier" => "NewDBClusterIdentifier", "restore_to_time" => "RestoreToTime", "restore_type" => "RestoreType", "use_latest_restorable_time" => "UseLatestRestorableTime", "values_to_add" => "AttributeValue", "values_to_remove" => "AttributeValue", "force_failover" => "ForceFailover", "copy_tags" => "CopyTags", "allocated_storage" => "AllocatedStorage", "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade", "availability_zone" => "AvailabilityZone", "dbname" => "DBName", "dbsecurity_groups" => "DBSecurityGroupName", "domain" => "Domain", "domain_iamrole_name" => "DomainIAMRoleName", "enable_performance_insights" => "EnablePerformanceInsights", "iops" => "Iops", "monitoring_interval" => "MonitoringInterval", "monitoring_role_arn" => "MonitoringRoleArn", "multi_az" => "MultiAZ", "performance_insights_kmskey_id" => "PerformanceInsightsKMSKeyId", "promotion_tier" => "PromotionTier", "publicly_accessible" => "PubliclyAccessible", "storage_type" => "StorageType", "tde_credential_arn" => "TdeCredentialArn", "tde_credential_password" => "TdeCredentialPassword", "timezone" => "Timezone", "dbsubnet_group_description" => "DBSubnetGroupDescription", "duration" => "Duration", "end_time" => "EndTime", "source_identifier" => "SourceIdentifier", "start_time" => "StartTime", "subscription_name" => "SubscriptionName", "cacertificate_identifier" => "CACertificateIdentifier", "dbport_number" => "DBPortNumber", "new_dbinstance_identifier" => "NewDBInstanceIdentifier", "dbcluster_snapshot_identifier" => "DBClusterSnapshotIdentifier", "include_public" => "IncludePublic", "include_shared" => "IncludeShared", "snapshot_type" => "SnapshotType", "resource_identifier" => "ResourceIdentifier")
 
 """
     add_role_to_dbcluster(dbcluster_identifier, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -115,32 +17,13 @@ Associates an Identity and Access Management (IAM) role with an Neptune DB clust
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune
   DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"feature_name"`: The name of the feature for the Neptune DB cluster that the IAM role is
+# Keyword Parameters
+- `feature_name`: The name of the feature for the Neptune DB cluster that the IAM role is
   to be associated with. For the list of supported feature names, see DBEngineVersion.
 """
-function add_role_to_dbcluster(
-    DBClusterIdentifier,
-    RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_role_to_dbcluster(DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "AddRoleToDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("AddRoleToDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -158,28 +41,9 @@ Adds a source identifier to an existing event notification subscription.
   source identifier to.
 
 """
-function add_source_identifier_to_subscription(
-    SourceIdentifier,
-    SubscriptionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "AddSourceIdentifierToSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceIdentifier" => SourceIdentifier,
-                    "SubscriptionName" => SubscriptionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -196,22 +60,9 @@ Condition statement in an IAM policy for Amazon Neptune.
 - `tag`: The tags to be assigned to the Amazon Neptune resource.
 
 """
-function add_tags_to_resource(
-    ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "AddTagsToResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -232,30 +83,9 @@ Applies a pending maintenance action to a resource (for example, to a DB instanc
   Amazon Resource Name (ARN).
 
 """
-function apply_pending_maintenance_action(
-    ApplyAction,
-    OptInType,
-    ResourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ApplyPendingMaintenanceAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplyAction" => ApplyAction,
-                    "OptInType" => OptInType,
-                    "ResourceIdentifier" => ResourceIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -279,37 +109,12 @@ Copies the specified DB cluster parameter group.
   255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a
   hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the copied DB cluster parameter group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the copied DB cluster parameter group.
 """
-function copy_dbcluster_parameter_group(
-    SourceDBClusterParameterGroupIdentifier,
-    TargetDBClusterParameterGroupDescription,
-    TargetDBClusterParameterGroupIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CopyDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceDBClusterParameterGroupIdentifier" =>
-                        SourceDBClusterParameterGroupIdentifier,
-                    "TargetDBClusterParameterGroupDescription" =>
-                        TargetDBClusterParameterGroupDescription,
-                    "TargetDBClusterParameterGroupIdentifier" =>
-                        TargetDBClusterParameterGroupIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -330,15 +135,14 @@ of the shared DB cluster snapshot.
   must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example:
   my-cluster-snapshot2
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"copy_tags"`: True to copy all tags from the source DB cluster snapshot to the target DB
+# Keyword Parameters
+- `copy_tags`: True to copy all tags from the source DB cluster snapshot to the target DB
   cluster snapshot, and otherwise false. The default is false.
-- `"kms_key_id"`: The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The
-  KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for
-  the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon
-  account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption
-  key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is
+- `kms_key_id`: The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS
+  key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the
+  KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account,
+  you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If
+  you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is
   encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted
   DB cluster snapshot that is shared from another Amazon account, then you must specify a
   value for KmsKeyId.  KMS encryption keys are specific to the Amazon Region that they are
@@ -346,33 +150,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try
   to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter,
   an error is returned.
-- `"pre_signed_url"`: Not currently supported.
-- `"tags"`: The tags to assign to the new DB cluster snapshot copy.
+- `pre_signed_url`: Not currently supported.
+- `tags`: The tags to assign to the new DB cluster snapshot copy.
 """
-function copy_dbcluster_snapshot(
-    SourceDBClusterSnapshotIdentifier,
-    TargetDBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CopyDBClusterSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceDBClusterSnapshotIdentifier" =>
-                        SourceDBClusterSnapshotIdentifier,
-                    "TargetDBClusterSnapshotIdentifier" =>
-                        TargetDBClusterSnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -391,35 +174,12 @@ Copies the specified DB parameter group.
   numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or
   contain two consecutive hyphens.   Example: my-db-parameter-group
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the copied DB parameter group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the copied DB parameter group.
 """
-function copy_dbparameter_group(
-    SourceDBParameterGroupIdentifier,
-    TargetDBParameterGroupDescription,
-    TargetDBParameterGroupIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_dbparameter_group(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CopyDBParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceDBParameterGroupIdentifier" => SourceDBParameterGroupIdentifier,
-                    "TargetDBParameterGroupDescription" =>
-                        TargetDBParameterGroupDescription,
-                    "TargetDBParameterGroupIdentifier" => TargetDBParameterGroupIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CopyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -440,36 +200,35 @@ DB cluster if its DeletionProtection field is set to false.
 - `engine`: The name of the database engine to be used for this DB cluster. Valid Values:
   neptune
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: A list of EC2 Availability Zones that instances in the DB cluster
+# Keyword Parameters
+- `availability_zones`: A list of EC2 Availability Zones that instances in the DB cluster
   can be created in.
-- `"backup_retention_period"`: The number of days for which automated backups are retained.
+- `backup_retention_period`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35
-- `"character_set_name"`:  (Not supported by Neptune)
-- `"copy_tags_to_snapshot"`:  If set to true, tags are copied to any snapshot of the DB
+- `character_set_name`:  (Not supported by Neptune)
+- `copy_tags_to_snapshot`:  If set to true, tags are copied to any snapshot of the DB
   cluster that is created.
-- `"database_name"`: The name for your database of up to 64 alpha-numeric characters. If
-  you do not provide a name, Amazon Neptune will not create a database in the DB cluster you
-  are creating.
-- `"dbcluster_parameter_group_name"`:  The name of the DB cluster parameter group to
+- `database_name`: The name for your database of up to 64 alpha-numeric characters. If you
+  do not provide a name, Amazon Neptune will not create a database in the DB cluster you are
+  creating.
+- `dbcluster_parameter_group_name`:  The name of the DB cluster parameter group to
   associate with this DB cluster. If this argument is omitted, the default is used.
   Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
-- `"dbsubnet_group_name"`: A DB subnet group to associate with this DB cluster.
-  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default.
-  Example: mySubnetgroup
-- `"deletion_protection"`: A value that indicates whether the DB cluster has deletion
+- `dbsubnet_group_name`: A DB subnet group to associate with this DB cluster. Constraints:
+  Must match the name of an existing DBSubnetGroup. Must not be default. Example:
+  mySubnetgroup
+- `deletion_protection`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is enabled.
-- `"enable_cloudwatch_logs_exports"`: The list of log types that need to be enabled for
+- `enable_cloudwatch_logs_exports`: The list of log types that need to be enabled for
   exporting to CloudWatch Logs.
-- `"enable_iamdatabase_authentication"`: If set to true, enables Amazon Identity and Access
+- `enable_iamdatabase_authentication`: If set to true, enables Amazon Identity and Access
   Management (IAM) authentication for the entire DB cluster (this cannot be set at an
   instance level). Default: false.
-- `"engine_version"`: The version number of the database engine to use for the new DB
+- `engine_version`: The version number of the database engine to use for the new DB
   cluster. Example: 1.0.2.1
-- `"kms_key_id"`: The Amazon KMS key identifier for an encrypted DB cluster. The KMS key
+- `kms_key_id`: The Amazon KMS key identifier for an encrypted DB cluster. The KMS key
   identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are
   creating a DB cluster with the same Amazon account that owns the KMS encryption key used to
   encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the
@@ -483,53 +242,35 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set
   KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used
   to encrypt the Read Replica in that Amazon Region.
-- `"master_user_password"`: Not supported by Neptune.
-- `"master_username"`: Not supported by Neptune.
-- `"option_group_name"`:  (Not supported by Neptune)
-- `"port"`: The port number on which the instances in the DB cluster accept connections.
+- `master_user_password`: Not supported by Neptune.
+- `master_username`: Not supported by Neptune.
+- `option_group_name`:  (Not supported by Neptune)
+- `port`: The port number on which the instances in the DB cluster accept connections.
   Default: 8182
-- `"pre_signed_url"`: This parameter is not currently supported.
-- `"preferred_backup_window"`: The daily time range during which automated backups are
+- `pre_signed_url`: This parameter is not currently supported.
+- `preferred_backup_window`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Region. To see the time blocks available, see  Adjusting the Preferred Maintenance
   Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format
   hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with
   the preferred maintenance window.   Must be at least 30 minutes.
-- `"preferred_maintenance_window"`: The weekly time range during which system maintenance
-  can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The
-  default is a 30-minute window selected at random from an 8-hour block of time for each
-  Amazon Region, occurring on a random day of the week. To see the time blocks available, see
-   Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days:
-  Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
-- `"replication_source_identifier"`: The Amazon Resource Name (ARN) of the source DB
-  instance or DB cluster if this DB cluster is created as a Read Replica.
-- `"storage_encrypted"`: Specifies whether the DB cluster is encrypted.
-- `"tags"`: The tags to assign to the new DB cluster.
-- `"vpc_security_group_ids"`: A list of EC2 VPC security groups to associate with this DB
+- `preferred_maintenance_window`: The weekly time range during which system maintenance can
+  occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
+  a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
+  occurring on a random day of the week. To see the time blocks available, see  Adjusting the
+  Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed,
+  Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+- `replication_source_identifier`: The Amazon Resource Name (ARN) of the source DB instance
+  or DB cluster if this DB cluster is created as a Read Replica.
+- `storage_encrypted`: Specifies whether the DB cluster is encrypted.
+- `tags`: The tags to assign to the new DB cluster.
+- `vpc_security_group_ids`: A list of EC2 VPC security groups to associate with this DB
   cluster.
 """
-function create_dbcluster(
-    DBClusterIdentifier,
-    Engine;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster(DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier, "Engine" => Engine
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -544,39 +285,17 @@ Creates a new custom endpoint and associates it with an Amazon Neptune DB cluste
   endpoint. This parameter is stored as a lowercase string.
 - `endpoint_type`: The type of the endpoint. One of: READER, WRITER, ANY.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"excluded_members"`: List of DB instance identifiers that aren't part of the custom
+# Keyword Parameters
+- `excluded_members`: List of DB instance identifiers that aren't part of the custom
   endpoint group. All other eligible instances are reachable through the custom endpoint.
   Only relevant if the list of static members is empty.
-- `"static_members"`: List of DB instance identifiers that are part of the custom endpoint
+- `static_members`: List of DB instance identifiers that are part of the custom endpoint
   group.
-- `"tags"`: The tags to be assigned to the Amazon Neptune resource.
+- `tags`: The tags to be assigned to the Amazon Neptune resource.
 """
-function create_dbcluster_endpoint(
-    DBClusterEndpointIdentifier,
-    DBClusterIdentifier,
-    EndpointType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster_endpoint(DBClusterEndpointIdentifier, DBClusterIdentifier, EndpointType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBClusterEndpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier,
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "EndpointType" => EndpointType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier, "DBClusterIdentifier"=>DBClusterIdentifier, "EndpointType"=>EndpointType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -610,34 +329,12 @@ that your DB cluster parameter group has been created or modified.
   compatible with that DB cluster parameter group family.
 - `description`: The description for the DB cluster parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the new DB cluster parameter group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the new DB cluster parameter group.
 """
-function create_dbcluster_parameter_group(
-    DBClusterParameterGroupName,
-    DBParameterGroupFamily,
-    Description;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName,
-                    "DBParameterGroupFamily" => DBParameterGroupFamily,
-                    "Description" => Description,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -654,32 +351,12 @@ Creates a snapshot of a DB cluster.
   letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a
   hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the DB cluster snapshot.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the DB cluster snapshot.
 """
-function create_dbcluster_snapshot(
-    DBClusterIdentifier,
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBClusterSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -697,50 +374,49 @@ Creates a new DB instance.
 - `engine`: The name of the database engine to be used for this instance. Valid Values:
   neptune
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allocated_storage"`: Not supported by Neptune.
-- `"auto_minor_version_upgrade"`: Indicates that minor engine upgrades are applied
+# Keyword Parameters
+- `allocated_storage`: Not supported by Neptune.
+- `auto_minor_version_upgrade`: Indicates that minor engine upgrades are applied
   automatically to the DB instance during the maintenance window. Default: true
-- `"availability_zone"`:  The EC2 Availability Zone that the DB instance is created in
+- `availability_zone`:  The EC2 Availability Zone that the DB instance is created in
   Default: A random, system-chosen Availability Zone in the endpoint's Amazon Region.
   Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the
   MultiAZ parameter is set to true. The specified Availability Zone must be in the same
   Amazon Region as the current endpoint.
-- `"backup_retention_period"`: The number of days for which automated backups are retained.
+- `backup_retention_period`: The number of days for which automated backups are retained.
   Not applicable. The retention period for automated backups is managed by the DB cluster.
   For more information, see CreateDBCluster. Default: 1 Constraints:   Must be a value from 0
   to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas
-- `"character_set_name"`:  (Not supported by Neptune)
-- `"copy_tags_to_snapshot"`: True to copy all tags from the DB instance to snapshots of the
+- `character_set_name`:  (Not supported by Neptune)
+- `copy_tags_to_snapshot`: True to copy all tags from the DB instance to snapshots of the
   DB instance, and otherwise false. The default is false.
-- `"dbcluster_identifier"`: The identifier of the DB cluster that the instance will belong
+- `dbcluster_identifier`: The identifier of the DB cluster that the instance will belong
   to. For information on creating a DB cluster, see CreateDBCluster. Type: String
-- `"dbname"`: Not supported.
-- `"dbparameter_group_name"`: The name of the DB parameter group to associate with this DB
+- `dbname`: Not supported.
+- `dbparameter_group_name`: The name of the DB parameter group to associate with this DB
   instance. If this argument is omitted, the default DBParameterGroup for the specified
   engine is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First
   character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
-- `"dbsecurity_groups"`: A list of DB security groups to associate with this DB instance.
+- `dbsecurity_groups`: A list of DB security groups to associate with this DB instance.
   Default: The default DB security group for the database engine.
-- `"dbsubnet_group_name"`: A DB subnet group to associate with this DB instance. If there
-  is no DB subnet group, then it is a non-VPC DB instance.
-- `"deletion_protection"`: A value that indicates whether the DB instance has deletion
+- `dbsubnet_group_name`: A DB subnet group to associate with this DB instance. If there is
+  no DB subnet group, then it is a non-VPC DB instance.
+- `deletion_protection`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled. See Deleting a DB Instance. DB instances in a DB
   cluster can be deleted even when deletion protection is enabled in their parent DB cluster.
-- `"domain"`: Specify the Active Directory Domain to create the instance in.
-- `"domain_iamrole_name"`: Specify the name of the IAM role to be used when making API
-  calls to the Directory Service.
-- `"enable_cloudwatch_logs_exports"`: The list of log types that need to be enabled for
+- `domain`: Specify the Active Directory Domain to create the instance in.
+- `domain_iamrole_name`: Specify the name of the IAM role to be used when making API calls
+  to the Directory Service.
+- `enable_cloudwatch_logs_exports`: The list of log types that need to be enabled for
   exporting to CloudWatch Logs.
-- `"enable_iamdatabase_authentication"`: Not supported by Neptune (ignored).
-- `"enable_performance_insights"`:  (Not supported by Neptune)
-- `"engine_version"`: The version number of the database engine to use. Currently, setting
+- `enable_iamdatabase_authentication`: Not supported by Neptune (ignored).
+- `enable_performance_insights`:  (Not supported by Neptune)
+- `engine_version`: The version number of the database engine to use. Currently, setting
   this parameter has no effect.
-- `"iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
+- `iops`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for the DB instance.
-- `"kms_key_id"`: The Amazon KMS key identifier for an encrypted DB instance. The KMS key
+- `kms_key_id`: The Amazon KMS key identifier for an encrypted DB instance. The KMS key
   identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are
   creating a DB instance with the same Amazon account that owns the KMS encryption key used
   to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for
@@ -749,78 +425,56 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your
   default encryption key. Amazon KMS creates the default encryption key for your Amazon
   account. Your Amazon account has a different default encryption key for each Amazon Region.
-- `"license_model"`: License model information for this DB instance.  Valid values:
+- `license_model`: License model information for this DB instance.  Valid values:
   license-included | bring-your-own-license | general-public-license
-- `"master_user_password"`: Not supported by Neptune.
-- `"master_username"`: Not supported by Neptune.
-- `"monitoring_interval"`: The interval, in seconds, between points when Enhanced
-  Monitoring metrics are collected for the DB instance. To disable collecting Enhanced
-  Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then
-  you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10,
-  15, 30, 60
-- `"monitoring_role_arn"`: The ARN for the IAM role that permits Neptune to send enhanced
+- `master_user_password`: Not supported by Neptune.
+- `master_username`: Not supported by Neptune.
+- `monitoring_interval`: The interval, in seconds, between points when Enhanced Monitoring
+  metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
+  metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
+  set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
+- `monitoring_role_arn`: The ARN for the IAM role that permits Neptune to send enhanced
   monitoring metrics to Amazon CloudWatch Logs. For example,
   arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than
   0, then you must supply a MonitoringRoleArn value.
-- `"multi_az"`: Specifies if the DB instance is a Multi-AZ deployment. You can't set the
+- `multi_az`: Specifies if the DB instance is a Multi-AZ deployment. You can't set the
   AvailabilityZone parameter if the MultiAZ parameter is set to true.
-- `"option_group_name"`:  (Not supported by Neptune)
-- `"performance_insights_kmskey_id"`:  (Not supported by Neptune)
-- `"port"`: The port number on which the database accepts connections. Not applicable. The
+- `option_group_name`:  (Not supported by Neptune)
+- `performance_insights_kmskey_id`:  (Not supported by Neptune)
+- `port`: The port number on which the database accepts connections. Not applicable. The
   port is managed by the DB cluster. For more information, see CreateDBCluster.  Default:
   8182  Type: Integer
-- `"preferred_backup_window"`:  The daily time range during which automated backups are
+- `preferred_backup_window`:  The daily time range during which automated backups are
   created. Not applicable. The daily time range for creating automated backups is managed by
   the DB cluster. For more information, see CreateDBCluster.
-- `"preferred_maintenance_window"`: The time range each week during which system
-  maintenance can occur, in Universal Coordinated Time (UTC).  Format:
-  ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an
-  8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid
-  Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
-- `"promotion_tier"`: A value that specifies the order in which an Read Replica is promoted
+- `preferred_maintenance_window`: The time range each week during which system maintenance
+  can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The
+  default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri,
+  Sat, Sun. Constraints: Minimum 30-minute window.
+- `promotion_tier`: A value that specifies the order in which an Read Replica is promoted
   to the primary instance after a failure of the existing primary instance.  Default: 1 Valid
   Values: 0 - 15
-- `"publicly_accessible"`: This flag should no longer be used.
-- `"storage_encrypted"`: Specifies whether the DB instance is encrypted. Not applicable.
-  The encryption for DB instances is managed by the DB cluster. For more information, see
+- `publicly_accessible`: This flag should no longer be used.
+- `storage_encrypted`: Specifies whether the DB instance is encrypted. Not applicable. The
+  encryption for DB instances is managed by the DB cluster. For more information, see
   CreateDBCluster. Default: false
-- `"storage_type"`: Specifies the storage type to be associated with the DB instance. Not
+- `storage_type`: Specifies the storage type to be associated with the DB instance. Not
   applicable. Storage is managed by the DB Cluster.
-- `"tags"`: The tags to assign to the new instance.
-- `"tde_credential_arn"`: The ARN from the key store with which to associate the instance
-  for TDE encryption.
-- `"tde_credential_password"`: The password for the given ARN from the key store in order
-  to access the device.
-- `"timezone"`: The time zone of the DB instance.
-- `"vpc_security_group_ids"`: A list of EC2 VPC security groups to associate with this DB
+- `tags`: The tags to assign to the new instance.
+- `tde_credential_arn`: The ARN from the key store with which to associate the instance for
+  TDE encryption.
+- `tde_credential_password`: The password for the given ARN from the key store in order to
+  access the device.
+- `timezone`: The time zone of the DB instance.
+- `vpc_security_group_ids`: A list of EC2 VPC security groups to associate with this DB
   instance. Not applicable. The associated list of EC2 VPC security groups is managed by the
   DB cluster. For more information, see CreateDBCluster. Default: The default EC2 VPC
   security group for the DB subnet group's VPC.
 """
-function create_dbinstance(
-    DBInstanceClass,
-    DBInstanceIdentifier,
-    Engine;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbinstance(DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBInstanceClass" => DBInstanceClass,
-                    "DBInstanceIdentifier" => DBInstanceIdentifier,
-                    "Engine" => Engine,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -852,34 +506,12 @@ parameter group has been created or modified.
   hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
 - `description`: The description for the DB parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the new DB parameter group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the new DB parameter group.
 """
-function create_dbparameter_group(
-    DBParameterGroupFamily,
-    DBParameterGroupName,
-    Description;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbparameter_group(DBParameterGroupFamily, DBParameterGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBParameterGroupFamily" => DBParameterGroupFamily,
-                    "DBParameterGroupName" => DBParameterGroupName,
-                    "Description" => Description,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -895,34 +527,12 @@ least two AZs in the Amazon Region.
   underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
 - `subnet_identifier`: The EC2 Subnet IDs for the DB subnet group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to be assigned to the new DB subnet group.
+# Keyword Parameters
+- `tags`: The tags to be assigned to the new DB subnet group.
 """
-function create_dbsubnet_group(
-    DBSubnetGroupDescription,
-    DBSubnetGroupName,
-    SubnetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateDBSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBSubnetGroupDescription" => DBSubnetGroupDescription,
-                    "DBSubnetGroupName" => DBSubnetGroupName,
-                    "SubnetIdentifier" => SubnetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -949,50 +559,31 @@ sources belonging to your customer account.
 - `subscription_name`: The name of the subscription. Constraints: The name must be less
   than 255 characters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`:  A Boolean value; set to true to activate the subscription, set to false to
+# Keyword Parameters
+- `enabled`:  A Boolean value; set to true to activate the subscription, set to false to
   create the subscription but not active it.
-- `"event_categories"`:  A list of event categories for a SourceType that you want to
+- `event_categories`:  A list of event categories for a SourceType that you want to
   subscribe to. You can see a list of the categories for a given SourceType by using the
   DescribeEventCategories action.
-- `"source_ids"`: The list of identifiers of the event sources for which events are
-  returned. If not specified, then all sources are included in the response. An identifier
-  must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't
-  end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are
-  supplied, SourceType must also be provided.   If the source type is a DB instance, then a
+- `source_ids`: The list of identifiers of the event sources for which events are returned.
+  If not specified, then all sources are included in the response. An identifier must begin
+  with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a
+  hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied,
+  SourceType must also be provided.   If the source type is a DB instance, then a
   DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a
   DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a
   DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a
   DBSnapshotIdentifier must be supplied.
-- `"source_type"`: The type of source that is generating the events. For example, if you
-  want to be notified of events generated by a DB instance, you would set this parameter to
+- `source_type`: The type of source that is generating the events. For example, if you want
+  to be notified of events generated by a DB instance, you would set this parameter to
   db-instance. if this value is not specified, all events are returned. Valid values:
   db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot |
   db-cluster-snapshot
-- `"tags"`: The tags to be applied to the new event subscription.
+- `tags`: The tags to be applied to the new event subscription.
 """
-function create_event_subscription(
-    SnsTopicArn,
-    SubscriptionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "CreateEventSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1008,35 +599,21 @@ set its DeletionProtection field to False.
 - `dbcluster_identifier`: The DB cluster identifier for the DB cluster to be deleted. This
   parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"final_dbsnapshot_identifier"`:  The DB cluster snapshot identifier of the new DB
-  cluster snapshot created when SkipFinalSnapshot is set to false.   Specifying this
-  parameter and also setting the SkipFinalShapshot parameter to true results in an error.
-  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a
-  letter   Cannot end with a hyphen or contain two consecutive hyphens
-- `"skip_final_snapshot"`:  Determines whether a final DB cluster snapshot is created
-  before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created.
-  If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.
-  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.
-  Default: false
+# Keyword Parameters
+- `final_dbsnapshot_identifier`:  The DB cluster snapshot identifier of the new DB cluster
+  snapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and
+  also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:
+  Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot
+  end with a hyphen or contain two consecutive hyphens
+- `skip_final_snapshot`:  Determines whether a final DB cluster snapshot is created before
+  the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If
+  false is specified, a DB cluster snapshot is created before the DB cluster is deleted.  You
+  must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default:
+  false
 """
-function delete_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1049,26 +626,9 @@ Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
   parameter is stored as a lowercase string.
 
 """
-function delete_dbcluster_endpoint(
-    DBClusterEndpointIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_dbcluster_endpoint(DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBClusterEndpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1083,26 +643,9 @@ deleted can't be associated with any DB clusters.
   delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.
 
 """
-function delete_dbcluster_parameter_group(
-    DBClusterParameterGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1116,26 +659,9 @@ terminated.  The DB cluster snapshot must be in the available state to be delete
   Constraints: Must be the name of an existing DB cluster snapshot in the available state.
 
 """
-function delete_dbcluster_snapshot(
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_dbcluster_snapshot(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBClusterSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1157,14 +683,13 @@ only instance in the DB cluster, or if it has deletion protection enabled.
   This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB
   instance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"final_dbsnapshot_identifier"`:  The DBSnapshotIdentifier of the new DBSnapshot created
+# Keyword Parameters
+- `final_dbsnapshot_identifier`:  The DBSnapshotIdentifier of the new DBSnapshot created
   when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the
   SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255
   letters or numbers.   First character must be a letter   Cannot end with a hyphen or
   contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.
-- `"skip_final_snapshot"`:  Determines whether a final DB snapshot is created before the DB
+- `skip_final_snapshot`:  Determines whether a final DB snapshot is created before the DB
   instance is deleted. If true is specified, no DBSnapshot is created. If false is specified,
   a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is
   in a failure state and has a status of 'failed', 'incompatible-restore', or
@@ -1172,22 +697,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   to \"true\". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier
   parameter must be specified if SkipFinalSnapshot is false.  Default: false
 """
-function delete_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1202,22 +714,9 @@ associated with any DB instances.
   Cannot be associated with any DB instances
 
 """
-function delete_dbparameter_group(
-    DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbparameter_group(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1232,20 +731,9 @@ any DB instances.
   DBSubnetGroup. Must not be default. Example: mySubnetgroup
 
 """
-function delete_dbsubnet_group(
-    DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteDBSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DBSubnetGroupName" => DBSubnetGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1257,20 +745,9 @@ Deletes an event notification subscription.
 - `subscription_name`: The name of the event notification subscription you want to delete.
 
 """
-function delete_event_subscription(
-    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DeleteEventSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1279,13 +756,12 @@ end
 Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can
 also return information for Amazon RDS clusters and Amazon DocDB clusters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_endpoint_identifier"`: The identifier of the endpoint to describe. This
+# Keyword Parameters
+- `dbcluster_endpoint_identifier`: The identifier of the endpoint to describe. This
   parameter is stored as a lowercase string.
-- `"dbcluster_identifier"`: The DB cluster identifier of the DB cluster associated with the
+- `dbcluster_identifier`: The DB cluster identifier of the DB cluster associated with the
   endpoint. This parameter is stored as a lowercase string.
-- `"filters"`: A set of name-value pairs that define which endpoints to include in the
+- `filters`: A set of name-value pairs that define which endpoints to include in the
   output. The filters are specified as name-value pairs, in the format
   Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of:
   db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id,
@@ -1293,24 +769,17 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can
   be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one
   or more of: available, creating, deleting, inactive, modifying.
-- `"marker"`:  An optional pagination token provided by a previous
-  DescribeDBClusterEndpoints request. If this parameter is specified, the response includes
-  only records beyond the marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so you can retrieve the remaining results.  Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `marker`:  An optional pagination token provided by a previous DescribeDBClusterEndpoints
+  request. If this parameter is specified, the response includes only records beyond the
+  marker, up to the value specified by MaxRecords.
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so you can retrieve the remaining results.  Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_dbcluster_endpoints(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBClusterEndpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBClusterEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1320,30 +789,22 @@ end
 parameter is specified, the list will contain only the description of the specified DB
 cluster parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_parameter_group_name"`: The name of a specific DB cluster parameter group to
+# Keyword Parameters
+- `dbcluster_parameter_group_name`: The name of a specific DB cluster parameter group to
   return details for. Constraints:   If supplied, must match the name of an existing
   DBClusterParameterGroup.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous
+- `filters`: This parameter is not currently supported.
+- `marker`:  An optional pagination token provided by a previous
   DescribeDBClusterParameterGroups request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_dbcluster_parameter_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBClusterParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBClusterParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1356,39 +817,21 @@ Returns the detailed parameter list for a particular DB cluster parameter group.
   return parameter details for. Constraints:   If supplied, must match the name of an
   existing DBClusterParameterGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`:  An optional pagination token provided by a previous
   DescribeDBClusterParameters request. If this parameter is specified, the response includes
   only records beyond the marker, up to the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"source"`:  A value that indicates to return only parameters for a specific source.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `source`:  A value that indicates to return only parameters for a specific source.
   Parameter sources can be engine, service, or customer.
 """
-function describe_dbcluster_parameters(
-    DBClusterParameterGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_dbcluster_parameters(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBClusterParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1409,26 +852,9 @@ API action.
   the attributes for.
 
 """
-function describe_dbcluster_snapshot_attributes(
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBClusterSnapshotAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1436,36 +862,35 @@ end
 
 Returns information about DB cluster snapshots. This API action supports pagination.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_identifier"`: The ID of the DB cluster to retrieve the list of DB cluster
+# Keyword Parameters
+- `dbcluster_identifier`: The ID of the DB cluster to retrieve the list of DB cluster
   snapshots for. This parameter can't be used in conjunction with the
   DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints:
   If supplied, must match the identifier of an existing DBCluster.
-- `"dbcluster_snapshot_identifier"`: A specific DB cluster snapshot identifier to describe.
+- `dbcluster_snapshot_identifier`: A specific DB cluster snapshot identifier to describe.
   This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This
   value is stored as a lowercase string. Constraints:   If supplied, must match the
   identifier of an existing DBClusterSnapshot.   If this identifier is for an automated
   snapshot, the SnapshotType parameter must also be specified.
-- `"filters"`: This parameter is not currently supported.
-- `"include_public"`: True to include manual DB cluster snapshots that are public and can
-  be copied or restored by any Amazon account, and otherwise false. The default is false. The
+- `filters`: This parameter is not currently supported.
+- `include_public`: True to include manual DB cluster snapshots that are public and can be
+  copied or restored by any Amazon account, and otherwise false. The default is false. The
   default is false. You can share a manual DB cluster snapshot as public by using the
   ModifyDBClusterSnapshotAttribute API action.
-- `"include_shared"`: True to include shared manual DB cluster snapshots from other Amazon
+- `include_shared`: True to include shared manual DB cluster snapshots from other Amazon
   accounts that this Amazon account has been given permission to copy or restore, and
   otherwise false. The default is false. You can give an Amazon account permission to restore
   a manual DB cluster snapshot from another Amazon account by the
   ModifyDBClusterSnapshotAttribute API action.
-- `"marker"`: An optional pagination token provided by a previous
-  DescribeDBClusterSnapshots request. If this parameter is specified, the response includes
-  only records beyond the marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"snapshot_type"`: The type of DB cluster snapshots to be returned. You can specify one
-  of the following values:    automated - Return all DB cluster snapshots that have been
+- `marker`: An optional pagination token provided by a previous DescribeDBClusterSnapshots
+  request. If this parameter is specified, the response includes only records beyond the
+  marker, up to the value specified by MaxRecords.
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `snapshot_type`: The type of DB cluster snapshots to be returned. You can specify one of
+  the following values:    automated - Return all DB cluster snapshots that have been
   automatically taken by Amazon Neptune for my Amazon account.    manual - Return all DB
   cluster snapshots that have been taken by my Amazon account.    shared - Return all manual
   DB cluster snapshots that have been shared to my Amazon account.    public - Return all DB
@@ -1478,16 +903,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when
   SnapshotType is set to public.
 """
-function describe_dbcluster_snapshots(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBClusterSnapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBClusterSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1496,31 +914,28 @@ end
 Returns information about provisioned DB clusters, and supports pagination.  This operation
 can also return information for Amazon RDS clusters and Amazon DocDB clusters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_identifier"`: The user-supplied DB cluster identifier. If this parameter is
+# Keyword Parameters
+- `dbcluster_identifier`: The user-supplied DB cluster identifier. If this parameter is
   specified, information from only the specific DB cluster is returned. This parameter isn't
   case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
-- `"filters"`: A filter that specifies one or more DB clusters to describe. Supported
+- `filters`: A filter that specifies one or more DB clusters to describe. Supported
   filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource
   Names (ARNs). The results list will only include information about the DB clusters
   identified by these ARNs.    engine - Accepts an engine name (such as neptune), and
   restricts the results list to DB clusters created by that engine.   For example, to invoke
   this API from the Amazon CLI and filter so that only Neptune DB clusters are returned, you
   could use the following command:
-- `"marker"`: An optional pagination token provided by a previous DescribeDBClusters
-  request. If this parameter is specified, the response includes only records beyond the
-  marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `marker`: An optional pagination token provided by a previous DescribeDBClusters request.
+  If this parameter is specified, the response includes only records beyond the marker, up to
+  the value specified by MaxRecords.
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
 function describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptune("DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1528,39 +943,31 @@ end
 
 Returns a list of the available DB engines.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbparameter_group_family"`: The name of a specific DB parameter group family to return
+# Keyword Parameters
+- `dbparameter_group_family`: The name of a specific DB parameter group family to return
   details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.
-- `"default_only"`: Indicates that only the default version of the specified engine or
-  engine and major version combination is returned.
-- `"engine"`: The database engine to return.
-- `"engine_version"`: The database engine version to return. Example: 5.1.49
-- `"filters"`: Not currently supported.
-- `"list_supported_character_sets"`: If this parameter is specified and the requested
-  engine supports the CharacterSetName parameter for CreateDBInstance, the response includes
-  a list of supported character sets for each engine version.
-- `"list_supported_timezones"`: If this parameter is specified and the requested engine
+- `default_only`: Indicates that only the default version of the specified engine or engine
+  and major version combination is returned.
+- `engine`: The database engine to return.
+- `engine_version`: The database engine version to return. Example: 5.1.49
+- `filters`: Not currently supported.
+- `list_supported_character_sets`: If this parameter is specified and the requested engine
+  supports the CharacterSetName parameter for CreateDBInstance, the response includes a list
+  of supported character sets for each engine version.
+- `list_supported_timezones`: If this parameter is specified and the requested engine
   supports the TimeZone parameter for CreateDBInstance, the response includes a list of
   supported time zones for each engine version.
-- `"marker"`:  An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more than
+- `marker`:  An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by MaxRecords.
+- `max_records`:  The maximum number of records to include in the response. If more than
   the MaxRecords value is available, a pagination token called a marker is included in the
   response so that the following results can be retrieved. Default: 100 Constraints: Minimum
   20, maximum 100.
 """
-function describe_dbengine_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBEngineVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1569,37 +976,29 @@ end
 Returns information about provisioned instances, and supports pagination.  This operation
 can also return information for Amazon RDS instances and Amazon DocDB instances.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbinstance_identifier"`: The user-supplied instance identifier. If this parameter is
+# Keyword Parameters
+- `dbinstance_identifier`: The user-supplied instance identifier. If this parameter is
   specified, information from only the specific DB instance is returned. This parameter isn't
   case-sensitive. Constraints:   If supplied, must match the identifier of an existing
   DBInstance.
-- `"filters"`: A filter that specifies one or more DB instances to describe. Supported
+- `filters`: A filter that specifies one or more DB instances to describe. Supported
   filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource
   Names (ARNs). The results list will only include information about the DB instances
   associated with the DB clusters identified by these ARNs.    engine - Accepts an engine
   name (such as neptune), and restricts the results list to DB instances created by that
   engine.   For example, to invoke this API from the Amazon CLI and filter so that only
   Neptune DB instances are returned, you could use the following command:
-- `"marker"`:  An optional pagination token provided by a previous DescribeDBInstances
+- `marker`:  An optional pagination token provided by a previous DescribeDBInstances
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_dbinstances(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1608,30 +1007,22 @@ end
 Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified,
 the list will contain only the description of the specified DB parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbparameter_group_name"`: The name of a specific DB parameter group to return details
+# Keyword Parameters
+- `dbparameter_group_name`: The name of a specific DB parameter group to return details
   for. Constraints:   If supplied, must match the name of an existing
   DBClusterParameterGroup.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous DescribeDBParameterGroups
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous DescribeDBParameterGroups
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_dbparameter_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbparameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1643,35 +1034,21 @@ Returns the detailed parameter list for a particular DB parameter group.
 - `dbparameter_group_name`: The name of a specific DB parameter group to return details
   for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`: An optional pagination token provided by a previous DescribeDBParameters
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`: An optional pagination token provided by a previous DescribeDBParameters
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"max_records"`: The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"source"`: The parameter types to return. Default: All parameter types returned Valid
+- `max_records`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `source`: The parameter types to return. Default: All parameter types returned Valid
   Values: user | system | engine-default
 """
-function describe_dbparameters(
-    DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbparameters(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1681,28 +1058,20 @@ Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specifie
 will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR
 ranges, go to the Wikipedia Tutorial.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbsubnet_group_name"`: The name of the DB subnet group to return details for.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous DescribeDBSubnetGroups
+# Keyword Parameters
+- `dbsubnet_group_name`: The name of the DB subnet group to return details for.
+- `filters`: This parameter is not currently supported.
+- `marker`:  An optional pagination token provided by a previous DescribeDBSubnetGroups
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_dbsubnet_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeDBSubnetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeDBSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1714,33 +1083,19 @@ Returns the default engine and system parameter information for the cluster data
 - `dbparameter_group_family`: The name of the DB cluster parameter group family to return
   engine parameter information for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`:  An optional pagination token provided by a previous
   DescribeEngineDefaultClusterParameters request. If this parameter is specified, the
   response includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_engine_default_cluster_parameters(
-    DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_engine_default_cluster_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeEngineDefaultClusterParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1752,33 +1107,19 @@ engine.
 # Arguments
 - `dbparameter_group_family`: The name of the DB parameter group family.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous
+# Keyword Parameters
+- `filters`: Not currently supported.
+- `marker`:  An optional pagination token provided by a previous
   DescribeEngineDefaultParameters request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
 """
-function describe_engine_default_parameters(
-    DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_engine_default_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeEngineDefaultParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1787,22 +1128,14 @@ end
 Displays a list of categories for all event source types, or, if specified, for a specified
 source type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"source_type"`: The type of source that is generating the events. Valid values:
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `source_type`: The type of source that is generating the events. Valid values:
   db-instance | db-parameter-group | db-security-group | db-snapshot
 """
-function describe_event_categories(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeEventCategories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeEventCategories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1813,29 +1146,20 @@ subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, Sou
 CreationTime, and Status. If you specify a SubscriptionName, lists the description for that
 subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
+- `marker`:  An optional pagination token provided by a previous
   DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords .
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"subscription_name"`: The name of the event notification subscription you want to
-  describe.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `subscription_name`: The name of the event notification subscription you want to describe.
 """
-function describe_event_subscriptions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeEventSubscriptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeEventSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1846,41 +1170,38 @@ groups for the past 14 days. Events specific to a particular DB instance, DB sec
 group, database snapshot, or DB parameter group can be obtained by providing the name as a
 parameter. By default, the past hour of events are returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"duration"`: The number of minutes to retrieve events for. Default: 60
-- `"end_time"`:  The end of the time interval for which to retrieve events, specified in
-  ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.
+# Keyword Parameters
+- `duration`: The number of minutes to retrieve events for. Default: 60
+- `end_time`:  The end of the time interval for which to retrieve events, specified in ISO
+  8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.
   Example: 2009-07-08T18:00Z
-- `"event_categories"`: A list of event categories that trigger notifications for a event
+- `event_categories`: A list of event categories that trigger notifications for a event
   notification subscription.
-- `"filters"`: This parameter is not currently supported.
-- `"marker"`:  An optional pagination token provided by a previous DescribeEvents request.
-  If this parameter is specified, the response includes only records beyond the marker, up to
+- `filters`: This parameter is not currently supported.
+- `marker`:  An optional pagination token provided by a previous DescribeEvents request. If
+  this parameter is specified, the response includes only records beyond the marker, up to
   the value specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"source_identifier"`: The identifier of the event source for which events are returned.
-  If not specified, then all sources are included in the response. Constraints:   If
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `source_identifier`: The identifier of the event source for which events are returned. If
+  not specified, then all sources are included in the response. Constraints:   If
   SourceIdentifier is supplied, SourceType must also be provided.   If the source type is
   DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is
   DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is
   DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is
   DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain
   two consecutive hyphens.
-- `"source_type"`: The event source to retrieve events for. If no value is specified, all
+- `source_type`: The event source to retrieve events for. If no value is specified, all
   events are returned.
-- `"start_time"`:  The beginning of the time interval to retrieve events for, specified in
+- `start_time`:  The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.
   Example: 2009-07-08T18:00Z
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptune("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1891,35 +1212,27 @@ Returns a list of orderable DB instance options for the specified engine.
 # Arguments
 - `engine`: The name of the engine to retrieve DB instance options for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbinstance_class"`: The DB instance class filter value. Specify this parameter to show
+# Keyword Parameters
+- `dbinstance_class`: The DB instance class filter value. Specify this parameter to show
   only the available offerings matching the specified DB instance class.
-- `"engine_version"`: The engine version filter value. Specify this parameter to show only
+- `engine_version`: The engine version filter value. Specify this parameter to show only
   the available offerings matching the specified engine version.
-- `"filters"`: This parameter is not currently supported.
-- `"license_model"`: The license model filter value. Specify this parameter to show only
-  the available offerings matching the specified license model.
-- `"marker"`:  An optional pagination token provided by a previous
+- `filters`: This parameter is not currently supported.
+- `license_model`: The license model filter value. Specify this parameter to show only the
+  available offerings matching the specified license model.
+- `marker`:  An optional pagination token provided by a previous
   DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords .
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"vpc"`: The VPC filter value. Specify this parameter to show only the available VPC or
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `vpc`: The VPC filter value. Specify this parameter to show only the available VPC or
   non-VPC offerings.
 """
-function describe_orderable_dbinstance_options(
-    Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_orderable_dbinstance_options(Engine; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeOrderableDBInstanceOptions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Engine" => Engine), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1928,33 +1241,25 @@ end
 Returns a list of resources (for example, DB instances) that have at least one pending
 maintenance action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: A filter that specifies one or more resources to return pending maintenance
+# Keyword Parameters
+- `filters`: A filter that specifies one or more resources to return pending maintenance
   actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB
   cluster Amazon Resource Names (ARNs). The results list will only include pending
   maintenance actions for the DB clusters identified by these ARNs.    db-instance-id -
   Accepts DB instance identifiers and DB instance ARNs. The results list will only include
   pending maintenance actions for the DB instances identified by these ARNs.
-- `"marker"`:  An optional pagination token provided by a previous
+- `marker`:  An optional pagination token provided by a previous
   DescribePendingMaintenanceActions request. If this parameter is specified, the response
   includes only records beyond the marker, up to a number of records specified by MaxRecords.
-- `"max_records"`:  The maximum number of records to include in the response. If more
-  records exist than the specified MaxRecords value, a pagination token called a marker is
-  included in the response so that the remaining results can be retrieved. Default: 100
-  Constraints: Minimum 20, maximum 100.
-- `"resource_identifier"`: The ARN of a resource to return pending maintenance actions for.
+- `max_records`:  The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `resource_identifier`: The ARN of a resource to return pending maintenance actions for.
 """
-function describe_pending_maintenance_actions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribePendingMaintenanceActions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribePendingMaintenanceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1967,22 +1272,9 @@ to your DB instance. You can use this information when you call ModifyDBInstance
 - `dbinstance_identifier`: The customer identifier or the ARN of your DB instance.
 
 """
-function describe_valid_dbinstance_modifications(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_valid_dbinstance_modifications(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "DescribeValidDBInstanceModifications",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("DescribeValidDBInstanceModifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1996,19 +1288,16 @@ a primary instance for testing. Because each instance in a DB cluster has its ow
 address, you will need to clean up and re-establish any existing connections that use those
 endpoint addresses when the failover is complete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_identifier"`: A DB cluster identifier to force a failover for. This parameter
+# Keyword Parameters
+- `dbcluster_identifier`: A DB cluster identifier to force a failover for. This parameter
   is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.
-- `"target_dbinstance_identifier"`: The name of the instance to promote to the primary
+- `target_dbinstance_identifier`: The name of the instance to promote to the primary
   instance. You must specify the instance identifier for an Read Replica in the DB cluster.
   For example, mydbcluster-replica1.
 """
 function failover_dbcluster(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptune("FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2021,22 +1310,12 @@ Lists all tags on an Amazon Neptune resource.
   Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an
   Amazon Resource Name (ARN).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: This parameter is not currently supported.
+# Keyword Parameters
+- `filters`: This parameter is not currently supported.
 """
-function list_tags_for_resource(
-    ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceName" => ResourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2050,84 +1329,70 @@ parameters by specifying these parameters and the new values in the request.
   parameter is not case-sensitive. Constraints:   Must match the identifier of an existing
   DBCluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_major_version_upgrade"`: A value that indicates whether upgrades between
-  different major versions are allowed. Constraints: You must set the
-  allow-major-version-upgrade flag when providing an EngineVersion parameter that uses a
-  different major version than the DB cluster's current version.
-- `"apply_immediately"`: A value that specifies whether the modifications in this request
-  and any pending modifications are asynchronously applied as soon as possible, regardless of
-  the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to
-  false, changes to the DB cluster are applied during the next maintenance window. The
+# Keyword Parameters
+- `allow_major_version_upgrade`: A value that indicates whether upgrades between different
+  major versions are allowed. Constraints: You must set the allow-major-version-upgrade flag
+  when providing an EngineVersion parameter that uses a different major version than the DB
+  cluster's current version.
+- `apply_immediately`: A value that specifies whether the modifications in this request and
+  any pending modifications are asynchronously applied as soon as possible, regardless of the
+  PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false,
+  changes to the DB cluster are applied during the next maintenance window. The
   ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the
   ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values
   are applied during the next maintenance window. All other changes are applied immediately,
   regardless of the value of the ApplyImmediately parameter. Default: false
-- `"backup_retention_period"`: The number of days for which automated backups are retained.
+- `backup_retention_period`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35
-- `"cloudwatch_logs_export_configuration"`: The configuration setting for the log types to
-  be enabled for export to CloudWatch Logs for a specific DB cluster.
-- `"copy_tags_to_snapshot"`:  If set to true, tags are copied to any snapshot of the DB
+- `cloudwatch_logs_export_configuration`: The configuration setting for the log types to be
+  enabled for export to CloudWatch Logs for a specific DB cluster.
+- `copy_tags_to_snapshot`:  If set to true, tags are copied to any snapshot of the DB
   cluster that is created.
-- `"dbcluster_parameter_group_name"`: The name of the DB cluster parameter group to use for
+- `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to use for
   the DB cluster.
-- `"dbinstance_parameter_group_name"`: The name of the DB parameter group to apply to all
+- `dbinstance_parameter_group_name`: The name of the DB parameter group to apply to all
   instances of the DB cluster.   When you apply a parameter group using
   DBInstanceParameterGroupName, parameter changes aren't applied during the next maintenance
   window but instead are applied immediately.  Default: The existing name setting
   Constraints:   The DB parameter group must be in the same DB parameter group family as the
   target DB cluster version.   The DBInstanceParameterGroupName parameter is only valid in
   combination with the AllowMajorVersionUpgrade parameter.
-- `"deletion_protection"`: A value that indicates whether the DB cluster has deletion
+- `deletion_protection`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled.
-- `"enable_iamdatabase_authentication"`: True to enable mapping of Amazon Identity and
-  Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
-- `"engine_version"`: The version number of the database engine to which you want to
-  upgrade. Changing this parameter results in an outage. The change is applied during the
-  next maintenance window unless the ApplyImmediately parameter is set to true. For a list of
+- `enable_iamdatabase_authentication`: True to enable mapping of Amazon Identity and Access
+  Management (IAM) accounts to database accounts, and otherwise false. Default: false
+- `engine_version`: The version number of the database engine to which you want to upgrade.
+  Changing this parameter results in an outage. The change is applied during the next
+  maintenance window unless the ApplyImmediately parameter is set to true. For a list of
   valid engine versions, see Engine Releases for Amazon Neptune, or call
   DescribeDBEngineVersions.
-- `"master_user_password"`: Not supported by Neptune.
-- `"new_dbcluster_identifier"`: The new DB cluster identifier for the DB cluster when
+- `master_user_password`: Not supported by Neptune.
+- `new_dbcluster_identifier`: The new DB cluster identifier for the DB cluster when
   renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must
   contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter
   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
-- `"option_group_name"`:  Not supported by Neptune.
-- `"port"`: The port number on which the DB cluster accepts connections. Constraints: Value
+- `option_group_name`:  Not supported by Neptune.
+- `port`: The port number on which the DB cluster accepts connections. Constraints: Value
   must be 1150-65535  Default: The same port as the original DB cluster.
-- `"preferred_backup_window"`: The daily time range during which automated backups are
+- `preferred_backup_window`: The daily time range during which automated backups are
   created if automated backups are enabled, using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
   Amazon Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
   Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
   be at least 30 minutes.
-- `"preferred_maintenance_window"`: The weekly time range during which system maintenance
-  can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The
-  default is a 30-minute window selected at random from an 8-hour block of time for each
-  Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri,
-  Sat, Sun. Constraints: Minimum 30-minute window.
-- `"vpc_security_group_ids"`: A list of VPC security groups that the DB cluster will belong
+- `preferred_maintenance_window`: The weekly time range during which system maintenance can
+  occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
+  a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
+  occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  Constraints: Minimum 30-minute window.
+- `vpc_security_group_ids`: A list of VPC security groups that the DB cluster will belong
   to.
 """
-function modify_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2139,35 +1404,17 @@ Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
 - `dbcluster_endpoint_identifier`: The identifier of the endpoint to modify. This parameter
   is stored as a lowercase string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoint_type"`: The type of the endpoint. One of: READER, WRITER, ANY.
-- `"excluded_members"`: List of DB instance identifiers that aren't part of the custom
+# Keyword Parameters
+- `endpoint_type`: The type of the endpoint. One of: READER, WRITER, ANY.
+- `excluded_members`: List of DB instance identifiers that aren't part of the custom
   endpoint group. All other eligible instances are reachable through the custom endpoint.
   Only relevant if the list of static members is empty.
-- `"static_members"`: List of DB instance identifiers that are part of the custom endpoint
+- `static_members`: List of DB instance identifiers that are part of the custom endpoint
   group.
 """
-function modify_dbcluster_endpoint(
-    DBClusterEndpointIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbcluster_endpoint(DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBClusterEndpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2193,28 +1440,9 @@ parameter group has been created or modified.
 - `parameter`: A list of parameters in the DB cluster parameter group to modify.
 
 """
-function modify_dbcluster_parameter_group(
-    DBClusterParameterGroupName,
-    Parameter;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName,
-                    "Parameter" => Parameter,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2240,44 +1468,23 @@ snapshot public or private, use the DescribeDBClusterSnapshotAttributes API acti
 - `dbcluster_snapshot_identifier`: The identifier for the DB cluster snapshot to modify the
   attributes for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"values_to_add"`: A list of DB cluster snapshot attributes to add to the attribute
+# Keyword Parameters
+- `values_to_add`: A list of DB cluster snapshot attributes to add to the attribute
   specified by AttributeName. To authorize other Amazon accounts to copy or restore a manual
   DB cluster snapshot, set this list to include one or more Amazon account IDs, or all to
   make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all
   value for any manual DB cluster snapshots that contain private information that you don't
   want available to all Amazon accounts.
-- `"values_to_remove"`: A list of DB cluster snapshot attributes to remove from the
-  attribute specified by AttributeName. To remove authorization for other Amazon accounts to
-  copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon
-  account identifiers, or all to remove authorization for any Amazon account to copy or
-  restore the DB cluster snapshot. If you specify all, an Amazon account whose account ID is
-  explicitly added to the restore attribute can still copy or restore a manual DB cluster
-  snapshot.
+- `values_to_remove`: A list of DB cluster snapshot attributes to remove from the attribute
+  specified by AttributeName. To remove authorization for other Amazon accounts to copy or
+  restore a manual DB cluster snapshot, set this list to include one or more Amazon account
+  identifiers, or all to remove authorization for any Amazon account to copy or restore the
+  DB cluster snapshot. If you specify all, an Amazon account whose account ID is explicitly
+  added to the restore attribute can still copy or restore a manual DB cluster snapshot.
 """
-function modify_dbcluster_snapshot_attribute(
-    AttributeName,
-    DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBClusterSnapshotAttribute",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AttributeName" => AttributeName,
-                    "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2292,106 +1499,104 @@ before you call ModifyDBInstance.
 - `dbinstance_identifier`: The DB instance identifier. This value is stored as a lowercase
   string. Constraints:   Must match the identifier of an existing DBInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allocated_storage"`: Not supported by Neptune.
-- `"allow_major_version_upgrade"`: Indicates that major version upgrades are allowed.
+# Keyword Parameters
+- `allocated_storage`: Not supported by Neptune.
+- `allow_major_version_upgrade`: Indicates that major version upgrades are allowed.
   Changing this parameter doesn't result in an outage and the change is asynchronously
   applied as soon as possible.
-- `"apply_immediately"`: Specifies whether the modifications in this request and any
-  pending modifications are asynchronously applied as soon as possible, regardless of the
+- `apply_immediately`: Specifies whether the modifications in this request and any pending
+  modifications are asynchronously applied as soon as possible, regardless of the
   PreferredMaintenanceWindow setting for the DB instance.  If this parameter is set to false,
   changes to the DB instance are applied during the next maintenance window. Some parameter
   changes can cause an outage and are applied on the next call to RebootDBInstance, or the
   next failure reboot. Default: false
-- `"auto_minor_version_upgrade"`:  Indicates that minor version upgrades are applied
+- `auto_minor_version_upgrade`:  Indicates that minor version upgrades are applied
   automatically to the DB instance during the maintenance window. Changing this parameter
   doesn't result in an outage except in the following case and the change is asynchronously
   applied as soon as possible. An outage will result if this parameter is set to true during
   the maintenance window, and a newer minor version is available, and Neptune has enabled
   auto patching for that engine version.
-- `"backup_retention_period"`: Not applicable. The retention period for automated backups
-  is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
+- `backup_retention_period`: Not applicable. The retention period for automated backups is
+  managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
   existing setting
-- `"cacertificate_identifier"`: Indicates the certificate that needs to be associated with
+- `cacertificate_identifier`: Indicates the certificate that needs to be associated with
   the instance.
-- `"cloudwatch_logs_export_configuration"`: The configuration setting for the log types to
-  be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster.
-- `"copy_tags_to_snapshot"`: True to copy all tags from the DB instance to snapshots of the
+- `cloudwatch_logs_export_configuration`: The configuration setting for the log types to be
+  enabled for export to CloudWatch Logs for a specific DB instance or DB cluster.
+- `copy_tags_to_snapshot`: True to copy all tags from the DB instance to snapshots of the
   DB instance, and otherwise false. The default is false.
-- `"dbinstance_class"`: The new compute and memory capacity of the DB instance, for
-  example, db.m4.large. Not all DB instance classes are available in all Amazon Regions. If
-  you modify the DB instance class, an outage occurs during the change. The change is applied
-  during the next maintenance window, unless ApplyImmediately is specified as true for this
-  request. Default: Uses existing setting
-- `"dbparameter_group_name"`: The name of the DB parameter group to apply to the DB
-  instance. Changing this setting doesn't result in an outage. The parameter group name
-  itself is changed immediately, but the actual parameter changes are not applied until you
-  reboot the instance without failover. The db instance will NOT be rebooted automatically
-  and the parameter changes will NOT be applied during the next maintenance window. Default:
-  Uses existing setting Constraints: The DB parameter group must be in the same DB parameter
-  group family as this DB instance.
-- `"dbport_number"`: The port number on which the database accepts connections. The value
-  of the DBPortNumber parameter must not match any of the port values specified for options
-  in the option group for the DB instance. Your database will restart when you change the
+- `dbinstance_class`: The new compute and memory capacity of the DB instance, for example,
+  db.m4.large. Not all DB instance classes are available in all Amazon Regions. If you modify
+  the DB instance class, an outage occurs during the change. The change is applied during the
+  next maintenance window, unless ApplyImmediately is specified as true for this request.
+  Default: Uses existing setting
+- `dbparameter_group_name`: The name of the DB parameter group to apply to the DB instance.
+  Changing this setting doesn't result in an outage. The parameter group name itself is
+  changed immediately, but the actual parameter changes are not applied until you reboot the
+  instance without failover. The db instance will NOT be rebooted automatically and the
+  parameter changes will NOT be applied during the next maintenance window. Default: Uses
+  existing setting Constraints: The DB parameter group must be in the same DB parameter group
+  family as this DB instance.
+- `dbport_number`: The port number on which the database accepts connections. The value of
+  the DBPortNumber parameter must not match any of the port values specified for options in
+  the option group for the DB instance. Your database will restart when you change the
   DBPortNumber value regardless of the value of the ApplyImmediately parameter.  Default:
   8182
-- `"dbsecurity_groups"`: A list of DB security groups to authorize on this DB instance.
+- `dbsecurity_groups`: A list of DB security groups to authorize on this DB instance.
   Changing this setting doesn't result in an outage and the change is asynchronously applied
   as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.
-- `"dbsubnet_group_name"`: The new DB subnet group for the DB instance. You can use this
+- `dbsubnet_group_name`: The new DB subnet group for the DB instance. You can use this
   parameter to move your DB instance to a different VPC. Changing the subnet group causes an
   outage during the change. The change is applied during the next maintenance window, unless
   you specify true for the ApplyImmediately parameter. Constraints: If supplied, must match
   the name of an existing DBSubnetGroup. Example: mySubnetGroup
-- `"deletion_protection"`: A value that indicates whether the DB instance has deletion
+- `deletion_protection`: A value that indicates whether the DB instance has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled. See Deleting a DB Instance.
-- `"domain"`: Not supported.
-- `"domain_iamrole_name"`: Not supported
-- `"enable_iamdatabase_authentication"`: True to enable mapping of Amazon Identity and
-  Access Management (IAM) accounts to database accounts, and otherwise false. You can enable
-  IAM database authentication for the following database engines Not applicable. Mapping
-  Amazon IAM accounts to database accounts is managed by the DB cluster. For more
-  information, see ModifyDBCluster. Default: false
-- `"enable_performance_insights"`:  (Not supported by Neptune)
-- `"engine_version"`: The version number of the database engine to upgrade to. Currently,
+- `domain`: Not supported.
+- `domain_iamrole_name`: Not supported
+- `enable_iamdatabase_authentication`: True to enable mapping of Amazon Identity and Access
+  Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM
+  database authentication for the following database engines Not applicable. Mapping Amazon
+  IAM accounts to database accounts is managed by the DB cluster. For more information, see
+  ModifyDBCluster. Default: false
+- `enable_performance_insights`:  (Not supported by Neptune)
+- `engine_version`: The version number of the database engine to upgrade to. Currently,
   setting this parameter has no effect. To upgrade your database engine to the most recent
   release, use the ApplyPendingMaintenanceAction API.
-- `"iops"`: The new Provisioned IOPS (I/O operations per second) value for the instance.
+- `iops`: The new Provisioned IOPS (I/O operations per second) value for the instance.
   Changing this setting doesn't result in an outage and the change is applied during the next
   maintenance window unless the ApplyImmediately parameter is set to true for this request.
   Default: Uses existing setting
-- `"license_model"`: Not supported by Neptune.
-- `"master_user_password"`: Not supported by Neptune.
-- `"monitoring_interval"`: The interval, in seconds, between points when Enhanced
-  Monitoring metrics are collected for the DB instance. To disable collecting Enhanced
-  Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then
-  you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10,
-  15, 30, 60
-- `"monitoring_role_arn"`: The ARN for the IAM role that permits Neptune to send enhanced
+- `license_model`: Not supported by Neptune.
+- `master_user_password`: Not supported by Neptune.
+- `monitoring_interval`: The interval, in seconds, between points when Enhanced Monitoring
+  metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
+  metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
+  set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
+- `monitoring_role_arn`: The ARN for the IAM role that permits Neptune to send enhanced
   monitoring metrics to Amazon CloudWatch Logs. For example,
   arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than
   0, then you must supply a MonitoringRoleArn value.
-- `"multi_az"`: Specifies if the DB instance is a Multi-AZ deployment. Changing this
+- `multi_az`: Specifies if the DB instance is a Multi-AZ deployment. Changing this
   parameter doesn't result in an outage and the change is applied during the next maintenance
   window unless the ApplyImmediately parameter is set to true for this request.
-- `"new_dbinstance_identifier"`:  The new DB instance identifier for the DB instance when
+- `new_dbinstance_identifier`:  The new DB instance identifier for the DB instance when
   renaming a DB instance. When you change the DB instance identifier, an instance reboot will
   occur immediately if you set Apply Immediately to true, or will occur during the next
   maintenance window if Apply Immediately to false. This value is stored as a lowercase
   string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first
   character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
    Example: mydbinstance
-- `"option_group_name"`:  (Not supported by Neptune)
-- `"performance_insights_kmskey_id"`:  (Not supported by Neptune)
-- `"preferred_backup_window"`:  The daily time range during which automated backups are
+- `option_group_name`:  (Not supported by Neptune)
+- `performance_insights_kmskey_id`:  (Not supported by Neptune)
+- `preferred_backup_window`:  The daily time range during which automated backups are
   created if automated backups are enabled. Not applicable. The daily time range for creating
   automated backups is managed by the DB cluster. For more information, see ModifyDBCluster.
   Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in Universal Time
   Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at
   least 30 minutes
-- `"preferred_maintenance_window"`: The weekly time range (in UTC) during which system
+- `preferred_maintenance_window`: The weekly time range (in UTC) during which system
   maintenance can occur, which might result in an outage. Changing this parameter doesn't
   result in an outage, except in the following situation, and the change is asynchronously
   applied as soon as possible. If there are pending actions that cause a reboot, and the
@@ -2400,37 +1605,24 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   must be at least 30 minutes between the current time and end of the window to ensure
   pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi
   Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-- `"promotion_tier"`: A value that specifies the order in which a Read Replica is promoted
-  to the primary instance after a failure of the existing primary instance. Default: 1 Valid
+- `promotion_tier`: A value that specifies the order in which a Read Replica is promoted to
+  the primary instance after a failure of the existing primary instance. Default: 1 Valid
   Values: 0 - 15
-- `"publicly_accessible"`: This flag should no longer be used.
-- `"storage_type"`: Not supported.
-- `"tde_credential_arn"`: The ARN from the key store with which to associate the instance
-  for TDE encryption.
-- `"tde_credential_password"`: The password for the given ARN from the key store in order
-  to access the device.
-- `"vpc_security_group_ids"`: A list of EC2 VPC security groups to authorize on this DB
+- `publicly_accessible`: This flag should no longer be used.
+- `storage_type`: Not supported.
+- `tde_credential_arn`: The ARN from the key store with which to associate the instance for
+  TDE encryption.
+- `tde_credential_password`: The password for the given ARN from the key store in order to
+  access the device.
+- `vpc_security_group_ids`: A list of EC2 VPC security groups to authorize on this DB
   instance. This change is asynchronously applied as soon as possible. Not applicable. The
   associated list of EC2 VPC security groups is managed by the DB cluster. For more
   information, see ModifyDBCluster. Constraints:   If supplied, must match existing
   VpcSecurityGroupIds.
 """
-function modify_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2462,27 +1654,9 @@ to verify that your DB parameter group has been created or modified.
   without failover.
 
 """
-function modify_dbparameter_group(
-    DBParameterGroupName,
-    Parameter;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbparameter_group(DBParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBParameterGroupName" => DBParameterGroupName, "Parameter" => Parameter
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2497,32 +1671,12 @@ at least two AZs in the Amazon Region.
   name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
 - `subnet_identifier`: The EC2 subnet IDs for the DB subnet group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbsubnet_group_description"`: The description for the DB subnet group.
+# Keyword Parameters
+- `dbsubnet_group_description`: The description for the DB subnet group.
 """
-function modify_dbsubnet_group(
-    DBSubnetGroupName,
-    SubnetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyDBSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBSubnetGroupName" => DBSubnetGroupName,
-                    "SubnetIdentifier" => SubnetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2537,33 +1691,21 @@ DescribeEventCategories action.
 # Arguments
 - `subscription_name`: The name of the event notification subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`:  A Boolean value; set to true to activate the subscription.
-- `"event_categories"`:  A list of event categories for a SourceType that you want to
+# Keyword Parameters
+- `enabled`:  A Boolean value; set to true to activate the subscription.
+- `event_categories`:  A list of event categories for a SourceType that you want to
   subscribe to. You can see a list of the categories for a given SourceType by using the
   DescribeEventCategories action.
-- `"sns_topic_arn"`: The Amazon Resource Name (ARN) of the SNS topic created for event
+- `sns_topic_arn`: The Amazon Resource Name (ARN) of the SNS topic created for event
   notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-- `"source_type"`: The type of source that is generating the events. For example, if you
-  want to be notified of events generated by a DB instance, you would set this parameter to
+- `source_type`: The type of source that is generating the events. For example, if you want
+  to be notified of events generated by a DB instance, you would set this parameter to
   db-instance. if this value is not specified, all events are returned. Valid values:
   db-instance | db-parameter-group | db-security-group | db-snapshot
 """
-function modify_event_subscription(
-    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ModifyEventSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2575,22 +1717,9 @@ Not supported.
 - `dbcluster_identifier`: Not supported.
 
 """
-function promote_read_replica_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function promote_read_replica_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "PromoteReadReplicaDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("PromoteReadReplicaDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2606,27 +1735,13 @@ momentary outage, during which the DB instance status is set to rebooting.
 - `dbinstance_identifier`: The DB instance identifier. This parameter is stored as a
   lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_failover"`:  When true, the reboot is conducted through a MultiAZ failover.
+# Keyword Parameters
+- `force_failover`:  When true, the reboot is conducted through a MultiAZ failover.
   Constraint: You can't specify true if the instance is not configured for MultiAZ.
 """
-function reboot_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "RebootDBInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2639,32 +1754,13 @@ Disassociates an Identity and Access Management (IAM) role from a DB cluster.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB
   cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"feature_name"`: The name of the feature for the DB cluster that the IAM role is to be
+# Keyword Parameters
+- `feature_name`: The name of the feature for the DB cluster that the IAM role is to be
   disassociated from. For the list of supported feature names, see DescribeDBEngineVersions.
 """
-function remove_role_from_dbcluster(
-    DBClusterIdentifier,
-    RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_role_from_dbcluster(DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "RemoveRoleFromDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("RemoveRoleFromDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2679,28 +1775,9 @@ Removes a source identifier from an existing event notification subscription.
   source identifier from.
 
 """
-function remove_source_identifier_from_subscription(
-    SourceIdentifier,
-    SubscriptionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "RemoveSourceIdentifierFromSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceIdentifier" => SourceIdentifier,
-                    "SubscriptionName" => SubscriptionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2715,22 +1792,9 @@ Removes metadata tags from an Amazon Neptune resource.
 - `tag_keys`: The tag key (name) of the tag to be removed.
 
 """
-function remove_tags_from_resource(
-    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "RemoveTagsFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2747,35 +1811,17 @@ every DB instance in your DB cluster that you want the updated static parameter 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to reset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameters"`: A list of parameter names in the DB cluster parameter group to reset to
-  the default values. You can't use this parameter if the ResetAllParameters parameter is set
-  to true.
-- `"reset_all_parameters"`: A value that is set to true to reset all parameters in the DB
+# Keyword Parameters
+- `parameters`: A list of parameter names in the DB cluster parameter group to reset to the
+  default values. You can't use this parameter if the ResetAllParameters parameter is set to
+  true.
+- `reset_all_parameters`: A value that is set to true to reset all parameters in the DB
   cluster parameter group to their default values, and false otherwise. You can't use this
   parameter if there is a list of parameter names specified for the Parameters parameter.
 """
-function reset_dbcluster_parameter_group(
-    DBClusterParameterGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function reset_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ResetDBClusterParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterParameterGroupName" => DBClusterParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2792,31 +1838,17 @@ next DB instance restart or RebootDBInstance request.
 - `dbparameter_group_name`: The name of the DB parameter group. Constraints:   Must match
   the name of an existing DBParameterGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameters"`: To reset the entire DB parameter group, specify the DBParameterGroup name
+# Keyword Parameters
+- `parameters`: To reset the entire DB parameter group, specify the DBParameterGroup name
   and ResetAllParameters parameters. To reset specific parameters, provide a list of the
   following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a
   single request. Valid Values (for Apply method): pending-reboot
-- `"reset_all_parameters"`: Specifies whether (true) or not (false) to reset all parameters
+- `reset_all_parameters`: Specifies whether (true) or not (false) to reset all parameters
   in the DB parameter group to default values. Default: true
 """
-function reset_dbparameter_group(
-    DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reset_dbparameter_group(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "ResetDBParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("ResetDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2841,68 +1873,46 @@ default security group.
   cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:
    Must match the identifier of an existing Snapshot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: Provides the list of EC2 Availability Zones that instances in the
+# Keyword Parameters
+- `availability_zones`: Provides the list of EC2 Availability Zones that instances in the
   restored DB cluster can be created in.
-- `"copy_tags_to_snapshot"`:  If set to true, tags are copied to any snapshot of the
-  restored DB cluster that is created.
-- `"database_name"`: Not supported.
-- `"dbcluster_parameter_group_name"`: The name of the DB cluster parameter group to
-  associate with the new DB cluster. Constraints:   If supplied, must match the name of an
-  existing DBClusterParameterGroup.
-- `"dbsubnet_group_name"`: The name of the DB subnet group to use for the new DB cluster.
+- `copy_tags_to_snapshot`:  If set to true, tags are copied to any snapshot of the restored
+  DB cluster that is created.
+- `database_name`: Not supported.
+- `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to associate
+  with the new DB cluster. Constraints:   If supplied, must match the name of an existing
+  DBClusterParameterGroup.
+- `dbsubnet_group_name`: The name of the DB subnet group to use for the new DB cluster.
   Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example:
   mySubnetgroup
-- `"deletion_protection"`: A value that indicates whether the DB cluster has deletion
+- `deletion_protection`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled.
-- `"enable_cloudwatch_logs_exports"`: The list of logs that the restored DB cluster is to
+- `enable_cloudwatch_logs_exports`: The list of logs that the restored DB cluster is to
   export to Amazon CloudWatch Logs.
-- `"enable_iamdatabase_authentication"`: True to enable mapping of Amazon Identity and
-  Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
-- `"engine_version"`: The version of the database engine to use for the new DB cluster.
-- `"kms_key_id"`: The Amazon KMS key identifier to use when restoring an encrypted DB
-  cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon
-  Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the
-  same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster,
-  then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do
-  not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB
+- `enable_iamdatabase_authentication`: True to enable mapping of Amazon Identity and Access
+  Management (IAM) accounts to database accounts, and otherwise false. Default: false
+- `engine_version`: The version of the database engine to use for the new DB cluster.
+- `kms_key_id`: The Amazon KMS key identifier to use when restoring an encrypted DB cluster
+  from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource
+  Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same
+  Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then
+  you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not
+  specify a value for the KmsKeyId parameter, then the following will occur:   If the DB
   snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB
   cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB
   cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not
   encrypted, then the restored DB cluster is not encrypted.
-- `"option_group_name"`:  (Not supported by Neptune)
-- `"port"`: The port number on which the new DB cluster accepts connections. Constraints:
+- `option_group_name`:  (Not supported by Neptune)
+- `port`: The port number on which the new DB cluster accepts connections. Constraints:
   Value must be 1150-65535  Default: The same port as the original DB cluster.
-- `"tags"`: The tags to be assigned to the restored DB cluster.
-- `"vpc_security_group_ids"`: A list of VPC security groups that the new DB cluster will
+- `tags`: The tags to be assigned to the restored DB cluster.
+- `vpc_security_group_ids`: A list of VPC security groups that the new DB cluster will
   belong to.
 """
-function restore_dbcluster_from_snapshot(
-    DBClusterIdentifier,
-    Engine,
-    SnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "RestoreDBClusterFromSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "Engine" => Engine,
-                    "SnapshotIdentifier" => SnapshotIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2925,77 +1935,57 @@ available.
 - `source_dbcluster_identifier`: The identifier of the source DB cluster from which to
   restore. Constraints:   Must match the identifier of an existing DBCluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dbcluster_parameter_group_name"`: The name of the DB cluster parameter group to
-  associate with the new DB cluster. Constraints:   If supplied, must match the name of an
-  existing DBClusterParameterGroup.
-- `"dbsubnet_group_name"`: The DB subnet group name to use for the new DB cluster.
+# Keyword Parameters
+- `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to associate
+  with the new DB cluster. Constraints:   If supplied, must match the name of an existing
+  DBClusterParameterGroup.
+- `dbsubnet_group_name`: The DB subnet group name to use for the new DB cluster.
   Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example:
   mySubnetgroup
-- `"deletion_protection"`: A value that indicates whether the DB cluster has deletion
+- `deletion_protection`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled.
-- `"enable_cloudwatch_logs_exports"`: The list of logs that the restored DB cluster is to
+- `enable_cloudwatch_logs_exports`: The list of logs that the restored DB cluster is to
   export to CloudWatch Logs.
-- `"enable_iamdatabase_authentication"`: True to enable mapping of Amazon Identity and
-  Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
-- `"kms_key_id"`: The Amazon KMS key identifier to use when restoring an encrypted DB
-  cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name
-  (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon
-  account that owns the KMS encryption key used to encrypt the new DB cluster, then you can
-  use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a
-  new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS
-  key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key
+- `enable_iamdatabase_authentication`: True to enable mapping of Amazon Identity and Access
+  Management (IAM) accounts to database accounts, and otherwise false. Default: false
+- `kms_key_id`: The Amazon KMS key identifier to use when restoring an encrypted DB cluster
+  from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for
+  the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that
+  owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS
+  key alias instead of the ARN for the KMS encryption key. You can restore to a new DB
+  cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key
+  used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key
   identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId
   parameter, then the following will occur:   If the DB cluster is encrypted, then the
   restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB
   cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not
   encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the
   restore request is rejected.
-- `"option_group_name"`:  (Not supported by Neptune)
-- `"port"`: The port number on which the new DB cluster accepts connections. Constraints:
+- `option_group_name`:  (Not supported by Neptune)
+- `port`: The port number on which the new DB cluster accepts connections. Constraints:
   Value must be 1150-65535  Default: The same port as the original DB cluster.
-- `"restore_to_time"`: The date and time to restore the DB cluster to. Valid Values: Value
+- `restore_to_time`: The date and time to restore the DB cluster to. Valid Values: Value
   must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the
   latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime
   parameter is not provided   Cannot be specified if UseLatestRestorableTime parameter is
   true   Cannot be specified if RestoreType parameter is copy-on-write    Example:
   2015-03-07T23:45:00Z
-- `"restore_type"`: The type of restore to be performed. You can specify one of the
-  following values:    full-copy - The new DB cluster is restored as a full copy of the
-  source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the
-  source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is
-  restored as a full copy of the source DB cluster.
-- `"tags"`: The tags to be applied to the restored DB cluster.
-- `"use_latest_restorable_time"`: A value that is set to true to restore the DB cluster to
+- `restore_type`: The type of restore to be performed. You can specify one of the following
+  values:    full-copy - The new DB cluster is restored as a full copy of the source DB
+  cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB
+  cluster.   If you don't specify a RestoreType value, then the new DB cluster is restored as
+  a full copy of the source DB cluster.
+- `tags`: The tags to be applied to the restored DB cluster.
+- `use_latest_restorable_time`: A value that is set to true to restore the DB cluster to
   the latest restorable backup time, and false otherwise. Default: false  Constraints: Cannot
   be specified if RestoreToTime parameter is provided.
-- `"vpc_security_group_ids"`: A list of VPC security groups that the new DB cluster belongs
+- `vpc_security_group_ids`: A list of VPC security groups that the new DB cluster belongs
   to.
 """
-function restore_dbcluster_to_point_in_time(
-    DBClusterIdentifier,
-    SourceDBClusterIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "RestoreDBClusterToPointInTime",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DBClusterIdentifier" => DBClusterIdentifier,
-                    "SourceDBClusterIdentifier" => SourceDBClusterIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3009,22 +1999,9 @@ CLI stop-db-cluster command, or the StopDBCluster API.
   started. This parameter is stored as a lowercase string.
 
 """
-function start_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "StartDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3039,20 +2016,7 @@ the transaction logs so you can do a point-in-time restore if necessary.
   stopped. This parameter is stored as a lowercase string.
 
 """
-function stop_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return neptune(
-        "StopDBCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return neptune("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

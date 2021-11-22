@@ -4,22 +4,8 @@ using AWS.AWSServices: codestar
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "toolchain" => "toolchain",
-    "next_token" => "nextToken",
-    "client_request_token" => "clientRequestToken",
-    "remote_access_allowed" => "remoteAccessAllowed",
-    "name" => "name",
-    "source_code" => "sourceCode",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "ssh_public_key" => "sshPublicKey",
-    "email_address" => "emailAddress",
-    "delete_stack" => "deleteStack",
-    "display_name" => "displayName",
-    "tags" => "tags",
-    "project_role" => "projectRole",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("project_role" => "projectRole", "remote_access_allowed" => "remoteAccessAllowed", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "description", "name" => "name", "client_request_token" => "clientRequestToken", "source_code" => "sourceCode", "tags" => "tags", "toolchain" => "toolchain", "ssh_public_key" => "sshPublicKey", "delete_stack" => "deleteStack", "display_name" => "displayName", "email_address" => "emailAddress")
 
 """
     associate_team_member(project_id, project_role, user_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -33,39 +19,16 @@ Adds an IAM user to the team for an AWS CodeStar project.
 - `user_arn`: The Amazon Resource Name (ARN) for the IAM user you want to add to the AWS
   CodeStar project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A user- or system-generated token that identifies the entity
-  that requested the team member association to the project. This token can be used to repeat
-  the request.
-- `"remote_access_allowed"`: Whether the team member is allowed to use an SSH
-  public/private key pair to remotely access project resources, for example Amazon EC2
-  instances.
+# Keyword Parameters
+- `client_request_token`: A user- or system-generated token that identifies the entity that
+  requested the team member association to the project. This token can be used to repeat the
+  request.
+- `remote_access_allowed`: Whether the team member is allowed to use an SSH public/private
+  key pair to remotely access project resources, for example Amazon EC2 instances.
 """
-function associate_team_member(
-    projectId,
-    projectRole,
-    userArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_team_member(projectId, projectRole, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "AssociateTeamMember",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "projectId" => projectId,
-                    "projectRole" => projectRole,
-                    "userArn" => userArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("AssociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -79,30 +42,19 @@ included with the project request. If these are not provided, an empty project i
 - `id`: The ID of the project to be created in AWS CodeStar.
 - `name`: The display name for the project to be created in AWS CodeStar.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A user- or system-generated token that identifies the entity
-  that requested project creation. This token can be used to repeat the request.
-- `"description"`: The description of the project, if any.
-- `"source_code"`: A list of the Code objects submitted with the project request. If this
+# Keyword Parameters
+- `client_request_token`: A user- or system-generated token that identifies the entity that
+  requested project creation. This token can be used to repeat the request.
+- `description`: The description of the project, if any.
+- `source_code`: A list of the Code objects submitted with the project request. If this
   parameter is specified, the request must also include the toolchain parameter.
-- `"tags"`: The tags created for the project.
-- `"toolchain"`: The name of the toolchain template file submitted with the project
-  request. If this parameter is specified, the request must also include the sourceCode
-  parameter.
+- `tags`: The tags created for the project.
+- `toolchain`: The name of the toolchain template file submitted with the project request.
+  If this parameter is specified, the request must also include the sourceCode parameter.
 """
-function create_project(
-    id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "CreateProject",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("id" => id, "name" => name), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,36 +72,14 @@ information appears to other users in AWS CodeStar.
   in AWS CodeStar.
 - `user_arn`: The Amazon Resource Name (ARN) of the user in IAM.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ssh_public_key"`: The SSH public key associated with the user in AWS CodeStar. If a
+# Keyword Parameters
+- `ssh_public_key`: The SSH public key associated with the user in AWS CodeStar. If a
   project owner allows the user remote access to project resources, this public key will be
   used along with the user's private key for SSH access.
 """
-function create_user_profile(
-    displayName,
-    emailAddress,
-    userArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_user_profile(displayName, emailAddress, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "CreateUserProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "displayName" => displayName,
-                    "emailAddress" => emailAddress,
-                    "userArn" => userArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -161,23 +91,17 @@ project, but does delete the IAM roles that allowed access to the project.
 # Arguments
 - `id`: The ID of the project to be deleted in AWS CodeStar.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A user- or system-generated token that identifies the entity
-  that requested project deletion. This token can be used to repeat the request.
-- `"delete_stack"`: Whether to send a delete request for the primary stack in AWS
+# Keyword Parameters
+- `client_request_token`: A user- or system-generated token that identifies the entity that
+  requested project deletion. This token can be used to repeat the request.
+- `delete_stack`: Whether to send a delete request for the primary stack in AWS
   CloudFormation originally used to generate the project and its resources. This option will
   delete all AWS resources for the project (except for any buckets in Amazon S3) as well as
   deleting the project itself. Recommended for most use cases.
 """
 function delete_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "DeleteProject",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -191,16 +115,9 @@ of that user, for example the history of commits made by that user.
 - `user_arn`: The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
 
 """
-function delete_user_profile(
-    userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "DeleteUserProfile",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("userArn" => userArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -214,12 +131,7 @@ Describes a project and its resources.
 """
 function describe_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "DescribeProject",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("DescribeProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,16 +143,9 @@ Describes a user in AWS CodeStar and the user attributes across all projects.
 - `user_arn`: The Amazon Resource Name (ARN) of the user.
 
 """
-function describe_user_profile(
-    userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "DescribeUserProfile",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("userArn" => userArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -258,22 +163,9 @@ from IAM.
   remove from the project.
 
 """
-function disassociate_team_member(
-    projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "DisassociateTeamMember",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("projectId" => projectId, "userArn" => userArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("DisassociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -281,18 +173,15 @@ end
 
 Lists all projects in AWS CodeStar associated with your AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum amount of data that can be contained in a single set of
+# Keyword Parameters
+- `max_results`: The maximum amount of data that can be contained in a single set of
   results.
-- `"next_token"`: The continuation token to be used to return the next set of results, if
-  the results cannot be returned in one response.
+- `next_token`: The continuation token to be used to return the next set of results, if the
+  results cannot be returned in one response.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codestar("ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -303,25 +192,15 @@ Lists resources associated with a project in AWS CodeStar.
 # Arguments
 - `project_id`: The ID of the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum amount of data that can be contained in a single set of
+# Keyword Parameters
+- `max_results`: The maximum amount of data that can be contained in a single set of
   results.
-- `"next_token"`: The continuation token for the next set of results, if the results cannot
+- `next_token`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-function list_resources(
-    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "ListResources",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -332,21 +211,13 @@ Gets the tags for a project.
 # Arguments
 - `id`: The ID of the project to get tags for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Reserved for future use.
-- `"next_token"`: Reserved for future use.
+# Keyword Parameters
+- `max_results`: Reserved for future use.
+- `next_token`: Reserved for future use.
 """
-function list_tags_for_project(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "ListTagsForProject",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("ListTagsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -357,24 +228,14 @@ Lists all team members associated with a project.
 # Arguments
 - `project_id`: The ID of the project for which you want to list team members.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of team members you want returned in a response.
-- `"next_token"`: The continuation token for the next set of results, if the results cannot
+# Keyword Parameters
+- `max_results`: The maximum number of team members you want returned in a response.
+- `next_token`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-function list_team_members(
-    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "ListTeamMembers",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("ListTeamMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -382,17 +243,14 @@ end
 
 Lists all the user profiles configured for your AWS account in AWS CodeStar.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a response.
-- `"next_token"`: The continuation token for the next set of results, if the results cannot
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a response.
+- `next_token`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
 function list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "ListUserProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codestar("ListUserProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -407,14 +265,7 @@ Adds tags to a project.
 """
 function tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "TagProject",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("id" => id, "tags" => tags), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("TagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -427,18 +278,9 @@ Removes tags from a project.
 - `tags`: The tags to remove from the project.
 
 """
-function untag_project(
-    id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "UntagProject",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("id" => id, "tags" => tags), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("UntagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -449,19 +291,13 @@ Updates a project in AWS CodeStar.
 # Arguments
 - `id`: The ID of the project you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the project, if any.
-- `"name"`: The name of the project you want to update.
+# Keyword Parameters
+- `description`: The description of the project, if any.
+- `name`: The name of the project you want to update.
 """
 function update_project(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "UpdateProject",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -476,32 +312,18 @@ resources.
 - `user_arn`: The Amazon Resource Name (ARN) of the user for whom you want to change team
   membership attributes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"project_role"`: The role assigned to the user in the project. Project roles have
+# Keyword Parameters
+- `project_role`: The role assigned to the user in the project. Project roles have
   different levels of access. For more information, see Working with Teams in the AWS
   CodeStar User Guide.
-- `"remote_access_allowed"`: Whether a team member is allowed to remotely access project
+- `remote_access_allowed`: Whether a team member is allowed to remotely access project
   resources using the SSH public key associated with the user's profile. Even if this is set
   to True, the user must associate a public key with their profile before the user can access
   resources.
 """
-function update_team_member(
-    projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "UpdateTeamMember",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("projectId" => projectId, "userArn" => userArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("UpdateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -515,24 +337,16 @@ other users in AWS CodeStar.
 - `user_arn`: The name that will be displayed as the friendly name for the user in AWS
   CodeStar.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"display_name"`: The name that is displayed as the friendly name for the user in AWS
+# Keyword Parameters
+- `display_name`: The name that is displayed as the friendly name for the user in AWS
   CodeStar.
-- `"email_address"`: The email address that is displayed as part of the user's profile in
-  AWS CodeStar.
-- `"ssh_public_key"`: The SSH public key associated with the user in AWS CodeStar. If a
+- `email_address`: The email address that is displayed as part of the user's profile in AWS
+  CodeStar.
+- `ssh_public_key`: The SSH public key associated with the user in AWS CodeStar. If a
   project owner allows the user remote access to project resources, this public key will be
   used along with the user's private key for SSH access.
 """
-function update_user_profile(
-    userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return codestar(
-        "UpdateUserProfile",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("userArn" => userArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return codestar("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

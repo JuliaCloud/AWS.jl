@@ -4,16 +4,8 @@ using AWS.AWSServices: mediastore_data
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "storage_class" => "x-amz-storage-class",
-    "upload_availability" => "x-amz-upload-availability",
-    "content_type" => "Content-Type",
-    "cache_control" => "Cache-Control",
-    "range" => "Range",
-    "next_token" => "NextToken",
-    "max_results" => "MaxResults",
-    "path" => "Path",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "path" => "Path", "cache_control" => "Cache-Control", "content_type" => "Content-Type", "storage_class" => "x-amz-storage-class", "upload_availability" => "x-amz-upload-availability", "range" => "Range")
 
 """
     delete_object(path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,9 +19,7 @@ Deletes an object at the specified path.
 """
 function delete_object(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore_data(
-        "DELETE", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore_data("DELETE", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -44,9 +34,7 @@ Gets the headers for an object at the specified path.
 """
 function describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore_data(
-        "HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore_data("HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -71,18 +59,15 @@ object.
   same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The
   file name can include or omit an extension.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"range"`: The range bytes of an object to retrieve. For more information about the Range
+# Keyword Parameters
+- `range`: The range bytes of an object to retrieve. For more information about the Range
   header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental
   MediaStore ignores this header for partially uploaded objects that have streaming upload
   availability.
 """
 function get_object(Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore_data(
-        "GET", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore_data("GET", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -90,27 +75,24 @@ end
 
 Provides a list of metadata entries about folders and objects in the specified folder.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per API request. For example,
-  you submit a ListItems request with MaxResults set at 500. Although 2,000 items match your
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per API request. For example, you
+  submit a ListItems request with MaxResults set at 500. Although 2,000 items match your
   request, the service returns no more than the first 500 items. (The service also returns a
   NextToken value that you can use to fetch the next batch of results.) The service might
   return fewer results than the MaxResults value. If MaxResults is not included in the
   request, the service defaults to pagination with a maximum of 1,000 results per page.
-- `"next_token"`: The token that identifies which batch of results that you want to see.
-  For example, you submit a ListItems request with MaxResults set at 500. The service returns
-  the first batch of results (up to 500) and a NextToken value. To see the next batch of
-  results, you can submit the ListItems request a second time and specify the NextToken
-  value. Tokens expire after 15 minutes.
-- `"path"`: The path in the container from which to retrieve items. Format: &lt;folder
+- `next_token`: The token that identifies which batch of results that you want to see. For
+  example, you submit a ListItems request with MaxResults set at 500. The service returns the
+  first batch of results (up to 500) and a NextToken value. To see the next batch of results,
+  you can submit the ListItems request a second time and specify the NextToken value. Tokens
+  expire after 15 minutes.
+- `path`: The path in the container from which to retrieve items. Format: &lt;folder
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
 function list_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore_data(
-        "GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore_data("GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -135,32 +117,23 @@ upload availability and 10 MB for streaming upload availability.
   same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The
   file name can include or omit an extension.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cache_control"`: An optional CacheControl header that allows the caller to control the
+# Keyword Parameters
+- `cache_control`: An optional CacheControl header that allows the caller to control the
   object's cache behavior. Headers can be passed in as specified in the HTTP at
   https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom
   user-defined value are also accepted.
-- `"content_type"`: The content type of the object.
-- `"storage_class"`: Indicates the storage class of a Put request. Defaults to
+- `content_type`: The content type of the object.
+- `storage_class`: Indicates the storage class of a Put request. Defaults to
   high-performance temporal storage class, and objects are persisted into durable storage
   shortly after being received.
-- `"upload_availability"`: Indicates the availability of an object while it is still
+- `upload_availability`: Indicates the availability of an object while it is still
   uploading. If the value is set to streaming, the object is available for downloading after
   some initial buffering but before the object is uploaded completely. If the value is set to
   standard, the object is available for downloading only when it is uploaded completely. The
   default value for this header is standard. To use this header, you must also set the HTTP
   Transfer-Encoding header to chunked.
 """
-function put_object(
-    Body, Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object(Body, Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediastore_data(
-        "PUT",
-        "/$(Path)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Body" => Body), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

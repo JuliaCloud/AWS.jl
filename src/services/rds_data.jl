@@ -4,16 +4,8 @@ using AWS.AWSServices: rds_data
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "parameter_sets" => "parameterSets",
-    "parameters" => "parameters",
-    "transaction_id" => "transactionId",
-    "include_result_metadata" => "includeResultMetadata",
-    "result_set_options" => "resultSetOptions",
-    "continue_after_timeout" => "continueAfterTimeout",
-    "database" => "database",
-    "schema" => "schema",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("database" => "database", "schema" => "schema", "parameter_sets" => "parameterSets", "transaction_id" => "transactionId", "continue_after_timeout" => "continueAfterTimeout", "include_result_metadata" => "includeResultMetadata", "parameters" => "parameters", "result_set_options" => "resultSetOptions")
 
 """
     batch_execute_statement(resource_arn, secret_arn, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,43 +21,22 @@ transactionID parameter, changes that result from the call are committed automat
 - `secret_arn`: The name or ARN of the secret that enables access to the DB cluster.
 - `sql`: The SQL statement to run.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"database"`: The name of the database.
-- `"parameter_sets"`: The parameter set for the batch operation. The SQL statement is
+# Keyword Parameters
+- `database`: The name of the database.
+- `parameter_sets`: The parameter set for the batch operation. The SQL statement is
   executed as many times as the number of parameter sets provided. To execute a SQL statement
   with no parameters, use one of the following options:   Specify one or more empty parameter
   sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.
     Array parameters are not supported.
-- `"schema"`: The name of the database schema.
-- `"transaction_id"`: The identifier of a transaction that was started by using the
+- `schema`: The name of the database schema.
+- `transaction_id`: The identifier of a transaction that was started by using the
   BeginTransaction operation. Specify the transaction ID of the transaction that you want to
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set
   this parameter.
 """
-function batch_execute_statement(
-    resourceArn,
-    secretArn,
-    sql;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_execute_statement(resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rds_data(
-        "POST",
-        "/BatchExecute",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds_data("POST", "/BatchExecute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -84,28 +55,13 @@ commit. We recommend that you run each DDL statement in a separate
 - `resource_arn`: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
 - `secret_arn`: The name or ARN of the secret that enables access to the DB cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"database"`: The name of the database.
-- `"schema"`: The name of the database schema.
+# Keyword Parameters
+- `database`: The name of the database.
+- `schema`: The name of the database schema.
 """
-function begin_transaction(
-    resourceArn, secretArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function begin_transaction(resourceArn, secretArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rds_data(
-        "POST",
-        "/BeginTransaction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "secretArn" => secretArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds_data("POST", "/BeginTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,31 +75,9 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 - `transaction_id`: The identifier of the transaction to end and commit.
 
 """
-function commit_transaction(
-    resourceArn,
-    secretArn,
-    transactionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function commit_transaction(resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rds_data(
-        "POST",
-        "/CommitTransaction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceArn" => resourceArn,
-                    "secretArn" => secretArn,
-                    "transactionId" => transactionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds_data("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -160,36 +94,13 @@ BatchExecuteStatement or ExecuteStatement operation.
   SQL statements from each other with a semicolon (;). Any valid SQL statement is permitted,
   including data definition, data manipulation, and commit statements.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"database"`: The name of the database.
-- `"schema"`: The name of the database schema.
+# Keyword Parameters
+- `database`: The name of the database.
+- `schema`: The name of the database schema.
 """
-function execute_sql(
-    awsSecretStoreArn,
-    dbClusterOrInstanceArn,
-    sqlStatements;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function execute_sql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rds_data(
-        "POST",
-        "/ExecuteSql",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "awsSecretStoreArn" => awsSecretStoreArn,
-                    "dbClusterOrInstanceArn" => dbClusterOrInstanceArn,
-                    "sqlStatements" => sqlStatements,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds_data("POST", "/ExecuteSql", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -205,49 +116,27 @@ MB of response data, the call is terminated.
 - `secret_arn`: The name or ARN of the secret that enables access to the DB cluster.
 - `sql`: The SQL statement to run.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continue_after_timeout"`: A value that indicates whether to continue running the
+# Keyword Parameters
+- `continue_after_timeout`: A value that indicates whether to continue running the
   statement after the call times out. By default, the statement stops running when the call
   times out.  For DDL statements, we recommend continuing to run the statement after the call
   times out. When a DDL statement terminates before it is finished running, it can result in
   errors and possibly corrupted data structures.
-- `"database"`: The name of the database.
-- `"include_result_metadata"`: A value that indicates whether to include metadata in the
+- `database`: The name of the database.
+- `include_result_metadata`: A value that indicates whether to include metadata in the
   results.
-- `"parameters"`: The parameters for the SQL statement.  Array parameters are not
+- `parameters`: The parameters for the SQL statement.  Array parameters are not supported.
+- `result_set_options`: Options that control how the result set is returned.
+- `schema`: The name of the database schema.  Currently, the schema parameter isn't
   supported.
-- `"result_set_options"`: Options that control how the result set is returned.
-- `"schema"`: The name of the database schema.  Currently, the schema parameter isn't
-  supported.
-- `"transaction_id"`: The identifier of a transaction that was started by using the
+- `transaction_id`: The identifier of a transaction that was started by using the
   BeginTransaction operation. Specify the transaction ID of the transaction that you want to
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set
   this parameter.
 """
-function execute_statement(
-    resourceArn,
-    secretArn,
-    sql;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function execute_statement(resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rds_data(
-        "POST",
-        "/Execute",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds_data("POST", "/Execute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -261,29 +150,7 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 - `transaction_id`: The identifier of the transaction to roll back.
 
 """
-function rollback_transaction(
-    resourceArn,
-    secretArn,
-    transactionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function rollback_transaction(resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rds_data(
-        "POST",
-        "/RollbackTransaction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceArn" => resourceArn,
-                    "secretArn" => secretArn,
-                    "transactionId" => transactionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds_data("POST", "/RollbackTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

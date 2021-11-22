@@ -4,46 +4,8 @@ using AWS.AWSServices: datasync
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "cloud_watch_log_group_arn" => "CloudWatchLogGroupArn",
-    "authentication_type" => "AuthenticationType",
-    "access_key" => "AccessKey",
-    "vpc_endpoint_id" => "VpcEndpointId",
-    "agent_arns" => "AgentArns",
-    "block_size" => "BlockSize",
-    "next_token" => "NextToken",
-    "user" => "User",
-    "schedule" => "Schedule",
-    "name_nodes" => "NameNodes",
-    "name" => "Name",
-    "kerberos_krb5_conf" => "KerberosKrb5Conf",
-    "secret_key" => "SecretKey",
-    "security_group_arns" => "SecurityGroupArns",
-    "agent_name" => "AgentName",
-    "mount_options" => "MountOptions",
-    "max_results" => "MaxResults",
-    "kerberos_keytab" => "KerberosKeytab",
-    "kerberos_principal" => "KerberosPrincipal",
-    "s3_storage_class" => "S3StorageClass",
-    "includes" => "Includes",
-    "on_prem_config" => "OnPremConfig",
-    "subnet_arns" => "SubnetArns",
-    "override_options" => "OverrideOptions",
-    "filters" => "Filters",
-    "options" => "Options",
-    "server_port" => "ServerPort",
-    "kms_key_provider_uri" => "KmsKeyProviderUri",
-    "subdirectory" => "Subdirectory",
-    "excludes" => "Excludes",
-    "domain" => "Domain",
-    "qop_configuration" => "QopConfiguration",
-    "replication_factor" => "ReplicationFactor",
-    "simple_user" => "SimpleUser",
-    "task_arn" => "TaskArn",
-    "tags" => "Tags",
-    "password" => "Password",
-    "server_protocol" => "ServerProtocol",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "max_results" => "MaxResults", "next_token" => "NextToken", "subdirectory" => "Subdirectory", "tags" => "Tags", "mount_options" => "MountOptions", "on_prem_config" => "OnPremConfig", "name" => "Name", "cloud_watch_log_group_arn" => "CloudWatchLogGroupArn", "excludes" => "Excludes", "includes" => "Includes", "options" => "Options", "schedule" => "Schedule", "agent_name" => "AgentName", "security_group_arns" => "SecurityGroupArns", "subnet_arns" => "SubnetArns", "vpc_endpoint_id" => "VpcEndpointId", "domain" => "Domain", "block_size" => "BlockSize", "kerberos_keytab" => "KerberosKeytab", "kerberos_krb5_conf" => "KerberosKrb5Conf", "kerberos_principal" => "KerberosPrincipal", "kms_key_provider_uri" => "KmsKeyProviderUri", "qop_configuration" => "QopConfiguration", "replication_factor" => "ReplicationFactor", "simple_user" => "SimpleUser", "access_key" => "AccessKey", "secret_key" => "SecretKey", "server_port" => "ServerPort", "server_protocol" => "ServerProtocol", "agent_arns" => "AgentArns", "s3_storage_class" => "S3StorageClass", "authentication_type" => "AuthenticationType", "name_nodes" => "NameNodes", "task_arn" => "TaskArn", "password" => "Password", "user" => "User", "override_options" => "OverrideOptions")
 
 """
     cancel_task_execution(task_execution_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -60,20 +22,9 @@ transfer when you start the next task execution.
 - `task_execution_arn`: The Amazon Resource Name (ARN) of the task execution to cancel.
 
 """
-function cancel_task_execution(
-    TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_task_execution(TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CancelTaskExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TaskExecutionArn" => TaskExecutionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CancelTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -102,39 +53,29 @@ interruption to your tasks.
   actual configuration of your agent. For more information, see Activating an Agent in the
   DataSync User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_name"`: The name you configured for your agent. This value is a text reference
-  that is used to identify the agent in the console.
-- `"security_group_arns"`: The ARNs of the security groups used to protect your data
-  transfer task subnets. See SecurityGroupArns.
-- `"subnet_arns"`: The Amazon Resource Names (ARNs) of the subnets in which DataSync will
+# Keyword Parameters
+- `agent_name`: The name you configured for your agent. This value is a text reference that
+  is used to identify the agent in the console.
+- `security_group_arns`: The ARNs of the security groups used to protect your data transfer
+  task subnets. See SecurityGroupArns.
+- `subnet_arns`: The Amazon Resource Names (ARNs) of the subnets in which DataSync will
   create elastic network interfaces for each data transfer task. The agent that runs a task
   must be private. When you start a task that is associated with an agent created in a VPC,
   or one that has access to an IP address in a VPC, then the task is also private. In this
   case, DataSync creates four network interfaces for each task in your subnet. For a data
   transfer to work, the agent must be able to route to all these four network interfaces.
-- `"tags"`: The key-value pair that represents the tag that you want to associate with the
+- `tags`: The key-value pair that represents the tag that you want to associate with the
   agent. The value can be an empty string. This value helps you manage, filter, and search
   for your agents.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @.
-- `"vpc_endpoint_id"`: The ID of the VPC (virtual private cloud) endpoint that the agent
-  has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you
-  don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in
-  the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
+- `vpc_endpoint_id`: The ID of the VPC (virtual private cloud) endpoint that the agent has
+  access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't
+  have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the
+  Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
 """
-function create_agent(
-    ActivationKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_agent(ActivationKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateAgent",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ActivationKey" => ActivationKey), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,37 +98,18 @@ Creates an endpoint for an Amazon EFS file system.
   Amazon EC2 Instances and Mount Targets in the Amazon EFS User Guide.
 - `efs_filesystem_arn`: The Amazon Resource Name (ARN) for the Amazon EFS file system.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"subdirectory"`: A subdirectory in the location’s path. This subdirectory in the EFS
+# Keyword Parameters
+- `subdirectory`: A subdirectory in the location’s path. This subdirectory in the EFS
   file system is used to read data from the EFS source location or write data to the EFS
   destination. By default, DataSync uses the root directory.   Subdirectory must be specified
   with forward slashes. For example, /path/to/folder.
-- `"tags"`: The key-value pair that represents a tag that you want to add to the resource.
+- `tags`: The key-value pair that represents a tag that you want to add to the resource.
   The value can be an empty string. This value helps you manage, filter, and search for your
   resources. We recommend that you create a name tag for your location.
 """
-function create_location_efs(
-    Ec2Config,
-    EfsFilesystemArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_location_efs(Ec2Config, EfsFilesystemArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationEfs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Ec2Config" => Ec2Config, "EfsFilesystemArn" => EfsFilesystemArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2Config"=>Ec2Config, "EfsFilesystemArn"=>EfsFilesystemArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -206,44 +128,19 @@ Creates an endpoint for an Amazon FSx for Windows File Server file system.
   Windows File Server file system. For information about choosing a user name that ensures
   sufficient permissions to files, folders, and metadata, see user.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"domain"`: The name of the Windows domain that the FSx for Windows File Server belongs
-  to.
-- `"subdirectory"`: A subdirectory in the location’s path. This subdirectory in the
-  Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for
+# Keyword Parameters
+- `domain`: The name of the Windows domain that the FSx for Windows File Server belongs to.
+- `subdirectory`: A subdirectory in the location’s path. This subdirectory in the Amazon
+  FSx for Windows File Server file system is used to read data from the Amazon FSx for
   Windows File Server source location or write data to the FSx for Windows File Server
   destination.
-- `"tags"`: The key-value pair that represents a tag that you want to add to the resource.
+- `tags`: The key-value pair that represents a tag that you want to add to the resource.
   The value can be an empty string. This value helps you manage, filter, and search for your
   resources. We recommend that you create a name tag for your location.
 """
-function create_location_fsx_windows(
-    FsxFilesystemArn,
-    Password,
-    SecurityGroupArns,
-    User;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_location_fsx_windows(FsxFilesystemArn, Password, SecurityGroupArns, User; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationFsxWindows",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FsxFilesystemArn" => FsxFilesystemArn,
-                    "Password" => Password,
-                    "SecurityGroupArns" => SecurityGroupArns,
-                    "User" => User,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FsxFilesystemArn"=>FsxFilesystemArn, "Password"=>Password, "SecurityGroupArns"=>SecurityGroupArns, "User"=>User), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -261,63 +158,41 @@ Creates an endpoint for a Hadoop Distributed File System (HDFS).
   contains the information to map blocks of data to the DataNodes. You can use only one
   NameNode.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"block_size"`: The size of data blocks to write into the HDFS cluster. The block size
-  must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
-- `"kerberos_keytab"`: The Kerberos key table (keytab) that contains mappings between the
+# Keyword Parameters
+- `block_size`: The size of data blocks to write into the HDFS cluster. The block size must
+  be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
+- `kerberos_keytab`: The Kerberos key table (keytab) that contains mappings between the
   defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
   providing the file's address. If you're using the CLI, it performs base64 encoding for you.
   Otherwise, provide the base64-encoded text.   If KERBEROS is specified for
   AuthenticationType, this parameter is required.
-- `"kerberos_krb5_conf"`: The krb5.conf file that contains the Kerberos configuration
+- `kerberos_krb5_conf`: The krb5.conf file that contains the Kerberos configuration
   information. You can load the krb5.conf file by providing the file's address. If you're
   using the CLI, it performs the base64 encoding for you. Otherwise, provide the
   base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is
   required.
-- `"kerberos_principal"`: The Kerberos principal with access to the files and folders on
-  the HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is
+- `kerberos_principal`: The Kerberos principal with access to the files and folders on the
+  HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is
   required.
-- `"kms_key_provider_uri"`: The URI of the HDFS cluster's Key Management Server (KMS).
-- `"qop_configuration"`: The Quality of Protection (QOP) configuration specifies the Remote
+- `kms_key_provider_uri`: The URI of the HDFS cluster's Key Management Server (KMS).
+- `qop_configuration`: The Quality of Protection (QOP) configuration specifies the Remote
   Procedure Call (RPC) and data transfer protection settings configured on the Hadoop
   Distributed File System (HDFS) cluster. If QopConfiguration isn't specified, RpcProtection
   and DataTransferProtection default to PRIVACY. If you set RpcProtection or
   DataTransferProtection, the other parameter assumes the same value.
-- `"replication_factor"`: The number of DataNodes to replicate the data to when writing to
+- `replication_factor`: The number of DataNodes to replicate the data to when writing to
   the HDFS cluster. By default, data is replicated to three DataNodes.
-- `"simple_user"`: The user name used to identify the client on the host operating system.
-   If SIMPLE is specified for AuthenticationType, this parameter is required.
-- `"subdirectory"`: A subdirectory in the HDFS cluster. This subdirectory is used to read
+- `simple_user`: The user name used to identify the client on the host operating system.
+  If SIMPLE is specified for AuthenticationType, this parameter is required.
+- `subdirectory`: A subdirectory in the HDFS cluster. This subdirectory is used to read
   data from or write data to the HDFS cluster. If the subdirectory isn't specified, it will
   default to /.
-- `"tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+- `tags`: The key-value pair that represents the tag that you want to add to the location.
+  The value can be an empty string. We recommend using tags to name your resources.
 """
-function create_location_hdfs(
-    AgentArns,
-    AuthenticationType,
-    NameNodes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_location_hdfs(AgentArns, AuthenticationType, NameNodes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationHdfs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AgentArns" => AgentArns,
-                    "AuthenticationType" => AuthenticationType,
-                    "NameNodes" => NameNodes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationHdfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "AuthenticationType"=>AuthenticationType, "NameNodes"=>NameNodes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -351,36 +226,14 @@ written to.
   information. For information about NFS export configuration, see 18.7. The /etc/exports
   Configuration File in the Red Hat Enterprise Linux documentation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"mount_options"`: The NFS mount options that DataSync can use to mount your NFS share.
-- `"tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+# Keyword Parameters
+- `mount_options`: The NFS mount options that DataSync can use to mount your NFS share.
+- `tags`: The key-value pair that represents the tag that you want to add to the location.
+  The value can be an empty string. We recommend using tags to name your resources.
 """
-function create_location_nfs(
-    OnPremConfig,
-    ServerHostname,
-    Subdirectory;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_location_nfs(OnPremConfig, ServerHostname, Subdirectory; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationNfs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OnPremConfig" => OnPremConfig,
-                    "ServerHostname" => ServerHostname,
-                    "Subdirectory" => Subdirectory,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OnPremConfig"=>OnPremConfig, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -398,50 +251,28 @@ self-managed object storage locations, see Creating a location for object storag
   IP address or Domain Name Service (DNS) name of the object storage server. An agent uses
   this host name to mount the object storage server in a network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_key"`: Optional. The access key is used if credentials are required to access
-  the self-managed object storage server. If your object storage requires a user name and
+# Keyword Parameters
+- `access_key`: Optional. The access key is used if credentials are required to access the
+  self-managed object storage server. If your object storage requires a user name and
   password to authenticate, use AccessKey and SecretKey to provide the user name and
   password, respectively.
-- `"secret_key"`: Optional. The secret key is used if credentials are required to access
-  the self-managed object storage server. If your object storage requires a user name and
+- `secret_key`: Optional. The secret key is used if credentials are required to access the
+  self-managed object storage server. If your object storage requires a user name and
   password to authenticate, use AccessKey and SecretKey to provide the user name and
   password, respectively.
-- `"server_port"`: The port that your self-managed object storage server accepts inbound
+- `server_port`: The port that your self-managed object storage server accepts inbound
   network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS).
   You can specify a custom port if your self-managed object storage server requires one.
-- `"server_protocol"`: The protocol that the object storage server uses to communicate.
-  Valid values are HTTP or HTTPS.
-- `"subdirectory"`: The subdirectory in the self-managed object storage server that is used
+- `server_protocol`: The protocol that the object storage server uses to communicate. Valid
+  values are HTTP or HTTPS.
+- `subdirectory`: The subdirectory in the self-managed object storage server that is used
   to read data from.
-- `"tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+- `tags`: The key-value pair that represents the tag that you want to add to the location.
+  The value can be an empty string. We recommend using tags to name your resources.
 """
-function create_location_object_storage(
-    AgentArns,
-    BucketName,
-    ServerHostname;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_location_object_storage(AgentArns, BucketName, ServerHostname; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationObjectStorage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AgentArns" => AgentArns,
-                    "BucketName" => BucketName,
-                    "ServerHostname" => ServerHostname,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "BucketName"=>BucketName, "ServerHostname"=>ServerHostname), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -455,40 +286,26 @@ location in the DataSync User Guide.
   Services Outpost, this must be an access point ARN.
 - `s3_config`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_arns"`: If you are using DataSync on an Amazon Web Services Outpost, specify the
+# Keyword Parameters
+- `agent_arns`: If you are using DataSync on an Amazon Web Services Outpost, specify the
   Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more
   information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy
   your DataSync agent on Outposts.
-- `"s3_storage_class"`: The Amazon S3 storage class that you want to store your files in
-  when this location is used as a task destination. For buckets in Amazon Web Services
-  Regions, the storage class defaults to Standard. For buckets on Outposts, the storage class
-  defaults to Amazon Web Services S3 Outposts. For more information about S3 storage classes,
-  see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3
+- `s3_storage_class`: The Amazon S3 storage class that you want to store your files in when
+  this location is used as a task destination. For buckets in Amazon Web Services Regions,
+  the storage class defaults to Standard. For buckets on Outposts, the storage class defaults
+  to Amazon Web Services S3 Outposts. For more information about S3 storage classes, see
+  Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3
   storage cost. For detailed information, see Considerations when working with S3 storage
   classes in DataSync.
-- `"subdirectory"`: A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3
-  is used to read data from the S3 source location or write data to the S3 destination.
-- `"tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+- `subdirectory`: A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is
+  used to read data from the S3 source location or write data to the S3 destination.
+- `tags`: The key-value pair that represents the tag that you want to add to the location.
+  The value can be an empty string. We recommend using tags to name your resources.
 """
-function create_location_s3(
-    S3BucketArn, S3Config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_location_s3(S3BucketArn, S3Config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationS3",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("S3BucketArn" => S3BucketArn, "S3Config" => S3Config),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3BucketArn"=>S3BucketArn, "S3Config"=>S3Config), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -522,41 +339,15 @@ written to.
   in the SMB share. For information about choosing a user name that ensures sufficient
   permissions to files, folders, and metadata, see user.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"domain"`: The name of the Windows domain that the SMB server belongs to.
-- `"mount_options"`: The mount options used by DataSync to access the SMB server.
-- `"tags"`: The key-value pair that represents the tag that you want to add to the
-  location. The value can be an empty string. We recommend using tags to name your resources.
+# Keyword Parameters
+- `domain`: The name of the Windows domain that the SMB server belongs to.
+- `mount_options`: The mount options used by DataSync to access the SMB server.
+- `tags`: The key-value pair that represents the tag that you want to add to the location.
+  The value can be an empty string. We recommend using tags to name your resources.
 """
-function create_location_smb(
-    AgentArns,
-    Password,
-    ServerHostname,
-    Subdirectory,
-    User;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_location_smb(AgentArns, Password, ServerHostname, Subdirectory, User; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateLocationSmb",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AgentArns" => AgentArns,
-                    "Password" => Password,
-                    "ServerHostname" => ServerHostname,
-                    "Subdirectory" => Subdirectory,
-                    "User" => User,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "Password"=>Password, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory, "User"=>User), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -580,54 +371,33 @@ your destination Region. For more information, see Data Transfer pricing.
   storage resource's location.
 - `source_location_arn`: The Amazon Resource Name (ARN) of the source location for the task.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cloud_watch_log_group_arn"`: The Amazon Resource Name (ARN) of the Amazon CloudWatch
-  log group that is used to monitor and log events in the task.
-- `"excludes"`: A list of filter rules that determines which files to exclude from a task.
+# Keyword Parameters
+- `cloud_watch_log_group_arn`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log
+  group that is used to monitor and log events in the task.
+- `excludes`: A list of filter rules that determines which files to exclude from a task.
   The list should contain a single filter string that consists of the patterns to exclude.
   The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
   
-- `"includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern contains a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
-  \"/folder1|/folder2\".
-- `"name"`: The name of a task. This value is a text reference that is used to identify the
+- `includes`: A list of filter rules that determines which files to include when running a
+  task. The pattern contains a single filter string that consists of the patterns to include.
+  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
+- `name`: The name of a task. This value is a text reference that is used to identify the
   task in the console.
-- `"options"`: The set of configuration options that control the behavior of a single
+- `options`: The set of configuration options that control the behavior of a single
   execution of the task that occurs when you call StartTaskExecution. You can configure these
   options to preserve metadata such as user ID (UID) and group ID (GID), file permissions,
   data integrity verification, and so on. For each individual task execution, you can
   override these options by specifying the OverrideOptions before starting the task
   execution. For more information, see the StartTaskExecution operation.
-- `"schedule"`: Specifies a schedule used to periodically transfer files from a source to a
+- `schedule`: Specifies a schedule used to periodically transfer files from a source to a
   destination location. The schedule should be specified in UTC time. For more information,
   see Scheduling your task.
-- `"tags"`: The key-value pair that represents the tag that you want to add to the
-  resource. The value can be an empty string.
+- `tags`: The key-value pair that represents the tag that you want to add to the resource.
+  The value can be an empty string.
 """
-function create_task(
-    DestinationLocationArn,
-    SourceLocationArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_task(DestinationLocationArn, SourceLocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "CreateTask",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DestinationLocationArn" => DestinationLocationArn,
-                    "SourceLocationArn" => SourceLocationArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("CreateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationLocationArn"=>DestinationLocationArn, "SourceLocationArn"=>SourceLocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -643,18 +413,9 @@ on-premises environment.
   operation to return a list of agents for your account and Amazon Web Services Region.
 
 """
-function delete_agent(
-    AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DeleteAgent",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DeleteAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -666,18 +427,9 @@ Deletes the configuration of a location used by DataSync.
 - `location_arn`: The Amazon Resource Name (ARN) of the location to delete.
 
 """
-function delete_location(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_location(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DeleteLocation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DeleteLocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -691,12 +443,7 @@ Deletes a task.
 """
 function delete_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DeleteTask",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DeleteTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -710,18 +457,9 @@ Amazon Resource Name (ARN) of the agent in your request.
 - `agent_arn`: The Amazon Resource Name (ARN) of the agent to describe.
 
 """
-function describe_agent(
-    AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeAgent",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -733,18 +471,9 @@ Returns metadata, such as the path information about an Amazon EFS location.
 - `location_arn`: The Amazon Resource Name (ARN) of the EFS location to describe.
 
 """
-function describe_location_efs(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_efs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationEfs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -758,18 +487,9 @@ location.
   location to describe.
 
 """
-function describe_location_fsx_windows(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_fsx_windows(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationFsxWindows",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -782,18 +502,9 @@ System (HDFS) location.
 - `location_arn`: The Amazon Resource Name (ARN) of the HDFS cluster location to describe.
 
 """
-function describe_location_hdfs(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_hdfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationHdfs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationHdfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -805,18 +516,9 @@ Returns metadata, such as the path information, about an NFS location.
 - `location_arn`: The Amazon Resource Name (ARN) of the NFS location to describe.
 
 """
-function describe_location_nfs(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationNfs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -830,18 +532,9 @@ about self-managed object storage locations, see Creating a location for object 
   location that was described.
 
 """
-function describe_location_object_storage(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_object_storage(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationObjectStorage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -854,18 +547,9 @@ Returns metadata, such as bucket name, about an Amazon S3 bucket location.
   describe.
 
 """
-function describe_location_s3(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_s3(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationS3",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -877,18 +561,9 @@ Returns metadata, such as the path and user information about an SMB location.
 - `location_arn`: The Amazon Resource Name (ARN) of the SMB location to describe.
 
 """
-function describe_location_smb(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_location_smb(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeLocationSmb",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -900,16 +575,9 @@ Returns metadata about a task.
 - `task_arn`: The Amazon Resource Name (ARN) of the task to describe.
 
 """
-function describe_task(
-    TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeTask",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -921,20 +589,9 @@ Returns detailed metadata about a task that is being executed.
 - `task_execution_arn`: The Amazon Resource Name (ARN) of the task that is being executed.
 
 """
-function describe_task_execution(
-    TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_task_execution(TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "DescribeTaskExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TaskExecutionArn" => TaskExecutionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("DescribeTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -948,17 +605,14 @@ response. If you have more agents than are returned in a response (that is, the 
 returns only a truncated list of your agents), the response contains a marker that you can
 specify in your next request to fetch the next page of agents.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of agents to list.
-- `"next_token"`: An opaque string that indicates the position at which to begin the next
+# Keyword Parameters
+- `max_results`: The maximum number of agents to list.
+- `next_token`: An opaque string that indicates the position at which to begin the next
   list of agents.
 """
 function list_agents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "ListAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return datasync("ListAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -969,20 +623,17 @@ returned in a response (that is, the response returns only a truncated list of y
 agents), the response contains a token that you can specify in your next request to fetch
 the next page of locations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: You can use API filters to narrow down the list of resources returned by
+# Keyword Parameters
+- `filters`: You can use API filters to narrow down the list of resources returned by
   ListLocations. For example, to retrieve all tasks on a specific source location, you can
   use ListLocations with filter name LocationType S3 and Operator Equals.
-- `"max_results"`: The maximum number of locations to return.
-- `"next_token"`: An opaque string that indicates the position at which to begin the next
+- `max_results`: The maximum number of locations to return.
+- `next_token`: An opaque string that indicates the position at which to begin the next
   list of locations.
 """
 function list_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return datasync("ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -993,24 +644,14 @@ Returns all the tags associated with a specified resource.
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of locations to return.
-- `"next_token"`: An opaque string that indicates the position at which to begin the next
+# Keyword Parameters
+- `max_results`: The maximum number of locations to return.
+- `next_token`: An opaque string that indicates the position at which to begin the next
   list of locations.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1018,20 +659,15 @@ end
 
 Returns a list of executed tasks.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of executed tasks to list.
-- `"next_token"`: An opaque string that indicates the position at which to begin the next
+# Keyword Parameters
+- `max_results`: The maximum number of executed tasks to list.
+- `next_token`: An opaque string that indicates the position at which to begin the next
   list of the executed tasks.
-- `"task_arn"`: The Amazon Resource Name (ARN) of the task whose tasks you want to list.
+- `task_arn`: The Amazon Resource Name (ARN) of the task whose tasks you want to list.
 """
-function list_task_executions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_task_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "ListTaskExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return datasync("ListTaskExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1039,20 +675,17 @@ end
 
 Returns a list of all the tasks.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: You can use API filters to narrow down the list of resources returned by
+# Keyword Parameters
+- `filters`: You can use API filters to narrow down the list of resources returned by
   ListTasks. For example, to retrieve all tasks on a specific source location, you can use
   ListTasks with filter name LocationId and Operator Equals with the ARN for the location.
-- `"max_results"`: The maximum number of tasks to return.
-- `"next_token"`: An opaque string that indicates the position at which to begin the next
+- `max_results`: The maximum number of tasks to return.
+- `next_token`: An opaque string that indicates the position at which to begin the next
   list of tasks.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return datasync("ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1067,27 +700,19 @@ Components and Terminology topic in the DataSync User Guide.
 # Arguments
 - `task_arn`: The Amazon Resource Name (ARN) of the task to start.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"excludes"`: A list of filter rules that determines which files to exclude from a task.
+# Keyword Parameters
+- `excludes`: A list of filter rules that determines which files to exclude from a task.
   The list contains a single filter string that consists of the patterns to exclude. The
   patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
-- `"includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern should contain a single filter string that consists of the patterns to
+- `includes`: A list of filter rules that determines which files to include when running a
+  task. The pattern should contain a single filter string that consists of the patterns to
   include. The patterns are delimited by \"|\" (that is, a pipe), for example,
   \"/folder1|/folder2\".
-- `"override_options"`:
+- `override_options`:
 """
-function start_task_execution(
-    TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "StartTaskExecution",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("StartTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1100,22 +725,9 @@ Applies a key-value pair to an Amazon Web Services resource.
 - `tags`: The tags to apply.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1128,22 +740,9 @@ Removes a tag from an Amazon Web Services resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove the tag from.
 
 """
-function untag_resource(
-    Keys, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(Keys, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Keys" => Keys, "ResourceArn" => ResourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1154,22 +753,12 @@ Updates the name of an agent.
 # Arguments
 - `agent_arn`: The Amazon Resource Name (ARN) of the agent to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: The name that you want to use to configure the agent.
+# Keyword Parameters
+- `name`: The name that you want to use to configure the agent.
 """
-function update_agent(
-    AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateAgent",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1181,48 +770,38 @@ System cluster.
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the source HDFS cluster location.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_arns"`: The ARNs of the agents that are used to connect to the HDFS cluster.
-- `"authentication_type"`: The type of authentication used to determine the identity of the
+# Keyword Parameters
+- `agent_arns`: The ARNs of the agents that are used to connect to the HDFS cluster.
+- `authentication_type`: The type of authentication used to determine the identity of the
   user.
-- `"block_size"`: The size of the data blocks to write into the HDFS cluster.
-- `"kerberos_keytab"`: The Kerberos key table (keytab) that contains mappings between the
+- `block_size`: The size of the data blocks to write into the HDFS cluster.
+- `kerberos_keytab`: The Kerberos key table (keytab) that contains mappings between the
   defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
   providing the file's address. If you use the AWS CLI, it performs base64 encoding for you.
   Otherwise, provide the base64-encoded text.
-- `"kerberos_krb5_conf"`: The krb5.conf file that contains the Kerberos configuration
+- `kerberos_krb5_conf`: The krb5.conf file that contains the Kerberos configuration
   information. You can load the krb5.conf file by providing the file's address. If you're
   using the AWS CLI, it performs the base64 encoding for you. Otherwise, provide the
   base64-encoded text.
-- `"kerberos_principal"`: The Kerberos principal with access to the files and folders on
-  the HDFS cluster.
-- `"kms_key_provider_uri"`: The URI of the HDFS cluster's Key Management Server (KMS).
-- `"name_nodes"`: The NameNode that manages the HDFS namespace. The NameNode performs
+- `kerberos_principal`: The Kerberos principal with access to the files and folders on the
+  HDFS cluster.
+- `kms_key_provider_uri`: The URI of the HDFS cluster's Key Management Server (KMS).
+- `name_nodes`: The NameNode that manages the HDFS namespace. The NameNode performs
   operations such as opening, closing, and renaming files and directories. The NameNode
   contains the information to map blocks of data to the DataNodes. You can use only one
   NameNode.
-- `"qop_configuration"`: The Quality of Protection (QOP) configuration specifies the Remote
+- `qop_configuration`: The Quality of Protection (QOP) configuration specifies the Remote
   Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop
   Distributed File System (HDFS) cluster.
-- `"replication_factor"`: The number of DataNodes to replicate the data to when writing to
+- `replication_factor`: The number of DataNodes to replicate the data to when writing to
   the HDFS cluster.
-- `"simple_user"`: The user name used to identify the client on the host operating system.
-- `"subdirectory"`: A subdirectory in the HDFS cluster. This subdirectory is used to read
+- `simple_user`: The user name used to identify the client on the host operating system.
+- `subdirectory`: A subdirectory in the HDFS cluster. This subdirectory is used to read
   data from or write data to the HDFS cluster.
 """
-function update_location_hdfs(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_location_hdfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateLocationHdfs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateLocationHdfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1235,11 +814,10 @@ NFS.
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the NFS location to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"mount_options"`:
-- `"on_prem_config"`:
-- `"subdirectory"`: The subdirectory in the NFS file system that is used to read data from
+# Keyword Parameters
+- `mount_options`:
+- `on_prem_config`:
+- `subdirectory`: The subdirectory in the NFS file system that is used to read data from
   the NFS source location or write data to the NFS destination. The NFS path should be a path
   that's exported by the NFS server, or a subdirectory of that path. The path should be such
   that it can be mounted by other NFS clients in your network. To see all the paths exported
@@ -1255,18 +833,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   information. For information about NFS export configuration, see 18.7. The /etc/exports
   Configuration File in the Red Hat Enterprise Linux documentation.
 """
-function update_location_nfs(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateLocationNfs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1280,38 +849,28 @@ location, see Creating a location for object storage.
 - `location_arn`: The Amazon Resource Name (ARN) of the self-managed object storage server
   location to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_key"`: Optional. The access key is used if credentials are required to access
-  the self-managed object storage server. If your object storage requires a user name and
+# Keyword Parameters
+- `access_key`: Optional. The access key is used if credentials are required to access the
+  self-managed object storage server. If your object storage requires a user name and
   password to authenticate, use AccessKey and SecretKey to provide the user name and
   password, respectively.
-- `"agent_arns"`: The Amazon Resource Name (ARN) of the agents associated with the
+- `agent_arns`: The Amazon Resource Name (ARN) of the agents associated with the
   self-managed object storage server location.
-- `"secret_key"`: Optional. The secret key is used if credentials are required to access
-  the self-managed object storage server. If your object storage requires a user name and
+- `secret_key`: Optional. The secret key is used if credentials are required to access the
+  self-managed object storage server. If your object storage requires a user name and
   password to authenticate, use AccessKey and SecretKey to provide the user name and
   password, respectively.
-- `"server_port"`: The port that your self-managed object storage server accepts inbound
+- `server_port`: The port that your self-managed object storage server accepts inbound
   network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS).
   You can specify a custom port if your self-managed object storage server requires one.
-- `"server_protocol"`: The protocol that the object storage server uses to communicate.
-  Valid values are HTTP or HTTPS.
-- `"subdirectory"`: The subdirectory in the self-managed object storage server that is used
+- `server_protocol`: The protocol that the object storage server uses to communicate. Valid
+  values are HTTP or HTTPS.
+- `subdirectory`: The subdirectory in the self-managed object storage server that is used
   to read data from.
 """
-function update_location_object_storage(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_location_object_storage(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateLocationObjectStorage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1324,15 +883,14 @@ location for SMB.
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the SMB location to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"agent_arns"`: The Amazon Resource Names (ARNs) of agents to use for a Simple Message
+# Keyword Parameters
+- `agent_arns`: The Amazon Resource Names (ARNs) of agents to use for a Simple Message
   Block (SMB) location.
-- `"domain"`: The name of the Windows domain that the SMB server belongs to.
-- `"mount_options"`:
-- `"password"`: The password of the user who can mount the share has the permissions to
+- `domain`: The name of the Windows domain that the SMB server belongs to.
+- `mount_options`:
+- `password`: The password of the user who can mount the share has the permissions to
   access files and folders in the SMB share.
-- `"subdirectory"`: The subdirectory in the SMB file system that is used to read data from
+- `subdirectory`: The subdirectory in the SMB file system that is used to read data from
   the SMB source location or write data to the SMB destination. The SMB path should be a path
   that's exported by the SMB server, or a subdirectory of that path. The path should be such
   that it can be mounted by other SMB clients in your network.   Subdirectory must be
@@ -1344,21 +902,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   access.   Use credentials of a member of the Backup Operators group to mount the share.
   Doing either of these options enables the agent to access the data. For the agent to access
   directories, you must also enable all execute access.
-- `"user"`: The user who can mount the share has the permissions to access files and
-  folders in the SMB share.
+- `user`: The user who can mount the share has the permissions to access files and folders
+  in the SMB share.
 """
-function update_location_smb(
-    LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_location_smb(LocationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateLocationSmb",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1369,32 +918,25 @@ Updates the metadata associated with a task.
 # Arguments
 - `task_arn`: The Amazon Resource Name (ARN) of the resource name of the task to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cloud_watch_log_group_arn"`: The Amazon Resource Name (ARN) of the resource name of the
+# Keyword Parameters
+- `cloud_watch_log_group_arn`: The Amazon Resource Name (ARN) of the resource name of the
   Amazon CloudWatch log group.
-- `"excludes"`: A list of filter rules that determines which files to exclude from a task.
+- `excludes`: A list of filter rules that determines which files to exclude from a task.
   The list should contain a single filter string that consists of the patterns to exclude.
   The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
-- `"includes"`: A list of filter rules that determines which files to include when running
-  a task. The pattern contains a single filter string that consists of the patterns to
-  include. The patterns are delimited by \"|\" (that is, a pipe), for example,
-  \"/folder1|/folder2\".
-- `"name"`: The name of the task to update.
-- `"options"`:
-- `"schedule"`: Specifies a schedule used to periodically transfer files from a source to a
+- `includes`: A list of filter rules that determines which files to include when running a
+  task. The pattern contains a single filter string that consists of the patterns to include.
+  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
+- `name`: The name of the task to update.
+- `options`:
+- `schedule`: Specifies a schedule used to periodically transfer files from a source to a
   destination location. You can configure your task to execute hourly, daily, weekly or on
   specific days of the week. You control when in the day or hour you want the task to
   execute. The time you specify is UTC time. For more information, see Scheduling your task.
 """
 function update_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateTask",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1411,22 +953,7 @@ Execution.  The only Option that can be modified by UpdateTaskExecution is  Byte
   is being updated.
 
 """
-function update_task_execution(
-    Options, TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_task_execution(Options, TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return datasync(
-        "UpdateTaskExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Options" => Options, "TaskExecutionArn" => TaskExecutionArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return datasync("UpdateTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

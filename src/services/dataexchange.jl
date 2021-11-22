@@ -4,20 +4,8 @@ using AWS.AWSServices: dataexchange
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "action" => "Action",
-    "finalized" => "Finalized",
-    "next_token" => "nextToken",
-    "name" => "Name",
-    "description" => "Description",
-    "max_results" => "maxResults",
-    "origin" => "origin",
-    "comment" => "Comment",
-    "event_source_id" => "eventSourceId",
-    "data_set_id" => "dataSetId",
-    "revision_id" => "revisionId",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("event_source_id" => "eventSourceId", "max_results" => "maxResults", "next_token" => "nextToken", "comment" => "Comment", "tags" => "Tags", "action" => "Action", "finalized" => "Finalized", "origin" => "origin", "data_set_id" => "dataSetId", "revision_id" => "revisionId", "description" => "Description", "name" => "Name")
 
 """
     cancel_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,13 +18,7 @@ This operation cancels a job. Jobs can be cancelled only when they are in the WA
 """
 function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "DELETE",
-        "/v1/jobs/$(JobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("DELETE", "/v1/jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -50,36 +32,15 @@ This operation creates a data set.
   long.
 - `name`: The name of the data set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A data set tag is an optional label that you can assign to a data set when you
+# Keyword Parameters
+- `tags`: A data set tag is an optional label that you can assign to a data set when you
   create it. Each tag consists of a key and an optional value, both of which you define. When
   you use tagging, you can also use tag-based access control in IAM policies to control
   access to these data sets and revisions.
 """
-function create_data_set(
-    AssetType,
-    Description,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_data_set(AssetType, Description, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "POST",
-        "/v1/data-sets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssetType" => AssetType, "Description" => Description, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("POST", "/v1/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -92,21 +53,9 @@ This operation creates an event action.
 - `event`: What occurs to start an action.
 
 """
-function create_event_action(
-    Action, Event; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_event_action(Action, Event; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "POST",
-        "/v1/event-actions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Action" => Action, "Event" => Event), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("POST", "/v1/event-actions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Event"=>Event), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,21 +68,9 @@ This operation creates a job.
 - `type`: The type of job to be created.
 
 """
-function create_job(
-    Details, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_job(Details, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "POST",
-        "/v1/jobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Details" => Details, "Type" => Type), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("POST", "/v1/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Details"=>Details, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -144,25 +81,16 @@ This operation creates a revision for a data set.
 # Arguments
 - `data_set_id`: The unique identifier for a data set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: An optional comment about the revision.
-- `"tags"`: A revision tag is an optional label that you can assign to a revision when you
+# Keyword Parameters
+- `comment`: An optional comment about the revision.
+- `tags`: A revision tag is an optional label that you can assign to a revision when you
   create it. Each tag consists of a key and an optional value, both of which you define. When
   you use tagging, you can also use tag-based access control in IAM policies to control
   access to these data sets and revisions.
 """
-function create_revision(
-    DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_revision(DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "POST",
-        "/v1/data-sets/$(DataSetId)/revisions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -176,21 +104,9 @@ This operation deletes an asset.
 - `revision_id`: The unique identifier for a revision.
 
 """
-function delete_asset(
-    AssetId,
-    DataSetId,
-    RevisionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_asset(AssetId, DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "DELETE",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -202,17 +118,9 @@ This operation deletes a data set.
 - `data_set_id`: The unique identifier for a data set.
 
 """
-function delete_data_set(
-    DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "DELETE",
-        "/v1/data-sets/$(DataSetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("DELETE", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -224,17 +132,9 @@ This operation deletes the event action.
 - `event_action_id`: The unique identifier for the event action.
 
 """
-function delete_event_action(
-    EventActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_event_action(EventActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "DELETE",
-        "/v1/event-actions/$(EventActionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("DELETE", "/v1/event-actions/$(EventActionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -247,17 +147,9 @@ This operation deletes a revision.
 - `revision_id`: The unique identifier for a revision.
 
 """
-function delete_revision(
-    DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "DELETE",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -271,21 +163,9 @@ This operation returns information about an asset.
 - `revision_id`: The unique identifier for a revision.
 
 """
-function get_asset(
-    AssetId,
-    DataSetId,
-    RevisionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_asset(AssetId, DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -297,17 +177,9 @@ This operation returns information about a data set.
 - `data_set_id`: The unique identifier for a data set.
 
 """
-function get_data_set(
-    DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/data-sets/$(DataSetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -319,17 +191,9 @@ This operation retrieves information about an event action.
 - `event_action_id`: The unique identifier for the event action.
 
 """
-function get_event_action(
-    EventActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_event_action(EventActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/event-actions/$(EventActionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/event-actions/$(EventActionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -343,13 +207,7 @@ This operation returns information about a job.
 """
 function get_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/jobs/$(JobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -362,17 +220,9 @@ This operation returns information about a revision.
 - `revision_id`: The unique identifier for a revision.
 
 """
-function get_revision(
-    DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -383,23 +233,14 @@ This operation lists a data set's revisions sorted by CreatedAt in descending or
 # Arguments
 - `data_set_id`: The unique identifier for a data set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results returned by a single call.
-- `"next_token"`: The token value retrieved from a previous call to access the next page of
+# Keyword Parameters
+- `max_results`: The maximum number of results returned by a single call.
+- `next_token`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_data_set_revisions(
-    DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_data_set_revisions(DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/data-sets/$(DataSetId)/revisions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,23 +250,16 @@ This operation lists your data sets. When listing by origin OWNED, results are s
 CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the
 maxResults parameter is ignored.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results returned by a single call.
-- `"next_token"`: The token value retrieved from a previous call to access the next page of
+# Keyword Parameters
+- `max_results`: The maximum number of results returned by a single call.
+- `next_token`: The token value retrieved from a previous call to access the next page of
   results.
-- `"origin"`: A property that defines the data set as OWNED by the account (for providers)
-  or ENTITLED to the account (for subscribers).
+- `origin`: A property that defines the data set as OWNED by the account (for providers) or
+  ENTITLED to the account (for subscribers).
 """
 function list_data_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/data-sets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/data-sets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -433,22 +267,15 @@ end
 
 This operation lists your event actions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"event_source_id"`: The unique identifier for the event source.
-- `"max_results"`: The maximum number of results returned by a single call.
-- `"next_token"`: The token value retrieved from a previous call to access the next page of
+# Keyword Parameters
+- `event_source_id`: The unique identifier for the event source.
+- `max_results`: The maximum number of results returned by a single call.
+- `next_token`: The token value retrieved from a previous call to access the next page of
   results.
 """
 function list_event_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/event-actions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/event-actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -456,19 +283,16 @@ end
 
 This operation lists your jobs sorted by CreatedAt in descending order.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_set_id"`: The unique identifier for a data set.
-- `"max_results"`: The maximum number of results returned by a single call.
-- `"next_token"`: The token value retrieved from a previous call to access the next page of
+# Keyword Parameters
+- `data_set_id`: The unique identifier for a data set.
+- `max_results`: The maximum number of results returned by a single call.
+- `next_token`: The token value retrieved from a previous call to access the next page of
   results.
-- `"revision_id"`: The unique identifier for a revision.
+- `revision_id`: The unique identifier for a revision.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET", "/v1/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dataexchange("GET", "/v1/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -480,23 +304,14 @@ This operation lists a revision's assets sorted alphabetically in descending ord
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results returned by a single call.
-- `"next_token"`: The token value retrieved from a previous call to access the next page of
+# Keyword Parameters
+- `max_results`: The maximum number of results returned by a single call.
+- `next_token`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_revision_assets(
-    DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_revision_assets(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -508,17 +323,9 @@ This operation lists the tags on the resource.
 - `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 
 """
-function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "GET",
-        "/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("GET", "/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -532,13 +339,7 @@ This operation starts a job.
 """
 function start_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "PATCH",
-        "/v1/jobs/$(JobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("PATCH", "/v1/jobs/$(JobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -551,17 +352,9 @@ This operation tags a resource.
 - `tags`: A label that consists of a customer-defined key and an optional value.
 
 """
-function tag_resource(
-    resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -574,17 +367,9 @@ This operation removes one or more tags from a resource.
 - `tag_keys`: The key tags.
 
 """
-function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "DELETE",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -601,22 +386,9 @@ This operation updates an asset.
 - `revision_id`: The unique identifier for a revision.
 
 """
-function update_asset(
-    AssetId,
-    DataSetId,
-    Name,
-    RevisionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_asset(AssetId, DataSetId, Name, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "PATCH",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -627,22 +399,13 @@ This operation updates a data set.
 # Arguments
 - `data_set_id`: The unique identifier for a data set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description for the data set.
-- `"name"`: The name of the data set.
+# Keyword Parameters
+- `description`: The description for the data set.
+- `name`: The name of the data set.
 """
-function update_data_set(
-    DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "PATCH",
-        "/v1/data-sets/$(DataSetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("PATCH", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -653,21 +416,12 @@ This operation updates the event action.
 # Arguments
 - `event_action_id`: The unique identifier for the event action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action"`: What occurs after a certain event.
+# Keyword Parameters
+- `action`: What occurs after a certain event.
 """
-function update_event_action(
-    EventActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_event_action(EventActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "PATCH",
-        "/v1/event-actions/$(EventActionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("PATCH", "/v1/event-actions/$(EventActionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -679,22 +433,13 @@ This operation updates a revision.
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: An optional comment about the revision.
-- `"finalized"`: Finalizing a revision tells AWS Data Exchange that your changes to the
+# Keyword Parameters
+- `comment`: An optional comment about the revision.
+- `finalized`: Finalizing a revision tells AWS Data Exchange that your changes to the
   assets in the revision are complete. After it's in this read-only state, you can publish
   the revision to your products.
 """
-function update_revision(
-    DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dataexchange(
-        "PATCH",
-        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

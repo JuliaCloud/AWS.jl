@@ -4,35 +4,8 @@ using AWS.AWSServices: workspaces
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "dedicated_tenancy_management_cidr_range" => "DedicatedTenancyManagementCidrRange",
-    "dedicated_tenancy_support" => "DedicatedTenancySupport",
-    "resource_id" => "ResourceId",
-    "group_desc" => "GroupDesc",
-    "image_ids" => "ImageIds",
-    "next_token" => "NextToken",
-    "alias_ids" => "AliasIds",
-    "directory_id" => "DirectoryId",
-    "user_rules" => "UserRules",
-    "image_id" => "ImageId",
-    "workspace_ids" => "WorkspaceIds",
-    "bundle_ids" => "BundleIds",
-    "group_ids" => "GroupIds",
-    "owner" => "Owner",
-    "user_name" => "UserName",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "applications" => "Applications",
-    "tenancy" => "Tenancy",
-    "directory_ids" => "DirectoryIds",
-    "bundle_id" => "BundleId",
-    "subnet_ids" => "SubnetIds",
-    "image_type" => "ImageType",
-    "enable_self_service" => "EnableSelfService",
-    "tags" => "Tags",
-    "root_storage" => "RootStorage",
-    "limit" => "Limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("image_ids" => "ImageIds", "image_type" => "ImageType", "max_results" => "MaxResults", "next_token" => "NextToken", "bundle_id" => "BundleId", "image_id" => "ImageId", "description" => "Description", "tags" => "Tags", "dedicated_tenancy_management_cidr_range" => "DedicatedTenancyManagementCidrRange", "dedicated_tenancy_support" => "DedicatedTenancySupport", "enable_self_service" => "EnableSelfService", "subnet_ids" => "SubnetIds", "tenancy" => "Tenancy", "workspace_ids" => "WorkspaceIds", "alias_ids" => "AliasIds", "limit" => "Limit", "resource_id" => "ResourceId", "applications" => "Applications", "group_ids" => "GroupIds", "directory_id" => "DirectoryId", "user_name" => "UserName", "bundle_ids" => "BundleIds", "owner" => "Owner", "root_storage" => "RootStorage", "group_desc" => "GroupDesc", "user_rules" => "UserRules", "directory_ids" => "DirectoryIds")
 
 """
     associate_connection_alias(alias_id, resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -47,22 +20,9 @@ that the current state of the connection alias is CREATED.
 - `resource_id`: The identifier of the directory to associate the connection alias with.
 
 """
-function associate_connection_alias(
-    AliasId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_connection_alias(AliasId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "AssociateConnectionAlias",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AliasId" => AliasId, "ResourceId" => ResourceId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("AssociateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -75,22 +35,9 @@ Associates the specified IP access control group with the specified directory.
 - `group_ids`: The identifiers of one or more IP access control groups.
 
 """
-function associate_ip_groups(
-    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_ip_groups(DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "AssociateIpGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("AssociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -104,22 +51,9 @@ permission to access their WorkSpaces from the CIDR address ranges specified in 
 - `user_rules`: The rules to add to the group.
 
 """
-function authorize_ip_rules(
-    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function authorize_ip_rules(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "AuthorizeIpRules",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("AuthorizeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -139,35 +73,13 @@ DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
 - `source_image_id`: The identifier of the source image.
 - `source_region`: The identifier of the source Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the image.
-- `"tags"`: The tags for the image.
+# Keyword Parameters
+- `description`: A description of the image.
+- `tags`: The tags for the image.
 """
-function copy_workspace_image(
-    Name,
-    SourceImageId,
-    SourceRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_workspace_image(Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CopyWorkspaceImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "SourceImageId" => SourceImageId,
-                    "SourceRegion" => SourceRegion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CopyWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -183,24 +95,12 @@ information, see  Cross-Region Redirection for Amazon WorkSpaces.
   string with a different account, even if you delete all instances of it from the original
   account. The connection string is globally reserved for your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to associate with the connection alias.
+# Keyword Parameters
+- `tags`: The tags to associate with the connection alias.
 """
-function create_connection_alias(
-    ConnectionString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_connection_alias(ConnectionString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CreateConnectionAlias",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ConnectionString" => ConnectionString), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CreateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionString"=>ConnectionString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -219,24 +119,14 @@ control group for your directory.
 # Arguments
 - `group_name`: The name of the group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"group_desc"`: The description of the group.
-- `"tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
-- `"user_rules"`: The rules to add to the group.
+# Keyword Parameters
+- `group_desc`: The description of the group.
+- `tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+- `user_rules`: The rules to add to the group.
 """
-function create_ip_group(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_ip_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CreateIpGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CreateIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,20 +141,9 @@ Creates the specified tags for the specified WorkSpaces resource.
 - `tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 
 """
-function create_tags(
-    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CreateTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -284,36 +163,14 @@ and created a new bundle.
 - `name`: The name of the new updated WorkSpace image.
 - `source_image_id`: The identifier of the source WorkSpace image.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags that you want to add to the new updated WorkSpace image.  To add tags
-  at the same time when you're creating the updated image, you must create an IAM policy that
+# Keyword Parameters
+- `tags`: The tags that you want to add to the new updated WorkSpace image.  To add tags at
+  the same time when you're creating the updated image, you must create an IAM policy that
   grants your IAM user permissions to use workspaces:CreateTags.
 """
-function create_updated_workspace_image(
-    Description,
-    Name,
-    SourceImageId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_updated_workspace_image(Description, Name, SourceImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CreateUpdatedWorkspaceImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Description" => Description,
-                    "Name" => Name,
-                    "SourceImageId" => SourceImageId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CreateUpdatedWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "SourceImageId"=>SourceImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -329,41 +186,15 @@ bundles, see  Create a Custom WorkSpaces Image and Bundle.
 - `image_id`: The identifier of the image that is used to create the bundle.
 - `user_storage`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"root_storage"`:
-- `"tags"`: The tags associated with the bundle.  To add tags at the same time when you're
+# Keyword Parameters
+- `root_storage`:
+- `tags`: The tags associated with the bundle.  To add tags at the same time when you're
   creating the bundle, you must create an IAM policy that grants your IAM user permissions to
   use workspaces:CreateTags.
 """
-function create_workspace_bundle(
-    BundleDescription,
-    BundleName,
-    ComputeType,
-    ImageId,
-    UserStorage;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_workspace_bundle(BundleDescription, BundleName, ComputeType, ImageId, UserStorage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CreateWorkspaceBundle",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BundleDescription" => BundleDescription,
-                    "BundleName" => BundleName,
-                    "ComputeType" => ComputeType,
-                    "ImageId" => ImageId,
-                    "UserStorage" => UserStorage,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CreateWorkspaceBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleDescription"=>BundleDescription, "BundleName"=>BundleName, "ComputeType"=>ComputeType, "ImageId"=>ImageId, "UserStorage"=>UserStorage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -376,18 +207,9 @@ WorkSpaces are created.
 - `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
 
 """
-function create_workspaces(
-    Workspaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_workspaces(Workspaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "CreateWorkspaces",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Workspaces" => Workspaces), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("CreateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Workspaces"=>Workspaces), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -407,16 +229,9 @@ is no longer shared with any accounts or associated with any directories.
 - `alias_id`: The identifier of the connection alias to delete.
 
 """
-function delete_connection_alias(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DeleteConnectionAlias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DeleteConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -429,16 +244,9 @@ that is associated with a directory.
 - `group_id`: The identifier of the IP access control group.
 
 """
-function delete_ip_group(
-    GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DeleteIpGroup",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("GroupId" => GroupId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DeleteIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -453,22 +261,9 @@ Deletes the specified tags from the specified WorkSpaces resource.
 - `tag_keys`: The tag keys.
 
 """
-function delete_tags(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DeleteTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -477,20 +272,12 @@ end
 Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace
 bundles, see  Delete a Custom WorkSpaces Bundle or Image.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bundle_id"`: The identifier of the bundle.
+# Keyword Parameters
+- `bundle_id`: The identifier of the bundle.
 """
-function delete_workspace_bundle(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DeleteWorkspaceBundle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DeleteWorkspaceBundle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -504,16 +291,9 @@ other accounts.
 - `image_id`: The identifier of the image.
 
 """
-function delete_workspace_image(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DeleteWorkspaceImage",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DeleteWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -536,18 +316,9 @@ WorkSpaces again.
   OperationNotSupportedException error.
 
 """
-function deregister_workspace_directory(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_workspace_directory(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DeregisterWorkspaceDirectory",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -559,9 +330,7 @@ specified account.
 """
 function describe_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -570,21 +339,13 @@ end
 Retrieves a list that describes modifications to the configuration of Bring Your Own
 License (BYOL) for the specified account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_account_modifications(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_modifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeAccountModifications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeAccountModifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -596,18 +357,9 @@ Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
 - `resource_ids`: The resource identifier, in the form of directory IDs.
 
 """
-function describe_client_properties(
-    ResourceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_client_properties(ResourceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeClientProperties",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceIds" => ResourceIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIds"=>ResourceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -620,22 +372,14 @@ Cross-Region Redirection for Amazon WorkSpaces.
 # Arguments
 - `alias_id`: The identifier of the connection alias.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_connection_alias_permissions(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_connection_alias_permissions(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeConnectionAliasPermissions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeConnectionAliasPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -644,24 +388,16 @@ end
 Retrieves a list that describes the connection aliases used for cross-Region redirection.
 For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_ids"`: The identifiers of the connection aliases to describe.
-- `"limit"`: The maximum number of connection aliases to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `alias_ids`: The identifiers of the connection aliases to describe.
+- `limit`: The maximum number of connection aliases to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
-- `"resource_id"`: The identifier of the directory associated with the connection alias.
+- `resource_id`: The identifier of the directory associated with the connection alias.
 """
-function describe_connection_aliases(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_connection_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeConnectionAliases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeConnectionAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -669,18 +405,15 @@ end
 
 Describes one or more of your IP access control groups.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"group_ids"`: The identifiers of one or more IP access control groups.
-- `"max_results"`: The maximum number of items to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `group_ids`: The identifiers of one or more IP access control groups.
+- `max_results`: The maximum number of items to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_ip_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeIpGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeIpGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -694,18 +427,9 @@ Describes the specified tags for the specified WorkSpaces resource.
   and connection aliases.
 
 """
-function describe_tags(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -714,26 +438,18 @@ end
 Retrieves a list that describes the available WorkSpace bundles. You can filter the results
 using either bundle ID or owner, but not both.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bundle_ids"`: The identifiers of the bundles. You cannot combine this parameter with
-  any other filter.
-- `"next_token"`: The token for the next set of results. (You received this token from a
+# Keyword Parameters
+- `bundle_ids`: The identifiers of the bundles. You cannot combine this parameter with any
+  other filter.
+- `next_token`: The token for the next set of results. (You received this token from a
   previous call.)
-- `"owner"`: The owner of the bundles. You cannot combine this parameter with any other
+- `owner`: The owner of the bundles. You cannot combine this parameter with any other
   filter. To describe the bundles provided by Amazon Web Services, specify AMAZON. To
   describe the bundles that belong to your account, don't specify a value.
 """
-function describe_workspace_bundles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspace_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspaceBundles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeWorkspaceBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -741,24 +457,16 @@ end
 
 Describes the available directories that are registered with Amazon WorkSpaces.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"directory_ids"`: The identifiers of the directories. If the value is null, all
+# Keyword Parameters
+- `directory_ids`: The identifiers of the directories. If the value is null, all
   directories are retrieved.
-- `"limit"`: The maximum number of directories to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+- `limit`: The maximum number of directories to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_workspace_directories(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspace_directories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspaceDirectories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeWorkspaceDirectories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -770,22 +478,14 @@ Services accounts for an image.
 # Arguments
 - `image_id`: The identifier of the image.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `max_results`: The maximum number of items to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_workspace_image_permissions(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspace_image_permissions(ImageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspaceImagePermissions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -794,24 +494,16 @@ end
 Retrieves a list that describes one or more specified images, if the image identifiers are
 provided. Otherwise, all images in the account are described.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"image_ids"`: The identifier of the image.
-- `"image_type"`: The type (owned or shared) of the image.
-- `"max_results"`: The maximum number of items to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `image_ids`: The identifier of the image.
+- `image_type`: The type (owned or shared) of the image.
+- `max_results`: The maximum number of items to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_workspace_images(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspace_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspaceImages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeWorkspaceImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -823,18 +515,9 @@ Describes the snapshots for the specified WorkSpace.
 - `workspace_id`: The identifier of the WorkSpace.
 
 """
-function describe_workspace_snapshots(
-    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspace_snapshots(WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspaceSnapshots",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -843,28 +526,25 @@ end
 Describes the specified WorkSpaces. You can filter the results by using the bundle
 identifier, directory identifier, or owner, but you can specify only one filter at a time.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bundle_id"`: The identifier of the bundle. All WorkSpaces that are created from this
+# Keyword Parameters
+- `bundle_id`: The identifier of the bundle. All WorkSpaces that are created from this
   bundle are retrieved. You cannot combine this parameter with any other filter.
-- `"directory_id"`: The identifier of the directory. In addition, you can optionally
-  specify a specific directory user (see UserName). You cannot combine this parameter with
-  any other filter.
-- `"limit"`: The maximum number of items to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+- `directory_id`: The identifier of the directory. In addition, you can optionally specify
+  a specific directory user (see UserName). You cannot combine this parameter with any other
+  filter.
+- `limit`: The maximum number of items to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
-- `"user_name"`: The name of the directory user. You must specify this parameter with
+- `user_name`: The name of the directory user. You must specify this parameter with
   DirectoryId.
-- `"workspace_ids"`: The identifiers of the WorkSpaces. You cannot combine this parameter
+- `workspace_ids`: The identifiers of the WorkSpaces. You cannot combine this parameter
   with any other filter. Because the CreateWorkspaces operation is asynchronous, the
   identifier it returns is not immediately available. If you immediately call
   DescribeWorkspaces with this identifier, no information is returned.
 """
 function describe_workspaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeWorkspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -872,22 +552,14 @@ end
 
 Describes the connection status of the specified WorkSpaces.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
-- `"workspace_ids"`: The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
+- `workspace_ids`: The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
 """
-function describe_workspaces_connection_status(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspaces_connection_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DescribeWorkspacesConnectionStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DescribeWorkspacesConnectionStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -903,16 +575,9 @@ connection alias is CREATED.
 - `alias_id`: The identifier of the connection alias to disassociate.
 
 """
-function disassociate_connection_alias(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DisassociateConnectionAlias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DisassociateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -925,22 +590,9 @@ Disassociates the specified IP access control group from the specified directory
 - `group_ids`: The identifiers of one or more IP access control groups.
 
 """
-function disassociate_ip_groups(
-    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_ip_groups(DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "DisassociateIpGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("DisassociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -962,40 +614,16 @@ images, see  Bring Your Own Windows Desktop Licenses.
   Graphics or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the
   protocol.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"applications"`: If specified, the version of Microsoft Office to subscribe to. Valid
-  only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL
+# Keyword Parameters
+- `applications`: If specified, the version of Microsoft Office to subscribe to. Valid only
+  for Windows 10 BYOL images. For more information about subscribing to Office for BYOL
   images, see  Bring Your Own Windows Desktop Licenses.  Although this parameter is an array,
   only one item is allowed at this time.
-- `"tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+- `tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 """
-function import_workspace_image(
-    Ec2ImageId,
-    ImageDescription,
-    ImageName,
-    IngestionProcess;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_workspace_image(Ec2ImageId, ImageDescription, ImageName, IngestionProcess; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ImportWorkspaceImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Ec2ImageId" => Ec2ImageId,
-                    "ImageDescription" => ImageDescription,
-                    "ImageName" => ImageName,
-                    "IngestionProcess" => IngestionProcess,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ImportWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1014,32 +642,14 @@ and to allow Amazon WorkSpaces to manage the WorkSpace.
   range that is compatible with your network and in CIDR notation (that is, specify the range
   as an IPv4 CIDR block).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return.
-- `"next_token"`: If you received a NextToken from a previous call that was paginated,
+# Keyword Parameters
+- `max_results`: The maximum number of items to return.
+- `next_token`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function list_available_management_cidr_ranges(
-    ManagementCidrRangeConstraint;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_available_management_cidr_ranges(ManagementCidrRangeConstraint; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ListAvailableManagementCidrRanges",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ManagementCidrRangeConstraint" => ManagementCidrRangeConstraint
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1059,27 +669,9 @@ happens during migration, and best practices, see Migrate a WorkSpace.
 - `source_workspace_id`: The identifier of the WorkSpace to migrate from.
 
 """
-function migrate_workspace(
-    BundleId,
-    SourceWorkspaceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function migrate_workspace(BundleId, SourceWorkspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "MigrateWorkspace",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BundleId" => BundleId, "SourceWorkspaceId" => SourceWorkspaceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("MigrateWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1087,20 +679,17 @@ end
 
 Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dedicated_tenancy_management_cidr_range"`: The IP address range, specified as an IPv4
+# Keyword Parameters
+- `dedicated_tenancy_management_cidr_range`: The IP address range, specified as an IPv4
   CIDR block, for the management network interface. Specify an IP address range that is
   compatible with your network and in CIDR notation (that is, specify the range as an IPv4
   CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also
   be specified as available by the ListAvailableManagementCidrRanges operation.
-- `"dedicated_tenancy_support"`: The status of BYOL.
+- `dedicated_tenancy_support`: The status of BYOL.
 """
 function modify_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifyAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("ModifyAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1113,27 +702,9 @@ Modifies the properties of the specified Amazon WorkSpaces clients.
 - `resource_id`: The resource identifiers, in the form of directory IDs.
 
 """
-function modify_client_properties(
-    ClientProperties,
-    ResourceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_client_properties(ClientProperties, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifyClientProperties",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientProperties" => ClientProperties, "ResourceId" => ResourceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ModifyClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1147,28 +718,9 @@ information, see Enable Self-Service WorkSpace Management Capabilities for Your 
 - `selfservice_permissions`: The permissions to enable or disable self-service capabilities.
 
 """
-function modify_selfservice_permissions(
-    ResourceId,
-    SelfservicePermissions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_selfservice_permissions(ResourceId, SelfservicePermissions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifySelfservicePermissions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId,
-                    "SelfservicePermissions" => SelfservicePermissions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ModifySelfservicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1183,28 +735,9 @@ more information, see  Control Device Access.
   disable for access.
 
 """
-function modify_workspace_access_properties(
-    ResourceId,
-    WorkspaceAccessProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_workspace_access_properties(ResourceId, WorkspaceAccessProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifyWorkspaceAccessProperties",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId,
-                    "WorkspaceAccessProperties" => WorkspaceAccessProperties,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1217,28 +750,9 @@ Modify the default properties used to create WorkSpaces.
 - `workspace_creation_properties`: The default properties for creating WorkSpaces.
 
 """
-function modify_workspace_creation_properties(
-    ResourceId,
-    WorkspaceCreationProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_workspace_creation_properties(ResourceId, WorkspaceCreationProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifyWorkspaceCreationProperties",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ResourceId" => ResourceId,
-                    "WorkspaceCreationProperties" => WorkspaceCreationProperties,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1252,28 +766,9 @@ the size of the root and user volumes, see  Modify a WorkSpace.
 - `workspace_properties`: The properties of the WorkSpace.
 
 """
-function modify_workspace_properties(
-    WorkspaceId,
-    WorkspaceProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_workspace_properties(WorkspaceId, WorkspaceProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifyWorkspaceProperties",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "WorkspaceId" => WorkspaceId,
-                    "WorkspaceProperties" => WorkspaceProperties,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ModifyWorkspaceProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1289,27 +784,9 @@ this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTE
 - `workspace_state`: The WorkSpace state.
 
 """
-function modify_workspace_state(
-    WorkspaceId,
-    WorkspaceState;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_workspace_state(WorkspaceId, WorkspaceState; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "ModifyWorkspaceState",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "WorkspaceId" => WorkspaceId, "WorkspaceState" => WorkspaceState
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("ModifyWorkspaceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1324,22 +801,9 @@ have rebooted.
   WorkSpaces.
 
 """
-function reboot_workspaces(
-    RebootWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_workspaces(RebootWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "RebootWorkspaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("RebootWorkspaceRequests" => RebootWorkspaceRequests),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("RebootWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1356,22 +820,9 @@ completely rebuilt.
   WorkSpace.
 
 """
-function rebuild_workspaces(
-    RebuildWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function rebuild_workspaces(RebuildWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "RebuildWorkspaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("RebuildWorkspaceRequests" => RebuildWorkspaceRequests),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("RebuildWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1393,42 +844,23 @@ a directory. For more information, see  Creating the workspaces_DefaultRole Role
   enabled this parameter and WorkDocs is not available in the Region, you will receive an
   OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enable_self_service"`: Indicates whether self-service capabilities are enabled or
+# Keyword Parameters
+- `enable_self_service`: Indicates whether self-service capabilities are enabled or
   disabled.
-- `"subnet_ids"`: The identifiers of the subnets for your virtual private cloud (VPC). Make
+- `subnet_ids`: The identifiers of the subnets for your virtual private cloud (VPC). Make
   sure that the subnets are in supported Availability Zones. The subnets must also be in
   separate Availability Zones. If these conditions are not met, you will receive an
   OperationNotSupportedException error.
-- `"tags"`: The tags associated with the directory.
-- `"tenancy"`: Indicates whether your WorkSpace directory is dedicated or shared. To use
+- `tags`: The tags associated with the directory.
+- `tenancy`: Indicates whether your WorkSpace directory is dedicated or shared. To use
   Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon
   Web Services account must be enabled for BYOL. If your account has not been enabled for
   BYOL, you will receive an InvalidParameterValuesException error. For more information about
   BYOL images, see Bring Your Own Windows Desktop Images.
 """
-function register_workspace_directory(
-    DirectoryId,
-    EnableWorkDocs;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_workspace_directory(DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "RegisterWorkspaceDirectory",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DirectoryId" => DirectoryId, "EnableWorkDocs" => EnableWorkDocs
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("RegisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1444,18 +876,9 @@ WorkSpace is completely restored.
 - `workspace_id`: The identifier of the WorkSpace.
 
 """
-function restore_workspace(
-    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "RestoreWorkspace",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("RestoreWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1468,22 +891,9 @@ Removes one or more rules from the specified IP access control group.
 - `user_rules`: The rules to remove from the group.
 
 """
-function revoke_ip_rules(
-    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function revoke_ip_rules(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "RevokeIpRules",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("RevokeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1496,22 +906,9 @@ of AutoStop and a state of STOPPED.
 - `start_workspace_requests`: The WorkSpaces to start. You can specify up to 25 WorkSpaces.
 
 """
-function start_workspaces(
-    StartWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_workspaces(StartWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "StartWorkspaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("StartWorkspaceRequests" => StartWorkspaceRequests),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("StartWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1524,22 +921,9 @@ of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
 - `stop_workspace_requests`: The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
 
 """
-function stop_workspaces(
-    StopWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_workspaces(StopWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "StopWorkspaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("StopWorkspaceRequests" => StopWorkspaceRequests),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("StopWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1567,24 +951,9 @@ WorkSpaces again.
   WorkSpaces.
 
 """
-function terminate_workspaces(
-    TerminateWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function terminate_workspaces(TerminateWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "TerminateWorkspaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "TerminateWorkspaceRequests" => TerminateWorkspaceRequests
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("TerminateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1609,28 +978,9 @@ any accounts or associated with any directories.
   with the specified Amazon Web Services account.
 
 """
-function update_connection_alias_permission(
-    AliasId,
-    ConnectionAliasPermission;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_connection_alias_permission(AliasId, ConnectionAliasPermission; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "UpdateConnectionAliasPermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AliasId" => AliasId,
-                    "ConnectionAliasPermission" => ConnectionAliasPermission,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("UpdateConnectionAliasPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId, "ConnectionAliasPermission"=>ConnectionAliasPermission), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1644,22 +994,9 @@ rules.
 - `user_rules`: One or more rules.
 
 """
-function update_rules_of_ip_group(
-    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_rules_of_ip_group(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "UpdateRulesOfIpGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("UpdateRulesOfIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1671,21 +1008,13 @@ updated when you update the bundle that they're based on. To update existing Wor
 that are based on a bundle that you've updated, you must either rebuild the WorkSpaces or
 delete and recreate them.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bundle_id"`: The identifier of the bundle.
-- `"image_id"`: The identifier of the image.
+# Keyword Parameters
+- `bundle_id`: The identifier of the bundle.
+- `image_id`: The identifier of the image.
 """
-function update_workspace_bundle(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "UpdateWorkspaceBundle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("UpdateWorkspaceBundle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1713,28 +1042,7 @@ accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Suppo
   correct Amazon Web Services account ID.
 
 """
-function update_workspace_image_permission(
-    AllowCopyImage,
-    ImageId,
-    SharedAccountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_workspace_image_permission(AllowCopyImage, ImageId, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return workspaces(
-        "UpdateWorkspaceImagePermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AllowCopyImage" => AllowCopyImage,
-                    "ImageId" => ImageId,
-                    "SharedAccountId" => SharedAccountId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

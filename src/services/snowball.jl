@@ -4,29 +4,8 @@ using AWS.AWSServices: snowball
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "device_configuration" => "DeviceConfiguration",
-    "snowball_capacity_preference" => "SnowballCapacityPreference",
-    "remote_management" => "RemoteManagement",
-    "next_token" => "NextToken",
-    "long_term_pricing_id" => "LongTermPricingId",
-    "role_arn" => "RoleARN",
-    "is_long_term_pricing_auto_renew" => "IsLongTermPricingAutoRenew",
-    "forwarding_address_id" => "ForwardingAddressId",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "address_id" => "AddressId",
-    "shipping_option" => "ShippingOption",
-    "replacement_job" => "ReplacementJob",
-    "kms_key_arn" => "KmsKeyARN",
-    "notification" => "Notification",
-    "on_device_service_configuration" => "OnDeviceServiceConfiguration",
-    "resources" => "Resources",
-    "cluster_id" => "ClusterId",
-    "tax_documents" => "TaxDocuments",
-    "snowball_type" => "SnowballType",
-    "job_type" => "JobType",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "Description", "forwarding_address_id" => "ForwardingAddressId", "kms_key_arn" => "KmsKeyARN", "notification" => "Notification", "on_device_service_configuration" => "OnDeviceServiceConfiguration", "remote_management" => "RemoteManagement", "tax_documents" => "TaxDocuments", "max_results" => "MaxResults", "next_token" => "NextToken", "address_id" => "AddressId", "cluster_id" => "ClusterId", "device_configuration" => "DeviceConfiguration", "job_type" => "JobType", "long_term_pricing_id" => "LongTermPricingId", "resources" => "Resources", "role_arn" => "RoleARN", "shipping_option" => "ShippingOption", "snowball_capacity_preference" => "SnowballCapacityPreference", "snowball_type" => "SnowballType", "is_long_term_pricing_auto_renew" => "IsLongTermPricingAutoRenew", "replacement_job" => "ReplacementJob")
 
 """
     cancel_cluster(cluster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -39,18 +18,9 @@ status. You'll have at least an hour after creating a cluster job to cancel it.
   CID123e4567-e89b-12d3-a456-426655440000.
 
 """
-function cancel_cluster(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CancelCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("CancelCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -67,12 +37,7 @@ as part of the response element data returned.
 """
 function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CancelJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -87,16 +52,9 @@ exception is thrown.
 - `address`: The address that you want the Snow device shipped to.
 
 """
-function create_address(
-    Address; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_address(Address; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CreateAddress",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Address" => Address), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("CreateAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -141,56 +99,28 @@ these five node jobs have been created.
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: An optional description of this specific cluster, for example
+# Keyword Parameters
+- `description`: An optional description of this specific cluster, for example
   Environmental Data Cluster-01.
-- `"forwarding_address_id"`: The forwarding address ID for a cluster. This field is not
+- `forwarding_address_id`: The forwarding address ID for a cluster. This field is not
   supported in most regions.
-- `"kms_key_arn"`: The KmsKeyARN value that you want to associate with this cluster.
+- `kms_key_arn`: The KmsKeyARN value that you want to associate with this cluster.
   KmsKeyARN values are created by using the CreateKey API action in AWS Key Management
   Service (AWS KMS).
-- `"notification"`: The Amazon Simple Notification Service (Amazon SNS) notification
-  settings for this cluster.
-- `"on_device_service_configuration"`: Specifies the service or services on the Snow Family
+- `notification`: The Amazon Simple Notification Service (Amazon SNS) notification settings
+  for this cluster.
+- `on_device_service_configuration`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. AWS Snow Family
   supports Amazon S3 and NFS (Network File System).
-- `"remote_management"`: Allows you to securely operate and manage Snow devices in a
-  cluster remotely from outside of your internal network. When set to INSTALLED_AUTOSTART,
-  remote management will automatically be available when the device arrives at your location.
+- `remote_management`: Allows you to securely operate and manage Snow devices in a cluster
+  remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote
+  management will automatically be available when the device arrives at your location.
   Otherwise, you need to use the Snowball Client to manage the device.
-- `"tax_documents"`: The tax documents required in your AWS Region.
+- `tax_documents`: The tax documents required in your AWS Region.
 """
-function create_cluster(
-    AddressId,
-    JobType,
-    Resources,
-    RoleARN,
-    ShippingOption,
-    SnowballType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption, SnowballType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CreateCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AddressId" => AddressId,
-                    "JobType" => JobType,
-                    "Resources" => Resources,
-                    "RoleARN" => RoleARN,
-                    "ShippingOption" => ShippingOption,
-                    "SnowballType" => SnowballType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption, "SnowballType"=>SnowballType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -215,44 +145,43 @@ only available in the Ningxia, Beijing, and Singapore AWS Regions.        Device
 STANDARD    Capacity: T80   Description: Original Snowball device  This device is only
 available in the Ningxia, Beijing, and Singapore AWS Regions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"address_id"`: The ID for the address that you want the Snow device shipped to.
-- `"cluster_id"`: The ID of a cluster. If you're creating a job for a node in a cluster,
-  you need to provide only this clusterId value. The other job attributes are inherited from
-  the cluster.
-- `"description"`: Defines an optional description of this specific job, for example
+# Keyword Parameters
+- `address_id`: The ID for the address that you want the Snow device shipped to.
+- `cluster_id`: The ID of a cluster. If you're creating a job for a node in a cluster, you
+  need to provide only this clusterId value. The other job attributes are inherited from the
+  cluster.
+- `description`: Defines an optional description of this specific job, for example
   Important Photos 2016-08-11.
-- `"device_configuration"`: Defines the device configuration for an AWS Snowcone job. For
+- `device_configuration`: Defines the device configuration for an AWS Snowcone job. For
   more information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"forwarding_address_id"`: The forwarding address ID for a job. This field is not
-  supported in most Regions.
-- `"job_type"`: Defines the type of job that you're creating.
-- `"kms_key_arn"`: The KmsKeyARN that you want to associate with this job. KmsKeyARNs are
+- `forwarding_address_id`: The forwarding address ID for a job. This field is not supported
+  in most Regions.
+- `job_type`: Defines the type of job that you're creating.
+- `kms_key_arn`: The KmsKeyARN that you want to associate with this job. KmsKeyARNs are
   created using the CreateKey AWS Key Management Service (KMS) API action.
-- `"long_term_pricing_id"`: The ID of the long-term pricing type for the device.
-- `"notification"`: Defines the Amazon Simple Notification Service (Amazon SNS)
-  notification settings for this job.
-- `"on_device_service_configuration"`: Specifies the service or services on the Snow Family
+- `long_term_pricing_id`: The ID of the long-term pricing type for the device.
+- `notification`: Defines the Amazon Simple Notification Service (Amazon SNS) notification
+  settings for this job.
+- `on_device_service_configuration`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. AWS Snow Family
   supports Amazon S3 and NFS (Network File System).
-- `"remote_management"`: Allows you to securely operate and manage Snowcone devices
-  remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote
-  management will automatically be available when the device arrives at your location.
-  Otherwise, you need to use the Snowball Client to manage the device.
-- `"resources"`: Defines the Amazon S3 buckets associated with this job. With IMPORT jobs,
+- `remote_management`: Allows you to securely operate and manage Snowcone devices remotely
+  from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management
+  will automatically be available when the device arrives at your location. Otherwise, you
+  need to use the Snowball Client to manage the device.
+- `resources`: Defines the Amazon S3 buckets associated with this job. With IMPORT jobs,
   you specify the bucket or buckets that your transferred data will be imported into. With
   EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported
   from. Optionally, you can also specify a KeyRange value. If you choose to export a range,
   you define the length of the range by providing either an inclusive BeginMarker value, an
   inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
-- `"role_arn"`: The RoleARN that you want to associate with this job. RoleArns are created
+- `role_arn`: The RoleARN that you want to associate with this job. RoleArns are created
   using the CreateRole AWS Identity and Access Management (IAM) API action.
-- `"shipping_option"`: The shipping speed for this job. This speed doesn't dictate how soon
+- `shipping_option`: The shipping speed for this job. This speed doesn't dictate how soon
   you'll get the Snow device, rather it represents how quickly the Snow device moves to its
   destination while in transit. Regional shipping speeds are as follows:   In Australia, you
   have access to express shipping. Typically, Snow devices shipped express are delivered in
@@ -261,14 +190,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the EU have access to standard shipping, which typically takes less than a week, one way.
   In India, Snow devices are delivered in one to seven days.   In the US, you have access to
   one-day shipping and two-day shipping.
-- `"snowball_capacity_preference"`: If your job is being created in one of the US regions,
+- `snowball_capacity_preference`: If your job is being created in one of the US regions,
   you have the option of specifying what size Snow device you'd like for this job. In all
   other regions, Snowballs come with 80 TB in storage capacity. For more information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"snowball_type"`: The type of AWS Snow Family device to use for this job.   For cluster
+- `snowball_type`: The type of AWS Snow Family device to use for this job.   For cluster
   jobs, AWS Snow Family currently supports only the EDGE device type.  The type of AWS Snow
   device to use for this job. Currently, the only supported device type for cluster jobs is
   EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer
@@ -277,13 +206,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"tax_documents"`: The tax documents required in your AWS Region.
+- `tax_documents`: The tax documents required in your AWS Region.
 """
 function create_job(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CreateJob", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("CreateJob", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -297,29 +224,14 @@ discounts for long-term pricing.
 - `long_term_pricing_type`: The type of long-term pricing option you want for the device,
   either 1-year or 3-year long-term pricing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"is_long_term_pricing_auto_renew"`: Specifies whether the current long-term pricing type
+# Keyword Parameters
+- `is_long_term_pricing_auto_renew`: Specifies whether the current long-term pricing type
   for the device should be renewed.
-- `"snowball_type"`: The type of AWS Snow Family device to use for the long-term pricing
-  job.
+- `snowball_type`: The type of AWS Snow Family device to use for the long-term pricing job.
 """
-function create_long_term_pricing(
-    LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_long_term_pricing(LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CreateLongTermPricing",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LongTermPricingType" => LongTermPricingType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("CreateLongTermPricing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LongTermPricingType"=>LongTermPricingType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -331,22 +243,14 @@ Creates a shipping label that will be used to return the Snow device to AWS.
 - `job_id`: The ID for a job that you want to create the return shipping label for; for
   example, JID123e4567-e89b-12d3-a456-426655440000.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"shipping_option"`: The shipping speed for a particular job. This speed doesn't dictate
+# Keyword Parameters
+- `shipping_option`: The shipping speed for a particular job. This speed doesn't dictate
   how soon the device is returned to AWS. This speed represents how quickly it moves to its
   destination while in transit. Regional shipping speeds are as follows:
 """
-function create_return_shipping_label(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_return_shipping_label(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "CreateReturnShippingLabel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("CreateReturnShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -359,18 +263,9 @@ Address object.
 - `address_id`: The automatically generated ID for a specific address.
 
 """
-function describe_address(
-    AddressId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_address(AddressId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "DescribeAddress",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AddressId" => AddressId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("DescribeAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -380,18 +275,15 @@ Returns a specified number of ADDRESS objects. Calling this API in one of the US
 will return addresses from the list of all addresses associated with this account in all US
 regions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of ADDRESS objects to return.
-- `"next_token"`: HTTP requests are stateless. To identify what object comes \"next\" in
-  the list of ADDRESS objects, you have the option of specifying a value for NextToken as the
+# Keyword Parameters
+- `max_results`: The number of ADDRESS objects to return.
+- `next_token`: HTTP requests are stateless. To identify what object comes \"next\" in the
+  list of ADDRESS objects, you have the option of specifying a value for NextToken as the
   starting point for your list of returned addresses.
 """
 function describe_addresses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -404,18 +296,9 @@ status, and other important metadata.
 - `cluster_id`: The automatically generated ID for a cluster.
 
 """
-function describe_cluster(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "DescribeCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -431,12 +314,7 @@ other important metadata.
 """
 function describe_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "DescribeJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("DescribeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -449,16 +327,9 @@ Information on the shipping label of a Snow device that is being returned to AWS
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-function describe_return_shipping_label(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_return_shipping_label(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "DescribeReturnShippingLabel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("DescribeReturnShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -482,16 +353,9 @@ after the job is created.
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-function get_job_manifest(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_job_manifest(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "GetJobManifest",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("GetJobManifest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -511,16 +375,9 @@ from gaining access to the Snow device associated with that job.
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-function get_job_unlock_code(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "GetJobUnlockCode",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("GetJobUnlockCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -534,9 +391,7 @@ limit, contact AWS Support.
 """
 function get_snowball_usage(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "GetSnowballUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("GetSnowballUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -549,16 +404,9 @@ Returns an Amazon S3 presigned URL for an update file associated with a specifie
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-function get_software_updates(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_software_updates(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "GetSoftwareUpdates",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("GetSoftwareUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -572,25 +420,15 @@ information.
 - `cluster_id`: The 39-character ID for the cluster that you want to list, for example
   CID123e4567-e89b-12d3-a456-426655440000.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of JobListEntry objects to return.
-- `"next_token"`: HTTP requests are stateless. To identify what object comes \"next\" in
-  the list of JobListEntry objects, you have the option of specifying NextToken as the
-  starting point for your returned list.
+# Keyword Parameters
+- `max_results`: The number of JobListEntry objects to return.
+- `next_token`: HTTP requests are stateless. To identify what object comes \"next\" in the
+  list of JobListEntry objects, you have the option of specifying NextToken as the starting
+  point for your returned list.
 """
-function list_cluster_jobs(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "ListClusterJobs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("ListClusterJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -599,18 +437,15 @@ end
 Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry
 object contains a cluster's state, a cluster's ID, and other important status information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of ClusterListEntry objects to return.
-- `"next_token"`: HTTP requests are stateless. To identify what object comes \"next\" in
-  the list of ClusterListEntry objects, you have the option of specifying NextToken as the
+# Keyword Parameters
+- `max_results`: The number of ClusterListEntry objects to return.
+- `next_token`: HTTP requests are stateless. To identify what object comes \"next\" in the
+  list of ClusterListEntry objects, you have the option of specifying NextToken as the
   starting point for your returned list.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -621,24 +456,16 @@ are owned by your AWS account that would be supported for use on a Snow device. 
 supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04
 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results for the list of compatible images.
+# Keyword Parameters
+- `max_results`: The maximum number of results for the list of compatible images.
   Currently, a Snowball Edge device can store 10 AMIs.
-- `"next_token"`: HTTP requests are stateless. To identify what object comes \"next\" in
-  the list of compatible images, you can specify a value for NextToken as the starting point
-  for your list of returned images.
+- `next_token`: HTTP requests are stateless. To identify what object comes \"next\" in the
+  list of compatible images, you can specify a value for NextToken as the starting point for
+  your list of returned images.
 """
-function list_compatible_images(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_compatible_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "ListCompatibleImages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("ListCompatibleImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -649,18 +476,15 @@ contains a job's state, a job's ID, and a value that indicates whether the job i
 part, in the case of export jobs. Calling this API action in one of the US regions will
 return jobs from the list of all jobs associated with this account in all US regions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of JobListEntry objects to return.
-- `"next_token"`: HTTP requests are stateless. To identify what object comes \"next\" in
-  the list of JobListEntry objects, you have the option of specifying NextToken as the
-  starting point for your returned list.
+# Keyword Parameters
+- `max_results`: The number of JobListEntry objects to return.
+- `next_token`: HTTP requests are stateless. To identify what object comes \"next\" in the
+  list of JobListEntry objects, you have the option of specifying NextToken as the starting
+  point for your returned list.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -668,22 +492,14 @@ end
 
 Lists all long-term pricing types.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of ListLongTermPricing objects to return.
-- `"next_token"`: Because HTTP requests are stateless, this is the starting point for your
+# Keyword Parameters
+- `max_results`: The maximum number of ListLongTermPricing objects to return.
+- `next_token`: Because HTTP requests are stateless, this is the starting point for your
   next list of ListLongTermPricing to return.
 """
-function list_long_term_pricing(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_long_term_pricing(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "ListLongTermPricing",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("ListLongTermPricing", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -698,36 +514,26 @@ available.
 - `cluster_id`: The cluster ID of the cluster that you want to update, for example
   CID123e4567-e89b-12d3-a456-426655440000.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"address_id"`: The ID of the updated Address object.
-- `"description"`: The updated description of this cluster.
-- `"forwarding_address_id"`: The updated ID for the forwarding address for a cluster. This
+# Keyword Parameters
+- `address_id`: The ID of the updated Address object.
+- `description`: The updated description of this cluster.
+- `forwarding_address_id`: The updated ID for the forwarding address for a cluster. This
   field is not supported in most regions.
-- `"notification"`: The new or updated Notification object.
-- `"on_device_service_configuration"`: Specifies the service or services on the Snow Family
+- `notification`: The new or updated Notification object.
+- `on_device_service_configuration`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. AWS Snow Family
   supports Amazon S3 and NFS (Network File System).
-- `"resources"`: The updated arrays of JobResource objects that can include updated
+- `resources`: The updated arrays of JobResource objects that can include updated
   S3Resource objects or LambdaResource objects.
-- `"role_arn"`: The new role Amazon Resource Name (ARN) that you want to associate with
-  this cluster. To create a role ARN, use the CreateRole API action in AWS Identity and
-  Access Management (IAM).
-- `"shipping_option"`: The updated shipping option value of this cluster's ShippingDetails
+- `role_arn`: The new role Amazon Resource Name (ARN) that you want to associate with this
+  cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access
+  Management (IAM).
+- `shipping_option`: The updated shipping option value of this cluster's ShippingDetails
   object.
 """
-function update_cluster(
-    ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "UpdateCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -741,23 +547,21 @@ being created, this action is no longer available.
 - `job_id`: The job ID of the job that you want to update, for example
   JID123e4567-e89b-12d3-a456-426655440000.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"address_id"`: The ID of the updated Address object.
-- `"description"`: The updated description of this job's JobMetadata object.
-- `"forwarding_address_id"`: The updated ID for the forwarding address for a job. This
-  field is not supported in most regions.
-- `"notification"`: The new or updated Notification object.
-- `"on_device_service_configuration"`: Specifies the service or services on the Snow Family
+# Keyword Parameters
+- `address_id`: The ID of the updated Address object.
+- `description`: The updated description of this job's JobMetadata object.
+- `forwarding_address_id`: The updated ID for the forwarding address for a job. This field
+  is not supported in most regions.
+- `notification`: The new or updated Notification object.
+- `on_device_service_configuration`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. AWS Snow Family
   supports Amazon S3 and NFS (Network File System).
-- `"resources"`: The updated JobResource object, or the updated JobResource object.
-- `"role_arn"`: The new role Amazon Resource Name (ARN) that you want to associate with
-  this job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM)
-  API action.
-- `"shipping_option"`: The updated shipping option value of this job's ShippingDetails
-  object.
-- `"snowball_capacity_preference"`: The updated SnowballCapacityPreference of this job's
+- `resources`: The updated JobResource object, or the updated JobResource object.
+- `role_arn`: The new role Amazon Resource Name (ARN) that you want to associate with this
+  job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API
+  action.
+- `shipping_option`: The updated shipping option value of this job's ShippingDetails object.
+- `snowball_capacity_preference`: The updated SnowballCapacityPreference of this job's
   JobMetadata object. The 50 TB Snowballs are only available in the US regions. For more
   information, see
   \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
@@ -767,12 +571,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "UpdateJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -788,22 +587,9 @@ Updates the state when a shipment state changes to a different state.
   AWS.
 
 """
-function update_job_shipment_state(
-    JobId, ShipmentState; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_job_shipment_state(JobId, ShipmentState; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "UpdateJobShipmentState",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("JobId" => JobId, "ShipmentState" => ShipmentState),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("UpdateJobShipmentState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ShipmentState"=>ShipmentState), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -814,26 +600,14 @@ Updates the long-term pricing type.
 # Arguments
 - `long_term_pricing_id`: The ID of the long-term pricing type for the device.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"is_long_term_pricing_auto_renew"`: If set to true, specifies that the current long-term
+# Keyword Parameters
+- `is_long_term_pricing_auto_renew`: If set to true, specifies that the current long-term
   pricing type for the device should be automatically renewed before the long-term pricing
   contract expires.
-- `"replacement_job"`: Specifies that a device that is ordered with long-term pricing
-  should be replaced with a new device.
+- `replacement_job`: Specifies that a device that is ordered with long-term pricing should
+  be replaced with a new device.
 """
-function update_long_term_pricing(
-    LongTermPricingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_long_term_pricing(LongTermPricingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return snowball(
-        "UpdateLongTermPricing",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LongTermPricingId" => LongTermPricingId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return snowball("UpdateLongTermPricing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LongTermPricingId"=>LongTermPricingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

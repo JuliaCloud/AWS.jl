@@ -4,32 +4,8 @@ using AWS.AWSServices: dax
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "availability_zones" => "AvailabilityZones",
-    "cluster_endpoint_encryption_type" => "ClusterEndpointEncryptionType",
-    "end_time" => "EndTime",
-    "next_token" => "NextToken",
-    "source_type" => "SourceType",
-    "duration" => "Duration",
-    "start_time" => "StartTime",
-    "notification_topic_status" => "NotificationTopicStatus",
-    "subnet_group_name" => "SubnetGroupName",
-    "parameter_group_names" => "ParameterGroupNames",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "preferred_maintenance_window" => "PreferredMaintenanceWindow",
-    "node_ids_to_remove" => "NodeIdsToRemove",
-    "security_group_ids" => "SecurityGroupIds",
-    "notification_topic_arn" => "NotificationTopicArn",
-    "subnet_ids" => "SubnetIds",
-    "parameter_group_name" => "ParameterGroupName",
-    "source" => "Source",
-    "ssespecification" => "SSESpecification",
-    "subnet_group_names" => "SubnetGroupNames",
-    "source_name" => "SourceName",
-    "tags" => "Tags",
-    "cluster_names" => "ClusterNames",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("availability_zones" => "AvailabilityZones", "cluster_endpoint_encryption_type" => "ClusterEndpointEncryptionType", "description" => "Description", "notification_topic_arn" => "NotificationTopicArn", "parameter_group_name" => "ParameterGroupName", "preferred_maintenance_window" => "PreferredMaintenanceWindow", "security_group_ids" => "SecurityGroupIds", "ssespecification" => "SSESpecification", "subnet_group_name" => "SubnetGroupName", "tags" => "Tags", "max_results" => "MaxResults", "next_token" => "NextToken", "source" => "Source", "duration" => "Duration", "end_time" => "EndTime", "source_name" => "SourceName", "source_type" => "SourceType", "start_time" => "StartTime", "subnet_ids" => "SubnetIds", "notification_topic_status" => "NotificationTopicStatus", "node_ids_to_remove" => "NodeIdsToRemove", "parameter_group_names" => "ParameterGroupNames", "subnet_group_names" => "SubnetGroupNames", "cluster_names" => "ClusterNames")
 
 """
     create_cluster(cluster_name, iam_role_arn, node_type, replication_factor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -53,62 +29,38 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
   its length must equal the ReplicationFactor.  AWS recommends that you have at least two
   read replicas per cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: The Availability Zones (AZs) in which the cluster nodes will
-  reside after the cluster has been created or updated. If provided, the length of this list
-  must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the
+# Keyword Parameters
+- `availability_zones`: The Availability Zones (AZs) in which the cluster nodes will reside
+  after the cluster has been created or updated. If provided, the length of this list must
+  equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the
   nodes across Availability Zones for the highest availability.
-- `"cluster_endpoint_encryption_type"`: The type of encryption the cluster's endpoint
-  should support. Values are:    NONE for no encryption    TLS for Transport Layer Security
-- `"description"`: A description of the cluster.
-- `"notification_topic_arn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to
-  which notifications will be sent.  The Amazon SNS topic owner must be same as the DAX
-  cluster owner.
-- `"parameter_group_name"`: The parameter group to be associated with the DAX cluster.
-- `"preferred_maintenance_window"`: Specifies the weekly time range during which
-  maintenance on the DAX cluster is performed. It is specified as a range in the format
+- `cluster_endpoint_encryption_type`: The type of encryption the cluster's endpoint should
+  support. Values are:    NONE for no encryption    TLS for Transport Layer Security
+- `description`: A description of the cluster.
+- `notification_topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
+  notifications will be sent.  The Amazon SNS topic owner must be same as the DAX cluster
+  owner.
+- `parameter_group_name`: The parameter group to be associated with the DAX cluster.
+- `preferred_maintenance_window`: Specifies the weekly time range during which maintenance
+  on the DAX cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
   period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat
   Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you
   create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly
   selected day of the week.
-- `"security_group_ids"`: A list of security group IDs to be assigned to each node in the
-  DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not
+- `security_group_ids`: A list of security group IDs to be assigned to each node in the DAX
+  cluster. (Each of the security group ID is system-generated.) If this parameter is not
   specified, DAX assigns the default VPC security group to each node.
-- `"ssespecification"`: Represents the settings used to enable server-side encryption on
-  the cluster.
-- `"subnet_group_name"`: The name of the subnet group to be used for the replication group.
-   DAX clusters can only run in an Amazon VPC environment. All of the subnets that you
-  specify in a subnet group must exist in the same VPC.
-- `"tags"`: A set of tags to associate with the DAX cluster.
+- `ssespecification`: Represents the settings used to enable server-side encryption on the
+  cluster.
+- `subnet_group_name`: The name of the subnet group to be used for the replication group.
+  DAX clusters can only run in an Amazon VPC environment. All of the subnets that you specify
+  in a subnet group must exist in the same VPC.
+- `tags`: A set of tags to associate with the DAX cluster.
 """
-function create_cluster(
-    ClusterName,
-    IamRoleArn,
-    NodeType,
-    ReplicationFactor;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_cluster(ClusterName, IamRoleArn, NodeType, ReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "CreateCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterName" => ClusterName,
-                    "IamRoleArn" => IamRoleArn,
-                    "NodeType" => NodeType,
-                    "ReplicationFactor" => ReplicationFactor,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "IamRoleArn"=>IamRoleArn, "NodeType"=>NodeType, "ReplicationFactor"=>ReplicationFactor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -121,24 +73,12 @@ apply to all of the nodes in a DAX cluster.
 - `parameter_group_name`: The name of the parameter group to apply to all of the clusters
   in this replication group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the parameter group.
+# Keyword Parameters
+- `description`: A description of the parameter group.
 """
-function create_parameter_group(
-    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "CreateParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("CreateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -151,28 +91,12 @@ Creates a new subnet group.
   string.
 - `subnet_ids`: A list of VPC subnet IDs for the subnet group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description for the subnet group
+# Keyword Parameters
+- `description`: A description for the subnet group
 """
-function create_subnet_group(
-    SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_subnet_group(SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "CreateSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("CreateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,34 +109,13 @@ remove the last node in a DAX cluster. If you need to do this, use DeleteCluster
 - `cluster_name`: The name of the DAX cluster from which you want to remove nodes.
 - `new_replication_factor`: The new number of nodes for the DAX cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: The Availability Zone(s) from which to remove nodes.
-- `"node_ids_to_remove"`: The unique identifiers of the nodes to be removed from the
-  cluster.
+# Keyword Parameters
+- `availability_zones`: The Availability Zone(s) from which to remove nodes.
+- `node_ids_to_remove`: The unique identifiers of the nodes to be removed from the cluster.
 """
-function decrease_replication_factor(
-    ClusterName,
-    NewReplicationFactor;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function decrease_replication_factor(ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DecreaseReplicationFactor",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterName" => ClusterName,
-                    "NewReplicationFactor" => NewReplicationFactor,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DecreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -227,18 +130,9 @@ action.
 - `cluster_name`: The name of the cluster to be deleted.
 
 """
-function delete_cluster(
-    ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DeleteCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,20 +145,9 @@ associated with any DAX clusters.
 - `parameter_group_name`: The name of the parameter group to delete.
 
 """
-function delete_parameter_group(
-    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DeleteParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DeleteParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -277,20 +160,9 @@ clusters.
 - `subnet_group_name`: The name of the subnet group to delete.
 
 """
-function delete_subnet_group(
-    SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DeleteSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubnetGroupName" => SubnetGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DeleteSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -306,22 +178,18 @@ be displayed until they are completely provisioned. When the DAX cluster state i
 available, the cluster is ready for use. If nodes are currently being removed from the DAX
 cluster, no endpoint information for the removed nodes is displayed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cluster_names"`: The names of the DAX clusters being described.
-- `"max_results"`: The maximum number of results to include in the response. If more
-  results exist than the specified MaxResults value, a token is included in the response so
-  that the remaining results can be retrieved. The value for MaxResults must be between 20
-  and 100.
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+# Keyword Parameters
+- `cluster_names`: The names of the DAX clusters being described.
+- `max_results`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -329,26 +197,17 @@ end
 
 Returns the default system parameter information for the DAX caching software.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to include in the response. If more
-  results exist than the specified MaxResults value, a token is included in the response so
-  that the remaining results can be retrieved. The value for MaxResults must be between 20
-  and 100.
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+# Keyword Parameters
+- `max_results`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
-function describe_default_parameters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_default_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DescribeDefaultParameters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DescribeDefaultParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -359,30 +218,26 @@ to a particular DAX cluster or parameter group by providing the name as a parame
 default, only the events occurring within the last 24 hours are returned; however, you can
 retrieve up to 14 days' worth of events if necessary.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"duration"`: The number of minutes' worth of events to retrieve.
-- `"end_time"`: The end of the time interval for which to retrieve events, specified in ISO
+# Keyword Parameters
+- `duration`: The number of minutes' worth of events to retrieve.
+- `end_time`: The end of the time interval for which to retrieve events, specified in ISO
   8601 format.
-- `"max_results"`: The maximum number of results to include in the response. If more
-  results exist than the specified MaxResults value, a token is included in the response so
-  that the remaining results can be retrieved. The value for MaxResults must be between 20
-  and 100.
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+- `max_results`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
-- `"source_name"`: The identifier of the event source for which events will be returned. If
+- `source_name`: The identifier of the event source for which events will be returned. If
   not specified, then all sources are included in the response.
-- `"source_type"`: The event source to retrieve events for. If no value is specified, all
+- `source_type`: The event source to retrieve events for. If no value is specified, all
   events are returned.
-- `"start_time"`: The beginning of the time interval to retrieve events for, specified in
-  ISO 8601 format.
+- `start_time`: The beginning of the time interval to retrieve events for, specified in ISO
+  8601 format.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -391,27 +246,18 @@ end
 Returns a list of parameter group descriptions. If a parameter group name is specified, the
 list will contain only the descriptions for that group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to include in the response. If more
-  results exist than the specified MaxResults value, a token is included in the response so
-  that the remaining results can be retrieved. The value for MaxResults must be between 20
-  and 100.
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+# Keyword Parameters
+- `max_results`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
-- `"parameter_group_names"`: The names of the parameter groups.
+- `parameter_group_names`: The names of the parameter groups.
 """
-function describe_parameter_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DescribeParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DescribeParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -422,32 +268,19 @@ Returns the detailed parameter list for a particular parameter group.
 # Arguments
 - `parameter_group_name`: The name of the parameter group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to include in the response. If more
-  results exist than the specified MaxResults value, a token is included in the response so
-  that the remaining results can be retrieved. The value for MaxResults must be between 20
-  and 100.
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+# Keyword Parameters
+- `max_results`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
-- `"source"`: How the parameter is defined. For example, system denotes a system-defined
+- `source`: How the parameter is defined. For example, system denotes a system-defined
   parameter.
 """
-function describe_parameters(
-    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_parameters(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DescribeParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DescribeParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -456,27 +289,18 @@ end
 Returns a list of subnet group descriptions. If a subnet group name is specified, the list
 will contain only the description of that group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to include in the response. If more
-  results exist than the specified MaxResults value, a token is included in the response so
-  that the remaining results can be retrieved. The value for MaxResults must be between 20
-  and 100.
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+# Keyword Parameters
+- `max_results`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
-- `"subnet_group_names"`: The name of the subnet group.
+- `subnet_group_names`: The name of the subnet group.
 """
-function describe_subnet_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "DescribeSubnetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DescribeSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -488,34 +312,14 @@ Adds one or more nodes to a DAX cluster.
 - `cluster_name`: The name of the DAX cluster that will receive additional nodes.
 - `new_replication_factor`: The new number of nodes for the DAX cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zones"`: The Availability Zones (AZs) in which the cluster nodes will be
+# Keyword Parameters
+- `availability_zones`: The Availability Zones (AZs) in which the cluster nodes will be
   created. All nodes belonging to the cluster are placed in these Availability Zones. Use
   this parameter if you want to distribute the nodes across multiple AZs.
 """
-function increase_replication_factor(
-    ClusterName,
-    NewReplicationFactor;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function increase_replication_factor(ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "IncreaseReplicationFactor",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterName" => ClusterName,
-                    "NewReplicationFactor" => NewReplicationFactor,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("IncreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -527,24 +331,14 @@ per account.
 # Arguments
 - `resource_name`: The name of the DAX resource to which the tags belong.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_token"`: An optional token returned from a prior request. Use this token for
+# Keyword Parameters
+- `next_token`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token.
 """
-function list_tags(
-    ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags(ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "ListTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceName" => ResourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -559,22 +353,9 @@ engine process and does not remove the contents of the cache.
 - `node_id`: The system-assigned ID of the node to be rebooted.
 
 """
-function reboot_node(
-    ClusterName, NodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_node(ClusterName, NodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "RebootNode",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("RebootNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NodeId"=>NodeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -588,22 +369,9 @@ second, per account.
 - `tags`: The tags to be assigned to the DAX resource.
 
 """
-function tag_resource(
-    ResourceName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceName" => ResourceName, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -618,22 +386,9 @@ times per second, per account.
   tags are removed from the cluster.
 
 """
-function untag_resource(
-    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -645,33 +400,23 @@ cluster configuration parameters by specifying the parameters and the new values
 # Arguments
 - `cluster_name`: The name of the DAX cluster to be modified.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the changes being made to the cluster.
-- `"notification_topic_arn"`: The Amazon Resource Name (ARN) that identifies the topic.
-- `"notification_topic_status"`: The current state of the topic. A value of “active”
+# Keyword Parameters
+- `description`: A description of the changes being made to the cluster.
+- `notification_topic_arn`: The Amazon Resource Name (ARN) that identifies the topic.
+- `notification_topic_status`: The current state of the topic. A value of “active”
   means that notifications will be sent to the topic. A value of “inactive” means that
   notifications will not be sent to the topic.
-- `"parameter_group_name"`: The name of a parameter group for this cluster.
-- `"preferred_maintenance_window"`: A range of time when maintenance of DAX cluster
-  software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally
-  takes less than 30 minutes, and is performed automatically within the maintenance window.
-- `"security_group_ids"`: A list of user-specified security group IDs to be assigned to
-  each node in the DAX cluster. If this parameter is not specified, DAX assigns the default
-  VPC security group to each node.
+- `parameter_group_name`: The name of a parameter group for this cluster.
+- `preferred_maintenance_window`: A range of time when maintenance of DAX cluster software
+  will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes
+  less than 30 minutes, and is performed automatically within the maintenance window.
+- `security_group_ids`: A list of user-specified security group IDs to be assigned to each
+  node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC
+  security group to each node.
 """
-function update_cluster(
-    ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "UpdateCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -688,28 +433,9 @@ single request by submitting a list parameter name and value pairs.
   TTL Settings.
 
 """
-function update_parameter_group(
-    ParameterGroupName,
-    ParameterNameValues;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_parameter_group(ParameterGroupName, ParameterNameValues; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "UpdateParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ParameterGroupName" => ParameterGroupName,
-                    "ParameterNameValues" => ParameterNameValues,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("UpdateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -720,23 +446,11 @@ Modifies an existing subnet group.
 # Arguments
 - `subnet_group_name`: The name of the subnet group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the subnet group.
-- `"subnet_ids"`: A list of subnet IDs in the subnet group.
+# Keyword Parameters
+- `description`: A description of the subnet group.
+- `subnet_ids`: A list of subnet IDs in the subnet group.
 """
-function update_subnet_group(
-    SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return dax(
-        "UpdateSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubnetGroupName" => SubnetGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("UpdateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

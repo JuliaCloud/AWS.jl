@@ -4,12 +4,8 @@ using AWS.AWSServices: marketplace_metering
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "dry_run" => "DryRun",
-    "usage_allocations" => "UsageAllocations",
-    "usage_quantity" => "UsageQuantity",
-    "nonce" => "Nonce",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dry_run" => "DryRun", "usage_allocations" => "UsageAllocations", "usage_quantity" => "UsageQuantity", "nonce" => "Nonce")
 
 """
     batch_meter_usage(product_code, usage_records; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -30,24 +26,9 @@ allocations, to provide customers with usagedata split into buckets by tags that
   UsageRecords at a time.
 
 """
-function batch_meter_usage(
-    ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_meter_usage(ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return marketplace_metering(
-        "BatchMeterUsage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductCode" => ProductCode, "UsageRecords" => UsageRecords
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return marketplace_metering("BatchMeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -68,40 +49,18 @@ by tags that you define (or allow the customer to define).
 - `usage_dimension`: It will be one of the fcp dimension name provided during the
   publishing of the product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dry_run"`: Checks whether you have the permissions required for the action, but does
-  not make the request. If you have the permissions, the request returns DryRunOperation;
+# Keyword Parameters
+- `dry_run`: Checks whether you have the permissions required for the action, but does not
+  make the request. If you have the permissions, the request returns DryRunOperation;
   otherwise, it returns UnauthorizedException. Defaults to false if not specified.
-- `"usage_allocations"`: The set of UsageAllocations to submit. The sum of all
+- `usage_allocations`: The set of UsageAllocations to submit. The sum of all
   UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each
   UsageAllocation must have a unique set of tags (include no tags).
-- `"usage_quantity"`: Consumption value for the hour. Defaults to 0 if not specified.
+- `usage_quantity`: Consumption value for the hour. Defaults to 0 if not specified.
 """
-function meter_usage(
-    ProductCode,
-    Timestamp,
-    UsageDimension;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function meter_usage(ProductCode, Timestamp, UsageDimension; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return marketplace_metering(
-        "MeterUsage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductCode" => ProductCode,
-                    "Timestamp" => Timestamp,
-                    "UsageDimension" => UsageDimension,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return marketplace_metering("MeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -138,32 +97,13 @@ to perform entitlement checks at runtime.
   The product code should be the same as the one used during the publishing of a new product.
 - `public_key_version`: Public Key Version provided by AWS Marketplace
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"nonce"`: (Optional) To scope down the registration to a specific running software
+# Keyword Parameters
+- `nonce`: (Optional) To scope down the registration to a specific running software
   instance and guard against replay attacks.
 """
-function register_usage(
-    ProductCode,
-    PublicKeyVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_usage(ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return marketplace_metering(
-        "RegisterUsage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductCode" => ProductCode, "PublicKeyVersion" => PublicKeyVersion
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return marketplace_metering("RegisterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -180,18 +120,7 @@ a CustomerIdentifier and product code.
   resolved to obtain a CustomerIdentifier and product code.
 
 """
-function resolve_customer(
-    RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function resolve_customer(RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return marketplace_metering(
-        "ResolveCustomer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RegistrationToken" => RegistrationToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return marketplace_metering("ResolveCustomer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

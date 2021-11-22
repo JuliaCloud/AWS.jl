@@ -4,29 +4,8 @@ using AWS.AWSServices: elastic_transcoder
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "audio" => "Audio",
-    "role" => "Role",
-    "output" => "Output",
-    "thumbnails" => "Thumbnails",
-    "page_token" => "PageToken",
-    "input_bucket" => "InputBucket",
-    "name" => "Name",
-    "outputs" => "Outputs",
-    "video" => "Video",
-    "aws_kms_key_arn" => "AwsKmsKeyArn",
-    "description" => "Description",
-    "content_config" => "ContentConfig",
-    "playlists" => "Playlists",
-    "output_key_prefix" => "OutputKeyPrefix",
-    "notifications" => "Notifications",
-    "ascending" => "Ascending",
-    "input" => "Input",
-    "output_bucket" => "OutputBucket",
-    "user_metadata" => "UserMetadata",
-    "thumbnail_config" => "ThumbnailConfig",
-    "inputs" => "Inputs",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("ascending" => "Ascending", "page_token" => "PageToken", "aws_kms_key_arn" => "AwsKmsKeyArn", "content_config" => "ContentConfig", "notifications" => "Notifications", "output_bucket" => "OutputBucket", "thumbnail_config" => "ThumbnailConfig", "input_bucket" => "InputBucket", "name" => "Name", "role" => "Role", "input" => "Input", "inputs" => "Inputs", "output" => "Output", "output_key_prefix" => "OutputKeyPrefix", "outputs" => "Outputs", "playlists" => "Playlists", "user_metadata" => "UserMetadata", "audio" => "Audio", "description" => "Description", "thumbnails" => "Thumbnails", "video" => "Video")
 
 """
     cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -43,13 +22,7 @@ getting the job identifier, use UpdatePipelineStatus to temporarily pause the pi
 """
 function cancel_job(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "DELETE",
-        "/2012-09-25/jobs/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -67,43 +40,31 @@ the jobs (as opposed to the AWS Console).
   which Elastic Transcoder gets the files to transcode and the bucket into which Elastic
   Transcoder puts the transcoded files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"input"`: A section of the request body that provides information about the file that is
+# Keyword Parameters
+- `input`: A section of the request body that provides information about the file that is
   being transcoded.
-- `"inputs"`: A section of the request body that provides information about the files that
+- `inputs`: A section of the request body that provides information about the files that
   are being transcoded.
-- `"output"`:  A section of the request body that provides information about the transcoded
+- `output`:  A section of the request body that provides information about the transcoded
   (target) file. We strongly recommend that you use the Outputs syntax instead of the Output
   syntax.
-- `"output_key_prefix"`: The value, if any, that you want Elastic Transcoder to prepend to
+- `output_key_prefix`: The value, if any, that you want Elastic Transcoder to prepend to
   the names of all files that this job creates, including output files, thumbnails, and
   playlists.
-- `"outputs"`:  A section of the request body that provides information about the
-  transcoded (target) files. We recommend that you use the Outputs syntax instead of the
-  Output syntax.
-- `"playlists"`: If you specify a preset in PresetId for which the value of Container is
-  fmp4 (Fragmented MP4) or ts (MPEG-TS), Playlists contains information about the master
-  playlists that you want Elastic Transcoder to create. The maximum number of master
-  playlists in a job is 30.
-- `"user_metadata"`: User-defined metadata that you want to associate with an Elastic
+- `outputs`:  A section of the request body that provides information about the transcoded
+  (target) files. We recommend that you use the Outputs syntax instead of the Output syntax.
+- `playlists`: If you specify a preset in PresetId for which the value of Container is fmp4
+  (Fragmented MP4) or ts (MPEG-TS), Playlists contains information about the master playlists
+  that you want Elastic Transcoder to create. The maximum number of master playlists in a job
+  is 30.
+- `user_metadata`: User-defined metadata that you want to associate with an Elastic
   Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value
   pairs per job. Elastic Transcoder does not guarantee that key/value pairs are returned in
   the same order in which you specify them.
 """
-function create_job(
-    PipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_job(PipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "POST",
-        "/2012-09-25/jobs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PipelineId" => PipelineId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PipelineId"=>PipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -119,15 +80,14 @@ The CreatePipeline operation creates a pipeline with settings that you specify.
 - `role`: The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder
   to use to create the pipeline.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aws_kms_key_arn"`: The AWS Key Management Service (AWS KMS) key that you want to use
-  with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't
-  need to provide a key with your job because a default key, known as an AWS-KMS key, is
-  created for you automatically. You need to provide an AWS-KMS key only if you want to use a
+# Keyword Parameters
+- `aws_kms_key_arn`: The AWS Key Management Service (AWS KMS) key that you want to use with
+  this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need
+  to provide a key with your job because a default key, known as an AWS-KMS key, is created
+  for you automatically. You need to provide an AWS-KMS key only if you want to use a
   non-default AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr,
   or aes-gcm.
-- `"content_config"`: The optional ContentConfig object specifies information about the
+- `content_config`: The optional ContentConfig object specifies information about the
   Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and
   playlists: which bucket to use, which users you want to have access to the files, the type
   of access you want users to have, and the storage class that you want to assign to the
@@ -162,14 +122,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Transcoder adds to the Amazon S3 bucket.      StorageClass: The Amazon S3 storage class,
   Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the video
   files and playlists that it stores in your Amazon S3 bucket.
-- `"notifications"`: The Amazon Simple Notification Service (Amazon SNS) topic that you
-  want to notify to report job status.  To receive notifications, you must also subscribe to
-  the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon
-  Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic
-  Transcoder has started to process a job in this pipeline. This is the ARN that Amazon SNS
-  returned when you created the topic. For more information, see Create a Topic in the Amazon
-  Simple Notification Service Developer Guide.    Complete: The topic ARN for the Amazon SNS
-  topic that you want to notify when Elastic Transcoder has finished processing a job in this
+- `notifications`: The Amazon Simple Notification Service (Amazon SNS) topic that you want
+  to notify to report job status.  To receive notifications, you must also subscribe to the
+  new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple
+  Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has
+  started to process a job in this pipeline. This is the ARN that Amazon SNS returned when
+  you created the topic. For more information, see Create a Topic in the Amazon Simple
+  Notification Service Developer Guide.    Complete: The topic ARN for the Amazon SNS topic
+  that you want to notify when Elastic Transcoder has finished processing a job in this
   pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Warning:
   The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder
   encounters a warning condition while processing a job in this pipeline. This is the ARN
@@ -177,7 +137,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   SNS topic that you want to notify when Elastic Transcoder encounters an error condition
   while processing a job in this pipeline. This is the ARN that Amazon SNS returned when you
   created the topic.
-- `"output_bucket"`: The Amazon S3 bucket in which you want Elastic Transcoder to save the
+- `output_bucket`: The Amazon S3 bucket in which you want Elastic Transcoder to save the
   transcoded files. (Use this, or use ContentConfig:Bucket plus ThumbnailConfig:Bucket.)
   Specify this value when all of the following are true:   You want to save transcoded files,
   thumbnails (if any), and playlists (if any) together in one bucket.   You do not want to
@@ -190,7 +150,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   another bucket, specify which users can access the transcoded files or the permissions the
   users have, or change the Amazon S3 storage class, omit OutputBucket and specify values for
   ContentConfig and ThumbnailConfig instead.
-- `"thumbnail_config"`: The ThumbnailConfig object specifies several values, including the
+- `thumbnail_config`: The ThumbnailConfig object specifies several values, including the
   Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users
   you want to have access to the files, the type of access you want users to have, and the
   storage class that you want to assign to the files. If you specify values for
@@ -222,25 +182,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   you want Elastic Transcoder to assign to the thumbnails that it stores in your Amazon S3
   bucket.
 """
-function create_pipeline(
-    InputBucket, Name, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_pipeline(InputBucket, Name, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "POST",
-        "/2012-09-25/pipelines",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InputBucket" => InputBucket, "Name" => Name, "Role" => Role
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -265,29 +209,16 @@ generic audiovisual services.
 - `name`: The name of the preset. We recommend that the name be unique within the AWS
   account, but uniqueness is not enforced.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audio"`: A section of the request body that specifies the audio parameters.
-- `"description"`: A description of the preset.
-- `"thumbnails"`: A section of the request body that specifies the thumbnail parameters, if
+# Keyword Parameters
+- `audio`: A section of the request body that specifies the audio parameters.
+- `description`: A description of the preset.
+- `thumbnails`: A section of the request body that specifies the thumbnail parameters, if
   any.
-- `"video"`: A section of the request body that specifies the video parameters.
+- `video`: A section of the request body that specifies the video parameters.
 """
-function create_preset(
-    Container, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_preset(Container, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "POST",
-        "/2012-09-25/presets",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Container" => Container, "Name" => Name), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Container"=>Container, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -303,13 +234,7 @@ pipeline is currently in use, DeletePipeline returns an error.
 """
 function delete_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "DELETE",
-        "/2012-09-25/pipelines/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -324,13 +249,7 @@ delete the default presets that are included with Elastic Transcoder.
 """
 function delete_preset(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "DELETE",
-        "/2012-09-25/presets/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -343,24 +262,15 @@ contains one element for each job that satisfies the search criteria.
 # Arguments
 - `pipeline_id`: The ID of the pipeline for which you want to get job information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending"`:  To list jobs in chronological order by the date and time that they were
+# Keyword Parameters
+- `ascending`:  To list jobs in chronological order by the date and time that they were
   submitted, enter true. To list jobs in reverse chronological order, enter false.
-- `"page_token"`:  When Elastic Transcoder returns more than one page of results, use
+- `page_token`:  When Elastic Transcoder returns more than one page of results, use
   pageToken in subsequent GET requests to get each successive page of results.
 """
-function list_jobs_by_pipeline(
-    PipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_jobs_by_pipeline(PipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/jobsByPipeline/$(PipelineId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -374,24 +284,15 @@ response body contains one element for each job that satisfies the search criter
   account that have a given status, specify the following status: Submitted, Progressing,
   Complete, Canceled, or Error.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending"`:  To list jobs in chronological order by the date and time that they were
+# Keyword Parameters
+- `ascending`:  To list jobs in chronological order by the date and time that they were
   submitted, enter true. To list jobs in reverse chronological order, enter false.
-- `"page_token"`:  When Elastic Transcoder returns more than one page of results, use
+- `page_token`:  When Elastic Transcoder returns more than one page of results, use
   pageToken in subsequent GET requests to get each successive page of results.
 """
-function list_jobs_by_status(
-    Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_jobs_by_status(Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/jobsByStatus/$(Status)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -400,22 +301,15 @@ end
 The ListPipelines operation gets a list of the pipelines associated with the current AWS
 account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending"`: To list pipelines in chronological order by the date and time that they
-  were created, enter true. To list pipelines in reverse chronological order, enter false.
-- `"page_token"`: When Elastic Transcoder returns more than one page of results, use
+# Keyword Parameters
+- `ascending`: To list pipelines in chronological order by the date and time that they were
+  created, enter true. To list pipelines in reverse chronological order, enter false.
+- `page_token`: When Elastic Transcoder returns more than one page of results, use
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/pipelines",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -424,22 +318,15 @@ end
 The ListPresets operation gets a list of the default presets included with Elastic
 Transcoder and the presets that you've added in an AWS region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ascending"`: To list presets in chronological order by the date and time that they were
+# Keyword Parameters
+- `ascending`: To list presets in chronological order by the date and time that they were
   created, enter true. To list presets in reverse chronological order, enter false.
-- `"page_token"`: When Elastic Transcoder returns more than one page of results, use
+- `page_token`: When Elastic Transcoder returns more than one page of results, use
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_presets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/presets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -453,13 +340,7 @@ The ReadJob operation returns detailed information about a job.
 """
 function read_job(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/jobs/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -473,13 +354,7 @@ The ReadPipeline operation gets detailed information about a pipeline.
 """
 function read_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/pipelines/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -493,13 +368,7 @@ The ReadPreset operation gets detailed information about a preset.
 """
 function read_preset(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "GET",
-        "/2012-09-25/presets/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("GET", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -522,33 +391,9 @@ buckets, and tries to send a test notification to Amazon SNS topics that you spe
   that you want the action to send a test notification to.
 
 """
-function test_role(
-    InputBucket,
-    OutputBucket,
-    Role,
-    Topics;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function test_role(InputBucket, OutputBucket, Role, Topics; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "POST",
-        "/2012-09-25/roleTests",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InputBucket" => InputBucket,
-                    "OutputBucket" => OutputBucket,
-                    "Role" => Role,
-                    "Topics" => Topics,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -562,15 +407,14 @@ to jobs that you submit after you change settings.
 # Arguments
 - `id`: The ID of the pipeline that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aws_kms_key_arn"`: The AWS Key Management Service (AWS KMS) key that you want to use
-  with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't
-  need to provide a key with your job because a default key, known as an AWS-KMS key, is
-  created for you automatically. You need to provide an AWS-KMS key only if you want to use a
+# Keyword Parameters
+- `aws_kms_key_arn`: The AWS Key Management Service (AWS KMS) key that you want to use with
+  this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need
+  to provide a key with your job because a default key, known as an AWS-KMS key, is created
+  for you automatically. You need to provide an AWS-KMS key only if you want to use a
   non-default AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr,
   or aes-gcm.
-- `"content_config"`: The optional ContentConfig object specifies information about the
+- `content_config`: The optional ContentConfig object specifies information about the
   Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and
   playlists: which bucket to use, which users you want to have access to the files, the type
   of access you want users to have, and the storage class that you want to assign to the
@@ -605,11 +449,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Transcoder adds to the Amazon S3 bucket.      StorageClass: The Amazon S3 storage class,
   Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the video
   files and playlists that it stores in your Amazon S3 bucket.
-- `"input_bucket"`: The Amazon S3 bucket in which you saved the media files that you want
-  to transcode and the graphics that you want to use as watermarks.
-- `"name"`: The name of the pipeline. We recommend that the name be unique within the AWS
+- `input_bucket`: The Amazon S3 bucket in which you saved the media files that you want to
+  transcode and the graphics that you want to use as watermarks.
+- `name`: The name of the pipeline. We recommend that the name be unique within the AWS
   account, but uniqueness is not enforced. Constraints: Maximum 40 characters
-- `"notifications"`: The topic ARN for the Amazon Simple Notification Service (Amazon SNS)
+- `notifications`: The topic ARN for the Amazon Simple Notification Service (Amazon SNS)
   topic that you want to notify to report job status.  To receive notifications, you must
   also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN
   for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when
@@ -622,9 +466,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when
   Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned
   when you created the topic.
-- `"role"`: The IAM Amazon Resource Name (ARN) for the role that you want Elastic
-  Transcoder to use to transcode jobs for this pipeline.
-- `"thumbnail_config"`: The ThumbnailConfig object specifies several values, including the
+- `role`: The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder
+  to use to transcode jobs for this pipeline.
+- `thumbnail_config`: The ThumbnailConfig object specifies several values, including the
   Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users
   you want to have access to the files, the type of access you want users to have, and the
   storage class that you want to assign to the files. If you specify values for
@@ -658,13 +502,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "PUT",
-        "/2012-09-25/pipelines/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -691,19 +529,9 @@ pipeline, Elastic Transcoder returns the values that you specified in the reques
   when you created the topic.
 
 """
-function update_pipeline_notifications(
-    Id, Notifications; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_pipeline_notifications(Id, Notifications; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "POST",
-        "/2012-09-25/pipelines/$(Id)/notifications",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Notifications" => Notifications), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notifications"=>Notifications), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -722,15 +550,7 @@ request.
      Paused: The pipeline is not currently processing jobs.
 
 """
-function update_pipeline_status(
-    Id, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_pipeline_status(Id, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_transcoder(
-        "POST",
-        "/2012-09-25/pipelines/$(Id)/status",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Status" => Status), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

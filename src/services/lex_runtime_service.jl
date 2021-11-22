@@ -4,15 +4,8 @@ using AWS.AWSServices: lex_runtime_service
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "session_attributes" => "sessionAttributes",
-    "accept" => "Accept",
-    "dialog_action" => "dialogAction",
-    "active_contexts" => "activeContexts",
-    "recent_intent_summary_view" => "recentIntentSummaryView",
-    "request_attributes" => "x-amz-lex-request-attributes",
-    "checkpoint_label_filter" => "checkpointLabelFilter",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("active_contexts" => "activeContexts", "request_attributes" => "x-amz-lex-request-attributes", "session_attributes" => "sessionAttributes", "checkpoint_label_filter" => "checkpointLabelFilter", "accept" => "Accept", "dialog_action" => "dialogAction", "recent_intent_summary_view" => "recentIntentSummaryView")
 
 """
     delete_session(bot_alias, bot_name, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,17 +18,9 @@ Removes session information for a specified bot, alias, and user ID.
 - `user_id`: The identifier of the user associated with the session data.
 
 """
-function delete_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_runtime_service(
-        "DELETE",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -49,23 +34,14 @@ Returns session information for a specified bot, alias, and user ID.
 - `user_id`: The ID of the client application user. Amazon Lex uses this to identify a
   user's conversation with your bot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checkpoint_label_filter"`: A string used to filter the intents returned in the
+# Keyword Parameters
+- `checkpoint_label_filter`: A string used to filter the intents returned in the
   recentIntentSummaryView structure.  When you specify a filter, only intents with their
   checkpointLabel field set to that string are returned.
 """
-function get_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_runtime_service(
-        "GET",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -128,9 +104,8 @@ Managing Conversation Context.
   versions, for example, while testing, include the bot alias in the user ID to separate the
   two conversations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept"`:  You pass this value as the Accept HTTP header.   The message Amazon Lex
+# Keyword Parameters
+- `accept`:  You pass this value as the Accept HTTP header.   The message Amazon Lex
   returns in the response can be either text or speech based on the Accept HTTP header value
   in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in
   the response.     If the value begins with audio/, Amazon Lex returns speech in the
@@ -140,48 +115,25 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   returned is audio/pcm in 16-bit, little endian format.    The following are the accepted
   values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/*
   (defaults to mpeg)
-- `"active_contexts"`: A list of contexts active for the request. A context can be
-  activated when a previous intent is fulfilled, or by including the context in the request,
-  If you don't specify a list of contexts, Amazon Lex will use the current list of contexts
-  for the session. If you specify an empty list, all contexts for the session are cleared.
-- `"request_attributes"`: You pass this value as the x-amz-lex-request-attributes HTTP
+- `active_contexts`: A list of contexts active for the request. A context can be activated
+  when a previous intent is fulfilled, or by including the context in the request, If you
+  don't specify a list of contexts, Amazon Lex will use the current list of contexts for the
+  session. If you specify an empty list, all contexts for the session are cleared.
+- `request_attributes`: You pass this value as the x-amz-lex-request-attributes HTTP
   header. Request-specific information passed between Amazon Lex and a client application.
   The value must be a JSON serialized and base64 encoded map with string keys and values. The
   total size of the requestAttributes and sessionAttributes headers is limited to 12 KB. The
   namespace x-amz-lex: is reserved for special attributes. Don't create any request
   attributes with the prefix x-amz-lex:. For more information, see Setting Request Attributes.
-- `"session_attributes"`: You pass this value as the x-amz-lex-session-attributes HTTP
+- `session_attributes`: You pass this value as the x-amz-lex-session-attributes HTTP
   header. Application-specific information passed between Amazon Lex and a client
   application. The value must be a JSON serialized and base64 encoded map with string keys
   and values. The total size of the sessionAttributes and requestAttributes headers is
   limited to 12 KB. For more information, see Setting Session Attributes.
 """
-function post_content(
-    Content_Type,
-    botAlias,
-    botName,
-    inputStream,
-    userId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function post_content(Content_Type, botAlias, botName, inputStream, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_runtime_service(
-        "POST",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "inputStream" => inputStream,
-                    "headers" => Dict{String,Any}("Content-Type" => Content_Type),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputStream"=>inputStream, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -232,37 +184,21 @@ Context.
   versions, for example, while testing, include the bot alias in the user ID to separate the
   two conversations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"active_contexts"`: A list of contexts active for the request. A context can be
-  activated when a previous intent is fulfilled, or by including the context in the request,
-  If you don't specify a list of contexts, Amazon Lex will use the current list of contexts
-  for the session. If you specify an empty list, all contexts for the session are cleared.
-- `"request_attributes"`: Request-specific information passed between Amazon Lex and a
-  client application. The namespace x-amz-lex: is reserved for special attributes. Don't
-  create any request attributes with the prefix x-amz-lex:. For more information, see Setting
-  Request Attributes.
-- `"session_attributes"`: Application-specific information passed between Amazon Lex and a
+# Keyword Parameters
+- `active_contexts`: A list of contexts active for the request. A context can be activated
+  when a previous intent is fulfilled, or by including the context in the request, If you
+  don't specify a list of contexts, Amazon Lex will use the current list of contexts for the
+  session. If you specify an empty list, all contexts for the session are cleared.
+- `request_attributes`: Request-specific information passed between Amazon Lex and a client
+  application. The namespace x-amz-lex: is reserved for special attributes. Don't create any
+  request attributes with the prefix x-amz-lex:. For more information, see Setting Request
+  Attributes.
+- `session_attributes`: Application-specific information passed between Amazon Lex and a
   client application. For more information, see Setting Session Attributes.
 """
-function post_text(
-    botAlias,
-    botName,
-    inputText,
-    userId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function post_text(botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_runtime_service(
-        "POST",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("inputText" => inputText), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputText"=>inputText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -278,9 +214,8 @@ Managing Sessions.
 - `user_id`: The ID of the client application user. Amazon Lex uses this to identify a
   user's conversation with your bot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept"`: The message that Amazon Lex returns in the response can be either text or
+# Keyword Parameters
+- `accept`: The message that Amazon Lex returns in the response can be either text or
   speech based depending on the value of this field.   If the value is text/plain;
   charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/,
   Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the
@@ -289,13 +224,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   speech is returned as audio/pcm in 16-bit, little endian format.   The following are the
   accepted values:    audio/mpeg     audio/ogg     audio/pcm     audio/* (defaults to mpeg)
    text/plain; charset=utf-8
-- `"active_contexts"`: A list of contexts active for the request. A context can be
-  activated when a previous intent is fulfilled, or by including the context in the request,
-  If you don't specify a list of contexts, Amazon Lex will use the current list of contexts
-  for the session. If you specify an empty list, all contexts for the session are cleared.
-- `"dialog_action"`: Sets the next action that the bot should take to fulfill the
+- `active_contexts`: A list of contexts active for the request. A context can be activated
+  when a previous intent is fulfilled, or by including the context in the request, If you
+  don't specify a list of contexts, Amazon Lex will use the current list of contexts for the
+  session. If you specify an empty list, all contexts for the session are cleared.
+- `dialog_action`: Sets the next action that the bot should take to fulfill the
   conversation.
-- `"recent_intent_summary_view"`: A summary of the recent intents for the bot. You can use
+- `recent_intent_summary_view`: A summary of the recent intents for the bot. You can use
   the intent summary view to set a checkpoint label on an intent and modify attributes of
   intents. You can also use it to remove or add intent summary objects to the list. An intent
   that you modify or add to the list must make sense for the bot. For example, the intent
@@ -305,19 +240,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   if a GetSession request returns three intents in the summary view and you call PutSession
   with one intent in the summary view, the next call to GetSession will only return one
   intent.
-- `"session_attributes"`: Map of key/value pairs representing the session-specific context
+- `session_attributes`: Map of key/value pairs representing the session-specific context
   information. It contains application information passed between Amazon Lex and a client
   application.
 """
-function put_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lex_runtime_service(
-        "POST",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

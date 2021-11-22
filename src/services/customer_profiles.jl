@@ -4,46 +4,8 @@ using AWS.AWSServices: customer_profiles
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "default_encryption_key" => "DefaultEncryptionKey",
-    "birth_date" => "BirthDate",
-    "business_phone_number" => "BusinessPhoneNumber",
-    "fields" => "Fields",
-    "keys" => "Keys",
-    "middle_name" => "MiddleName",
-    "shipping_address" => "ShippingAddress",
-    "matching" => "Matching",
-    "flow_definition" => "FlowDefinition",
-    "next_token" => "next-token",
-    "business_name" => "BusinessName",
-    "home_phone_number" => "HomePhoneNumber",
-    "address" => "Address",
-    "encryption_key" => "EncryptionKey",
-    "party_type" => "PartyType",
-    "mobile_phone_number" => "MobilePhoneNumber",
-    "business_email_address" => "BusinessEmailAddress",
-    "account_number" => "AccountNumber",
-    "additional_information" => "AdditionalInformation",
-    "object_filter" => "ObjectFilter",
-    "dead_letter_queue_url" => "DeadLetterQueueUrl",
-    "max_results" => "max-results",
-    "first_name" => "FirstName",
-    "default_expiration_days" => "DefaultExpirationDays",
-    "mailing_address" => "MailingAddress",
-    "personal_email_address" => "PersonalEmailAddress",
-    "email_address" => "EmailAddress",
-    "allow_profile_creation" => "AllowProfileCreation",
-    "billing_address" => "BillingAddress",
-    "template_id" => "TemplateId",
-    "uri" => "Uri",
-    "gender" => "Gender",
-    "expiration_days" => "ExpirationDays",
-    "attributes" => "Attributes",
-    "last_name" => "LastName",
-    "tags" => "Tags",
-    "phone_number" => "PhoneNumber",
-    "field_source_profile_ids" => "FieldSourceProfileIds",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "max-results", "next_token" => "next-token", "dead_letter_queue_url" => "DeadLetterQueueUrl", "default_encryption_key" => "DefaultEncryptionKey", "default_expiration_days" => "DefaultExpirationDays", "matching" => "Matching", "tags" => "Tags", "allow_profile_creation" => "AllowProfileCreation", "encryption_key" => "EncryptionKey", "expiration_days" => "ExpirationDays", "fields" => "Fields", "keys" => "Keys", "template_id" => "TemplateId", "flow_definition" => "FlowDefinition", "uri" => "Uri", "account_number" => "AccountNumber", "additional_information" => "AdditionalInformation", "address" => "Address", "attributes" => "Attributes", "billing_address" => "BillingAddress", "birth_date" => "BirthDate", "business_email_address" => "BusinessEmailAddress", "business_name" => "BusinessName", "business_phone_number" => "BusinessPhoneNumber", "email_address" => "EmailAddress", "first_name" => "FirstName", "gender" => "Gender", "home_phone_number" => "HomePhoneNumber", "last_name" => "LastName", "mailing_address" => "MailingAddress", "middle_name" => "MiddleName", "mobile_phone_number" => "MobilePhoneNumber", "party_type" => "PartyType", "personal_email_address" => "PersonalEmailAddress", "phone_number" => "PhoneNumber", "shipping_address" => "ShippingAddress", "field_source_profile_ids" => "FieldSourceProfileIds", "object_filter" => "ObjectFilter")
 
 """
     add_profile_key(domain_name, key_name, profile_id, values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -59,30 +21,9 @@ that can be used to identify the profile that it belongs to.
 - `values`: A list of key values.
 
 """
-function add_profile_key(
-    DomainName,
-    KeyName,
-    ProfileId,
-    Values;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/keys",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -100,41 +41,23 @@ Matching to true.
   expires.
 - `domain_name`: The unique name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dead_letter_queue_url"`: The URL of the SQS dead letter queue, which is used for
+# Keyword Parameters
+- `dead_letter_queue_url`: The URL of the SQS dead letter queue, which is used for
   reporting errors associated with ingesting data from third party applications. You must set
   up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect
   Customer Profiles to send messages to the DeadLetterQueue.
-- `"default_encryption_key"`: The default encryption key, which is an AWS managed key, is
+- `default_encryption_key`: The default encryption key, which is an AWS managed key, is
   used when no specific type of encryption key is specified. It is used to encrypt all data
   before it is placed in permanent or semi-permanent storage.
-- `"matching"`: The process of matching duplicate profiles. If Matching = true, Amazon
+- `matching`: The process of matching duplicate profiles. If Matching = true, Amazon
   Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to
   detect duplicate profiles in your domains. After that batch process completes, use the
   GetMatches API to return and review the results.
-- `"tags"`: The tags used to organize, track, or control access for this resource.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
-function create_domain(
-    DefaultExpirationDays,
-    DomainName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_domain(DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DefaultExpirationDays" => DefaultExpirationDays),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -146,45 +69,35 @@ customer profile in a domain.
 # Arguments
 - `domain_name`: The unique name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_number"`: A unique account number that you have given to the customer.
-- `"additional_information"`: Any additional information relevant to the customer’s
-  profile.
-- `"address"`: A generic address associated with the customer that is not mailing,
-  shipping, or billing.
-- `"attributes"`: A key value pair of attributes of a customer profile.
-- `"billing_address"`: The customer’s billing address.
-- `"birth_date"`: The customer’s birth date.
-- `"business_email_address"`: The customer’s business email address.
-- `"business_name"`: The name of the customer’s business.
-- `"business_phone_number"`: The customer’s business phone number.
-- `"email_address"`: The customer’s email address, which has not been specified as a
+# Keyword Parameters
+- `account_number`: A unique account number that you have given to the customer.
+- `additional_information`: Any additional information relevant to the customer’s profile.
+- `address`: A generic address associated with the customer that is not mailing, shipping,
+  or billing.
+- `attributes`: A key value pair of attributes of a customer profile.
+- `billing_address`: The customer’s billing address.
+- `birth_date`: The customer’s birth date.
+- `business_email_address`: The customer’s business email address.
+- `business_name`: The name of the customer’s business.
+- `business_phone_number`: The customer’s business phone number.
+- `email_address`: The customer’s email address, which has not been specified as a
   personal or business address.
-- `"first_name"`: The customer’s first name.
-- `"gender"`: The gender with which the customer identifies.
-- `"home_phone_number"`: The customer’s home phone number.
-- `"last_name"`: The customer’s last name.
-- `"mailing_address"`: The customer’s mailing address.
-- `"middle_name"`: The customer’s middle name.
-- `"mobile_phone_number"`: The customer’s mobile phone number.
-- `"party_type"`: The type of profile used to describe the customer.
-- `"personal_email_address"`: The customer’s personal email address.
-- `"phone_number"`: The customer’s phone number, which has not been specified as a
-  mobile, home, or business number.
-- `"shipping_address"`: The customer’s shipping address.
+- `first_name`: The customer’s first name.
+- `gender`: The gender with which the customer identifies.
+- `home_phone_number`: The customer’s home phone number.
+- `last_name`: The customer’s last name.
+- `mailing_address`: The customer’s mailing address.
+- `middle_name`: The customer’s middle name.
+- `mobile_phone_number`: The customer’s mobile phone number.
+- `party_type`: The type of profile used to describe the customer.
+- `personal_email_address`: The customer’s personal email address.
+- `phone_number`: The customer’s phone number, which has not been specified as a mobile,
+  home, or business number.
+- `shipping_address`: The customer’s shipping address.
 """
-function create_profile(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_profile(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -197,17 +110,9 @@ and their related objects.
 - `domain_name`: The unique name of the domain.
 
 """
-function delete_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "DELETE",
-        "/domains/$(DomainName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("DELETE", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -220,17 +125,9 @@ Removes an integration from a specific domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 
 """
-function delete_integration(
-    DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/integrations/delete",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -243,19 +140,9 @@ Deletes the standard customer profile and all data pertaining to the profile.
 - `profile_id`: The unique identifier of a customer profile.
 
 """
-function delete_profile(
-    DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -270,30 +157,9 @@ Removes a searchable key from a customer profile.
 - `values`: A list of key values.
 
 """
-function delete_profile_key(
-    DomainName,
-    KeyName,
-    ProfileId,
-    Values;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/keys/delete",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -309,32 +175,9 @@ Removes an object associated with a profile of a given ProfileObjectType.
   service.
 
 """
-function delete_profile_object(
-    DomainName,
-    ObjectTypeName,
-    ProfileId,
-    ProfileObjectUniqueKey;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/objects/delete",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ObjectTypeName" => ObjectTypeName,
-                    "ProfileId" => ProfileId,
-                    "ProfileObjectUniqueKey" => ProfileObjectUniqueKey,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -350,17 +193,9 @@ were populated from this ProfileObjectType.
 - `object_type_name`: The name of the profile object type.
 
 """
-function delete_profile_object_type(
-    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "DELETE",
-        "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -372,17 +207,9 @@ Returns information about a specific domain.
 - `domain_name`: The unique name of the domain.
 
 """
-function get_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/domains/$(DomainName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -395,17 +222,9 @@ Returns an integration for a domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 
 """
-function get_integration(
-    DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/integrations",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -428,23 +247,14 @@ into a unified profile.
 # Arguments
 - `domain_name`: The unique name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per page.
-- `"next_token"`: The token for the next set of results. Use the value returned in the
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per page.
+- `next_token`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_matches(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_matches(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/domains/$(DomainName)/matches",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/domains/$(DomainName)/matches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -457,17 +267,9 @@ Returns the object types for a specific domain.
 - `object_type_name`: The name of the profile object type.
 
 """
-function get_profile_object_type(
-    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -482,17 +284,9 @@ matches one of the TemplateIds, it uses the mappings from the template.
 - `template_id`: A unique identifier for the object template.
 
 """
-function get_profile_object_type_template(
-    TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_profile_object_type_template(TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/templates/$(TemplateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/templates/$(TemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -503,22 +297,13 @@ Lists all of the integrations associated to a specific URI in the AWS account.
 # Arguments
 - `uri`: The URI of the S3 bucket or any other type of data source.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: The pagination token from the previous ListAccountIntegrations API call.
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: The pagination token from the previous ListAccountIntegrations API call.
 """
-function list_account_integrations(
-    Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_account_integrations(Uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/integrations",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -526,16 +311,13 @@ end
 
 Returns a list of all the domains for an AWS account that have been created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: The pagination token from the previous ListDomain API call.
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: The pagination token from the previous ListDomain API call.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return customer_profiles("GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -546,22 +328,13 @@ Lists all of the integrations in your domain.
 # Arguments
 - `domain_name`: The unique name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: The pagination token from the previous ListIntegrations API call.
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: The pagination token from the previous ListIntegrations API call.
 """
-function list_integrations(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_integrations(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/domains/$(DomainName)/integrations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/domains/$(DomainName)/integrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -569,18 +342,13 @@ end
 
 Lists all of the template information for object types.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: The pagination token from the previous ListObjectTypeTemplates API call.
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
-function list_profile_object_type_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_profile_object_type_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return customer_profiles("GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -591,22 +359,13 @@ Lists all of the templates available within the service.
 # Arguments
 - `domain_name`: The unique name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_profile_object_types(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_profile_object_types(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/domains/$(DomainName)/object-types",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/domains/$(DomainName)/object-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -619,36 +378,15 @@ Returns a list of objects associated with a profile of a given ProfileObjectType
 - `object_type_name`: The name of the profile object type.
 - `profile_id`: The unique identifier of a customer profile.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: The pagination token from the previous call to ListProfileObjects.
-- `"object_filter"`: Applies a filter to the response to include profile objects with the
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: The pagination token from the previous call to ListProfileObjects.
+- `object_filter`: Applies a filter to the response to include profile objects with the
   specified index values. This filter is only supported for ObjectTypeName _asset and _case.
 """
-function list_profile_objects(
-    DomainName,
-    ObjectTypeName,
-    ProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_profile_objects(DomainName, ObjectTypeName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/objects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ObjectTypeName" => ObjectTypeName, "ProfileId" => ProfileId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -661,17 +399,9 @@ Customer Profiles, domains, profile object types, and integrations can be tagged
 - `resource_arn`: The ARN of the resource for which you want to view tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -695,37 +425,15 @@ merged, they cannot be separated (unmerged).
 - `main_profile_id`: The identifier of the profile to be taken.
 - `profile_ids_to_be_merged`: The identifier of the profile to be merged into MainProfileId.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"field_source_profile_ids"`: The identifiers of the fields in the profile that has the
+# Keyword Parameters
+- `field_source_profile_ids`: The identifiers of the fields in the profile that has the
   information you want to apply to the merge. For example, say you want to merge EmailAddress
   from Profile1 into MainProfile. This would be the identifier of the EmailAddress field in
   Profile1.
 """
-function merge_profiles(
-    DomainName,
-    MainProfileId,
-    ProfileIdsToBeMerged;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function merge_profiles(DomainName, MainProfileId, ProfileIdsToBeMerged; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/objects/merge",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MainProfileId" => MainProfileId,
-                    "ProfileIdsToBeMerged" => ProfileIdsToBeMerged,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/merge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MainProfileId"=>MainProfileId, "ProfileIdsToBeMerged"=>ProfileIdsToBeMerged), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -738,26 +446,15 @@ AppFlow and Amazon Connect. An integration can belong to only one domain.
 - `domain_name`: The unique name of the domain.
 - `object_type_name`: The name of the profile object type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"flow_definition"`: The configuration that controls how Customer Profiles retrieves data
+# Keyword Parameters
+- `flow_definition`: The configuration that controls how Customer Profiles retrieves data
   from the source.
-- `"tags"`: The tags used to organize, track, or control access for this resource.
-- `"uri"`: The URI of the S3 bucket or any other type of data source.
+- `tags`: The tags used to organize, track, or control access for this resource.
+- `uri`: The URI of the S3 bucket or any other type of data source.
 """
-function put_integration(
-    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_integration(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "PUT",
-        "/domains/$(DomainName)/integrations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ObjectTypeName" => ObjectTypeName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -778,27 +475,9 @@ ObjectType, which can be created using PutProfileObjectType.
 - `object_type_name`: The name of the profile object type.
 
 """
-function put_profile_object(
-    DomainName,
-    Object,
-    ObjectTypeName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_profile_object(DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "PUT",
-        "/domains/$(DomainName)/profiles/objects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Object" => Object, "ObjectTypeName" => ObjectTypeName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -811,38 +490,23 @@ Defines a ProfileObjectType.
 - `domain_name`: The unique name of the domain.
 - `object_type_name`: The name of the profile object type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_profile_creation"`: Indicates whether a profile should be created when data is
+# Keyword Parameters
+- `allow_profile_creation`: Indicates whether a profile should be created when data is
   received if one doesn’t exist for an object of this type. The default is FALSE. If the
   AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard
   profile and associate this object with the profile. If it is set to TRUE, and if no match
   is found, then the service creates a new standard profile.
-- `"encryption_key"`: The customer-provided key to encrypt the profile object that will be
+- `encryption_key`: The customer-provided key to encrypt the profile object that will be
   created in this profile object type.
-- `"expiration_days"`: The number of days until the data in the object expires.
-- `"fields"`: A map of the name and ObjectType field.
-- `"keys"`: A list of unique keys that can be used to map data to the profile.
-- `"tags"`: The tags used to organize, track, or control access for this resource.
-- `"template_id"`: A unique identifier for the object template.
+- `expiration_days`: The number of days until the data in the object expires.
+- `fields`: A map of the name and ObjectType field.
+- `keys`: A list of unique keys that can be used to map data to the profile.
+- `tags`: The tags used to organize, track, or control access for this resource.
+- `template_id`: A unique identifier for the object template.
 """
-function put_profile_object_type(
-    Description,
-    DomainName,
-    ObjectTypeName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_profile_object_type(Description, DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "PUT",
-        "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Description" => Description), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -859,30 +523,13 @@ address, account number, or a custom defined index.
   _zendeskExternalId, _serviceNowSystemId.
 - `values`: A list of key values.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of objects returned per page.
-- `"next_token"`: The pagination token from the previous SearchProfiles API call.
+# Keyword Parameters
+- `max_results`: The maximum number of objects returned per page.
+- `next_token`: The pagination token from the previous SearchProfiles API call.
 """
-function search_profiles(
-    DomainName,
-    KeyName,
-    Values;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function search_profiles(DomainName, KeyName, Values; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/domains/$(DomainName)/profiles/search",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("KeyName" => KeyName, "Values" => Values), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -904,17 +551,9 @@ value for that tag. You can associate as many as 50 tags with a resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -928,17 +567,9 @@ Connect Customer Profiles, domains, profile object types, and integrations can b
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -951,36 +582,27 @@ CreateDomain to enable identity resolution: set Matching to true.
 # Arguments
 - `domain_name`: The unique name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dead_letter_queue_url"`: The URL of the SQS dead letter queue, which is used for
+# Keyword Parameters
+- `dead_letter_queue_url`: The URL of the SQS dead letter queue, which is used for
   reporting errors associated with ingesting data from third party applications. If specified
   as an empty string, it will clear any existing value. You must set up a policy on the
   DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to
   send messages to the DeadLetterQueue.
-- `"default_encryption_key"`: The default encryption key, which is an AWS managed key, is
+- `default_encryption_key`: The default encryption key, which is an AWS managed key, is
   used when no specific type of encryption key is specified. It is used to encrypt all data
   before it is placed in permanent or semi-permanent storage. If specified as an empty
   string, it will clear any existing value.
-- `"default_expiration_days"`: The default number of days until the data within the domain
+- `default_expiration_days`: The default number of days until the data within the domain
   expires.
-- `"matching"`: The process of matching duplicate profiles. If Matching = true, Amazon
+- `matching`: The process of matching duplicate profiles. If Matching = true, Amazon
   Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to
   detect duplicate profiles in your domains. After that batch process completes, use the
   GetMatches API to return and review the results.
-- `"tags"`: The tags used to organize, track, or control access for this resource.
+- `tags`: The tags used to organize, track, or control access for this resource.
 """
-function update_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "PUT",
-        "/domains/$(DomainName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("PUT", "/domains/$(DomainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -995,45 +617,33 @@ already there will be kept.
 - `domain_name`: The unique name of the domain.
 - `profile_id`: The unique identifier of a customer profile.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_number"`: A unique account number that you have given to the customer.
-- `"additional_information"`: Any additional information relevant to the customer’s
-  profile.
-- `"address"`: A generic address associated with the customer that is not mailing,
-  shipping, or billing.
-- `"attributes"`: A key value pair of attributes of a customer profile.
-- `"billing_address"`: The customer’s billing address.
-- `"birth_date"`: The customer’s birth date.
-- `"business_email_address"`: The customer’s business email address.
-- `"business_name"`: The name of the customer’s business.
-- `"business_phone_number"`: The customer’s business phone number.
-- `"email_address"`: The customer’s email address, which has not been specified as a
+# Keyword Parameters
+- `account_number`: A unique account number that you have given to the customer.
+- `additional_information`: Any additional information relevant to the customer’s profile.
+- `address`: A generic address associated with the customer that is not mailing, shipping,
+  or billing.
+- `attributes`: A key value pair of attributes of a customer profile.
+- `billing_address`: The customer’s billing address.
+- `birth_date`: The customer’s birth date.
+- `business_email_address`: The customer’s business email address.
+- `business_name`: The name of the customer’s business.
+- `business_phone_number`: The customer’s business phone number.
+- `email_address`: The customer’s email address, which has not been specified as a
   personal or business address.
-- `"first_name"`: The customer’s first name.
-- `"gender"`: The gender with which the customer identifies.
-- `"home_phone_number"`: The customer’s home phone number.
-- `"last_name"`: The customer’s last name.
-- `"mailing_address"`: The customer’s mailing address.
-- `"middle_name"`: The customer’s middle name.
-- `"mobile_phone_number"`: The customer’s mobile phone number.
-- `"party_type"`: The type of profile used to describe the customer.
-- `"personal_email_address"`: The customer’s personal email address.
-- `"phone_number"`: The customer’s phone number, which has not been specified as a
-  mobile, home, or business number.
-- `"shipping_address"`: The customer’s shipping address.
+- `first_name`: The customer’s first name.
+- `gender`: The gender with which the customer identifies.
+- `home_phone_number`: The customer’s home phone number.
+- `last_name`: The customer’s last name.
+- `mailing_address`: The customer’s mailing address.
+- `middle_name`: The customer’s middle name.
+- `mobile_phone_number`: The customer’s mobile phone number.
+- `party_type`: The type of profile used to describe the customer.
+- `personal_email_address`: The customer’s personal email address.
+- `phone_number`: The customer’s phone number, which has not been specified as a mobile,
+  home, or business number.
+- `shipping_address`: The customer’s shipping address.
 """
-function update_profile(
-    DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return customer_profiles(
-        "PUT",
-        "/domains/$(DomainName)/profiles",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

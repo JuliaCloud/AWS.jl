@@ -4,63 +4,8 @@ using AWS.AWSServices: service_catalog
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "source_portfolio_id" => "SourcePortfolioId",
-    "provider_name" => "ProviderName",
-    "active" => "Active",
-    "remove_tags" => "RemoveTags",
-    "path_name" => "PathName",
-    "provision_product_id" => "ProvisionProductId",
-    "account_id" => "AccountId",
-    "sort_order" => "SortOrder",
-    "value" => "Value",
-    "retain_physical_resources" => "RetainPhysicalResources",
-    "output_keys" => "OutputKeys",
-    "product_source" => "ProductSource",
-    "target_product_name" => "TargetProductName",
-    "provisioning_artifact_id" => "ProvisioningArtifactId",
-    "provisioning_preferences" => "ProvisioningPreferences",
-    "portfolio_id" => "PortfolioId",
-    "page_size" => "PageSize",
-    "share_tag_options" => "ShareTagOptions",
-    "name" => "Name",
-    "support_description" => "SupportDescription",
-    "copy_options" => "CopyOptions",
-    "parameters" => "Parameters",
-    "owner" => "Owner",
-    "support_email" => "SupportEmail",
-    "verbose" => "Verbose",
-    "definition" => "Definition",
-    "support_url" => "SupportUrl",
-    "product_name" => "ProductName",
-    "organization_parent_id" => "OrganizationParentId",
-    "portfolio_share_type" => "PortfolioShareType",
-    "id" => "Id",
-    "organization_node" => "OrganizationNode",
-    "source_provisioning_artifact_identifiers" => "SourceProvisioningArtifactIdentifiers",
-    "provisioning_artifact_name" => "ProvisioningArtifactName",
-    "notification_arns" => "NotificationArns",
-    "ignore_errors" => "IgnoreErrors",
-    "search_filter" => "SearchFilter",
-    "access_level_filter" => "AccessLevelFilter",
-    "display_name" => "DisplayName",
-    "tags" => "Tags",
-    "accept_language" => "AcceptLanguage",
-    "target_product_id" => "TargetProductId",
-    "resource_type" => "ResourceType",
-    "page_token" => "PageToken",
-    "path_id" => "PathId",
-    "provisioning_parameters" => "ProvisioningParameters",
-    "product_id" => "ProductId",
-    "provisioned_product_name" => "ProvisionedProductName",
-    "sort_by" => "SortBy",
-    "description" => "Description",
-    "provisioned_product_id" => "ProvisionedProductId",
-    "filters" => "Filters",
-    "guidance" => "Guidance",
-    "distributor" => "Distributor",
-    "add_tags" => "AddTags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("accept_language" => "AcceptLanguage", "page_size" => "PageSize", "page_token" => "PageToken", "portfolio_share_type" => "PortfolioShareType", "description" => "Description", "notification_arns" => "NotificationArns", "path_id" => "PathId", "provisioning_parameters" => "ProvisioningParameters", "tags" => "Tags", "id" => "Id", "name" => "Name", "source_portfolio_id" => "SourcePortfolioId", "distributor" => "Distributor", "support_description" => "SupportDescription", "support_email" => "SupportEmail", "support_url" => "SupportUrl", "account_id" => "AccountId", "organization_node" => "OrganizationNode", "share_tag_options" => "ShareTagOptions", "active" => "Active", "value" => "Value", "copy_options" => "CopyOptions", "source_provisioning_artifact_identifiers" => "SourceProvisioningArtifactIdentifiers", "target_product_id" => "TargetProductId", "target_product_name" => "TargetProductName", "path_name" => "PathName", "product_id" => "ProductId", "product_name" => "ProductName", "provisioning_artifact_id" => "ProvisioningArtifactId", "provisioning_artifact_name" => "ProvisioningArtifactName", "access_level_filter" => "AccessLevelFilter", "provision_product_id" => "ProvisionProductId", "output_keys" => "OutputKeys", "provisioned_product_id" => "ProvisionedProductId", "provisioned_product_name" => "ProvisionedProductName", "provisioning_preferences" => "ProvisioningPreferences", "filters" => "Filters", "ignore_errors" => "IgnoreErrors", "retain_physical_resources" => "RetainPhysicalResources", "sort_by" => "SortBy", "sort_order" => "SortOrder", "add_tags" => "AddTags", "display_name" => "DisplayName", "provider_name" => "ProviderName", "remove_tags" => "RemoveTags", "search_filter" => "SearchFilter", "definition" => "Definition", "parameters" => "Parameters", "verbose" => "Verbose", "resource_type" => "ResourceType", "owner" => "Owner", "portfolio_id" => "PortfolioId", "product_source" => "ProductSource", "organization_parent_id" => "OrganizationParentId", "guidance" => "Guidance")
 
 """
     accept_portfolio_share(portfolio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -70,29 +15,19 @@ Accepts an offer to share the specified portfolio.
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"portfolio_share_type"`: The type of shared portfolios to accept. The default is to
-  accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the
-  management account of your organization.    IMPORTED - Accept imported portfolios.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `portfolio_share_type`: The type of shared portfolios to accept. The default is to accept
+  imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the management
+  account of your organization.    IMPORTED - Accept imported portfolios.
   AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws
   servicecatalog accept-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\"
   --portfolio-share-type AWS_ORGANIZATIONS
 """
-function accept_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "AcceptPortfolioShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("AcceptPortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -105,22 +40,9 @@ Associates the specified budget with the specified resource.
 - `resource_id`:  The resource identifier. Either a portfolio-id or a product-id.
 
 """
-function associate_budget_with_resource(
-    BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_budget_with_resource(BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "AssociateBudgetWithResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("BudgetName" => BudgetName, "ResourceId" => ResourceId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("AssociateBudgetWithResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -133,35 +55,13 @@ Associates the specified principal ARN with the specified portfolio.
 - `principal_arn`: The ARN of the principal (IAM user, role, or group).
 - `principal_type`: The principal type. The supported value is IAM.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function associate_principal_with_portfolio(
-    PortfolioId,
-    PrincipalARN,
-    PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_principal_with_portfolio(PortfolioId, PrincipalARN, PrincipalType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "AssociatePrincipalWithPortfolio",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PortfolioId" => PortfolioId,
-                    "PrincipalARN" => PrincipalARN,
-                    "PrincipalType" => PrincipalType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("AssociatePrincipalWithPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN, "PrincipalType"=>PrincipalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -174,28 +74,14 @@ authorized to invoke this command.
 - `portfolio_id`: The portfolio identifier.
 - `product_id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"source_portfolio_id"`: The identifier of the source portfolio.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `source_portfolio_id`: The identifier of the source portfolio.
 """
-function associate_product_with_portfolio(
-    PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_product_with_portfolio(PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "AssociateProductWithPortfolio",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PortfolioId" => PortfolioId, "ProductId" => ProductId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("AssociateProductWithPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -209,35 +95,13 @@ Associates a self-service action with a provisioning artifact.
   pa-4abcdjnxjj6ne.
 - `service_action_id`: The self-service action identifier. For example, act-fs7abcd89wxyz.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function associate_service_action_with_provisioning_artifact(
-    ProductId,
-    ProvisioningArtifactId,
-    ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_service_action_with_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "AssociateServiceActionWithProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductId" => ProductId,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                    "ServiceActionId" => ServiceActionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("AssociateServiceActionWithProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -250,22 +114,9 @@ Associate the specified TagOption with the specified portfolio or product.
 - `tag_option_id`: The TagOption identifier.
 
 """
-function associate_tag_option_with_resource(
-    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_tag_option_with_resource(ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "AssociateTagOptionWithResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagOptionId" => TagOptionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("AssociateTagOptionWithResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -277,27 +128,13 @@ Associates multiple self-service actions with provisioning artifacts.
 - `service_action_associations`: One or more associations, each consisting of the Action
   ID, the Product ID, and the Provisioning Artifact ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function batch_associate_service_action_with_provisioning_artifact(
-    ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_associate_service_action_with_provisioning_artifact(ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "BatchAssociateServiceActionWithProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServiceActionAssociations" => ServiceActionAssociations),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("BatchAssociateServiceActionWithProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -309,27 +146,13 @@ Disassociates a batch of self-service actions from the specified provisioning ar
 - `service_action_associations`: One or more associations, each consisting of the Action
   ID, the Product ID, and the Provisioning Artifact ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function batch_disassociate_service_action_from_provisioning_artifact(
-    ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_disassociate_service_action_from_provisioning_artifact(ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "BatchDisassociateServiceActionFromProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServiceActionAssociations" => ServiceActionAssociations),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("BatchDisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -346,42 +169,22 @@ progress of the operation, use DescribeCopyProductStatus.
   each repeated request.
 - `source_product_arn`: The Amazon Resource Name (ARN) of the source product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"copy_options"`: The copy options. If the value is CopyTags, the tags from the source
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `copy_options`: The copy options. If the value is CopyTags, the tags from the source
   product are copied to the target product.
-- `"source_provisioning_artifact_identifiers"`: The identifiers of the provisioning
-  artifacts (also known as versions) of the product to copy. By default, all provisioning
-  artifacts are copied.
-- `"target_product_id"`: The identifier of the target product. By default, a new product is
+- `source_provisioning_artifact_identifiers`: The identifiers of the provisioning artifacts
+  (also known as versions) of the product to copy. By default, all provisioning artifacts are
+  copied.
+- `target_product_id`: The identifier of the target product. By default, a new product is
   created.
-- `"target_product_name"`: A name for the target product. The default is the name of the
+- `target_product_name`: A name for the target product. The default is the name of the
   source product.
 """
-function copy_product(
-    IdempotencyToken,
-    SourceProductArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_product(IdempotencyToken, SourceProductArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CopyProduct",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "SourceProductArn" => SourceProductArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CopyProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "SourceProductArn"=>SourceProductArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -421,40 +224,14 @@ Creates a constraint. A delegated admin is authorized to invoke this command.
 - `type`: The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE
   STACKSET     TEMPLATE
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"description"`: The description of the constraint.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `description`: The description of the constraint.
 """
-function create_constraint(
-    IdempotencyToken,
-    Parameters,
-    PortfolioId,
-    ProductId,
-    Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_constraint(IdempotencyToken, Parameters, PortfolioId, ProductId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreateConstraint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "Parameters" => Parameters,
-                    "PortfolioId" => PortfolioId,
-                    "ProductId" => ProductId,
-                    "Type" => Type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreateConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "PortfolioId"=>PortfolioId, "ProductId"=>ProductId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -469,37 +246,15 @@ Creates a portfolio. A delegated admin is authorized to invoke this command.
   each repeated request.
 - `provider_name`: The name of the portfolio provider.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"description"`: The description of the portfolio.
-- `"tags"`: One or more tags.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `description`: The description of the portfolio.
+- `tags`: One or more tags.
 """
-function create_portfolio(
-    DisplayName,
-    IdempotencyToken,
-    ProviderName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_portfolio(DisplayName, IdempotencyToken, ProviderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreatePortfolio",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DisplayName" => DisplayName,
-                    "IdempotencyToken" => IdempotencyToken,
-                    "ProviderName" => ProviderName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName, "IdempotencyToken"=>IdempotencyToken, "ProviderName"=>ProviderName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -518,31 +273,21 @@ error. To update an existing share, you must use the  UpdatePortfolioShare API i
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"account_id"`: The AWS account ID. For example, 123456789012.
-- `"organization_node"`: The organization node to whom you are going to share. If
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `account_id`: The AWS account ID. For example, 123456789012.
+- `organization_node`: The organization node to whom you are going to share. If
   OrganizationNode is passed in, PortfolioShare will be created for the node an
   ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken
   will be returned in the output in order for the administrator to monitor the status of the
   PortfolioShare creation process.
-- `"share_tag_options"`: Enables or disables TagOptions  sharing when creating the
-  portfolio share. If this flag is not provided, TagOptions sharing is disabled.
+- `share_tag_options`: Enables or disables TagOptions  sharing when creating the portfolio
+  share. If this flag is not provided, TagOptions sharing is disabled.
 """
-function create_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreatePortfolioShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -562,46 +307,20 @@ source in the information data section.
 - `product_type`: The type of product.
 - `provisioning_artifact_parameters`: The configuration of the provisioning artifact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"description"`: The description of the product.
-- `"distributor"`: The distributor of the product.
-- `"support_description"`: The support information about the product.
-- `"support_email"`: The contact email for product support.
-- `"support_url"`: The contact URL for product support.  ^https?:/// / is the pattern used
-  to validate SupportUrl.
-- `"tags"`: One or more tags.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `description`: The description of the product.
+- `distributor`: The distributor of the product.
+- `support_description`: The support information about the product.
+- `support_email`: The contact email for product support.
+- `support_url`: The contact URL for product support.  ^https?:/// / is the pattern used to
+  validate SupportUrl.
+- `tags`: One or more tags.
 """
-function create_product(
-    IdempotencyToken,
-    Name,
-    Owner,
-    ProductType,
-    ProvisioningArtifactParameters;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_product(IdempotencyToken, Name, Owner, ProductType, ProvisioningArtifactParameters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreateProduct",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "Name" => Name,
-                    "Owner" => Owner,
-                    "ProductType" => ProductType,
-                    "ProvisioningArtifactParameters" => ProvisioningArtifactParameters,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreateProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name, "Owner"=>Owner, "ProductType"=>ProductType, "ProvisioningArtifactParameters"=>ProvisioningArtifactParameters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -625,51 +344,23 @@ provisioned product, use ExecuteProvisionedProductPlan.
   must be unique for the AWS account and cannot be updated after the product is provisioned.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"notification_arns"`: Passed to CloudFormation. The SNS topic ARNs to which to publish
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `notification_arns`: Passed to CloudFormation. The SNS topic ARNs to which to publish
   stack-related events.
-- `"path_id"`: The path identifier of the product. This value is optional if the product
-  has a default path, and required if the product has more than one path. To list the paths
-  for a product, use ListLaunchPaths.
-- `"provisioning_parameters"`: Parameters specified by the administrator that are required
+- `path_id`: The path identifier of the product. This value is optional if the product has
+  a default path, and required if the product has more than one path. To list the paths for a
+  product, use ListLaunchPaths.
+- `provisioning_parameters`: Parameters specified by the administrator that are required
   for provisioning the product.
-- `"tags"`: One or more tags. If the plan is for an existing provisioned product, the
-  product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to
-  ALLOWED to allow tag updates.
+- `tags`: One or more tags. If the plan is for an existing provisioned product, the product
+  must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED
+  to allow tag updates.
 """
-function create_provisioned_product_plan(
-    IdempotencyToken,
-    PlanName,
-    PlanType,
-    ProductId,
-    ProvisionedProductName,
-    ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_provisioned_product_plan(IdempotencyToken, PlanName, PlanType, ProductId, ProvisionedProductName, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreateProvisionedProductPlan",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "PlanName" => PlanName,
-                    "PlanType" => PlanType,
-                    "ProductId" => ProductId,
-                    "ProvisionedProductName" => ProvisionedProductName,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreateProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanName"=>PlanName, "PlanType"=>PlanType, "ProductId"=>ProductId, "ProvisionedProductName"=>ProvisionedProductName, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -688,35 +379,13 @@ source in the information data section.
 - `parameters`: The configuration for the provisioning artifact.
 - `product_id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function create_provisioning_artifact(
-    IdempotencyToken,
-    Parameters,
-    ProductId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_provisioning_artifact(IdempotencyToken, Parameters, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreateProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "Parameters" => Parameters,
-                    "ProductId" => ProductId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreateProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -741,38 +410,14 @@ Creates a self-service action.
   each repeated request.
 - `name`: The self-service action name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"description"`: The self-service action description.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `description`: The self-service action description.
 """
-function create_service_action(
-    Definition,
-    DefinitionType,
-    IdempotencyToken,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_service_action(Definition, DefinitionType, IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreateServiceAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Definition" => Definition,
-                    "DefinitionType" => DefinitionType,
-                    "IdempotencyToken" => IdempotencyToken,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreateServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Definition"=>Definition, "DefinitionType"=>DefinitionType, "IdempotencyToken"=>IdempotencyToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -785,18 +430,9 @@ Creates a TagOption.
 - `value`: The TagOption value.
 
 """
-function create_tag_option(
-    Key, Value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_tag_option(Key, Value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "CreateTagOption",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Key" => Key, "Value" => Value), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("CreateTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "Value"=>Value), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -807,19 +443,13 @@ Deletes the specified constraint. A delegated admin is authorized to invoke this
 # Arguments
 - `id`: The identifier of the constraint.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
 function delete_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeleteConstraint",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeleteConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -832,19 +462,13 @@ authorized to invoke this command.
 # Arguments
 - `id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
 function delete_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeletePortfolio",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeletePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -858,25 +482,15 @@ de-registered, portfolio shares created from that account are removed.
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"account_id"`: The AWS account ID.
-- `"organization_node"`: The organization node to whom you are going to stop sharing.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `account_id`: The AWS account ID.
+- `organization_node`: The organization node to whom you are going to stop sharing.
 """
-function delete_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeletePortfolioShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeletePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -888,19 +502,13 @@ associated with a portfolio. A delegated admin is authorized to invoke this comm
 # Arguments
 - `id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
 function delete_product(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeleteProduct",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeleteProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -911,23 +519,15 @@ Deletes the specified plan.
 # Arguments
 - `plan_id`: The plan identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"ignore_errors"`: If set to true, AWS Service Catalog stops managing the specified
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `ignore_errors`: If set to true, AWS Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
 """
-function delete_provisioned_product_plan(
-    PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_provisioned_product_plan(PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeleteProvisionedProductPlan",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PlanId" => PlanId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeleteProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlanId"=>PlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -942,33 +542,13 @@ product must have at least one provisioning artifact.
 - `product_id`: The product identifier.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function delete_provisioning_artifact(
-    ProductId,
-    ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeleteProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductId" => ProductId,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeleteProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -979,21 +559,13 @@ Deletes a self-service action.
 # Arguments
 - `id`: The self-service action identifier. For example, act-fs7abcd89wxyz.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function delete_service_action(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeleteServiceAction",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeleteServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1008,12 +580,7 @@ product or portfolio.
 """
 function delete_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DeleteTagOption",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DeleteTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1024,21 +591,13 @@ Gets information about the specified constraint.
 # Arguments
 - `id`: The identifier of the constraint.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function describe_constraint(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeConstraint",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1050,25 +609,13 @@ Gets the status of the specified copy product operation.
 - `copy_product_token`: The token for the copy product operation. This token is returned by
   CopyProduct.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function describe_copy_product_status(
-    CopyProductToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_copy_product_status(CopyProductToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeCopyProductStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CopyProductToken" => CopyProductToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeCopyProductStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CopyProductToken"=>CopyProductToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1080,21 +627,13 @@ this command.
 # Arguments
 - `id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function describe_portfolio(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribePortfolio",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1108,22 +647,9 @@ the management account in the organization or by a delegated admin.
   returned either by CreatePortfolioShare or by DeletePortfolioShare.
 
 """
-function describe_portfolio_share_status(
-    PortfolioShareToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_portfolio_share_status(PortfolioShareToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribePortfolioShareStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PortfolioShareToken" => PortfolioShareToken),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribePortfolioShareStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioShareToken"=>PortfolioShareToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1144,28 +670,14 @@ both required.
   Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a
   share to an account in the organization.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function describe_portfolio_shares(
-    PortfolioId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_portfolio_shares(PortfolioId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribePortfolioShares",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PortfolioId" => PortfolioId, "Type" => Type),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribePortfolioShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1173,18 +685,15 @@ end
 
 Gets information about the specified product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"id"`: The product identifier.
-- `"name"`: The product name.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `id`: The product identifier.
+- `name`: The product name.
 """
 function describe_product(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("DescribeProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1193,28 +702,20 @@ end
 Gets information about the specified product. This operation is run with administrator
 access.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"id"`: The product identifier.
-- `"name"`: The product name.
-- `"source_portfolio_id"`: The unique identifier of the shared portfolio that the specified
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `id`: The product identifier.
+- `name`: The product name.
+- `source_portfolio_id`: The unique identifier of the shared portfolio that the specified
   product is associated with. You can provide this parameter to retrieve the shared
   TagOptions associated with the product. If this parameter is provided and if TagOptions
   sharing is enabled in the portfolio share, the API returns both local and shared TagOptions
   associated with the product. Otherwise only local TagOptions will be returned.
 """
-function describe_product_as_admin(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_product_as_admin(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProductAsAdmin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeProductAsAdmin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1225,21 +726,13 @@ Gets information about the specified product.
 # Arguments
 - `id`: The product view identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function describe_product_view(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_product_view(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProductView",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeProductView", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1247,27 +740,19 @@ end
 
 Gets information about the specified provisioned product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"id"`: The provisioned product identifier. You must provide the name or ID, but not
-  both. If you do not provide a name or ID, or you provide both name and ID, an
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `id`: The provisioned product identifier. You must provide the name or ID, but not both.
+  If you do not provide a name or ID, or you provide both name and ID, an
   InvalidParametersException will occur.
-- `"name"`: The name of the provisioned product. You must provide the name or ID, but not
+- `name`: The name of the provisioned product. You must provide the name or ID, but not
   both. If you do not provide a name or ID, or you provide both name and ID, an
   InvalidParametersException will occur.
 """
-function describe_provisioned_product(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_provisioned_product(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProvisionedProduct",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeProvisionedProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1278,24 +763,16 @@ Gets information about the resource changes for the specified plan.
 # Arguments
 - `plan_id`: The plan identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function describe_provisioned_product_plan(
-    PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_provisioned_product_plan(PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProvisionedProductPlan",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PlanId" => PlanId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlanId"=>PlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1304,26 +781,18 @@ end
 Gets information about the specified provisioning artifact (also known as a version) for
 the specified product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"product_id"`: The product identifier.
-- `"product_name"`: The product name.
-- `"provisioning_artifact_id"`: The identifier of the provisioning artifact.
-- `"provisioning_artifact_name"`: The provisioning artifact name.
-- `"verbose"`: Indicates whether a verbose level of detail is enabled.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `product_id`: The product identifier.
+- `product_name`: The product name.
+- `provisioning_artifact_id`: The identifier of the provisioning artifact.
+- `provisioning_artifact_name`: The provisioning artifact name.
+- `verbose`: Indicates whether a verbose level of detail is enabled.
 """
-function describe_provisioning_artifact(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_provisioning_artifact(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProvisioningArtifact",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeProvisioningArtifact", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1337,32 +806,24 @@ not include conflicted TagOption keys as tags, or this causes the error \"Parame
 validation failed: Missing required parameter in Tags[N]:Value\". Tag the provisioned
 product with the value sc-tagoption-conflict-portfolioId-productId.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"path_id"`: The path identifier of the product. This value is optional if the product
-  has a default path, and required if the product has more than one path. To list the paths
-  for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
-- `"path_name"`: The name of the path. You must provide the name or ID, but not both.
-- `"product_id"`: The product identifier. You must provide the product name or ID, but not
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `path_id`: The path identifier of the product. This value is optional if the product has
+  a default path, and required if the product has more than one path. To list the paths for a
+  product, use ListLaunchPaths. You must provide the name or ID, but not both.
+- `path_name`: The name of the path. You must provide the name or ID, but not both.
+- `product_id`: The product identifier. You must provide the product name or ID, but not
   both.
-- `"product_name"`: The name of the product. You must provide the name or ID, but not both.
-- `"provisioning_artifact_id"`: The identifier of the provisioning artifact. You must
-  provide the name or ID, but not both.
-- `"provisioning_artifact_name"`: The name of the provisioning artifact. You must provide
+- `product_name`: The name of the product. You must provide the name or ID, but not both.
+- `provisioning_artifact_id`: The identifier of the provisioning artifact. You must provide
   the name or ID, but not both.
+- `provisioning_artifact_name`: The name of the provisioning artifact. You must provide the
+  name or ID, but not both.
 """
-function describe_provisioning_parameters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_provisioning_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeProvisioningParameters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeProvisioningParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1380,22 +841,16 @@ owner.
 - `id`: The record identifier of the provisioned product. This identifier is returned by
   the request operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
 function describe_record(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeRecord",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1406,21 +861,13 @@ Describes a self-service action.
 # Arguments
 - `id`: The self-service action identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function describe_service_action(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeServiceAction",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1433,33 +880,13 @@ product and returns a map of the results to the user.
 - `provisioned_product_id`: The identifier of the provisioned product.
 - `service_action_id`: The self-service action identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function describe_service_action_execution_parameters(
-    ProvisionedProductId,
-    ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_service_action_execution_parameters(ProvisionedProductId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeServiceActionExecutionParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProvisionedProductId" => ProvisionedProductId,
-                    "ServiceActionId" => ServiceActionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeServiceActionExecutionParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1471,16 +898,9 @@ Gets information about the specified TagOption.
 - `id`: The TagOption identifier.
 
 """
-function describe_tag_option(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DescribeTagOption",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DescribeTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1495,16 +915,9 @@ the organization. Note that a delegated administrator is not authorized to invok
 DisableAWSOrganizationsAccess.
 
 """
-function disable_awsorganizations_access(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DisableAWSOrganizationsAccess",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DisableAWSOrganizationsAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1518,22 +931,9 @@ Disassociates the specified budget from the specified resource.
   portfolio-id or a product-id.
 
 """
-function disassociate_budget_from_resource(
-    BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_budget_from_resource(BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DisassociateBudgetFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("BudgetName" => BudgetName, "ResourceId" => ResourceId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DisassociateBudgetFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1545,29 +945,13 @@ Disassociates a previously associated principal ARN from a specified portfolio.
 - `portfolio_id`: The portfolio identifier.
 - `principal_arn`: The ARN of the principal (IAM user, role, or group).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function disassociate_principal_from_portfolio(
-    PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_principal_from_portfolio(PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DisassociatePrincipalFromPortfolio",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PortfolioId" => PortfolioId, "PrincipalARN" => PrincipalARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DisassociatePrincipalFromPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1580,27 +964,13 @@ authorized to invoke this command.
 - `portfolio_id`: The portfolio identifier.
 - `product_id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function disassociate_product_from_portfolio(
-    PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_product_from_portfolio(PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DisassociateProductFromPortfolio",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PortfolioId" => PortfolioId, "ProductId" => ProductId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DisassociateProductFromPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1615,35 +985,13 @@ artifact.
   pa-4abcdjnxjj6ne.
 - `service_action_id`: The self-service action identifier. For example, act-fs7abcd89wxyz.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function disassociate_service_action_from_provisioning_artifact(
-    ProductId,
-    ProvisioningArtifactId,
-    ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_service_action_from_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DisassociateServiceActionFromProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductId" => ProductId,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                    "ServiceActionId" => ServiceActionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1656,22 +1004,9 @@ Disassociates the specified TagOption from the specified resource.
 - `tag_option_id`: The TagOption identifier.
 
 """
-function disassociate_tag_option_from_resource(
-    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_tag_option_from_resource(ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "DisassociateTagOptionFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagOptionId" => TagOptionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("DisassociateTagOptionFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1686,16 +1021,9 @@ any changes in your AWS Organizations structure. Note that a delegated administr
 authorized to invoke EnableAWSOrganizationsAccess.
 
 """
-function enable_awsorganizations_access(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "EnableAWSOrganizationsAccess",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("EnableAWSOrganizationsAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1709,29 +1037,13 @@ Provisions or modifies a product based on the resource changes for the specified
   each repeated request.
 - `plan_id`: The plan identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function execute_provisioned_product_plan(
-    IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function execute_provisioned_product_plan(IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ExecuteProvisionedProductPlan",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken, "PlanId" => PlanId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ExecuteProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanId"=>PlanId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1744,40 +1056,18 @@ Executes a self-service action against a provisioned product.
 - `provisioned_product_id`: The identifier of the provisioned product.
 - `service_action_id`: The self-service action identifier. For example, act-fs7abcd89wxyz.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"parameters"`: A map of all self-service action parameters and their values. If a
-  provided parameter is of a special type, such as TARGET, the provided value will override
-  the default value generated by AWS Service Catalog. If the parameters field is not
-  provided, no additional parameters are passed and default values will be used for any
-  special parameters such as TARGET.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `parameters`: A map of all self-service action parameters and their values. If a provided
+  parameter is of a special type, such as TARGET, the provided value will override the
+  default value generated by AWS Service Catalog. If the parameters field is not provided, no
+  additional parameters are passed and default values will be used for any special parameters
+  such as TARGET.
 """
-function execute_provisioned_product_service_action(
-    ExecuteToken,
-    ProvisionedProductId,
-    ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function execute_provisioned_product_service_action(ExecuteToken, ProvisionedProductId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ExecuteProvisionedProductServiceAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ExecuteToken" => ExecuteToken,
-                    "ProvisionedProductId" => ProvisionedProductId,
-                    "ServiceActionId" => ServiceActionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ExecuteProvisionedProductServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecuteToken"=>ExecuteToken, "ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1787,16 +1077,9 @@ Get the Access Status for AWS Organization portfolio share feature. This API can
 called by the management account in the organization or by a delegated admin.
 
 """
-function get_awsorganizations_access_status(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_awsorganizations_access_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "GetAWSOrganizationsAccessStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("GetAWSOrganizationsAccessStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1805,30 +1088,22 @@ end
 This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list
 of one or more output keys, and responds with the key/value pairs of those outputs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"output_keys"`: The list of keys that the API should return with their values. If none
-  are provided, the API will return all outputs of the provisioned product.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `output_keys`: The list of keys that the API should return with their values. If none are
+  provided, the API will return all outputs of the provisioned product.
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"provisioned_product_id"`: The identifier of the provisioned product that you want the
+- `provisioned_product_id`: The identifier of the provisioned product that you want the
   outputs from.
-- `"provisioned_product_name"`: The name of the provisioned product that you want the
-  outputs from.
+- `provisioned_product_name`: The name of the provisioned product that you want the outputs
+  from.
 """
-function get_provisioned_product_outputs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_provisioned_product_outputs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "GetProvisionedProductOutputs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("GetProvisionedProductOutputs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1857,39 +1132,13 @@ cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissi
   provisioned.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function import_as_provisioned_product(
-    IdempotencyToken,
-    PhysicalId,
-    ProductId,
-    ProvisionedProductName,
-    ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_as_provisioned_product(IdempotencyToken, PhysicalId, ProductId, ProvisionedProductName, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ImportAsProvisionedProduct",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "PhysicalId" => PhysicalId,
-                    "ProductId" => ProductId,
-                    "ProvisionedProductName" => ProvisionedProductName,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ImportAsProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PhysicalId"=>PhysicalId, "ProductId"=>ProductId, "ProvisionedProductName"=>ProvisionedProductName, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1897,28 +1146,20 @@ end
 
 Lists all portfolios for which sharing was accepted by this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"portfolio_share_type"`: The type of shared portfolios to list. The default is to list
+- `portfolio_share_type`: The type of shared portfolios to list. The default is to list
   imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the management
   account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED -
   List imported portfolios
 """
-function list_accepted_portfolio_shares(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_accepted_portfolio_shares(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListAcceptedPortfolioShares",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListAcceptedPortfolioShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1929,26 +1170,16 @@ Lists all the budgets associated to the specified resource.
 # Arguments
 - `resource_id`: The resource identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_budgets_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_budgets_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListBudgetsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListBudgetsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1959,27 +1190,17 @@ Lists the constraints for the specified portfolio and product.
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"product_id"`: The product identifier.
+- `product_id`: The product identifier.
 """
-function list_constraints_for_portfolio(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_constraints_for_portfolio(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListConstraintsForPortfolio",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListConstraintsForPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1992,26 +1213,16 @@ constraints put on the product.
 # Arguments
 - `product_id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_launch_paths(
-    ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_launch_paths(ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListLaunchPaths",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProductId" => ProductId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListLaunchPaths", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2028,36 +1239,16 @@ delegated admin is de-registered, they can no longer perform this operation.
   Account that has access to the portfolio within your organization.
 - `portfolio_id`: The portfolio identifier. For example, port-2abcdext3y5fk.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_organization_portfolio_access(
-    OrganizationNodeType,
-    PortfolioId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_organization_portfolio_access(OrganizationNodeType, PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListOrganizationPortfolioAccess",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OrganizationNodeType" => OrganizationNodeType,
-                    "PortfolioId" => PortfolioId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListOrganizationPortfolioAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationNodeType"=>OrganizationNodeType, "PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2070,28 +1261,18 @@ is de-registered, they can no longer perform this operation.
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"organization_parent_id"`: The ID of an organization node the portfolio is shared with.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `organization_parent_id`: The ID of an organization node the portfolio is shared with.
   All children of this node with an inherited portfolio share will be returned.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_portfolio_access(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_portfolio_access(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListPortfolioAccess",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListPortfolioAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2099,19 +1280,16 @@ end
 
 Lists all portfolios in the catalog.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
 function list_portfolios(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListPortfolios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListPortfolios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2122,26 +1300,16 @@ Lists all portfolios that the specified product is associated with.
 # Arguments
 - `product_id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_portfolios_for_product(
-    ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_portfolios_for_product(ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListPortfoliosForProduct",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProductId" => ProductId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListPortfoliosForProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2152,26 +1320,16 @@ Lists all principal ARNs associated with the specified portfolio.
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_principals_for_portfolio(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_principals_for_portfolio(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListPrincipalsForPortfolio",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListPrincipalsForPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2180,26 +1338,18 @@ end
 Lists the plans for the specified provisioned product or all plans to which the user has
 access.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"access_level_filter"`: The access level to use to obtain results. The default is User.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `access_level_filter`: The access level to use to obtain results. The default is User.
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"provision_product_id"`: The product identifier.
+- `provision_product_id`: The product identifier.
 """
-function list_provisioned_product_plans(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_provisioned_product_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListProvisionedProductPlans",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListProvisionedProductPlans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2210,23 +1360,13 @@ Lists all provisioning artifacts (also known as versions) for the specified prod
 # Arguments
 - `product_id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function list_provisioning_artifacts(
-    ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_provisioning_artifacts(ProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListProvisioningArtifacts",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProductId" => ProductId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListProvisioningArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2238,28 +1378,16 @@ action.
 # Arguments
 - `service_action_id`: The self-service action identifier. For example, act-fs7abcd89wxyz.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_provisioning_artifacts_for_service_action(
-    ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_provisioning_artifacts_for_service_action(ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListProvisioningArtifactsForServiceAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ServiceActionId" => ServiceActionId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListProvisioningArtifactsForServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionId"=>ServiceActionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2267,21 +1395,18 @@ end
 
 Lists the specified requests or all performed requests.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"access_level_filter"`: The access level to use to obtain results. The default is User.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `access_level_filter`: The access level to use to obtain results. The default is User.
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"search_filter"`: The search filter to scope the results.
+- `search_filter`: The search filter to scope the results.
 """
 function list_record_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListRecordHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListRecordHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2292,25 +1417,15 @@ Lists the resources associated with the specified TagOption.
 # Arguments
 - `tag_option_id`: The TagOption identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"resource_type"`: The resource type.    Portfolio     Product
+- `resource_type`: The resource type.    Portfolio     Product
 """
-function list_resources_for_tag_option(
-    TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resources_for_tag_option(TagOptionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListResourcesForTagOption",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TagOptionId" => TagOptionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListResourcesForTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagOptionId"=>TagOptionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2318,21 +1433,16 @@ end
 
 Lists all self-service actions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_service_actions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_service_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListServiceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListServiceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2346,36 +1456,16 @@ and Provisioning Artifact ID.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact. For example,
   pa-4abcdjnxjj6ne.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_service_actions_for_provisioning_artifact(
-    ProductId,
-    ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_service_actions_for_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListServiceActionsForProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductId" => ProductId,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListServiceActionsForProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2388,30 +1478,16 @@ associated with a specific AWS account name or region.
 # Arguments
 - `provisioned_product_id`: The identifier of the provisioned product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_stack_instances_for_provisioned_product(
-    ProvisionedProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_stack_instances_for_provisioned_product(ProvisionedProductId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListStackInstancesForProvisionedProduct",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ProvisionedProductId" => ProvisionedProductId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ListStackInstancesForProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2419,19 +1495,16 @@ end
 
 Lists the specified TagOptions or all TagOptions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The search filters. If no search filters are specified, the output includes
+# Keyword Parameters
+- `filters`: The search filters. If no search filters are specified, the output includes
   all TagOptions.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
 function list_tag_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ListTagOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListTagOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2449,50 +1522,30 @@ error \"Parameter validation failed: Missing required parameter in Tags[N]:Value
 - `provisioned_product_name`: A user-friendly name for the provisioned product. This value
   must be unique for the AWS account and cannot be updated after the product is provisioned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"notification_arns"`: Passed to CloudFormation. The SNS topic ARNs to which to publish
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `notification_arns`: Passed to CloudFormation. The SNS topic ARNs to which to publish
   stack-related events.
-- `"path_id"`: The path identifier of the product. This value is optional if the product
-  has a default path, and required if the product has more than one path. To list the paths
-  for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
-- `"path_name"`: The name of the path. You must provide the name or ID, but not both.
-- `"product_id"`: The product identifier. You must provide the name or ID, but not both.
-- `"product_name"`: The name of the product. You must provide the name or ID, but not both.
-- `"provisioning_artifact_id"`: The identifier of the provisioning artifact. You must
-  provide the name or ID, but not both.
-- `"provisioning_artifact_name"`: The name of the provisioning artifact. You must provide
+- `path_id`: The path identifier of the product. This value is optional if the product has
+  a default path, and required if the product has more than one path. To list the paths for a
+  product, use ListLaunchPaths. You must provide the name or ID, but not both.
+- `path_name`: The name of the path. You must provide the name or ID, but not both.
+- `product_id`: The product identifier. You must provide the name or ID, but not both.
+- `product_name`: The name of the product. You must provide the name or ID, but not both.
+- `provisioning_artifact_id`: The identifier of the provisioning artifact. You must provide
   the name or ID, but not both.
-- `"provisioning_parameters"`: Parameters specified by the administrator that are required
+- `provisioning_artifact_name`: The name of the provisioning artifact. You must provide the
+  name or ID, but not both.
+- `provisioning_parameters`: Parameters specified by the administrator that are required
   for provisioning the product.
-- `"provisioning_preferences"`: An object that contains information about the provisioning
+- `provisioning_preferences`: An object that contains information about the provisioning
   preferences for a stack set.
-- `"tags"`: One or more tags.
+- `tags`: One or more tags.
 """
-function provision_product(
-    ProvisionToken,
-    ProvisionedProductName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function provision_product(ProvisionToken, ProvisionedProductName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ProvisionProduct",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProvisionToken" => ProvisionToken,
-                    "ProvisionedProductName" => ProvisionedProductName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ProvisionProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionToken"=>ProvisionToken, "ProvisionedProductName"=>ProvisionedProductName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2503,29 +1556,19 @@ Rejects an offer to share the specified portfolio.
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"portfolio_share_type"`: The type of shared portfolios to reject. The default is to
-  reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the
-  management account of your organization.    IMPORTED - Reject imported portfolios.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `portfolio_share_type`: The type of shared portfolios to reject. The default is to reject
+  imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the management
+  account of your organization.    IMPORTED - Reject imported portfolios.
   AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws
   servicecatalog reject-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\"
   --portfolio-share-type AWS_ORGANIZATIONS
 """
-function reject_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "RejectPortfolioShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("RejectPortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2534,25 +1577,17 @@ end
 Lists the provisioned products that are available (not terminated). To use additional
 filtering, see SearchProvisionedProducts.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"access_level_filter"`: The access level to use to obtain results. The default is User.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `access_level_filter`: The access level to use to obtain results. The default is User.
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function scan_provisioned_products(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function scan_provisioned_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "ScanProvisionedProducts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("ScanProvisionedProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2560,23 +1595,20 @@ end
 
 Gets information about the products to which the caller has access.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"filters"`: The search filters. If no search filters are specified, the output includes
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `filters`: The search filters. If no search filters are specified, the output includes
   all products to which the caller has access.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"sort_by"`: The sort field. If no value is specified, the results are not sorted.
-- `"sort_order"`: The sort order. If no value is specified, the results are not sorted.
+- `sort_by`: The sort field. If no value is specified, the results are not sorted.
+- `sort_order`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "SearchProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("SearchProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2584,30 +1616,22 @@ end
 
 Gets information about the products for the specified portfolio or all products.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"filters"`: The search filters. If no search filters are specified, the output includes
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `filters`: The search filters. If no search filters are specified, the output includes
   all products to which the administrator has access.
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"portfolio_id"`: The portfolio identifier.
-- `"product_source"`: Access level of the source of the product.
-- `"sort_by"`: The sort field. If no value is specified, the results are not sorted.
-- `"sort_order"`: The sort order. If no value is specified, the results are not sorted.
+- `portfolio_id`: The portfolio identifier.
+- `product_source`: Access level of the source of the product.
+- `sort_by`: The sort field. If no value is specified, the results are not sorted.
+- `sort_order`: The sort order. If no value is specified, the results are not sorted.
 """
-function search_products_as_admin(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_products_as_admin(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "SearchProductsAsAdmin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("SearchProductsAsAdmin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2615,33 +1639,25 @@ end
 
 Gets information about the provisioned products that meet the specified criteria.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"access_level_filter"`: The access level to use to obtain results. The default is User.
-- `"filters"`: The search filters. When the key is SearchQuery, the searchable fields are
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `access_level_filter`: The access level to use to obtain results. The default is User.
+- `filters`: The search filters. When the key is SearchQuery, the searchable fields are
   arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,
   provisioningArtifact, type, status, tags, userArn, userArnSession,
   lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and
   provisioningArtifactName. Example: \"SearchQuery\":[\"status:AVAILABLE\"]
-- `"page_size"`: The maximum number of items to return with this call.
-- `"page_token"`: The page token for the next set of results. To retrieve the first set of
+- `page_size`: The maximum number of items to return with this call.
+- `page_token`: The page token for the next set of results. To retrieve the first set of
   results, use null.
-- `"sort_by"`: The sort field. If no value is specified, the results are not sorted. The
+- `sort_by`: The sort field. If no value is specified, the results are not sorted. The
   valid values are arn, id, name, and lastRecordId.
-- `"sort_order"`: The sort order. If no value is specified, the results are not sorted.
+- `sort_order`: The sort order. If no value is specified, the results are not sorted.
 """
-function search_provisioned_products(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_provisioned_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "SearchProvisionedProducts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("SearchProvisionedProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2657,33 +1673,23 @@ DescribeRecord.
   terminated, subsequent requests to terminate the same provisioned product always return
   ResourceNotFound.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"ignore_errors"`: If set to true, AWS Service Catalog stops managing the specified
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `ignore_errors`: If set to true, AWS Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
-- `"provisioned_product_id"`: The identifier of the provisioned product. You cannot specify
+- `provisioned_product_id`: The identifier of the provisioned product. You cannot specify
   both ProvisionedProductName and ProvisionedProductId.
-- `"provisioned_product_name"`: The name of the provisioned product. You cannot specify
-  both ProvisionedProductName and ProvisionedProductId.
-- `"retain_physical_resources"`: When this boolean parameter is set to true, the
+- `provisioned_product_name`: The name of the provisioned product. You cannot specify both
+  ProvisionedProductName and ProvisionedProductId.
+- `retain_physical_resources`: When this boolean parameter is set to true, the
   TerminateProvisionedProduct API deletes the Service Catalog provisioned product. However,
   it does not remove the CloudFormation stack, stack set, or the underlying resources of the
   deleted provisioned product. The default value is false.
 """
-function terminate_provisioned_product(
-    TerminateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function terminate_provisioned_product(TerminateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "TerminateProvisionedProduct",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TerminateToken" => TerminateToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("TerminateProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateToken"=>TerminateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2694,12 +1700,11 @@ Updates the specified constraint.
 # Arguments
 - `id`: The identifier of the constraint.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"description"`: The updated description of the constraint.
-- `"parameters"`: The constraint parameters, in JSON format. The syntax depends on the
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `description`: The updated description of the constraint.
+- `parameters`: The constraint parameters, in JSON format. The syntax depends on the
   constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the
   LocalRoleName but can't use both. Specify the RoleArn property as follows:  {\"RoleArn\" :
   \"arn:aws:iam::123456789012:role/LaunchRole\"}  Specify the LocalRoleName property as
@@ -2725,12 +1730,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateConstraint",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2741,24 +1741,18 @@ Updates the specified portfolio. You cannot update a product that was shared wit
 # Arguments
 - `id`: The portfolio identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"add_tags"`: The tags to add.
-- `"description"`: The updated description of the portfolio.
-- `"display_name"`: The name to use for display purposes.
-- `"provider_name"`: The updated name of the portfolio provider.
-- `"remove_tags"`: The tags to remove.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `add_tags`: The tags to add.
+- `description`: The updated description of the portfolio.
+- `display_name`: The name to use for display purposes.
+- `provider_name`: The updated name of the portfolio provider.
+- `remove_tags`: The tags to remove.
 """
 function update_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdatePortfolio",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2778,29 +1772,19 @@ that action.
 - `portfolio_id`: The unique identifier of the portfolio for which the share will be
   updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"account_id"`: The AWS Account Id of the recipient account. This field is required when
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `account_id`: The AWS Account Id of the recipient account. This field is required when
   updating an external account to account type share.
-- `"organization_node"`:
-- `"share_tag_options"`: A flag to enable or disable TagOptions sharing for the portfolio
+- `organization_node`:
+- `share_tag_options`: A flag to enable or disable TagOptions sharing for the portfolio
   share. If this field is not provided, the current state of TagOptions sharing on the
   portfolio share will not be modified.
 """
-function update_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_portfolio_share(PortfolioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdatePortfolioShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2811,28 +1795,22 @@ Updates the specified product.
 # Arguments
 - `id`: The product identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"add_tags"`: The tags to add to the product.
-- `"description"`: The updated description of the product.
-- `"distributor"`: The updated distributor of the product.
-- `"name"`: The updated product name.
-- `"owner"`: The updated owner of the product.
-- `"remove_tags"`: The tags to remove from the product.
-- `"support_description"`: The updated support description for the product.
-- `"support_email"`: The updated support email for the product.
-- `"support_url"`: The updated support URL for the product.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `add_tags`: The tags to add to the product.
+- `description`: The updated description of the product.
+- `distributor`: The updated distributor of the product.
+- `name`: The updated product name.
+- `owner`: The updated owner of the product.
+- `remove_tags`: The tags to remove from the product.
+- `support_description`: The updated support description for the product.
+- `support_email`: The updated support email for the product.
+- `support_url`: The updated support URL for the product.
 """
 function update_product(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateProduct",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2848,42 +1826,32 @@ DescribeRecord.
 - `update_token`: The idempotency token that uniquely identifies the provisioning update
   request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"path_id"`: The path identifier. This value is optional if the product has a default
-  path, and required if the product has more than one path. You must provide the name or ID,
-  but not both.
-- `"path_name"`: The name of the path. You must provide the name or ID, but not both.
-- `"product_id"`: The identifier of the product. You must provide the name or ID, but not
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `path_id`: The path identifier. This value is optional if the product has a default path,
+  and required if the product has more than one path. You must provide the name or ID, but
+  not both.
+- `path_name`: The name of the path. You must provide the name or ID, but not both.
+- `product_id`: The identifier of the product. You must provide the name or ID, but not
   both.
-- `"product_name"`: The name of the product. You must provide the name or ID, but not both.
-- `"provisioned_product_id"`: The identifier of the provisioned product. You must provide
-  the name or ID, but not both.
-- `"provisioned_product_name"`: The name of the provisioned product. You cannot specify
-  both ProvisionedProductName and ProvisionedProductId.
-- `"provisioning_artifact_id"`: The identifier of the provisioning artifact.
-- `"provisioning_artifact_name"`: The name of the provisioning artifact. You must provide
-  the name or ID, but not both.
-- `"provisioning_parameters"`: The new parameters.
-- `"provisioning_preferences"`: An object that contains information about the provisioning
+- `product_name`: The name of the product. You must provide the name or ID, but not both.
+- `provisioned_product_id`: The identifier of the provisioned product. You must provide the
+  name or ID, but not both.
+- `provisioned_product_name`: The name of the provisioned product. You cannot specify both
+  ProvisionedProductName and ProvisionedProductId.
+- `provisioning_artifact_id`: The identifier of the provisioning artifact.
+- `provisioning_artifact_name`: The name of the provisioning artifact. You must provide the
+  name or ID, but not both.
+- `provisioning_parameters`: The new parameters.
+- `provisioning_preferences`: An object that contains information about the provisioning
   preferences for a stack set.
-- `"tags"`: One or more tags. Requires the product to have RESOURCE_UPDATE constraint with
+- `tags`: One or more tags. Requires the product to have RESOURCE_UPDATE constraint with
   TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
 """
-function update_provisioned_product(
-    UpdateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_provisioned_product(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateProvisionedProduct",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UpdateToken" => UpdateToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2914,35 +1882,13 @@ Requests updates to the properties of the specified provisioned product.
   the owner is updated to someone else, they will no longer be able to see or perform any
   actions through API or the Service Catalog console on that provisioned product.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
 """
-function update_provisioned_product_properties(
-    IdempotencyToken,
-    ProvisionedProductId,
-    ProvisionedProductProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_provisioned_product_properties(IdempotencyToken, ProvisionedProductId, ProvisionedProductProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateProvisionedProductProperties",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdempotencyToken" => IdempotencyToken,
-                    "ProvisionedProductId" => ProvisionedProductId,
-                    "ProvisionedProductProperties" => ProvisionedProductProperties,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateProvisionedProductProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "ProvisionedProductId"=>ProvisionedProductId, "ProvisionedProductProperties"=>ProvisionedProductProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2955,43 +1901,23 @@ product. You cannot update a provisioning artifact for a product that was shared
 - `product_id`: The product identifier.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"active"`: Indicates whether the product version is active. Inactive provisioning
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `active`: Indicates whether the product version is active. Inactive provisioning
   artifacts are invisible to end users. End users cannot launch or update a provisioned
   product from an inactive provisioning artifact.
-- `"description"`: The updated description of the provisioning artifact.
-- `"guidance"`: Information set by the administrator to provide guidance to end users about
+- `description`: The updated description of the provisioning artifact.
+- `guidance`: Information set by the administrator to provide guidance to end users about
   which provisioning artifacts to use. The DEFAULT value indicates that the product version
   is active. The administrator can set the guidance to DEPRECATED to inform users that the
   product version is deprecated. Users are able to make updates to a provisioned product of a
   deprecated version but cannot launch new provisioned products using a deprecated version.
-- `"name"`: The updated name of the provisioning artifact.
+- `name`: The updated name of the provisioning artifact.
 """
-function update_provisioning_artifact(
-    ProductId,
-    ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateProvisioningArtifact",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProductId" => ProductId,
-                    "ProvisioningArtifactId" => ProvisioningArtifactId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3002,24 +1928,16 @@ Updates a self-service action.
 # Arguments
 - `id`: The self-service action identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_language"`: The language code.    en - English (default)    jp - Japanese    zh
-  - Chinese
-- `"definition"`: A map that defines the self-service action.
-- `"description"`: The self-service action description.
-- `"name"`: The self-service action name.
+# Keyword Parameters
+- `accept_language`: The language code.    en - English (default)    jp - Japanese    zh -
+  Chinese
+- `definition`: A map that defines the self-service action.
+- `description`: The self-service action description.
+- `name`: The self-service action name.
 """
-function update_service_action(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateServiceAction",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3030,17 +1948,11 @@ Updates the specified TagOption.
 # Arguments
 - `id`: The TagOption identifier.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"active"`: The updated active state.
-- `"value"`: The updated value.
+# Keyword Parameters
+- `active`: The updated active state.
+- `value`: The updated value.
 """
 function update_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return service_catalog(
-        "UpdateTagOption",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return service_catalog("UpdateTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

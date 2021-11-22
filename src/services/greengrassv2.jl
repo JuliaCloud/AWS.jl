@@ -4,25 +4,8 @@ using AWS.AWSServices: greengrassv2
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "deployment_policies" => "deploymentPolicies",
-    "target_arn" => "targetArn",
-    "next_token" => "nextToken",
-    "lambda_function" => "lambdaFunction",
-    "thing_group_arn" => "thingGroupArn",
-    "status" => "status",
-    "deployment_name" => "deploymentName",
-    "inline_recipe" => "inlineRecipe",
-    "max_results" => "maxResults",
-    "client_token" => "clientToken",
-    "scope" => "scope",
-    "components" => "components",
-    "recipe_output_format" => "recipeOutputFormat",
-    "entries" => "entries",
-    "iot_job_configuration" => "iotJobConfiguration",
-    "tags" => "tags",
-    "history_filter" => "historyFilter",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "scope" => "scope", "status" => "status", "thing_group_arn" => "thingGroupArn", "client_token" => "clientToken", "components" => "components", "deployment_name" => "deploymentName", "deployment_policies" => "deploymentPolicies", "iot_job_configuration" => "iotJobConfiguration", "tags" => "tags", "recipe_output_format" => "recipeOutputFormat", "entries" => "entries", "history_filter" => "historyFilter", "target_arn" => "targetArn", "inline_recipe" => "inlineRecipe", "lambda_function" => "lambdaFunction")
 
 """
     batch_associate_client_device_with_core_device(core_device_thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -41,21 +24,12 @@ information, see Interact with local IoT devices in the IoT Greengrass V2 Develo
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"entries"`: The list of client devices to associate.
+# Keyword Parameters
+- `entries`: The list of client devices to associate.
 """
-function batch_associate_client_device_with_core_device(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_associate_client_device_with_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -69,21 +43,12 @@ retrieve the core device's connectivity information and certificates.
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"entries"`: The list of client devices to disassociate.
+# Keyword Parameters
+- `entries`: The list of client devices to disassociate.
 """
-function batch_disassociate_client_device_from_core_device(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_disassociate_client_device_from_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -97,17 +62,9 @@ anything for that device.
 - `deployment_id`: The ID of the deployment.
 
 """
-function cancel_deployment(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/greengrass/v2/deployments/$(deploymentId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -131,35 +88,24 @@ To create a component from a Lambda function, specify lambdaFunction when you ca
 operation.  IoT Greengrass currently supports Lambda functions on only Linux core devices.
 
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you can provide to ensure that
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you can provide to ensure that
   the request is idempotent. Idempotency means that the request is successfully processed
   only once, even if you send the request multiple times. When a request succeeds, and you
   specify the same client token for subsequent successful requests, the IoT Greengrass V2
   service returns the successful response that it caches from the previous request. IoT
   Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
-- `"inline_recipe"`: The recipe to use to create the component. The recipe defines the
+- `inline_recipe`: The recipe to use to create the component. The recipe defines the
   component's metadata, parameters, dependencies, lifecycle, artifacts, and platform
   compatibility. You must specify either inlineRecipe or lambdaFunction.
-- `"lambda_function"`: The parameters to create a component from a Lambda function. You
-  must specify either inlineRecipe or lambdaFunction.
-- `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
+- `lambda_function`: The parameters to create a component from a Lambda function. You must
+  specify either inlineRecipe or lambdaFunction.
+- `tags`: A list of key-value pairs that contain metadata for the resource. For more
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 """
-function create_component_version(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_component_version(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/greengrass/v2/createComponentVersion",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/greengrass/v2/createComponentVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -179,45 +125,28 @@ Greengrass V2 Developer Guide.
 # Arguments
 - `target_arn`: The ARN of the target IoT thing or thing group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you can provide to ensure that
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you can provide to ensure that
   the request is idempotent. Idempotency means that the request is successfully processed
   only once, even if you send the request multiple times. When a request succeeds, and you
   specify the same client token for subsequent successful requests, the IoT Greengrass V2
   service returns the successful response that it caches from the previous request. IoT
   Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
-- `"components"`: The components to deploy. This is a dictionary, where each key is the
-  name of a component, and each key's value is the version and configuration to deploy for
-  that component.
-- `"deployment_name"`: The name of the deployment.
-- `"deployment_policies"`: The deployment policies for the deployment. These policies
-  define how the deployment updates components and handles failure.
-- `"iot_job_configuration"`: The job configuration for the deployment configuration. The
-  job configuration specifies the rollout, timeout, and stop configurations for the
-  deployment configuration.
-- `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
+- `components`: The components to deploy. This is a dictionary, where each key is the name
+  of a component, and each key's value is the version and configuration to deploy for that
+  component.
+- `deployment_name`: The name of the deployment.
+- `deployment_policies`: The deployment policies for the deployment. These policies define
+  how the deployment updates components and handles failure.
+- `iot_job_configuration`: The job configuration for the deployment configuration. The job
+  configuration specifies the rollout, timeout, and stop configurations for the deployment
+  configuration.
+- `tags`: A list of key-value pairs that contain metadata for the resource. For more
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 """
-function create_deployment(
-    targetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_deployment(targetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/greengrass/v2/deployments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "targetArn" => targetArn, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetArn"=>targetArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -234,13 +163,7 @@ the component from the deployment or update the deployment to use a valid versio
 """
 function delete_component(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "DELETE",
-        "/greengrass/v2/components/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("DELETE", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -255,17 +178,9 @@ information about how to delete the IoT thing, see DeleteThing in the IoT API Re
   thing.
 
 """
-function delete_core_device(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "DELETE",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -277,17 +192,9 @@ Retrieves metadata for a version of a component.
 - `arn`: The ARN of the component version.
 
 """
-function describe_component(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_component(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/components/$(arn)/metadata",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -299,19 +206,12 @@ identify the artifacts and requirements to install a component.
 # Arguments
 - `arn`: The ARN of the component version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"recipe_output_format"`: The format of the recipe.
+# Keyword Parameters
+- `recipe_output_format`: The format of the recipe.
 """
 function get_component(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/components/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -328,17 +228,9 @@ operation to identify the URL that they can use to download an artifact to insta
   greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
 
 """
-function get_component_version_artifact(
-    arn, artifactName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_component_version_artifact(arn, artifactName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -351,17 +243,9 @@ Retrieves metadata for a Greengrass core device.
   thing.
 
 """
-function get_core_device(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -373,17 +257,9 @@ Gets a deployment. Deployments define the components that run on Greengrass core
 - `deployment_id`: The ID of the deployment.
 
 """
-function get_deployment(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/deployments/$(deploymentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -395,22 +271,13 @@ Retrieves a paginated list of client devices that are associated with a core dev
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_client_devices_associated_with_core_device(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_client_devices_associated_with_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -422,22 +289,13 @@ first.
 # Arguments
 - `arn`: The ARN of the component version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_component_versions(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_component_versions(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/components/$(arn)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -446,21 +304,14 @@ end
 Retrieves a paginated list of component summaries. This list includes components that you
 have permission to view.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"scope"`: The scope of the components to list. Default: PRIVATE
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
+- `scope`: The scope of the components to list. Default: PRIVATE
 """
 function list_components(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/components",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/components", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -468,27 +319,20 @@ end
 
 Retrieves a paginated list of Greengrass core devices.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"status"`: The core device status by which to filter. If you specify this parameter, the
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
+- `status`: The core device status by which to filter. If you specify this parameter, the
   list includes only core devices that have this status. Choose one of the following options:
      HEALTHY – The IoT Greengrass Core software and all components run on the core device
   without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a
   failed state on the core device.
-- `"thing_group_arn"`: The ARN of the IoT thing group by which to filter. If you specify
-  this parameter, the list includes only core devices that are members of this thing group.
+- `thing_group_arn`: The ARN of the IoT thing group by which to filter. If you specify this
+  parameter, the list includes only core devices that are members of this thing group.
 """
 function list_core_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/coreDevices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/coreDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -496,24 +340,17 @@ end
 
 Retrieves a paginated list of deployments.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"history_filter"`: The filter for the list of deployments. Choose one of the following
+# Keyword Parameters
+- `history_filter`: The filter for the list of deployments. Choose one of the following
   options:    ALL – The list includes all deployments.    LATEST_ONLY – The list includes
   only the latest revision of each deployment.   Default: LATEST_ONLY
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"target_arn"`: The ARN of the target IoT thing or thing group.
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
+- `target_arn`: The ARN of the target IoT thing or thing group.
 """
 function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/deployments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -526,22 +363,13 @@ devices.
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_effective_deployments(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_effective_deployments(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -553,22 +381,13 @@ Retrieves a paginated list of the components that a Greengrass core device runs.
 - `core_device_thing_name`: The name of the core device. This is also the name of the IoT
   thing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_installed_components(
-    coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_installed_components(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -580,17 +399,9 @@ Retrieves the list of tags for an IoT Greengrass resource.
 - `resource_arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -614,28 +425,9 @@ see IoT Greengrass endpoints and quotas.
 - `platform`: The platform to use to resolve compatible components.
 
 """
-function resolve_component_candidates(
-    componentCandidates,
-    platform;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function resolve_component_candidates(componentCandidates, platform; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/greengrass/v2/resolveComponentCandidates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "componentCandidates" => componentCandidates, "platform" => platform
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -650,17 +442,9 @@ operation updates the tag's value.
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -673,15 +457,7 @@ Removes a tag from an IoT Greengrass resource.
 - `tag_keys`: A list of keys for tags to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return greengrassv2(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

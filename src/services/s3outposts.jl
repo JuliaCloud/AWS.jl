@@ -4,12 +4,8 @@ using AWS.AWSServices: s3outposts
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "access_type" => "AccessType",
-    "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool",
-    "next_token" => "nextToken",
-    "max_results" => "maxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "access_type" => "AccessType", "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool")
 
 """
     create_endpoint(outpost_id, security_group_id, subnet_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,39 +23,16 @@ to complete.   Related actions include:    DeleteEndpoint     ListEndpoints
 - `subnet_id`: The ID of the subnet in the selected VPC. The endpoint subnet must belong to
   the Outpost that has the Amazon S3 on Outposts provisioned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_type"`: The type of access for the on-premise network connectivity for the
-  Outpost endpoint. To access the endpoint from an on-premises network, you must specify the
-  access type and provide the customer owned IPv4 pool.
-- `"customer_owned_ipv4_pool"`: The ID of the customer-owned IPv4 pool for the endpoint. IP
+# Keyword Parameters
+- `access_type`: The type of access for the on-premise network connectivity for the Outpost
+  endpoint. To access the endpoint from an on-premises network, you must specify the access
+  type and provide the customer owned IPv4 pool.
+- `customer_owned_ipv4_pool`: The ID of the customer-owned IPv4 pool for the endpoint. IP
   addresses will be allocated from this pool for the endpoint.
 """
-function create_endpoint(
-    OutpostId,
-    SecurityGroupId,
-    SubnetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_endpoint(OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3outposts(
-        "POST",
-        "/S3Outposts/CreateEndpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OutpostId" => OutpostId,
-                    "SecurityGroupId" => SecurityGroupId,
-                    "SubnetId" => SubnetId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -77,23 +50,9 @@ include:    CreateEndpoint     ListEndpoints
 - `outpost_id`: The ID of the AWS Outposts.
 
 """
-function delete_endpoint(
-    endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_endpoint(endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3outposts(
-        "DELETE",
-        "/S3Outposts/DeleteEndpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("endpointId" => endpointId, "outpostId" => outpostId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -106,18 +65,11 @@ see  Accessing S3 on Outposts using VPC only access points. This action lists en
 associated with the Outposts.   Related actions include:    CreateEndpoint
 DeleteEndpoint
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The max number of endpoints that can be returned on the request.
-- `"next_token"`: The next endpoint requested in the list.
+# Keyword Parameters
+- `max_results`: The max number of endpoints that can be returned on the request.
+- `next_token`: The next endpoint requested in the list.
 """
 function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3outposts(
-        "GET",
-        "/S3Outposts/ListEndpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

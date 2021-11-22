@@ -4,94 +4,8 @@ using AWS.AWSServices: lightsail
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "contact_protocols" => "contactProtocols",
-    "certificate_statuses" => "certificateStatuses",
-    "publicly_accessible" => "publiclyAccessible",
-    "include_connected_resources" => "includeConnectedResources",
-    "instance_name" => "instanceName",
-    "ip_address_type" => "ipAddressType",
-    "force" => "force",
-    "health_check_path" => "healthCheckPath",
-    "is_disabled" => "isDisabled",
-    "cache_behavior_settings" => "cacheBehaviorSettings",
-    "disable_backup_retention" => "disableBackupRetention",
-    "access_log_config" => "accessLogConfig",
-    "service_name" => "serviceName",
-    "relational_database_bundle_id" => "relationalDatabaseBundleId",
-    "relational_database_snapshot_name" => "relationalDatabaseSnapshotName",
-    "user_data" => "userData",
-    "include_relational_database_availability_zones" => "includeRelationalDatabaseAvailabilityZones",
-    "source_resource_name" => "sourceResourceName",
-    "preferred_backup_window" => "preferredBackupWindow",
-    "versioning" => "versioning",
-    "ca_certificate_identifier" => "caCertificateIdentifier",
-    "start_time" => "startTime",
-    "use_latest_restorable_auto_snapshot" => "useLatestRestorableAutoSnapshot",
-    "containers" => "containers",
-    "duration_in_minutes" => "durationInMinutes",
-    "origin" => "origin",
-    "include_inactive" => "includeInactive",
-    "add_ons" => "addOns",
-    "deployment" => "deployment",
-    "readonly_access_accounts" => "readonlyAccessAccounts",
-    "key_pair_name" => "keyPairName",
-    "use_latest_restorable_time" => "useLatestRestorableTime",
-    "include_certificate_details" => "includeCertificateDetails",
-    "master_user_password" => "masterUserPassword",
-    "apply_immediately" => "applyImmediately",
-    "monitored_resource_name" => "monitoredResourceName",
-    "disk_snapshot_name" => "diskSnapshotName",
-    "datapoints_to_alarm" => "datapointsToAlarm",
-    "treat_missing_data" => "treatMissingData",
-    "filter_pattern" => "filterPattern",
-    "source_relational_database_name" => "sourceRelationalDatabaseName",
-    "certificate_alternative_names" => "certificateAlternativeNames",
-    "rotate_master_user_password" => "rotateMasterUserPassword",
-    "final_relational_database_snapshot_name" => "finalRelationalDatabaseSnapshotName",
-    "scale" => "scale",
-    "enable_backup_retention" => "enableBackupRetention",
-    "force_delete" => "forceDelete",
-    "is_enabled" => "isEnabled",
-    "access_rules" => "accessRules",
-    "start_from_head" => "startFromHead",
-    "subject_alternative_names" => "subjectAlternativeNames",
-    "default_cache_behavior" => "defaultCacheBehavior",
-    "source_disk_name" => "sourceDiskName",
-    "custom_image_name" => "customImageName",
-    "bundle_id" => "bundleId",
-    "restore_date" => "restoreDate",
-    "include_availability_zones" => "includeAvailabilityZones",
-    "notification_enabled" => "notificationEnabled",
-    "protocols" => "protocols",
-    "source_instance_name" => "sourceInstanceName",
-    "instance_snapshot_name" => "instanceSnapshotName",
-    "tags" => "tags",
-    "alarm_name" => "alarmName",
-    "end_time" => "endTime",
-    "source_snapshot_name" => "sourceSnapshotName",
-    "protocol" => "protocol",
-    "disk_name" => "diskName",
-    "distribution_name" => "distributionName",
-    "page_token" => "pageToken",
-    "enable_object_versioning" => "enableObjectVersioning",
-    "restore_time" => "restoreTime",
-    "cache_behaviors" => "cacheBehaviors",
-    "preferred_maintenance_window" => "preferredMaintenanceWindow",
-    "force_delete_add_ons" => "forceDeleteAddOns",
-    "skip_final_snapshot" => "skipFinalSnapshot",
-    "power" => "power",
-    "availability_zone" => "availabilityZone",
-    "public_domain_names" => "publicDomainNames",
-    "certificate_name" => "certificateName",
-    "resource_arn" => "resourceArn",
-    "attached_disk_mapping" => "attachedDiskMapping",
-    "password_version" => "passwordVersion",
-    "certificate_domain_name" => "certificateDomainName",
-    "public_endpoint" => "publicEndpoint",
-    "bucket_name" => "bucketName",
-    "notification_triggers" => "notificationTriggers",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("page_token" => "pageToken", "protocols" => "protocols", "access_log_config" => "accessLogConfig", "access_rules" => "accessRules", "readonly_access_accounts" => "readonlyAccessAccounts", "versioning" => "versioning", "end_time" => "endTime", "start_from_head" => "startFromHead", "start_time" => "startTime", "resource_arn" => "resourceArn", "force" => "force", "add_ons" => "addOns", "attached_disk_mapping" => "attachedDiskMapping", "instance_snapshot_name" => "instanceSnapshotName", "ip_address_type" => "ipAddressType", "key_pair_name" => "keyPairName", "restore_date" => "restoreDate", "source_instance_name" => "sourceInstanceName", "tags" => "tags", "use_latest_restorable_auto_snapshot" => "useLatestRestorableAutoSnapshot", "user_data" => "userData", "apply_immediately" => "applyImmediately", "ca_certificate_identifier" => "caCertificateIdentifier", "disable_backup_retention" => "disableBackupRetention", "enable_backup_retention" => "enableBackupRetention", "master_user_password" => "masterUserPassword", "preferred_backup_window" => "preferredBackupWindow", "preferred_maintenance_window" => "preferredMaintenanceWindow", "publicly_accessible" => "publiclyAccessible", "rotate_master_user_password" => "rotateMasterUserPassword", "cache_behavior_settings" => "cacheBehaviorSettings", "cache_behaviors" => "cacheBehaviors", "availability_zone" => "availabilityZone", "relational_database_bundle_id" => "relationalDatabaseBundleId", "relational_database_snapshot_name" => "relationalDatabaseSnapshotName", "restore_time" => "restoreTime", "source_relational_database_name" => "sourceRelationalDatabaseName", "use_latest_restorable_time" => "useLatestRestorableTime", "certificate_alternative_names" => "certificateAlternativeNames", "bucket_name" => "bucketName", "include_connected_resources" => "includeConnectedResources", "distribution_name" => "distributionName", "certificate_name" => "certificateName", "certificate_statuses" => "certificateStatuses", "include_certificate_details" => "includeCertificateDetails", "password_version" => "passwordVersion", "force_delete_add_ons" => "forceDeleteAddOns", "certificate_domain_name" => "certificateDomainName", "health_check_path" => "healthCheckPath", "subject_alternative_names" => "subjectAlternativeNames", "include_inactive" => "includeInactive", "include_availability_zones" => "includeAvailabilityZones", "include_relational_database_availability_zones" => "includeRelationalDatabaseAvailabilityZones", "service_name" => "serviceName", "alarm_name" => "alarmName", "monitored_resource_name" => "monitoredResourceName", "filter_pattern" => "filterPattern", "duration_in_minutes" => "durationInMinutes", "enable_object_versioning" => "enableObjectVersioning", "deployment" => "deployment", "public_domain_names" => "publicDomainNames", "final_relational_database_snapshot_name" => "finalRelationalDatabaseSnapshotName", "skip_final_snapshot" => "skipFinalSnapshot", "custom_image_name" => "customImageName", "bundle_id" => "bundleId", "containers" => "containers", "public_endpoint" => "publicEndpoint", "force_delete" => "forceDelete", "source_resource_name" => "sourceResourceName", "source_snapshot_name" => "sourceSnapshotName", "disk_snapshot_name" => "diskSnapshotName", "source_disk_name" => "sourceDiskName", "is_disabled" => "isDisabled", "power" => "power", "scale" => "scale", "protocol" => "protocol", "default_cache_behavior" => "defaultCacheBehavior", "is_enabled" => "isEnabled", "origin" => "origin", "contact_protocols" => "contactProtocols", "datapoints_to_alarm" => "datapointsToAlarm", "notification_enabled" => "notificationEnabled", "notification_triggers" => "notificationTriggers", "treat_missing_data" => "treatMissingData", "disk_name" => "diskName", "instance_name" => "instanceName")
 
 """
     allocate_static_ip(static_ip_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -102,18 +16,9 @@ Allocates a static IP address.
 - `static_ip_name`: The name of the static IP address.
 
 """
-function allocate_static_ip(
-    staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function allocate_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "AllocateStaticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("AllocateStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -141,28 +46,9 @@ Region.
   specify.
 
 """
-function attach_certificate_to_distribution(
-    certificateName,
-    distributionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_certificate_to_distribution(certificateName, distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "AttachCertificateToDistribution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "certificateName" => certificateName,
-                    "distributionName" => distributionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("AttachCertificateToDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "distributionName"=>distributionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -180,30 +66,9 @@ information, see the Amazon Lightsail Developer Guide.
   disk.
 
 """
-function attach_disk(
-    diskName,
-    diskPath,
-    instanceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_disk(diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "AttachDisk",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "diskName" => diskName,
-                    "diskPath" => diskPath,
-                    "instanceName" => instanceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("AttachDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName, "diskPath"=>diskPath, "instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -224,27 +89,9 @@ Lightsail Developer Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function attach_instances_to_load_balancer(
-    instanceNames,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_instances_to_load_balancer(instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "AttachInstancesToLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("AttachInstancesToLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -265,28 +112,9 @@ For more information, see the Amazon Lightsail Developer Guide.
   SSL/TLS certificate.
 
 """
-function attach_load_balancer_tls_certificate(
-    certificateName,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_load_balancer_tls_certificate(certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "AttachLoadBalancerTlsCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "certificateName" => certificateName,
-                    "loadBalancerName" => loadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("AttachLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -299,24 +127,9 @@ Attaches a static IP address to a specific Amazon Lightsail instance.
 - `static_ip_name`: The name of the static IP.
 
 """
-function attach_static_ip(
-    instanceName, staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_static_ip(instanceName, staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "AttachStaticIp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "instanceName" => instanceName, "staticIpName" => staticIpName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("AttachStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -331,22 +144,9 @@ instanceName. For more information, see the Amazon Lightsail Developer Guide.
 - `port_info`: An object to describe the ports to close for the specified instance.
 
 """
-function close_instance_public_ports(
-    instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function close_instance_public_ports(instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CloseInstancePublicPorts",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CloseInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -365,50 +165,30 @@ parameters.
 - `source_region`: The AWS Region where the source manual or automatic snapshot is located.
 - `target_snapshot_name`: The name of the new manual snapshot to be created as a copy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"restore_date"`: The date of the source automatic snapshot to copy. Use the get auto
+# Keyword Parameters
+- `restore_date`: The date of the source automatic snapshot to copy. Use the get auto
   snapshots operation to identify the dates of the available automatic snapshots.
   Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when copying an automatic snapshot as a manual snapshot. For more information, see the
   Amazon Lightsail Developer Guide.
-- `"source_resource_name"`: The name of the source instance or disk from which the source
+- `source_resource_name`: The name of the source instance or disk from which the source
   automatic snapshot was created. Constraint:   Define this parameter only when copying an
   automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail
   Developer Guide.
-- `"source_snapshot_name"`: The name of the source manual snapshot to copy. Constraint:
+- `source_snapshot_name`: The name of the source manual snapshot to copy. Constraint:
   Define this parameter only when copying a manual snapshot as another manual snapshot.
-- `"use_latest_restorable_auto_snapshot"`: A Boolean value to indicate whether to use the
+- `use_latest_restorable_auto_snapshot`: A Boolean value to indicate whether to use the
   latest available automatic snapshot of the specified source instance or disk. Constraints:
    This parameter cannot be defined together with the restore date parameter. The use latest
   restorable auto snapshot and restore date parameters are mutually exclusive.   Define this
   parameter only when copying an automatic snapshot as a manual snapshot. For more
   information, see the Amazon Lightsail Developer Guide.
 """
-function copy_snapshot(
-    sourceRegion,
-    targetSnapshotName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_snapshot(sourceRegion, targetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CopySnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "sourceRegion" => sourceRegion,
-                    "targetSnapshotName" => targetSnapshotName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceRegion"=>sourceRegion, "targetSnapshotName"=>targetSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -427,31 +207,17 @@ in the Amazon Lightsail Developer Guide.
   action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action
   to change the bundle after the bucket is created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enable_object_versioning"`: A Boolean value that indicates whether to enable versioning
+# Keyword Parameters
+- `enable_object_versioning`: A Boolean value that indicates whether to enable versioning
   of objects in the bucket. For more information about versioning, see Enabling and
   suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail
   Developer Guide.
-- `"tags"`: The tag keys and optional values to add to the bucket during creation. Use the
+- `tags`: The tag keys and optional values to add to the bucket during creation. Use the
   TagResource action to tag the bucket after it's created.
 """
-function create_bucket(
-    bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_bucket(bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateBucket",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -472,18 +238,9 @@ access key later. If you lose the secret access key, you must create a new acces
   access to.
 
 """
-function create_bucket_access_key(
-    bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_bucket_access_key(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateBucketAccessKey",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateBucketAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -502,36 +259,17 @@ However, all distributions are located in the us-east-1 Region.
 - `certificate_name`: The name for the certificate.
 - `domain_name`: The domain name (e.g., example.com) for the certificate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"subject_alternative_names"`: An array of strings that specify the alternate domains
+# Keyword Parameters
+- `subject_alternative_names`: An array of strings that specify the alternate domains
   (e.g., example2.com) and subdomains (e.g., blog.example.com) for the certificate. You can
   specify a maximum of nine alternate domains (in addition to the primary domain name).
   Wildcard domain entries (e.g., *.example.com) are not supported.
-- `"tags"`: The tag keys and optional values to add to the certificate during create. Use
-  the TagResource action to tag a resource after it's created.
+- `tags`: The tag keys and optional values to add to the certificate during create. Use the
+  TagResource action to tag a resource after it's created.
 """
-function create_certificate(
-    certificateName,
-    domainName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_certificate(certificateName, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "certificateName" => certificateName, "domainName" => domainName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -550,18 +288,9 @@ stack operation again with the same export snapshot record.
   invalid parameter error if you pass more than one instance entry in this array.
 
 """
-function create_cloud_formation_stack(
-    instances; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_cloud_formation_stack(instances; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateCloudFormationStack",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instances" => instances), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateCloudFormationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instances"=>instances), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -590,24 +319,9 @@ countries/regions. For more information, see Notifications in Amazon Lightsail.
   notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
 
 """
-function create_contact_method(
-    contactEndpoint, protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_contact_method(contactEndpoint, protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateContactMethod",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "contactEndpoint" => contactEndpoint, "protocol" => protocol
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contactEndpoint"=>contactEndpoint, "protocol"=>protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -643,16 +357,15 @@ in Amazon Lightsail in the Lightsail Dev Guide.
   alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the
   start or end of the name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment"`: An object that describes a deployment for the container service. A
+# Keyword Parameters
+- `deployment`: An object that describes a deployment for the container service. A
   deployment specifies the containers that will be launched on the container service and
   their settings, such as the ports to open, the environment variables to apply, and the
   launch command to run. It also specifies the container that will serve as the public
   endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the
   health check configuration.
-- `"public_domain_names"`: The public domain names to use with the container service, such
-  as example.com and www.example.com. You can specify up to four public domain names for a
+- `public_domain_names`: The public domain names to use with the container service, such as
+  example.com and www.example.com. You can specify up to four public domain names for a
   container service. The domain names that you specify are used when you create a deployment
   with a container configured as the public endpoint of your container service. If you don't
   specify public domain names, then you can use the default domain of the container service.
@@ -660,28 +373,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   with your container service. Use the CreateCertificate action to create a certificate for
   the public domain names you want to use with your container service.  You can specify
   public domain names using a string to array map as shown in the example later on this page.
-- `"tags"`: The tag keys and optional values to add to the container service during create.
+- `tags`: The tag keys and optional values to add to the container service during create.
   Use the TagResource action to tag a resource after it's created. For more information about
   tags in Lightsail, see the Amazon Lightsail Developer Guide.
 """
-function create_container_service(
-    power, scale, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_container_service(power, scale, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateContainerService",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "power" => power, "scale" => scale, "serviceName" => serviceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -700,25 +398,15 @@ Developer Guide.
 # Arguments
 - `service_name`: The name of the container service for which to create the deployment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"containers"`: An object that describes the settings of the containers that will be
+# Keyword Parameters
+- `containers`: An object that describes the settings of the containers that will be
   launched on the container service.
-- `"public_endpoint"`: An object that describes the settings of the public endpoint for the
+- `public_endpoint`: An object that describes the settings of the public endpoint for the
   container service.
 """
-function create_container_service_deployment(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_container_service_deployment(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateContainerServiceDeployment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateContainerServiceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -740,16 +428,9 @@ container service. For more information, see Pushing and managing container imag
 Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
 
 """
-function create_container_service_registry_login(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_container_service_registry_login(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateContainerServiceRegistryLogin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateContainerServiceRegistryLogin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -768,36 +449,14 @@ Guide.
 - `disk_name`: The unique Lightsail disk name (e.g., my-disk).
 - `size_in_gb`: The size of the disk in GB (e.g., 32).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"add_ons"`: An array of objects that represent the add-ons to enable for the new disk.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+# Keyword Parameters
+- `add_ons`: An array of objects that represent the add-ons to enable for the new disk.
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_disk(
-    availabilityZone,
-    diskName,
-    sizeInGb;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_disk(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateDisk",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "availabilityZone" => availabilityZone,
-                    "diskName" => diskName,
-                    "sizeInGb" => sizeInGb,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -817,58 +476,36 @@ For more information, see the Amazon Lightsail Developer Guide.
 - `disk_name`: The unique Lightsail disk name (e.g., my-disk).
 - `size_in_gb`: The size of the disk in GB (e.g., 32).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"add_ons"`: An array of objects that represent the add-ons to enable for the new disk.
-- `"disk_snapshot_name"`: The name of the disk snapshot (e.g., my-snapshot) from which to
+# Keyword Parameters
+- `add_ons`: An array of objects that represent the add-ons to enable for the new disk.
+- `disk_snapshot_name`: The name of the disk snapshot (e.g., my-snapshot) from which to
   create the new storage disk. Constraint:   This parameter cannot be defined together with
   the source disk name parameter. The disk snapshot name and source disk name parameters are
   mutually exclusive.
-- `"restore_date"`: The date of the automatic snapshot to use for the new disk. Use the get
+- `restore_date`: The date of the automatic snapshot to use for the new disk. Use the get
   auto snapshots operation to identify the dates of the available automatic snapshots.
   Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when creating a new disk from an automatic snapshot. For more information, see the
   Amazon Lightsail Developer Guide.
-- `"source_disk_name"`: The name of the source disk from which the source automatic
-  snapshot was created. Constraints:   This parameter cannot be defined together with the
-  disk snapshot name parameter. The source disk name and disk snapshot name parameters are
+- `source_disk_name`: The name of the source disk from which the source automatic snapshot
+  was created. Constraints:   This parameter cannot be defined together with the disk
+  snapshot name parameter. The source disk name and disk snapshot name parameters are
   mutually exclusive.   Define this parameter only when creating a new disk from an automatic
   snapshot. For more information, see the Amazon Lightsail Developer Guide.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
-- `"use_latest_restorable_auto_snapshot"`: A Boolean value to indicate whether to use the
+- `use_latest_restorable_auto_snapshot`: A Boolean value to indicate whether to use the
   latest available automatic snapshot. Constraints:   This parameter cannot be defined
   together with the restore date parameter. The use latest restorable auto snapshot and
   restore date parameters are mutually exclusive.   Define this parameter only when creating
   a new disk from an automatic snapshot. For more information, see the Amazon Lightsail
   Developer Guide.
 """
-function create_disk_from_snapshot(
-    availabilityZone,
-    diskName,
-    sizeInGb;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_disk_from_snapshot(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateDiskFromSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "availabilityZone" => availabilityZone,
-                    "diskName" => diskName,
-                    "sizeInGb" => sizeInGb,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateDiskFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -898,32 +535,20 @@ Guide.
 - `disk_snapshot_name`: The name of the destination disk snapshot (e.g., my-disk-snapshot)
   based on the source disk.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disk_name"`: The unique name of the source disk (e.g., Disk-Virginia-1).  This
-  parameter cannot be defined together with the instance name parameter. The disk name and
-  instance name parameters are mutually exclusive.
-- `"instance_name"`: The unique name of the source instance (e.g.,
+# Keyword Parameters
+- `disk_name`: The unique name of the source disk (e.g., Disk-Virginia-1).  This parameter
+  cannot be defined together with the instance name parameter. The disk name and instance
+  name parameters are mutually exclusive.
+- `instance_name`: The unique name of the source instance (e.g.,
   Amazon_Linux-512MB-Virginia-1). When this is defined, a snapshot of the instance's system
   volume is created.  This parameter cannot be defined together with the disk name parameter.
   The instance name and disk name parameters are mutually exclusive.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_disk_snapshot(
-    diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateDiskSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("diskSnapshotName" => diskSnapshotName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -946,43 +571,19 @@ Content delivery networks in Amazon Lightsail.
   Lightsail instance or load balancer. The distribution pulls, caches, and serves content
   from the origin.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cache_behavior_settings"`: An object that describes the cache behavior settings for the
+# Keyword Parameters
+- `cache_behavior_settings`: An object that describes the cache behavior settings for the
   distribution.
-- `"cache_behaviors"`: An array of objects that describe the per-path cache behavior for
-  the distribution.
-- `"ip_address_type"`: The IP address type for the distribution. The possible values are
-  ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
-- `"tags"`: The tag keys and optional values to add to the distribution during create. Use
+- `cache_behaviors`: An array of objects that describe the per-path cache behavior for the
+  distribution.
+- `ip_address_type`: The IP address type for the distribution. The possible values are ipv4
+  for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+- `tags`: The tag keys and optional values to add to the distribution during create. Use
   the TagResource action to tag a resource after it's created.
 """
-function create_distribution(
-    bundleId,
-    defaultCacheBehavior,
-    distributionName,
-    origin;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_distribution(bundleId, defaultCacheBehavior, distributionName, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateDistribution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "bundleId" => bundleId,
-                    "defaultCacheBehavior" => defaultCacheBehavior,
-                    "distributionName" => distributionName,
-                    "origin" => origin,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bundleId"=>bundleId, "defaultCacheBehavior"=>defaultCacheBehavior, "distributionName"=>distributionName, "origin"=>origin), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -998,23 +599,13 @@ Amazon Lightsail Developer Guide.
   another domain name registrar. If you have already registered your domain, you can enter
   its name in this parameter to manage the DNS records for that domain using Lightsail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+# Keyword Parameters
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_domain(
-    domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1033,22 +624,9 @@ name. For more information, see the Amazon Lightsail Developer Guide.
   domain entry.
 
 """
-function create_domain_entry(
-    domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateDomainEntry",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1063,33 +641,13 @@ information, see the Amazon Lightsail Developer Guide.
 - `instance_name`: The Lightsail instance on which to base your snapshot.
 - `instance_snapshot_name`: The name for your new snapshot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+# Keyword Parameters
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_instance_snapshot(
-    instanceName,
-    instanceSnapshotName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_instance_snapshot(instanceName, instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateInstanceSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "instanceName" => instanceName,
-                    "instanceSnapshotName" => instanceSnapshotName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1116,48 +674,24 @@ Developer Guide.
   values using quotation marks and commas, for example:
   [\"MyFirstInstance\",\"MySecondInstance\"]
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"add_ons"`: An array of objects representing the add-ons to enable for the new instance.
-- `"custom_image_name"`: (Deprecated) The name for your custom image.  In releases prior to
+# Keyword Parameters
+- `add_ons`: An array of objects representing the add-ons to enable for the new instance.
+- `custom_image_name`: (Deprecated) The name for your custom image.  In releases prior to
   June 12, 2017, this parameter was ignored by the API. It is now deprecated.
-- `"ip_address_type"`: The IP address type for the instance. The possible values are ipv4
-  for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
-- `"key_pair_name"`: The name of your key pair.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `ip_address_type`: The IP address type for the instance. The possible values are ipv4 for
+  IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+- `key_pair_name`: The name of your key pair.
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
-- `"user_data"`: A launch script you can create that configures a server with additional
-  user data. For example, you might want to run apt-get -y update.  Depending on the machine
-  image you choose, the command to get software on your instance varies. Amazon Linux and
-  CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list,
-  see the Amazon Lightsail Developer Guide.
+- `user_data`: A launch script you can create that configures a server with additional user
+  data. For example, you might want to run apt-get -y update.  Depending on the machine image
+  you choose, the command to get software on your instance varies. Amazon Linux and CentOS
+  use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the
+  Amazon Lightsail Developer Guide.
 """
-function create_instances(
-    availabilityZone,
-    blueprintId,
-    bundleId,
-    instanceNames;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_instances(availabilityZone, blueprintId, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateInstances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "availabilityZone" => availabilityZone,
-                    "blueprintId" => blueprintId,
-                    "bundleId" => bundleId,
-                    "instanceNames" => instanceNames,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "blueprintId"=>blueprintId, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1177,70 +711,47 @@ information, see the Amazon Lightsail Developer Guide.
   instance), including the pricing plan (e.g., micro_1_0).
 - `instance_names`: The names for your new instances.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"add_ons"`: An array of objects representing the add-ons to enable for the new instance.
-- `"attached_disk_mapping"`: An object containing information about one or more disk
-  mappings.
-- `"instance_snapshot_name"`: The name of the instance snapshot on which you are basing
-  your new instances. Use the get instance snapshots operation to return information about
-  your existing snapshots. Constraint:   This parameter cannot be defined together with the
-  source instance name parameter. The instance snapshot name and source instance name
-  parameters are mutually exclusive.
-- `"ip_address_type"`: The IP address type for the instance. The possible values are ipv4
-  for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
-- `"key_pair_name"`: The name for your key pair.
-- `"restore_date"`: The date of the automatic snapshot to use for the new instance. Use the
+# Keyword Parameters
+- `add_ons`: An array of objects representing the add-ons to enable for the new instance.
+- `attached_disk_mapping`: An object containing information about one or more disk mappings.
+- `instance_snapshot_name`: The name of the instance snapshot on which you are basing your
+  new instances. Use the get instance snapshots operation to return information about your
+  existing snapshots. Constraint:   This parameter cannot be defined together with the source
+  instance name parameter. The instance snapshot name and source instance name parameters are
+  mutually exclusive.
+- `ip_address_type`: The IP address type for the instance. The possible values are ipv4 for
+  IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+- `key_pair_name`: The name for your key pair.
+- `restore_date`: The date of the automatic snapshot to use for the new instance. Use the
   get auto snapshots operation to identify the dates of the available automatic snapshots.
   Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when creating a new instance from an automatic snapshot. For more information, see the
   Amazon Lightsail Developer Guide.
-- `"source_instance_name"`: The name of the source instance from which the source automatic
+- `source_instance_name`: The name of the source instance from which the source automatic
   snapshot was created. Constraints:   This parameter cannot be defined together with the
   instance snapshot name parameter. The source instance name and instance snapshot name
   parameters are mutually exclusive.   Define this parameter only when creating a new
   instance from an automatic snapshot. For more information, see the Amazon Lightsail
   Developer Guide.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
-- `"use_latest_restorable_auto_snapshot"`: A Boolean value to indicate whether to use the
+- `use_latest_restorable_auto_snapshot`: A Boolean value to indicate whether to use the
   latest available automatic snapshot. Constraints:   This parameter cannot be defined
   together with the restore date parameter. The use latest restorable auto snapshot and
   restore date parameters are mutually exclusive.   Define this parameter only when creating
   a new instance from an automatic snapshot. For more information, see the Amazon Lightsail
   Developer Guide.
-- `"user_data"`: You can create a launch script that configures a server with additional
-  user data. For example, apt-get -y update.  Depending on the machine image you choose, the
+- `user_data`: You can create a launch script that configures a server with additional user
+  data. For example, apt-get -y update.  Depending on the machine image you choose, the
   command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian
   and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail
   Developer Guide.
 """
-function create_instances_from_snapshot(
-    availabilityZone,
-    bundleId,
-    instanceNames;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_instances_from_snapshot(availabilityZone, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateInstancesFromSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "availabilityZone" => availabilityZone,
-                    "bundleId" => bundleId,
-                    "instanceNames" => instanceNames,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateInstancesFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1252,23 +763,13 @@ via request tags. For more information, see the Amazon Lightsail Developer Guide
 # Arguments
 - `key_pair_name`: The name for your new key pair.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+# Keyword Parameters
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_key_pair(
-    keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateKeyPair",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("keyPairName" => keyPairName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1286,46 +787,27 @@ Developer Guide.
 - `instance_port`: The instance port where you're creating your load balancer.
 - `load_balancer_name`: The name of your load balancer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_alternative_names"`: The optional alternative domains and subdomains to use
+# Keyword Parameters
+- `certificate_alternative_names`: The optional alternative domains and subdomains to use
   with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com,
   blog.example.com).
-- `"certificate_domain_name"`: The domain name with which your certificate is associated
+- `certificate_domain_name`: The domain name with which your certificate is associated
   (e.g., example.com). If you specify certificateDomainName, then certificateName is required
   (and vice-versa).
-- `"certificate_name"`: The name of the SSL/TLS certificate. If you specify
-  certificateName, then certificateDomainName is required (and vice-versa).
-- `"health_check_path"`: The path you provided to perform the load balancer health check.
-  If you didn't specify a health check path, Lightsail uses the root path of your website
-  (e.g., \"/\"). You may want to specify a custom health check path other than the root of
-  your application if your home page loads slowly or has a lot of media or scripting on it.
-- `"ip_address_type"`: The IP address type for the load balancer. The possible values are
+- `certificate_name`: The name of the SSL/TLS certificate. If you specify certificateName,
+  then certificateDomainName is required (and vice-versa).
+- `health_check_path`: The path you provided to perform the load balancer health check. If
+  you didn't specify a health check path, Lightsail uses the root path of your website (e.g.,
+  \"/\"). You may want to specify a custom health check path other than the root of your
+  application if your home page loads slowly or has a lot of media or scripting on it.
+- `ip_address_type`: The IP address type for the load balancer. The possible values are
   ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_load_balancer(
-    instancePort,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_load_balancer(instancePort, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "instancePort" => instancePort, "loadBalancerName" => loadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instancePort"=>instancePort, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1347,39 +829,17 @@ the Amazon Lightsail Developer Guide.
 - `load_balancer_name`: The load balancer name where you want to create the SSL/TLS
   certificate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_alternative_names"`: An array of strings listing alternative domains and
+# Keyword Parameters
+- `certificate_alternative_names`: An array of strings listing alternative domains and
   subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can
   have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not
   support wildcards (e.g., *.example.com).
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_load_balancer_tls_certificate(
-    certificateDomainName,
-    certificateName,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_load_balancer_tls_certificate(certificateDomainName, certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateLoadBalancerTlsCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "certificateDomainName" => certificateDomainName,
-                    "certificateName" => certificateName,
-                    "loadBalancerName" => loadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateDomainName"=>certificateDomainName, "certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1423,17 +883,16 @@ Lightsail Developer Guide.
   Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first
   and last character must be a letter or number.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zone"`: The Availability Zone in which to create your new database. Use
-  the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the
-  get regions operation. Be sure to add the include relational database Availability Zones
+# Keyword Parameters
+- `availability_zone`: The Availability Zone in which to create your new database. Use the
+  us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get
+  regions operation. Be sure to add the include relational database Availability Zones
   parameter to your request.
-- `"master_user_password"`: The password for the master user. The password can include any
+- `master_user_password`: The password for the master user. The password can include any
   printable ASCII character except \"/\", \"\"\", or \"@\". It cannot contain spaces.  MySQL
   Constraints: Must contain from 8 to 41 characters.  PostgreSQL  Constraints: Must contain
   from 8 to 128 characters.
-- `"preferred_backup_window"`: The daily time range during which automated backups are
+- `preferred_backup_window`: The daily time range during which automated backups are
   created for your new database if automated backups are enabled. The default is a 30-minute
   window selected at random from an 8-hour block of time for each AWS Region. For more
   information about the preferred backup window time blocks for each region, see the Working
@@ -1441,47 +900,22 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in
   Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance
   window.   Must be at least 30 minutes.
-- `"preferred_maintenance_window"`: The weekly time range during which system maintenance
-  can occur on your new database. The default is a 30-minute window selected at random from
-  an 8-hour block of time for each AWS Region, occurring on a random day of the week.
+- `preferred_maintenance_window`: The weekly time range during which system maintenance can
+  occur on your new database. The default is a 30-minute window selected at random from an
+  8-hour block of time for each AWS Region, occurring on a random day of the week.
   Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed,
   Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal
   Time (UTC).   Example: Tue:17:00-Tue:17:30
-- `"publicly_accessible"`: Specifies the accessibility options for your new database. A
-  value of true specifies a database that is available to resources outside of your Lightsail
+- `publicly_accessible`: Specifies the accessibility options for your new database. A value
+  of true specifies a database that is available to resources outside of your Lightsail
   account. A value of false specifies a database that is available only to your Lightsail
   resources in the same region as your database.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_relational_database(
-    masterDatabaseName,
-    masterUsername,
-    relationalDatabaseBlueprintId,
-    relationalDatabaseBundleId,
-    relationalDatabaseName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_relational_database(masterDatabaseName, masterUsername, relationalDatabaseBlueprintId, relationalDatabaseBundleId, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "masterDatabaseName" => masterDatabaseName,
-                    "masterUsername" => masterUsername,
-                    "relationalDatabaseBlueprintId" => relationalDatabaseBlueprintId,
-                    "relationalDatabaseBundleId" => relationalDatabaseBundleId,
-                    "relationalDatabaseName" => relationalDatabaseName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("masterDatabaseName"=>masterDatabaseName, "masterUsername"=>masterUsername, "relationalDatabaseBlueprintId"=>relationalDatabaseBlueprintId, "relationalDatabaseBundleId"=>relationalDatabaseBundleId, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1500,51 +934,36 @@ Guide.
   Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first
   and last character must be a letter or number.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zone"`: The Availability Zone in which to create your new database. Use
-  the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the
-  get regions operation. Be sure to add the include relational database Availability Zones
+# Keyword Parameters
+- `availability_zone`: The Availability Zone in which to create your new database. Use the
+  us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get
+  regions operation. Be sure to add the include relational database Availability Zones
   parameter to your request.
-- `"publicly_accessible"`: Specifies the accessibility options for your new database. A
-  value of true specifies a database that is available to resources outside of your Lightsail
+- `publicly_accessible`: Specifies the accessibility options for your new database. A value
+  of true specifies a database that is available to resources outside of your Lightsail
   account. A value of false specifies a database that is available only to your Lightsail
   resources in the same region as your database.
-- `"relational_database_bundle_id"`: The bundle ID for your new database. A bundle
-  describes the performance specifications for your database. You can get a list of database
-  bundle IDs by using the get relational database bundles operation. When creating a new
-  database from a snapshot, you cannot choose a bundle that is smaller than the bundle of the
-  source database.
-- `"relational_database_snapshot_name"`: The name of the database snapshot from which to
+- `relational_database_bundle_id`: The bundle ID for your new database. A bundle describes
+  the performance specifications for your database. You can get a list of database bundle IDs
+  by using the get relational database bundles operation. When creating a new database from a
+  snapshot, you cannot choose a bundle that is smaller than the bundle of the source database.
+- `relational_database_snapshot_name`: The name of the database snapshot from which to
   create your new database.
-- `"restore_time"`: The date and time to restore your database from. Constraints:   Must be
+- `restore_time`: The date and time to restore your database from. Constraints:   Must be
   before the latest restorable time for the database.   Cannot be specified if the use latest
   restorable time parameter is true.   Specified in Coordinated Universal Time (UTC).
   Specified in the Unix time format. For example, if you wish to use a restore time of
   October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.
-- `"source_relational_database_name"`: The name of the source database.
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+- `source_relational_database_name`: The name of the source database.
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
-- `"use_latest_restorable_time"`: Specifies whether your database is restored from the
-  latest backup time. A value of true restores from the latest backup time.  Default: false
+- `use_latest_restorable_time`: Specifies whether your database is restored from the latest
+  backup time. A value of true restores from the latest backup time.  Default: false
   Constraints: Cannot be specified if the restore time parameter is provided.
 """
-function create_relational_database_from_snapshot(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_relational_database_from_snapshot(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateRelationalDatabaseFromSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateRelationalDatabaseFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1561,33 +980,13 @@ For more information, see the Amazon Lightsail Developer Guide.
   Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first
   and last character must be a letter or number.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tag keys and optional values to add to the resource during create. Use the
+# Keyword Parameters
+- `tags`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-function create_relational_database_snapshot(
-    relationalDatabaseName,
-    relationalDatabaseSnapshotName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_relational_database_snapshot(relationalDatabaseName, relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "CreateRelationalDatabaseSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "relationalDatabaseName" => relationalDatabaseName,
-                    "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("CreateRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName, "relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1602,18 +1001,9 @@ Amazon Lightsail.
 - `alarm_name`: The name of the alarm to delete.
 
 """
-function delete_alarm(
-    alarmName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_alarm(alarmName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteAlarm",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("alarmName" => alarmName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1629,22 +1019,9 @@ Lightsail Developer Guide.
   automatic snapshot.
 
 """
-function delete_auto_snapshot(
-    date, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_auto_snapshot(date, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteAutoSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("date" => date, "resourceName" => resourceName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteAutoSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("date"=>date, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1657,27 +1034,17 @@ released and can be reused for a new bucket in your account or another AWS accou
 - `bucket_name`: The name of the bucket to delete. Use the GetBuckets action to get a list
   of bucket names that you can specify.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete"`: A Boolean value that indicates whether to force delete the bucket. You
+# Keyword Parameters
+- `force_delete`: A Boolean value that indicates whether to force delete the bucket. You
   must force delete the bucket if it has one of the following conditions:   The bucket is the
   origin of a distribution.   The bucket has instances that were granted access to it using
   the SetResourceAccessForBucket action.   The bucket has objects.   The bucket has access
   keys.    Force deleting a bucket might impact other resources that rely on the bucket, such
   as instances, distributions, or software that use the issued access keys.
 """
-function delete_bucket(
-    bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteBucket",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1694,22 +1061,9 @@ Lightsail Developer Guide.
 - `bucket_name`: The name of the bucket that the access key belongs to.
 
 """
-function delete_bucket_access_key(
-    accessKeyId, bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_access_key(accessKeyId, bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteBucketAccessKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("accessKeyId" => accessKeyId, "bucketName" => bucketName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteBucketAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessKeyId"=>accessKeyId, "bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1725,20 +1079,9 @@ distribution.
   to get a list of certificate names that you can specify.
 
 """
-function delete_certificate(
-    certificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_certificate(certificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("certificateName" => certificateName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1756,18 +1099,9 @@ information, see Notifications in Amazon Lightsail.
   DeleteContactMethod actions to delete each protocol.
 
 """
-function delete_contact_method(
-    protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_contact_method(protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteContactMethod",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("protocol" => protocol), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1786,22 +1120,9 @@ Deletes a container image that is registered to your Amazon Lightsail container 
   container image.
 
 """
-function delete_container_image(
-    image, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_container_image(image, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteContainerImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("image" => image, "serviceName" => serviceName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("image"=>image, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1813,18 +1134,9 @@ Deletes your Amazon Lightsail container service.
 - `service_name`: The name of the container service to delete.
 
 """
-function delete_container_service(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_container_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteContainerService",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1839,21 +1151,13 @@ Lightsail Developer Guide.
 # Arguments
 - `disk_name`: The unique name of the disk you want to delete (e.g., my-disk).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete_add_ons"`: A Boolean value to indicate whether to delete the enabled
-  add-ons for the disk.
+# Keyword Parameters
+- `force_delete_add_ons`: A Boolean value to indicate whether to delete the enabled add-ons
+  for the disk.
 """
 function delete_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteDisk",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("diskName" => diskName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1873,20 +1177,9 @@ the Amazon Lightsail Developer Guide.
   my-disk-snapshot).
 
 """
-function delete_disk_snapshot(
-    diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteDiskSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("diskSnapshotName" => diskSnapshotName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1894,16 +1187,13 @@ end
 
 Deletes your Amazon Lightsail content delivery network (CDN) distribution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"distribution_name"`: The name of the distribution to delete. Use the GetDistributions
+# Keyword Parameters
+- `distribution_name`: The name of the distribution to delete. Use the GetDistributions
   action to get a list of distribution names that you can specify.
 """
 function delete_distribution(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteDistribution", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("DeleteDistribution", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1917,18 +1207,9 @@ identified by domain name. For more information, see the Amazon Lightsail Develo
 - `domain_name`: The specific domain name to delete.
 
 """
-function delete_domain(
-    domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1944,22 +1225,9 @@ more information, see the Amazon Lightsail Developer Guide.
 - `domain_name`: The name of the domain entry to delete.
 
 """
-function delete_domain_entry(
-    domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteDomainEntry",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1972,23 +1240,13 @@ more information, see the Amazon Lightsail Developer Guide.
 # Arguments
 - `instance_name`: The name of the instance to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete_add_ons"`: A Boolean value to indicate whether to delete the enabled
-  add-ons for the disk.
+# Keyword Parameters
+- `force_delete_add_ons`: A Boolean value to indicate whether to delete the enabled add-ons
+  for the disk.
 """
-function delete_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2003,22 +1261,9 @@ Lightsail Developer Guide.
 - `instance_snapshot_name`: The name of the snapshot to delete.
 
 """
-function delete_instance_snapshot(
-    instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_instance_snapshot(instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteInstanceSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2032,18 +1277,9 @@ information, see the Amazon Lightsail Developer Guide.
 - `key_pair_name`: The name of the key pair to delete.
 
 """
-function delete_key_pair(
-    keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteKeyPair",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("keyPairName" => keyPairName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2062,18 +1298,9 @@ client.
   certificate.
 
 """
-function delete_known_host_keys(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_known_host_keys(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteKnownHostKeys",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteKnownHostKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2089,20 +1316,9 @@ balancer name. For more information, see the Amazon Lightsail Developer Guide.
 - `load_balancer_name`: The name of the load balancer you want to delete.
 
 """
-function delete_load_balancer(
-    loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("loadBalancerName" => loadBalancerName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2117,35 +1333,15 @@ the Amazon Lightsail Developer Guide.
 - `certificate_name`: The SSL/TLS certificate name.
 - `load_balancer_name`: The load balancer name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`: When true, forces the deletion of an SSL/TLS certificate. There can be two
+# Keyword Parameters
+- `force`: When true, forces the deletion of an SSL/TLS certificate. There can be two
   certificates associated with a Lightsail load balancer: the primary and the backup. The
   force parameter is required when the primary SSL/TLS certificate is in use by an instance
   attached to the load balancer.
 """
-function delete_load_balancer_tls_certificate(
-    certificateName,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_load_balancer_tls_certificate(certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteLoadBalancerTlsCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "certificateName" => certificateName,
-                    "loadBalancerName" => loadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2158,35 +1354,21 @@ relationalDatabaseName. For more information, see the Amazon Lightsail Developer
 # Arguments
 - `relational_database_name`: The name of the database that you are deleting.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"final_relational_database_snapshot_name"`: The name of the database snapshot created if
+# Keyword Parameters
+- `final_relational_database_snapshot_name`: The name of the database snapshot created if
   skip final snapshot is false, which is the default value for that parameter.  Specifying
   this parameter and also specifying the skip final snapshot parameter to true results in an
   error.  Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.
   The first and last character must be a letter or number.
-- `"skip_final_snapshot"`: Determines whether a final database snapshot is created before
+- `skip_final_snapshot`: Determines whether a final database snapshot is created before
   your database is deleted. If true is specified, no database snapshot is created. If false
   is specified, a database snapshot is created before your database is deleted. You must
   specify the final relational database snapshot name parameter if the skip final snapshot
   parameter is false. Default: false
 """
-function delete_relational_database(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2202,26 +1384,9 @@ Developer Guide.
   deleting.
 
 """
-function delete_relational_database_snapshot(
-    relationalDatabaseSnapshotName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_relational_database_snapshot(relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DeleteRelationalDatabaseSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DeleteRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2236,20 +1401,9 @@ for all of the domains that are associated with the certificate.
   Use the GetDistributions action to get a list of distribution names that you can specify.
 
 """
-function detach_certificate_from_distribution(
-    distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_certificate_from_distribution(distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DetachCertificateFromDistribution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("distributionName" => distributionName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DetachCertificateFromDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2268,14 +1422,7 @@ the Amazon Lightsail Developer Guide.
 """
 function detach_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DetachDisk",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("diskName" => diskName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DetachDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2293,27 +1440,9 @@ information, see the Amazon Lightsail Developer Guide.
 - `load_balancer_name`: The name of the Lightsail load balancer.
 
 """
-function detach_instances_from_load_balancer(
-    instanceNames,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function detach_instances_from_load_balancer(instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DetachInstancesFromLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DetachInstancesFromLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2325,18 +1454,9 @@ Detaches a static IP from the Amazon Lightsail instance to which it is attached.
 - `static_ip_name`: The name of the static IP to detach from the instance.
 
 """
-function detach_static_ip(
-    staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DetachStaticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DetachStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2350,22 +1470,9 @@ Lightsail Developer Guide.
 - `resource_name`: The name of the source resource for which to disable the add-on.
 
 """
-function disable_add_on(
-    addOnType, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_add_on(addOnType, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DisableAddOn",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("addOnType" => addOnType, "resourceName" => resourceName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DisableAddOn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addOnType"=>addOnType, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2374,16 +1481,9 @@ end
 Downloads the default SSH key pair from the user's account.
 
 """
-function download_default_key_pair(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function download_default_key_pair(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "DownloadDefaultKeyPair",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("DownloadDefaultKeyPair", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2397,24 +1497,9 @@ the Amazon Lightsail Developer Guide.
 - `resource_name`: The name of the source resource for which to enable or modify the add-on.
 
 """
-function enable_add_on(
-    addOnRequest, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_add_on(addOnRequest, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "EnableAddOn",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "addOnRequest" => addOnRequest, "resourceName" => resourceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("EnableAddOn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addOnRequest"=>addOnRequest, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2437,20 +1522,9 @@ list of snapshots that you can export to Amazon EC2.
   Amazon EC2.
 
 """
-function export_snapshot(
-    sourceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function export_snapshot(sourceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "ExportSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("sourceSnapshotName" => sourceSnapshotName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("ExportSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceSnapshotName"=>sourceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2458,18 +1532,15 @@ end
 
 Returns the names of all active (not deleted) resources.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetActiveNames request. If your results are paginated,
-  the response will return a next page token that you can specify as the page token in a
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetActiveNames request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_active_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetActiveNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetActiveNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2482,23 +1553,20 @@ metric for one of your resources. When a metric condition is met, the alarm can 
 by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For
 more information, see Alarms in Amazon Lightsail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alarm_name"`: The name of the alarm. Specify an alarm name to return information about
-  a specific alarm.
-- `"monitored_resource_name"`: The name of the Lightsail resource being monitored by the
+# Keyword Parameters
+- `alarm_name`: The name of the alarm. Specify an alarm name to return information about a
+  specific alarm.
+- `monitored_resource_name`: The name of the Lightsail resource being monitored by the
   alarm. Specify a monitored resource name to return information about all alarms for a
   specific resource.
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetAlarms request. If your results are paginated, the
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetAlarms request. If your results are paginated, the
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_alarms(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2512,18 +1580,9 @@ see the Amazon Lightsail Developer Guide.
   snapshot information.
 
 """
-function get_auto_snapshots(
-    resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_auto_snapshots(resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetAutoSnapshots",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetAutoSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2537,20 +1596,17 @@ blueprints are listed to support customers with existing instances and are not n
 available to create new instances. Blueprints are marked inactive when they become outdated
 due to operating system updates or new application releases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_inactive"`: A Boolean value indicating whether to include inactive results in
+# Keyword Parameters
+- `include_inactive`: A Boolean value indicating whether to include inactive results in
   your request.
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetBlueprints request. If your results are paginated,
-  the response will return a next page token that you can specify as the page token in a
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetBlueprints request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_blueprints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2565,18 +1621,9 @@ lose the secret access key, you must create a new access key.
 - `bucket_name`: The name of the bucket for which to return access keys.
 
 """
-function get_bucket_access_keys(
-    bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_access_keys(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetBucketAccessKeys",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetBucketAccessKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2586,16 +1633,13 @@ Returns the bundles that you can apply to a Amazon Lightsail bucket. The bucket 
 specifies the monthly cost, storage quota, and data transfer quota for a bucket. Use the
 UpdateBucketBundle action to update the bundle for a bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_inactive"`: A Boolean value that indicates whether to include inactive
+# Keyword Parameters
+- `include_inactive`: A Boolean value that indicates whether to include inactive
   (unavailable) bundles in the response.
 """
 function get_bucket_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetBucketBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetBucketBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2639,38 +1683,9 @@ those objects.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-function get_bucket_metric_data(
-    bucketName,
-    endTime,
-    metricName,
-    period,
-    startTime,
-    statistics,
-    unit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_bucket_metric_data(bucketName, endTime, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetBucketMetricData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "bucketName" => bucketName,
-                    "endTime" => endTime,
-                    "metricName" => metricName,
-                    "period" => period,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                    "unit" => unit,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetBucketMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2679,23 +1694,20 @@ end
 Returns information about one or more Amazon Lightsail buckets. For more information about
 buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide..
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bucket_name"`: The name of the bucket for which to return information. When omitted,
-  the response includes all of your buckets in the AWS Region where the request is made.
-- `"include_connected_resources"`: A Boolean value that indicates whether to include
+# Keyword Parameters
+- `bucket_name`: The name of the bucket for which to return information. When omitted, the
+  response includes all of your buckets in the AWS Region where the request is made.
+- `include_connected_resources`: A Boolean value that indicates whether to include
   Lightsail instances that were given access to the bucket using the
   SetResourceAccessForBucket action.
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetBuckets request. If your results are paginated, the
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetBuckets request. If your results are paginated, the
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_buckets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetBuckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetBuckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2704,20 +1716,17 @@ end
 Returns the list of bundles that are available for purchase. A bundle describes the specs
 for your virtual private server (or instance).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_inactive"`: A Boolean value that indicates whether to include inactive bundle
+# Keyword Parameters
+- `include_inactive`: A Boolean value that indicates whether to include inactive bundle
   results in your request.
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetBundles request. If your results are paginated, the
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetBundles request. If your results are paginated, the
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2728,24 +1737,21 @@ summary of a certificate, ommit includeCertificateDetails from your request. The
 will include only the certificate Amazon Resource Name (ARN), certificate name, domain
 name, and tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_name"`: The name for the certificate for which to return information. When
+# Keyword Parameters
+- `certificate_name`: The name for the certificate for which to return information. When
   omitted, the response includes all of your certificates in the AWS Region where the request
   is made.
-- `"certificate_statuses"`: The status of the certificates for which to return information.
+- `certificate_statuses`: The status of the certificates for which to return information.
   For example, specify ISSUED to return only certificates with an ISSUED status. When
   omitted, the response includes all of your certificates in the AWS Region where the request
   is made, regardless of their current status.
-- `"include_certificate_details"`: Indicates whether to include detailed information about
+- `include_certificate_details`: Indicates whether to include detailed information about
   the certificates in the response. When omitted, the response includes only the certificate
   names, Amazon Resource Names (ARNs), domain names, and tags.
 """
 function get_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2755,23 +1761,15 @@ Returns the CloudFormation stack record created as a result of the create cloud 
 stack operation. An AWS CloudFormation stack is used to create a new Amazon EC2 instance
 from an exported Lightsail snapshot.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetClouFormationStackRecords request. If your results
-  are paginated, the response will return a next page token that you can specify as the page
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetClouFormationStackRecords request. If your results are
+  paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_cloud_formation_stack_records(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cloud_formation_stack_records(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetCloudFormationStackRecords",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetCloudFormationStackRecords", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2784,17 +1782,14 @@ and one mobile phone number contact method in each AWS Region. However, SMS text
 is not supported in some AWS Regions, and SMS text messages cannot be sent to some
 countries/regions. For more information, see Notifications in Amazon Lightsail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"protocols"`: The protocols used to send notifications, such as Email, or SMS (text
+# Keyword Parameters
+- `protocols`: The protocols used to send notifications, such as Email, or SMS (text
   messaging). Specify a protocol in your request to return information about a specific
   contact method protocol.
 """
 function get_contact_methods(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContactMethods", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetContactMethods", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2804,16 +1799,9 @@ Returns information about Amazon Lightsail containers, such as the current versi
 Lightsail Control (lightsailctl) plugin.
 
 """
-function get_container_apimetadata(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_apimetadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerAPIMetadata",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerAPIMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2829,18 +1817,9 @@ part of this action. Those images are not registered to your Lightsail container
   container images.
 
 """
-function get_container_images(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_images(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerImages",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2857,14 +1836,13 @@ information, see Amazon Lightsail endpoints and quotas in the AWS General Refere
   the container service for which to return a log.
 - `service_name`: The name of the container service for which to get a container log.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The end of the time interval for which to get log data. Constraints:
+# Keyword Parameters
+- `end_time`: The end of the time interval for which to get log data. Constraints:
   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For
   example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600
   as the end time.   You can convert a human-friendly time to Unix time format using a
   converter like Epoch converter.
-- `"filter_pattern"`: The pattern to use to filter the returned log events to a specific
+- `filter_pattern`: The pattern to use to filter the returned log events to a specific
   term. The following are a few examples of filter patterns that you can specify:   To return
   all log events, specify a filter pattern of \"\".   To exclude log events that contain the
   ERROR term, and return all other log events, specify a filter pattern of \"-ERROR\".   To
@@ -2872,34 +1850,19 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   return log events that contain both the ERROR and Exception terms, specify a filter pattern
   of \"ERROR Exception\".   To return log events that contain the ERROR or the Exception
   term, specify a filter pattern of \"?ERROR ?Exception\".
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetContainerLog request. If your results are
-  paginated, the response will return a next page token that you can specify as the page
-  token in a subsequent request.
-- `"start_time"`: The start of the time interval for which to get log data. Constraints:
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetContainerLog request. If your results are paginated,
+  the response will return a next page token that you can specify as the page token in a
+  subsequent request.
+- `start_time`: The start of the time interval for which to get log data. Constraints:
   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For
   example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify
   1538424000 as the start time.   You can convert a human-friendly time to Unix time format
   using a converter like Epoch converter.
 """
-function get_container_log(
-    containerName, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_log(containerName, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerLog",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "containerName" => containerName, "serviceName" => serviceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerLog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerName"=>containerName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2916,18 +1879,9 @@ endpoints and quotas in the AWS General Reference.
 - `service_name`: The name of the container service for which to return deployments.
 
 """
-function get_container_service_deployments(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_service_deployments(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerServiceDeployments",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerServiceDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2967,36 +1921,9 @@ to maintain the reliability, availability, and performance of your resources.
   points used for the statistical calculation.
 
 """
-function get_container_service_metric_data(
-    endTime,
-    metricName,
-    period,
-    serviceName,
-    startTime,
-    statistics;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_container_service_metric_data(endTime, metricName, period, serviceName, startTime, statistics; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerServiceMetricData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "metricName" => metricName,
-                    "period" => period,
-                    "serviceName" => serviceName,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerServiceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "serviceName"=>serviceName, "startTime"=>startTime, "statistics"=>statistics), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3007,16 +1934,9 @@ services. The power specifies the amount of memory, the number of vCPUs, and the
 of the container service.
 
 """
-function get_container_service_powers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_service_powers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerServicePowers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerServicePowers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3024,22 +1944,14 @@ end
 
 Returns information about one or more of your Amazon Lightsail container services.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"service_name"`: The name of the container service for which to return information. When
+# Keyword Parameters
+- `service_name`: The name of the container service for which to return information. When
   omitted, the response includes all of your container services in the AWS Region where the
   request is made.
 """
-function get_container_services(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_container_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetContainerServices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetContainerServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3053,14 +1965,7 @@ Returns information about a specific block storage disk.
 """
 function get_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDisk",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("diskName" => diskName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3072,20 +1977,9 @@ Returns information about a specific block storage disk snapshot.
 - `disk_snapshot_name`: The name of the disk snapshot (e.g., my-disk-snapshot).
 
 """
-function get_disk_snapshot(
-    diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDiskSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("diskSnapshotName" => diskSnapshotName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3093,18 +1987,15 @@ end
 
 Returns information about all block storage disk snapshots in your AWS account and region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetDiskSnapshots request. If your results are
-  paginated, the response will return a next page token that you can specify as the page
-  token in a subsequent request.
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetDiskSnapshots request. If your results are paginated,
+  the response will return a next page token that you can specify as the page token in a
+  subsequent request.
 """
 function get_disk_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDiskSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetDiskSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3112,18 +2003,15 @@ end
 
 Returns information about all block storage disks in your AWS account and region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetDisks request. If your results are paginated, the
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetDisks request. If your results are paginated, the
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_disks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDisks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetDisks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3134,16 +2022,9 @@ Returns the bundles that can be applied to your Amazon Lightsail content deliver
 monthly cost of your dsitribution.
 
 """
-function get_distribution_bundles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_distribution_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDistributionBundles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetDistributionBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3152,23 +2033,15 @@ end
 Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail
 content delivery network (CDN) distribution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"distribution_name"`: The name of the distribution for which to return the timestamp of
+# Keyword Parameters
+- `distribution_name`: The name of the distribution for which to return the timestamp of
   the last cache reset. Use the GetDistributions action to get a list of distribution names
   that you can specify. When omitted, the response includes the latest cache reset timestamp
   of all your distributions.
 """
-function get_distribution_latest_cache_reset(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_distribution_latest_cache_reset(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDistributionLatestCacheReset",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetDistributionLatestCacheReset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3229,38 +2102,9 @@ reliability, availability, and performance of your resources.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-function get_distribution_metric_data(
-    distributionName,
-    endTime,
-    metricName,
-    period,
-    startTime,
-    statistics,
-    unit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_distribution_metric_data(distributionName, endTime, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDistributionMetricData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "distributionName" => distributionName,
-                    "endTime" => endTime,
-                    "metricName" => metricName,
-                    "period" => period,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                    "unit" => unit,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetDistributionMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3269,21 +2113,18 @@ end
 Returns information about one or more of your Amazon Lightsail content delivery network
 (CDN) distributions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"distribution_name"`: The name of the distribution for which to return information. When
+# Keyword Parameters
+- `distribution_name`: The name of the distribution for which to return information. When
   omitted, the response includes all of your distributions in the AWS Region where the
   request is made.
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetDistributions request. If your results are
-  paginated, the response will return a next page token that you can specify as the page
-  token in a subsequent request.
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetDistributions request. If your results are paginated,
+  the response will return a next page token that you can specify as the page token in a
+  subsequent request.
 """
 function get_distributions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDistributions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetDistributions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3295,18 +2136,9 @@ Returns information about a specific domain recordset.
 - `domain_name`: The domain name for which your want to return information about.
 
 """
-function get_domain(
-    domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3314,18 +2146,15 @@ end
 
 Returns a list of all domains in the user's account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetDomains request. If your results are paginated, the
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetDomains request. If your results are paginated, the
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3335,23 +2164,15 @@ Returns all export snapshot records created as a result of the export snapshot o
 An export snapshot record can be used to create a new Amazon EC2 instance and its related
 resources with the CreateCloudFormationStack action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetExportSnapshotRecords request. If your results are
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetExportSnapshotRecords request. If your results are
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_export_snapshot_records(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_export_snapshot_records(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetExportSnapshotRecords",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetExportSnapshotRecords", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3364,18 +2185,9 @@ server.
 - `instance_name`: The name of the instance.
 
 """
-function get_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3389,22 +2201,12 @@ see the Amazon Lightsail Developer Guide.
 # Arguments
 - `instance_name`: The name of the instance to access.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"protocol"`: The protocol to use to connect to your instance. Defaults to ssh.
+# Keyword Parameters
+- `protocol`: The protocol to use to connect to your instance. Defaults to ssh.
 """
-function get_instance_access_details(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_access_details(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstanceAccessDetails",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstanceAccessDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3482,38 +2284,9 @@ availability, and performance of your resources.
   parameter.
 
 """
-function get_instance_metric_data(
-    endTime,
-    instanceName,
-    metricName,
-    period,
-    startTime,
-    statistics,
-    unit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_instance_metric_data(endTime, instanceName, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstanceMetricData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "instanceName" => instanceName,
-                    "metricName" => metricName,
-                    "period" => period,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                    "unit" => unit,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstanceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceName"=>instanceName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3526,18 +2299,9 @@ allowed to connect to the instance through the ports, and the protocol.
 - `instance_name`: The name of the instance for which to return firewall port states.
 
 """
-function get_instance_port_states(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_port_states(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstancePortStates",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstancePortStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3550,22 +2314,9 @@ Returns information about a specific instance snapshot.
   information.
 
 """
-function get_instance_snapshot(
-    instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_snapshot(instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstanceSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3573,23 +2324,15 @@ end
 
 Returns all instance snapshots for the user's account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetInstanceSnapshots request. If your results are
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetInstanceSnapshots request. If your results are
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_instance_snapshots(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstanceSnapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstanceSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3601,18 +2344,9 @@ Returns the state of a specific instance. Works on one instance at a time.
 - `instance_name`: The name of the instance to get state information about.
 
 """
-function get_instance_state(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_state(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstanceState",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetInstanceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3620,18 +2354,15 @@ end
 
 Returns information about all Amazon Lightsail virtual private servers, or instances.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetInstances request. If your results are paginated,
-  the response will return a next page token that you can specify as the page token in a
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetInstances request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3643,18 +2374,9 @@ Returns information about a specific key pair.
 - `key_pair_name`: The name of the key pair for which you are requesting information.
 
 """
-function get_key_pair(
-    keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetKeyPair",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("keyPairName" => keyPairName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3662,18 +2384,15 @@ end
 
 Returns information about all key pairs in the user's account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetKeyPairs request. If your results are paginated,
-  the response will return a next page token that you can specify as the page token in a
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetKeyPairs request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3685,20 +2404,9 @@ Returns information about the specified Lightsail load balancer.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-function get_load_balancer(
-    loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("loadBalancerName" => loadBalancerName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3774,38 +2482,9 @@ your resources.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-function get_load_balancer_metric_data(
-    endTime,
-    loadBalancerName,
-    metricName,
-    period,
-    startTime,
-    statistics,
-    unit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_load_balancer_metric_data(endTime, loadBalancerName, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetLoadBalancerMetricData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "loadBalancerName" => loadBalancerName,
-                    "metricName" => metricName,
-                    "period" => period,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                    "unit" => unit,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetLoadBalancerMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "loadBalancerName"=>loadBalancerName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3821,20 +2500,9 @@ One is active and the other is inactive.
   certificate.
 
 """
-function get_load_balancer_tls_certificates(
-    loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_load_balancer_tls_certificates(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetLoadBalancerTlsCertificates",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("loadBalancerName" => loadBalancerName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetLoadBalancerTlsCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3842,18 +2510,15 @@ end
 
 Returns information about all load balancers in an account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetLoadBalancers request. If your results are
-  paginated, the response will return a next page token that you can specify as the page
-  token in a subsequent request.
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetLoadBalancers request. If your results are paginated,
+  the response will return a next page token that you can specify as the page token in a
+  subsequent request.
 """
 function get_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3866,18 +2531,9 @@ create an instance, allocate a static IP, attach a static IP, and so on.
 - `operation_id`: A GUID used to identify the operation.
 
 """
-function get_operation(
-    operationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_operation(operationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetOperation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("operationId" => operationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("operationId"=>operationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3887,18 +2543,15 @@ Returns information about all operations. Results are returned from oldest to ne
 a maximum of 200. Results can be paged by making each subsequent call to GetOperations use
 the maximum (last) statusChangedAt value from the previous request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetOperations request. If your results are paginated,
-  the response will return a next page token that you can specify as the page token in a
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetOperations request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_operations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3909,25 +2562,15 @@ Gets operations for a specific resource (e.g., an instance or a static IP).
 # Arguments
 - `resource_name`: The name of the resource for which you are requesting information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetOperationsForResource request. If your results are
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetOperationsForResource request. If your results are
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_operations_for_resource(
-    resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_operations_for_resource(resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetOperationsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetOperationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3936,20 +2579,17 @@ end
 Returns a list of all valid regions for Amazon Lightsail. Use the include availability
 zones parameter to also return the Availability Zones in a region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_availability_zones"`: A Boolean value indicating whether to also include
+# Keyword Parameters
+- `include_availability_zones`: A Boolean value indicating whether to also include
   Availability Zones in your get regions request. Availability Zones are indicated with a
   letter: e.g., us-east-2a.
-- `"include_relational_database_availability_zones"`: A Boolean value indicating whether to
+- `include_relational_database_availability_zones`: A Boolean value indicating whether to
   also include Availability Zones for databases in your get regions request. Availability
   Zones are indicated with a letter (e.g., us-east-2a).
 """
 function get_regions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3961,22 +2601,9 @@ Returns information about a specific database in Amazon Lightsail.
 - `relational_database_name`: The name of the database that you are looking up.
 
 """
-function get_relational_database(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3986,23 +2613,15 @@ Returns a list of available database blueprints in Amazon Lightsail. A blueprint
 the major engine version of a database. You can use a blueprint ID to create a new database
 that runs a specific database engine.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetRelationalDatabaseBlueprints request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetRelationalDatabaseBlueprints request. If your results
+  are paginated, the response will return a next page token that you can specify as the page
+  token in a subsequent request.
 """
-function get_relational_database_blueprints(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_blueprints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseBlueprints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4012,23 +2631,15 @@ Returns the list of bundles that are available in Amazon Lightsail. A bundle des
 performance specifications for a database. You can use a bundle ID to create a new database
 with explicit performance specifications.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetRelationalDatabaseBundles request. If your results
-  are paginated, the response will return a next page token that you can specify as the page
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetRelationalDatabaseBundles request. If your results are
+  paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_relational_database_bundles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseBundles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseBundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4039,32 +2650,18 @@ Returns a list of events for a specific database in Amazon Lightsail.
 # Arguments
 - `relational_database_name`: The name of the database from which to get events.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"duration_in_minutes"`: The number of minutes in the past from which to retrieve events.
+# Keyword Parameters
+- `duration_in_minutes`: The number of minutes in the past from which to retrieve events.
   For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum
   is 1 and the maximum is 14 days (20160 minutes).
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetRelationalDatabaseEvents request. If your results
-  are paginated, the response will return a next page token that you can specify as the page
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetRelationalDatabaseEvents request. If your results are
+  paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_relational_database_events(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_events(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseEvents",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4077,47 +2674,27 @@ Returns a list of log events for a database in Amazon Lightsail.
   streams operation to get a list of available log streams.
 - `relational_database_name`: The name of your database for which to get log events.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The end of the time interval from which to get log events. Constraints:
+# Keyword Parameters
+- `end_time`: The end of the time interval from which to get log events. Constraints:
   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For
   example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input
   1538424000 as the end time.
-- `"page_token"`: The token to advance to the next or previous page of results from your
+- `page_token`: The token to advance to the next or previous page of results from your
   request. To get a page token, perform an initial GetRelationalDatabaseLogEvents request. If
   your results are paginated, the response will return a next forward token and/or next
   backward token that you can specify as the page token in a subsequent request.
-- `"start_from_head"`: Parameter to specify if the log should start from head or tail. If
+- `start_from_head`: Parameter to specify if the log should start from head or tail. If
   true is specified, the log event starts from the head of the log. If false is specified,
   the log event starts from the tail of the log.  For PostgreSQL, the default value of false
   is the only option available.
-- `"start_time"`: The start of the time interval from which to get log events. Constraints:
-    Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For
+- `start_time`: The start of the time interval from which to get log events. Constraints:
+  Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For
   example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input
   1538424000 as the start time.
 """
-function get_relational_database_log_events(
-    logStreamName,
-    relationalDatabaseName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_relational_database_log_events(logStreamName, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseLogEvents",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logStreamName" => logStreamName,
-                    "relationalDatabaseName" => relationalDatabaseName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logStreamName"=>logStreamName, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4129,22 +2706,9 @@ Returns a list of available log streams for a specific database in Amazon Lights
 - `relational_database_name`: The name of your database for which to get log streams.
 
 """
-function get_relational_database_log_streams(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_log_streams(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseLogStreams",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseLogStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4159,29 +2723,15 @@ relationalDatabaseName.
 - `relational_database_name`: The name of your database for which to get the master user
   password.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"password_version"`: The password version to return. Specifying CURRENT or PREVIOUS
+# Keyword Parameters
+- `password_version`: The password version to return. Specifying CURRENT or PREVIOUS
   returns the current or previous passwords respectively. Specifying PENDING returns the
   newest version of the password that will rotate to CURRENT. After the PENDING password
   rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT
 """
-function get_relational_database_master_user_password(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_master_user_password(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseMasterUserPassword",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseMasterUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4237,38 +2787,9 @@ performance of your resources.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-function get_relational_database_metric_data(
-    endTime,
-    metricName,
-    period,
-    relationalDatabaseName,
-    startTime,
-    statistics,
-    unit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_relational_database_metric_data(endTime, metricName, period, relationalDatabaseName, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseMetricData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "metricName" => metricName,
-                    "period" => period,
-                    "relationalDatabaseName" => relationalDatabaseName,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                    "unit" => unit,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "relationalDatabaseName"=>relationalDatabaseName, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4283,29 +2804,15 @@ values, and the data types.
 # Arguments
 - `relational_database_name`: The name of your database for which to get parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetRelationalDatabaseParameters request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetRelationalDatabaseParameters request. If your results
+  are paginated, the response will return a next page token that you can specify as the page
+  token in a subsequent request.
 """
-function get_relational_database_parameters(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_parameters(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4318,26 +2825,9 @@ Returns information about a specific database snapshot in Amazon Lightsail.
   information.
 
 """
-function get_relational_database_snapshot(
-    relationalDatabaseSnapshotName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_relational_database_snapshot(relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4345,23 +2835,15 @@ end
 
 Returns information about all of your database snapshots in Amazon Lightsail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetRelationalDatabaseSnapshots request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetRelationalDatabaseSnapshots request. If your results
+  are paginated, the response will return a next page token that you can specify as the page
+  token in a subsequent request.
 """
-function get_relational_database_snapshots(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_database_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabaseSnapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabaseSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4369,23 +2851,15 @@ end
 
 Returns information about all of your databases in Amazon Lightsail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetRelationalDatabases request. If your results are
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetRelationalDatabases request. If your results are
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-function get_relational_databases(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_relational_databases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetRelationalDatabases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetRelationalDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4397,18 +2871,9 @@ Returns information about an Amazon Lightsail static IP.
 - `static_ip_name`: The name of the static IP in Lightsail.
 
 """
-function get_static_ip(
-    staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetStaticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("GetStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4416,18 +2881,15 @@ end
 
 Returns information about all static IPs in the user's account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"page_token"`: The token to advance to the next page of results from your request. To
-  get a page token, perform an initial GetStaticIps request. If your results are paginated,
-  the response will return a next page token that you can specify as the page token in a
+# Keyword Parameters
+- `page_token`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetStaticIps request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
 function get_static_ips(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "GetStaticIps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("GetStaticIps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4440,27 +2902,9 @@ Imports a public SSH key from a specific key pair.
 - `public_key_base64`: A base64-encoded public key of the ssh-rsa type.
 
 """
-function import_key_pair(
-    keyPairName,
-    publicKeyBase64;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_key_pair(keyPairName, publicKeyBase64; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "ImportKeyPair",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "keyPairName" => keyPairName, "publicKeyBase64" => publicKeyBase64
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName, "publicKeyBase64"=>publicKeyBase64), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4471,9 +2915,7 @@ Returns a Boolean value indicating whether your Lightsail VPC is peered.
 """
 function is_vpc_peered(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "IsVpcPeered", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("IsVpcPeered", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4490,22 +2932,9 @@ Developer Guide.
 - `port_info`: An object to describe the ports to open for the specified instance.
 
 """
-function open_instance_public_ports(
-    instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function open_instance_public_ports(instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "OpenInstancePublicPorts",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("OpenInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4516,9 +2945,7 @@ Peers the Lightsail VPC with the user's default VPC.
 """
 function peer_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "PeerVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("PeerVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4563,21 +2990,20 @@ then evaluated with the updated configuration.
   can currently be monitored by alarms.
 - `threshold`: The value against which the specified statistic is compared.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"contact_protocols"`: The contact protocols to use for the alarm, such as Email, SMS
-  (text messaging), or both. A notification is sent via the specified contact protocol if
+# Keyword Parameters
+- `contact_protocols`: The contact protocols to use for the alarm, such as Email, SMS (text
+  messaging), or both. A notification is sent via the specified contact protocol if
   notifications are enabled for the alarm, and when the alarm is triggered. A notification is
   not sent if a contact protocol is not specified, if the specified contact protocol is not
   configured in the AWS Region, or if notifications are not enabled for the alarm using the
   notificationEnabled paramater. Use the CreateContactMethod action to configure a contact
   protocol in an AWS Region.
-- `"datapoints_to_alarm"`: The number of data points that must be not within the specified
+- `datapoints_to_alarm`: The number of data points that must be not within the specified
   threshold to trigger the alarm. If you are setting an \"M out of N\" alarm, this value
   (datapointsToAlarm) is the M.
-- `"notification_enabled"`: Indicates whether the alarm is enabled. Notifications are
-  enabled by default if you don't specify this parameter.
-- `"notification_triggers"`: The alarm states that trigger a notification. An alarm has the
+- `notification_enabled`: Indicates whether the alarm is enabled. Notifications are enabled
+  by default if you don't specify this parameter.
+- `notification_triggers`: The alarm states that trigger a notification. An alarm has the
   following possible states:    ALARM - The metric is outside of the defined threshold.
   INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough
   data is available for the metric to determine the alarm state.    OK - The metric is within
@@ -4589,7 +3015,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to
   an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't
   specify this parameter.
-- `"treat_missing_data"`: Sets how this alarm will handle missing data points. An alarm can
+- `treat_missing_data`: Sets how this alarm will handle missing data points. An alarm can
   treat missing data in the following ways:    breaching - Assume the missing data is not
   within the threshold. Missing data counts towards the number of times the metric is not
   within the threshold.    notBreaching - Assume the missing data is within the threshold.
@@ -4598,36 +3024,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   missing - Missing data is treated as missing.   If treatMissingData is not specified, the
   default behavior of missing is used.
 """
-function put_alarm(
-    alarmName,
-    comparisonOperator,
-    evaluationPeriods,
-    metricName,
-    monitoredResourceName,
-    threshold;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_alarm(alarmName, comparisonOperator, evaluationPeriods, metricName, monitoredResourceName, threshold; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "PutAlarm",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "alarmName" => alarmName,
-                    "comparisonOperator" => comparisonOperator,
-                    "evaluationPeriods" => evaluationPeriods,
-                    "metricName" => metricName,
-                    "monitoredResourceName" => monitoredResourceName,
-                    "threshold" => threshold,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("PutAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName, "comparisonOperator"=>comparisonOperator, "evaluationPeriods"=>evaluationPeriods, "metricName"=>metricName, "monitoredResourceName"=>monitoredResourceName, "threshold"=>threshold), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4648,22 +3047,9 @@ Developer Guide.
   instance.
 
 """
-function put_instance_public_ports(
-    instanceName, portInfos; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_instance_public_ports(instanceName, portInfos; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "PutInstancePublicPorts",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceName" => instanceName, "portInfos" => portInfos),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("PutInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfos"=>portInfos), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4677,18 +3063,9 @@ information, see the Amazon Lightsail Developer Guide.
 - `instance_name`: The name of the instance to reboot.
 
 """
-function reboot_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "RebootInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4702,22 +3079,9 @@ relationalDatabaseName. For more information, see the Amazon Lightsail Developer
 - `relational_database_name`: The name of your database to reboot.
 
 """
-function reboot_relational_database(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "RebootRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("RebootRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4746,24 +3110,9 @@ Lightsail Developer Guide.
 - `service_name`: The name of the container service for which to register a container image.
 
 """
-function register_container_image(
-    digest, label, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_container_image(digest, label, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "RegisterContainerImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "digest" => digest, "label" => label, "serviceName" => serviceName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("RegisterContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("digest"=>digest, "label"=>label, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4775,18 +3124,9 @@ Deletes a specific static IP from your account.
 - `static_ip_name`: The name of the static IP to delete.
 
 """
-function release_static_ip(
-    staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function release_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "ReleaseStaticIp",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("ReleaseStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4796,21 +3136,13 @@ Deletes currently cached content from your Amazon Lightsail content delivery net
 distribution. After resetting the cache, the next time a content request is made, your
 distribution pulls, serves, and caches it from the origin.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"distribution_name"`: The name of the distribution for which to reset cache. Use the
+# Keyword Parameters
+- `distribution_name`: The name of the distribution for which to reset cache. Use the
   GetDistributions action to get a list of distribution names that you can specify.
 """
-function reset_distribution_cache(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reset_distribution_cache(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "ResetDistributionCache",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("ResetDistributionCache", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4831,18 +3163,9 @@ verified, and confirmed as valid.
 - `protocol`: The protocol to verify, such as Email or SMS (text messaging).
 
 """
-function send_contact_method_verification(
-    protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_contact_method_verification(protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "SendContactMethodVerification",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("protocol" => protocol), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("SendContactMethodVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4862,30 +3185,9 @@ Alternately, you can use this action to disable dual-stack, and enable IPv4 only
   distributions.
 
 """
-function set_ip_address_type(
-    ipAddressType,
-    resourceName,
-    resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_ip_address_type(ipAddressType, resourceName, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "SetIpAddressType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ipAddressType" => ipAddressType,
-                    "resourceName" => resourceName,
-                    "resourceType" => resourceType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4905,30 +3207,9 @@ Region.
   instance must be in a running or stopped state.
 
 """
-function set_resource_access_for_bucket(
-    access,
-    bucketName,
-    resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_resource_access_for_bucket(access, bucketName, resourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "SetResourceAccessForBucket",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "access" => access,
-                    "bucketName" => bucketName,
-                    "resourceName" => resourceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("SetResourceAccessForBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("access"=>access, "bucketName"=>bucketName, "resourceName"=>resourceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4946,18 +3227,9 @@ instance name. For more information, see the Amazon Lightsail Developer Guide.
 - `instance_name`: The name of the instance (a virtual private server) to start.
 
 """
-function start_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "StartInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4972,22 +3244,9 @@ relationalDatabaseName. For more information, see the Amazon Lightsail Developer
 - `relational_database_name`: The name of your database to start.
 
 """
-function start_relational_database(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "StartRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("StartRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5004,25 +3263,15 @@ Developer Guide.
 # Arguments
 - `instance_name`: The name of the instance (a virtual private server) to stop.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`: When set to True, forces a Lightsail instance that is stuck in a stopping
-  state to stop.  Only use the force parameter if your instance is stuck in the stopping
-  state. In any other state, your instance should stop normally without adding this parameter
-  to your API request.
+# Keyword Parameters
+- `force`: When set to True, forces a Lightsail instance that is stuck in a stopping state
+  to stop.  Only use the force parameter if your instance is stuck in the stopping state. In
+  any other state, your instance should stop normally without adding this parameter to your
+  API request.
 """
-function stop_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "StopInstance",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5036,27 +3285,13 @@ Lightsail Developer Guide.
 # Arguments
 - `relational_database_name`: The name of your database to stop.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"relational_database_snapshot_name"`: The name of your new database snapshot to be
-  created before stopping your database.
+# Keyword Parameters
+- `relational_database_snapshot_name`: The name of your new database snapshot to be created
+  before stopping your database.
 """
-function stop_relational_database(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "StopRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("StopRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5073,27 +3308,13 @@ see the Amazon Lightsail Developer Guide.
 - `resource_name`: The name of the resource to which you are adding tags.
 - `tags`: The tag key and optional value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_arn"`: The Amazon Resource Name (ARN) of the resource to which you want to add
-  a tag.
+# Keyword Parameters
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to add a
+  tag.
 """
-function tag_resource(
-    resourceName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceName" => resourceName, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5115,20 +3336,9 @@ Lightsail console. For more information, see Alarms in Amazon Lightsail.
   threshold.
 
 """
-function test_alarm(
-    alarmName, state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function test_alarm(alarmName, state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "TestAlarm",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("alarmName" => alarmName, "state" => state), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("TestAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName, "state"=>state), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5139,9 +3349,7 @@ Unpeers the Lightsail VPC from the user's default VPC.
 """
 function unpeer_vpc(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UnpeerVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return lightsail("UnpeerVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5156,27 +3364,13 @@ information, see the Amazon Lightsail Developer Guide.
 - `resource_name`: The name of the resource from which you are removing a tag.
 - `tag_keys`: The tag keys to delete from the specified resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_arn"`: The Amazon Resource Name (ARN) of the resource from which you want to
+# Keyword Parameters
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource from which you want to
   remove a tag.
 """
-function untag_resource(
-    resourceName, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceName, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceName" => resourceName, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5189,31 +3383,20 @@ access the bucket.
 # Arguments
 - `bucket_name`: The name of the bucket to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_log_config"`: An object that describes the access log configuration for the
+# Keyword Parameters
+- `access_log_config`: An object that describes the access log configuration for the bucket.
+- `access_rules`: An object that sets the public accessibility of objects in the specified
   bucket.
-- `"access_rules"`: An object that sets the public accessibility of objects in the
-  specified bucket.
-- `"readonly_access_accounts"`: An array of strings to specify the AWS account IDs that can
+- `readonly_access_accounts`: An array of strings to specify the AWS account IDs that can
   access the bucket. You can give a maximum of 10 AWS accounts access to a bucket.
-- `"versioning"`: Specifies whether to enable or suspend versioning of objects in the
-  bucket. The following options can be specified:    Enabled - Enables versioning of objects
-  in the specified bucket.    Suspended - Suspends versioning of objects in the specified
-  bucket. Existing object versions are retained.
+- `versioning`: Specifies whether to enable or suspend versioning of objects in the bucket.
+  The following options can be specified:    Enabled - Enables versioning of objects in the
+  specified bucket.    Suspended - Suspends versioning of objects in the specified bucket.
+  Existing object versions are retained.
 """
-function update_bucket(
-    bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateBucket",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5238,22 +3421,9 @@ come.
   action to get a list of bundle IDs that you can specify.
 
 """
-function update_bucket_bundle(
-    bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_bucket_bundle(bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateBucketBundle",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateBucketBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5265,17 +3435,16 @@ scale, and public domain names.
 # Arguments
 - `service_name`: The name of the container service to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"is_disabled"`: A Boolean value to indicate whether the container service is disabled.
-- `"power"`: The power for the container service. The power specifies the amount of memory,
+# Keyword Parameters
+- `is_disabled`: A Boolean value to indicate whether the container service is disabled.
+- `power`: The power for the container service. The power specifies the amount of memory,
   vCPUs, and base monthly cost of each node of the container service. The power and scale of
   a container service makes up its configured capacity. To determine the monthly price of
   your container service, multiply the base price of the power with the scale (the number of
   nodes) of the service. Use the GetContainerServicePowers action to view the specifications
   of each power option.
-- `"public_domain_names"`: The public domain names to use with the container service, such
-  as example.com and www.example.com. You can specify up to four public domain names for a
+- `public_domain_names`: The public domain names to use with the container service, such as
+  example.com and www.example.com. You can specify up to four public domain names for a
   container service. The domain names that you specify are used when you create a deployment
   with a container configured as the public endpoint of your container service. If you don't
   specify public domain names, then you can use the default domain of the container service.
@@ -5283,23 +3452,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   with your container service. Use the CreateCertificate action to create a certificate for
   the public domain names you want to use with your container service.  You can specify
   public domain names using a string to array map as shown in the example later on this page.
-- `"scale"`: The scale for the container service. The scale specifies the allocated compute
+- `scale`: The scale for the container service. The scale specifies the allocated compute
   nodes of the container service. The power and scale of a container service makes up its
   configured capacity. To determine the monthly price of your container service, multiply the
   base price of the power with the scale (the number of nodes) of the service.
 """
-function update_container_service(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_container_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateContainerService",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5312,34 +3472,22 @@ action to update the configuration of your existing distribution.
 - `distribution_name`: The name of the distribution to update. Use the GetDistributions
   action to get a list of distribution names that you can specify.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cache_behavior_settings"`: An object that describes the cache behavior settings for the
+# Keyword Parameters
+- `cache_behavior_settings`: An object that describes the cache behavior settings for the
   distribution.  The cacheBehaviorSettings specified in your UpdateDistributionRequest will
   replace your distribution's existing settings.
-- `"cache_behaviors"`: An array of objects that describe the per-path cache behavior for
-  the distribution.
-- `"default_cache_behavior"`: An object that describes the default cache behavior for the
+- `cache_behaviors`: An array of objects that describe the per-path cache behavior for the
   distribution.
-- `"is_enabled"`: Indicates whether to enable the distribution.
-- `"origin"`: An object that describes the origin resource for the distribution, such as a
+- `default_cache_behavior`: An object that describes the default cache behavior for the
+  distribution.
+- `is_enabled`: Indicates whether to enable the distribution.
+- `origin`: An object that describes the origin resource for the distribution, such as a
   Lightsail instance or load balancer. The distribution pulls, caches, and serves content
   from the origin.
 """
-function update_distribution(
-    distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_distribution(distributionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateDistribution",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("distributionName" => distributionName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5354,23 +3502,15 @@ you can update your distribution's bundle, use the GetDistributions action. The
 ableToUpdateBundle parameter in the result will indicate whether you can currently update
 your distribution's bundle.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bundle_id"`: The bundle ID of the new bundle to apply to your distribution. Use the
+# Keyword Parameters
+- `bundle_id`: The bundle ID of the new bundle to apply to your distribution. Use the
   GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
-- `"distribution_name"`: The name of the distribution for which to update the bundle. Use
-  the GetDistributions action to get a list of distribution names that you can specify.
+- `distribution_name`: The name of the distribution for which to update the bundle. Use the
+  GetDistributions action to get a list of distribution names that you can specify.
 """
-function update_distribution_bundle(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_distribution_bundle(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateDistributionBundle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateDistributionBundle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5385,22 +3525,9 @@ name. For more information, see the Amazon Lightsail Developer Guide.
 - `domain_name`: The name of the domain recordset to update.
 
 """
-function update_domain_entry(
-    domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateDomainEntry",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5418,30 +3545,9 @@ information, see the Amazon Lightsail Developer Guide.
   my-load-balancer.
 
 """
-function update_load_balancer_attribute(
-    attributeName,
-    attributeValue,
-    loadBalancerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_load_balancer_attribute(attributeName, attributeValue, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateLoadBalancerAttribute",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "attributeName" => attributeName,
-                    "attributeValue" => attributeValue,
-                    "loadBalancerName" => loadBalancerName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateLoadBalancerAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributeName"=>attributeName, "attributeValue"=>attributeValue, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5457,59 +3563,44 @@ Developer Guide.
 # Arguments
 - `relational_database_name`: The name of your Lightsail database resource to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"apply_immediately"`: When true, applies changes immediately. When false, applies
-  changes during the preferred maintenance window. Some changes may cause an outage. Default:
-  false
-- `"ca_certificate_identifier"`: Indicates the certificate that needs to be associated with
+# Keyword Parameters
+- `apply_immediately`: When true, applies changes immediately. When false, applies changes
+  during the preferred maintenance window. Some changes may cause an outage. Default: false
+- `ca_certificate_identifier`: Indicates the certificate that needs to be associated with
   the database.
-- `"disable_backup_retention"`: When true, disables automated backup retention for your
+- `disable_backup_retention`: When true, disables automated backup retention for your
   database. Disabling backup retention deletes all automated database backups. Before
   disabling this, you may want to create a snapshot of your database using the create
   relational database snapshot operation. Updates are applied during the next maintenance
   window because this can result in an outage.
-- `"enable_backup_retention"`: When true, enables automated backup retention for your
+- `enable_backup_retention`: When true, enables automated backup retention for your
   database. Updates are applied during the next maintenance window because this can result in
   an outage.
-- `"master_user_password"`: The password for the master user. The password can include any
+- `master_user_password`: The password for the master user. The password can include any
   printable ASCII character except \"/\", \"\"\", or \"@\". MySQL  Constraints: Must contain
   from 8 to 41 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.
-- `"preferred_backup_window"`: The daily time range during which automated backups are
+- `preferred_backup_window`: The daily time range during which automated backups are
   created for your database if automated backups are enabled. Constraints:   Must be in the
   hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated Universal Time
   (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30
   minutes.
-- `"preferred_maintenance_window"`: The weekly time range during which system maintenance
-  can occur on your database. The default is a 30-minute window selected at random from an
-  8-hour block of time for each AWS Region, occurring on a random day of the week.
-  Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed,
-  Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal
-  Time (UTC).   Example: Tue:17:00-Tue:17:30
-- `"publicly_accessible"`: Specifies the accessibility options for your database. A value
-  of true specifies a database that is available to resources outside of your Lightsail
-  account. A value of false specifies a database that is available only to your Lightsail
-  resources in the same region as your database.
-- `"rotate_master_user_password"`: When true, the master user password is changed to a new
+- `preferred_maintenance_window`: The weekly time range during which system maintenance can
+  occur on your database. The default is a 30-minute window selected at random from an 8-hour
+  block of time for each AWS Region, occurring on a random day of the week. Constraints:
+  Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
+  Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).
+  Example: Tue:17:00-Tue:17:30
+- `publicly_accessible`: Specifies the accessibility options for your database. A value of
+  true specifies a database that is available to resources outside of your Lightsail account.
+  A value of false specifies a database that is available only to your Lightsail resources in
+  the same region as your database.
+- `rotate_master_user_password`: When true, the master user password is changed to a new
   strong password generated by Lightsail. Use the get relational database master user
   password operation to get the new password.
 """
-function update_relational_database(
-    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateRelationalDatabase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5530,26 +3621,7 @@ Lightsail Developer Guide.
 - `relational_database_name`: The name of your database for which to update parameters.
 
 """
-function update_relational_database_parameters(
-    parameters,
-    relationalDatabaseName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_relational_database_parameters(parameters, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lightsail(
-        "UpdateRelationalDatabaseParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "parameters" => parameters,
-                    "relationalDatabaseName" => relationalDatabaseName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lightsail("UpdateRelationalDatabaseParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("parameters"=>parameters, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

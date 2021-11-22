@@ -4,16 +4,8 @@ using AWS.AWSServices: textract
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "human_loop_config" => "HumanLoopConfig",
-    "output_config" => "OutputConfig",
-    "kmskey_id" => "KMSKeyId",
-    "notification_channel" => "NotificationChannel",
-    "next_token" => "NextToken",
-    "client_request_token" => "ClientRequestToken",
-    "max_results" => "MaxResults",
-    "job_tag" => "JobTag",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("human_loop_config" => "HumanLoopConfig", "max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "job_tag" => "JobTag", "kmskey_id" => "KMSKeyId", "notification_channel" => "NotificationChannel", "output_config" => "OutputConfig")
 
 """
     analyze_document(document, feature_types; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -45,27 +37,13 @@ use StartDocumentAnalysis. For more information, see Document Text Analysis.
   FeatureTypes. All lines and words detected in the document are included in the response
   (including text that isn't related to the value of FeatureTypes).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"human_loop_config"`: Sets the configuration for the human in the loop workflow for
+# Keyword Parameters
+- `human_loop_config`: Sets the configuration for the human in the loop workflow for
   analyzing documents.
 """
-function analyze_document(
-    Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function analyze_document(Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "AnalyzeDocument",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -81,18 +59,9 @@ receipt, such as header information or the vendors name.
 - `document`:
 
 """
-function analyze_expense(
-    Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "AnalyzeExpense",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Document" => Document), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("AnalyzeExpense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -114,18 +83,9 @@ use StartDocumentTextDetection. For more information, see Document Text Detectio
   you might not need to base64-encode image bytes that are passed using the Bytes field.
 
 """
-function detect_document_text(
-    Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "DetectDocumentText",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Document" => Document), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -161,25 +121,17 @@ GetDocumentAnalysis. For more information, see Document Text Analysis.
 - `job_id`: A unique identifier for the text-detection job. The JobId is returned from
   StartDocumentAnalysis. A JobId value is only valid for 7 days.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum
   of 1,000 results is returned. The default value is 1,000.
-- `"next_token"`: If the previous response was incomplete (because there are more blocks to
+- `next_token`: If the previous response was incomplete (because there are more blocks to
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_document_analysis(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "GetDocumentAnalysis",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -209,25 +161,17 @@ more information, see Document Text Detection.
 - `job_id`: A unique identifier for the text detection job. The JobId is returned from
   StartDocumentTextDetection. A JobId value is only valid for 7 days.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 1,000. If you specify a value greater than 1,000, a maximum of
   1,000 results is returned. The default value is 1,000.
-- `"next_token"`: If the previous response was incomplete (because there are more blocks to
+- `next_token`: If the previous response was incomplete (because there are more blocks to
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_document_text_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_document_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "GetDocumentTextDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -253,25 +197,17 @@ GetExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
 - `job_id`: A unique identifier for the text detection job. The JobId is returned from
   StartExpenseAnalysis. A JobId value is only valid for 7 days.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 20. If you specify a value greater than 20, a maximum of 20
   results is returned. The default value is 20.
-- `"next_token"`: If the previous response was incomplete (because there are more blocks to
+- `next_token`: If the previous response was incomplete (because there are more blocks to
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_expense_analysis(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "GetExpenseAnalysis",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("GetExpenseAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -297,48 +233,27 @@ StartDocumentAnalysis. For more information, see Document Text Analysis.
   FeatureTypes. All lines and words detected in the document are included in the response
   (including text that isn't related to the value of FeatureTypes).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: The idempotent token that you use to identify the start
-  request. If you use the same token with multiple StartDocumentAnalysis requests, the same
-  JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally
-  started more than once. For more information, see Calling Amazon Textract Asynchronous
-  Operations.
-- `"job_tag"`: An identifier that you specify that's included in the completion
-  notification published to the Amazon SNS topic. For example, you can use JobTag to identify
-  the type of document that the completion notification corresponds to (such as a tax form or
-  a receipt).
-- `"kmskey_id"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
+# Keyword Parameters
+- `client_request_token`: The idempotent token that you use to identify the start request.
+  If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is
+  returned. Use ClientRequestToken to prevent the same job from being accidentally started
+  more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
+- `job_tag`: An identifier that you specify that's included in the completion notification
+  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
+  document that the completion notification corresponds to (such as a tax form or a receipt).
+- `kmskey_id`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
   server-side encryption of the objects in the customer bucket. When this parameter is not
   enabled, the result will be encrypted server side,using SSE-S3.
-- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Textract to
-  publish the completion status of the operation to.
-- `"output_config"`: Sets if the output will go to a customer defined bucket. By default,
+- `notification_channel`: The Amazon SNS topic ARN that you want Amazon Textract to publish
+  the completion status of the operation to.
+- `output_config`: Sets if the output will go to a customer defined bucket. By default,
   Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis
   operation.
 """
-function start_document_analysis(
-    DocumentLocation,
-    FeatureTypes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_document_analysis(DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "StartDocumentAnalysis",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -359,40 +274,27 @@ StartDocumentTextDetection. For more information, see Document Text Detection.
 # Arguments
 - `document_location`: The location of the document to be processed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: The idempotent token that's used to identify the start request.
+# Keyword Parameters
+- `client_request_token`: The idempotent token that's used to identify the start request.
   If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
   is returned. Use ClientRequestToken to prevent the same job from being accidentally started
   more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
-- `"job_tag"`: An identifier that you specify that's included in the completion
-  notification published to the Amazon SNS topic. For example, you can use JobTag to identify
-  the type of document that the completion notification corresponds to (such as a tax form or
-  a receipt).
-- `"kmskey_id"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
+- `job_tag`: An identifier that you specify that's included in the completion notification
+  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
+  document that the completion notification corresponds to (such as a tax form or a receipt).
+- `kmskey_id`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
   server-side encryption of the objects in the customer bucket. When this parameter is not
   enabled, the result will be encrypted server side,using SSE-S3.
-- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Textract to
-  publish the completion status of the operation to.
-- `"output_config"`: Sets if the output will go to a customer defined bucket. By default
+- `notification_channel`: The Amazon SNS topic ARN that you want Amazon Textract to publish
+  the completion status of the operation to.
+- `output_config`: Sets if the output will go to a customer defined bucket. By default
   Amazon Textract will save the results internally to be accessed with the
   GetDocumentTextDetection operation.
 """
-function start_document_text_detection(
-    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_document_text_detection(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "StartDocumentTextDetection",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -414,37 +316,25 @@ StartExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
 # Arguments
 - `document_location`: The location of the document to be processed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: The idempotent token that's used to identify the start request.
+# Keyword Parameters
+- `client_request_token`: The idempotent token that's used to identify the start request.
   If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
   is returned. Use ClientRequestToken to prevent the same job from being accidentally started
   more than once. For more information, see Calling Amazon Textract Asynchronous Operations
-- `"job_tag"`: An identifier you specify that's included in the completion notification
+- `job_tag`: An identifier you specify that's included in the completion notification
   published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
   document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"kmskey_id"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
+- `kmskey_id`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
   server-side encryption of the objects in the customer bucket. When this parameter is not
   enabled, the result will be encrypted server side,using SSE-S3.
-- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Textract to
-  publish the completion status of the operation to.
-- `"output_config"`: Sets if the output will go to a customer defined bucket. By default,
+- `notification_channel`: The Amazon SNS topic ARN that you want Amazon Textract to publish
+  the completion status of the operation to.
+- `output_config`: Sets if the output will go to a customer defined bucket. By default,
   Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis
   operation.
 """
-function start_expense_analysis(
-    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_expense_analysis(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return textract(
-        "StartExpenseAnalysis",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return textract("StartExpenseAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,20 +4,8 @@ using AWS.AWSServices: lookoutvision
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "kms_key_id" => "KmsKeyId",
-    "dataset_source" => "DatasetSource",
-    "next_token" => "nextToken",
-    "after_creation_date" => "createdAfter",
-    "before_creation_date" => "createdBefore",
-    "anomaly_class" => "anomalyClass",
-    "description" => "Description",
-    "max_results" => "maxResults",
-    "client_token" => "X-Amzn-Client-Token",
-    "labeled" => "labeled",
-    "source_ref_contains" => "sourceRefContains",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "X-Amzn-Client-Token", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "Description", "kms_key_id" => "KmsKeyId", "tags" => "Tags", "after_creation_date" => "createdAfter", "anomaly_class" => "anomalyClass", "before_creation_date" => "createdBefore", "labeled" => "labeled", "source_ref_contains" => "sourceRefContains", "dataset_source" => "DatasetSource")
 
 """
     create_dataset(dataset_type, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,16 +23,15 @@ lookoutvision:CreateDataset operation.
   test for a test dataset.
 - `project_name`: The name of the project in which you want to create a dataset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to
-  CreateDataset completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from CreateDataset. In
-  this case, safely retry your call to CreateDataset by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to CreateDataset.
-  An idempotency token is active for 8 hours.
-- `"dataset_source"`: The location of the manifest file that Amazon Lookout for Vision uses
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to CreateDataset
+  completes only once. You choose the value to pass. For example, An issue, such as an
+  network outage, might prevent you from getting a response from CreateDataset. In this case,
+  safely retry your call to CreateDataset by using the same ClientToken parameter value. An
+  error occurs if the other input parameters are not the same as in the first request. Using
+  a different value for ClientToken is considered a new call to CreateDataset. An idempotency
+  token is active for 8 hours.
+- `dataset_source`: The location of the manifest file that Amazon Lookout for Vision uses
   to create the dataset. If you don't specify DatasetSource, an empty dataset is created and
   the operation synchronously returns. Later, you can add JSON Lines by calling
   UpdateDatasetEntries.  If you specify a value for DataSource, the manifest at the S3
@@ -52,25 +39,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   asynchronous and might take a while to complete. To find out the current status, Check the
   value of Status returned in a call to DescribeDataset.
 """
-function create_dataset(
-    DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_dataset(DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/datasets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatasetType" => DatasetType, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -91,41 +62,24 @@ require permission to the lookoutvision:TagResource operation.
 - `output_config`: The location where Amazon Lookout for Vision saves the training results.
 - `project_name`: The name of the project in which you want to create a model version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to CreateModel
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to CreateModel
   completes only once. You choose the value to pass. For example, An issue, such as an
   network outage, might prevent you from getting a response from CreateModel. In this case,
   safely retry your call to CreateModel by using the same ClientToken parameter value. An
   error occurs if the other input parameters are not the same as in the first request. Using
   a different value for ClientToken is considered a new call to CreateModel. An idempotency
   token is active for 8 hours.
-- `"description"`: A description for the version of the model.
-- `"kms_key_id"`: The identifier for your AWS Key Management Service (AWS KMS) customer
+- `description`: A description for the version of the model.
+- `kms_key_id`: The identifier for your AWS Key Management Service (AWS KMS) customer
   master key (CMK). The key is used to encrypt training and test images copied into the
   service for model training. Your source images are unaffected. If this parameter is not
   specified, the copied images are encrypted by a key that AWS owns and manages.
-- `"tags"`: A set of tags (key-value pairs) that you want to attach to the model.
+- `tags`: A set of tags (key-value pairs) that you want to attach to the model.
 """
-function create_model(
-    OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_model(OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OutputConfig" => OutputConfig, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -138,35 +92,18 @@ lookoutvision:CreateProject operation.
 # Arguments
 - `project_name`: The name for the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to
-  CreateProject completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from CreateProject. In
-  this case, safely retry your call to CreateProject by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to CreateProject.
-  An idempotency token is active for 8 hours.
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to CreateProject
+  completes only once. You choose the value to pass. For example, An issue, such as an
+  network outage, might prevent you from getting a response from CreateProject. In this case,
+  safely retry your call to CreateProject by using the same ClientToken parameter value. An
+  error occurs if the other input parameters are not the same as in the first request. Using
+  a different value for ClientToken is considered a new call to CreateProject. An idempotency
+  token is active for 8 hours.
 """
-function create_project(
-    ProjectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProjectName" => ProjectName, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -187,29 +124,18 @@ lookoutvision:DeleteDataset operation.
   project, specify train.
 - `project_name`: The name of the project that contains the dataset that you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to
-  DeleteDataset completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from DeleteDataset. In
-  this case, safely retry your call to DeleteDataset by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to DeleteDataset.
-  An idempotency token is active for 8 hours.
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to DeleteDataset
+  completes only once. You choose the value to pass. For example, An issue, such as an
+  network outage, might prevent you from getting a response from DeleteDataset. In this case,
+  safely retry your call to DeleteDataset by using the same ClientToken parameter value. An
+  error occurs if the other input parameters are not the same as in the first request. Using
+  a different value for ClientToken is considered a new call to DeleteDataset. An idempotency
+  token is active for 8 hours.
 """
-function delete_dataset(
-    datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "DELETE",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -225,9 +151,8 @@ perform the lookoutvision:DeleteModel operation.
 - `model_version`: The version of the model that you want to delete.
 - `project_name`: The name of the project that contains the model that you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to DeleteModel
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to DeleteModel
   completes only once. You choose the value to pass. For example, An issue, such as an
   network outage, might prevent you from getting a response from DeleteModel. In this case,
   safely retry your call to DeleteModel by using the same ClientToken parameter value. An
@@ -235,19 +160,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   a different value for ClientToken is considered a new call to DeleteModel. An idempotency
   token is active for 8 hours.
 """
-function delete_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "DELETE",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -263,29 +178,18 @@ lookoutvision:DeleteProject operation.
 # Arguments
 - `project_name`: The name of the project to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to
-  DeleteProject completes only once. You choose the value to pass. For example, An issue,
-  such as an network outage, might prevent you from getting a response from DeleteProject. In
-  this case, safely retry your call to DeleteProject by using the same ClientToken parameter
-  value. An error occurs if the other input parameters are not the same as in the first
-  request. Using a different value for ClientToken is considered a new call to DeleteProject.
-  An idempotency token is active for 8 hours.
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to DeleteProject
+  completes only once. You choose the value to pass. For example, An issue, such as an
+  network outage, might prevent you from getting a response from DeleteProject. In this case,
+  safely retry your call to DeleteProject by using the same ClientToken parameter value. An
+  error occurs if the other input parameters are not the same as in the first request. Using
+  a different value for ClientToken is considered a new call to DeleteProject. An idempotency
+  token is active for 8 hours.
 """
-function delete_project(
-    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "DELETE",
-        "/2020-11-20/projects/$(projectName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -302,17 +206,9 @@ perform the lookoutvision:DescribeDataset operation.
   describe.
 
 """
-function describe_dataset(
-    datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -327,17 +223,9 @@ permissions to perform the lookoutvision:DescribeModel operation.
   describe.
 
 """
-function describe_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -350,17 +238,9 @@ perform the lookoutvision:DescribeProject operation.
 - `project_name`: The name of the project that you want to describe.
 
 """
-function describe_project(
-    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/projects/$(projectName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -383,31 +263,9 @@ permissions to perform the lookoutvision:DetectAnomalies operation.
   use.
 
 """
-function detect_anomalies(
-    Body,
-    Content_Type,
-    modelVersion,
-    projectName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function detect_anomalies(Body, Content_Type, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Body" => Body,
-                    "headers" => Dict{String,Any}("Content-Type" => Content_Type),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -424,38 +282,29 @@ operation.
   project, specify train.
 - `project_name`: The name of the project that contains the dataset that you want to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"after_creation_date"`: Only includes entries after the specified date in the response.
+# Keyword Parameters
+- `after_creation_date`: Only includes entries after the specified date in the response.
   For example, 2020-06-23T00:00:00.
-- `"anomaly_class"`: Specify normal to include only normal images. Specify anomaly to only
+- `anomaly_class`: Specify normal to include only normal images. Specify anomaly to only
   include anomalous entries. If you don't specify a value, Amazon Lookout for Vision returns
   normal and anomalous images.
-- `"before_creation_date"`: Only includes entries before the specified date in the
-  response. For example, 2020-06-23T00:00:00.
-- `"labeled"`: Specify true to include labeled entries, otherwise specify false. If you
-  don't specify a value, Lookout for Vision returns all entries.
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+- `before_creation_date`: Only includes entries before the specified date in the response.
+  For example, 2020-06-23T00:00:00.
+- `labeled`: Specify true to include labeled entries, otherwise specify false. If you don't
+  specify a value, Lookout for Vision returns all entries.
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more data to
+- `next_token`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of dataset entries.
-- `"source_ref_contains"`: Perform a \"contains\" search on the values of the source-ref
-  key within the dataset. For example a value of \"IMG_17\" returns all JSON Lines where the
+- `source_ref_contains`: Perform a \"contains\" search on the values of the source-ref key
+  within the dataset. For example a value of \"IMG_17\" returns all JSON Lines where the
   source-ref key value matches *IMG_17*.
 """
-function list_dataset_entries(
-    datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dataset_entries(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -468,26 +317,17 @@ requires permissions to perform the lookoutvision:ListModels operation.
 - `project_name`: The name of the project that contains the model versions that you want to
   list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more data to
+- `next_token`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of models.
 """
-function list_models(
-    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_models(projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/models",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -496,24 +336,17 @@ end
 Lists the Amazon Lookout for Vision projects in your AWS account. This operation requires
 permissions to perform the lookoutvision:ListProjects operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more data to
+- `next_token`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of projects.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -527,17 +360,9 @@ operation requires permissions to perform the lookoutvision:ListTagsForResource 
   tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -558,9 +383,8 @@ requires permissions to perform the lookoutvision:StartModel operation.
 - `model_version`: The version of the model that you want to start.
 - `project_name`: The name of the project that contains the model that you want to start.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to StartModel
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to StartModel
   completes only once. You choose the value to pass. For example, An issue, such as an
   network outage, might prevent you from getting a response from StartModel. In this case,
   safely retry your call to StartModel by using the same ClientToken parameter value. An
@@ -568,30 +392,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   a different value for ClientToken is considered a new call to StartModel. An idempotency
   token is active for 8 hours.
 """
-function start_model(
-    MinInferenceUnits,
-    modelVersion,
-    projectName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_model(MinInferenceUnits, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MinInferenceUnits" => MinInferenceUnits,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -606,9 +409,8 @@ lookoutvision:StopModel operation.
 - `model_version`: The version of the model that you want to stop.
 - `project_name`: The name of the project that contains the model that you want to stop.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to StopModel
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to StopModel
   completes only once. You choose the value to pass. For example, An issue, such as an
   network outage, might prevent you from getting a response from StopModel. In this case,
   safely retry your call to StopModel by using the same ClientToken parameter value. An error
@@ -616,19 +418,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   different value for ClientToken is considered a new call to StopModel. An idempotency token
   is active for 8 hours.
 """
-function stop_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -643,17 +435,9 @@ operation requires permissions to perform the lookoutvision:TagResource operatio
 - `resource_arn`: The Amazon Resource Name (ARN) of the model to assign the tags.
 
 """
-function tag_resource(
-    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -669,17 +453,9 @@ permissions to perform the lookoutvision:UntagResource operation.
 - `tag_keys`: A list of the keys of the tags that you want to remove.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "DELETE",
-        "/2020-11-20/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -698,9 +474,8 @@ requires permissions to perform the lookoutvision:UpdateDatasetEntries operation
   project, specify train.
 - `project_name`: The name of the project that contains the dataset that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: ClientToken is an idempotency token that ensures a call to
+# Keyword Parameters
+- `client_token`: ClientToken is an idempotency token that ensures a call to
   UpdateDatasetEntries completes only once. You choose the value to pass. For example, An
   issue, such as an network outage, might prevent you from getting a response from
   UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using
@@ -708,25 +483,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the same as in the first request. Using a different value for ClientToken is considered a
   new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
 """
-function update_dataset_entries(
-    Changes,
-    datasetType,
-    projectName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_dataset_entries(Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutvision(
-        "PATCH",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Changes" => Changes, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

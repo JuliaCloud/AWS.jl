@@ -4,69 +4,8 @@ using AWS.AWSServices: chime
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "filter_value" => "filter-value",
-    "calling_name" => "CallingName",
-    "user_email" => "user-email",
-    "default_license" => "DefaultLicense",
-    "chime_sdk_meeting_configuration" => "ChimeSdkMeetingConfiguration",
-    "phone_number_type" => "phone-number-type",
-    "sip_media_application_logging_configuration" => "SipMediaApplicationLoggingConfiguration",
-    "sort_order" => "sort-order",
-    "number_selection_behavior" => "NumberSelectionBehavior",
-    "content" => "Content",
-    "lambda_function_arn" => "LambdaFunctionArn",
-    "sip_media_application_id" => "sip-media-application",
-    "target_applications" => "TargetApplications",
-    "city" => "city",
-    "disabled" => "Disabled",
-    "geo_match_level" => "GeoMatchLevel",
-    "voice_connector" => "VoiceConnector",
-    "privacy" => "Privacy",
-    "app_instance_user_arn" => "app-instance-user-arn",
-    "client_request_token" => "ClientRequestToken",
-    "outbound_events_httpsendpoint" => "OutboundEventsHTTPSEndpoint",
-    "name" => "Name",
-    "meeting_host_id" => "MeetingHostId",
-    "fall_back_phone_number" => "FallBackPhoneNumber",
-    "member_id" => "member-id",
-    "max_results" => "max-results",
-    "sip_headers" => "SipHeaders",
-    "area_code" => "area-code",
-    "toll_free_prefix" => "toll-free-prefix",
-    "credentials" => "Credentials",
-    "metadata" => "Metadata",
-    "role" => "Role",
-    "mode" => "Mode",
-    "username" => "Username",
-    "next_token" => "next-token",
-    "state" => "state",
-    "voice_connector_items" => "VoiceConnectorItems",
-    "notifications_configuration" => "NotificationsConfiguration",
-    "filter_name" => "filter-name",
-    "email" => "Email",
-    "alexa_for_business_metadata" => "AlexaForBusinessMetadata",
-    "product_type" => "ProductType",
-    "endpoints" => "Endpoints",
-    "not_after" => "not-after",
-    "business_calling" => "BusinessCalling",
-    "user_type" => "UserType",
-    "force_associate" => "ForceAssociate",
-    "tags" => "Tags",
-    "not_before" => "not-before",
-    "media_region" => "MediaRegion",
-    "external_meeting_id" => "ExternalMeetingId",
-    "status" => "status",
-    "country" => "country",
-    "aws_region" => "AwsRegion",
-    "attendees" => "Attendees",
-    "chime_bearer" => "x-amz-chime-bearer",
-    "geo_match_params" => "GeoMatchParams",
-    "domain" => "Domain",
-    "expiry_minutes" => "ExpiryMinutes",
-    "type" => "type",
-    "license_type" => "LicenseType",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("chime_bearer" => "x-amz-chime-bearer", "voice_connector_items" => "VoiceConnectorItems", "max_results" => "max-results", "next_token" => "next-token", "type" => "type", "app_instance_user_arn" => "app-instance-user-arn", "expiry_minutes" => "ExpiryMinutes", "geo_match_level" => "GeoMatchLevel", "geo_match_params" => "GeoMatchParams", "name" => "Name", "number_selection_behavior" => "NumberSelectionBehavior", "client_request_token" => "ClientRequestToken", "metadata" => "Metadata", "sip_media_application_id" => "sip-media-application", "disabled" => "Disabled", "fall_back_phone_number" => "FallBackPhoneNumber", "business_calling" => "BusinessCalling", "voice_connector" => "VoiceConnector", "privacy" => "Privacy", "user_type" => "UserType", "not_after" => "not-after", "not_before" => "not-before", "sort_order" => "sort-order", "filter_name" => "filter-name", "filter_value" => "filter-value", "product_type" => "ProductType", "status" => "status", "calling_name" => "CallingName", "attendees" => "Attendees", "external_meeting_id" => "ExternalMeetingId", "media_region" => "MediaRegion", "meeting_host_id" => "MeetingHostId", "notifications_configuration" => "NotificationsConfiguration", "tags" => "Tags", "user_email" => "user-email", "endpoints" => "Endpoints", "chime_sdk_meeting_configuration" => "ChimeSdkMeetingConfiguration", "domain" => "Domain", "content" => "Content", "lambda_function_arn" => "LambdaFunctionArn", "outbound_events_httpsendpoint" => "OutboundEventsHTTPSEndpoint", "credentials" => "Credentials", "aws_region" => "AwsRegion", "role" => "Role", "sip_media_application_logging_configuration" => "SipMediaApplicationLoggingConfiguration", "member_id" => "member-id", "force_associate" => "ForceAssociate", "target_applications" => "TargetApplications", "email" => "Email", "username" => "Username", "sip_headers" => "SipHeaders", "area_code" => "area-code", "city" => "city", "country" => "country", "phone_number_type" => "phone-number-type", "state" => "state", "toll_free_prefix" => "toll-free-prefix", "default_license" => "DefaultLicense", "alexa_for_business_metadata" => "AlexaForBusinessMetadata", "license_type" => "LicenseType", "mode" => "Mode")
 
 """
     associate_phone_number_with_user(e164_phone_number, account_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -79,25 +18,9 @@ Associates a phone number with the specified Amazon Chime user.
 - `user_id`: The user ID.
 
 """
-function associate_phone_number_with_user(
-    E164PhoneNumber,
-    accountId,
-    userId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_phone_number_with_user(E164PhoneNumber, accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("E164PhoneNumber" => E164PhoneNumber), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumber"=>E164PhoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -109,30 +32,14 @@ Associates phone numbers with the specified Amazon Chime Voice Connector.
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_associate"`: If true, associates the provided phone numbers with the provided
+# Keyword Parameters
+- `force_associate`: If true, associates the provided phone numbers with the provided
   Amazon Chime Voice Connector and removes any previously existing associations. If false,
   does not associate any phone numbers that have previously existing associations.
 """
-function associate_phone_numbers_with_voice_connector(
-    E164PhoneNumbers,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_phone_numbers_with_voice_connector(E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -144,30 +51,14 @@ Associates phone numbers with the specified Amazon Chime Voice Connector group.
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_associate"`: If true, associates the provided phone numbers with the provided
+# Keyword Parameters
+- `force_associate`: If true, associates the provided phone numbers with the provided
   Amazon Chime Voice Connector Group and removes any previously existing associations. If
   false, does not associate any phone numbers that have previously existing associations.
 """
-function associate_phone_numbers_with_voice_connector_group(
-    E164PhoneNumbers,
-    voiceConnectorGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_phone_numbers_with_voice_connector_group(E164PhoneNumbers, voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -180,26 +71,9 @@ Associates the specified sign-in delegate groups with the specified Amazon Chime
 - `account_id`: The Amazon Chime account ID.
 
 """
-function associate_signin_delegate_groups_with_account(
-    SigninDelegateGroups,
-    accountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_signin_delegate_groups_with_account(SigninDelegateGroups, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)?operation=associate-signin-delegate-groups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SigninDelegateGroups" => SigninDelegateGroups),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigninDelegateGroups"=>SigninDelegateGroups), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -214,19 +88,9 @@ Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function batch_create_attendee(
-    Attendees, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_create_attendee(Attendees, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees?operation=batch-create",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Attendees" => Attendees), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attendees"=>Attendees), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -238,27 +102,16 @@ Adds a specified number of users to a channel.
 - `member_arns`: The ARNs of the members you want to add to the channel.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
   returned as part of ListChannelMemberships. Hidden members are only returned if the type
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
   This is only supported by moderators.
 """
-function batch_create_channel_membership(
-    MemberArns, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_create_channel_membership(MemberArns, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/memberships?operation=batch-create",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MemberArns" => MemberArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels/$(channelArn)/memberships?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArns"=>MemberArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -274,25 +127,9 @@ or a general chat room member.
 - `room_id`: The room ID.
 
 """
-function batch_create_room_membership(
-    MembershipItemList,
-    accountId,
-    roomId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_create_room_membership(MembershipItemList, accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("MembershipItemList" => MembershipItemList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MembershipItemList"=>MembershipItemList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -306,19 +143,9 @@ in the Deletion queue for 7 days before they are deleted permanently.
 - `phone_number_ids`: List of phone number IDs.
 
 """
-function batch_delete_phone_number(
-    PhoneNumberIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_delete_phone_number(PhoneNumberIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/phone-numbers?operation=batch-delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PhoneNumberIds" => PhoneNumberIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/phone-numbers?operation=batch-delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumberIds"=>PhoneNumberIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -339,19 +166,9 @@ users without suspending them, use the LogoutUser action.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function batch_suspend_user(
-    UserIdList, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_suspend_user(UserIdList, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=suspend",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserIdList" => UserIdList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users?operation=suspend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserIdList"=>UserIdList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -369,19 +186,9 @@ status. Users who are not previously suspended are ignored.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function batch_unsuspend_user(
-    UserIdList, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_unsuspend_user(UserIdList, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=unsuspend",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserIdList" => UserIdList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users?operation=unsuspend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserIdList"=>UserIdList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -400,27 +207,9 @@ request another update.
   product types or calling names to update.
 
 """
-function batch_update_phone_number(
-    UpdatePhoneNumberRequestItems;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_update_phone_number(UpdatePhoneNumberRequestItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/phone-numbers?operation=batch-update",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "UpdatePhoneNumberRequestItems" => UpdatePhoneNumberRequestItems
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/phone-numbers?operation=batch-update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdatePhoneNumberRequestItems"=>UpdatePhoneNumberRequestItems), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -435,26 +224,9 @@ action.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function batch_update_user(
-    UpdateUserRequestItems,
-    accountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_update_user(UpdateUserRequestItems, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("UpdateUserRequestItems" => UpdateUserRequestItems),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateUserRequestItems"=>UpdateUserRequestItems), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -470,13 +242,7 @@ types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administratio
 """
 function create_account(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -490,30 +256,13 @@ AWS API Standard.
 - `client_request_token`: The ClientRequestToken of the AppInstance.
 - `name`: The name of the AppInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"metadata"`: The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
-- `"tags"`: Tags assigned to the AppInstanceUser.
+# Keyword Parameters
+- `metadata`: The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
+- `tags`: Tags assigned to the AppInstanceUser.
 """
-function create_app_instance(
-    ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_app_instance(ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/app-instances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/app-instances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -529,26 +278,9 @@ AppInstanceAdmin role.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function create_app_instance_admin(
-    AppInstanceAdminArn,
-    appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_app_instance_admin(AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/app-instances/$(appInstanceArn)/admins",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -563,38 +295,13 @@ appInstanceUserId and Name for that user.
 - `client_request_token`: The token assigned to the user requesting an AppInstance.
 - `name`: The user's name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"metadata"`: The request's metadata. Limited to a 1KB string in UTF-8.
-- `"tags"`: Tags assigned to the AppInstanceUser.
+# Keyword Parameters
+- `metadata`: The request's metadata. Limited to a 1KB string in UTF-8.
+- `tags`: Tags assigned to the AppInstanceUser.
 """
-function create_app_instance_user(
-    AppInstanceArn,
-    AppInstanceUserId,
-    ClientRequestToken,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/app-instance-users",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AppInstanceArn" => AppInstanceArn,
-                    "AppInstanceUserId" => AppInstanceUserId,
-                    "ClientRequestToken" => ClientRequestToken,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -608,23 +315,12 @@ the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Develop
   the attendee to an identity managed by a builder application.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tag key-value pairs.
+# Keyword Parameters
+- `tags`: The tag key-value pairs.
 """
-function create_attendee(
-    ExternalUserId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_attendee(ExternalUserId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ExternalUserId" => ExternalUserId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalUserId"=>ExternalUserId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -636,23 +332,12 @@ Creates a bot for an Amazon Chime Enterprise account.
 - `display_name`: The bot display name.
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"domain"`: The domain of the Amazon Chime Enterprise account.
+# Keyword Parameters
+- `domain`: The domain of the Amazon Chime Enterprise account.
 """
-function create_bot(
-    DisplayName, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_bot(DisplayName, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/bots",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DisplayName" => DisplayName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -667,43 +352,20 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 - `client_request_token`: The client token for the request. An Idempotency token.
 - `name`: The name of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"metadata"`: The metadata of the creation request. Limited to 1KB and UTF-8.
-- `"mode"`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `metadata`: The metadata of the creation request. Limited to 1KB and UTF-8.
+- `mode`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and
   channel members can add themselves and other members to unrestricted channels. Only
   administrators and moderators can add members to restricted channels.
-- `"privacy"`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't
+- `privacy`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't
   discoverable by users outside the channel. Public channels are discoverable by anyone in
   the AppInstance.
-- `"tags"`: The tags for the creation request.
+- `tags`: The tags for the creation request.
 """
-function create_channel(
-    AppInstanceArn,
-    ClientRequestToken,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_channel(AppInstanceArn, ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AppInstanceArn" => AppInstanceArn,
-                    "ClientRequestToken" => ClientRequestToken,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -720,23 +382,12 @@ as the value in the header.
 - `member_arn`: The ARN of the member being banned.
 - `channel_arn`: The ARN of the ban request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel_ban(
-    MemberArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_channel_ban(MemberArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/bans",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MemberArn" => MemberArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -758,29 +409,12 @@ makes the API call as the value in the header.
   This is only supported by moderators.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel_membership(
-    MemberArn,
-    Type,
-    channelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_channel_membership(MemberArn, Type, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/memberships",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("MemberArn" => MemberArn, "Type" => Type), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -796,30 +430,12 @@ makes the API call as the value in the header.
 - `channel_moderator_arn`: The ARN of the moderator.
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel_moderator(
-    ChannelModeratorArn,
-    channelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_channel_moderator(ChannelModeratorArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/moderators",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChannelModeratorArn" => ChannelModeratorArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -835,40 +451,14 @@ Creates a media capture pipeline.
 - `source_type`: Source type from which the media artifacts will be captured. A Chime SDK
   Meeting is the only supported source.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_sdk_meeting_configuration"`: The configuration for a specified media capture
+# Keyword Parameters
+- `chime_sdk_meeting_configuration`: The configuration for a specified media capture
   pipeline. SourceType must be ChimeSdkMeeting.
-- `"client_request_token"`: The token assigned to the client making the pipeline request.
+- `client_request_token`: The token assigned to the client making the pipeline request.
 """
-function create_media_capture_pipeline(
-    SinkArn,
-    SinkType,
-    SourceArn,
-    SourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_media_capture_pipeline(SinkArn, SinkType, SourceArn, SourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/media-capture-pipelines",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SinkArn" => SinkArn,
-                    "SinkType" => SinkType,
-                    "SourceArn" => SourceArn,
-                    "SourceType" => SourceType,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/media-capture-pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SinkArn"=>SinkArn, "SinkType"=>SinkType, "SourceArn"=>SourceArn, "SourceType"=>SourceType, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -883,34 +473,21 @@ SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"external_meeting_id"`: The external meeting ID.
-- `"media_region"`:  The Region in which to create the meeting. Default: us-east-1.
+# Keyword Parameters
+- `external_meeting_id`: The external meeting ID.
+- `media_region`:  The Region in which to create the meeting. Default: us-east-1.
   Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 ,
   ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 ,
   eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 ,
   us-west-2 .
-- `"meeting_host_id"`: Reserved.
-- `"notifications_configuration"`: The configuration for resource targets to receive
+- `meeting_host_id`: Reserved.
+- `notifications_configuration`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
-- `"tags"`: The tag key-value pairs.
+- `tags`: The tag key-value pairs.
 """
-function create_meeting(
-    ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_meeting(ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -931,32 +508,9 @@ CreateSipMediaApplicationCall action with the corresponding SIP media applicatio
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function create_meeting_dial_out(
-    FromPhoneNumber,
-    JoinToken,
-    ToPhoneNumber,
-    meetingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/dial-outs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FromPhoneNumber" => FromPhoneNumber,
-                    "JoinToken" => JoinToken,
-                    "ToPhoneNumber" => ToPhoneNumber,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -971,34 +525,21 @@ the Amazon Chime SDK in the Amazon Chime Developer Guide .
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attendees"`: The request containing the attendees to create.
-- `"external_meeting_id"`: The external meeting ID.
-- `"media_region"`:  The Region in which to create the meeting. Default: us-east-1 .
+# Keyword Parameters
+- `attendees`: The request containing the attendees to create.
+- `external_meeting_id`: The external meeting ID.
+- `media_region`:  The Region in which to create the meeting. Default: us-east-1 .
   Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 ,
   ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 ,
   eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 ,
   us-west-2 .
-- `"meeting_host_id"`: Reserved.
-- `"notifications_configuration"`:
-- `"tags"`: The tag key-value pairs.
+- `meeting_host_id`: Reserved.
+- `notifications_configuration`:
+- `tags`: The tag key-value pairs.
 """
-function create_meeting_with_attendees(
-    ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_meeting_with_attendees(ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings?operation=create-attendees",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings?operation=create-attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1013,28 +554,9 @@ the Amazon Chime SIP Media Application Dial-In product type.
 - `product_type`: The phone number product type.
 
 """
-function create_phone_number_order(
-    E164PhoneNumbers,
-    ProductType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_phone_number_order(E164PhoneNumbers, ProductType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/phone-number-orders",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "E164PhoneNumbers" => E164PhoneNumbers, "ProductType" => ProductType
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/phone-number-orders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers, "ProductType"=>ProductType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1048,40 +570,18 @@ participant phone numbers.
 - `participant_phone_numbers`: The participant phone numbers.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expiry_minutes"`: The number of minutes allowed for the proxy session.
-- `"geo_match_level"`: The preference for matching the country or area code of the proxy
+# Keyword Parameters
+- `expiry_minutes`: The number of minutes allowed for the proxy session.
+- `geo_match_level`: The preference for matching the country or area code of the proxy
   phone number with that of the first participant.
-- `"geo_match_params"`: The country and area code for the proxy phone number.
-- `"name"`: The name of the proxy session.
-- `"number_selection_behavior"`: The preference for proxy phone number reuse, or
-  stickiness, between the same participants across sessions.
+- `geo_match_params`: The country and area code for the proxy phone number.
+- `name`: The name of the proxy session.
+- `number_selection_behavior`: The preference for proxy phone number reuse, or stickiness,
+  between the same participants across sessions.
 """
-function create_proxy_session(
-    Capabilities,
-    ParticipantPhoneNumbers,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_proxy_session(Capabilities, ParticipantPhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Capabilities" => Capabilities,
-                    "ParticipantPhoneNumbers" => ParticipantPhoneNumbers,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1093,27 +593,12 @@ Creates a chat room for the specified Amazon Chime Enterprise account.
 - `name`: The room name.
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: The idempotency token for the request.
+# Keyword Parameters
+- `client_request_token`: The idempotency token for the request.
 """
-function create_room(
-    Name, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_room(Name, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "client_request_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/rooms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1128,27 +613,12 @@ or a general chat room member.
 - `account_id`: The Amazon Chime account ID.
 - `room_id`: The room ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"role"`: The role of the member.
+# Keyword Parameters
+- `role`: The role of the member.
 """
-function create_room_membership(
-    MemberId,
-    accountId,
-    roomId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_room_membership(MemberId, accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MemberId" => MemberId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberId"=>MemberId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1163,25 +633,9 @@ Creates a SIP media application.
 - `name`: The SIP media application name.
 
 """
-function create_sip_media_application(
-    AwsRegion, Endpoints, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_sip_media_application(AwsRegion, Endpoints, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/sip-media-applications",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AwsRegion" => AwsRegion, "Endpoints" => Endpoints, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/sip-media-applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1196,33 +650,12 @@ and it invokes the endpoint of the specified sipMediaApplicationId.
 - `to_phone_number`: The phone number that the service should call.
 - `sip_media_application_id`: The ID of the SIP media application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"sip_headers"`: The SIP headers added to an outbound call leg.
+# Keyword Parameters
+- `sip_headers`: The SIP headers added to an outbound call leg.
 """
-function create_sip_media_application_call(
-    FromPhoneNumber,
-    ToPhoneNumber,
-    sipMediaApplicationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_sip_media_application_call(FromPhoneNumber, ToPhoneNumber, sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FromPhoneNumber" => FromPhoneNumber, "ToPhoneNumber" => ToPhoneNumber
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "ToPhoneNumber"=>ToPhoneNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1244,38 +677,12 @@ specific trigger type.
   RequestUriHostname, or if the To header in the incoming SIP request matches the
   ToPhoneNumber value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disabled"`: Enables or disables a rule. You must disable rules before you can delete
-  them.
+# Keyword Parameters
+- `disabled`: Enables or disables a rule. You must disable rules before you can delete them.
 """
-function create_sip_rule(
-    Name,
-    TargetApplications,
-    TriggerType,
-    TriggerValue;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/sip-rules",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "TargetApplications" => TargetApplications,
-                    "TriggerType" => TriggerType,
-                    "TriggerValue" => TriggerValue,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/sip-rules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1286,23 +693,14 @@ Creates a user under the specified Amazon Chime account.
 # Arguments
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"email"`: The user's email address.
-- `"user_type"`: The user type.
-- `"username"`: The user name.
+# Keyword Parameters
+- `email`: The user's email address.
+- `user_type`: The user type.
+- `username`: The user name.
 """
-function create_user(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_user(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=create",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users?operation=create", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1319,28 +717,13 @@ TLS transport, and unencrypted outbound calls are blocked.
 - `require_encryption`: When enabled, requires encryption for the Amazon Chime Voice
   Connector.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"aws_region"`:  The AWS Region in which the Amazon Chime Voice Connector is created.
+# Keyword Parameters
+- `aws_region`:  The AWS Region in which the Amazon Chime Voice Connector is created.
   Default value: us-east-1 .
 """
-function create_voice_connector(
-    Name, RequireEncryption; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_voice_connector(Name, RequireEncryption; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1355,21 +738,12 @@ fallback in case of availability events.
 # Arguments
 - `name`: The name of the Amazon Chime Voice Connector group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"voice_connector_items"`: The Amazon Chime Voice Connectors to route inbound calls to.
+# Keyword Parameters
+- `voice_connector_items`: The Amazon Chime Voice Connectors to route inbound calls to.
 """
-function create_voice_connector_group(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_voice_connector_group(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connector-groups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connector-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1387,17 +761,9 @@ days, deleted accounts are permanently removed from your Disabled accounts list.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function delete_account(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_account(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/accounts/$(accountId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1409,17 +775,9 @@ Deletes an AppInstance and all associated data asynchronously.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function delete_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_app_instance(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/app-instances/$(appInstanceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/app-instances/$(appInstanceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1432,20 +790,9 @@ Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete t
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function delete_app_instance_admin(
-    appInstanceAdminArn,
-    appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1457,17 +804,9 @@ Deletes the streaming configurations of an AppInstance.
 - `app_instance_arn`: The ARN of the streaming configurations being deleted.
 
 """
-function delete_app_instance_streaming_configurations(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_app_instance_streaming_configurations(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1479,17 +818,9 @@ Deletes an AppInstanceUser.
 - `app_instance_user_arn`: The ARN of the user request being deleted.
 
 """
-function delete_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_app_instance_user(appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/app-instance-users/$(appInstanceUserArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1505,17 +836,9 @@ Amazon Chime Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function delete_attendee(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_attendee(attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1528,21 +851,12 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 # Arguments
 - `channel_arn`: The ARN of the channel being deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/channels/$(channelArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1556,21 +870,12 @@ the header.
 - `channel_arn`: The ARN of the channel from which the AppInstanceUser was banned.
 - `member_arn`: The ARN of the AppInstanceUser that you want to reinstate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_ban(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_channel_ban(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/bans/$(memberArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1583,21 +888,12 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 - `channel_arn`: The ARN of the channel from which you want to remove the user.
 - `member_arn`: The ARN of the member that you're removing from the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_membership(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_channel_membership(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/memberships/$(memberArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1612,21 +908,12 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID of the message being deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/messages/$(messageId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1639,24 +926,12 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 - `channel_arn`: The ARN of the channel.
 - `channel_moderator_arn`: The ARN of the moderator being deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_moderator(
-    channelArn,
-    channelModeratorArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_channel_moderator(channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1669,17 +944,9 @@ Deletes the events configuration that allows a bot to receive outgoing events.
 - `bot_id`: The bot ID.
 
 """
-function delete_events_configuration(
-    accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_events_configuration(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1691,17 +958,9 @@ Deletes the media capture pipeline.
 - `media_pipeline_id`: The ID of the media capture pipeline being deleted.
 
 """
-function delete_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_media_capture_pipeline(mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/media-capture-pipelines/$(mediaPipelineId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/media-capture-pipelines/$(mediaPipelineId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1716,17 +975,9 @@ Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function delete_meeting(
-    meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_meeting(meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/meetings/$(meetingId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/meetings/$(meetingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1741,17 +992,9 @@ permanently.
 - `phone_number_id`: The phone number ID.
 
 """
-function delete_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/phone-numbers/$(phoneNumberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/phone-numbers/$(phoneNumberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1764,20 +1007,9 @@ Deletes the specified proxy session from the specified Amazon Chime Voice Connec
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
-function delete_proxy_session(
-    proxySessionId,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_proxy_session(proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1790,17 +1022,9 @@ Deletes a chat room in an Amazon Chime Enterprise account.
 - `room_id`: The chat room ID.
 
 """
-function delete_room(
-    accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1814,21 +1038,9 @@ Removes a member from a chat room in an Amazon Chime Enterprise account.
 - `room_id`: The room ID.
 
 """
-function delete_room_membership(
-    accountId,
-    memberId,
-    roomId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_room_membership(accountId, memberId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1840,17 +1052,9 @@ Deletes a SIP media application.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
-function delete_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/sip-media-applications/$(sipMediaApplicationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1862,17 +1066,9 @@ Deletes a SIP rule. You must disable a SIP rule before you can delete it.
 - `sip_rule_id`: The SIP rule ID.
 
 """
-function delete_sip_rule(
-    sipRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/sip-rules/$(sipRuleId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/sip-rules/$(sipRuleId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1885,17 +1081,9 @@ Amazon Chime Voice Connector must be disassociated from it before it can be dele
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1908,17 +1096,9 @@ Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_emergency_calling_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector_emergency_calling_configuration(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1931,17 +1111,9 @@ numbers associated with the group must be removed before it can be deleted.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function delete_voice_connector_group(
-    voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector_group(voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1955,17 +1127,9 @@ prior to deleting the origination settings.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_origination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector_origination(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/origination",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1977,17 +1141,9 @@ Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_proxy(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector_proxy(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1999,17 +1155,9 @@ Deletes the streaming configuration for the specified Amazon Chime Voice Connect
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_streaming_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector_streaming_configuration(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2023,17 +1171,9 @@ prior to deleting the termination settings.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_termination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_voice_connector_termination(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/termination",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2048,22 +1188,9 @@ termination.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_termination_credentials(
-    Usernames,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_voice_connector_termination_credentials(Usernames, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Usernames" => Usernames), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Usernames"=>Usernames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2075,17 +1202,9 @@ Returns the full details of an AppInstance.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function describe_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_app_instance(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instances/$(appInstanceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2098,20 +1217,9 @@ Returns the full details of an AppInstanceAdmin.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function describe_app_instance_admin(
-    appInstanceAdminArn,
-    appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2123,17 +1231,9 @@ Returns the full details of an AppInstanceUser.
 - `app_instance_user_arn`: The ARN of the AppInstanceUser.
 
 """
-function describe_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_app_instance_user(appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instance-users/$(appInstanceUserArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instance-users/$(appInstanceUserArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2146,21 +1246,12 @@ makes the API call as the value in the header.
 # Arguments
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2174,21 +1265,12 @@ the header.
 - `channel_arn`: The ARN of the channel from which the user is banned.
 - `member_arn`: The ARN of the member being banned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_ban(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_channel_ban(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/bans/$(memberArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/bans/$(memberArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2202,21 +1284,12 @@ value in the header.
 - `channel_arn`: The ARN of the channel.
 - `member_arn`: The ARN of the member.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_membership(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_channel_membership(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/memberships/$(memberArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2230,30 +1303,12 @@ that makes the API call as the value in the header.
 - `app-instance-user-arn`: The ARN of the user in a channel.
 - `channel_arn`: The ARN of the channel to which the user belongs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_membership_for_app_instance_user(
-    app_instance_user_arn,
-    channelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-membership",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2267,30 +1322,12 @@ makes the API call as the value in the header.
 - `app-instance-user-arn`: The ARN of the AppInstanceUser in the moderated channel.
 - `channel_arn`: The ARN of the moderated channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_moderated_by_app_instance_user(
-    app_instance_user_arn,
-    channelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2304,24 +1341,12 @@ value in the header.
 - `channel_arn`: The ARN of the channel.
 - `channel_moderator_arn`: The ARN of the channel moderator.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_moderator(
-    channelArn,
-    channelModeratorArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_channel_moderator(channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2334,17 +1359,9 @@ Disassociates the primary provisioned phone number from the specified Amazon Chi
 - `user_id`: The user ID.
 
 """
-function disassociate_phone_number_from_user(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_phone_number_from_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2357,24 +1374,9 @@ Disassociates the specified phone numbers from the specified Amazon Chime Voice 
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function disassociate_phone_numbers_from_voice_connector(
-    E164PhoneNumbers,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_phone_numbers_from_voice_connector(E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2388,24 +1390,9 @@ group.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function disassociate_phone_numbers_from_voice_connector_group(
-    E164PhoneNumbers,
-    voiceConnectorGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_phone_numbers_from_voice_connector_group(E164PhoneNumbers, voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2418,19 +1405,9 @@ Disassociates the specified sign-in delegate groups from the specified Amazon Ch
 - `account_id`: The Amazon Chime account ID.
 
 """
-function disassociate_signin_delegate_groups_from_account(
-    GroupNames, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_signin_delegate_groups_from_account(GroupNames, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupNames" => GroupNames), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupNames"=>GroupNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2443,17 +1420,9 @@ supported licenses.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function get_account(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_account(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2467,17 +1436,9 @@ Policies Page in the Amazon Chime Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function get_account_settings(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_account_settings(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2489,17 +1450,9 @@ Gets the retention settings for an AppInstance.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function get_app_instance_retention_settings(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_app_instance_retention_settings(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/retention-settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instances/$(appInstanceArn)/retention-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2511,17 +1464,9 @@ Gets the streaming settings for an AppInstance.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function get_app_instance_streaming_configurations(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_app_instance_streaming_configurations(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2536,17 +1481,9 @@ Chime Developer Guide .
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function get_attendee(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_attendee(attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2560,17 +1497,9 @@ display name.
 - `bot_id`: The bot ID.
 
 """
-function get_bot(
-    accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bot(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/bots/$(botId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/bots/$(botId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2584,21 +1513,12 @@ the header.
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID of the message.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function get_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/messages/$(messageId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/messages/$(messageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2612,17 +1532,9 @@ as an HTTPS endpoint or Lambda function ARN.
 - `bot_id`: The bot ID.
 
 """
-function get_events_configuration(
-    accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_events_configuration(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2634,9 +1546,7 @@ Business Calling and Amazon Chime Voice Connector settings.
 """
 function get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return chime("GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2648,17 +1558,9 @@ Gets an existing media capture pipeline.
 - `media_pipeline_id`: The ID of the pipeline that you want to get.
 
 """
-function get_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_media_capture_pipeline(mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/media-capture-pipelines/$(mediaPipelineId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/media-capture-pipelines/$(mediaPipelineId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2672,17 +1574,9 @@ Developer Guide .
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function get_meeting(
-    meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_meeting(meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/meetings/$(meetingId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2691,17 +1585,9 @@ end
 The details of the endpoint for the messaging session.
 
 """
-function get_messaging_session_endpoint(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/endpoints/messaging-session",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/endpoints/messaging-session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2714,17 +1600,9 @@ and product type.
 - `phone_number_id`: The phone number ID.
 
 """
-function get_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/phone-numbers/$(phoneNumberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/phone-numbers/$(phoneNumberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2737,17 +1615,9 @@ timestamp, phone numbers in E.164 format, product type, and order status.
 - `phone_number_order_id`: The ID for the phone number order.
 
 """
-function get_phone_number_order(
-    phoneNumberOrderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_phone_number_order(phoneNumberOrderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/phone-number-orders/$(phoneNumberOrderId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/phone-number-orders/$(phoneNumberOrderId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2757,17 +1627,9 @@ Retrieves the phone number settings for the administrator's AWS account, such as
 default outbound calling name.
 
 """
-function get_phone_number_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_phone_number_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/settings/phone-number",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/settings/phone-number", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2780,20 +1642,9 @@ Gets the specified proxy session details for the specified Amazon Chime Voice Co
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
-function get_proxy_session(
-    proxySessionId,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_proxy_session(proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2807,17 +1658,9 @@ Chime Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function get_retention_settings(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_retention_settings(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/retention-settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/retention-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2831,17 +1674,9 @@ account.
 - `room_id`: The room ID.
 
 """
-function get_room(
-    accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/rooms/$(roomId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2854,17 +1689,9 @@ endpoints.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
-function get_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/sip-media-applications/$(sipMediaApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2876,17 +1703,9 @@ Returns the logging configuration for the specified SIP media application.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
-function get_sip_media_application_logging_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2899,17 +1718,9 @@ endpoints.
 - `sip_rule_id`: The SIP rule ID.
 
 """
-function get_sip_rule(
-    sipRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/sip-rules/$(sipRuleId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/sip-rules/$(sipRuleId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2924,17 +1735,9 @@ user ID, use the ListUsers action, and then filter by email address.
 - `user_id`: The user ID.
 
 """
-function get_user(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/users/$(userId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/users/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2947,17 +1750,9 @@ Retrieves settings for the specified user ID, such as any associated phone numbe
 - `user_id`: The user ID.
 
 """
-function get_user_settings(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_user_settings(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/users/$(userId)/settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/users/$(userId)/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2970,17 +1765,9 @@ outbound host, and encryption requirements.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2993,17 +1780,9 @@ Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_emergency_calling_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_emergency_calling_configuration(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3016,17 +1795,9 @@ timestamps,name, and associated VoiceConnectorItems.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function get_voice_connector_group(
-    voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_group(voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3039,17 +1810,9 @@ Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_logging_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_logging_configuration(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3061,17 +1824,9 @@ Retrieves origination setting details for the specified Amazon Chime Voice Conne
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_origination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_origination(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/origination",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/origination", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3083,17 +1838,9 @@ Gets the proxy configuration details for the specified Amazon Chime Voice Connec
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
-function get_voice_connector_proxy(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_proxy(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3107,17 +1854,9 @@ shows the retention period, in hours, for the Amazon Kinesis data.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_streaming_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_streaming_configuration(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3129,17 +1868,9 @@ Retrieves termination setting details for the specified Amazon Chime Voice Conne
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_termination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_termination(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/termination", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3152,17 +1883,9 @@ infrastructure for the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_termination_health(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_voice_connector_termination_health(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/health",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3175,23 +1898,12 @@ account. Only Team account types are currently supported for this action.
 - `user_email_list`: The user email addresses to which to send the email invitation.
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_type"`: The user type.
+# Keyword Parameters
+- `user_type`: The user type.
 """
-function invite_users(
-    UserEmailList, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function invite_users(UserEmailList, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=add",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserEmailList" => UserEmailList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserEmailList"=>UserEmailList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3201,19 +1913,15 @@ Lists the Amazon Chime accounts under the administrator's AWS account. You can f
 accounts by account name prefix. To find out which Amazon Chime account a user belongs to,
 you can filter by the user's email address, which returns one account result.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. Defaults to
-  100.
-- `"name"`: Amazon Chime account name prefix with which to filter results.
-- `"next_token"`: The token to use to retrieve the next page of results.
-- `"user_email"`: User email address with which to filter results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. Defaults to 100.
+- `name`: Amazon Chime account name prefix with which to filter results.
+- `next_token`: The token to use to retrieve the next page of results.
+- `user_email`: User email address with which to filter results.
 """
 function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return chime("GET", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3224,23 +1932,14 @@ Returns a list of the administrators in the AppInstance.
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of administrators that you want to return.
-- `"next_token"`: The token returned from previous API requests until the number of
+# Keyword Parameters
+- `max_results`: The maximum number of administrators that you want to return.
+- `next_token`: The token returned from previous API requests until the number of
   administrators is reached.
 """
-function list_app_instance_admins(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_app_instance_admins(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/admins",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instances/$(appInstanceArn)/admins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3251,27 +1950,14 @@ List all AppInstanceUsers created under a single AppInstance.
 # Arguments
 - `app-instance-arn`: The ARN of the AppInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of requests that you want returned.
-- `"next_token"`: The token passed by previous API calls until all requested users are
+# Keyword Parameters
+- `max_results`: The maximum number of requests that you want returned.
+- `next_token`: The token passed by previous API calls until all requested users are
   returned.
 """
-function list_app_instance_users(
-    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_app_instance_users(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instance-users",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3279,21 +1965,14 @@ end
 
 Lists all Amazon Chime AppInstances created under a single AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of AppInstances that you want to return.
-- `"next_token"`: The token passed by previous API requests until you reach the maximum
+# Keyword Parameters
+- `max_results`: The maximum number of AppInstances that you want to return.
+- `next_token`: The token passed by previous API requests until you reach the maximum
   number of AppInstances.
 """
 function list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/app-instances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/app-instances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3306,17 +1985,9 @@ Lists the tags applied to an Amazon Chime SDK attendee resource.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function list_attendee_tags(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_attendee_tags(attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3328,22 +1999,13 @@ the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Develop
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
 """
-function list_attendees(
-    meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_attendees(meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/attendees",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/meetings/$(meetingId)/attendees", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3354,21 +2016,14 @@ Lists the bots associated with the administrator's Amazon Chime Enterprise accou
 # Arguments
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. The default is
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. The default is
   10.
-- `"next_token"`: The token to use to retrieve the next page of results.
+- `next_token`: The token to use to retrieve the next page of results.
 """
 function list_bots(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/bots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/bots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3381,24 +2036,15 @@ value in the header.
 # Arguments
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of bans that you want returned.
-- `"next_token"`: The token passed by previous API calls until all requested bans are
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of bans that you want returned.
+- `next_token`: The token passed by previous API calls until all requested bans are
   returned.
 """
-function list_channel_bans(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channel_bans(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/bans",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/bans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3411,27 +2057,18 @@ the header.
 # Arguments
 - `channel_arn`: The maximum number of channel memberships that you want returned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of channel memberships that you want returned.
-- `"next_token"`: The token passed by previous API calls until all requested channel
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of channel memberships that you want returned.
+- `next_token`: The token passed by previous API calls until all requested channel
   memberships are returned.
-- `"type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
+- `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
   returned as part of ListChannelMemberships. Hidden members are only returned if the type
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
 """
-function list_channel_memberships(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channel_memberships(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/memberships",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/memberships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3442,25 +2079,16 @@ AppInstanceAdmin can call the API with a user ARN that is not their own.   The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
 makes the API call as the value in the header.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_instance_user_arn"`: The ARN of the AppInstanceUsers
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of users that you want returned.
-- `"next_token"`: The token returned from previous API requests until the number of channel
+# Keyword Parameters
+- `app_instance_user_arn`: The ARN of the AppInstanceUsers
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of users that you want returned.
+- `next_token`: The token returned from previous API requests until the number of channel
   memberships is reached.
 """
-function list_channel_memberships_for_app_instance_user(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channel_memberships_for_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels?scope=app-instance-user-memberships",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels?scope=app-instance-user-memberships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3476,28 +2104,19 @@ that makes the API call as the value in the header.
 # Arguments
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of messages that you want returned.
-- `"next_token"`: The token passed by previous API calls until all requested messages are
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of messages that you want returned.
+- `next_token`: The token passed by previous API calls until all requested messages are
   returned.
-- `"not_after"`: The final or ending time stamp for your requested messages.
-- `"not_before"`: The initial or starting time stamp for your requested messages.
-- `"sort_order"`: The order in which you want messages sorted. Default is Descending, based
+- `not_after`: The final or ending time stamp for your requested messages.
+- `not_before`: The initial or starting time stamp for your requested messages.
+- `sort_order`: The order in which you want messages sorted. Default is Descending, based
   on time created.
 """
-function list_channel_messages(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channel_messages(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/messages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/messages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3510,24 +2129,15 @@ the header.
 # Arguments
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of moderators that you want returned.
-- `"next_token"`: The token passed by previous API calls until all requested moderators are
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of moderators that you want returned.
+- `next_token`: The token passed by previous API calls until all requested moderators are
   returned.
 """
-function list_channel_moderators(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channel_moderators(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/moderators",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels/$(channelArn)/moderators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3543,30 +2153,17 @@ value in the header.
 # Arguments
 - `app-instance-arn`: The ARN of the AppInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of channels that you want to return.
-- `"next_token"`: The token passed by previous API calls until all requested channels are
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of channels that you want to return.
+- `next_token`: The token passed by previous API calls until all requested channels are
   returned.
-- `"privacy"`: The privacy setting. PUBLIC retrieves all the public channels. PRIVATE
+- `privacy`: The privacy setting. PUBLIC retrieves all the public channels. PRIVATE
   retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 """
-function list_channels(
-    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channels(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3576,25 +2173,16 @@ A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer 
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
 value in the header.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_instance_user_arn"`: The ARN of the user in the moderated channel.
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"max_results"`: The maximum number of channels in the request.
-- `"next_token"`: The token returned from previous API requests until the number of
-  channels moderated by the user is reached.
+# Keyword Parameters
+- `app_instance_user_arn`: The ARN of the user in the moderated channel.
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `max_results`: The maximum number of channels in the request.
+- `next_token`: The token returned from previous API requests until the number of channels
+  moderated by the user is reached.
 """
-function list_channels_moderated_by_app_instance_user(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_channels_moderated_by_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/channels?scope=app-instance-user-moderated-channels",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/channels?scope=app-instance-user-moderated-channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3602,23 +2190,14 @@ end
 
 Returns a list of media capture pipelines.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. Valid Range: 1
-  - 99.
-- `"next_token"`: The token used to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. Valid Range: 1 -
+  99.
+- `next_token`: The token used to retrieve the next page of results.
 """
-function list_media_capture_pipelines(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/media-capture-pipelines",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/media-capture-pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3630,17 +2209,9 @@ Lists the tags applied to an Amazon Chime SDK meeting resource.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function list_meeting_tags(
-    meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_meeting_tags(meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/tags",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/meetings/$(meetingId)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3649,16 +2220,13 @@ end
  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon
 Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
 """
 function list_meetings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET", "/meetings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return chime("GET", "/meetings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3666,22 +2234,13 @@ end
 
 Lists the phone number orders for the administrator's Amazon Chime account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
 """
-function list_phone_number_orders(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_phone_number_orders(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/phone-number-orders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/phone-number-orders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3690,24 +2249,17 @@ end
 Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon
 Chime Voice Connector, or Amazon Chime Voice Connector group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_name"`: The filter to use to limit the number of results.
-- `"filter_value"`: The value to use for the filter.
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
-- `"product_type"`: The phone number product type.
-- `"status"`: The phone number status.
+# Keyword Parameters
+- `filter_name`: The filter to use to limit the number of results.
+- `filter_value`: The value to use for the filter.
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
+- `product_type`: The phone number product type.
+- `status`: The phone number status.
 """
 function list_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/phone-numbers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/phone-numbers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3718,23 +2270,14 @@ Lists the proxy sessions for the specified Amazon Chime Voice Connector.
 # Arguments
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
-- `"status"`: The proxy session status.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
+- `status`: The proxy session status.
 """
-function list_proxy_sessions(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_proxy_sessions(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3747,22 +2290,13 @@ such as the members' IDs, email addresses, and names.
 - `account_id`: The Amazon Chime account ID.
 - `room_id`: The room ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
 """
-function list_room_memberships(
-    accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_room_memberships(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3775,21 +2309,14 @@ member belongs to.
 # Arguments
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"member_id"`: The member ID (user ID or bot ID).
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `member_id`: The member ID (user ID or bot ID).
+- `next_token`: The token to use to retrieve the next page of results.
 """
 function list_rooms(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/rooms",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/rooms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3797,23 +2324,13 @@ end
 
 Lists the SIP media applications under the administrator's AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. Defaults to
-  100.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. Defaults to 100.
+- `next_token`: The token to use to retrieve the next page of results.
 """
-function list_sip_media_applications(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_sip_media_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/sip-media-applications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/sip-media-applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3821,18 +2338,14 @@ end
 
 Lists the SIP rules under the administrator's AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. Defaults to
-  100.
-- `"next_token"`: The token to use to retrieve the next page of results.
-- `"sip_media_application_id"`: The SIP media application ID.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. Defaults to 100.
+- `next_token`: The token to use to retrieve the next page of results.
+- `sip_media_application_id`: The SIP media application ID.
 """
 function list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET", "/sip-rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return chime("GET", "/sip-rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3844,19 +2357,9 @@ Lists supported phone number countries.
 - `product-type`: The phone number product type.
 
 """
-function list_supported_phone_number_countries(
-    product_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_supported_phone_number_countries(product_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/phone-number-countries",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("product-type" => product_type), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/phone-number-countries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("product-type"=>product_type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3868,17 +2371,9 @@ Lists the tags applied to an Amazon Chime SDK meeting resource.
 - `arn`: The resource ARN.
 
 """
-function list_tags_for_resource(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/tags",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3890,23 +2385,15 @@ address to list only the user that the email address belongs to.
 # Arguments
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. Defaults to
-  100.
-- `"next_token"`: The token to use to retrieve the next page of results.
-- `"user_email"`: Optional. The user email address used to filter results. Maximum 1.
-- `"user_type"`: The user type.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. Defaults to 100.
+- `next_token`: The token to use to retrieve the next page of results.
+- `user_email`: Optional. The user email address used to filter results. Maximum 1.
+- `user_type`: The user type.
 """
 function list_users(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/users",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/accounts/$(accountId)/users", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3914,22 +2401,13 @@ end
 
 Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
 """
-function list_voice_connector_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_voice_connector_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connector-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connector-groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3941,17 +2419,9 @@ Lists the SIP credentials for the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function list_voice_connector_termination_credentials(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_voice_connector_termination_credentials(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3959,22 +2429,13 @@ end
 
 Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token to use to retrieve the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token to use to retrieve the next page of results.
 """
-function list_voice_connectors(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_voice_connectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/voice-connectors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/voice-connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3987,17 +2448,9 @@ Logs out the specified user from all of the devices they are currently logged in
 - `user_id`: The user ID.
 
 """
-function logout_user(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function logout_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=logout",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4010,28 +2463,9 @@ Sets the amount of time in days that a given AppInstance retains data.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function put_app_instance_retention_settings(
-    AppInstanceRetentionSettings,
-    appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/app-instances/$(appInstanceArn)/retention-settings",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AppInstanceRetentionSettings" => AppInstanceRetentionSettings
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4045,29 +2479,9 @@ The data streaming configurations of an AppInstance.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function put_app_instance_streaming_configurations(
-    AppInstanceStreamingConfigurations,
-    appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AppInstanceStreamingConfigurations" =>
-                        AppInstanceStreamingConfigurations,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4081,24 +2495,14 @@ Bot.
 - `account_id`: The Amazon Chime account ID.
 - `bot_id`: The bot ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"lambda_function_arn"`: Lambda function ARN that allows the bot to receive outgoing
-  events.
-- `"outbound_events_httpsendpoint"`: HTTPS endpoint that allows the bot to receive outgoing
+# Keyword Parameters
+- `lambda_function_arn`: Lambda function ARN that allows the bot to receive outgoing events.
+- `outbound_events_httpsendpoint`: HTTPS endpoint that allows the bot to receive outgoing
   events.
 """
-function put_events_configuration(
-    accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_events_configuration(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4117,24 +2521,9 @@ Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function put_retention_settings(
-    RetentionSettings,
-    accountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_retention_settings(RetentionSettings, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/retention-settings",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RetentionSettings" => RetentionSettings), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionSettings"=>RetentionSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4145,21 +2534,12 @@ Updates the logging configuration for the specified SIP media application.
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"sip_media_application_logging_configuration"`: The actual logging configuration.
+# Keyword Parameters
+- `sip_media_application_logging_configuration`: The actual logging configuration.
 """
-function put_sip_media_application_logging_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4175,28 +2555,9 @@ configured.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_emergency_calling_configuration(
-    EmergencyCallingConfiguration,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_voice_connector_emergency_calling_configuration(EmergencyCallingConfiguration, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EmergencyCallingConfiguration" => EmergencyCallingConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyCallingConfiguration"=>EmergencyCallingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4211,26 +2572,9 @@ CloudWatch Logs.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_logging_configuration(
-    LoggingConfiguration,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_voice_connector_logging_configuration(LoggingConfiguration, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4245,22 +2589,9 @@ turning off origination settings.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_origination(
-    Origination,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_voice_connector_origination(Origination, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/origination",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Origination" => Origination), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origination"=>Origination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4274,37 +2605,15 @@ Puts the specified proxy configuration to the specified Amazon Chime Voice Conne
 - `phone_number_pool_countries`: The countries for proxy phone numbers to be selected from.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disabled"`: When true, stops proxy sessions from being created on the specified Amazon
+# Keyword Parameters
+- `disabled`: When true, stops proxy sessions from being created on the specified Amazon
   Chime Voice Connector.
-- `"fall_back_phone_number"`: The phone number to route calls to after a proxy session
+- `fall_back_phone_number`: The phone number to route calls to after a proxy session
   expires.
 """
-function put_voice_connector_proxy(
-    DefaultSessionExpiryMinutes,
-    PhoneNumberPoolCountries,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_voice_connector_proxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DefaultSessionExpiryMinutes" => DefaultSessionExpiryMinutes,
-                    "PhoneNumberPoolCountries" => PhoneNumberPoolCountries,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultSessionExpiryMinutes"=>DefaultSessionExpiryMinutes, "PhoneNumberPoolCountries"=>PhoneNumberPoolCountries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4319,26 +2628,9 @@ Indonesians. It also sets the retention period, in hours, for the Amazon Kinesis
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_streaming_configuration(
-    StreamingConfiguration,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_voice_connector_streaming_configuration(StreamingConfiguration, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("StreamingConfiguration" => StreamingConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingConfiguration"=>StreamingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4353,22 +2645,9 @@ turning off termination settings.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_termination(
-    Termination,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_voice_connector_termination(Termination, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/termination",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Termination" => Termination), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Termination"=>Termination), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4379,21 +2658,12 @@ Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"credentials"`: The termination SIP credentials.
+# Keyword Parameters
+- `credentials`: The termination SIP credentials.
 """
-function put_voice_connector_termination_credentials(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_voice_connector_termination_credentials(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4408,21 +2678,12 @@ as the value in the header.
 - `channel_arn`: The ARN of the channel containing the messages that you want to redact.
 - `message_id`: The ID of the message being redacted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function redact_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function redact_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/messages/$(messageId)?operation=redact",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4436,21 +2697,9 @@ Redacts the specified message from the specified Amazon Chime conversation.
 - `message_id`: The message ID.
 
 """
-function redact_conversation_message(
-    accountId,
-    conversationId,
-    messageId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function redact_conversation_message(accountId, conversationId, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4464,21 +2713,9 @@ Redacts the specified message from the specified Amazon Chime channel.
 - `room_id`: The room ID.
 
 """
-function redact_room_message(
-    accountId,
-    messageId,
-    roomId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function redact_room_message(accountId, messageId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4491,17 +2728,9 @@ Regenerates the security token for a bot.
 - `bot_id`: The bot ID.
 
 """
-function regenerate_security_token(
-    accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function regenerate_security_token(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4515,17 +2744,9 @@ the User object with the updated personal meeting PIN.
 - `user_id`: The user ID.
 
 """
-function reset_personal_pin(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reset_personal_pin(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4537,17 +2758,9 @@ Moves a phone number from the Deletion queue back into the phone number Inventor
 - `phone_number_id`: The phone number.
 
 """
-function restore_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function restore_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/phone-numbers/$(phoneNumberId)?operation=restore",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4558,32 +2771,23 @@ following search filters: AreaCode, City, State, or TollFreePrefix. If you provi
 you must also provide State. Numbers outside the US only support the PhoneNumberType
 filter, which you must use.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"area_code"`: The area code used to filter results. Only applies to the US.
-- `"city"`: The city used to filter results. Only applies to the US.
-- `"country"`: The country used to filter results. Defaults to the US Format: ISO 3166-1
+# Keyword Parameters
+- `area_code`: The area code used to filter results. Only applies to the US.
+- `city`: The city used to filter results. Only applies to the US.
+- `country`: The country used to filter results. Defaults to the US Format: ISO 3166-1
   alpha-2.
-- `"max_results"`: The maximum number of results to return in a single call.
-- `"next_token"`: The token used to retrieve the next page of results.
-- `"phone_number_type"`: The phone number type used to filter results. Required for non-US
+- `max_results`: The maximum number of results to return in a single call.
+- `next_token`: The token used to retrieve the next page of results.
+- `phone_number_type`: The phone number type used to filter results. Required for non-US
   numbers.
-- `"state"`: The state used to filter results. Required only if you provide City. Only
+- `state`: The state used to filter results. Required only if you provide City. Only
   applies to the US.
-- `"toll_free_prefix"`: The toll-free prefix that you use to filter results. Only applies
-  to the US.
+- `toll_free_prefix`: The toll-free prefix that you use to filter results. Only applies to
+  the US.
 """
-function search_available_phone_numbers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_available_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "GET",
-        "/search?type=phone-numbers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("GET", "/search?type=phone-numbers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4603,39 +2807,13 @@ metadata.
 - `type`: The type of message, STANDARD or CONTROL.
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"metadata"`: The optional metadata for each message.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `metadata`: The optional metadata for each message.
 """
-function send_channel_message(
-    ClientRequestToken,
-    Content,
-    Persistence,
-    Type,
-    channelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/messages",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "Content" => Content,
-                    "Persistence" => Persistence,
-                    "Type" => Type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4649,28 +2827,9 @@ Starts transcription for the specified meetingId.
 - `meeting_id`: The unique ID of the meeting being transcribed.
 
 """
-function start_meeting_transcription(
-    TranscriptionConfiguration,
-    meetingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_meeting_transcription(TranscriptionConfiguration, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/transcription?operation=start",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "TranscriptionConfiguration" => TranscriptionConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/transcription?operation=start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionConfiguration"=>TranscriptionConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4682,17 +2841,9 @@ Stops transcription for the specified meetingId.
 - `meeting_id`: The unique ID of the meeting for which you stop transcription.
 
 """
-function stop_meeting_transcription(
-    meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_meeting_transcription(meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/transcription?operation=stop",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/transcription?operation=stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4706,21 +2857,9 @@ Applies the specified tags to the specified Amazon Chime SDK attendee.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function tag_attendee(
-    Tags,
-    attendeeId,
-    meetingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function tag_attendee(Tags, attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4733,17 +2872,9 @@ Applies the specified tags to the specified Amazon Chime SDK meeting.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function tag_meeting(
-    Tags, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/tags?operation=add",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/tags?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4756,23 +2887,9 @@ Applies the specified tags to the specified Amazon Chime SDK meeting resource.
 - `tags`: The tag key-value pairs.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/tags?operation=tag-resource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/tags?operation=tag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4786,21 +2903,9 @@ Untags the specified tags from the specified Amazon Chime SDK attendee.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function untag_attendee(
-    TagKeys,
-    attendeeId,
-    meetingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function untag_attendee(TagKeys, attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4813,17 +2918,9 @@ Untags the specified tags from the specified Amazon Chime SDK meeting.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function untag_meeting(
-    TagKeys, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_meeting(TagKeys, meetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/tags?operation=delete",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/meetings/$(meetingId)/tags?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4836,23 +2933,9 @@ Untags the specified tags from the specified Amazon Chime SDK meeting resource.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/tags?operation=untag-resource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/tags?operation=untag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4864,23 +2947,14 @@ name and default license updates are supported for this action.
 # Arguments
 - `account_id`: The Amazon Chime account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_license"`: The default license applied when you add users to an Amazon Chime
+# Keyword Parameters
+- `default_license`: The default license applied when you add users to an Amazon Chime
   account.
-- `"name"`: The new name for the specified Amazon Chime account.
+- `name`: The new name for the specified Amazon Chime account.
 """
-function update_account(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_account(accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4895,21 +2969,9 @@ these settings, see Use the Policies Page in the Amazon Chime Administration Gui
 - `account_id`: The Amazon Chime account ID.
 
 """
-function update_account_settings(
-    AccountSettings, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_account_settings(AccountSettings, accountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/settings",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AccountSettings" => AccountSettings), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/accounts/$(accountId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountSettings"=>AccountSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4921,21 +2983,12 @@ Updates AppInstance metadata.
 - `name`: The name that you want to change.
 - `app_instance_arn`: The ARN of the AppInstance.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"metadata"`: The metadata that you want to change.
+# Keyword Parameters
+- `metadata`: The metadata that you want to change.
 """
-function update_app_instance(
-    Name, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_app_instance(Name, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/app-instances/$(appInstanceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4947,21 +3000,12 @@ Updates the details of an AppInstanceUser. You can update names and metadata.
 - `name`: The name of the AppInstanceUser.
 - `app_instance_user_arn`: The ARN of the AppInstanceUser.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"metadata"`: The metadata of the AppInstanceUser.
+# Keyword Parameters
+- `metadata`: The metadata of the AppInstanceUser.
 """
-function update_app_instance_user(
-    Name, appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_app_instance_user(Name, appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/app-instance-users/$(appInstanceUserArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4974,21 +3018,12 @@ in your Amazon Chime Enterprise account.
 - `account_id`: The Amazon Chime account ID.
 - `bot_id`: The bot ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disabled"`: When true, stops the specified bot from running in your account.
+# Keyword Parameters
+- `disabled`: When true, stops the specified bot from running in your account.
 """
-function update_bot(
-    accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_bot(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/bots/$(botId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/bots/$(botId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5003,24 +3038,13 @@ makes the API call as the value in the header.
 - `name`: The name of the channel.
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"metadata"`: The metadata for the update request.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `metadata`: The metadata for the update request.
 """
-function update_channel(
-    Mode, Name, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_channel(Mode, Name, channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/channels/$(channelArn)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Mode" => Mode, "Name" => Name), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mode"=>Mode, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5033,23 +3057,14 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID string of the message being updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
-- `"content"`: The content of the message being updated.
-- `"metadata"`: The metadata of the message being updated.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `content`: The content of the message being updated.
+- `metadata`: The metadata of the message being updated.
 """
-function update_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/channels/$(channelArn)/messages/$(messageId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/channels/$(channelArn)/messages/$(messageId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5062,21 +3077,12 @@ makes the API call as the value in the header.
 # Arguments
 - `channel_arn`: The ARN of the channel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"chime_bearer"`: The AppInstanceUserArn of the user that makes the API call.
+# Keyword Parameters
+- `chime_bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
-function update_channel_read_marker(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_channel_read_marker(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/channels/$(channelArn)/readMarker",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/channels/$(channelArn)/readMarker", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5085,18 +3091,13 @@ end
 Updates global settings for the administrator's AWS account, such as Amazon Chime Business
 Calling and Amazon Chime Voice Connector settings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"business_calling"`: The Amazon Chime Business Calling settings.
-- `"voice_connector"`: The Amazon Chime Voice Connector settings.
+# Keyword Parameters
+- `business_calling`: The Amazon Chime Business Calling settings.
+- `voice_connector`: The Amazon Chime Voice Connector settings.
 """
-function update_global_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return chime("PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5113,22 +3114,13 @@ names must be complete before you can request another update.
 # Arguments
 - `phone_number_id`: The phone number ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"calling_name"`: The outbound calling name associated with the phone number.
-- `"product_type"`: The product type.
+# Keyword Parameters
+- `calling_name`: The outbound calling name associated with the phone number.
+- `product_type`: The product type.
 """
-function update_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/phone-numbers/$(phoneNumberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/phone-numbers/$(phoneNumberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5142,19 +3134,9 @@ days. Outbound calling names can take up to 72 hours to update.
 - `calling_name`: The default outbound calling name for the account.
 
 """
-function update_phone_number_settings(
-    CallingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_phone_number_settings(CallingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/settings/phone-number",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CallingName" => CallingName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/settings/phone-number", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallingName"=>CallingName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5167,27 +3149,12 @@ Updates the specified proxy session details, such as voice or SMS capabilities.
 - `proxy_session_id`: The proxy session ID.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expiry_minutes"`: The number of minutes allowed for the proxy session.
+# Keyword Parameters
+- `expiry_minutes`: The number of minutes allowed for the proxy session.
 """
-function update_proxy_session(
-    Capabilities,
-    proxySessionId,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_proxy_session(Capabilities, proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5200,21 +3167,12 @@ account.
 - `account_id`: The Amazon Chime account ID.
 - `room_id`: The room ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: The room name.
+# Keyword Parameters
+- `name`: The room name.
 """
-function update_room(
-    accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/rooms/$(roomId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5230,25 +3188,12 @@ IDs.
 - `member_id`: The member ID.
 - `room_id`: The room ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"role"`: The role of the member.
+# Keyword Parameters
+- `role`: The role of the member.
 """
-function update_room_membership(
-    accountId,
-    memberId,
-    roomId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_room_membership(accountId, memberId, roomId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5259,22 +3204,13 @@ Updates the details of the specified SIP media application.
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoints"`: The new set of endpoints for the specified SIP media application.
-- `"name"`: The new name for the specified SIP media application.
+# Keyword Parameters
+- `endpoints`: The new set of endpoints for the specified SIP media application.
+- `name`: The new name for the specified SIP media application.
 """
-function update_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5290,23 +3226,9 @@ current actions with new actions returned by the invocation.
 - `transaction_id`: The ID of the call transaction.
 
 """
-function update_sip_media_application_call(
-    Arguments,
-    sipMediaApplicationId,
-    transactionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_sip_media_application_call(Arguments, sipMediaApplicationId, transactionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Arguments" => Arguments), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arguments"=>Arguments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5318,22 +3240,13 @@ Updates the details of the specified SIP rule.
 - `name`: The new name for the specified SIP rule.
 - `sip_rule_id`: The SIP rule ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disabled"`: The new value specified to indicate whether the rule is disabled.
-- `"target_applications"`: The new value of the list of target applications.
+# Keyword Parameters
+- `disabled`: The new value specified to indicate whether the rule is disabled.
+- `target_applications`: The new value of the list of target applications.
 """
-function update_sip_rule(
-    Name, sipRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_sip_rule(Name, sipRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/sip-rules/$(sipRuleId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5346,24 +3259,15 @@ supported for this action.
 - `account_id`: The Amazon Chime account ID.
 - `user_id`: The user ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alexa_for_business_metadata"`: The Alexa for Business metadata.
-- `"license_type"`: The user license type to update. This must be a supported license type
+# Keyword Parameters
+- `alexa_for_business_metadata`: The Alexa for Business metadata.
+- `license_type`: The user license type to update. This must be a supported license type
   for the Amazon Chime account that the user belongs to.
-- `"user_type"`: The user type.
+- `user_type`: The user type.
 """
-function update_user(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("POST", "/accounts/$(accountId)/users/$(userId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5377,23 +3281,9 @@ Updates the settings for the specified user, such as phone number settings.
 - `user_id`: The user ID.
 
 """
-function update_user_settings(
-    UserSettings,
-    accountId,
-    userId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_user_settings(UserSettings, accountId, userId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/users/$(userId)/settings",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserSettings" => UserSettings), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserSettings"=>UserSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5408,27 +3298,9 @@ Updates details for the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function update_voice_connector(
-    Name,
-    RequireEncryption,
-    voiceConnectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_voice_connector(Name, RequireEncryption, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connectors/$(voiceConnectorId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5443,27 +3315,7 @@ Amazon Chime Voice Connector priority ranking.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function update_voice_connector_group(
-    Name,
-    VoiceConnectorItems,
-    voiceConnectorGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_voice_connector_group(Name, VoiceConnectorItems, voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return chime(
-        "PUT",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VoiceConnectorItems"=>VoiceConnectorItems), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

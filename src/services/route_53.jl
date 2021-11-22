@@ -4,53 +4,8 @@ using AWS.AWSServices: route_53
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "start_record_type" => "type",
-    "dnsname" => "dnsname",
-    "traffic_policy_version_marker" => "trafficpolicyversion",
-    "traffic_policy_id_marker" => "trafficpolicyid",
-    "start_subdivision_code" => "startsubdivisioncode",
-    "vpc" => "VPC",
-    "alarm_identifier" => "AlarmIdentifier",
-    "max_items" => "maxitems",
-    "edns0_client_subnet_mask" => "edns0clientsubnetmask",
-    "edns0_client_subnet_ip" => "edns0clientsubnetip",
-    "start_record_identifier" => "identifier",
-    "disabled" => "Disabled",
-    "reset_elements" => "ResettableElementName",
-    "search_string" => "SearchString",
-    "start_continent_code" => "startcontinentcode",
-    "resolver_ip" => "resolverip",
-    "max_results" => "maxresults",
-    "comment" => "Comment",
-    "country_code" => "countrycode",
-    "failure_threshold" => "FailureThreshold",
-    "port" => "Port",
-    "traffic_policy_instance_type_marker" => "trafficpolicyinstancetype",
-    "ipaddress" => "IPAddress",
-    "subdivision_code" => "subdivisioncode",
-    "hosted_zone_config" => "HostedZoneConfig",
-    "child_health_checks" => "ChildHealthCheck",
-    "enable_sni" => "EnableSNI",
-    "inverted" => "Inverted",
-    "next_token" => "nexttoken",
-    "hosted_zone_id" => "hostedzoneid",
-    "marker" => "marker",
-    "hosted_zone_id_marker" => "hostedzoneid",
-    "start_country_code" => "startcountrycode",
-    "health_check_version" => "HealthCheckVersion",
-    "insufficient_data_health_status" => "InsufficientDataHealthStatus",
-    "continent_code" => "continentcode",
-    "remove_tag_keys" => "Key",
-    "traffic_policy_instance_name_marker" => "trafficpolicyinstancename",
-    "health_threshold" => "HealthThreshold",
-    "resource_path" => "ResourcePath",
-    "fully_qualified_domain_name" => "FullyQualifiedDomainName",
-    "delegation_set_id" => "DelegationSetId",
-    "start_record_name" => "name",
-    "add_tags" => "Tag",
-    "regions" => "Region",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxresults", "next_token" => "nexttoken", "comment" => "Comment", "marker" => "marker", "max_items" => "maxitems", "add_tags" => "Tag", "remove_tag_keys" => "Key", "traffic_policy_version_marker" => "trafficpolicyversion", "traffic_policy_id_marker" => "trafficpolicyid", "start_record_identifier" => "identifier", "start_record_name" => "name", "start_record_type" => "type", "hosted_zone_id_marker" => "hostedzoneid", "traffic_policy_instance_name_marker" => "trafficpolicyinstancename", "traffic_policy_instance_type_marker" => "trafficpolicyinstancetype", "edns0_client_subnet_ip" => "edns0clientsubnetip", "edns0_client_subnet_mask" => "edns0clientsubnetmask", "resolver_ip" => "resolverip", "dnsname" => "dnsname", "hosted_zone_id" => "hostedzoneid", "delegation_set_id" => "DelegationSetId", "continent_code" => "continentcode", "country_code" => "countrycode", "subdivision_code" => "subdivisioncode", "alarm_identifier" => "AlarmIdentifier", "child_health_checks" => "ChildHealthCheck", "disabled" => "Disabled", "enable_sni" => "EnableSNI", "failure_threshold" => "FailureThreshold", "fully_qualified_domain_name" => "FullyQualifiedDomainName", "health_check_version" => "HealthCheckVersion", "health_threshold" => "HealthThreshold", "insufficient_data_health_status" => "InsufficientDataHealthStatus", "inverted" => "Inverted", "ipaddress" => "IPAddress", "port" => "Port", "regions" => "Region", "reset_elements" => "ResettableElementName", "resource_path" => "ResourcePath", "search_string" => "SearchString", "start_continent_code" => "startcontinentcode", "start_country_code" => "startcountrycode", "start_subdivision_code" => "startsubdivisioncode", "hosted_zone_config" => "HostedZoneConfig", "vpc" => "VPC")
 
 """
     activate_key_signing_key(hosted_zone_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -65,17 +20,9 @@ operation changes the KSK status to ACTIVE.
   hosted zone.
 
 """
-function activate_key_signing_key(
-    HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function activate_key_signing_key(HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/activate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/activate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -96,21 +43,12 @@ created the VPC must submit an AssociateVPCWithHostedZone request.
 - `vpc`: A complex type that contains information about the VPC that you want to associate
   with a private hosted zone.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`:  Optional: A comment about the association request.
+# Keyword Parameters
+- `comment`:  Optional: A comment about the association request.
 """
-function associate_vpcwith_hosted_zone(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_vpcwith_hosted_zone(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/associatevpc",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -167,19 +105,9 @@ Limits in the Amazon Route 53 Developer Guide.
   change.
 
 """
-function change_resource_record_sets(
-    ChangeBatch, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function change_resource_record_sets(ChangeBatch, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/rrset/",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ChangeBatch" => ChangeBatch), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeBatch"=>ChangeBatch), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -194,25 +122,16 @@ Management User Guide.
 - `resource_type`: The type of the resource.   The resource type for health checks is
   healthcheck.   The resource type for hosted zones is hostedzone.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"add_tags"`: A complex type that contains a list of the tags that you want to add to the
+# Keyword Parameters
+- `add_tags`: A complex type that contains a list of the tags that you want to add to the
   specified health check or hosted zone and/or the tags that you want to edit Value for. You
   can add a maximum of 10 tags to a health check or a hosted zone.
-- `"remove_tag_keys"`: A complex type that contains a list of the tags that you want to
+- `remove_tag_keys`: A complex type that contains a list of the tags that you want to
   delete from the specified health check or hosted zone. You can specify up to 10 keys.
 """
-function change_tags_for_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function change_tags_for_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/tags/$(ResourceType)/$(ResourceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,29 +170,9 @@ metrics and alarms by using the CloudWatch console, see the Amazon CloudWatch Us
 - `health_check_config`: A complex type that contains settings for a new health check.
 
 """
-function create_health_check(
-    CallerReference,
-    HealthCheckConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_health_check(CallerReference, HealthCheckConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/healthcheck",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CallerReference" => CallerReference,
-                    "HealthCheckConfig" => HealthCheckConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/healthcheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HealthCheckConfig"=>HealthCheckConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -315,38 +214,22 @@ to have an ec2:DescribeVpcs permission.
   name is registered with a registrar other than Route 53, change the name servers for your
   domain to the set of NameServers that CreateHostedZone returns in DelegationSet.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delegation_set_id"`: If you want to associate a reusable delegation set with this
-  hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you
-  created it. For more information about reusable delegation sets, see
-  CreateReusableDelegationSet.
-- `"hosted_zone_config"`: (Optional) A complex type that contains the following optional
+# Keyword Parameters
+- `delegation_set_id`: If you want to associate a reusable delegation set with this hosted
+  zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created
+  it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
+- `hosted_zone_config`: (Optional) A complex type that contains the following optional
   values:   For public and private hosted zones, an optional comment   For private hosted
   zones, an optional PrivateZone element   If you don't specify a comment or the PrivateZone
   element, omit HostedZoneConfig and the other elements.
-- `"vpc"`: (Private hosted zones only) A complex type that contains information about the
+- `vpc`: (Private hosted zones only) A complex type that contains information about the
   Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon
   VPC when you create a private hosted zone. To associate additional Amazon VPCs with the
   hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
 """
-function create_hosted_zone(
-    CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_hosted_zone(CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CallerReference" => CallerReference, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -375,35 +258,9 @@ KSKs per hosted zone.
   set the value to ACTIVE or INACTIVE.
 
 """
-function create_key_signing_key(
-    CallerReference,
-    HostedZoneId,
-    KeyManagementServiceArn,
-    Name,
-    Status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_key_signing_key(CallerReference, HostedZoneId, KeyManagementServiceArn, Name, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/keysigningkey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CallerReference" => CallerReference,
-                    "HostedZoneId" => HostedZoneId,
-                    "KeyManagementServiceArn" => KeyManagementServiceArn,
-                    "Name" => Name,
-                    "Status" => Status,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/keysigningkey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HostedZoneId"=>HostedZoneId, "KeyManagementServiceArn"=>KeyManagementServiceArn, "Name"=>Name, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -471,29 +328,9 @@ information, see DeleteQueryLoggingConfig.
   queries only for public hosted zones.
 
 """
-function create_query_logging_config(
-    CloudWatchLogsLogGroupArn,
-    HostedZoneId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_query_logging_config(CloudWatchLogsLogGroupArn, HostedZoneId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/queryloggingconfig",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CloudWatchLogsLogGroupArn" => CloudWatchLogsLogGroupArn,
-                    "HostedZoneId" => HostedZoneId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/queryloggingconfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudWatchLogsLogGroupArn"=>CloudWatchLogsLogGroupArn, "HostedZoneId"=>HostedZoneId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -530,26 +367,13 @@ migrate the hosted zones again to use the reusable delegation set.
   CreateReusableDelegationSet request. CallerReference can be any unique string, for example
   a date/time stamp.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hosted_zone_id"`: If you want to mark the delegation set for an existing hosted zone as
+# Keyword Parameters
+- `hosted_zone_id`: If you want to mark the delegation set for an existing hosted zone as
   reusable, the ID for that hosted zone.
 """
-function create_reusable_delegation_set(
-    CallerReference; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_reusable_delegation_set(CallerReference; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/delegationset",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CallerReference" => CallerReference), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/delegationset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -563,25 +387,12 @@ domain name (such as example.com) or one subdomain name (such as www.example.com
   see Traffic Policy Document Format.
 - `name`: The name of the traffic policy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: (Optional) Any comments that you want to include about the traffic policy.
+# Keyword Parameters
+- `comment`: (Optional) Any comments that you want to include about the traffic policy.
 """
-function create_traffic_policy(
-    Document, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_traffic_policy(Document, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/trafficpolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Document" => Document, "Name" => Name), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -607,35 +418,9 @@ subdomain name by using the resource record sets that CreateTrafficPolicyInstanc
   create resource record sets in the specified hosted zone.
 
 """
-function create_traffic_policy_instance(
-    HostedZoneId,
-    Name,
-    TTL,
-    TrafficPolicyId,
-    TrafficPolicyVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_traffic_policy_instance(HostedZoneId, Name, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/trafficpolicyinstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HostedZoneId" => HostedZoneId,
-                    "Name" => Name,
-                    "TTL" => TTL,
-                    "TrafficPolicyId" => TrafficPolicyId,
-                    "TrafficPolicyVersion" => TrafficPolicyVersion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/trafficpolicyinstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostedZoneId"=>HostedZoneId, "Name"=>Name, "TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -655,24 +440,13 @@ start a new traffic policy.
   the JSON format, see CreateTrafficPolicy.
 - `id`: The ID of the traffic policy for which you want to create a new version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: The comment that you specified in the CreateTrafficPolicyVersion request, if
+# Keyword Parameters
+- `comment`: The comment that you specified in the CreateTrafficPolicyVersion request, if
   any.
 """
-function create_traffic_policy_version(
-    Document, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_traffic_policy_version(Document, Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/trafficpolicy/$(Id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Document" => Document), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -693,17 +467,9 @@ request for each VPC.
   authorize associating with your hosted zone.
 
 """
-function create_vpcassociation_authorization(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_vpcassociation_authorization(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -717,17 +483,9 @@ operation changes the KSK status to INACTIVE.
 - `name`: A string used to identify a key-signing key (KSK).
 
 """
-function deactivate_key_signing_key(
-    HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deactivate_key_signing_key(HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/deactivate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/deactivate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -748,17 +506,9 @@ delay of several hours before the health check is deleted from Route 53.
 - `health_check_id`: The ID of the health check that you want to delete.
 
 """
-function delete_health_check(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/healthcheck/$(HealthCheckId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -797,17 +547,9 @@ current Amazon Web Services account.
 - `id`: The ID of the hosted zone you want to delete.
 
 """
-function delete_hosted_zone(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/hostedzone/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/hostedzone/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -822,17 +564,9 @@ enabled for DNSSEC signing.
 - `name`: A string used to identify a key-signing key (KSK).
 
 """
-function delete_key_signing_key(
-    HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_key_signing_key(HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -847,17 +581,9 @@ CreateQueryLoggingConfig.
 - `id`: The ID of the configuration that you want to delete.
 
 """
-function delete_query_logging_config(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/queryloggingconfig/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -872,17 +598,9 @@ ID of the reusable delegation set that you want to delete.
 - `id`: The ID of the reusable delegation set that you want to delete.
 
 """
-function delete_reusable_delegation_set(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/delegationset/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/delegationset/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -900,17 +618,9 @@ policy document, by running GetTrafficPolicy.
 - `version`: The version number of the traffic policy that you want to delete.
 
 """
-function delete_traffic_policy(
-    Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/trafficpolicy/$(Id)/$(Version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -926,17 +636,9 @@ are known as policy records.
   were created when you created the traffic policy instance.
 
 """
-function delete_traffic_policy_instance(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "DELETE",
-        "/2013-04-01/trafficpolicyinstance/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -960,17 +662,9 @@ use DisassociateVPCFromHostedZone.
   account, a complex type that includes the ID and region of the VPC.
 
 """
-function delete_vpcassociation_authorization(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_vpcassociation_authorization(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -983,17 +677,9 @@ key-signing keys (KSKs) that are active in the hosted zone.
 - `id`: A unique string used to identify a hosted zone.
 
 """
-function disable_hosted_zone_dnssec(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/disable-dnssec",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/disable-dnssec", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1017,21 +703,12 @@ can't use DisassociateVPCFromHostedZone.
 - `vpc`: A complex type that contains information about the VPC that you're disassociating
   from the specified hosted zone.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`:  Optional: A comment about the disassociation request.
+# Keyword Parameters
+- `comment`:  Optional: A comment about the disassociation request.
 """
-function disassociate_vpcfrom_hosted_zone(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_vpcfrom_hosted_zone(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/disassociatevpc",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1043,17 +720,9 @@ Enables DNSSEC signing in a specific hosted zone.
 - `id`: A unique string used to identify a hosted zone.
 
 """
-function enable_hosted_zone_dnssec(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)/enable-dnssec",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)/enable-dnssec", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1079,17 +748,9 @@ navigation pane.
   instances are referred to as traffic flow policy records in the Amazon Route 53 console.)
 
 """
-function get_account_limit(
-    Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_account_limit(Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/accountlimit/$(Type)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/accountlimit/$(Type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1107,13 +768,7 @@ INSYNC indicates that the changes have propagated to all Route 53 DNS servers.
 """
 function get_change(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/change/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/change/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1126,17 +781,9 @@ services. For more information, see IP Address Ranges of Amazon Route 53 Servers
 Amazon Route 53 Developer Guide.
 
 """
-function get_checker_ip_ranges(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_checker_ip_ranges(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/checkeripranges",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/checkeripranges", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1151,13 +798,7 @@ Returns information about DNSSEC for a specific hosted zone, including the key-s
 """
 function get_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzone/$(Id)/dnssec",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzone/$(Id)/dnssec", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1174,28 +815,21 @@ to determine whether a subdivision of a country is supported for geolocation:  G
 /2013-04-01/geolocation?countrycode=two-character country
 code&amp;subdivisioncode=subdivision code
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continent_code"`: For geolocation resource record sets, a two-letter abbreviation that
+# Keyword Parameters
+- `continent_code`: For geolocation resource record sets, a two-letter abbreviation that
   identifies a continent. Amazon Route 53 supports the following continent codes:    AF:
   Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America
   SA: South America
-- `"country_code"`: Amazon Route 53 uses the two-letter country codes that are specified in
+- `country_code`: Amazon Route 53 uses the two-letter country codes that are specified in
   ISO standard 3166-1 alpha-2.
-- `"subdivision_code"`: The code for the subdivision, such as a particular state within the
+- `subdivision_code`: The code for the subdivision, such as a particular state within the
   United States. For a list of US state abbreviations, see Appendix B: Two–Letter State and
   Possession Abbreviations on the United States Postal Service website. For a list of all
   supported subdivision codes, use the ListGeoLocations API.
 """
 function get_geo_location(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/geolocation",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/geolocation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1209,17 +843,9 @@ Gets information about a specified health check.
   which health check to use. The value can be up to 64 characters long.
 
 """
-function get_health_check(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/healthcheck/$(HealthCheckId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1229,17 +855,9 @@ Retrieves the number of health checks that are associated with the current Amazo
 Services account.
 
 """
-function get_health_check_count(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_health_check_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/healthcheckcount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/healthcheckcount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1255,17 +873,9 @@ Gets the reason that a specified health check failed most recently.
   console. You can't use GetHealthCheckLastFailureReason for a calculated health check.
 
 """
-function get_health_check_last_failure_reason(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_health_check_last_failure_reason(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1283,17 +893,9 @@ require immediate and actionable responses.
   GetHealthCheckStatus to get the status of a calculated health check.
 
 """
-function get_health_check_status(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_health_check_status(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/healthcheck/$(HealthCheckId)/status",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1308,13 +910,7 @@ the hosted zone.
 """
 function get_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzone/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzone/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1324,17 +920,9 @@ Retrieves the number of hosted zones that are associated with the current Amazon
 Services account.
 
 """
-function get_hosted_zone_count(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_hosted_zone_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzonecount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzonecount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1352,17 +940,9 @@ Amazon Route 53 Developer Guide. To request a higher limit, open a case.
   associate with the specified private hosted zone.
 
 """
-function get_hosted_zone_limit(
-    Id, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_hosted_zone_limit(Id, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzonelimit/$(Id)/$(Type)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1376,17 +956,9 @@ information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS Q
   about.
 
 """
-function get_query_logging_config(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/queryloggingconfig/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1400,17 +972,9 @@ servers that are assigned to the delegation set.
   for.
 
 """
-function get_reusable_delegation_set(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/delegationset/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/delegationset/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1426,17 +990,9 @@ To request a higher limit, open a case.
   zones that you can associate with the specified reusable delegation set.
 
 """
-function get_reusable_delegation_set_limit(
-    Id, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_reusable_delegation_set_limit(Id, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1452,17 +1008,9 @@ DeleteTrafficPolicy.
   about.
 
 """
-function get_traffic_policy(
-    Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicy/$(Id)/$(Version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1478,17 +1026,9 @@ Route 53 console, traffic policy instances are known as policy records.
 - `id`: The ID of the traffic policy instance that you want to get information about.
 
 """
-function get_traffic_policy_instance(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicyinstance/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1498,17 +1038,9 @@ Gets the number of traffic policy instances that are associated with the current
 Services account.
 
 """
-function get_traffic_policy_instance_count(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_traffic_policy_instance_count(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicyinstancecount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicyinstancecount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1521,38 +1053,31 @@ order immediately after the corresponding country. Route 53 does not perform aut
 for this API because it retrieves information that is already available to the public. For
 a list of supported geolocation codes, see the GeoLocation data type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: (Optional) The maximum number of geolocations to be included in the
-  response body for this request. If more than maxitems geolocations remain to be listed,
-  then the value of the IsTruncated element in the response is true.
-- `"start_continent_code"`: The code for the continent with which you want to start listing
+# Keyword Parameters
+- `max_items`: (Optional) The maximum number of geolocations to be included in the response
+  body for this request. If more than maxitems geolocations remain to be listed, then the
+  value of the IsTruncated element in the response is true.
+- `start_continent_code`: The code for the continent with which you want to start listing
   locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a
   page or more of results, if IsTruncated is true, and if NextContinentCode from the previous
   response has a value, enter that value in startcontinentcode to return the next page of
   results. Include startcontinentcode only if you want to list continents. Don't include
   startcontinentcode when you're listing countries or countries with their subdivisions.
-- `"start_country_code"`: The code for the country with which you want to start listing
+- `start_country_code`: The code for the country with which you want to start listing
   locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a
   page or more of results, if IsTruncated is true, and if NextCountryCode from the previous
   response has a value, enter that value in startcountrycode to return the next page of
   results.
-- `"start_subdivision_code"`: The code for the state of the United States with which you
-  want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53
-  has already returned a page or more of results, if IsTruncated is true, and if
+- `start_subdivision_code`: The code for the state of the United States with which you want
+  to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has
+  already returned a page or more of results, if IsTruncated is true, and if
   NextSubdivisionCode from the previous response has a value, enter that value in
   startsubdivisioncode to return the next page of results. To list subdivisions (U.S.
   states), you must include both startcountrycode and startsubdivisioncode.
 """
 function list_geo_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/geolocations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/geolocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1561,28 +1086,21 @@ end
 Retrieve a list of the health checks that are associated with the current Amazon Web
 Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: If the value of IsTruncated in the previous response was true, you have more
+# Keyword Parameters
+- `marker`: If the value of IsTruncated in the previous response was true, you have more
   health checks. To get another group, submit another ListHealthChecks request.  For the
   value of marker, specify the value of NextMarker from the previous response, which is the
   ID of the first health check that Amazon Route 53 will return if you submit another
   request. If the value of IsTruncated in the previous response was false, there are no more
   health checks to get.
-- `"max_items"`: The maximum number of health checks that you want ListHealthChecks to
-  return in response to the current request. Amazon Route 53 returns a maximum of 100 items.
-  If you set MaxItems to a value greater than 100, Route 53 returns only the first 100 health
+- `max_items`: The maximum number of health checks that you want ListHealthChecks to return
+  in response to the current request. Amazon Route 53 returns a maximum of 100 items. If you
+  set MaxItems to a value greater than 100, Route 53 returns only the first 100 health
   checks.
 """
 function list_health_checks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/healthcheck",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/healthcheck", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1594,31 +1112,24 @@ each hosted zone. Amazon Route 53 returns a maximum of 100 items in each respons
 have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up
 to 100.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delegation_set_id"`: If you're using reusable delegation sets and you want to list all
-  of the hosted zones that are associated with a reusable delegation set, specify the ID of
-  that reusable delegation set.
-- `"marker"`: If the value of IsTruncated in the previous response was true, you have more
+# Keyword Parameters
+- `delegation_set_id`: If you're using reusable delegation sets and you want to list all of
+  the hosted zones that are associated with a reusable delegation set, specify the ID of that
+  reusable delegation set.
+- `marker`: If the value of IsTruncated in the previous response was true, you have more
   hosted zones. To get more hosted zones, submit another ListHostedZones request.  For the
   value of marker, specify the value of NextMarker from the previous response, which is the
   ID of the first hosted zone that Amazon Route 53 will return if you submit another request.
   If the value of IsTruncated in the previous response was false, there are no more hosted
   zones to get.
-- `"max_items"`: (Optional) The maximum number of hosted zones that you want Amazon Route
-  53 to return. If you have more than maxitems hosted zones, the value of IsTruncated in the
+- `max_items`: (Optional) The maximum number of hosted zones that you want Amazon Route 53
+  to return. If you have more than maxitems hosted zones, the value of IsTruncated in the
   response is true, and the value of NextMarker is the hosted zone ID of the first hosted
   zone that Route 53 will return if you submit another request.
 """
 function list_hosted_zones(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzone",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzone", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1652,36 +1163,27 @@ you want to list more hosted zones, make another call to ListHostedZonesByName, 
 the value of NextDNSName and NextHostedZoneId in the dnsname and hostedzoneid parameters,
 respectively.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dnsname"`: (Optional) For your first request to ListHostedZonesByName, include the
+# Keyword Parameters
+- `dnsname`: (Optional) For your first request to ListHostedZonesByName, include the
   dnsname parameter only if you want to specify the name of the first hosted zone in the
   response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the
   hosted zones that were created by the current Amazon Web Services account, in ASCII order.
   For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname,
   specify the value of NextDNSName from the previous response.
-- `"hosted_zone_id"`: (Optional) For your first request to ListHostedZonesByName, do not
+- `hosted_zone_id`: (Optional) For your first request to ListHostedZonesByName, do not
   include the hostedzoneid parameter. If you have more hosted zones than the value of
   maxitems, ListHostedZonesByName returns only the first maxitems hosted zones. To get the
   next group of maxitems hosted zones, submit another request to ListHostedZonesByName and
   include both dnsname and hostedzoneid parameters. For the value of hostedzoneid, specify
   the value of the NextHostedZoneId element from the previous response.
-- `"max_items"`: The maximum number of hosted zones to be included in the response body for
+- `max_items`: The maximum number of hosted zones to be included in the response body for
   this request. If you have more than maxitems hosted zones, then the value of the
   IsTruncated element in the response is true, and the values of NextDNSName and
   NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
 """
-function list_hosted_zones_by_name(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzonesbyname",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzonesbyname", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1702,33 +1204,20 @@ of Owner is efs.amazonaws.com.
 - `vpcregion`: For the Amazon VPC that you specified for VPCId, the Amazon Web Services
   Region that you created the VPC in.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: (Optional) The maximum number of hosted zones that you want Amazon Route
-  53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the
+# Keyword Parameters
+- `max_items`: (Optional) The maximum number of hosted zones that you want Amazon Route 53
+  to return. If the specified VPC is associated with more than MaxItems hosted zones, the
   response includes a NextToken element. NextToken contains an encrypted token that
   identifies the first hosted zone that Route 53 will return if you submit another request.
-- `"next_token"`: If the previous response included a NextToken element, the specified VPC
-  is associated with more hosted zones. To get more hosted zones, submit another
+- `next_token`: If the previous response included a NextToken element, the specified VPC is
+  associated with more hosted zones. To get more hosted zones, submit another
   ListHostedZonesByVPC request.  For the value of NextToken, specify the value of NextToken
   from the previous response. If the previous response didn't include a NextToken element,
   there are no more hosted zones to get.
 """
-function list_hosted_zones_by_vpc(
-    vpcid, vpcregion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_hosted_zones_by_vpc(vpcid, vpcregion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzonesbyvpc",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("vpcid" => vpcid, "vpcregion" => vpcregion), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzonesbyvpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcid"=>vpcid, "vpcregion"=>vpcregion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1740,34 +1229,25 @@ For more information about DNS query logs, see CreateQueryLoggingConfig. Additio
 information, including the format of DNS query logs, appears in Logging DNS Queries in the
 Amazon Route 53 Developer Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hosted_zone_id"`: (Optional) If you want to list the query logging configuration that
-  is associated with a hosted zone, specify the ID in HostedZoneId.  If you don't specify a
+# Keyword Parameters
+- `hosted_zone_id`: (Optional) If you want to list the query logging configuration that is
+  associated with a hosted zone, specify the ID in HostedZoneId.  If you don't specify a
   hosted zone ID, ListQueryLoggingConfigs returns all of the configurations that are
   associated with the current Amazon Web Services account.
-- `"max_results"`: (Optional) The maximum number of query logging configurations that you
+- `max_results`: (Optional) The maximum number of query logging configurations that you
   want Amazon Route 53 to return in response to the current request. If the current Amazon
   Web Services account has more than MaxResults configurations, use the value of NextToken in
   the response to get the next page of results. If you don't specify a value for MaxResults,
   Route 53 returns up to 100 configurations.
-- `"next_token"`: (Optional) If the current Amazon Web Services account has more than
+- `next_token`: (Optional) If the current Amazon Web Services account has more than
   MaxResults query logging configurations, use NextToken to get the second and subsequent
   pages of results. For the first ListQueryLoggingConfigs request, omit this value. For the
   second and subsequent requests, get the value of NextToken from the previous response and
   specify that value for NextToken in the request.
 """
-function list_query_logging_configs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_query_logging_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/queryloggingconfig",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/queryloggingconfig", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1805,21 +1285,20 @@ StartRecordName, StartRecordType, and StartRecordIdentifier.
 - `id`: The ID of the hosted zone that contains the resource record sets that you want to
   list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: (Optional) The maximum number of resource records sets to include in the
+# Keyword Parameters
+- `max_items`: (Optional) The maximum number of resource records sets to include in the
   response body for this request. If the response includes more than maxitems resource record
   sets, the value of the IsTruncated element in the response is true, and the values of the
   NextRecordName and NextRecordType elements in the response identify the first resource
   record set in the next group of maxitems resource record sets.
-- `"start_record_identifier"`:  Resource record sets that have a routing policy other than
+- `start_record_identifier`:  Resource record sets that have a routing policy other than
   simple: If results were truncated for a given DNS name and type, specify the value of
   NextRecordIdentifier from the previous response to get the next resource record set that
   has the current DNS name and type.
-- `"start_record_name"`: The first name in the lexicographic ordering of resource record
-  sets that you want to list. If the specified record name doesn't exist, the results begin
-  with the first resource record set that has a name greater than the value of name.
-- `"start_record_type"`: The type of resource record set to begin the record listing from.
+- `start_record_name`: The first name in the lexicographic ordering of resource record sets
+  that you want to list. If the specified record name doesn't exist, the results begin with
+  the first resource record set that has a name greater than the value of name.
+- `start_record_type`: The type of resource record set to begin the record listing from.
   Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR
   | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource
   record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT  Values for alias
@@ -1830,17 +1309,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the resource record set that the alias references.   Constraint: Specifying type without
   specifying name returns an InvalidInput error.
 """
-function list_resource_record_sets(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzone/$(Id)/rrset",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1849,29 +1320,20 @@ end
 Retrieves a list of the reusable delegation sets that are associated with the current
 Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: If the value of IsTruncated in the previous response was true, you have more
+# Keyword Parameters
+- `marker`: If the value of IsTruncated in the previous response was true, you have more
   reusable delegation sets. To get another group, submit another ListReusableDelegationSets
   request.  For the value of marker, specify the value of NextMarker from the previous
   response, which is the ID of the first reusable delegation set that Amazon Route 53 will
   return if you submit another request. If the value of IsTruncated in the previous response
   was false, there are no more reusable delegation sets to get.
-- `"max_items"`: The number of reusable delegation sets that you want Amazon Route 53 to
+- `max_items`: The number of reusable delegation sets that you want Amazon Route 53 to
   return in the response to this request. If you specify a value greater than 100, Route 53
   returns only the first 100 reusable delegation sets.
 """
-function list_reusable_delegation_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/delegationset",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/delegationset", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1886,17 +1348,9 @@ allocation, see Using Cost Allocation Tags in the Billing and Cost Management Us
   healthcheck.   The resource type for hosted zones is hostedzone.
 
 """
-function list_tags_for_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/tags/$(ResourceType)/$(ResourceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1913,19 +1367,9 @@ Guide.
   healthcheck.   The resource type for hosted zones is hostedzone.
 
 """
-function list_tags_for_resources(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resources(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/tags/$(ResourceType)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/tags/$(ResourceType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1936,31 +1380,21 @@ the current Amazon Web Services account. Policies are listed in the order that t
 created in.  For information about how of deleting a traffic policy affects the response
 from ListTrafficPolicies, see DeleteTrafficPolicy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: (Optional) The maximum number of traffic policies that you want Amazon
-  Route 53 to return in response to this request. If you have more than MaxItems traffic
-  policies, the value of IsTruncated in the response is true, and the value of
-  TrafficPolicyIdMarker is the ID of the first traffic policy that Route 53 will return if
-  you submit another request.
-- `"traffic_policy_id_marker"`: (Conditional) For your first request to
-  ListTrafficPolicies, don't include the TrafficPolicyIdMarker parameter. If you have more
-  traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first
-  MaxItems traffic policies. To get the next group of policies, submit another request to
-  ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of
-  TrafficPolicyIdMarker that was returned in the previous response.
+# Keyword Parameters
+- `max_items`: (Optional) The maximum number of traffic policies that you want Amazon Route
+  53 to return in response to this request. If you have more than MaxItems traffic policies,
+  the value of IsTruncated in the response is true, and the value of TrafficPolicyIdMarker is
+  the ID of the first traffic policy that Route 53 will return if you submit another request.
+- `traffic_policy_id_marker`: (Conditional) For your first request to ListTrafficPolicies,
+  don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than
+  the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic
+  policies. To get the next group of policies, submit another request to ListTrafficPolicies.
+  For the value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was
+  returned in the previous response.
 """
-function list_traffic_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1974,29 +1408,28 @@ element.  Route 53 returns a maximum of 100 items in each response. If you have 
 traffic policy instances, you can use the MaxItems parameter to list them in groups of up
 to 100.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hosted_zone_id_marker"`: If the value of IsTruncated in the previous response was true,
+# Keyword Parameters
+- `hosted_zone_id_marker`: If the value of IsTruncated in the previous response was true,
   you have more traffic policy instances. To get more traffic policy instances, submit
   another ListTrafficPolicyInstances request. For the value of HostedZoneId, specify the
   value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the
   first traffic policy instance in the next group of traffic policy instances. If the value
   of IsTruncated in the previous response was false, there are no more traffic policy
   instances to get.
-- `"max_items"`: The maximum number of traffic policy instances that you want Amazon Route
-  53 to return in response to a ListTrafficPolicyInstances request. If you have more than
+- `max_items`: The maximum number of traffic policy instances that you want Amazon Route 53
+  to return in response to a ListTrafficPolicyInstances request. If you have more than
   MaxItems traffic policy instances, the value of the IsTruncated element in the response is
   true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and
   TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next
   group of MaxItems traffic policy instances.
-- `"traffic_policy_instance_name_marker"`: If the value of IsTruncated in the previous
+- `traffic_policy_instance_name_marker`: If the value of IsTruncated in the previous
   response was true, you have more traffic policy instances. To get more traffic policy
   instances, submit another ListTrafficPolicyInstances request. For the value of
   trafficpolicyinstancename, specify the value of TrafficPolicyInstanceNameMarker from the
   previous response, which is the name of the first traffic policy instance in the next group
   of traffic policy instances. If the value of IsTruncated in the previous response was
   false, there are no more traffic policy instances to get.
-- `"traffic_policy_instance_type_marker"`: If the value of IsTruncated in the previous
+- `traffic_policy_instance_type_marker`: If the value of IsTruncated in the previous
   response was true, you have more traffic policy instances. To get more traffic policy
   instances, submit another ListTrafficPolicyInstances request. For the value of
   trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the
@@ -2004,17 +1437,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   of traffic policy instances. If the value of IsTruncated in the previous response was
   false, there are no more traffic policy instances to get.
 """
-function list_traffic_policy_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_traffic_policy_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicyinstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicyinstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2031,22 +1456,21 @@ of up to 100.
 # Arguments
 - `id`: The ID of the hosted zone that you want to list traffic policy instances for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: The maximum number of traffic policy instances to be included in the
+# Keyword Parameters
+- `max_items`: The maximum number of traffic policy instances to be included in the
   response body for this request. If you have more than MaxItems traffic policy instances,
   the value of the IsTruncated element in the response is true, and the values of
   HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker
   represent the first traffic policy instance that Amazon Route 53 will return if you submit
   another request.
-- `"traffic_policy_instance_name_marker"`: If the value of IsTruncated in the previous
+- `traffic_policy_instance_name_marker`: If the value of IsTruncated in the previous
   response is true, you have more traffic policy instances. To get more traffic policy
   instances, submit another ListTrafficPolicyInstances request. For the value of
   trafficpolicyinstancename, specify the value of TrafficPolicyInstanceNameMarker from the
   previous response, which is the name of the first traffic policy instance in the next group
   of traffic policy instances. If the value of IsTruncated in the previous response was
   false, there are no more traffic policy instances to get.
-- `"traffic_policy_instance_type_marker"`: If the value of IsTruncated in the previous
+- `traffic_policy_instance_type_marker`: If the value of IsTruncated in the previous
   response is true, you have more traffic policy instances. To get more traffic policy
   instances, submit another ListTrafficPolicyInstances request. For the value of
   trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the
@@ -2054,17 +1478,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   of traffic policy instances. If the value of IsTruncated in the previous response was
   false, there are no more traffic policy instances to get.
 """
-function list_traffic_policy_instances_by_hosted_zone(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_traffic_policy_instances_by_hosted_zone(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicyinstances/hostedzone",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicyinstances/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2084,29 +1500,28 @@ parameter to list them in groups of up to 100.
   instances. The version must be associated with the traffic policy that is specified by
   TrafficPolicyId.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hosted_zone_id_marker"`: If the value of IsTruncated in the previous response was true,
+# Keyword Parameters
+- `hosted_zone_id_marker`: If the value of IsTruncated in the previous response was true,
   you have more traffic policy instances. To get more traffic policy instances, submit
   another ListTrafficPolicyInstancesByPolicy request.  For the value of hostedzoneid, specify
   the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of
   the first traffic policy instance that Amazon Route 53 will return if you submit another
   request. If the value of IsTruncated in the previous response was false, there are no more
   traffic policy instances to get.
-- `"max_items"`: The maximum number of traffic policy instances to be included in the
+- `max_items`: The maximum number of traffic policy instances to be included in the
   response body for this request. If you have more than MaxItems traffic policy instances,
   the value of the IsTruncated element in the response is true, and the values of
   HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker
   represent the first traffic policy instance that Amazon Route 53 will return if you submit
   another request.
-- `"traffic_policy_instance_name_marker"`: If the value of IsTruncated in the previous
+- `traffic_policy_instance_name_marker`: If the value of IsTruncated in the previous
   response was true, you have more traffic policy instances. To get more traffic policy
   instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of
   trafficpolicyinstancename, specify the value of TrafficPolicyInstanceNameMarker from the
   previous response, which is the name of the first traffic policy instance that Amazon Route
   53 will return if you submit another request. If the value of IsTruncated in the previous
   response was false, there are no more traffic policy instances to get.
-- `"traffic_policy_instance_type_marker"`: If the value of IsTruncated in the previous
+- `traffic_policy_instance_type_marker`: If the value of IsTruncated in the previous
   response was true, you have more traffic policy instances. To get more traffic policy
   instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of
   trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the
@@ -2114,19 +1529,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   53 will return if you submit another request. If the value of IsTruncated in the previous
   response was false, there are no more traffic policy instances to get.
 """
-function list_traffic_policy_instances_by_policy(
-    id, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_traffic_policy_instances_by_policy(id, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicyinstances/trafficpolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("id" => id, "version" => version), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicyinstances/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2139,31 +1544,22 @@ versions are listed in numerical order by VersionNumber.
 - `id`: Specify the value of Id of the traffic policy for which you want to list all
   versions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: The maximum number of traffic policy versions that you want Amazon Route
-  53 to include in the response body for this request. If the specified traffic policy has
-  more than MaxItems versions, the value of IsTruncated in the response is true, and the
-  value of the TrafficPolicyVersionMarker element is the ID of the first version that Route
-  53 will return if you submit another request.
-- `"traffic_policy_version_marker"`: For your first request to ListTrafficPolicyVersions,
+# Keyword Parameters
+- `max_items`: The maximum number of traffic policy versions that you want Amazon Route 53
+  to include in the response body for this request. If the specified traffic policy has more
+  than MaxItems versions, the value of IsTruncated in the response is true, and the value of
+  the TrafficPolicyVersionMarker element is the ID of the first version that Route 53 will
+  return if you submit another request.
+- `traffic_policy_version_marker`: For your first request to ListTrafficPolicyVersions,
   don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy
   versions than the value of MaxItems, ListTrafficPolicyVersions returns only the first group
   of MaxItems versions. To get more traffic policy versions, submit another
   ListTrafficPolicyVersions request. For the value of TrafficPolicyVersionMarker, specify the
   value of TrafficPolicyVersionMarker in the previous response.
 """
-function list_traffic_policy_versions(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_traffic_policy_versions(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/trafficpolicies/$(Id)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2178,27 +1574,18 @@ VPC child element for each VPC that can be associated with the hosted zone.
 - `id`: The ID of the hosted zone for which you want a list of VPCs that can be associated
   with the hosted zone.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Optional: An integer that specifies the maximum number of VPCs that you
+# Keyword Parameters
+- `max_results`:  Optional: An integer that specifies the maximum number of VPCs that you
   want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53
   returns up to 50 VPCs per page.
-- `"next_token"`:  Optional: If a response includes a NextToken element, there are more
-  VPCs that can be associated with the specified hosted zone. To get the next page of
-  results, submit another request, and include the value of NextToken from the response in
-  the nexttoken parameter in another ListVPCAssociationAuthorizations request.
+- `next_token`:  Optional: If a response includes a NextToken element, there are more VPCs
+  that can be associated with the specified hosted zone. To get the next page of results,
+  submit another request, and include the value of NextToken from the response in the
+  nexttoken parameter in another ListVPCAssociationAuthorizations request.
 """
-function list_vpcassociation_authorizations(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_vpcassociation_authorizations(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2216,48 +1603,25 @@ hosted zones.
   simulate a query for.
 - `recordtype`: The type of the resource record set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"edns0_client_subnet_ip"`: If the resolver that you specified for resolverip supports
+# Keyword Parameters
+- `edns0_client_subnet_ip`: If the resolver that you specified for resolverip supports
   EDNS0, specify the IPv4 or IPv6 address of a client in the applicable location, for
   example, 192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
-- `"edns0_client_subnet_mask"`: If you specify an IP address for edns0clientsubnetip, you
-  can optionally specify the number of bits of the IP address that you want the checking tool
-  to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip
+- `edns0_client_subnet_mask`: If you specify an IP address for edns0clientsubnetip, you can
+  optionally specify the number of bits of the IP address that you want the checking tool to
+  include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip
   and 24 for edns0clientsubnetmask, the checking tool will simulate a request from
   192.0.2.0/24. The default value is 24 bits for IPv4 addresses and 64 bits for IPv6
   addresses. The range of valid values depends on whether edns0clientsubnetip is an IPv4 or
   an IPv6 address:    IPv4: Specify a value between 0 and 32    IPv6: Specify a value between
   0 and 128
-- `"resolver_ip"`: If you want to simulate a request from a specific DNS resolver, specify
+- `resolver_ip`: If you want to simulate a request from a specific DNS resolver, specify
   the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address
   of a DNS resolver in the Amazon Web Services US East (N. Virginia) Region (us-east-1).
 """
-function test_dnsanswer(
-    hostedzoneid,
-    recordname,
-    recordtype;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function test_dnsanswer(hostedzoneid, recordname, recordtype; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "GET",
-        "/2013-04-01/testdnsanswer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "hostedzoneid" => hostedzoneid,
-                    "recordname" => recordname,
-                    "recordtype" => recordtype,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("GET", "/2013-04-01/testdnsanswer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostedzoneid"=>hostedzoneid, "recordname"=>recordname, "recordtype"=>recordtype), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2272,14 +1636,13 @@ Checks in the Amazon Route 53 Developer Guide.
   When you created the health check, CreateHealthCheck returned the ID in the response, in
   the HealthCheckId element.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alarm_identifier"`: A complex type that identifies the CloudWatch alarm that you want
+# Keyword Parameters
+- `alarm_identifier`: A complex type that identifies the CloudWatch alarm that you want
   Amazon Route 53 health checkers to use to determine whether the specified health check is
   healthy.
-- `"child_health_checks"`: A complex type that contains one ChildHealthCheck element for
-  each health check that you want to associate with a CALCULATED health check.
-- `"disabled"`: Stops Route 53 from performing health checks. When you disable a health
+- `child_health_checks`: A complex type that contains one ChildHealthCheck element for each
+  health check that you want to associate with a CALCULATED health check.
+- `disabled`: Stops Route 53 from performing health checks. When you disable a health
   check, here's what happens:    Health checks that check the health of endpoints: Route 53
   stops submitting requests to your application, server, or other resource.    Calculated
   health checks: Route 53 stops aggregating the status of the referenced health checks.
@@ -2289,7 +1652,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   to route traffic to the corresponding resources. If you want to stop routing traffic to a
   resource, change the value of Inverted.  Charges for a health check still apply when the
   health check is disabled. For more information, see Amazon Route 53 Pricing.
-- `"enable_sni"`: Specify whether you want Amazon Route 53 to send the value of
+- `enable_sni`: Specify whether you want Amazon Route 53 to send the value of
   FullyQualifiedDomainName to the endpoint in the client_hello message during TLS
   negotiation. This allows the endpoint to respond to HTTPS health check requests with the
   applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host
@@ -2304,13 +1667,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   domain name that you specified in FullyQualifiedDomainName, a health checker will retry the
   handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName
   from the client_hello message.
-- `"failure_threshold"`: The number of consecutive health checks that an endpoint must pass
+- `failure_threshold`: The number of consecutive health checks that an endpoint must pass
   or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to
   healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an
   Endpoint Is Healthy in the Amazon Route 53 Developer Guide. If you don't specify a value
   for FailureThreshold, the default value is three health checks.
-- `"fully_qualified_domain_name"`: Amazon Route 53 behavior depends on whether you specify
-  a value for IPAddress.  If a health check already has a value for IPAddress, you can change
+- `fully_qualified_domain_name`: Amazon Route 53 behavior depends on whether you specify a
+  value for IPAddress.  If a health check already has a value for IPAddress, you can change
   the value. However, you can't update an existing health check to add or remove the value of
   IPAddress.    If you specify a value for IPAddress: Route 53 sends health check requests to
   the specified IPv4 or IPv6 address and passes the value of FullyQualifiedDomainName in the
@@ -2343,7 +1706,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of
   FullyQualifiedDomainName in the Host header, as it does when you specify a value for
   IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
-- `"health_check_version"`: A sequential counter that Amazon Route 53 sets to 1 when you
+- `health_check_version`: A sequential counter that Amazon Route 53 sets to 1 when you
   create a health check and increments by 1 each time you update settings for the health
   check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current
   value of HealthCheckVersion for the health check that you want to update, and that you
@@ -2353,24 +1716,24 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the new settings.   If the value of HealthCheckVersion in the health check is greater, the
   health check was changed after you got the version number. Route 53 does not update the
   health check, and it returns a HealthCheckVersionMismatch error.
-- `"health_threshold"`: The number of child health checks that are associated with a
+- `health_threshold`: The number of child health checks that are associated with a
   CALCULATED health that Amazon Route 53 must consider healthy for the CALCULATED health
   check to be considered healthy. To specify the child health checks that you want to
   associate with a CALCULATED health check, use the ChildHealthChecks and ChildHealthCheck
   elements. Note the following:   If you specify a number greater than the number of child
   health checks, Route 53 always considers this health check to be unhealthy.   If you
   specify 0, Route 53 always considers this health check to be healthy.
-- `"insufficient_data_health_status"`: When CloudWatch has insufficient data about the
-  metric to determine the alarm state, the status that you want Amazon Route 53 to assign to
-  the health check:    Healthy: Route 53 considers the health check to be healthy.
-  Unhealthy: Route 53 considers the health check to be unhealthy.    LastKnownStatus: Route
-  53 uses the status of the health check from the last time CloudWatch had sufficient data to
-  determine the alarm state. For new health checks that have no last known status, the
-  default status for the health check is healthy.
-- `"inverted"`: Specify whether you want Amazon Route 53 to invert the status of a health
+- `insufficient_data_health_status`: When CloudWatch has insufficient data about the metric
+  to determine the alarm state, the status that you want Amazon Route 53 to assign to the
+  health check:    Healthy: Route 53 considers the health check to be healthy.    Unhealthy:
+  Route 53 considers the health check to be unhealthy.    LastKnownStatus: Route 53 uses the
+  status of the health check from the last time CloudWatch had sufficient data to determine
+  the alarm state. For new health checks that have no last known status, the default status
+  for the health check is healthy.
+- `inverted`: Specify whether you want Amazon Route 53 to invert the status of a health
   check, for example, to consider a health check unhealthy when it otherwise would be
   considered healthy.
-- `"ipaddress"`: The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53
+- `ipaddress`: The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53
   to perform health checks on. If you don't specify a value for IPAddress, Route 53 sends a
   DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the
   interval that you specify in RequestInterval. Using an IP address that is returned by DNS,
@@ -2392,38 +1755,30 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   can't create health checks, see the following documents:    RFC 5735, Special Use IPv4
   Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156,
   Special-Use IPv6 Addresses
-- `"port"`: The port on the endpoint that you want Amazon Route 53 to perform health checks
+- `port`: The port on the endpoint that you want Amazon Route 53 to perform health checks
   on.  Don't specify a value for Port when you specify a value for Type of CLOUDWATCH_METRIC
   or CALCULATED.
-- `"regions"`: A complex type that contains one Region element for each region that you
-  want Amazon Route 53 health checkers to check the specified endpoint from.
-- `"reset_elements"`: A complex type that contains one ResettableElementName element for
-  each element that you want to reset to the default value. Valid values for
-  ResettableElementName include the following:    ChildHealthChecks: Amazon Route 53 resets
-  ChildHealthChecks to null.    FullyQualifiedDomainName: Route 53 resets
-  FullyQualifiedDomainName. to null.    Regions: Route 53 resets the Regions list to the
-  default set of regions.     ResourcePath: Route 53 resets ResourcePath to null.
-- `"resource_path"`: The path that you want Amazon Route 53 to request when performing
-  health checks. The path can be any value for which your endpoint will return an HTTP status
-  code of 2xx or 3xx when the endpoint is healthy, for example the file
+- `regions`: A complex type that contains one Region element for each region that you want
+  Amazon Route 53 health checkers to check the specified endpoint from.
+- `reset_elements`: A complex type that contains one ResettableElementName element for each
+  element that you want to reset to the default value. Valid values for ResettableElementName
+  include the following:    ChildHealthChecks: Amazon Route 53 resets ChildHealthChecks to
+  null.    FullyQualifiedDomainName: Route 53 resets FullyQualifiedDomainName. to null.
+  Regions: Route 53 resets the Regions list to the default set of regions.     ResourcePath:
+  Route 53 resets ResourcePath to null.
+- `resource_path`: The path that you want Amazon Route 53 to request when performing health
+  checks. The path can be any value for which your endpoint will return an HTTP status code
+  of 2xx or 3xx when the endpoint is healthy, for example the file
   /docs/route53-health-check.html. You can also include query string parameters, for example,
   /welcome.html?language=jp&amp;login=y.  Specify this value only if you want to change it.
-- `"search_string"`: If the value of Type is HTTP_STR_MATCH or HTTPS_STR_MATCH, the string
+- `search_string`: If the value of Type is HTTP_STR_MATCH or HTTPS_STR_MATCH, the string
   that you want Amazon Route 53 to search for in the response body from the specified
   resource. If the string appears in the response body, Route 53 considers the resource
   healthy. (You can't change the value of Type when you update a health check.)
 """
-function update_health_check(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/healthcheck/$(HealthCheckId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2434,22 +1789,13 @@ Updates the comment for a specified hosted zone.
 # Arguments
 - `id`: The ID for the hosted zone that you want to update the comment for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`: The new comment for the hosted zone. If you don't specify a value for
-  Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
+# Keyword Parameters
+- `comment`: The new comment for the hosted zone. If you don't specify a value for Comment,
+  Amazon Route 53 deletes the existing value of the Comment element, if any.
 """
-function update_hosted_zone_comment(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_hosted_zone_comment(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/hostedzone/$(Id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/hostedzone/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2464,17 +1810,9 @@ Updates the comment for a specified traffic policy version.
   comment for.
 
 """
-function update_traffic_policy_comment(
-    Comment, Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_traffic_policy_comment(Comment, Id, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/trafficpolicy/$(Id)/$(Version)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Comment" => Comment), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Comment"=>Comment), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2502,30 +1840,7 @@ resource record sets that are associated with the root resource record set name.
   to use to update resource record sets for the specified traffic policy instance.
 
 """
-function update_traffic_policy_instance(
-    Id,
-    TTL,
-    TrafficPolicyId,
-    TrafficPolicyVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_traffic_policy_instance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53(
-        "POST",
-        "/2013-04-01/trafficpolicyinstance/$(Id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "TTL" => TTL,
-                    "TrafficPolicyId" => TrafficPolicyId,
-                    "TrafficPolicyVersion" => TrafficPolicyVersion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

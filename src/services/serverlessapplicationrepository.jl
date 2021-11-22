@@ -4,33 +4,8 @@ using AWS.AWSServices: serverlessapplicationrepository
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "license_url" => "licenseUrl",
-    "parameter_overrides" => "parameterOverrides",
-    "license_body" => "licenseBody",
-    "next_token" => "nextToken",
-    "template_url" => "templateUrl",
-    "resource_types" => "resourceTypes",
-    "source_code_url" => "sourceCodeUrl",
-    "author" => "author",
-    "notification_arns" => "notificationArns",
-    "description" => "description",
-    "client_token" => "clientToken",
-    "semantic_version" => "semanticVersion",
-    "capabilities" => "capabilities",
-    "readme_body" => "readmeBody",
-    "max_items" => "maxItems",
-    "source_code_archive_url" => "sourceCodeArchiveUrl",
-    "template_id" => "templateId",
-    "labels" => "labels",
-    "rollback_configuration" => "rollbackConfiguration",
-    "template_body" => "templateBody",
-    "readme_url" => "readmeUrl",
-    "change_set_name" => "changeSetName",
-    "home_page_url" => "homePageUrl",
-    "spdx_license_id" => "spdxLicenseId",
-    "tags" => "tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_items" => "maxItems", "next_token" => "nextToken", "semantic_version" => "semanticVersion", "home_page_url" => "homePageUrl", "labels" => "labels", "license_body" => "licenseBody", "license_url" => "licenseUrl", "readme_body" => "readmeBody", "readme_url" => "readmeUrl", "source_code_archive_url" => "sourceCodeArchiveUrl", "source_code_url" => "sourceCodeUrl", "spdx_license_id" => "spdxLicenseId", "template_body" => "templateBody", "template_url" => "templateUrl", "author" => "author", "description" => "description", "capabilities" => "capabilities", "change_set_name" => "changeSetName", "client_token" => "clientToken", "notification_arns" => "notificationArns", "parameter_overrides" => "parameterOverrides", "resource_types" => "resourceTypes", "rollback_configuration" => "rollbackConfiguration", "tags" => "tags", "template_id" => "templateId")
 
 """
     create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -45,62 +20,45 @@ application version in the same call.
 - `name`: The name of the application that you want to publish.Minimum length=1. Maximum
   length=140Pattern: \"[a-zA-Z0-9-]+\";
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"home_page_url"`: A URL with more information about the application, for example the
+# Keyword Parameters
+- `home_page_url`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
-- `"labels"`: Labels to improve discovery of apps in search results.Minimum length=1.
-  Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
-- `"license_body"`: A local text file that contains the license of the app that matches the
+- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum
+  length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `license_body`: A local text file that contains the license of the app that matches the
   spdxLicenseID value of your application.
  The file has the format
   file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and
   licenseUrl; otherwise, an error results.
-- `"license_url"`: A link to the S3 object that contains the license of the app that
-  matches the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only
-  one of licenseBody and licenseUrl; otherwise, an error results.
-- `"readme_body"`: A local text readme file in Markdown language that contains a more
+- `license_url`: A link to the S3 object that contains the license of the app that matches
+  the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of
+  licenseBody and licenseUrl; otherwise, an error results.
+- `readme_body`: A local text readme file in Markdown language that contains a more
   detailed description of the application and how it works.
  The file has the format
   file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and
   readmeUrl; otherwise, an error results.
-- `"readme_url"`: A link to the S3 object in Markdown language that contains a more
-  detailed description of the application and how it works.Maximum size 5 MBYou can specify
-  only one of readmeBody and readmeUrl; otherwise, an error results.
-- `"semantic_version"`: The semantic version of the application:
+- `readme_url`: A link to the S3 object in Markdown language that contains a more detailed
+  description of the application and how it works.Maximum size 5 MBYou can specify only one
+  of readmeBody and readmeUrl; otherwise, an error results.
+- `semantic_version`: The semantic version of the application:
  https://semver.org/
-- `"source_code_archive_url"`: A link to the S3 object that contains the ZIP archive of the
+- `source_code_archive_url`: A link to the S3 object that contains the ZIP archive of the
   source code for this version of your application.Maximum size 50 MB
-- `"source_code_url"`: A link to a public repository for the source code of your
-  application, for example the URL of a specific GitHub commit.
-- `"spdx_license_id"`: A valid identifier from https://spdx.org/licenses/.
-- `"template_body"`: The local raw packaged AWS SAM template file of your application.
+- `source_code_url`: A link to a public repository for the source code of your application,
+  for example the URL of a specific GitHub commit.
+- `spdx_license_id`: A valid identifier from https://spdx.org/licenses/.
+- `template_body`: The local raw packaged AWS SAM template file of your application.
  The
   file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody
   and templateUrl; otherwise an error results.
-- `"template_url"`: A link to the S3 object containing the packaged AWS SAM template of
-  your application.You can specify only one of templateBody and templateUrl; otherwise an
-  error results.
+- `template_url`: A link to the S3 object containing the packaged AWS SAM template of your
+  application.You can specify only one of templateBody and templateUrl; otherwise an error
+  results.
 """
-function create_application(
-    author, description, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "author" => author, "description" => description, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -112,29 +70,17 @@ Creates an application version.
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 - `semantic_version`: The semantic version of the new version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"source_code_archive_url"`: A link to the S3 object that contains the ZIP archive of the
+# Keyword Parameters
+- `source_code_archive_url`: A link to the S3 object that contains the ZIP archive of the
   source code for this version of your application.Maximum size 50 MB
-- `"source_code_url"`: A link to a public repository for the source code of your
-  application, for example the URL of a specific GitHub commit.
-- `"template_body"`: The raw packaged AWS SAM template of your application.
-- `"template_url"`: A link to the packaged AWS SAM template of your application.
+- `source_code_url`: A link to a public repository for the source code of your application,
+  for example the URL of a specific GitHub commit.
+- `template_body`: The raw packaged AWS SAM template of your application.
+- `template_url`: A link to the packaged AWS SAM template of your application.
 """
-function create_application_version(
-    applicationId,
-    semanticVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_application_version(applicationId, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "PUT",
-        "/applications/$(applicationId)/versions/$(semanticVersion)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -148,9 +94,8 @@ Creates an AWS CloudFormation change set for the given application.
   CloudFormation CreateChangeSet
   API.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"capabilities"`: A list of values that you must specify before you can deploy certain
+# Keyword Parameters
+- `capabilities`: A list of values that you must specify before you can deploy certain
   applications.
  Some applications might include resources that can affect permissions in
   your AWS
@@ -186,46 +131,36 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   application before deploying. If you don't specify
  this parameter for an application that
   requires capabilities, the call will fail.
-- `"change_set_name"`: This property corresponds to the parameter of the same name for the
+- `change_set_name`: This property corresponds to the parameter of the same name for the
   AWS CloudFormation CreateChangeSet
   API.
-- `"client_token"`: This property corresponds to the parameter of the same name for the AWS
+- `client_token`: This property corresponds to the parameter of the same name for the AWS
   CloudFormation CreateChangeSet
   API.
-- `"description"`: This property corresponds to the parameter of the same name for the AWS
+- `description`: This property corresponds to the parameter of the same name for the AWS
   CloudFormation CreateChangeSet
   API.
-- `"notification_arns"`: This property corresponds to the parameter of the same name for
+- `notification_arns`: This property corresponds to the parameter of the same name for the
+  AWS CloudFormation CreateChangeSet
+  API.
+- `parameter_overrides`: A list of parameter values for the parameters of the application.
+- `resource_types`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
+  API.
+- `rollback_configuration`: This property corresponds to the parameter of the same name for
   the AWS CloudFormation CreateChangeSet
   API.
-- `"parameter_overrides"`: A list of parameter values for the parameters of the application.
-- `"resource_types"`: This property corresponds to the parameter of the same name for the
-  AWS CloudFormation CreateChangeSet
-  API.
-- `"rollback_configuration"`: This property corresponds to the parameter of the same name
-  for the AWS CloudFormation CreateChangeSet
-  API.
-- `"semantic_version"`: The semantic version of the application:
+- `semantic_version`: The semantic version of the application:
  https://semver.org/
-- `"tags"`: This property corresponds to the parameter of the same name for the AWS
+- `tags`: This property corresponds to the parameter of the same name for the AWS
   CloudFormation CreateChangeSet
   API.
-- `"template_id"`: The UUID returned by CreateCloudFormationTemplate.Pattern:
+- `template_id`: The UUID returned by CreateCloudFormationTemplate.Pattern:
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 """
-function create_cloud_formation_change_set(
-    applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_cloud_formation_change_set(applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications/$(applicationId)/changesets",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("stackName" => stackName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -236,22 +171,13 @@ Creates an AWS CloudFormation template.
 # Arguments
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"semantic_version"`: The semantic version of the application:
+# Keyword Parameters
+- `semantic_version`: The semantic version of the application:
  https://semver.org/
 """
-function create_cloud_formation_template(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_cloud_formation_template(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications/$(applicationId)/templates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -263,17 +189,9 @@ Deletes the specified application.
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 """
-function delete_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "DELETE",
-        "/applications/$(applicationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -284,21 +202,12 @@ Gets the specified application.
 # Arguments
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"semantic_version"`: The semantic version of the application to get.
+# Keyword Parameters
+- `semantic_version`: The semantic version of the application to get.
 """
-function get_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("GET", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -310,17 +219,9 @@ Retrieves the policy for the application.
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 """
-function get_application_policy(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_application_policy(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/policy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -334,17 +235,9 @@ Gets the specified AWS CloudFormation template.
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
 """
-function get_cloud_formation_template(
-    applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cloud_formation_template(applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/templates/$(templateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -355,23 +248,14 @@ Retrieves the list of applications nested in the containing application.
 # Arguments
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: The total number of items to return.
-- `"next_token"`: A token to specify where to start paginating.
-- `"semantic_version"`: The semantic version of the application to get.
+# Keyword Parameters
+- `max_items`: The total number of items to return.
+- `next_token`: A token to specify where to start paginating.
+- `semantic_version`: The semantic version of the application to get.
 """
-function list_application_dependencies(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_application_dependencies(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/dependencies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -382,22 +266,13 @@ Lists versions for the specified application.
 # Arguments
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: The total number of items to return.
-- `"next_token"`: A token to specify where to start paginating.
+# Keyword Parameters
+- `max_items`: The total number of items to return.
+- `next_token`: A token to specify where to start paginating.
 """
-function list_application_versions(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_application_versions(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -405,20 +280,13 @@ end
 
 Lists applications owned by the requester.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_items"`: The total number of items to return.
-- `"next_token"`: A token to specify where to start paginating.
+# Keyword Parameters
+- `max_items`: The total number of items to return.
+- `next_token`: A token to specify where to start paginating.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("GET", "/applications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -435,19 +303,9 @@ operation, see
 - `statements`: An array of policy statements applied to the application.
 
 """
-function put_application_policy(
-    applicationId, statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_application_policy(applicationId, statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "PUT",
-        "/applications/$(applicationId)/policy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("statements" => statements), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("statements"=>statements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -461,22 +319,9 @@ organization's master account.
 - `organization_id`: The AWS Organization ID to unshare the application from.
 
 """
-function unshare_application(
-    applicationId,
-    organizationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function unshare_application(applicationId, organizationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications/$(applicationId)/unshare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("organizationId" => organizationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationId"=>organizationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -487,29 +332,20 @@ Updates the specified application.
 # Arguments
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"author"`: The name of the author publishing the app.Minimum length=1. Maximum
+# Keyword Parameters
+- `author`: The name of the author publishing the app.Minimum length=1. Maximum
   length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
-- `"description"`: The description of the application.Minimum length=1. Maximum length=256
-- `"home_page_url"`: A URL with more information about the application, for example the
+- `description`: The description of the application.Minimum length=1. Maximum length=256
+- `home_page_url`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
-- `"labels"`: Labels to improve discovery of apps in search results.Minimum length=1.
-  Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
-- `"readme_body"`: A text readme file in Markdown language that contains a more detailed
+- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum
+  length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `readme_body`: A text readme file in Markdown language that contains a more detailed
   description of the application and how it works.Maximum size 5 MB
-- `"readme_url"`: A link to the readme file in Markdown language that contains a more
+- `readme_url`: A link to the readme file in Markdown language that contains a more
   detailed description of the application and how it works.Maximum size 5 MB
 """
-function update_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return serverlessapplicationrepository(
-        "PATCH",
-        "/applications/$(applicationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

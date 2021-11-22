@@ -4,37 +4,8 @@ using AWS.AWSServices: sms
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "kms_key_id" => "kmsKeyId",
-    "next_replication_run_start_time" => "nextReplicationRunStartTime",
-    "next_token" => "nextToken",
-    "server_group_replication_configurations" => "serverGroupReplicationConfigurations",
-    "encrypted" => "encrypted",
-    "app_ids" => "appIds",
-    "name" => "name",
-    "server_groups" => "serverGroups",
-    "number_of_recent_amis_to_keep" => "numberOfRecentAmisToKeep",
-    "force_terminate_app" => "forceTerminateApp",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "role_name" => "roleName",
-    "client_token" => "clientToken",
-    "vm_server_address_list" => "vmServerAddressList",
-    "template_format" => "templateFormat",
-    "app_validation_configurations" => "appValidationConfigurations",
-    "notification_context" => "notificationContext",
-    "force_stop_app_replication" => "forceStopAppReplication",
-    "changeset_format" => "changesetFormat",
-    "auto_launch" => "autoLaunch",
-    "server_group_launch_configurations" => "serverGroupLaunchConfigurations",
-    "server_group_validation_configurations" => "serverGroupValidationConfigurations",
-    "run_once" => "runOnce",
-    "frequency" => "frequency",
-    "tags" => "tags",
-    "replication_job_id" => "replicationJobId",
-    "app_id" => "appId",
-    "license_type" => "licenseType",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("app_id" => "appId", "max_results" => "maxResults", "next_token" => "nextToken", "vm_server_address_list" => "vmServerAddressList", "replication_job_id" => "replicationJobId", "server_group_replication_configurations" => "serverGroupReplicationConfigurations", "role_name" => "roleName", "force_stop_app_replication" => "forceStopAppReplication", "force_terminate_app" => "forceTerminateApp", "description" => "description", "notification_context" => "notificationContext", "app_ids" => "appIds", "auto_launch" => "autoLaunch", "server_group_launch_configurations" => "serverGroupLaunchConfigurations", "encrypted" => "encrypted", "frequency" => "frequency", "kms_key_id" => "kmsKeyId", "license_type" => "licenseType", "number_of_recent_amis_to_keep" => "numberOfRecentAmisToKeep", "run_once" => "runOnce", "name" => "name", "server_groups" => "serverGroups", "tags" => "tags", "client_token" => "clientToken", "changeset_format" => "changesetFormat", "template_format" => "templateFormat", "app_validation_configurations" => "appValidationConfigurations", "server_group_validation_configurations" => "serverGroupValidationConfigurations", "next_replication_run_start_time" => "nextReplicationRunStartTime")
 
 """
     create_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -42,16 +13,14 @@ MAPPING = Dict(
 Creates an application. An application consists of one or more server groups. Each server
 group contain one or more servers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of application creation.
-- `"description"`: The description of the new application
-- `"name"`: The name of the new application.
-- `"role_name"`: The name of the service role in the customer's account to be used by AWS
-  SMS.
-- `"server_groups"`: The server groups to include in the application.
-- `"tags"`: The tags to be associated with the application.
+- `description`: The description of the new application
+- `name`: The name of the new application.
+- `role_name`: The name of the service role in the customer's account to be used by AWS SMS.
+- `server_groups`: The server groups to include in the application.
+- `tags`: The tags to be associated with the application.
 """
 function create_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -68,43 +37,24 @@ replicate your server to AWS. Each replication run creates an Amazon Machine Ima
 - `seed_replication_time`: The seed replication time.
 - `server_id`: The ID of the server.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the replication job.
-- `"encrypted"`: Indicates whether the replication job produces encrypted AMIs.
-- `"frequency"`: The time between consecutive replication runs, in hours.
-- `"kms_key_id"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
+# Keyword Parameters
+- `description`: The description of the replication job.
+- `encrypted`: Indicates whether the replication job produces encrypted AMIs.
+- `frequency`: The time between consecutive replication runs, in hours.
+- `kms_key_id`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
   This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the
   KMS key ID   ARN referring to the KMS key alias    If encrypted is true but a KMS key ID is
   not specified, the customer's default KMS key for Amazon EBS is used.
-- `"license_type"`: The license type to be used for the AMI created by a successful
+- `license_type`: The license type to be used for the AMI created by a successful
   replication run.
-- `"number_of_recent_amis_to_keep"`: The maximum number of SMS-created AMIs to retain. The
+- `number_of_recent_amis_to_keep`: The maximum number of SMS-created AMIs to retain. The
   oldest is deleted after the maximum number is reached and a new AMI is created.
-- `"role_name"`: The name of the IAM role to be used by the AWS SMS.
-- `"run_once"`: Indicates whether to run the replication job one time.
+- `role_name`: The name of the IAM role to be used by the AWS SMS.
+- `run_once`: Indicates whether to run the replication job one time.
 """
-function create_replication_job(
-    seedReplicationTime,
-    serverId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_replication_job(seedReplicationTime, serverId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "CreateReplicationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "seedReplicationTime" => seedReplicationTime, "serverId" => serverId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("CreateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -113,12 +63,11 @@ end
 Deletes the specified application. Optionally deletes the launched stack associated with
 the application and all AWS SMS replication jobs for servers in the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
-- `"force_stop_app_replication"`: Indicates whether to stop all replication jobs
+# Keyword Parameters
+- `app_id`: The ID of the application.
+- `force_stop_app_replication`: Indicates whether to stop all replication jobs
   corresponding to the servers in the application while deleting the application.
-- `"force_terminate_app"`: Indicates whether to terminate the stack corresponding to the
+- `force_terminate_app`: Indicates whether to terminate the stack corresponding to the
   application while deleting the application.
 """
 function delete_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -131,20 +80,12 @@ end
 
 Deletes the launch configuration for the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
-function delete_app_launch_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "DeleteAppLaunchConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("DeleteAppLaunchConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -152,20 +93,12 @@ end
 
 Deletes the replication configuration for the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
-function delete_app_replication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "DeleteAppReplicationConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("DeleteAppReplicationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -177,16 +110,9 @@ Deletes the validation configuration for the specified application.
 - `app_id`: The ID of the application.
 
 """
-function delete_app_validation_configuration(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "DeleteAppValidationConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appId" => appId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("DeleteAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -200,20 +126,9 @@ AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
 - `replication_job_id`: The ID of the replication job.
 
 """
-function delete_replication_job(
-    replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_replication_job(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "DeleteReplicationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("replicationJobId" => replicationJobId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("DeleteReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -222,16 +137,9 @@ end
 Deletes all servers from your server catalog.
 
 """
-function delete_server_catalog(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "DeleteServerCatalog",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("DeleteServerCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -244,18 +152,9 @@ is no longer available to support replication jobs.
 - `connector_id`: The ID of the connector.
 
 """
-function disassociate_connector(
-    connectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_connector(connectorId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "DisassociateConnector",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("connectorId" => connectorId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("DisassociateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorId"=>connectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -264,16 +163,13 @@ end
 Generates a target change set for a currently launched stack and writes it to an Amazon S3
 object in the customer’s Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application associated with the change set.
-- `"changeset_format"`: The format for the change set.
+# Keyword Parameters
+- `app_id`: The ID of the application associated with the change set.
+- `changeset_format`: The format for the change set.
 """
 function generate_change_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GenerateChangeSet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("GenerateChangeSet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -282,16 +178,13 @@ end
 Generates an AWS CloudFormation template based on the current launch configuration and
 writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application associated with the AWS CloudFormation template.
-- `"template_format"`: The format for generating the AWS CloudFormation template.
+# Keyword Parameters
+- `app_id`: The ID of the application associated with the AWS CloudFormation template.
+- `template_format`: The format for generating the AWS CloudFormation template.
 """
 function generate_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GenerateTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("GenerateTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -299,9 +192,8 @@ end
 
 Retrieve information about the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
 function get_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -313,20 +205,12 @@ end
 
 Retrieves the application launch configuration associated with the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
-function get_app_launch_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetAppLaunchConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("GetAppLaunchConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -335,20 +219,12 @@ end
 Retrieves the application replication configuration associated with the specified
 application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
-function get_app_replication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetAppReplicationConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("GetAppReplicationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -360,16 +236,9 @@ Retrieves information about a configuration for validating an application.
 - `app_id`: The ID of the application.
 
 """
-function get_app_validation_configuration(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetAppValidationConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appId" => appId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("GetAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -381,16 +250,9 @@ Retrieves output from validating an application.
 - `app_id`: The ID of the application.
 
 """
-function get_app_validation_output(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetAppValidationOutput",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appId" => appId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("GetAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -398,18 +260,15 @@ end
 
 Describes the connectors registered with the AWS SMS.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. The default
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
   NextToken value.
-- `"next_token"`: The token for the next set of results.
+- `next_token`: The token for the next set of results.
 """
 function get_connectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("GetConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -417,21 +276,16 @@ end
 
 Describes the specified replication job or all of your replication jobs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. The default
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
   NextToken value.
-- `"next_token"`: The token for the next set of results.
-- `"replication_job_id"`: The ID of the replication job.
+- `next_token`: The token for the next set of results.
+- `replication_job_id`: The ID of the replication job.
 """
-function get_replication_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_replication_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetReplicationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("GetReplicationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -442,27 +296,15 @@ Describes the replication runs for the specified replication job.
 # Arguments
 - `replication_job_id`: The ID of the replication job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. The default
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
   NextToken value.
-- `"next_token"`: The token for the next set of results.
+- `next_token`: The token for the next set of results.
 """
-function get_replication_runs(
-    replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_replication_runs(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "GetReplicationRuns",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("replicationJobId" => replicationJobId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("GetReplicationRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -471,13 +313,12 @@ end
 Describes the servers in your server catalog. Before you can describe your servers, you
 must import them using ImportServerCatalog.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in a single call. The default
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
   NextToken value.
-- `"next_token"`: The token for the next set of results.
-- `"vm_server_address_list"`: The server addresses.
+- `next_token`: The token for the next set of results.
+- `vm_server_address_list`: The server addresses.
 """
 function get_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -489,17 +330,14 @@ end
 
 Allows application import from AWS Migration Hub.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"role_name"`: The name of the service role. If you omit this parameter, we create a
+# Keyword Parameters
+- `role_name`: The name of the service role. If you omit this parameter, we create a
   service-linked role for AWS Migration Hub in your account. Otherwise, the role that you
   provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
 """
 function import_app_catalog(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "ImportAppCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("ImportAppCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -510,16 +348,9 @@ all servers to import. This call returns immediately, but might take additional 
 retrieve all the servers.
 
 """
-function import_server_catalog(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function import_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "ImportServerCatalog",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("ImportServerCatalog", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -527,9 +358,8 @@ end
 
 Launches the specified application as a stack in AWS CloudFormation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
 function launch_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -541,13 +371,12 @@ end
 
 Retrieves summaries for all applications.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_ids"`: The unique application IDs.
-- `"max_results"`: The maximum number of results to return in a single call. The default
+# Keyword Parameters
+- `app_ids`: The unique application IDs.
+- `max_results`: The maximum number of results to return in a single call. The default
   value is 100. To retrieve the remaining results, make another call with the returned
   NextToken value.
-- `"next_token"`: The token for the next set of results.
+- `next_token`: The token for the next set of results.
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -562,20 +391,12 @@ Provides information to AWS SMS about whether application validation is successf
 # Arguments
 - `app_id`: The ID of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"notification_context"`: The notification information.
+# Keyword Parameters
+- `notification_context`: The notification information.
 """
-function notify_app_validation_output(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function notify_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "NotifyAppValidationOutput",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appId" => appId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("NotifyAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -583,26 +404,18 @@ end
 
 Creates or updates the launch configuration for the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
-- `"auto_launch"`: Indicates whether the application is configured to launch automatically
+# Keyword Parameters
+- `app_id`: The ID of the application.
+- `auto_launch`: Indicates whether the application is configured to launch automatically
   after replication is complete.
-- `"role_name"`: The name of service role in the customer's account that AWS CloudFormation
+- `role_name`: The name of service role in the customer's account that AWS CloudFormation
   uses to launch the application.
-- `"server_group_launch_configurations"`: Information about the launch configurations for
+- `server_group_launch_configurations`: Information about the launch configurations for
   server groups in the application.
 """
-function put_app_launch_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "PutAppLaunchConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("PutAppLaunchConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -610,22 +423,14 @@ end
 
 Creates or updates the replication configuration for the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
-- `"server_group_replication_configurations"`: Information about the replication
+# Keyword Parameters
+- `app_id`: The ID of the application.
+- `server_group_replication_configurations`: Information about the replication
   configurations for server groups in the application.
 """
-function put_app_replication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "PutAppReplicationConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("PutAppReplicationConfiguration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -636,21 +441,13 @@ Creates or updates a validation configuration for the specified application.
 # Arguments
 - `app_id`: The ID of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_validation_configurations"`: The configuration for application validation.
-- `"server_group_validation_configurations"`: The configuration for instance validation.
+# Keyword Parameters
+- `app_validation_configurations`: The configuration for application validation.
+- `server_group_validation_configurations`: The configuration for instance validation.
 """
-function put_app_validation_configuration(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "PutAppValidationConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appId" => appId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("PutAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -659,20 +456,12 @@ end
 Starts replicating the specified application by creating replication jobs for each server
 in the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
-function start_app_replication(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_app_replication(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "StartAppReplication",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("StartAppReplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -683,20 +472,12 @@ Starts an on-demand replication run for the specified application.
 # Arguments
 - `app_id`: The ID of the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the replication run.
+# Keyword Parameters
+- `description`: The description of the replication run.
 """
-function start_on_demand_app_replication(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_on_demand_app_replication(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "StartOnDemandAppReplication",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appId" => appId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("StartOnDemandAppReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -710,24 +491,12 @@ There is a limit on the number of on-demand replications runs that you can reque
 # Arguments
 - `replication_job_id`: The ID of the replication job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the replication run.
+# Keyword Parameters
+- `description`: The description of the replication run.
 """
-function start_on_demand_replication_run(
-    replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_on_demand_replication_run(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "StartOnDemandReplicationRun",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("replicationJobId" => replicationJobId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("StartOnDemandReplicationRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -736,17 +505,12 @@ end
 Stops replicating the specified application by deleting the replication job for each server
 in the application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
-function stop_app_replication(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_app_replication(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "StopAppReplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("StopAppReplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -754,15 +518,12 @@ end
 
 Terminates the stack for the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
 """
 function terminate_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "TerminateApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sms("TerminateApp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -770,14 +531,13 @@ end
 
 Updates the specified application.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"app_id"`: The ID of the application.
-- `"description"`: The new description of the application.
-- `"name"`: The new name of the application.
-- `"role_name"`: The name of the service role in the customer's account used by AWS SMS.
-- `"server_groups"`: The server groups in the application to update.
-- `"tags"`: The tags to associate with the application.
+# Keyword Parameters
+- `app_id`: The ID of the application.
+- `description`: The new description of the application.
+- `name`: The new name of the application.
+- `role_name`: The name of the service role in the customer's account used by AWS SMS.
+- `server_groups`: The server groups in the application to update.
+- `tags`: The tags to associate with the application.
 """
 function update_app(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -792,35 +552,23 @@ Updates the specified settings for the specified replication job.
 # Arguments
 - `replication_job_id`: The ID of the replication job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the replication job.
-- `"encrypted"`: When true, the replication job produces encrypted AMIs. For more
+# Keyword Parameters
+- `description`: The description of the replication job.
+- `encrypted`: When true, the replication job produces encrypted AMIs. For more
   information, KmsKeyId.
-- `"frequency"`: The time between consecutive replication runs, in hours.
-- `"kms_key_id"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
+- `frequency`: The time between consecutive replication runs, in hours.
+- `kms_key_id`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
   This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the
   KMS key ID   ARN referring to the KMS key alias   If encrypted is enabled but a KMS key ID
   is not specified, the customer's default KMS key for Amazon EBS is used.
-- `"license_type"`: The license type to be used for the AMI created by a successful
+- `license_type`: The license type to be used for the AMI created by a successful
   replication run.
-- `"next_replication_run_start_time"`: The start time of the next replication run.
-- `"number_of_recent_amis_to_keep"`: The maximum number of SMS-created AMIs to retain. The
+- `next_replication_run_start_time`: The start time of the next replication run.
+- `number_of_recent_amis_to_keep`: The maximum number of SMS-created AMIs to retain. The
   oldest is deleted after the maximum number is reached and a new AMI is created.
-- `"role_name"`: The name of the IAM role to be used by AWS SMS.
+- `role_name`: The name of the IAM role to be used by AWS SMS.
 """
-function update_replication_job(
-    replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_replication_job(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sms(
-        "UpdateReplicationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("replicationJobId" => replicationJobId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sms("UpdateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

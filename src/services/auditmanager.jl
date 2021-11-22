@@ -4,31 +4,8 @@ using AWS.AWSServices: auditmanager
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "assessment_description" => "assessmentDescription",
-    "default_process_owners" => "defaultProcessOwners",
-    "comment_body" => "commentBody",
-    "next_token" => "nextToken",
-    "assessment_name" => "assessmentName",
-    "default_assessment_reports_destination" => "defaultAssessmentReportsDestination",
-    "assessment_reports_destination" => "assessmentReportsDestination",
-    "control_set_id" => "controlSetId",
-    "control_status" => "controlStatus",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "testing_information" => "testingInformation",
-    "kms_key" => "kmsKey",
-    "comment" => "comment",
-    "compliance_type" => "complianceType",
-    "action_plan_title" => "actionPlanTitle",
-    "action_plan_instructions" => "actionPlanInstructions",
-    "sns_topic" => "snsTopic",
-    "control_id" => "controlId",
-    "roles" => "roles",
-    "tags" => "tags",
-    "delegated_admin_account" => "delegatedAdminAccount",
-    "admin_account_id" => "adminAccountId",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("delegated_admin_account" => "delegatedAdminAccount", "kms_key" => "kmsKey", "max_results" => "maxResults", "next_token" => "nextToken", "description" => "description", "tags" => "tags", "compliance_type" => "complianceType", "control_id" => "controlId", "control_set_id" => "controlSetId", "action_plan_instructions" => "actionPlanInstructions", "action_plan_title" => "actionPlanTitle", "testing_information" => "testingInformation", "comment" => "comment", "comment_body" => "commentBody", "control_status" => "controlStatus", "default_assessment_reports_destination" => "defaultAssessmentReportsDestination", "default_process_owners" => "defaultProcessOwners", "sns_topic" => "snsTopic", "admin_account_id" => "adminAccountId", "assessment_description" => "assessmentDescription", "assessment_name" => "assessmentName", "assessment_reports_destination" => "assessmentReportsDestination", "roles" => "roles", "status" => "status")
 
 """
     associate_assessment_report_evidence_folder(assessment_id, evidence_folder_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -40,24 +17,9 @@ MAPPING = Dict(
 - `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 
 """
-function associate_assessment_report_evidence_folder(
-    assessmentId,
-    evidenceFolderId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/associateToAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("evidenceFolderId" => evidenceFolderId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -71,29 +33,9 @@ end
 - `evidence_ids`:  The list of evidence identifiers.
 
 """
-function batch_associate_assessment_report_evidence(
-    assessmentId,
-    evidenceFolderId,
-    evidenceIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchAssociateToAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -107,26 +49,9 @@ end
   Manager.
 
 """
-function batch_create_delegation_by_assessment(
-    assessmentId,
-    createDelegationRequests;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_create_delegation_by_assessment(assessmentId, createDelegationRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("createDelegationRequests" => createDelegationRequests),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createDelegationRequests"=>createDelegationRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -139,22 +64,9 @@ end
 - `delegation_ids`:  The identifiers for the delegations.
 
 """
-function batch_delete_delegation_by_assessment(
-    assessmentId,
-    delegationIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_delete_delegation_by_assessment(assessmentId, delegationIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("delegationIds" => delegationIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("delegationIds"=>delegationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -168,29 +80,9 @@ end
 - `evidence_ids`:  The list of evidence identifiers.
 
 """
-function batch_disassociate_assessment_report_evidence(
-    assessmentId,
-    evidenceFolderId,
-    evidenceIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -205,24 +97,9 @@ end
 - `manual_evidence`:  The list of manual evidence objects.
 
 """
-function batch_import_evidence_to_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId,
-    manualEvidence;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("manualEvidence" => manualEvidence), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("manualEvidence"=>manualEvidence), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -239,40 +116,13 @@ end
 - `roles`:  The list of roles for the assessment.
 - `scope`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:  The optional description of the assessment to be created.
-- `"tags"`:  The tags that are associated with the assessment.
+# Keyword Parameters
+- `description`:  The optional description of the assessment to be created.
+- `tags`:  The tags that are associated with the assessment.
 """
-function create_assessment(
-    assessmentReportsDestination,
-    frameworkId,
-    name,
-    roles,
-    scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assessmentReportsDestination" => assessmentReportsDestination,
-                    "frameworkId" => frameworkId,
-                    "name" => name,
-                    "roles" => roles,
-                    "scope" => scope,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -284,30 +134,15 @@ end
 - `control_sets`:  The control sets that are associated with the framework.
 - `name`:  The name of the new custom framework.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compliance_type"`:  The compliance type that the new custom framework supports, such as
+# Keyword Parameters
+- `compliance_type`:  The compliance type that the new custom framework supports, such as
   CIS or HIPAA.
-- `"description"`:  An optional description for the new custom framework.
-- `"tags"`:  The tags that are associated with the framework.
+- `description`:  An optional description for the new custom framework.
+- `tags`:  The tags that are associated with the framework.
 """
-function create_assessment_framework(
-    controlSets, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_assessment_framework(controlSets, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("controlSets" => controlSets, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -319,21 +154,12 @@ end
 - `assessment_id`:  The identifier for the assessment.
 - `name`:  The name of the new assessment report.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:  The description of the assessment report.
+# Keyword Parameters
+- `description`:  The description of the assessment report.
 """
-function create_assessment_report(
-    assessmentId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_assessment_report(assessmentId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/reports",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -345,37 +171,17 @@ end
 - `control_mapping_sources`:  The data mapping sources for the control.
 - `name`:  The name of the control.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_plan_instructions"`:  The recommended actions to carry out if the control isn't
+# Keyword Parameters
+- `action_plan_instructions`:  The recommended actions to carry out if the control isn't
   fulfilled.
-- `"action_plan_title"`:  The title of the action plan for remediating the control.
-- `"description"`:  The description of the control.
-- `"tags"`:  The tags that are associated with the control.
-- `"testing_information"`:  The steps to follow to determine if the control is satisfied.
+- `action_plan_title`:  The title of the action plan for remediating the control.
+- `description`:  The description of the control.
+- `tags`:  The tags that are associated with the control.
+- `testing_information`:  The steps to follow to determine if the control is satisfied.
 """
-function create_control(
-    controlMappingSources,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_control(controlMappingSources, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/controls",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "controlMappingSources" => controlMappingSources, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -387,17 +193,9 @@ end
 - `assessment_id`:  The identifier for the assessment.
 
 """
-function delete_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("DELETE", "/assessments/$(assessmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -406,20 +204,12 @@ end
  Deletes a custom framework in Audit Manager.
 
 # Arguments
-- `framework_id`:  The identifier for the framework.
+- `framework_id`:  The identifier for the custom framework.
 
 """
-function delete_assessment_framework(
-    frameworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworks/$(frameworkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -433,19 +223,9 @@ end
   request.
 
 """
-function delete_assessment_framework_share(
-    requestId, requestType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_assessment_framework_share(requestId, requestType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("DELETE", "/assessmentFrameworkShareRequests/$(requestId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestType"=>requestType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -454,24 +234,13 @@ end
  Deletes an assessment report from an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
-function delete_assessment_report(
-    assessmentId,
-    assessmentReportId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_assessment_report(assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -480,20 +249,12 @@ end
  Deletes a custom control in Audit Manager.
 
 # Arguments
-- `control_id`:  The identifier for the control.
+- `control_id`:  The unique identifier for the control.
 
 """
-function delete_control(
-    controlId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_control(controlId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "DELETE",
-        "/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("DELETE", "/controls/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -504,13 +265,7 @@ end
 """
 function deregister_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/account/deregisterAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/account/deregisterAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -523,21 +278,12 @@ that account. This is also the case when you deregister a delegated administrato
 Audit Manager. However, Audit Manager will stop collecting and attaching evidence to that
 delegated administrator account moving forward.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"admin_account_id"`:  The identifier for the administrator account.
+# Keyword Parameters
+- `admin_account_id`:  The identifier for the administrator account.
 """
-function deregister_organization_admin_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/account/deregisterOrganizationAdminAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/account/deregisterOrganizationAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -546,28 +292,14 @@ end
  Disassociates an evidence folder from the specified assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `evidence_folder_id`:  The identifier for the folder in which evidence is stored.
+- `assessment_id`:  The unique identifier for the assessment.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
 
 """
-function disassociate_assessment_report_evidence_folder(
-    assessmentId,
-    evidenceFolderId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/disassociateFromAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("evidenceFolderId" => evidenceFolderId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -578,57 +310,35 @@ end
 """
 function get_account_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/account/status",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/account/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_assessment(assessment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
- Returns an assessment from Audit Manager.
+Returns an assessment from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`: The unique identifier for the assessment.
 
 """
-function get_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     get_assessment_framework(framework_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
- Returns a framework from Audit Manager.
+Returns a framework from Audit Manager.
 
 # Arguments
 - `framework_id`:  The identifier for the framework.
 
 """
-function get_assessment_framework(
-    frameworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks/$(frameworkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessmentFrameworks/$(frameworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -637,24 +347,13 @@ end
  Returns the URL of an assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `assessment_report_id`:  The identifier for the assessment report.
+- `assessment_id`:  The unique identifier for the assessment.
+- `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
-function get_assessment_report_url(
-    assessmentId,
-    assessmentReportId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_assessment_report_url(assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -663,27 +362,18 @@ end
  Returns a list of changelogs from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`: The unique identifier for the assessment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"control_id"`:  The identifier for the control.
-- `"control_set_id"`:  The identifier for the control set.
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `control_id`:  The unique identifier for the control.
+- `control_set_id`:  The unique identifier for the control set.
+- `max_results`: Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function get_change_logs(
-    assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_change_logs(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/changelogs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/changelogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -695,17 +385,9 @@ end
 - `control_id`:  The identifier for the control.
 
 """
-function get_control(
-    controlId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_control(controlId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/controls/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -713,21 +395,14 @@ end
 
  Returns a list of delegations from an audit owner to a delegate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
 function get_delegations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/delegations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/delegations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -736,28 +411,16 @@ end
  Returns evidence from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `control_set_id`:  The identifier for the control set.
-- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
-- `evidence_id`:  The identifier for the evidence.
+- `assessment_id`:  The unique identifier for the assessment.
+- `control_set_id`:  The unique identifier for the control set.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
+- `evidence_id`:  The unique identifier for the evidence.
 
 """
-function get_evidence(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId,
-    evidenceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -771,27 +434,14 @@ end
 - `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
   in.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_by_evidence_folder(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -800,26 +450,15 @@ end
  Returns an evidence folder from the specified assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `control_set_id`:  The identifier for the control set.
-- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
+- `assessment_id`:  The unique identifier for the assessment.
+- `control_set_id`:  The unique identifier for the control set.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
 
 """
-function get_evidence_folder(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -828,25 +467,16 @@ end
  Returns the evidence folders from a specified assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_folders_by_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_evidence_folders_by_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -860,27 +490,39 @@ assessment in Audit Manager.
 - `control_id`:  The identifier for the control.
 - `control_set_id`:  The identifier for the control set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_folders_by_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets the latest analytics data for all your current active assessments.
+
+"""
+function get_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return auditmanager("GET", "/insights", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_insights_by_assessment(assessment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets the latest analytics data for a specific active assessment.
+
+# Arguments
+- `assessment_id`: The unique identifier for the assessment.
+
+"""
+function get_insights_by_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return auditmanager("GET", "/insights/assessments/$(assessmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -890,17 +532,9 @@ end
 organization.
 
 """
-function get_organization_admin_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/account/organizationAdminAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/account/organizationAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -909,13 +543,9 @@ end
  Returns a list of the in-scope Amazon Web Services services for the specified assessment.
 
 """
-function get_services_in_scope(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_services_in_scope(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -927,17 +557,32 @@ end
 - `attribute`:  The list of SettingAttribute enum values.
 
 """
-function get_settings(
-    attribute; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_settings(attribute; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/settings/$(attribute)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/settings/$(attribute)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists the latest analytics data for controls within a specific control domain and a
+specific active assessment.  Control insights are listed only if the control belongs to the
+control domain and assessment that was specified. Moreover, the control must have collected
+evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these
+conditions are met, no data is listed for that control.
+
+# Arguments
+- `assessment_id`: The unique identifier for the active assessment.
+- `control_domain_id`: The unique identifier for the control domain.
+
+# Keyword Parameters
+- `max_results`: Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`: The pagination token that's used to fetch the next set of results.
+"""
+function list_assessment_control_insights_by_control_domain(assessmentId, controlDomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return auditmanager("GET", "/insights/controls-by-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentId"=>assessmentId, "controlDomainId"=>controlDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -949,25 +594,14 @@ end
 - `request_type`:  Specifies whether the share request is a sent request or a received
   request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_framework_share_requests(
-    requestType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_assessment_framework_share_requests(requestType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworkShareRequests",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessmentFrameworkShareRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestType"=>requestType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -980,25 +614,14 @@ library.
 - `framework_type`:  The type of framework, such as a standard framework or a custom
   framework.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_frameworks(
-    frameworkType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_assessment_frameworks(frameworkType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("frameworkType" => frameworkType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("frameworkType"=>frameworkType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1006,23 +629,14 @@ end
 
  Returns a list of assessment reports created in Audit Manager.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_reports(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_assessment_reports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessmentReports",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessmentReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1030,21 +644,76 @@ end
 
  Returns a list of current and past assessments from Audit Manager.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
+- `status`:  The current status of the assessment.
 """
 function list_assessments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/assessments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/assessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_control_domain_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists the latest analytics data for control domains across all of your active assessments.
+ A control domain is listed only if at least one of the controls within that domain
+collected evidence on the lastUpdated date of controlDomainInsights. If this condition
+isn’t met, no data is listed for that control domain.
+
+# Keyword Parameters
+- `max_results`: Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_domain_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return auditmanager("GET", "/insights/control-domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_control_domain_insights_by_assessment(assessment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists analytics data for control domains within a specified active assessment.  A control
+domain is listed only if at least one of the controls within that domain collected evidence
+on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is
+listed for that domain.
+
+# Arguments
+- `assessment_id`: The unique identifier for the active assessment.
+
+# Keyword Parameters
+- `max_results`: Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_domain_insights_by_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return auditmanager("GET", "/insights/control-domains-by-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentId"=>assessmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_control_insights_by_control_domain(control_domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Lists the latest analytics data for controls within a specific control domain across all
+active assessments.  Control insights are listed only if the control belongs to the control
+domain that was specified and the control collected evidence on the lastUpdated date of
+controlInsightsMetadata. If neither of these conditions are met, no data is listed for that
+control.
+
+# Arguments
+- `control_domain_id`: The unique identifier for the control domain.
+
+# Keyword Parameters
+- `max_results`: Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_insights_by_control_domain(controlDomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return auditmanager("GET", "/insights/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlDomainId"=>controlDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1055,25 +724,14 @@ end
 # Arguments
 - `control_type`:  The type of control, such as a standard control or a custom control.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function list_controls(
-    controlType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_controls(controlType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/controls",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("controlType" => controlType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlType"=>controlType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1084,23 +742,14 @@ end
 # Arguments
 - `source`:  The control mapping data source that the keywords apply to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
-function list_keywords_for_data_source(
-    source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_keywords_for_data_source(source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/dataSourceKeywords",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("source" => source), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1108,21 +757,14 @@ end
 
  Returns a list of all Audit Manager notifications.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Represents the maximum number of results on a page or for an API
-  request call.
-- `"next_token"`:  The pagination token that's used to fetch the next set of results.
+# Keyword Parameters
+- `max_results`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `next_token`:  The pagination token that's used to fetch the next set of results.
 """
 function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/notifications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/notifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1134,17 +776,9 @@ end
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1152,20 +786,13 @@ end
 
  Enables Audit Manager for the specified Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delegated_admin_account"`:  The delegated administrator account for Audit Manager.
-- `"kms_key"`:  The KMS key details.
+# Keyword Parameters
+- `delegated_admin_account`:  The delegated administrator account for Audit Manager.
+- `kms_key`:  The KMS key details.
 """
 function register_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/account/registerAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/account/registerAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1178,19 +805,9 @@ administrator for Audit Manager.
 - `admin_account_id`:  The identifier for the delegated administrator account.
 
 """
-function register_organization_admin_account(
-    adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/account/registerOrganizationAdminAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1212,34 +829,12 @@ User Guide.
 - `destination_region`:  The Amazon Web Services Region of the recipient.
 - `framework_id`:  The unique identifier for the custom framework to be shared.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment"`:  An optional comment from the sender about the share request.
+# Keyword Parameters
+- `comment`:  An optional comment from the sender about the share request.
 """
-function start_assessment_framework_share(
-    destinationAccount,
-    destinationRegion,
-    frameworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_assessment_framework_share(destinationAccount, destinationRegion, frameworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks/$(frameworkId)/shareRequests",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationAccount" => destinationAccount,
-                    "destinationRegion" => destinationRegion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessmentFrameworks/$(frameworkId)/shareRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationAccount"=>destinationAccount, "destinationRegion"=>destinationRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1252,17 +847,9 @@ end
 - `tags`:  The tags that are associated with the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1275,17 +862,9 @@ end
 - `tag_keys`:  The name or key of the tag.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1294,28 +873,19 @@ end
  Edits an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `scope`:  The scope of the assessment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assessment_description"`:  The description of the assessment.
-- `"assessment_name"`:  The name of the assessment to be updated.
-- `"assessment_reports_destination"`:  The assessment report storage destination for the
+# Keyword Parameters
+- `assessment_description`:  The description of the assessment.
+- `assessment_name`:  The name of the assessment to be updated.
+- `assessment_reports_destination`:  The assessment report storage destination for the
   assessment that's being updated.
-- `"roles"`:  The list of roles for the assessment.
+- `roles`:  The list of roles for the assessment.
 """
-function update_assessment(
-    assessmentId, scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_assessment(assessmentId, scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scope" => scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("scope"=>scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1324,30 +894,17 @@ end
  Updates a control within an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
-- `control_id`:  The identifier for the control.
-- `control_set_id`:  The identifier for the control set.
+- `assessment_id`:  The unique identifier for the assessment.
+- `control_id`:  The unique identifier for the control.
+- `control_set_id`:  The unique identifier for the control set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comment_body"`:  The comment body text for the control.
-- `"control_status"`:  The status of the control.
+# Keyword Parameters
+- `comment_body`:  The comment body text for the control.
+- `control_status`:  The status of the control.
 """
-function update_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_assessment_control(assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1356,32 +913,15 @@ end
  Updates the status of a control set in an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `comment`:  The comment that's related to the status update.
-- `control_set_id`:  The identifier for the control set.
+- `control_set_id`:  The unique identifier for the control set.
 - `status`:  The status of the control set that's being updated.
 
 """
-function update_assessment_control_set_status(
-    assessmentId,
-    comment,
-    controlSetId,
-    status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_assessment_control_set_status(assessmentId, comment, controlSetId, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("comment" => comment, "status" => status), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("comment"=>comment, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1391,36 +931,17 @@ end
 
 # Arguments
 - `control_sets`:  The control sets that are associated with the framework.
-- `framework_id`:  The identifier for the framework.
+- `framework_id`:  The unique identifier for the framework.
 - `name`:  The name of the framework to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compliance_type"`:  The compliance type that the new custom framework supports, such as
+# Keyword Parameters
+- `compliance_type`:  The compliance type that the new custom framework supports, such as
   CIS or HIPAA.
-- `"description"`:  The description of the updated framework.
+- `description`:  The description of the updated framework.
 """
-function update_assessment_framework(
-    controlSets,
-    frameworkId,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_assessment_framework(controlSets, frameworkId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworks/$(frameworkId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("controlSets" => controlSets, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1435,27 +956,9 @@ end
   request.
 
 """
-function update_assessment_framework_share(
-    action,
-    requestId,
-    requestType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_assessment_framework_share(action, requestId, requestType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("action" => action, "requestType" => requestType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessmentFrameworkShareRequests/$(requestId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "requestType"=>requestType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1464,21 +967,13 @@ end
  Updates the status of an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
+- `assessment_id`:  The unique identifier for the assessment.
 - `status`:  The current status of the assessment.
 
 """
-function update_assessment_status(
-    assessmentId, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_assessment_status(assessmentId, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/status",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1491,38 +986,17 @@ end
 - `control_mapping_sources`:  The data mapping sources for the control.
 - `name`:  The name of the updated control.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_plan_instructions"`:  The recommended actions to carry out if the control isn't
+# Keyword Parameters
+- `action_plan_instructions`:  The recommended actions to carry out if the control isn't
   fulfilled.
-- `"action_plan_title"`:  The title of the action plan for remediating the control.
-- `"description"`:  The optional description of the control.
-- `"testing_information"`:  The steps that you should follow to determine if the control is
+- `action_plan_title`:  The title of the action plan for remediating the control.
+- `description`:  The optional description of the control.
+- `testing_information`:  The steps that you should follow to determine if the control is
   met.
 """
-function update_control(
-    controlId,
-    controlMappingSources,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_control(controlId, controlMappingSources, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT",
-        "/controls/$(controlId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "controlMappingSources" => controlMappingSources, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1530,20 +1004,17 @@ end
 
  Updates Audit Manager settings for the current user account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_assessment_reports_destination"`:  The default storage destination for
-  assessment reports.
-- `"default_process_owners"`:  A list of the default audit owners.
-- `"kms_key"`:  The KMS key details.
-- `"sns_topic"`:  The Amazon Simple Notification Service (Amazon SNS) topic that Audit
+# Keyword Parameters
+- `default_assessment_reports_destination`:  The default storage destination for assessment
+  reports.
+- `default_process_owners`:  A list of the default audit owners.
+- `kms_key`:  The KMS key details.
+- `sns_topic`:  The Amazon Simple Notification Service (Amazon SNS) topic that Audit
   Manager sends notifications to.
 """
 function update_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1556,17 +1027,7 @@ end
   is stored in.
 
 """
-function validate_assessment_report_integrity(
-    s3RelativePath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function validate_assessment_report_integrity(s3RelativePath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return auditmanager(
-        "POST",
-        "/assessmentReports/integrity",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("s3RelativePath" => s3RelativePath), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3RelativePath"=>s3RelativePath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

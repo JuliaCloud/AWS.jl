@@ -4,9 +4,8 @@ using AWS.AWSServices: appconfigdata
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "required_minimum_poll_interval_in_seconds" => "RequiredMinimumPollIntervalInSeconds"
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("required_minimum_poll_interval_in_seconds" => "RequiredMinimumPollIntervalInSeconds")
 
 """
     get_latest_configuration(configuration_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -28,23 +27,9 @@ parameter.
   the response) and MUST be provided to subsequent GetLatestConfiguration API calls.
 
 """
-function get_latest_configuration(
-    configuration_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_latest_configuration(configuration_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return appconfigdata(
-        "GET",
-        "/configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("configuration_token" => configuration_token),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return appconfigdata("GET", "/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_token"=>configuration_token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -59,36 +44,13 @@ GetLatestConfiguration API for more details.
   profile name.
 - `environment_identifier`: The environment ID or the environment name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"required_minimum_poll_interval_in_seconds"`: The interval at which your client will
-  poll for configuration. If provided, the service will throw a BadRequestException if the
-  client polls before the specified poll interval. By default, client poll intervals are not
+# Keyword Parameters
+- `required_minimum_poll_interval_in_seconds`: The interval at which your client will poll
+  for configuration. If provided, the service will throw a BadRequestException if the client
+  polls before the specified poll interval. By default, client poll intervals are not
   enforced.
 """
-function start_configuration_session(
-    ApplicationIdentifier,
-    ConfigurationProfileIdentifier,
-    EnvironmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_configuration_session(ApplicationIdentifier, ConfigurationProfileIdentifier, EnvironmentIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return appconfigdata(
-        "POST",
-        "/configurationsessions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ApplicationIdentifier" => ApplicationIdentifier,
-                    "ConfigurationProfileIdentifier" => ConfigurationProfileIdentifier,
-                    "EnvironmentIdentifier" => EnvironmentIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return appconfigdata("POST", "/configurationsessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationIdentifier"=>ApplicationIdentifier, "ConfigurationProfileIdentifier"=>ConfigurationProfileIdentifier, "EnvironmentIdentifier"=>EnvironmentIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

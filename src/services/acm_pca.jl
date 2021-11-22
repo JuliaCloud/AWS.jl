@@ -4,22 +4,8 @@ using AWS.AWSServices: acm_pca
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "resource_owner" => "ResourceOwner",
-    "next_token" => "NextToken",
-    "permanent_deletion_time_in_days" => "PermanentDeletionTimeInDays",
-    "status" => "Status",
-    "max_results" => "MaxResults",
-    "key_storage_security_standard" => "KeyStorageSecurityStandard",
-    "idempotency_token" => "IdempotencyToken",
-    "certificate_chain" => "CertificateChain",
-    "api_passthrough" => "ApiPassthrough",
-    "validity_not_before" => "ValidityNotBefore",
-    "revocation_configuration" => "RevocationConfiguration",
-    "template_arn" => "TemplateArn",
-    "tags" => "Tags",
-    "source_account" => "SourceAccount",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "permanent_deletion_time_in_days" => "PermanentDeletionTimeInDays", "api_passthrough" => "ApiPassthrough", "idempotency_token" => "IdempotencyToken", "template_arn" => "TemplateArn", "validity_not_before" => "ValidityNotBefore", "certificate_chain" => "CertificateChain", "revocation_configuration" => "RevocationConfiguration", "status" => "Status", "source_account" => "SourceAccount", "resource_owner" => "ResourceOwner", "key_storage_security_standard" => "KeyStorageSecurityStandard", "tags" => "Tags")
 
 """
     create_certificate_authority(certificate_authority_configuration, certificate_authority_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -45,53 +31,32 @@ information, see Configure Access to ACM Private CA.
   the name of the signing algorithm, and X.500 certificate subject information.
 - `certificate_authority_type`: The type of the certificate authority.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"idempotency_token"`: Custom string that can be used to distinguish between calls to the
+# Keyword Parameters
+- `idempotency_token`: Custom string that can be used to distinguish between calls to the
   CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time
   out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times
   with the same idempotency token within five minutes, ACM Private CA recognizes that you are
   requesting only certificate authority and will issue only one. If you change the
   idempotency token for each call, PCA recognizes that you are requesting multiple
   certificate authorities.
-- `"key_storage_security_standard"`: Specifies a cryptographic key management compliance
+- `key_storage_security_standard`: Specifies a cryptographic key management compliance
   standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note:
   FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in Region ap-northeast-3. When creating a CA
   in the ap-northeast-3, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
   KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the
   message, \"A certificate authority cannot be created in this region with the specified
   security standard.\"
-- `"revocation_configuration"`: Contains information to enable Online Certificate Status
+- `revocation_configuration`: Contains information to enable Online Certificate Status
   Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
   to enable neither. The default is for both certificate validation mechanisms to be
   disabled. For more information, see the OcspConfiguration and CrlConfiguration types.
-- `"tags"`: Key-value pairs that will be attached to the new private CA. You can associate
-  up to 50 tags with a private CA. For information using tags with IAM to manage permissions,
+- `tags`: Key-value pairs that will be attached to the new private CA. You can associate up
+  to 50 tags with a private CA. For information using tags with IAM to manage permissions,
   see Controlling Access Using IAM Tags.
 """
-function create_certificate_authority(
-    CertificateAuthorityConfiguration,
-    CertificateAuthorityType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "CreateCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateAuthorityConfiguration" =>
-                        CertificateAuthorityConfiguration,
-                    "CertificateAuthorityType" => CertificateAuthorityType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("CreateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -115,30 +80,9 @@ Audit Reports.
 - `s3_bucket_name`: The name of the S3 bucket that will contain the audit report.
 
 """
-function create_certificate_authority_audit_report(
-    AuditReportResponseFormat,
-    CertificateAuthorityArn,
-    S3BucketName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "CreateCertificateAuthorityAuditReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AuditReportResponseFormat" => AuditReportResponseFormat,
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                    "S3BucketName" => S3BucketName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -167,34 +111,12 @@ see Using a Resource Based Policy with ACM Private CA.
 - `principal`: The AWS service or identity that receives the permission. At this time, the
   only valid principal is acm.amazonaws.com.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"source_account"`: The ID of the calling account.
+# Keyword Parameters
+- `source_account`: The ID of the calling account.
 """
-function create_permission(
-    Actions,
-    CertificateAuthorityArn,
-    Principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_permission(Actions, CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "CreatePermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Actions" => Actions,
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                    "Principal" => Principal,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("CreatePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -222,27 +144,13 @@ eligible CA, call the RestoreCertificateAuthority action.
   called CreateCertificateAuthority. This must have the following form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"permanent_deletion_time_in_days"`: The number of days to make a CA restorable after it
+# Keyword Parameters
+- `permanent_deletion_time_in_days`: The number of days to make a CA restorable after it
   has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
 """
-function delete_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "DeleteCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("DeleteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -270,32 +178,12 @@ Resource Based Policy with ACM Private CA.
 - `principal`: The AWS service or identity that will have its CA permissions revoked. At
   this time, the only valid service principal is acm.amazonaws.com
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"source_account"`: The AWS account that calls this action.
+# Keyword Parameters
+- `source_account`: The AWS account that calls this action.
 """
-function delete_permission(
-    CertificateAuthorityArn,
-    Principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_permission(CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "DeletePermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                    "Principal" => Principal,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("DeletePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -325,18 +213,9 @@ see Attach a Policy for Cross-Account Access.
   arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab.
 
 """
-function delete_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "DeletePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -362,22 +241,9 @@ action's output.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
 
 """
-function describe_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "DescribeCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("DescribeCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -396,28 +262,9 @@ IssueCertificate action or the RevokeCertificate action.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
 
 """
-function describe_certificate_authority_audit_report(
-    AuditReportId,
-    CertificateAuthorityArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "DescribeCertificateAuthorityAuditReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AuditReportId" => AuditReportId,
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -440,28 +287,9 @@ information about all of the certificates issued and revoked by your private CA.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
 
 """
-function get_certificate(
-    CertificateArn,
-    CertificateAuthorityArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_certificate(CertificateArn, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "GetCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateArn" => CertificateArn,
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -478,22 +306,9 @@ signs the one before it.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
 
 """
-function get_certificate_authority_certificate(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_certificate_authority_certificate(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "GetCertificateAuthorityCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -512,22 +327,9 @@ string.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 
 """
-function get_certificate_authority_csr(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_certificate_authority_csr(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "GetCertificateAuthorityCsr",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -553,18 +355,9 @@ for Cross-Account Access.
   action.
 
 """
-function get_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "GetPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -606,36 +399,16 @@ distribution points   Authority information access   Freshest CRL   Any other ex
   called CreateCertificateAuthority. This must be of the form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_chain"`: A PEM-encoded file that contains all of your certificates, other
+# Keyword Parameters
+- `certificate_chain`: A PEM-encoded file that contains all of your certificates, other
   than the certificate you're importing, chaining up to your root CA. Your ACM Private
   CA-hosted or on-premises root certificate is the last in the chain, and each certificate in
   the chain signs the one preceding.  This parameter must be supplied when you import a
   subordinate CA. When you import a root CA, there is no chain.
 """
-function import_certificate_authority_certificate(
-    Certificate,
-    CertificateAuthorityArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_certificate_authority_certificate(Certificate, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "ImportCertificateAuthorityCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Certificate" => Certificate,
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -673,28 +446,27 @@ the ARNs of the certificates that you issue by using ACM Private CA.
   regardless of the ValidityNotBefore value. The end of the validity period configured on a
   certificate must not exceed the limit set on its parents in the CA hierarchy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"api_passthrough"`: Specifies X.509 certificate information to be included in the issued
+# Keyword Parameters
+- `api_passthrough`: Specifies X.509 certificate information to be included in the issued
   certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or
   else this parameter is ignored. For more information about using these templates, see
   Understanding Certificate Templates. If conflicting or duplicate certificate information is
   supplied during certificate issuance, ACM Private CA applies order of operation rules to
   determine what information is used.
-- `"idempotency_token"`: Alphanumeric string that can be used to distinguish between calls
-  to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one
+- `idempotency_token`: Alphanumeric string that can be used to distinguish between calls to
+  the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one
   minute. Therefore, if you call IssueCertificate multiple times with the same idempotency
   token within one minute, ACM Private CA recognizes that you are requesting only one
   certificate and will issue only one. If you change the idempotency token for each call, PCA
   recognizes that you are requesting multiple certificates.
-- `"template_arn"`: Specifies a custom configuration template to use when issuing a
+- `template_arn`: Specifies a custom configuration template to use when issuing a
   certificate. If this parameter is not provided, ACM Private CA defaults to the
   EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path
   length that meets your needs. The path length is indicated by the PathLenN portion of the
   ARN, where N is the CA depth. Note: The CA depth configured on a subordinate CA certificate
   must not exceed the limit set by its parents in the CA hierarchy. For a list of TemplateArn
   values supported by ACM Private CA, see Understanding Certificate Templates.
-- `"validity_not_before"`: Information describing the start of the validity period of the
+- `validity_not_before`: Information describing the start of the validity period of the
   certificate. This parameter sets the “Not Before\" date for the certificate. By default,
   when issuing a certificate, ACM Private CA sets the \"Not Before\" date to the issuance
   time minus 60 minutes. This compensates for clock inconsistencies across computer systems.
@@ -704,32 +476,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   value ABSOLUTE. For more information, see Validity in this API reference and Validity in
   RFC 5280.
 """
-function issue_certificate(
-    CertificateAuthorityArn,
-    Csr,
-    SigningAlgorithm,
-    Validity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "IssueCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                    "Csr" => Csr,
-                    "SigningAlgorithm" => SigningAlgorithm,
-                    "Validity" => Validity,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("IssueCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -738,28 +487,20 @@ end
 Lists the private certificate authorities that you created by using the
 CreateCertificateAuthority action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Use this parameter when paginating results to specify the maximum number
+# Keyword Parameters
+- `max_results`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
   number you specify, the NextToken element is sent in the response. Use this NextToken value
   in a subsequent request to retrieve additional items.
-- `"next_token"`: Use this parameter when paginating results in a subsequent request after
+- `next_token`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.
-- `"resource_owner"`: Use this parameter to filter the returned set of certificate
+- `resource_owner`: Use this parameter to filter the returned set of certificate
   authorities based on their owner. The default is SELF.
 """
-function list_certificate_authorities(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_certificate_authorities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "ListCertificateAuthorities",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("ListCertificateAuthorities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -785,32 +526,18 @@ Resource Based Policy with ACM Private CA.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
   You can get a private CA's ARN by running the ListCertificateAuthorities action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: When paginating results, use this parameter to specify the maximum
-  number of items to return in the response. If additional items exist beyond the number you
+# Keyword Parameters
+- `max_results`: When paginating results, use this parameter to specify the maximum number
+  of items to return in the response. If additional items exist beyond the number you
   specify, the NextToken element is sent in the response. Use this NextToken value in a
   subsequent request to retrieve additional items.
-- `"next_token"`: When paginating results, use this parameter in a subsequent request after
+- `next_token`: When paginating results, use this parameter in a subsequent request after
   you receive a response with truncated results. Set it to the value of NextToken from the
   response you just received.
 """
-function list_permissions(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_permissions(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "ListPermissions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("ListPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -826,32 +553,18 @@ one or more tags to your CA. Call the UntagCertificateAuthority action to remove
   called the CreateCertificateAuthority action. This must be of the form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Use this parameter when paginating results to specify the maximum number
+# Keyword Parameters
+- `max_results`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response. If additional items exist beyond the number you
   specify, the NextToken element is sent in the response. Use this NextToken value in a
   subsequent request to retrieve additional items.
-- `"next_token"`: Use this parameter when paginating results in a subsequent request after
+- `next_token`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of NextToken from the
   response you just received.
 """
-function list_tags(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "ListTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -881,22 +594,9 @@ information, see Attach a Policy for Cross-Account Access.
   policy. The ARN of the CA can be found by calling the ListCertificateAuthorities action.
 
 """
-function put_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "PutPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -922,22 +622,9 @@ has ended.
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 
 """
-function restore_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function restore_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "RestoreCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("RestoreCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -972,30 +659,9 @@ a root CA self-signed certificate.
 - `revocation_reason`: Specifies why you revoked the certificate.
 
 """
-function revoke_certificate(
-    CertificateAuthorityArn,
-    CertificateSerial,
-    RevocationReason;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "RevokeCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateAuthorityArn" => CertificateAuthorityArn,
-                    "CertificateSerial" => CertificateSerial,
-                    "RevocationReason" => RevocationReason,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("RevokeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1017,27 +683,9 @@ are associated with your CA.
 - `tags`: List of tags to be associated with the CA.
 
 """
-function tag_certificate_authority(
-    CertificateAuthorityArn,
-    Tags;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function tag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "TagCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateAuthorityArn" => CertificateAuthorityArn, "Tags" => Tags
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("TagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1056,27 +704,9 @@ Call the ListTags action to see what tags are associated with your CA.
 - `tags`: List of tags to be removed from the CA.
 
 """
-function untag_certificate_authority(
-    CertificateAuthorityArn,
-    Tags;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function untag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "UntagCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateAuthorityArn" => CertificateAuthorityArn, "Tags" => Tags
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("UntagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1095,28 +725,14 @@ Private CA.
   certificate to be revoked. This must be of the form:
   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"revocation_configuration"`: Contains information to enable Online Certificate Status
+# Keyword Parameters
+- `revocation_configuration`: Contains information to enable Online Certificate Status
   Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
   to enable neither. If this parameter is not supplied, existing capibilites remain
   unchanged. For more information, see the OcspConfiguration and CrlConfiguration types.
-- `"status"`: Status of your private CA.
+- `status`: Status of your private CA.
 """
-function update_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return acm_pca(
-        "UpdateCertificateAuthority",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return acm_pca("UpdateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

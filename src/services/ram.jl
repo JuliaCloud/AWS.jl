@@ -4,28 +4,8 @@ using AWS.AWSServices: ram
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "resource_share_arns" => "resourceShareArns",
-    "resource_type" => "resourceType",
-    "replace" => "replace",
-    "next_token" => "nextToken",
-    "principal" => "principal",
-    "association_status" => "associationStatus",
-    "name" => "name",
-    "max_results" => "maxResults",
-    "allow_external_principals" => "allowExternalPrincipals",
-    "tag_filters" => "tagFilters",
-    "client_token" => "clientToken",
-    "permission_arns" => "permissionArns",
-    "resource_share_invitation_arns" => "resourceShareInvitationArns",
-    "principals" => "principals",
-    "resource_arns" => "resourceArns",
-    "permission_version" => "permissionVersion",
-    "resource_share_status" => "resourceShareStatus",
-    "resource_arn" => "resourceArn",
-    "tags" => "tags",
-    "permission_arn" => "permissionArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("association_status" => "associationStatus", "max_results" => "maxResults", "next_token" => "nextToken", "principal" => "principal", "resource_arn" => "resourceArn", "resource_share_arns" => "resourceShareArns", "permission_version" => "permissionVersion", "principals" => "principals", "resource_type" => "resourceType", "resource_share_invitation_arns" => "resourceShareInvitationArns", "allow_external_principals" => "allowExternalPrincipals", "client_token" => "clientToken", "name" => "name", "permission_arns" => "permissionArns", "resource_arns" => "resourceArns", "tags" => "tags", "permission_arn" => "permissionArn", "resource_share_status" => "resourceShareStatus", "tag_filters" => "tagFilters", "replace" => "replace")
 
 """
     accept_resource_share_invitation(resource_share_invitation_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,30 +15,13 @@ Accepts an invitation to a resource share from another Amazon Web Services accou
 # Arguments
 - `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-function accept_resource_share_invitation(
-    resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/acceptresourceshareinvitation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceShareInvitationArn" => resourceShareInvitationArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -69,33 +32,20 @@ Associates the specified resource share with the specified principals and resour
 # Arguments
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"principals"`: The principals to associate with the resource share. The possible values
+- `principals`: The principals to associate with the resource share. The possible values
   are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization
   in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an
   IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and
   IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource
   Access Manager User Guide.
-- `"resource_arns"`: The Amazon Resource Names (ARNs) of the resources.
+- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 """
-function associate_resource_share(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/associateresourceshare",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/associateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -108,38 +58,18 @@ Associates a permission with a resource share.
   the resource share.
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"permission_version"`: The version of the RAM permissions to associate with the resource
+- `permission_version`: The version of the RAM permissions to associate with the resource
   share.
-- `"replace"`: Indicates whether the permission should replace the permissions that are
+- `replace`: Indicates whether the permission should replace the permissions that are
   currently associated with the resource share. Use true to replace the current permissions.
   Use false to add the permission to the current permission.
 """
-function associate_resource_share_permission(
-    permissionArn,
-    resourceShareArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/associateresourcesharepermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/associateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -155,36 +85,27 @@ that created it.
 # Arguments
 - `name`: The name of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_external_principals"`: Indicates whether principals outside your organization in
+# Keyword Parameters
+- `allow_external_principals`: Indicates whether principals outside your organization in
   Organizations can be associated with a resource share.
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"permission_arns"`: The Amazon Resource Names (ARNs) of the permissions to associate
-  with the resource share. If you do not specify an ARN for the permission, RAM automatically
+- `permission_arns`: The Amazon Resource Names (ARNs) of the permissions to associate with
+  the resource share. If you do not specify an ARN for the permission, RAM automatically
   attaches the default version of the permission for each resource type. Only one permission
   can be associated with each resource type in a resource share.
-- `"principals"`: The principals to associate with the resource share. The possible values
+- `principals`: The principals to associate with the resource share. The possible values
   are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization
   in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an
   IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and
   IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource
   Access Manager User Guide.
-- `"resource_arns"`: The ARNs of the resources to associate with the resource share.
-- `"tags"`: One or more tags.
+- `resource_arns`: The ARNs of the resources to associate with the resource share.
+- `tags`: One or more tags.
 """
-function create_resource_share(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/createresourceshare",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/createresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -195,26 +116,13 @@ Deletes the specified resource share.
 # Arguments
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-function delete_resource_share(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "DELETE",
-        "/deleteresourceshare",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("DELETE", "/deleteresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -225,28 +133,15 @@ Disassociates the specified principals or resources from the specified resource 
 # Arguments
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"principals"`: The principals.
-- `"resource_arns"`: The Amazon Resource Names (ARNs) of the resources.
+- `principals`: The principals.
+- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 """
-function disassociate_resource_share(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/disassociateresourceshare",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/disassociateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -259,33 +154,13 @@ Disassociates an RAM permission from a resource share.
   the resource share.
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-function disassociate_resource_share_permission(
-    permissionArn,
-    resourceShareArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/disassociateresourcesharepermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,17 +170,9 @@ Enables resource sharing within your organization in Organizations. The caller m
 master account for the organization.
 
 """
-function enable_sharing_with_aws_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/enablesharingwithawsorganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/enablesharingwithawsorganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -316,23 +183,12 @@ Gets the contents of an RAM permission in JSON format.
 # Arguments
 - `permission_arn`: The Amazon Resource Name (ARN) of the permission.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"permission_version"`: The identifier for the version of the permission.
+# Keyword Parameters
+- `permission_version`: The identifier for the version of the permission.
 """
-function get_permission(
-    permissionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/getpermission",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("permissionArn" => permissionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/getpermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -343,26 +199,15 @@ Gets the policies for the specified resources that you own and have shared.
 # Arguments
 - `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
-- `"principal"`: The principal.
+- `next_token`: The token for the next page of results.
+- `principal`: The principal.
 """
-function get_resource_policies(
-    resourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_resource_policies(resourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/getresourcepolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArns" => resourceArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/getresourcepolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArns"=>resourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -375,33 +220,20 @@ Gets the resources or principals for the resource shares that you own.
   are associated with the specified resource share. Specify RESOURCE to list the resources
   that are associated with the specified resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"association_status"`: The association status.
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `association_status`: The association status.
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
-- `"principal"`: The principal. You cannot specify this parameter if the association type
-  is RESOURCE.
-- `"resource_arn"`: The Amazon Resource Name (ARN) of the resource. You cannot specify this
+- `next_token`: The token for the next page of results.
+- `principal`: The principal. You cannot specify this parameter if the association type is
+  RESOURCE.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. You cannot specify this
   parameter if the association type is PRINCIPAL.
-- `"resource_share_arns"`: The Amazon Resource Names (ARN) of the resource shares.
+- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
 """
-function get_resource_share_associations(
-    associationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_resource_share_associations(associationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/getresourceshareassociations",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("associationType" => associationType), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/getresourceshareassociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationType"=>associationType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,25 +241,16 @@ end
 
 Gets the invitations that you have received for resource shares.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
-- `"resource_share_arns"`: The Amazon Resource Names (ARN) of the resource shares.
-- `"resource_share_invitation_arns"`: The Amazon Resource Names (ARN) of the invitations.
+- `next_token`: The token for the next page of results.
+- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
+- `resource_share_invitation_arns`: The Amazon Resource Names (ARN) of the invitations.
 """
-function get_resource_share_invitations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/getresourceshareinvitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/getresourceshareinvitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -438,31 +261,20 @@ Gets the resource shares that you own or the resource shares that are shared wit
 # Arguments
 - `resource_owner`: The type of owner.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"name"`: The name of the resource share.
-- `"next_token"`: The token for the next page of results.
-- `"permission_arn"`: The Amazon Resource Name (ARN) of the RAM permission that is
-  associated with the resource share.
-- `"resource_share_arns"`: The Amazon Resource Names (ARNs) of the resource shares.
-- `"resource_share_status"`: The status of the resource share.
-- `"tag_filters"`: One or more tag filters.
+- `name`: The name of the resource share.
+- `next_token`: The token for the next page of results.
+- `permission_arn`: The Amazon Resource Name (ARN) of the RAM permission that is associated
+  with the resource share.
+- `resource_share_arns`: The Amazon Resource Names (ARNs) of the resource shares.
+- `resource_share_status`: The status of the resource share.
+- `tag_filters`: One or more tag filters.
 """
-function get_resource_shares(
-    resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_resource_shares(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/getresourceshares",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/getresourceshares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -474,31 +286,14 @@ still pending for.
 # Arguments
 - `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
-function list_pending_invitation_resources(
-    resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_pending_invitation_resources(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/listpendinginvitationresources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceShareInvitationArn" => resourceShareInvitationArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/listpendinginvitationresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -506,23 +301,16 @@ end
 
 Lists the RAM permissions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
-- `"resource_type"`: Specifies the resource type for which to list permissions. For
-  example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
+- `next_token`: The token for the next page of results.
+- `resource_type`: Specifies the resource type for which to list permissions. For example,
+  to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/listpermissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/listpermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -534,15 +322,14 @@ you.
 # Arguments
 - `resource_owner`: The type of owner.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
-- `"principals"`: The principals.
-- `"resource_arn"`: The Amazon Resource Name (ARN) of the resource.
-- `"resource_share_arns"`: The Amazon Resource Names (ARN) of the resource shares.
-- `"resource_type"`: The resource type. Valid values: acm-pca:CertificateAuthority |
+- `next_token`: The token for the next page of results.
+- `principals`: The principals.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
+- `resource_type`: The resource type. Valid values: acm-pca:CertificateAuthority |
   appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
   ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet |
   ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
@@ -553,19 +340,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule |
   s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
 """
-function list_principals(
-    resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/listprincipals",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -576,27 +353,14 @@ Lists the RAM permissions that are associated with a resource share.
 # Arguments
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
-function list_resource_share_permissions(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resource_share_permissions(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/listresourcesharepermissions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/listresourcesharepermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -604,21 +368,14 @@ end
 
 Lists the shareable resource types supported by RAM.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
 function list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/listresourcetypes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/listresourcetypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -630,15 +387,14 @@ with you.
 # Arguments
 - `resource_owner`: The type of owner.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
-- `"principal"`: The principal.
-- `"resource_arns"`: The Amazon Resource Names (ARNs) of the resources.
-- `"resource_share_arns"`: The Amazon Resource Names (ARN) of the resource shares.
-- `"resource_type"`: The resource type. Valid values: acm-pca:CertificateAuthority |
+- `next_token`: The token for the next page of results.
+- `principal`: The principal.
+- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
+- `resource_share_arns`: The Amazon Resource Names (ARN) of the resource shares.
+- `resource_type`: The resource type. Valid values: acm-pca:CertificateAuthority |
   appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
   ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet |
   ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
@@ -649,19 +405,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule |
   s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
 """
-function list_resources(
-    resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/listresources",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -676,21 +422,9 @@ Visible to all principals that it is shared with.   Modifiable in RAM.
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share to promote.
 
 """
-function promote_resource_share_created_from_policy(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function promote_resource_share_created_from_policy(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/promoteresourcesharecreatedfrompolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -701,30 +435,13 @@ Rejects an invitation to a resource share from another Amazon Web Services accou
 # Arguments
 - `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-function reject_resource_share_invitation(
-    resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/rejectresourceshareinvitation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceShareInvitationArn" => resourceShareInvitationArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -737,23 +454,9 @@ Adds the specified tags to the specified resource share that you own.
 - `tags`: One or more tags.
 
 """
-function tag_resource(
-    resourceShareArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceShareArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/tagresource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceShareArn" => resourceShareArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/tagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -766,25 +469,9 @@ Removes the specified tags from the specified resource share that you own.
 - `tag_keys`: The tag keys of the tags to remove.
 
 """
-function untag_resource(
-    resourceShareArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceShareArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/untagresource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "resourceShareArn" => resourceShareArn, "tagKeys" => tagKeys
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/untagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -795,27 +482,14 @@ Updates the specified resource share that you own.
 # Arguments
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_external_principals"`: Indicates whether principals outside your organization in
+# Keyword Parameters
+- `allow_external_principals`: Indicates whether principals outside your organization in
   Organizations can be associated with a resource share.
-- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"name"`: The name of the resource share.
+- `name`: The name of the resource share.
 """
-function update_resource_share(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ram(
-        "POST",
-        "/updateresourceshare",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ram("POST", "/updateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

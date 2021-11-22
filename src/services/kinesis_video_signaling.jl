@@ -4,7 +4,8 @@ using AWS.AWSServices: kinesis_video_signaling
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict("client_id" => "ClientId", "username" => "Username", "service" => "Service")
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_id" => "ClientId", "service" => "Service", "username" => "Username")
 
 """
     get_ice_server_config(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -25,26 +26,15 @@ either a signaling channel ARN or the client ID in order to invoke this API.
 - `channel_arn`: The ARN of the signaling channel to be used for the peer-to-peer
   connection between configured peers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_id"`: Unique identifier for the viewer. Must be unique within the signaling
+# Keyword Parameters
+- `client_id`: Unique identifier for the viewer. Must be unique within the signaling
   channel.
-- `"service"`: Specifies the desired service. Currently, TURN is the only valid value.
-- `"username"`: An optional user ID to be associated with the credentials.
+- `service`: Specifies the desired service. Currently, TURN is the only valid value.
+- `username`: An optional user ID to be associated with the credentials.
 """
-function get_ice_server_config(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_ice_server_config(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/get-ice-server-config",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -63,29 +53,7 @@ connected to the signaling channel, redelivery requests are made until the messa
 - `sender_client_id`: The unique identifier for the sender client.
 
 """
-function send_alexa_offer_to_master(
-    ChannelARN,
-    MessagePayload,
-    SenderClientId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/send-alexa-offer-to-master",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChannelARN" => ChannelARN,
-                    "MessagePayload" => MessagePayload,
-                    "SenderClientId" => SenderClientId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

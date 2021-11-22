@@ -4,9 +4,8 @@ using AWS.AWSServices: timestream_query
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "client_token" => "ClientToken", "max_rows" => "MaxRows", "next_token" => "NextToken"
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_token" => "ClientToken", "max_rows" => "MaxRows", "next_token" => "NextToken")
 
 """
     cancel_query(query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -23,12 +22,7 @@ indicating that the query has already been canceled.
 """
 function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return timestream_query(
-        "CancelQuery",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -46,9 +40,7 @@ APIs.
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return timestream_query(
-        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return timestream_query("DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -62,9 +54,8 @@ information, see Quotas in the Timestream Developer Guide.
 # Arguments
 - `query_string`:  The query to be executed by Timestream.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`:  Unique, case-sensitive string of up to 64 ASCII characters that you
+# Keyword Parameters
+- `client_token`:  Unique, case-sensitive string of up to 64 ASCII characters that you
   specify when you make a Query request. Providing a ClientToken makes the call to Query
   idempotent, meaning that multiple identical calls have the same effect as one single call.
   Your query request will fail in the following cases:    If you submit a request with the
@@ -72,26 +63,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the same client token but a change in other parameters within the 5-minute idempotency
   window.     After 4 hours, any request with the same client token is treated as a new
   request.
-- `"max_rows"`:  The total number of rows to return in the output. If the total number of
+- `max_rows`:  The total number of rows to return in the output. If the total number of
   rows available is more than the value specified, a NextToken is provided in the command's
   output. To resume pagination, provide the NextToken value in the starting-token argument of
   a subsequent command.
-- `"next_token"`:  A pagination token passed to get a set of results.
+- `next_token`:  A pagination token passed to get a set of results.
 """
 function query(QueryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return timestream_query(
-        "Query",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "QueryString" => QueryString, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

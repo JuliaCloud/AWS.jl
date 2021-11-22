@@ -4,29 +4,8 @@ using AWS.AWSServices: personalize
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "perform_hpo" => "performHPO",
-    "ingestion_mode" => "ingestionMode",
-    "next_token" => "nextToken",
-    "solution_config" => "solutionConfig",
-    "role_arn" => "roleArn",
-    "campaign_config" => "campaignConfig",
-    "dataset_arn" => "datasetArn",
-    "event_type" => "eventType",
-    "max_results" => "maxResults",
-    "dataset_group_arn" => "datasetGroupArn",
-    "training_mode" => "trainingMode",
-    "kms_key_arn" => "kmsKeyArn",
-    "perform_auto_ml" => "performAutoML",
-    "num_results" => "numResults",
-    "recipe_arn" => "recipeArn",
-    "min_provisioned_tps" => "minProvisionedTPS",
-    "solution_version_arn" => "solutionVersionArn",
-    "recipe_provider" => "recipeProvider",
-    "solution_arn" => "solutionArn",
-    "batch_inference_job_config" => "batchInferenceJobConfig",
-    "filter_arn" => "filterArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("campaign_config" => "campaignConfig", "min_provisioned_tps" => "minProvisionedTPS", "solution_version_arn" => "solutionVersionArn", "dataset_group_arn" => "datasetGroupArn", "max_results" => "maxResults", "next_token" => "nextToken", "recipe_provider" => "recipeProvider", "dataset_arn" => "datasetArn", "ingestion_mode" => "ingestionMode", "event_type" => "eventType", "perform_auto_ml" => "performAutoML", "perform_hpo" => "performHPO", "recipe_arn" => "recipeArn", "solution_config" => "solutionConfig", "solution_arn" => "solutionArn", "training_mode" => "trainingMode", "batch_inference_job_config" => "batchInferenceJobConfig", "filter_arn" => "filterArn", "num_results" => "numResults", "kms_key_arn" => "kmsKeyArn", "role_arn" => "roleArn")
 
 """
     create_batch_inference_job(job_input, job_name, job_output, role_arn, solution_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -44,41 +23,15 @@ input file must be in JSON format. For more information, see recommendations-bat
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version that will
   be used to generate the batch inference recommendations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"batch_inference_job_config"`: The configuration details of a batch inference job.
-- `"filter_arn"`: The ARN of the filter to apply to the batch inference job. For more
+# Keyword Parameters
+- `batch_inference_job_config`: The configuration details of a batch inference job.
+- `filter_arn`: The ARN of the filter to apply to the batch inference job. For more
   information on using filters, see Filtering Batch Recommendations..
-- `"num_results"`: The number of recommendations to retreive.
+- `num_results`: The number of recommendations to retreive.
 """
-function create_batch_inference_job(
-    jobInput,
-    jobName,
-    jobOutput,
-    roleArn,
-    solutionVersionArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateBatchInferenceJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "jobInput" => jobInput,
-                    "jobName" => jobName,
-                    "jobOutput" => jobOutput,
-                    "roleArn" => roleArn,
-                    "solutionVersionArn" => solutionVersionArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -107,30 +60,14 @@ UpdateCampaign     DeleteCampaign
 - `name`: A name for the new campaign. The campaign name must be unique within your account.
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version to deploy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"campaign_config"`: The configuration details of a campaign.
-- `"min_provisioned_tps"`: Specifies the requested minimum provisioned transactions
+# Keyword Parameters
+- `campaign_config`: The configuration details of a campaign.
+- `min_provisioned_tps`: Specifies the requested minimum provisioned transactions
   (recommendations) per second that Amazon Personalize will support.
 """
-function create_campaign(
-    name, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_campaign(name, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateCampaign",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name, "solutionVersionArn" => solutionVersionArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -155,32 +92,9 @@ APIs     CreateDatasetGroup     ListDatasets     DescribeDataset     DeleteDatas
   dataset fields.
 
 """
-function create_dataset(
-    datasetGroupArn,
-    datasetType,
-    name,
-    schemaArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dataset(datasetGroupArn, datasetType, name, schemaArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateDataset",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "datasetGroupArn" => datasetGroupArn,
-                    "datasetType" => datasetType,
-                    "name" => name,
-                    "schemaArn" => schemaArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -205,39 +119,15 @@ failed.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM service role that has permissions
   to add data to your output Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ingestion_mode"`: The data to export, based on how you imported the data. You can
-  choose to export only BULK data that you imported using a dataset import job, only PUT data
-  that you imported incrementally (using the console, PutEvents, PutUsers and PutItems
+# Keyword Parameters
+- `ingestion_mode`: The data to export, based on how you imported the data. You can choose
+  to export only BULK data that you imported using a dataset import job, only PUT data that
+  you imported incrementally (using the console, PutEvents, PutUsers and PutItems
   operations), or ALL for both types. The default value is PUT.
 """
-function create_dataset_export_job(
-    datasetArn,
-    jobName,
-    jobOutput,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dataset_export_job(datasetArn, jobName, jobOutput, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateDatasetExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "datasetArn" => datasetArn,
-                    "jobName" => jobName,
-                    "jobOutput" => jobOutput,
-                    "roleArn" => roleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateDatasetExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -261,24 +151,16 @@ Related APIs     ListDatasetGroups     DescribeDatasetGroup     DeleteDatasetGro
 # Arguments
 - `name`: The name for the new dataset group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kms_key_arn"`: The Amazon Resource Name (ARN) of a Key Management Service (KMS) key
-  used to encrypt the datasets.
-- `"role_arn"`: The ARN of the Identity and Access Management (IAM) role that has
-  permissions to access the Key Management Service (KMS) key. Supplying an IAM role is only
-  valid when also specifying a KMS key.
+# Keyword Parameters
+- `kms_key_arn`: The Amazon Resource Name (ARN) of a Key Management Service (KMS) key used
+  to encrypt the datasets.
+- `role_arn`: The ARN of the Identity and Access Management (IAM) role that has permissions
+  to access the Key Management Service (KMS) key. Supplying an IAM role is only valid when
+  also specifying a KMS key.
 """
-function create_dataset_group(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_dataset_group(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateDatasetGroup",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -307,32 +189,9 @@ ListDatasetImportJobs     DescribeDatasetImportJob
   source.
 
 """
-function create_dataset_import_job(
-    dataSource,
-    datasetArn,
-    jobName,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dataset_import_job(dataSource, datasetArn, jobName, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateDatasetImportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dataSource" => dataSource,
-                    "datasetArn" => datasetArn,
-                    "jobName" => jobName,
-                    "roleArn" => roleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -356,22 +215,9 @@ ListEventTrackers     DescribeEventTracker     DeleteEventTracker
 - `name`: The name for the event tracker.
 
 """
-function create_event_tracker(
-    datasetGroupArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_event_tracker(datasetGroupArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateEventTracker",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -387,30 +233,9 @@ Creates a recommendation filter. For more information, see filter.
 - `name`: The name of the filter to create.
 
 """
-function create_filter(
-    datasetGroupArn,
-    filterExpression,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_filter(datasetGroupArn, filterExpression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateFilter",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "datasetGroupArn" => datasetGroupArn,
-                    "filterExpression" => filterExpression,
-                    "name" => name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -427,18 +252,9 @@ DescribeSchema     DeleteSchema
 - `schema`: A schema in Avro JSON format.
 
 """
-function create_schema(
-    name, schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_schema(name, schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateSchema",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("name" => name, "schema" => schema), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -469,44 +285,30 @@ DescribeSolution     DeleteSolution       ListSolutionVersions     DescribeSolut
   the training data.
 - `name`: The name for the solution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"event_type"`: When your have multiple event types (using an EVENT_TYPE schema field),
+# Keyword Parameters
+- `event_type`: When your have multiple event types (using an EVENT_TYPE schema field),
   this parameter specifies which event type (for example, 'click' or 'like') is used for
   training the model. If you do not provide an eventType, Amazon Personalize will use all
   interactions for training with equal weight regardless of type.
-- `"perform_auto_ml"`: Whether to perform automated machine learning (AutoML). The default
-  is false. For this case, you must specify recipeArn. When set to true, Amazon Personalize
+- `perform_auto_ml`: Whether to perform automated machine learning (AutoML). The default is
+  false. For this case, you must specify recipeArn. When set to true, Amazon Personalize
   analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and
   hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the
   optimal recipe by running tests with different values for the hyperparameters. AutoML
   lengthens the training process as compared to selecting a specific recipe.
-- `"perform_hpo"`: Whether to perform hyperparameter optimization (HPO) on the specified or
+- `perform_hpo`: Whether to perform hyperparameter optimization (HPO) on the specified or
   selected recipe. The default is false. When performing AutoML, this parameter is always
   true and you should not set it to false.
-- `"recipe_arn"`: The ARN of the recipe to use for model training. Only specified when
+- `recipe_arn`: The ARN of the recipe to use for model training. Only specified when
   performAutoML is false.
-- `"solution_config"`: The configuration to use with the solution. When performAutoML is
-  set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution
+- `solution_config`: The configuration to use with the solution. When performAutoML is set
+  to true, Amazon Personalize only evaluates the autoMLConfig section of the solution
   configuration.  Amazon Personalize doesn't support configuring the hpoObjective at this
   time.
 """
-function create_solution(
-    datasetGroupArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_solution(datasetGroupArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateSolution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -527,9 +329,8 @@ DeleteSolution
 - `solution_arn`: The Amazon Resource Name (ARN) of the solution containing the training
   configuration information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"training_mode"`: The scope of training to be performed when creating the solution
+# Keyword Parameters
+- `training_mode`: The scope of training to be performed when creating the solution
   version. The FULL option trains the solution version based on the entirety of the input
   solution's training data, while the UPDATE option processes only the data that has changed
   in comparison to the input solution. Choose UPDATE when you want to incrementally update
@@ -538,18 +339,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   using the FULL option and the input solution was trained with the User-Personalization
   recipe or the HRNN-Coldstart recipe.
 """
-function create_solution_version(
-    solutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_solution_version(solutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "CreateSolutionVersion",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("CreateSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -564,18 +356,9 @@ CreateCampaign.
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign to delete.
 
 """
-function delete_campaign(
-    campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteCampaign",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -589,18 +372,9 @@ datasets, see CreateDataset.
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to delete.
 
 """
-function delete_dataset(
-    datasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteDataset",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("datasetArn" => datasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -614,20 +388,9 @@ group.
 - `dataset_group_arn`: The ARN of the dataset group to delete.
 
 """
-function delete_dataset_group(
-    datasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset_group(datasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteDatasetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("datasetGroupArn" => datasetGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -640,20 +403,9 @@ associated dataset group. For more information on event trackers, see CreateEven
 - `event_tracker_arn`: The Amazon Resource Name (ARN) of the event tracker to delete.
 
 """
-function delete_event_tracker(
-    eventTrackerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_event_tracker(eventTrackerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteEventTracker",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("eventTrackerArn" => eventTrackerArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -665,18 +417,9 @@ Deletes a filter.
 - `filter_arn`: The ARN of the filter to delete.
 
 """
-function delete_filter(
-    filterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteFilter",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -689,18 +432,9 @@ schema. For more information on schemas, see CreateSchema.
 - `schema_arn`: The Amazon Resource Name (ARN) of the schema to delete.
 
 """
-function delete_schema(
-    schemaArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_schema(schemaArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteSchema",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("schemaArn" => schemaArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -716,18 +450,9 @@ PENDING or IN PROGRESS state. For more information on solutions, see CreateSolut
 - `solution_arn`: The ARN of the solution to delete.
 
 """
-function delete_solution(
-    solutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_solution(solutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DeleteSolution",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DeleteSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -739,18 +464,9 @@ Describes the given algorithm.
 - `algorithm_arn`: The Amazon Resource Name (ARN) of the algorithm to describe.
 
 """
-function describe_algorithm(
-    algorithmArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_algorithm(algorithmArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeAlgorithm",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("algorithmArn" => algorithmArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmArn"=>algorithmArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -764,22 +480,9 @@ generate the recommendations.
 - `batch_inference_job_arn`: The ARN of the batch inference job to describe.
 
 """
-function describe_batch_inference_job(
-    batchInferenceJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_batch_inference_job(batchInferenceJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeBatchInferenceJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("batchInferenceJobArn" => batchInferenceJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -795,18 +498,9 @@ CreateCampaign.
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign.
 
 """
-function describe_campaign(
-    campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeCampaign",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -818,18 +512,9 @@ Describes the given dataset. For more information on datasets, see CreateDataset
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to describe.
 
 """
-function describe_dataset(
-    datasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeDataset",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("datasetArn" => datasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -843,22 +528,9 @@ job status.
   describe.
 
 """
-function describe_dataset_export_job(
-    datasetExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset_export_job(datasetExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeDatasetExportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("datasetExportJobArn" => datasetExportJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeDatasetExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetExportJobArn"=>datasetExportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -871,20 +543,9 @@ CreateDatasetGroup.
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group to describe.
 
 """
-function describe_dataset_group(
-    datasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset_group(datasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeDatasetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("datasetGroupArn" => datasetGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -898,22 +559,9 @@ job status.
   describe.
 
 """
-function describe_dataset_import_job(
-    datasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset_import_job(datasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeDatasetImportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("datasetImportJobArn" => datasetImportJobArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -926,20 +574,9 @@ tracker. For more information on event trackers, see CreateEventTracker.
 - `event_tracker_arn`: The Amazon Resource Name (ARN) of the event tracker to describe.
 
 """
-function describe_event_tracker(
-    eventTrackerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_tracker(eventTrackerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeEventTracker",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("eventTrackerArn" => eventTrackerArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -952,22 +589,9 @@ Describes the given feature transformation.
   transformation to describe.
 
 """
-function describe_feature_transformation(
-    featureTransformationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_feature_transformation(featureTransformationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeFeatureTransformation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("featureTransformationArn" => featureTransformationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeFeatureTransformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("featureTransformationArn"=>featureTransformationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -979,18 +603,9 @@ Describes a filter's properties.
 - `filter_arn`: The ARN of the filter to describe.
 
 """
-function describe_filter(
-    filterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeFilter",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1008,18 +623,9 @@ GetRecommendations API.
 - `recipe_arn`: The Amazon Resource Name (ARN) of the recipe to describe.
 
 """
-function describe_recipe(
-    recipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_recipe(recipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeRecipe",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("recipeArn" => recipeArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recipeArn"=>recipeArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1031,18 +637,9 @@ Describes a schema. For more information on schemas, see CreateSchema.
 - `schema_arn`: The Amazon Resource Name (ARN) of the schema to retrieve.
 
 """
-function describe_schema(
-    schemaArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_schema(schemaArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeSchema",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("schemaArn" => schemaArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1054,18 +651,9 @@ Describes a solution. For more information on solutions, see CreateSolution.
 - `solution_arn`: The Amazon Resource Name (ARN) of the solution to describe.
 
 """
-function describe_solution(
-    solutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_solution(solutionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeSolution",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1078,20 +666,9 @@ CreateSolution.
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version.
 
 """
-function describe_solution_version(
-    solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_solution_version(solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "DescribeSolutionVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("solutionVersionArn" => solutionVersionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("DescribeSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1104,20 +681,9 @@ Gets the metrics for the specified solution version.
   to get metrics.
 
 """
-function get_solution_metrics(
-    solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_solution_metrics(solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "GetSolutionMetrics",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("solutionVersionArn" => solutionVersionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("GetSolutionMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1125,24 +691,16 @@ end
 
 Gets a list of the batch inference jobs that have been performed off of a solution version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of batch inference job results to return in each
-  page. The default value is 100.
-- `"next_token"`: The token to request the next page of results.
-- `"solution_version_arn"`: The Amazon Resource Name (ARN) of the solution version from
-  which the batch inference jobs were created.
+# Keyword Parameters
+- `max_results`: The maximum number of batch inference job results to return in each page.
+  The default value is 100.
+- `next_token`: The token to request the next page of results.
+- `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version from which
+  the batch inference jobs were created.
 """
-function list_batch_inference_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_batch_inference_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListBatchInferenceJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("ListBatchInferenceJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1153,20 +711,16 @@ all the campaigns associated with the account are listed. The response provides 
 properties for each campaign, including the Amazon Resource Name (ARN). For more
 information on campaigns, see CreateCampaign.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of campaigns to return.
-- `"next_token"`: A token returned from the previous call to ListCampaigns for getting the
+# Keyword Parameters
+- `max_results`: The maximum number of campaigns to return.
+- `next_token`: A token returned from the previous call to ListCampaigns for getting the
   next set of campaigns (if they exist).
-- `"solution_arn"`: The Amazon Resource Name (ARN) of the solution to list the campaigns
-  for. When a solution is not specified, all the campaigns associated with the account are
-  listed.
+- `solution_arn`: The Amazon Resource Name (ARN) of the solution to list the campaigns for.
+  When a solution is not specified, all the campaigns associated with the account are listed.
 """
 function list_campaigns(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListCampaigns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListCampaigns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1178,24 +732,16 @@ provides the properties for each dataset export job, including the Amazon Resour
 (ARN). For more information on dataset export jobs, see CreateDatasetExportJob. For more
 information on datasets, see CreateDataset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_arn"`: The Amazon Resource Name (ARN) of the dataset to list the dataset export
+# Keyword Parameters
+- `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to list the dataset export
   jobs for.
-- `"max_results"`: The maximum number of dataset export jobs to return.
-- `"next_token"`: A token returned from the previous call to ListDatasetExportJobs for
+- `max_results`: The maximum number of dataset export jobs to return.
+- `next_token`: A token returned from the previous call to ListDatasetExportJobs for
   getting the next set of dataset export jobs (if they exist).
 """
-function list_dataset_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dataset_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListDatasetExportJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("ListDatasetExportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1205,17 +751,14 @@ Returns a list of dataset groups. The response provides the properties for each 
 group, including the Amazon Resource Name (ARN). For more information on dataset groups,
 see CreateDatasetGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of dataset groups to return.
-- `"next_token"`: A token returned from the previous call to ListDatasetGroups for getting
+# Keyword Parameters
+- `max_results`: The maximum number of dataset groups to return.
+- `next_token`: A token returned from the previous call to ListDatasetGroups for getting
   the next set of dataset groups (if they exist).
 """
 function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1227,24 +770,16 @@ provides the properties for each dataset import job, including the Amazon Resour
 (ARN). For more information on dataset import jobs, see CreateDatasetImportJob. For more
 information on datasets, see CreateDataset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_arn"`: The Amazon Resource Name (ARN) of the dataset to list the dataset import
+# Keyword Parameters
+- `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to list the dataset import
   jobs for.
-- `"max_results"`: The maximum number of dataset import jobs to return.
-- `"next_token"`: A token returned from the previous call to ListDatasetImportJobs for
+- `max_results`: The maximum number of dataset import jobs to return.
+- `next_token`: A token returned from the previous call to ListDatasetImportJobs for
   getting the next set of dataset import jobs (if they exist).
 """
-function list_dataset_import_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListDatasetImportJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("ListDatasetImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1254,19 +789,16 @@ Returns the list of datasets contained in the given dataset group. The response 
 the properties for each dataset, including the Amazon Resource Name (ARN). For more
 information on datasets, see CreateDataset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_group_arn"`: The Amazon Resource Name (ARN) of the dataset group that contains
+# Keyword Parameters
+- `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group that contains
   the datasets to list.
-- `"max_results"`: The maximum number of datasets to return.
-- `"next_token"`: A token returned from the previous call to ListDatasetImportJobs for
+- `max_results`: The maximum number of datasets to return.
+- `next_token`: A token returned from the previous call to ListDatasetImportJobs for
   getting the next set of dataset import jobs (if they exist).
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1276,18 +808,15 @@ Returns the list of event trackers associated with the account. The response pro
 properties for each event tracker, including the Amazon Resource Name (ARN) and tracking
 ID. For more information on event trackers, see CreateEventTracker.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_group_arn"`: The ARN of a dataset group used to filter the response.
-- `"max_results"`: The maximum number of event trackers to return.
-- `"next_token"`: A token returned from the previous call to ListEventTrackers for getting
+# Keyword Parameters
+- `dataset_group_arn`: The ARN of a dataset group used to filter the response.
+- `max_results`: The maximum number of event trackers to return.
+- `next_token`: A token returned from the previous call to ListEventTrackers for getting
   the next set of event trackers (if they exist).
 """
 function list_event_trackers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListEventTrackers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListEventTrackers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1295,18 +824,15 @@ end
 
 Lists all filters that belong to a given dataset group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_group_arn"`: The ARN of the dataset group that contains the filters.
-- `"max_results"`: The maximum number of filters to return.
-- `"next_token"`: A token returned from the previous call to ListFilters for getting the
-  next set of filters (if they exist).
+# Keyword Parameters
+- `dataset_group_arn`: The ARN of the dataset group that contains the filters.
+- `max_results`: The maximum number of filters to return.
+- `next_token`: A token returned from the previous call to ListFilters for getting the next
+  set of filters (if they exist).
 """
 function list_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1315,18 +841,15 @@ end
 Returns a list of available recipes. The response provides the properties for each recipe,
 including the recipe's Amazon Resource Name (ARN).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of recipes to return.
-- `"next_token"`: A token returned from the previous call to ListRecipes for getting the
-  next set of recipes (if they exist).
-- `"recipe_provider"`: The default is SERVICE.
+# Keyword Parameters
+- `max_results`: The maximum number of recipes to return.
+- `next_token`: A token returned from the previous call to ListRecipes for getting the next
+  set of recipes (if they exist).
+- `recipe_provider`: The default is SERVICE.
 """
 function list_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListRecipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListRecipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1336,17 +859,14 @@ Returns the list of schemas associated with the account. The response provides t
 properties for each schema, including the Amazon Resource Name (ARN). For more information
 on schemas, see CreateSchema.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of schemas to return.
-- `"next_token"`: A token returned from the previous call to ListSchemas for getting the
-  next set of schemas (if they exist).
+# Keyword Parameters
+- `max_results`: The maximum number of schemas to return.
+- `next_token`: A token returned from the previous call to ListSchemas for getting the next
+  set of schemas (if they exist).
 """
 function list_schemas(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListSchemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListSchemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1357,23 +877,15 @@ specified, all the solution versions associated with the account are listed. The
 provides the properties for each solution version, including the Amazon Resource Name
 (ARN). For more information on solutions, see CreateSolution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of solution versions to return.
-- `"next_token"`: A token returned from the previous call to ListSolutionVersions for
-  getting the next set of solution versions (if they exist).
-- `"solution_arn"`: The Amazon Resource Name (ARN) of the solution.
+# Keyword Parameters
+- `max_results`: The maximum number of solution versions to return.
+- `next_token`: A token returned from the previous call to ListSolutionVersions for getting
+  the next set of solution versions (if they exist).
+- `solution_arn`: The Amazon Resource Name (ARN) of the solution.
 """
-function list_solution_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_solution_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListSolutionVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("ListSolutionVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1384,18 +896,15 @@ specified, all the solutions associated with the account are listed. The respons
 the properties for each solution, including the Amazon Resource Name (ARN). For more
 information on solutions, see CreateSolution.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_group_arn"`: The Amazon Resource Name (ARN) of the dataset group.
-- `"max_results"`: The maximum number of solutions to return.
-- `"next_token"`: A token returned from the previous call to ListSolutions for getting the
+# Keyword Parameters
+- `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group.
+- `max_results`: The maximum number of solutions to return.
+- `next_token`: A token returned from the previous call to ListSolutions for getting the
   next set of solutions (if they exist).
 """
 function list_solutions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "ListSolutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return personalize("ListSolutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1413,20 +922,9 @@ once it has been stopped.
   to stop creating.
 
 """
-function stop_solution_version_creation(
-    solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_solution_version_creation(solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "StopSolutionVersionCreation",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("solutionVersionArn" => solutionVersionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("StopSolutionVersionCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1441,23 +939,13 @@ recommendations.  For more information on campaigns, see CreateCampaign.
 # Arguments
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"campaign_config"`: The configuration details of a campaign.
-- `"min_provisioned_tps"`: Specifies the requested minimum provisioned transactions
+# Keyword Parameters
+- `campaign_config`: The configuration details of a campaign.
+- `min_provisioned_tps`: Specifies the requested minimum provisioned transactions
   (recommendations) per second that Amazon Personalize will support.
-- `"solution_version_arn"`: The ARN of a new solution version to deploy.
+- `solution_version_arn`: The ARN of a new solution version to deploy.
 """
-function update_campaign(
-    campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return personalize(
-        "UpdateCampaign",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return personalize("UpdateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

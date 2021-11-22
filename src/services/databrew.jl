@@ -4,40 +4,8 @@ using AWS.AWSServices: databrew
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "job_name" => "jobName",
-    "steps" => "Steps",
-    "max_capacity" => "MaxCapacity",
-    "recipe_reference" => "RecipeReference",
-    "view_frame" => "ViewFrame",
-    "log_subscription" => "LogSubscription",
-    "next_token" => "nextToken",
-    "format_options" => "FormatOptions",
-    "max_retries" => "MaxRetries",
-    "recipe_step" => "RecipeStep",
-    "configuration" => "Configuration",
-    "outputs" => "Outputs",
-    "format" => "Format",
-    "database_outputs" => "DatabaseOutputs",
-    "path_options" => "PathOptions",
-    "sample" => "Sample",
-    "description" => "Description",
-    "max_results" => "maxResults",
-    "encryption_key_arn" => "EncryptionKeyArn",
-    "client_session_id" => "ClientSessionId",
-    "dataset_name" => "datasetName",
-    "step_index" => "StepIndex",
-    "assume_control" => "AssumeControl",
-    "job_names" => "JobNames",
-    "recipe_version" => "recipeVersion",
-    "timeout" => "Timeout",
-    "data_catalog_outputs" => "DataCatalogOutputs",
-    "encryption_mode" => "EncryptionMode",
-    "job_sample" => "JobSample",
-    "preview" => "Preview",
-    "tags" => "Tags",
-    "project_name" => "projectName",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("job_names" => "JobNames", "sample" => "Sample", "assume_control" => "AssumeControl", "configuration" => "Configuration", "encryption_key_arn" => "EncryptionKeyArn", "encryption_mode" => "EncryptionMode", "job_sample" => "JobSample", "log_subscription" => "LogSubscription", "max_capacity" => "MaxCapacity", "max_retries" => "MaxRetries", "timeout" => "Timeout", "validation_configurations" => "ValidationConfigurations", "data_catalog_outputs" => "DataCatalogOutputs", "database_outputs" => "DatabaseOutputs", "outputs" => "Outputs", "max_results" => "maxResults", "next_token" => "nextToken", "target_arn" => "targetArn", "recipe_version" => "recipeVersion", "format" => "Format", "format_options" => "FormatOptions", "path_options" => "PathOptions", "tags" => "Tags", "description" => "Description", "steps" => "Steps", "job_name" => "jobName", "client_session_id" => "ClientSessionId", "preview" => "Preview", "recipe_step" => "RecipeStep", "step_index" => "StepIndex", "view_frame" => "ViewFrame", "dataset_name" => "datasetName", "project_name" => "projectName", "recipe_reference" => "RecipeReference")
 
 """
     batch_delete_recipe_version(recipe_versions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -59,19 +27,9 @@ LATEST_WORKING will be listed as partial failure in the response.
 - `name`: The name of the recipe whose versions are to be deleted.
 
 """
-function batch_delete_recipe_version(
-    RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_delete_recipe_version(RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/recipes/$(name)/batchDeleteRecipeVersion",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RecipeVersions" => RecipeVersions), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecipeVersions"=>RecipeVersions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -84,27 +42,16 @@ Creates a new DataBrew dataset.
 - `name`: The name of the dataset to be created. Valid characters are alphanumeric (A-Z,
   a-z, 0-9), hyphen (-), period (.), and space.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
-- `"format_options"`:
-- `"path_options"`: A set of options that defines how DataBrew interprets an Amazon S3 path
+# Keyword Parameters
+- `format`: The file format of a dataset that is created from an Amazon S3 file or folder.
+- `format_options`:
+- `path_options`: A set of options that defines how DataBrew interprets an Amazon S3 path
   of the dataset.
-- `"tags"`: Metadata tags to apply to this dataset.
+- `tags`: Metadata tags to apply to this dataset.
 """
-function create_dataset(
-    Input, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/datasets",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Input" => Input, "Name" => Name), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,56 +67,33 @@ Creates a new job to analyze a dataset and create its data profile.
 - `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role to be assumed when DataBrew runs the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration"`: Configuration for profile jobs. Used to select columns, do
-  evaluations, and override default parameters of evaluations. When configuration is null,
-  the profile job will run with default settings.
-- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
-  to protect the job.
-- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
-    SSE-KMS - SSE-KMS - Server-side encryption with KMS-managed keys.    SSE-S3 - Server-side
+# Keyword Parameters
+- `configuration`: Configuration for profile jobs. Used to select columns, do evaluations,
+  and override default parameters of evaluations. When configuration is null, the profile job
+  will run with default settings.
+- `encryption_key_arn`: The Amazon Resource Name (ARN) of an encryption key that is used to
+  protect the job.
+- `encryption_mode`: The encryption mode for the job, which can be one of the following:
+  SSE-KMS - SSE-KMS - Server-side encryption with KMS-managed keys.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"job_sample"`: Sample configuration for profile jobs only. Determines the number of rows
+- `job_sample`: Sample configuration for profile jobs only. Determines the number of rows
   on which the profile job will be executed. If a JobSample value is not provided, the
   default value will be used. The default value is CUSTOM_ROWS for the mode parameter and
   20000 for the size parameter.
-- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
-- `"max_capacity"`: The maximum number of nodes that DataBrew can use when the job
-  processes data.
-- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
-- `"tags"`: Metadata tags to apply to this job.
-- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `log_subscription`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+- `max_capacity`: The maximum number of nodes that DataBrew can use when the job processes
+  data.
+- `max_retries`: The maximum number of times to retry the job after a job run fails.
+- `tags`: Metadata tags to apply to this job.
+- `timeout`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
+- `validation_configurations`: List of validation configurations that are applied to the
+  profile job.
 """
-function create_profile_job(
-    DatasetName,
-    Name,
-    OutputLocation,
-    RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_profile_job(DatasetName, Name, OutputLocation, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/profileJobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatasetName" => DatasetName,
-                    "Name" => Name,
-                    "OutputLocation" => OutputLocation,
-                    "RoleArn" => RoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/profileJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,38 +109,13 @@ Creates a new DataBrew project.
 - `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role to be assumed for this request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"sample"`:
-- `"tags"`: Metadata tags to apply to this project.
+# Keyword Parameters
+- `sample`:
+- `tags`: Metadata tags to apply to this project.
 """
-function create_project(
-    DatasetName,
-    Name,
-    RecipeName,
-    RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_project(DatasetName, Name, RecipeName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/projects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatasetName" => DatasetName,
-                    "Name" => Name,
-                    "RecipeName" => RecipeName,
-                    "RoleArn" => RoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -230,24 +129,13 @@ Creates a new DataBrew recipe.
 - `steps`: An array containing the steps to be performed by the recipe. Each recipe step
   consists of one recipe action and (optionally) an array of condition expressions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description for the recipe.
-- `"tags"`: Metadata tags to apply to this recipe.
+# Keyword Parameters
+- `description`: A description for the recipe.
+- `tags`: Metadata tags to apply to this recipe.
 """
-function create_recipe(
-    Name, Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_recipe(Name, Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/recipes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Name" => Name, "Steps" => Steps), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -262,46 +150,56 @@ recipe
 - `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role to be assumed when DataBrew runs the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_catalog_outputs"`: One or more artifacts that represent the Glue Data Catalog
-  output from running the job.
-- `"database_outputs"`: Represents a list of JDBC database output objects which defines the
+# Keyword Parameters
+- `data_catalog_outputs`: One or more artifacts that represent the Glue Data Catalog output
+  from running the job.
+- `database_outputs`: Represents a list of JDBC database output objects which defines the
   output destination for a DataBrew recipe job to write to.
-- `"dataset_name"`: The name of the dataset that this job processes.
-- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
-  to protect the job.
-- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
-    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
+- `dataset_name`: The name of the dataset that this job processes.
+- `encryption_key_arn`: The Amazon Resource Name (ARN) of an encryption key that is used to
+  protect the job.
+- `encryption_mode`: The encryption mode for the job, which can be one of the following:
+  SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
-- `"max_capacity"`: The maximum number of nodes that DataBrew can consume when the job
+- `log_subscription`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+- `max_capacity`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
-- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
-- `"outputs"`: One or more artifacts that represent the output from running the job.
-- `"project_name"`: Either the name of an existing project, or a combination of a recipe
-  and a dataset to associate with the recipe.
-- `"recipe_reference"`:
-- `"tags"`: Metadata tags to apply to this job.
-- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `max_retries`: The maximum number of times to retry the job after a job run fails.
+- `outputs`: One or more artifacts that represent the output from running the job.
+- `project_name`: Either the name of an existing project, or a combination of a recipe and
+  a dataset to associate with the recipe.
+- `recipe_reference`:
+- `tags`: Metadata tags to apply to this job.
+- `timeout`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
-function create_recipe_job(
-    Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_recipe_job(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/recipeJobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Name" => Name, "RoleArn" => RoleArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_ruleset(name, rules, target_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Creates a new ruleset that can be used in a profile job to validate the data quality of a
+dataset.
+
+# Arguments
+- `name`: The name of the ruleset to be created. Valid characters are alphanumeric (A-Z,
+  a-z, 0-9), hyphen (-), period (.), and space.
+- `rules`: A list of rules that are defined with the ruleset. A rule includes one or more
+  checks to be validated on a DataBrew dataset.
+- `target_arn`: The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is
+  associated with.
+
+# Keyword Parameters
+- `description`: The description of the ruleset.
+- `tags`: Metadata tags to apply to the ruleset.
+"""
+function create_ruleset(Name, Rules, TargetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return databrew("POST", "/rulesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Rules"=>Rules, "TargetArn"=>TargetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -316,28 +214,13 @@ and time, or at regular intervals.
 - `name`: A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z,
   0-9), hyphen (-), period (.), and space.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"job_names"`: The name or names of one or more jobs to be run.
-- `"tags"`: Metadata tags to apply to this schedule.
+# Keyword Parameters
+- `job_names`: The name or names of one or more jobs to be run.
+- `tags`: Metadata tags to apply to this schedule.
 """
-function create_schedule(
-    CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_schedule(CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/schedules",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CronExpression" => CronExpression, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/schedules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -351,13 +234,7 @@ Deletes a dataset from DataBrew.
 """
 function delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "DELETE",
-        "/datasets/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("DELETE", "/datasets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -371,13 +248,7 @@ Deletes the specified DataBrew job.
 """
 function delete_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "DELETE",
-        "/jobs/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("DELETE", "/jobs/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -391,13 +262,7 @@ Deletes an existing DataBrew project.
 """
 function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "DELETE",
-        "/projects/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("DELETE", "/projects/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -411,17 +276,23 @@ Deletes a single version of a DataBrew recipe.
   versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
 
 """
-function delete_recipe_version(
-    name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_recipe_version(name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "DELETE",
-        "/recipes/$(name)/recipeVersion/$(recipeVersion)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    delete_ruleset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Deletes a ruleset.
+
+# Arguments
+- `name`: The name of the ruleset to be deleted.
+
+"""
+function delete_ruleset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return databrew("DELETE", "/rulesets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -435,13 +306,7 @@ Deletes the specified DataBrew schedule.
 """
 function delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "DELETE",
-        "/schedules/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("DELETE", "/schedules/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -453,17 +318,9 @@ Returns the definition of a specific DataBrew dataset.
 - `name`: The name of the dataset to be described.
 
 """
-function describe_dataset(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/datasets/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/datasets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -477,13 +334,7 @@ Returns the definition of a specific DataBrew job.
 """
 function describe_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/jobs/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/jobs/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -496,17 +347,9 @@ Represents one run of a DataBrew job.
 - `run_id`: The unique identifier of the job run.
 
 """
-function describe_job_run(
-    name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/jobs/$(name)/jobRun/$(runId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/jobs/$(name)/jobRun/$(runId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -518,17 +361,9 @@ Returns the definition of a specific DataBrew project.
 - `name`: The name of the project to be described.
 
 """
-function describe_project(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/projects/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/projects/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -539,20 +374,27 @@ Returns the definition of a specific DataBrew recipe corresponding to a particul
 # Arguments
 - `name`: The name of the recipe to be described.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"recipe_version"`: The recipe version identifier. If this parameter isn't specified,
-  then the latest published version is returned.
+# Keyword Parameters
+- `recipe_version`: The recipe version identifier. If this parameter isn't specified, then
+  the latest published version is returned.
 """
 function describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/recipes/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/recipes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_ruleset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Retrieves detailed information about the ruleset.
+
+# Arguments
+- `name`: The name of the ruleset to be described.
+
+"""
+function describe_ruleset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return databrew("GET", "/rulesets/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -564,17 +406,9 @@ Returns the definition of a specific DataBrew schedule.
 - `name`: The name of the schedule to be described.
 
 """
-function describe_schedule(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/schedules/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/schedules/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -582,16 +416,13 @@ end
 
 Lists all of the DataBrew datasets.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return databrew("GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -602,20 +433,13 @@ Lists all of the previous runs of a particular DataBrew job.
 # Arguments
 - `name`: The name of the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/jobs/$(name)/jobRuns",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/jobs/$(name)/jobRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -623,22 +447,19 @@ end
 
 Lists all of the DataBrew jobs that are defined.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_name"`: The name of a dataset. Using this parameter indicates to return only
+# Keyword Parameters
+- `dataset_name`: The name of a dataset. Using this parameter indicates to return only
   those jobs that act on the specified dataset.
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: A token generated by DataBrew that specifies where to continue pagination
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: A token generated by DataBrew that specifies where to continue pagination
   if a previous request was truncated. To get the next set of pages, pass in the NextToken
   value from the response object of the previous page call.
-- `"project_name"`: The name of a project. Using this parameter indicates to return only
+- `project_name`: The name of a project. Using this parameter indicates to return only
   those jobs that are associated with the specified project.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return databrew("GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -646,16 +467,13 @@ end
 
 Lists all of the DataBrew projects that are defined.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return databrew("GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -666,22 +484,13 @@ Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
 # Arguments
 - `name`: The name of the recipe for which to return version information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_recipe_versions(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/recipeVersions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -689,19 +498,36 @@ end
 
 Lists all of the DataBrew recipes that are defined.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
-- `"recipe_version"`: Return only those recipes with a version identifier of LATEST_WORKING
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: The token returned by a previous call to retrieve the next set of results.
+- `recipe_version`: Return only those recipes with a version identifier of LATEST_WORKING
   or LATEST_PUBLISHED. If RecipeVersion is omitted, ListRecipes returns all of the
   LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
 """
 function list_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET", "/recipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return databrew("GET", "/recipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_rulesets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+List all rulesets available in the current account or rulesets associated with a specific
+resource (dataset).
+
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: A token generated by DataBrew that specifies where to continue pagination
+  if a previous request was truncated. To get the next set of pages, pass in the NextToken
+  value from the response object of the previous page call.
+- `target_arn`: The Amazon Resource Name (ARN) of a resource (dataset). Using this
+  parameter indicates to return only those rulesets that are associated with the specified
+  resource.
+"""
+function list_rulesets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return databrew("GET", "/rulesets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -709,17 +535,14 @@ end
 
 Lists the DataBrew schedules that are defined.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"job_name"`: The name of the job that these schedules apply to.
-- `"max_results"`: The maximum number of results to return in this request.
-- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
+# Keyword Parameters
+- `job_name`: The name of the job that these schedules apply to.
+- `max_results`: The maximum number of results to return in this request.
+- `next_token`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return databrew("GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -732,17 +555,9 @@ Lists all the tags for a DataBrew resource.
   DataBrew resource.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -753,20 +568,13 @@ Publishes a new version of a DataBrew recipe.
 # Arguments
 - `name`: The name of the recipe to be published.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the recipe to be published, for this version of the
+# Keyword Parameters
+- `description`: A description of the recipe to be published, for this version of the
   recipe.
 """
 function publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/recipes/$(name)/publishRecipe",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/recipes/$(name)/publishRecipe", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -777,28 +585,19 @@ Performs a recipe step within an interactive DataBrew session that's currently o
 # Arguments
 - `name`: The name of the project to apply the action to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_session_id"`: A unique identifier for an interactive session that's currently
-  open and ready for work. The action will be performed on this session.
-- `"preview"`: If true, the result of the recipe step will be returned, but not applied.
-- `"recipe_step"`:
-- `"step_index"`: The index from which to preview a step. This index is used to preview the
+# Keyword Parameters
+- `client_session_id`: A unique identifier for an interactive session that's currently open
+  and ready for work. The action will be performed on this session.
+- `preview`: If true, the result of the recipe step will be returned, but not applied.
+- `recipe_step`:
+- `step_index`: The index from which to preview a step. This index is used to preview the
   result of steps that have already been applied, so that the resulting view frame is from
   earlier in the view frame stack.
-- `"view_frame"`:
+- `view_frame`:
 """
-function send_project_session_action(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_project_session_action(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/projects/$(name)/sendProjectSessionAction",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/projects/$(name)/sendProjectSessionAction", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -812,13 +611,7 @@ Runs a DataBrew job.
 """
 function start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/jobs/$(name)/startJobRun",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/jobs/$(name)/startJobRun", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -829,22 +622,13 @@ Creates an interactive session, enabling you to manipulate data in a DataBrew pr
 # Arguments
 - `name`: The name of the project to act upon.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assume_control"`: A value that, if true, enables you to take control of a session, even
+# Keyword Parameters
+- `assume_control`: A value that, if true, enables you to take control of a session, even
   if a different client is currently accessing the project.
 """
-function start_project_session(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_project_session(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/projects/$(name)/startProjectSession",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/projects/$(name)/startProjectSession", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -857,17 +641,9 @@ Stops a particular run of a job.
 - `run_id`: The ID of the job run to be stopped.
 
 """
-function stop_job_run(
-    name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/jobs/$(name)/jobRun/$(runId)/stopJobRun",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -883,17 +659,9 @@ schedule.
 - `tags`: One or more tags to be assigned to the resource.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -907,17 +675,9 @@ Removes metadata tags from a DataBrew resource.
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 
 """
-function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -929,24 +689,15 @@ Modifies the definition of an existing DataBrew dataset.
 - `input`:
 - `name`: The name of the dataset to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
-- `"format_options"`:
-- `"path_options"`: A set of options that defines how DataBrew interprets an Amazon S3 path
+# Keyword Parameters
+- `format`: The file format of a dataset that is created from an Amazon S3 file or folder.
+- `format_options`:
+- `path_options`: A set of options that defines how DataBrew interprets an Amazon S3 path
   of the dataset.
 """
-function update_dataset(
-    Input, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/datasets/$(name)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Input" => Input), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -960,49 +711,32 @@ Modifies the definition of an existing profile job.
   role to be assumed when DataBrew runs the job.
 - `name`: The name of the job to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration"`: Configuration for profile jobs. Used to select columns, do
-  evaluations, and override default parameters of evaluations. When configuration is null,
-  the profile job will run with default settings.
-- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
-  to protect the job.
-- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
-    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
+# Keyword Parameters
+- `configuration`: Configuration for profile jobs. Used to select columns, do evaluations,
+  and override default parameters of evaluations. When configuration is null, the profile job
+  will run with default settings.
+- `encryption_key_arn`: The Amazon Resource Name (ARN) of an encryption key that is used to
+  protect the job.
+- `encryption_mode`: The encryption mode for the job, which can be one of the following:
+  SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"job_sample"`: Sample configuration for Profile Jobs only. Determines the number of rows
+- `job_sample`: Sample configuration for Profile Jobs only. Determines the number of rows
   on which the Profile job will be executed. If a JobSample value is not provided for profile
   jobs, the default value will be used. The default value is CUSTOM_ROWS for the mode
   parameter and 20000 for the size parameter.
-- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
-- `"max_capacity"`: The maximum number of compute nodes that DataBrew can use when the job
+- `log_subscription`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+- `max_capacity`: The maximum number of compute nodes that DataBrew can use when the job
   processes data.
-- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
-- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `max_retries`: The maximum number of times to retry the job after a job run fails.
+- `timeout`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
+- `validation_configurations`: List of validation configurations that are applied to the
+  profile job.
 """
-function update_profile_job(
-    OutputLocation,
-    RoleArn,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_profile_job(OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/profileJobs/$(name)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OutputLocation" => OutputLocation, "RoleArn" => RoleArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1014,21 +748,12 @@ Modifies the definition of an existing DataBrew project.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to be assumed for this request.
 - `name`: The name of the project to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"sample"`:
+# Keyword Parameters
+- `sample`:
 """
-function update_project(
-    RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_project(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/projects/$(name)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/projects/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1039,21 +764,14 @@ Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
 # Arguments
 - `name`: The name of the recipe to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the recipe.
-- `"steps"`: One or more steps to be performed by the recipe. Each step consists of an
+# Keyword Parameters
+- `description`: A description of the recipe.
+- `steps`: One or more steps to be performed by the recipe. Each step consists of an
   action, and the conditions under which the action should succeed.
 """
 function update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/recipes/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/recipes/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1066,37 +784,46 @@ Modifies the definition of an existing DataBrew recipe job.
   role to be assumed when DataBrew runs the job.
 - `name`: The name of the job to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"data_catalog_outputs"`: One or more artifacts that represent the Glue Data Catalog
-  output from running the job.
-- `"database_outputs"`: Represents a list of JDBC database output objects which defines the
+# Keyword Parameters
+- `data_catalog_outputs`: One or more artifacts that represent the Glue Data Catalog output
+  from running the job.
+- `database_outputs`: Represents a list of JDBC database output objects which defines the
   output destination for a DataBrew recipe job to write into.
-- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
-  to protect the job.
-- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
-    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
+- `encryption_key_arn`: The Amazon Resource Name (ARN) of an encryption key that is used to
+  protect the job.
+- `encryption_mode`: The encryption mode for the job, which can be one of the following:
+  SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
-- `"max_capacity"`: The maximum number of nodes that DataBrew can consume when the job
+- `log_subscription`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+- `max_capacity`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
-- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
-- `"outputs"`: One or more artifacts that represent the output from running the job.
-- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `max_retries`: The maximum number of times to retry the job after a job run fails.
+- `outputs`: One or more artifacts that represent the output from running the job.
+- `timeout`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
-function update_recipe_job(
-    RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_recipe_job(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/recipeJobs/$(name)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_ruleset(rules, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates specified ruleset.
+
+# Arguments
+- `rules`: A list of rules that are defined with the ruleset. A rule includes one or more
+  checks to be validated on a DataBrew dataset.
+- `name`: The name of the ruleset to be updated.
+
+# Keyword Parameters
+- `description`: The description of the ruleset.
+"""
+function update_ruleset(Rules, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return databrew("PUT", "/rulesets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rules"=>Rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1109,21 +836,10 @@ Modifies the definition of an existing DataBrew schedule.
   more information, see Cron expressions in the Glue DataBrew Developer Guide.
 - `name`: The name of the schedule to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"job_names"`: The name or names of one or more jobs to be run for this schedule.
+# Keyword Parameters
+- `job_names`: The name or names of one or more jobs to be run for this schedule.
 """
-function update_schedule(
-    CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_schedule(CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return databrew(
-        "PUT",
-        "/schedules/$(name)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CronExpression" => CronExpression), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return databrew("PUT", "/schedules/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

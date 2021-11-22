@@ -4,14 +4,8 @@ using AWS.AWSServices: waf
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "rule_group_id" => "RuleGroupId",
-    "default_action" => "DefaultAction",
-    "updates" => "Updates",
-    "next_marker" => "NextMarker",
-    "tags" => "Tags",
-    "limit" => "Limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("limit" => "Limit", "next_marker" => "NextMarker", "tags" => "Tags", "default_action" => "DefaultAction", "updates" => "Updates", "rule_group_id" => "RuleGroupId")
 
 """
     create_byte_match_set(change_token, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -38,22 +32,9 @@ how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Deve
   you create a ByteMatchSet.
 
 """
-function create_byte_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_byte_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateByteMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -80,22 +61,9 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
   you create the GeoMatchSet.
 
 """
-function create_geo_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_geo_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateGeoMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -122,22 +90,9 @@ how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Deve
   create the IPSet.
 
 """
-function create_ipset(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -197,38 +152,12 @@ allow or block HTTP requests, see the AWS WAF Developer Guide.
   exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF
   triggers the action that is specified for this rule.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`:
+# Keyword Parameters
+- `tags`:
 """
-function create_rate_based_rule(
-    ChangeToken,
-    MetricName,
-    Name,
-    RateKey,
-    RateLimit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_rate_based_rule(ChangeToken, MetricName, Name, RateKey, RateLimit; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateRateBasedRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "MetricName" => MetricName,
-                    "Name" => Name,
-                    "RateKey" => RateKey,
-                    "RateLimit" => RateLimit,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -258,22 +187,9 @@ Guide.
   you create a RegexMatchSet.
 
 """
-function create_regex_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_regex_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateRegexMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -299,22 +215,9 @@ requests, see the AWS WAF Developer Guide.
   after you create a RegexPatternSet.
 
 """
-function create_regex_pattern_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_regex_pattern_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -352,32 +255,12 @@ WAF Developer Guide.
 - `name`: A friendly name or description of the Rule. You can't change the name of a Rule
   after you create it.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`:
+# Keyword Parameters
+- `tags`:
 """
-function create_rule(
-    ChangeToken,
-    MetricName,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_rule(ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -403,32 +286,12 @@ allow or block HTTP requests, see the AWS WAF Developer Guide.
 - `name`: A friendly name or description of the RuleGroup. You can't change Name after you
   create a RuleGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`:
+# Keyword Parameters
+- `tags`:
 """
-function create_rule_group(
-    ChangeToken,
-    MetricName,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_rule_group(ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -457,22 +320,9 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
   after you create a SizeConstraintSet.
 
 """
-function create_size_constraint_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_size_constraint_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateSizeConstraintSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -499,22 +349,9 @@ requests, see the AWS WAF Developer Guide.
   You can't change Name after you create the SqlInjectionMatchSet.
 
 """
-function create_sql_injection_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_sql_injection_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateSqlInjectionMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -552,36 +389,12 @@ about how to use the AWS WAF API, see the AWS WAF Developer Guide.
 - `name`: A friendly name or description of the WebACL. You can't change Name after you
   create the WebACL.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`:
+# Keyword Parameters
+- `tags`:
 """
-function create_web_acl(
-    ChangeToken,
-    DefaultAction,
-    MetricName,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_web_acl(ChangeToken, DefaultAction, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "DefaultAction" => DefaultAction,
-                    "MetricName" => MetricName,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -611,30 +424,9 @@ Guide.
 - `web_aclid`: The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
 
 """
-function create_web_aclmigration_stack(
-    IgnoreUnsupportedType,
-    S3BucketName,
-    WebACLId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_web_aclmigration_stack(IgnoreUnsupportedType, S3BucketName, WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateWebACLMigrationStack",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IgnoreUnsupportedType" => IgnoreUnsupportedType,
-                    "S3BucketName" => S3BucketName,
-                    "WebACLId" => WebACLId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateWebACLMigrationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -660,22 +452,9 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
   can't change Name after you create the XssMatchSet.
 
 """
-function create_xss_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_xss_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "CreateXssMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("CreateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -698,27 +477,9 @@ DeleteByteMatchSet request.   Submit a DeleteByteMatchSet request.
 - `change_token`: The value returned by the most recent call to GetChangeToken.
 
 """
-function delete_byte_match_set(
-    ByteMatchSetId,
-    ChangeToken;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_byte_match_set(ByteMatchSetId, ChangeToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteByteMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ByteMatchSetId" => ByteMatchSetId, "ChangeToken" => ChangeToken
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -741,24 +502,9 @@ change token that you provide in the ChangeToken parameter of a DeleteGeoMatchSe
   GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
-function delete_geo_match_set(
-    ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_geo_match_set(ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteGeoMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "GeoMatchSetId" => GeoMatchSetId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -781,22 +527,9 @@ request.
   CreateIPSet and by ListIPSets.
 
 """
-function delete_ipset(
-    ChangeToken, IPSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_ipset(ChangeToken, IPSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "IPSetId" => IPSetId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -813,18 +546,9 @@ web ACL.
   delete the LoggingConfiguration.
 
 """
-function delete_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteLoggingConfiguration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -841,18 +565,9 @@ The user making the request must be the owner of the RuleGroup.
   delete the policy. The user making the request must be the owner of the RuleGroup.
 
 """
-function delete_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeletePermissionPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -875,22 +590,9 @@ of a DeleteRateBasedRule request.   Submit a DeleteRateBasedRule request.
   CreateRateBasedRule and by ListRateBasedRules.
 
 """
-function delete_rate_based_rule(
-    ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_rate_based_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteRateBasedRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -913,27 +615,9 @@ of a DeleteRegexMatchSet request.   Submit a DeleteRegexMatchSet request.
   RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
 
 """
-function delete_regex_match_set(
-    ChangeToken,
-    RegexMatchSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_regex_match_set(ChangeToken, RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteRegexMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "RegexMatchSetId" => RegexMatchSetId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -952,27 +636,9 @@ empty.
   delete. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
 
 """
-function delete_regex_pattern_set(
-    ChangeToken,
-    RegexPatternSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_regex_pattern_set(ChangeToken, RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "RegexPatternSetId" => RegexPatternSetId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -995,22 +661,9 @@ get the change token that you provide in the ChangeToken parameter of a DeleteRu
   CreateRule and by ListRules.
 
 """
-function delete_rule(
-    ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1033,24 +686,9 @@ DeleteRuleGroup request.
   returned by CreateRuleGroup and by ListRuleGroups.
 
 """
-function delete_rule_group(
-    ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_rule_group(ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "RuleGroupId" => RuleGroupId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1075,28 +713,9 @@ DeleteSizeConstraintSet request.
   ListSizeConstraintSets.
 
 """
-function delete_size_constraint_set(
-    ChangeToken,
-    SizeConstraintSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_size_constraint_set(ChangeToken, SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteSizeConstraintSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "SizeConstraintSetId" => SizeConstraintSetId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1121,28 +740,9 @@ Submit a DeleteSqlInjectionMatchSet request.
   ListSqlInjectionMatchSets.
 
 """
-function delete_sql_injection_match_set(
-    ChangeToken,
-    SqlInjectionMatchSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteSqlInjectionMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "SqlInjectionMatchSetId" => SqlInjectionMatchSetId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1163,22 +763,9 @@ DeleteWebACL request.   Submit a DeleteWebACL request.
   CreateWebACL and by ListWebACLs.
 
 """
-function delete_web_acl(
-    ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1201,24 +788,9 @@ DeleteXssMatchSet request.   Submit a DeleteXssMatchSet request.
   XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-function delete_xss_match_set(
-    ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_xss_match_set(ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "DeleteXssMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "XssMatchSetId" => XssMatchSetId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("DeleteXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1234,18 +806,9 @@ regional and global use.   Returns the ByteMatchSet specified by ByteMatchSetId.
   ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
 
 """
-function get_byte_match_set(
-    ByteMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_byte_match_set(ByteMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetByteMatchSet",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1268,9 +831,7 @@ GetChangeTokenStatus to determine the status of your change token.
 """
 function get_change_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1291,18 +852,9 @@ complete.
   was previously returned in the GetChangeToken response.
 
 """
-function get_change_token_status(
-    ChangeToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_change_token_status(ChangeToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetChangeTokenStatus",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ChangeToken" => ChangeToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetChangeTokenStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1318,18 +870,9 @@ regional and global use.   Returns the GeoMatchSet that is specified by GeoMatch
   GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
-function get_geo_match_set(
-    GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_geo_match_set(GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetGeoMatchSet",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GeoMatchSetId" => GeoMatchSetId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1347,12 +890,7 @@ regional and global use.   Returns the IPSet that is specified by IPSetId.
 """
 function get_ipset(IPSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetIPSet",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IPSetId" => IPSetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IPSetId"=>IPSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1368,18 +906,9 @@ regional and global use.   Returns the LoggingConfiguration for the specified we
   the LoggingConfiguration.
 
 """
-function get_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetLoggingConfiguration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1395,18 +924,9 @@ regional and global use.   Returns the IAM policy attached to the RuleGroup.
   the policy.
 
 """
-function get_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetPermissionPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1423,16 +943,9 @@ you included in the GetRateBasedRule request.
   CreateRateBasedRule and by ListRateBasedRules.
 
 """
-function get_rate_based_rule(
-    RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetRateBasedRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1450,20 +963,12 @@ addresses with the highest rates will be blocked.
 - `rule_id`: The RuleId of the RateBasedRule for which you want to get a list of
   ManagedKeys. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"next_marker"`: A null value and not currently used. Do not include this in your request.
+# Keyword Parameters
+- `next_marker`: A null value and not currently used. Do not include this in your request.
 """
-function get_rate_based_rule_managed_keys(
-    RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_rate_based_rule_managed_keys(RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetRateBasedRuleManagedKeys",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetRateBasedRuleManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1479,20 +984,9 @@ regional and global use.   Returns the RegexMatchSet specified by RegexMatchSetI
   RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
 
 """
-function get_regex_match_set(
-    RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_regex_match_set(RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetRegexMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RegexMatchSetId" => RegexMatchSetId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1508,20 +1002,9 @@ regional and global use.   Returns the RegexPatternSet specified by RegexPattern
   get. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
 
 """
-function get_regex_pattern_set(
-    RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_regex_pattern_set(RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RegexPatternSetId" => RegexPatternSetId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1540,12 +1023,7 @@ included in the GetRule request.
 """
 function get_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1563,18 +1041,9 @@ ListActivatedRulesInRuleGroup.
   returned by CreateRuleGroup and by ListRuleGroups.
 
 """
-function get_rule_group(
-    RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetRuleGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RuleGroupId" => RuleGroupId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleGroupId"=>RuleGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1610,32 +1079,9 @@ the requests in the sample.
   a sample of requests.
 
 """
-function get_sampled_requests(
-    MaxItems,
-    RuleId,
-    TimeWindow,
-    WebAclId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_sampled_requests(MaxItems, RuleId, TimeWindow, WebAclId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetSampledRequests",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MaxItems" => MaxItems,
-                    "RuleId" => RuleId,
-                    "TimeWindow" => TimeWindow,
-                    "WebAclId" => WebAclId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1652,22 +1098,9 @@ regional and global use.   Returns the SizeConstraintSet specified by SizeConstr
   ListSizeConstraintSets.
 
 """
-function get_size_constraint_set(
-    SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_size_constraint_set(SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetSizeConstraintSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SizeConstraintSetId" => SizeConstraintSetId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1685,22 +1118,9 @@ SqlInjectionMatchSetId.
   ListSqlInjectionMatchSets.
 
 """
-function get_sql_injection_match_set(
-    SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_sql_injection_match_set(SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetSqlInjectionMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SqlInjectionMatchSetId" => SqlInjectionMatchSetId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1718,14 +1138,7 @@ regional and global use.   Returns the WebACL that is specified by WebACLId.
 """
 function get_web_acl(WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetWebACL",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("WebACLId" => WebACLId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1741,18 +1154,9 @@ regional and global use.   Returns the XssMatchSet that is specified by XssMatch
   XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-function get_xss_match_set(
-    XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_xss_match_set(XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "GetXssMatchSet",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("XssMatchSetId" => XssMatchSetId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("GetXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1763,30 +1167,22 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of ActivatedRule objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of ActivatedRules that you want AWS WAF to return for
-  this request. If you have more ActivatedRules than the number that you specify for Limit,
-  the response includes a NextMarker value that you can use to get another batch of
+# Keyword Parameters
+- `limit`: Specifies the number of ActivatedRules that you want AWS WAF to return for this
+  request. If you have more ActivatedRules than the number that you specify for Limit, the
+  response includes a NextMarker value that you can use to get another batch of
   ActivatedRules.
-- `"next_marker"`: If you specify a value for Limit and you have more ActivatedRules than
-  the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to
-  list another group of ActivatedRules. For the second and subsequent
+- `next_marker`: If you specify a value for Limit and you have more ActivatedRules than the
+  value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
+  another group of ActivatedRules. For the second and subsequent
   ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous
   response to get information about another batch of ActivatedRules.
-- `"rule_group_id"`: The RuleGroupId of the RuleGroup for which you want to get a list of
+- `rule_group_id`: The RuleGroupId of the RuleGroup for which you want to get a list of
   ActivatedRule objects.
 """
-function list_activated_rules_in_rule_group(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_activated_rules_in_rule_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListActivatedRulesInRuleGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListActivatedRulesInRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1797,25 +1193,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of ByteMatchSetSummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of ByteMatchSet objects that you want AWS WAF to return
-  for this request. If you have more ByteMatchSets objects than the number you specify for
-  Limit, the response includes a NextMarker value that you can use to get another batch of
+# Keyword Parameters
+- `limit`: Specifies the number of ByteMatchSet objects that you want AWS WAF to return for
+  this request. If you have more ByteMatchSets objects than the number you specify for Limit,
+  the response includes a NextMarker value that you can use to get another batch of
   ByteMatchSet objects.
-- `"next_marker"`: If you specify a value for Limit and you have more ByteMatchSets than
-  the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to
-  list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets
-  requests, specify the value of NextMarker from the previous response to get information
-  about another batch of ByteMatchSets.
+- `next_marker`: If you specify a value for Limit and you have more ByteMatchSets than the
+  value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
+  another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests,
+  specify the value of NextMarker from the previous response to get information about another
+  batch of ByteMatchSets.
 """
-function list_byte_match_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_byte_match_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListByteMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListByteMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1826,13 +1217,12 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of GeoMatchSetSummary objects in the response.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of GeoMatchSet objects that you want AWS WAF to return
-  for this request. If you have more GeoMatchSet objects than the number you specify for
-  Limit, the response includes a NextMarker value that you can use to get another batch of
+# Keyword Parameters
+- `limit`: Specifies the number of GeoMatchSet objects that you want AWS WAF to return for
+  this request. If you have more GeoMatchSet objects than the number you specify for Limit,
+  the response includes a NextMarker value that you can use to get another batch of
   GeoMatchSet objects.
-- `"next_marker"`: If you specify a value for Limit and you have more GeoMatchSets than the
+- `next_marker`: If you specify a value for Limit and you have more GeoMatchSets than the
   value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
   another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets
   requests, specify the value of NextMarker from the previous response to get information
@@ -1840,9 +1230,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_geo_match_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1853,15 +1241,14 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of IPSetSummary objects in the response.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of IPSet objects that you want AWS WAF to return for this
+# Keyword Parameters
+- `limit`: Specifies the number of IPSet objects that you want AWS WAF to return for this
   request. If you have more IPSet objects than the number you specify for Limit, the response
   includes a NextMarker value that you can use to get another batch of IPSet objects.
-- `"next_marker"`: AWS WAF returns a NextMarker value in the response that allows you to
-  list another group of IPSets. For the second and subsequent ListIPSets requests, specify
-  the value of NextMarker from the previous response to get information about another batch
-  of IPSets.
+- `next_marker`: AWS WAF returns a NextMarker value in the response that allows you to list
+  another group of IPSets. For the second and subsequent ListIPSets requests, specify the
+  value of NextMarker from the previous response to get information about another batch of
+  IPSets.
 """
 function list_ipsets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -1876,28 +1263,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of LoggingConfiguration objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of LoggingConfigurations that you want AWS WAF to return
+# Keyword Parameters
+- `limit`: Specifies the number of LoggingConfigurations that you want AWS WAF to return
   for this request. If you have more LoggingConfigurations than the number that you specify
   for Limit, the response includes a NextMarker value that you can use to get another batch
   of LoggingConfigurations.
-- `"next_marker"`: If you specify a value for Limit and you have more LoggingConfigurations
+- `next_marker`: If you specify a value for Limit and you have more LoggingConfigurations
   than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
   to list another group of LoggingConfigurations. For the second and subsequent
   ListLoggingConfigurations requests, specify the value of NextMarker from the previous
   response to get information about another batch of ListLoggingConfigurations.
 """
-function list_logging_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListLoggingConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListLoggingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1908,24 +1287,19 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of RuleSummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of Rules that you want AWS WAF to return for this
-  request. If you have more Rules than the number that you specify for Limit, the response
-  includes a NextMarker value that you can use to get another batch of Rules.
-- `"next_marker"`: If you specify a value for Limit and you have more Rules than the value
-  of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
-  another group of Rules. For the second and subsequent ListRateBasedRules requests, specify
-  the value of NextMarker from the previous response to get information about another batch
-  of Rules.
+# Keyword Parameters
+- `limit`: Specifies the number of Rules that you want AWS WAF to return for this request.
+  If you have more Rules than the number that you specify for Limit, the response includes a
+  NextMarker value that you can use to get another batch of Rules.
+- `next_marker`: If you specify a value for Limit and you have more Rules than the value of
+  Limit, AWS WAF returns a NextMarker value in the response that allows you to list another
+  group of Rules. For the second and subsequent ListRateBasedRules requests, specify the
+  value of NextMarker from the previous response to get information about another batch of
+  Rules.
 """
-function list_rate_based_rules(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_rate_based_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListRateBasedRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListRateBasedRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1936,25 +1310,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of RegexMatchSetSummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of RegexMatchSet objects that you want AWS WAF to return
+# Keyword Parameters
+- `limit`: Specifies the number of RegexMatchSet objects that you want AWS WAF to return
   for this request. If you have more RegexMatchSet objects than the number you specify for
   Limit, the response includes a NextMarker value that you can use to get another batch of
   RegexMatchSet objects.
-- `"next_marker"`: If you specify a value for Limit and you have more RegexMatchSet objects
+- `next_marker`: If you specify a value for Limit and you have more RegexMatchSet objects
   than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
   to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of RegexMatchSet objects.
 """
-function list_regex_match_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_regex_match_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListRegexMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListRegexMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1965,28 +1334,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of RegexPatternSetSummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of RegexPatternSet objects that you want AWS WAF to
-  return for this request. If you have more RegexPatternSet objects than the number you
-  specify for Limit, the response includes a NextMarker value that you can use to get another
-  batch of RegexPatternSet objects.
-- `"next_marker"`: If you specify a value for Limit and you have more RegexPatternSet
-  objects than the value of Limit, AWS WAF returns a NextMarker value in the response that
-  allows you to list another group of RegexPatternSet objects. For the second and subsequent
+# Keyword Parameters
+- `limit`: Specifies the number of RegexPatternSet objects that you want AWS WAF to return
+  for this request. If you have more RegexPatternSet objects than the number you specify for
+  Limit, the response includes a NextMarker value that you can use to get another batch of
+  RegexPatternSet objects.
+- `next_marker`: If you specify a value for Limit and you have more RegexPatternSet objects
+  than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
+  to list another group of RegexPatternSet objects. For the second and subsequent
   ListRegexPatternSets requests, specify the value of NextMarker from the previous response
   to get information about another batch of RegexPatternSet objects.
 """
-function list_regex_pattern_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_regex_pattern_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListRegexPatternSets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListRegexPatternSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1997,12 +1358,11 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of RuleGroup objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of RuleGroups that you want AWS WAF to return for this
+# Keyword Parameters
+- `limit`: Specifies the number of RuleGroups that you want AWS WAF to return for this
   request. If you have more RuleGroups than the number that you specify for Limit, the
   response includes a NextMarker value that you can use to get another batch of RuleGroups.
-- `"next_marker"`: If you specify a value for Limit and you have more RuleGroups than the
+- `next_marker`: If you specify a value for Limit and you have more RuleGroups than the
   value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
   another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify
   the value of NextMarker from the previous response to get information about another batch
@@ -2010,9 +1370,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2023,15 +1381,14 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of RuleSummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of Rules that you want AWS WAF to return for this
-  request. If you have more Rules than the number that you specify for Limit, the response
-  includes a NextMarker value that you can use to get another batch of Rules.
-- `"next_marker"`: If you specify a value for Limit and you have more Rules than the value
-  of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
-  another group of Rules. For the second and subsequent ListRules requests, specify the value
-  of NextMarker from the previous response to get information about another batch of Rules.
+# Keyword Parameters
+- `limit`: Specifies the number of Rules that you want AWS WAF to return for this request.
+  If you have more Rules than the number that you specify for Limit, the response includes a
+  NextMarker value that you can use to get another batch of Rules.
+- `next_marker`: If you specify a value for Limit and you have more Rules than the value of
+  Limit, AWS WAF returns a NextMarker value in the response that allows you to list another
+  group of Rules. For the second and subsequent ListRules requests, specify the value of
+  NextMarker from the previous response to get information about another batch of Rules.
 """
 function list_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -2046,28 +1403,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of SizeConstraintSetSummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of SizeConstraintSet objects that you want AWS WAF to
+# Keyword Parameters
+- `limit`: Specifies the number of SizeConstraintSet objects that you want AWS WAF to
   return for this request. If you have more SizeConstraintSets objects than the number you
   specify for Limit, the response includes a NextMarker value that you can use to get another
   batch of SizeConstraintSet objects.
-- `"next_marker"`: If you specify a value for Limit and you have more SizeConstraintSets
-  than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
-  to list another group of SizeConstraintSets. For the second and subsequent
+- `next_marker`: If you specify a value for Limit and you have more SizeConstraintSets than
+  the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to
+  list another group of SizeConstraintSets. For the second and subsequent
   ListSizeConstraintSets requests, specify the value of NextMarker from the previous response
   to get information about another batch of SizeConstraintSets.
 """
-function list_size_constraint_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_size_constraint_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListSizeConstraintSets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListSizeConstraintSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2078,28 +1427,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of SqlInjectionMatchSet objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to
+# Keyword Parameters
+- `limit`: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to
   return for this request. If you have more SqlInjectionMatchSet objects than the number you
   specify for Limit, the response includes a NextMarker value that you can use to get another
   batch of Rules.
-- `"next_marker"`: If you specify a value for Limit and you have more SqlInjectionMatchSet
+- `next_marker`: If you specify a value for Limit and you have more SqlInjectionMatchSet
   objects than the value of Limit, AWS WAF returns a NextMarker value in the response that
   allows you to list another group of SqlInjectionMatchSets. For the second and subsequent
   ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous
   response to get information about another batch of SqlInjectionMatchSets.
 """
-function list_sql_injection_match_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListSqlInjectionMatchSets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListSqlInjectionMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2110,28 +1451,19 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of RuleGroup objects that you are subscribed to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of subscribed rule groups that you want AWS WAF to return
+# Keyword Parameters
+- `limit`: Specifies the number of subscribed rule groups that you want AWS WAF to return
   for this request. If you have more objects than the number you specify for Limit, the
   response includes a NextMarker value that you can use to get another batch of objects.
-- `"next_marker"`: If you specify a value for Limit and you have more
-  ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker
-  value in the response that allows you to list another group of subscribed rule groups. For
-  the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of
-  NextMarker from the previous response to get information about another batch of subscribed
-  rule groups.
+- `next_marker`: If you specify a value for Limit and you have more ByteMatchSetssubscribed
+  rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response
+  that allows you to list another group of subscribed rule groups. For the second and
+  subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from
+  the previous response to get information about another batch of subscribed rule groups.
 """
-function list_subscribed_rule_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListSubscribedRuleGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListSubscribedRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2151,23 +1483,13 @@ resources that you manage through AWS WAF Classic: web ACLs, rule groups, and ru
 # Arguments
 - `resource_arn`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`:
-- `"next_marker"`:
+# Keyword Parameters
+- `limit`:
+- `next_marker`:
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2178,23 +1500,20 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of WebACLSummary objects in the response.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of WebACL objects that you want AWS WAF to return for
-  this request. If you have more WebACL objects than the number that you specify for Limit,
-  the response includes a NextMarker value that you can use to get another batch of WebACL
+# Keyword Parameters
+- `limit`: Specifies the number of WebACL objects that you want AWS WAF to return for this
+  request. If you have more WebACL objects than the number that you specify for Limit, the
+  response includes a NextMarker value that you can use to get another batch of WebACL
   objects.
-- `"next_marker"`: If you specify a value for Limit and you have more WebACL objects than
-  the number that you specify for Limit, AWS WAF returns a NextMarker value in the response
-  that allows you to list another group of WebACL objects. For the second and subsequent
+- `next_marker`: If you specify a value for Limit and you have more WebACL objects than the
+  number that you specify for Limit, AWS WAF returns a NextMarker value in the response that
+  allows you to list another group of WebACL objects. For the second and subsequent
   ListWebACLs requests, specify the value of NextMarker from the previous response to get
   information about another batch of WebACL objects.
 """
 function list_web_acls(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2205,13 +1524,11 @@ developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and s
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns an array of XssMatchSet objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies the number of XssMatchSet objects that you want AWS WAF to return
-  for this request. If you have more XssMatchSet objects than the number you specify for
-  Limit, the response includes a NextMarker value that you can use to get another batch of
-  Rules.
-- `"next_marker"`: If you specify a value for Limit and you have more XssMatchSet objects
+# Keyword Parameters
+- `limit`: Specifies the number of XssMatchSet objects that you want AWS WAF to return for
+  this request. If you have more XssMatchSet objects than the number you specify for Limit,
+  the response includes a NextMarker value that you can use to get another batch of Rules.
+- `next_marker`: If you specify a value for Limit and you have more XssMatchSet objects
   than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
   to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets
   requests, specify the value of NextMarker from the previous response to get information
@@ -2219,9 +1536,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_xss_match_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return waf("ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2248,22 +1563,9 @@ information, see Logging Web ACL Traffic Information in the AWS WAF Developer Gu
   following values: URI, QUERY_STRING, HEADER, or METHOD.
 
 """
-function put_logging_configuration(
-    LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "PutLoggingConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2291,22 +1593,9 @@ Examples section below.
   attach the policy.
 
 """
-function put_permission_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_permission_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "PutPermissionPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2328,22 +1617,9 @@ AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, an
 - `tags`:
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2359,22 +1635,9 @@ regional and global use.
 - `tag_keys`:
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2414,30 +1677,9 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
   Contains Data and Type
 
 """
-function update_byte_match_set(
-    ByteMatchSetId,
-    ChangeToken,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_byte_match_set(ByteMatchSetId, ChangeToken, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateByteMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ByteMatchSetId" => ByteMatchSetId,
-                    "ChangeToken" => ChangeToken,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2472,30 +1714,9 @@ WAF Developer Guide.
   multiple countries, include multiple GeoMatchSetUpdate objects in your request.
 
 """
-function update_geo_match_set(
-    ChangeToken,
-    GeoMatchSetId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_geo_match_set(ChangeToken, GeoMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateGeoMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "GeoMatchSetId" => GeoMatchSetId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2539,28 +1760,9 @@ HTTP requests, see the AWS WAF Developer Guide.
   maximum of 1000 addresses in a single request.
 
 """
-function update_ipset(
-    ChangeToken,
-    IPSetId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_ipset(ChangeToken, IPSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "IPSetId" => IPSetId, "Updates" => Updates
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2600,32 +1802,9 @@ WebACL, you could limit requests to your login page without affecting the rest o
   RateBasedRule.
 
 """
-function update_rate_based_rule(
-    ChangeToken,
-    RateLimit,
-    RuleId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_rate_based_rule(ChangeToken, RateLimit, RuleId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateRateBasedRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "RateLimit" => RateLimit,
-                    "RuleId" => RuleId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2661,30 +1840,9 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
   from a RegexMatchSet. For more information, see RegexMatchTuple.
 
 """
-function update_regex_match_set(
-    ChangeToken,
-    RegexMatchSetId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_regex_match_set(ChangeToken, RegexMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateRegexMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "RegexMatchSetId" => RegexMatchSetId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2714,30 +1872,9 @@ HTTP requests, see the AWS WAF Developer Guide.
   delete from a RegexPatternSet.
 
 """
-function update_regex_pattern_set(
-    ChangeToken,
-    RegexPatternSetId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_regex_pattern_set(ChangeToken, RegexPatternSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "RegexPatternSetId" => RegexPatternSetId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2774,28 +1911,9 @@ AWS WAF Developer Guide.
   Data and Type
 
 """
-function update_rule(
-    ChangeToken,
-    RuleId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_rule(ChangeToken, RuleId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken, "RuleId" => RuleId, "Updates" => Updates
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2826,30 +1944,9 @@ WAF Developer Guide.
   ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
 
 """
-function update_rule_group(
-    ChangeToken,
-    RuleGroupId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_rule_group(ChangeToken, RuleGroupId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "RuleGroupId" => RuleGroupId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2893,30 +1990,9 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
   Data and Type
 
 """
-function update_size_constraint_set(
-    ChangeToken,
-    SizeConstraintSetId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_size_constraint_set(ChangeToken, SizeConstraintSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateSizeConstraintSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "SizeConstraintSetId" => SizeConstraintSetId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2957,30 +2033,9 @@ requests, see the AWS WAF Developer Guide.
   Contains Data and Type
 
 """
-function update_sql_injection_match_set(
-    ChangeToken,
-    SqlInjectionMatchSetId,
-    Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateSqlInjectionMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "SqlInjectionMatchSetId" => SqlInjectionMatchSetId,
-                    "Updates" => Updates,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3027,12 +2082,11 @@ to allow or block HTTP requests, see the AWS WAF Developer Guide.
 - `web_aclid`: The WebACLId of the WebACL that you want to update. WebACLId is returned by
   CreateWebACL and by ListWebACLs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_action"`: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF
+# Keyword Parameters
+- `default_action`: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF
   performs the default action if a request doesn't match the criteria in any of the rules in
   a web ACL.
-- `"updates"`: An array of updates to make to the WebACL. An array of WebACLUpdate objects
+- `updates`: An array of updates to make to the WebACL. An array of WebACLUpdate objects
   that you want to insert into or delete from a WebACL. For more information, see the
   applicable data types:    WebACLUpdate: Contains Action and ActivatedRule
   ActivatedRule: Contains Action, OverrideAction, Priority, RuleId, and Type.
@@ -3041,22 +2095,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.     WafAction:
   Contains Type
 """
-function update_web_acl(
-    ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3094,28 +2135,7 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
   XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-function update_xss_match_set(
-    ChangeToken,
-    Updates,
-    XssMatchSetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_xss_match_set(ChangeToken, Updates, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return waf(
-        "UpdateXssMatchSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeToken" => ChangeToken,
-                    "Updates" => Updates,
-                    "XssMatchSetId" => XssMatchSetId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return waf("UpdateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

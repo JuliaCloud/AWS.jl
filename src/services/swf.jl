@@ -4,44 +4,8 @@ using AWS.AWSServices: swf
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "decisions" => "decisions",
-    "task_start_to_close_timeout" => "taskStartToCloseTimeout",
-    "default_task_start_to_close_timeout" => "defaultTaskStartToCloseTimeout",
-    "default_task_heartbeat_timeout" => "defaultTaskHeartbeatTimeout",
-    "maximum_page_size" => "maximumPageSize",
-    "default_task_schedule_to_start_timeout" => "defaultTaskScheduleToStartTimeout",
-    "task_priority" => "taskPriority",
-    "type_filter" => "typeFilter",
-    "default_task_schedule_to_close_timeout" => "defaultTaskScheduleToCloseTimeout",
-    "execution_filter" => "executionFilter",
-    "close_time_filter" => "closeTimeFilter",
-    "name" => "name",
-    "default_task_priority" => "defaultTaskPriority",
-    "child_policy" => "childPolicy",
-    "lambda_role" => "lambdaRole",
-    "run_id" => "runId",
-    "close_status_filter" => "closeStatusFilter",
-    "reason" => "reason",
-    "tag_filter" => "tagFilter",
-    "description" => "description",
-    "result" => "result",
-    "default_task_list" => "defaultTaskList",
-    "details" => "details",
-    "tag_list" => "tagList",
-    "next_page_token" => "nextPageToken",
-    "default_lambda_role" => "defaultLambdaRole",
-    "reverse_order" => "reverseOrder",
-    "input" => "input",
-    "execution_context" => "executionContext",
-    "default_child_policy" => "defaultChildPolicy",
-    "execution_start_to_close_timeout" => "executionStartToCloseTimeout",
-    "start_time_filter" => "startTimeFilter",
-    "default_execution_start_to_close_timeout" => "defaultExecutionStartToCloseTimeout",
-    "tags" => "tags",
-    "identity" => "identity",
-    "task_list" => "taskList",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("result" => "result", "input" => "input", "run_id" => "runId", "close_status_filter" => "closeStatusFilter", "close_time_filter" => "closeTimeFilter", "execution_filter" => "executionFilter", "maximum_page_size" => "maximumPageSize", "next_page_token" => "nextPageToken", "reverse_order" => "reverseOrder", "start_time_filter" => "startTimeFilter", "tag_filter" => "tagFilter", "type_filter" => "typeFilter", "decisions" => "decisions", "execution_context" => "executionContext", "description" => "description", "tags" => "tags", "name" => "name", "identity" => "identity", "details" => "details", "reason" => "reason", "default_child_policy" => "defaultChildPolicy", "default_execution_start_to_close_timeout" => "defaultExecutionStartToCloseTimeout", "default_lambda_role" => "defaultLambdaRole", "default_task_list" => "defaultTaskList", "default_task_priority" => "defaultTaskPriority", "default_task_start_to_close_timeout" => "defaultTaskStartToCloseTimeout", "default_task_heartbeat_timeout" => "defaultTaskHeartbeatTimeout", "default_task_schedule_to_close_timeout" => "defaultTaskScheduleToCloseTimeout", "default_task_schedule_to_start_timeout" => "defaultTaskScheduleToStartTimeout", "child_policy" => "childPolicy", "execution_start_to_close_timeout" => "executionStartToCloseTimeout", "lambda_role" => "lambdaRole", "tag_list" => "tagList", "task_list" => "taskList", "task_priority" => "taskPriority", "task_start_to_close_timeout" => "taskStartToCloseTimeout")
 
 """
     count_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -64,38 +28,30 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 # Arguments
 - `domain`: The name of the domain containing the workflow executions to count.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"close_status_filter"`: If specified, only workflow executions that match this close
+# Keyword Parameters
+- `close_status_filter`: If specified, only workflow executions that match this close
   status are counted. This filter has an affect only if executionStatus is specified as
   CLOSED.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually
   exclusive. You can specify at most one of these in a request.
-- `"close_time_filter"`: If specified, only workflow executions that meet the close time
+- `close_time_filter`: If specified, only workflow executions that meet the close time
   criteria of the filter are counted.   startTimeFilter and closeTimeFilter are mutually
   exclusive. You must specify one of these in a request but not both.
-- `"execution_filter"`: If specified, only workflow executions matching the WorkflowId in
-  the filter are counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are
+- `execution_filter`: If specified, only workflow executions matching the WorkflowId in the
+  filter are counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are
   mutually exclusive. You can specify at most one of these in a request.
-- `"start_time_filter"`: If specified, only workflow executions that meet the start time
+- `start_time_filter`: If specified, only workflow executions that meet the start time
   criteria of the filter are counted.   startTimeFilter and closeTimeFilter are mutually
   exclusive. You must specify one of these in a request but not both.
-- `"tag_filter"`: If specified, only executions that have a tag that matches the filter are
+- `tag_filter`: If specified, only executions that have a tag that matches the filter are
   counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually
   exclusive. You can specify at most one of these in a request.
-- `"type_filter"`: If specified, indicates the type of the workflow executions to be
-  counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually
-  exclusive. You can specify at most one of these in a request.
+- `type_filter`: If specified, indicates the type of the workflow executions to be counted.
+    closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You
+  can specify at most one of these in a request.
 """
-function count_closed_workflow_executions(
-    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function count_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "CountClosedWorkflowExecutions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("CountClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -121,34 +77,20 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `start_time_filter`: Specifies the start time criteria that workflow executions must meet
   in order to be counted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"execution_filter"`: If specified, only workflow executions matching the WorkflowId in
-  the filter are counted.   executionFilter, typeFilter and tagFilter are mutually exclusive.
-  You can specify at most one of these in a request.
-- `"tag_filter"`: If specified, only executions that have a tag that matches the filter are
+# Keyword Parameters
+- `execution_filter`: If specified, only workflow executions matching the WorkflowId in the
+  filter are counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You
+  can specify at most one of these in a request.
+- `tag_filter`: If specified, only executions that have a tag that matches the filter are
   counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can
   specify at most one of these in a request.
-- `"type_filter"`: Specifies the type of the workflow executions to be counted.
+- `type_filter`: Specifies the type of the workflow executions to be counted.
   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most
   one of these in a request.
 """
-function count_open_workflow_executions(
-    domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function count_open_workflow_executions(domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "CountOpenWorkflowExecutions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("CountOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -172,20 +114,9 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `task_list`: The name of the task list.
 
 """
-function count_pending_activity_tasks(
-    domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function count_pending_activity_tasks(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "CountPendingActivityTasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("domain" => domain, "taskList" => taskList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("CountPendingActivityTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -209,20 +140,9 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `task_list`: The name of the task list.
 
 """
-function count_pending_decision_tasks(
-    domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function count_pending_decision_tasks(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "CountPendingDecisionTasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("domain" => domain, "taskList" => taskList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("CountPendingDecisionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -249,22 +169,9 @@ Workflows in the Amazon SWF Developer Guide.
 - `domain`: The name of the domain in which the activity type is registered.
 
 """
-function deprecate_activity_type(
-    activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deprecate_activity_type(activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DeprecateActivityType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("activityType" => activityType, "domain" => domain),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -289,16 +196,9 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `name`: The name of the domain to deprecate.
 
 """
-function deprecate_domain(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DeprecateDomain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -325,22 +225,9 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 - `workflow_type`: The workflow type to deprecate.
 
 """
-function deprecate_workflow_type(
-    domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deprecate_workflow_type(domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DeprecateWorkflowType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "workflowType" => workflowType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -365,22 +252,9 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 - `domain`: The name of the domain in which the activity type is registered.
 
 """
-function describe_activity_type(
-    activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_activity_type(activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DescribeActivityType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("activityType" => activityType, "domain" => domain),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DescribeActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -402,12 +276,7 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 """
 function describe_domain(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DescribeDomain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -430,22 +299,9 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `execution`: The workflow execution to describe.
 
 """
-function describe_workflow_execution(
-    domain, execution; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workflow_execution(domain, execution; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DescribeWorkflowExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "execution" => execution),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DescribeWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -470,22 +326,9 @@ Workflows in the Amazon SWF Developer Guide.
 - `workflow_type`: The workflow type to describe.
 
 """
-function describe_workflow_type(
-    domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workflow_type(domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "DescribeWorkflowType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "workflowType" => workflowType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("DescribeWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -508,35 +351,21 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `domain`: The name of the domain containing the workflow execution.
 - `execution`: Specifies the workflow execution for which to return the history.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+# Keyword Parameters
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
   return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
-- `"reverse_order"`: When set to true, returns the events in reverse order. By default the
+- `reverse_order`: When set to true, returns the events in reverse order. By default the
   results are returned in ascending order of the eventTimeStamp of the events.
 """
-function get_workflow_execution_history(
-    domain, execution; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_workflow_execution_history(domain, execution; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "GetWorkflowExecutionHistory",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "execution" => execution),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("GetWorkflowExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -560,38 +389,22 @@ Developer Guide.
 - `domain`: The name of the domain in which the activity types have been registered.
 - `registration_status`: Specifies the registration status of the activity types to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+# Keyword Parameters
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.
-- `"name"`: If specified, only lists the activity types that have this name.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `name`: If specified, only lists the activity types that have this name.
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
   return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
-- `"reverse_order"`: When set to true, returns the results in reverse order. By default,
-  the results are returned in ascending alphabetical order by name of the activity types.
+- `reverse_order`: When set to true, returns the results in reverse order. By default, the
+  results are returned in ascending alphabetical order by name of the activity types.
 """
-function list_activity_types(
-    domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_activity_types(domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "ListActivityTypes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain, "registrationStatus" => registrationStatus
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("ListActivityTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -617,52 +430,44 @@ the Amazon SWF Developer Guide.
 # Arguments
 - `domain`: The name of the domain that contains the workflow executions to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"close_status_filter"`: If specified, only workflow executions that match this close
+# Keyword Parameters
+- `close_status_filter`: If specified, only workflow executions that match this close
   status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow
   executions are listed.   closeStatusFilter, executionFilter, typeFilter and tagFilter are
   mutually exclusive. You can specify at most one of these in a request.
-- `"close_time_filter"`: If specified, the workflow executions are included in the returned
+- `close_time_filter`: If specified, the workflow executions are included in the returned
   results based on whether their close times are within the range specified by this filter.
   Also, if this parameter is specified, the returned results are ordered by their close
   times.   startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one
   of these in a request but not both.
-- `"execution_filter"`: If specified, only workflow executions matching the workflow ID
+- `execution_filter`: If specified, only workflow executions matching the workflow ID
   specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and
   tagFilter are mutually exclusive. You can specify at most one of these in a request.
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
   return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
-- `"reverse_order"`: When set to true, returns the results in reverse order. By default the
+- `reverse_order`: When set to true, returns the results in reverse order. By default the
   results are returned in descending order of the start or the close time of the executions.
-- `"start_time_filter"`: If specified, the workflow executions are included in the returned
+- `start_time_filter`: If specified, the workflow executions are included in the returned
   results based on whether their start times are within the range specified by this filter.
   Also, if this parameter is specified, the returned results are ordered by their start
   times.   startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one
   of these in a request but not both.
-- `"tag_filter"`: If specified, only executions that have the matching tag are listed.
+- `tag_filter`: If specified, only executions that have the matching tag are listed.
   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You
   can specify at most one of these in a request.
-- `"type_filter"`: If specified, only executions of the type specified in the filter are
+- `type_filter`: If specified, only executions of the type specified in the filter are
   returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually
   exclusive. You can specify at most one of these in a request.
 """
-function list_closed_workflow_executions(
-    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "ListClosedWorkflowExecutions",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("ListClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -685,33 +490,21 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 # Arguments
 - `registration_status`: Specifies the registration status of the domains to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+# Keyword Parameters
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
   return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
-- `"reverse_order"`: When set to true, returns the results in reverse order. By default,
-  the results are returned in ascending alphabetical order by name of the domains.
+- `reverse_order`: When set to true, returns the results in reverse order. By default, the
+  results are returned in ascending alphabetical order by name of the domains.
 """
-function list_domains(
-    registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_domains(registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "ListDomains",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("registrationStatus" => registrationStatus), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("ListDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("registrationStatus"=>registrationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -738,44 +531,30 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 - `start_time_filter`: Workflow executions are included in the returned results based on
   whether their start times are within the range specified by this filter.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"execution_filter"`: If specified, only workflow executions matching the workflow ID
+# Keyword Parameters
+- `execution_filter`: If specified, only workflow executions matching the workflow ID
   specified in the filter are returned.   executionFilter, typeFilter and tagFilter are
   mutually exclusive. You can specify at most one of these in a request.
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
   return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
-- `"reverse_order"`: When set to true, returns the results in reverse order. By default the
+- `reverse_order`: When set to true, returns the results in reverse order. By default the
   results are returned in descending order of the start time of the executions.
-- `"tag_filter"`: If specified, only executions that have the matching tag are listed.
+- `tag_filter`: If specified, only executions that have the matching tag are listed.
   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most
   one of these in a request.
-- `"type_filter"`: If specified, only executions of the type specified in the filter are
+- `type_filter`: If specified, only executions of the type specified in the filter are
   returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can
   specify at most one of these in a request.
 """
-function list_open_workflow_executions(
-    domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_open_workflow_executions(domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "ListOpenWorkflowExecutions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("ListOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -787,18 +566,9 @@ List tags for a given domain.
 - `resource_arn`: The Amazon Resource Name (ARN) for the Amazon SWF domain.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -819,38 +589,22 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 - `domain`: The name of the domain in which the workflow types have been registered.
 - `registration_status`: Specifies the registration status of the workflow types to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+# Keyword Parameters
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.
-- `"name"`: If specified, lists the workflow type with this name.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `name`: If specified, lists the workflow type with this name.
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
   return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
-- `"reverse_order"`: When set to true, returns the results in reverse order. By default the
+- `reverse_order`: When set to true, returns the results in reverse order. By default the
   results are returned in ascending alphabetical order of the name of the workflow types.
 """
-function list_workflow_types(
-    domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_workflow_types(domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "ListWorkflowTypes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain, "registrationStatus" => registrationStatus
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("ListWorkflowTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -882,26 +636,14 @@ Amazon SWF Developer Guide.
   (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
   the literal string arn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity"`: Identity of the worker making the request, recorded in the
+# Keyword Parameters
+- `identity`: Identity of the worker making the request, recorded in the
   ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when
   problems arise. The form of this identity is user defined.
 """
-function poll_for_activity_task(
-    domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function poll_for_activity_task(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "PollForActivityTask",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("domain" => domain, "taskList" => taskList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("PollForActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -939,15 +681,14 @@ Amazon SWF Developer Guide.
   (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
   the literal string arn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identity"`: Identity of the decider making the request, which is recorded in the
+# Keyword Parameters
+- `identity`: Identity of the decider making the request, which is recorded in the
   DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when
   problems arise. The form of this identity is user defined.
-- `"maximum_page_size"`: The maximum number of results that are returned per call. Use
+- `maximum_page_size`: The maximum number of results that are returned per call. Use
   nextPageToken to obtain further pages of results.  This is an upper limit only; the actual
   number of results returned per call may be fewer than the specified maximum.
-- `"next_page_token"`: If NextPageToken is returned there are more results available. The
+- `next_page_token`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
   Each pagination token expires after 60 seconds. Using an expired pagination token will
@@ -957,23 +698,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   get the next page. You must call PollForDecisionTask again (with the nextPageToken) to
   retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken
   doesn't return a new decision task.
-- `"reverse_order"`: When set to true, returns the events in reverse order. By default the
+- `reverse_order`: When set to true, returns the events in reverse order. By default the
   results are returned in ascending order of the eventTimestamp of the events.
 """
-function poll_for_decision_task(
-    domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function poll_for_decision_task(domain, taskList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "PollForDecisionTask",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("domain" => domain, "taskList" => taskList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("PollForDecisionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1011,22 +741,12 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
   taskToken must also be passed. This enables it to provide its progress and respond with
   results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"details"`: If specified, contains details about the progress of the task.
+# Keyword Parameters
+- `details`: If specified, contains details about the progress of the task.
 """
-function record_activity_task_heartbeat(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function record_activity_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RecordActivityTaskHeartbeat",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RecordActivityTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1059,10 +779,9 @@ Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
   the literal string arn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_task_heartbeat_timeout"`: If set, specifies the default maximum time before
-  which a worker processing a task of this type must report progress by calling
+# Keyword Parameters
+- `default_task_heartbeat_timeout`: If set, specifies the default maximum time before which
+  a worker processing a task of this type must report progress by calling
   RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically
   timed out. This default can be overridden when scheduling an activity task using the
   ScheduleActivityTask Decision. If the activity worker subsequently attempts to record a
@@ -1070,47 +789,34 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   this case, Amazon SWF no longer considers the activity task to be valid; the activity
   worker should clean up the activity task. The duration is specified in seconds, an integer
   greater than or equal to 0. You can use NONE to specify unlimited duration.
-- `"default_task_list"`: If set, specifies the default task list to use for scheduling
-  tasks of this activity type. This default task list is used if a task list isn't provided
-  when a task is scheduled through the ScheduleActivityTask Decision.
-- `"default_task_priority"`: The default task priority to assign to the activity type. If
-  not assigned, then 0 is used. Valid values are integers that range from Java's
+- `default_task_list`: If set, specifies the default task list to use for scheduling tasks
+  of this activity type. This default task list is used if a task list isn't provided when a
+  task is scheduled through the ScheduleActivityTask Decision.
+- `default_task_priority`: The default task priority to assign to the activity type. If not
+  assigned, then 0 is used. Valid values are integers that range from Java's
   Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate
   higher priority. For more information about setting task priority, see Setting Task
   Priority in the in the Amazon SWF Developer Guide..
-- `"default_task_schedule_to_close_timeout"`: If set, specifies the default maximum
-  duration for a task of this activity type. This default can be overridden when scheduling
-  an activity task using the ScheduleActivityTask Decision. The duration is specified in
+- `default_task_schedule_to_close_timeout`: If set, specifies the default maximum duration
+  for a task of this activity type. This default can be overridden when scheduling an
+  activity task using the ScheduleActivityTask Decision. The duration is specified in
   seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited
   duration.
-- `"default_task_schedule_to_start_timeout"`: If set, specifies the default maximum
-  duration that a task of this activity type can wait before being assigned to a worker. This
-  default can be overridden when scheduling an activity task using the ScheduleActivityTask
-  Decision. The duration is specified in seconds, an integer greater than or equal to 0. You
-  can use NONE to specify unlimited duration.
-- `"default_task_start_to_close_timeout"`: If set, specifies the default maximum duration
+- `default_task_schedule_to_start_timeout`: If set, specifies the default maximum duration
+  that a task of this activity type can wait before being assigned to a worker. This default
+  can be overridden when scheduling an activity task using the ScheduleActivityTask Decision.
+  The duration is specified in seconds, an integer greater than or equal to 0. You can use
+  NONE to specify unlimited duration.
+- `default_task_start_to_close_timeout`: If set, specifies the default maximum duration
   that a worker can take to process tasks of this activity type. This default can be
   overridden when scheduling an activity task using the ScheduleActivityTask Decision. The
   duration is specified in seconds, an integer greater than or equal to 0. You can use NONE
   to specify unlimited duration.
-- `"description"`: A textual description of the activity type.
+- `description`: A textual description of the activity type.
 """
-function register_activity_type(
-    domain, name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_activity_type(domain, name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RegisterActivityType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "name" => name, "version" => version),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RegisterActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1140,35 +846,14 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
   information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon
   SWF Developer Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A text description of the domain.
-- `"tags"`: Tags to be added when registering a domain. Tags may only contain unicode
+# Keyword Parameters
+- `description`: A text description of the domain.
+- `tags`: Tags to be added when registering a domain. Tags may only contain unicode
   letters, digits, whitespace, or these symbols: _ . : / = + - @.
 """
-function register_domain(
-    name,
-    workflowExecutionRetentionPeriodInDays;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_domain(name, workflowExecutionRetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RegisterDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "workflowExecutionRetentionPeriodInDays" =>
-                        workflowExecutionRetentionPeriodInDays,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "workflowExecutionRetentionPeriodInDays"=>workflowExecutionRetentionPeriodInDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1202,9 +887,8 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
   the literal string arn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_child_policy"`: If set, specifies the default policy to use for the child
+# Keyword Parameters
+- `default_child_policy`: If set, specifies the default policy to use for the child
   workflow executions when a workflow execution of this type is terminated, by calling the
   TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can
   be overridden when starting a workflow execution using the StartWorkflowExecution action or
@@ -1214,7 +898,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   its history. It is up to the decider to take appropriate actions when it receives an
   execution history with this event.    ABANDON – No action is taken. The child executions
   continue to run.
-- `"default_execution_start_to_close_timeout"`: If set, specifies the default maximum
+- `default_execution_start_to_close_timeout`: If set, specifies the default maximum
   duration for executions of this workflow type. You can override this default when starting
   an execution through the StartWorkflowExecution Action or StartChildWorkflowExecution
   Decision. The duration is specified in seconds; an integer greater than or equal to 0.
@@ -1222,44 +906,31 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   \"NONE\" for defaultExecutionStartToCloseTimeout; there is a one-year max limit on the time
   that a workflow execution can run. Exceeding this limit always causes the workflow
   execution to time out.
-- `"default_lambda_role"`: The default IAM role attached to this workflow type.  Executions
+- `default_lambda_role`: The default IAM role attached to this workflow type.  Executions
   of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an
   IAM role when you start this workflow type, the default Lambda role is attached to the
   execution. For more information, see
   https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon
   SWF Developer Guide.
-- `"default_task_list"`: If set, specifies the default task list to use for scheduling
+- `default_task_list`: If set, specifies the default task list to use for scheduling
   decision tasks for executions of this workflow type. This default is used only if a task
   list isn't provided when starting the execution through the StartWorkflowExecution Action
   or StartChildWorkflowExecution Decision.
-- `"default_task_priority"`: The default task priority to assign to the workflow type. If
-  not assigned, then 0 is used. Valid values are integers that range from Java's
+- `default_task_priority`: The default task priority to assign to the workflow type. If not
+  assigned, then 0 is used. Valid values are integers that range from Java's
   Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate
   higher priority. For more information about setting task priority, see Setting Task
   Priority in the Amazon SWF Developer Guide.
-- `"default_task_start_to_close_timeout"`: If set, specifies the default maximum duration
-  of decision tasks for this workflow type. This default can be overridden when starting a
+- `default_task_start_to_close_timeout`: If set, specifies the default maximum duration of
+  decision tasks for this workflow type. This default can be overridden when starting a
   workflow execution using the StartWorkflowExecution action or the
   StartChildWorkflowExecution Decision. The duration is specified in seconds, an integer
   greater than or equal to 0. You can use NONE to specify unlimited duration.
-- `"description"`: Textual description of the workflow type.
+- `description`: Textual description of the workflow type.
 """
-function register_workflow_type(
-    domain, name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_workflow_type(domain, name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RegisterWorkflowType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "name" => name, "version" => version),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RegisterWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1286,26 +957,12 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `domain`: The name of the domain containing the workflow execution to cancel.
 - `workflow_id`: The workflowId of the workflow execution to cancel.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"run_id"`: The runId of the workflow execution to cancel.
+# Keyword Parameters
+- `run_id`: The runId of the workflow execution to cancel.
 """
-function request_cancel_workflow_execution(
-    domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function request_cancel_workflow_execution(domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RequestCancelWorkflowExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "workflowId" => workflowId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RequestCancelWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1335,22 +992,12 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   taskToken must also be passed. This enables it to provide its progress and respond with
   results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"details"`:  Information about the cancellation.
+# Keyword Parameters
+- `details`:  Information about the cancellation.
 """
-function respond_activity_task_canceled(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function respond_activity_task_canceled(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RespondActivityTaskCanceled",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RespondActivityTaskCanceled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1381,23 +1028,13 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
   taskToken must also be passed. This enables it to provide its progress and respond with
   results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"result"`: The result of the activity task. It is a free form string that is
+# Keyword Parameters
+- `result`: The result of the activity task. It is a free form string that is
   implementation specific.
 """
-function respond_activity_task_completed(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function respond_activity_task_completed(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RespondActivityTaskCompleted",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RespondActivityTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1425,23 +1062,13 @@ Amazon SWF Developer Guide.
   taskToken must also be passed. This enables it to provide its progress and respond with
   results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"details"`:  Detailed information about the failure.
-- `"reason"`: Description of the error that may assist in diagnostics.
+# Keyword Parameters
+- `details`:  Detailed information about the failure.
+- `reason`: Description of the error that may assist in diagnostics.
 """
-function respond_activity_task_failed(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function respond_activity_task_failed(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RespondActivityTaskFailed",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RespondActivityTaskFailed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1464,24 +1091,14 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
   its taskToken must also be passed. This enables it to provide its progress and respond with
   results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"decisions"`: The list of decisions (possibly empty) made by the decider while
-  processing this decision task. See the docs for the Decision structure for details.
-- `"execution_context"`: User defined context to add to workflow execution.
+# Keyword Parameters
+- `decisions`: The list of decisions (possibly empty) made by the decider while processing
+  this decision task. See the docs for the Decision structure for details.
+- `execution_context`: User defined context to add to workflow execution.
 """
-function respond_decision_task_completed(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function respond_decision_task_completed(taskToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "RespondDecisionTaskCompleted",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("RespondDecisionTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1509,36 +1126,14 @@ Developer Guide.
   workflow.
 - `workflow_id`: The workflowId of the workflow execution to signal.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"input"`: Data to attach to the WorkflowExecutionSignaled event in the target workflow
+# Keyword Parameters
+- `input`: Data to attach to the WorkflowExecutionSignaled event in the target workflow
   execution's history.
-- `"run_id"`: The runId of the workflow execution to signal.
+- `run_id`: The runId of the workflow execution to signal.
 """
-function signal_workflow_execution(
-    domain,
-    signalName,
-    workflowId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function signal_workflow_execution(domain, signalName, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "SignalWorkflowExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "signalName" => signalName,
-                    "workflowId" => workflowId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("SignalWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "signalName"=>signalName, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1573,10 +1168,9 @@ Workflows in the Amazon SWF Developer Guide.
   (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
 - `workflow_type`: The type of the workflow to start.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"child_policy"`: If set, specifies the policy to use for the child workflow executions
-  of this workflow execution if it is terminated, by calling the TerminateWorkflowExecution
+# Keyword Parameters
+- `child_policy`: If set, specifies the policy to use for the child workflow executions of
+  this workflow execution if it is terminated, by calling the TerminateWorkflowExecution
   action explicitly or due to an expired timeout. This policy overrides the default child
   policy specified when registering the workflow type using RegisterWorkflowType. The
   supported child policies are:    TERMINATE – The child executions are terminated.
@@ -1587,28 +1181,28 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   workflow execution must be specified either as a default for the workflow type or through
   this parameter. If neither this parameter is set nor a default child policy was specified
   at registration time then a fault is returned.
-- `"execution_start_to_close_timeout"`: The total duration for this workflow execution.
-  This overrides the defaultExecutionStartToCloseTimeout specified when registering the
-  workflow type. The duration is specified in seconds; an integer greater than or equal to 0.
+- `execution_start_to_close_timeout`: The total duration for this workflow execution. This
+  overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow
+  type. The duration is specified in seconds; an integer greater than or equal to 0.
   Exceeding this limit causes the workflow execution to time out. Unlike some of the other
   timeout parameters in Amazon SWF, you cannot specify a value of \"NONE\" for this timeout;
   there is a one-year max limit on the time that a workflow execution can run.  An execution
   start-to-close timeout must be specified either through this parameter or as a default when
   the workflow type is registered. If neither this parameter nor a default execution
   start-to-close timeout is specified, a fault is returned.
-- `"input"`: The input for the workflow execution. This is a free form string which should
-  be meaningful to the workflow you are starting. This input is made available to the new
+- `input`: The input for the workflow execution. This is a free form string which should be
+  meaningful to the workflow you are starting. This input is made available to the new
   workflow execution in the WorkflowExecutionStarted history event.
-- `"lambda_role"`: The IAM role to attach to this workflow execution.  Executions of this
+- `lambda_role`: The IAM role to attach to this workflow execution.  Executions of this
   workflow type need IAM roles to invoke Lambda functions. If you don't attach an IAM role,
   any attempt to schedule a Lambda task fails. This results in a ScheduleLambdaFunctionFailed
   history event. For more information, see
   https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon
   SWF Developer Guide.
-- `"tag_list"`: The list of tags to associate with the workflow execution. You can specify
-  a maximum of 5 tags. You can list workflow executions with a specific tag by calling
+- `tag_list`: The list of tags to associate with the workflow execution. You can specify a
+  maximum of 5 tags. You can list workflow executions with a specific tag by calling
   ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
-- `"task_list"`: The task list to use for the decision tasks generated for this workflow
+- `task_list`: The task list to use for the decision tasks generated for this workflow
   execution. This overrides the defaultTaskList specified when registering the workflow type.
    A task list for this workflow execution must be specified either as a default for the
   workflow type or through this parameter. If neither this parameter is set nor a default
@@ -1616,45 +1210,24 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   string must not start or end with whitespace. It must not contain a : (colon), / (slash), |
   (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
   the literal string arn.
-- `"task_priority"`: The task priority to use for this workflow execution. This overrides
-  any default priority that was assigned when the workflow type was registered. If not set,
-  then the default task priority for the workflow type is used. Valid values are integers
-  that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647).
-  Higher numbers indicate higher priority. For more information about setting task priority,
-  see Setting Task Priority in the Amazon SWF Developer Guide.
-- `"task_start_to_close_timeout"`: Specifies the maximum duration of decision tasks for
-  this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout
-  specified when registering the workflow type using RegisterWorkflowType. The duration is
-  specified in seconds, an integer greater than or equal to 0. You can use NONE to specify
-  unlimited duration.  A task start-to-close timeout for this workflow execution must be
-  specified either as a default for the workflow type or through this parameter. If neither
-  this parameter is set nor a default task start-to-close timeout was specified at
-  registration time then a fault is returned.
+- `task_priority`: The task priority to use for this workflow execution. This overrides any
+  default priority that was assigned when the workflow type was registered. If not set, then
+  the default task priority for the workflow type is used. Valid values are integers that
+  range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher
+  numbers indicate higher priority. For more information about setting task priority, see
+  Setting Task Priority in the Amazon SWF Developer Guide.
+- `task_start_to_close_timeout`: Specifies the maximum duration of decision tasks for this
+  workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified
+  when registering the workflow type using RegisterWorkflowType. The duration is specified in
+  seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited
+  duration.  A task start-to-close timeout for this workflow execution must be specified
+  either as a default for the workflow type or through this parameter. If neither this
+  parameter is set nor a default task start-to-close timeout was specified at registration
+  time then a fault is returned.
 """
-function start_workflow_execution(
-    domain,
-    workflowId,
-    workflowType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_workflow_execution(domain, workflowId, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "StartWorkflowExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "workflowId" => workflowId,
-                    "workflowType" => workflowType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("StartWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1668,22 +1241,9 @@ Add a tag to a Amazon SWF domain.  Amazon SWF supports a maximum of 50 tags per 
   digits, whitespace, or these symbols: _ . : / = + - @.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1711,12 +1271,11 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `domain`: The domain of the workflow execution to terminate.
 - `workflow_id`: The workflowId of the workflow execution to terminate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"child_policy"`: If set, specifies the policy to use for the child workflow executions
-  of the workflow execution being terminated. This policy overrides the child policy
-  specified for the workflow execution at registration time or when starting the execution.
-  The supported child policies are:    TERMINATE – The child executions are terminated.
+# Keyword Parameters
+- `child_policy`: If set, specifies the policy to use for the child workflow executions of
+  the workflow execution being terminated. This policy overrides the child policy specified
+  for the workflow execution at registration time or when starting the execution. The
+  supported child policies are:    TERMINATE – The child executions are terminated.
   REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a
   WorkflowExecutionCancelRequested event in its history. It is up to the decider to take
   appropriate actions when it receives an execution history with this event.    ABANDON –
@@ -1724,26 +1283,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   workflow execution must be specified either as a default for the workflow type or through
   this parameter. If neither this parameter is set nor a default child policy was specified
   at registration time then a fault is returned.
-- `"details"`:  Details for terminating the workflow execution.
-- `"reason"`:  A descriptive reason for terminating the workflow execution.
-- `"run_id"`: The runId of the workflow execution to terminate.
+- `details`:  Details for terminating the workflow execution.
+- `reason`:  A descriptive reason for terminating the workflow execution.
+- `run_id`: The runId of the workflow execution to terminate.
 """
-function terminate_workflow_execution(
-    domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function terminate_workflow_execution(domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "TerminateWorkflowExecution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "workflowId" => workflowId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("TerminateWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1769,22 +1315,9 @@ Workflows in the Amazon SWF Developer Guide.
 - `domain`: The name of the domain of the deprecated activity type.
 
 """
-function undeprecate_activity_type(
-    activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function undeprecate_activity_type(activityType, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "UndeprecateActivityType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("activityType" => activityType, "domain" => domain),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("UndeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1807,16 +1340,9 @@ Developer Guide.
 - `name`: The name of the domain of the deprecated workflow type.
 
 """
-function undeprecate_domain(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function undeprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "UndeprecateDomain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("UndeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1842,22 +1368,9 @@ Workflows in the Amazon SWF Developer Guide.
 - `workflow_type`: The name of the domain of the deprecated workflow type.
 
 """
-function undeprecate_workflow_type(
-    domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function undeprecate_workflow_type(domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "UndeprecateWorkflowType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "workflowType" => workflowType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("UndeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1870,20 +1383,7 @@ Remove a tag from a Amazon SWF domain.
 - `tag_keys`: The list of tags to remove from the Amazon SWF domain.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return swf(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return swf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

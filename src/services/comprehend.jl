@@ -4,29 +4,8 @@ using AWS.AWSServices: comprehend
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "job_name" => "JobName",
-    "data_access_role_arn" => "DataAccessRoleArn",
-    "output_data_config" => "OutputDataConfig",
-    "endpoint_arn" => "EndpointArn",
-    "mode" => "Mode",
-    "filter" => "Filter",
-    "desired_inference_units" => "DesiredInferenceUnits",
-    "next_token" => "NextToken",
-    "client_request_token" => "ClientRequestToken",
-    "desired_data_access_role_arn" => "DesiredDataAccessRoleArn",
-    "max_results" => "MaxResults",
-    "volume_kms_key_id" => "VolumeKmsKeyId",
-    "version_name" => "VersionName",
-    "entity_recognizer_arn" => "EntityRecognizerArn",
-    "vpc_config" => "VpcConfig",
-    "number_of_topics" => "NumberOfTopics",
-    "language_code" => "LanguageCode",
-    "model_kms_key_id" => "ModelKmsKeyId",
-    "tags" => "Tags",
-    "redaction_config" => "RedactionConfig",
-    "desired_model_arn" => "DesiredModelArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filter" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "data_access_role_arn" => "DataAccessRoleArn", "tags" => "Tags", "job_name" => "JobName", "volume_kms_key_id" => "VolumeKmsKeyId", "vpc_config" => "VpcConfig", "mode" => "Mode", "model_kms_key_id" => "ModelKmsKeyId", "output_data_config" => "OutputDataConfig", "version_name" => "VersionName", "desired_data_access_role_arn" => "DesiredDataAccessRoleArn", "desired_inference_units" => "DesiredInferenceUnits", "desired_model_arn" => "DesiredModelArn", "endpoint_arn" => "EndpointArn", "language_code" => "LanguageCode", "number_of_topics" => "NumberOfTopics", "entity_recognizer_arn" => "EntityRecognizerArn", "redaction_config" => "RedactionConfig")
 
 """
     batch_detect_dominant_language(text_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -40,18 +19,9 @@ languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Lan
   contain fewer than 5,000 bytes of UTF-8 encoded characters.
 
 """
-function batch_detect_dominant_language(
-    TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_detect_dominant_language(TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "BatchDetectDominantLanguage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TextList" => TextList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("BatchDetectDominantLanguage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TextList"=>TextList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -68,22 +38,9 @@ them. For more information about named entities, see how-entities
   characters.
 
 """
-function batch_detect_entities(
-    LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_detect_entities(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "BatchDetectEntities",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("BatchDetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -99,22 +56,9 @@ Detects the key noun phrases found in a batch of documents.
   characters.
 
 """
-function batch_detect_key_phrases(
-    LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_detect_key_phrases(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "BatchDetectKeyPhrases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("BatchDetectKeyPhrases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -131,22 +75,9 @@ POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
   characters.
 
 """
-function batch_detect_sentiment(
-    LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_detect_sentiment(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "BatchDetectSentiment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("BatchDetectSentiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -165,22 +96,9 @@ the document and returns information about them. For more information, see how-s
   characters.
 
 """
-function batch_detect_syntax(
-    LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_detect_syntax(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "BatchDetectSyntax",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("BatchDetectSyntax", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -194,22 +112,9 @@ using a previously created and trained custom model and an endpoint.
 - `text`: The document text to be analyzed.
 
 """
-function classify_document(
-    EndpointArn, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function classify_document(EndpointArn, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ClassifyDocument",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EndpointArn" => EndpointArn, "Text" => Text),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ClassifyDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -225,22 +130,9 @@ number, or phone number.
   real-time, returning personally identifiable information (PII) entity labels.
 
 """
-function contains_pii_entities(
-    LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function contains_pii_entities(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ContainsPiiEntities",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ContainsPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -262,67 +154,42 @@ how-document-classification.
   Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), or Portuguese (\"pt\"). All documents
   must be in the same language.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"mode"`: Indicates the mode in which the classifier will be trained. The classifier can
-  be trained in multi-class mode, which identifies one and only one class for each document,
-  or multi-label mode, which identifies one or more labels for each document. In multi-label
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `mode`: Indicates the mode in which the classifier will be trained. The classifier can be
+  trained in multi-class mode, which identifies one and only one class for each document, or
+  multi-label mode, which identifies one or more labels for each document. In multi-label
   mode, multiple labels for an individual document are separated by a delimiter. The default
   delimiter between labels is a pipe (|).
-- `"model_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `model_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"output_data_config"`: Enables the addition of output results configuration parameters
-  for custom classifier jobs.
-- `"tags"`: Tags to be associated with the document classifier being created. A tag is a
+- `output_data_config`: Enables the addition of output results configuration parameters for
+  custom classifier jobs.
+- `tags`: Tags to be associated with the document classifier being created. A tag is a
   key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For
   example, a tag with \"Sales\" as the key might be added to a resource to indicate its use
   by the sales department.
-- `"version_name"`: The version name given to the newly created classifier. Version names
-  can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
-  (_) are allowed. The version name must be unique among all models with the same classifier
-  name in the account/AWS Region.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `version_name`: The version name given to the newly created classifier. Version names can
+  have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_)
+  are allowed. The version name must be unique among all models with the same classifier name
+  in the account/AWS Region.
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your custom classifier. For more
   information, see Amazon VPC.
 """
-function create_document_classifier(
-    DataAccessRoleArn,
-    DocumentClassifierName,
-    InputDataConfig,
-    LanguageCode;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_document_classifier(DataAccessRoleArn, DocumentClassifierName, InputDataConfig, LanguageCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "CreateDocumentClassifier",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "DocumentClassifierName" => DocumentClassifierName,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("CreateDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierName"=>DocumentClassifierName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -340,43 +207,20 @@ model
 - `model_arn`: The Amazon Resource Number (ARN) of the model to which the endpoint will be
   attached.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: An idempotency token provided by the customer. If this token
+# Keyword Parameters
+- `client_request_token`: An idempotency token provided by the customer. If this token
   matches a previous endpoint creation request, Amazon Comprehend will not return a
   ResourceInUseException.
-- `"data_access_role_arn"`: The Amazon Resource Name (ARN) of the AWS identity and Access
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS identity and Access
   Management (IAM) role that grants Amazon Comprehend read access to trained custom models
   encrypted with a customer managed key (ModelKmsKeyId).
-- `"tags"`: Tags associated with the endpoint being created. A tag is a key-value pair that
+- `tags`: Tags associated with the endpoint being created. A tag is a key-value pair that
   adds metadata to the endpoint. For example, a tag with \"Sales\" as the key might be added
   to an endpoint to indicate its use by the sales department.
 """
-function create_endpoint(
-    DesiredInferenceUnits,
-    EndpointName,
-    ModelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_endpoint(DesiredInferenceUnits, EndpointName, ModelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "CreateEndpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DesiredInferenceUnits" => DesiredInferenceUnits,
-                    "EndpointName" => EndpointName,
-                    "ModelArn" => ModelArn,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointName"=>EndpointName, "ModelArn"=>ModelArn, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -398,60 +242,35 @@ request is submitted, you can check job status using the API.
   be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_)
   are allowed. The name must be unique in the account/region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:  A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"model_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+# Keyword Parameters
+- `client_request_token`:  A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `model_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the
   following formats   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource
   Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"tags"`: Tags to be associated with the entity recognizer being created. A tag is a
+- `tags`: Tags to be associated with the entity recognizer being created. A tag is a
   key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For
   example, a tag with \"Sales\" as the key might be added to a resource to indicate its use
   by the sales department.
-- `"version_name"`: The version name given to the newly created recognizer. Version names
-  can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
-  (_) are allowed. The version name must be unique among all models with the same recognizer
-  name in the account/ AWS Region.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `version_name`: The version name given to the newly created recognizer. Version names can
+  be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_)
+  are allowed. The version name must be unique among all models with the same recognizer name
+  in the account/ AWS Region.
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your custom entity recognizer. For more
   information, see Amazon VPC.
 """
-function create_entity_recognizer(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    RecognizerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_entity_recognizer(DataAccessRoleArn, InputDataConfig, LanguageCode, RecognizerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "CreateEntityRecognizer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "RecognizerName" => RecognizerName,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("CreateEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "RecognizerName"=>RecognizerName, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -468,22 +287,9 @@ removed, the classifier disappears from your account and is no longer available 
   classifier.
 
 """
-function delete_document_classifier(
-    DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_document_classifier(DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DeleteDocumentClassifier",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DocumentClassifierArn" => DocumentClassifierArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DeleteDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -496,18 +302,9 @@ be deleted in order for the model to be deleted.
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being deleted.
 
 """
-function delete_endpoint(
-    EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DeleteEndpoint",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -524,22 +321,9 @@ the recognizer disappears from your account and is no longer available for use.
   recognizer.
 
 """
-function delete_entity_recognizer(
-    EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_entity_recognizer(EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DeleteEntityRecognizer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DeleteEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -553,16 +337,9 @@ get the status of a classification job.
   returns this identifier in its response.
 
 """
-function describe_document_classification_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_document_classification_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeDocumentClassificationJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeDocumentClassificationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -575,22 +352,9 @@ Gets the properties associated with a document classifier.
   classifier. The operation returns this identifier in its response.
 
 """
-function describe_document_classifier(
-    DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_document_classifier(DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeDocumentClassifier",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DocumentClassifierArn" => DocumentClassifierArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -604,16 +368,9 @@ to get the status of a detection job.
   returns this identifier in its response.
 
 """
-function describe_dominant_language_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dominant_language_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeDominantLanguageDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -626,18 +383,9 @@ status of an endpoint.
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being described.
 
 """
-function describe_endpoint(
-    EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeEndpoint",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -651,16 +399,9 @@ the status of a detection job.
   returns this identifier in its response.
 
 """
-function describe_entities_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeEntitiesDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -674,22 +415,9 @@ training data, recognizer metadata, metrics, and so on.
   recognizer.
 
 """
-function describe_entity_recognizer(
-    EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_entity_recognizer(EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeEntityRecognizer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -701,16 +429,9 @@ Gets the status and details of an events detection job.
 - `job_id`: The identifier of the events detection job.
 
 """
-function describe_events_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_events_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeEventsDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -724,16 +445,9 @@ the status of a detection job.
   returns this identifier in its response.
 
 """
-function describe_key_phrases_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_key_phrases_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeKeyPhrasesDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -747,16 +461,9 @@ this operation to get the job status.
   returns this identifier in its response.
 
 """
-function describe_pii_entities_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_pii_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribePiiEntitiesDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribePiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -770,16 +477,9 @@ the status of a detection job.
   returns this identifier in its response.
 
 """
-function describe_sentiment_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_sentiment_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeSentimentDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -792,16 +492,9 @@ status of a detection job.
 - `job_id`: The identifier assigned by the user to the detection job.
 
 """
-function describe_topics_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_topics_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DescribeTopicsDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DescribeTopicsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -815,16 +508,9 @@ Comprehend can detect, see Amazon Comprehend Supported Languages.
   contain fewer that 5,000 bytes of UTF-8 encoded characters.
 
 """
-function detect_dominant_language(
-    Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_dominant_language(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DetectDominantLanguage",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DetectDominantLanguage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -837,27 +523,21 @@ about named entities, see how-entities.
 - `text`: A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8
   encoded characters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoint_arn"`: The Amazon Resource Name of an endpoint that is associated with a
-  custom entity recognition model. Provide an endpoint if you want to detect entities by
-  using your own custom model instead of the default model that is used by Amazon Comprehend.
-  If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and
-  it ignores any language code that you provide in your request.
-- `"language_code"`: The language of the input documents. You can specify any of the
-  primary languages supported by Amazon Comprehend. All documents must be in the same
-  language. If your request includes the endpoint for a custom entity recognition model,
-  Amazon Comprehend uses the language of your custom model, and it ignores any language code
-  that you specify here.
+# Keyword Parameters
+- `endpoint_arn`: The Amazon Resource Name of an endpoint that is associated with a custom
+  entity recognition model. Provide an endpoint if you want to detect entities by using your
+  own custom model instead of the default model that is used by Amazon Comprehend. If you
+  specify an endpoint, Amazon Comprehend uses the language of your custom model, and it
+  ignores any language code that you provide in your request.
+- `language_code`: The language of the input documents. You can specify any of the primary
+  languages supported by Amazon Comprehend. All documents must be in the same language. If
+  your request includes the endpoint for a custom entity recognition model, Amazon Comprehend
+  uses the language of your custom model, and it ignores any language code that you specify
+  here.
 """
 function detect_entities(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DetectEntities",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -872,22 +552,9 @@ Detects the key noun phrases found in the text.
   encoded characters.
 
 """
-function detect_key_phrases(
-    LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_key_phrases(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DetectKeyPhrases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DetectKeyPhrases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -902,22 +569,9 @@ and returns information about them.
   encoded characters.
 
 """
-function detect_pii_entities(
-    LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_pii_entities(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DetectPiiEntities",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DetectPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -933,22 +587,9 @@ MIXED, or NEGATIVE).
   encoded characters.
 
 """
-function detect_sentiment(
-    LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_sentiment(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DetectSentiment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DetectSentiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -965,22 +606,9 @@ information, how-syntax.
   characters.
 
 """
-function detect_syntax(
-    LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_syntax(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "DetectSyntax",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("DetectSyntax", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -988,24 +616,15 @@ end
 
 Gets a list of the documentation classification jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their names,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their names, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_document_classification_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_document_classification_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListDocumentClassificationJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListDocumentClassificationJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1013,21 +632,13 @@ end
 
 Gets a list of summaries of the document classifiers that you have created
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return on each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return on each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_document_classifier_summaries(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_document_classifier_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListDocumentClassifierSummaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListDocumentClassifierSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1035,24 +646,15 @@ end
 
 Gets a list of the document classifiers that you have created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_document_classifiers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_document_classifiers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListDocumentClassifiers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListDocumentClassifiers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1060,24 +662,15 @@ end
 
 Gets a list of the dominant language detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters that jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters that jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_dominant_language_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dominant_language_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListDominantLanguageDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListDominantLanguageDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1085,19 +678,16 @@ end
 
 Gets a list of all existing endpoints that you've created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the endpoints that are returned. You can filter endpoints on their
+# Keyword Parameters
+- `filter`: Filters the endpoints that are returned. You can filter endpoints on their
   name, model, status, or the date and time that they were created. You can only set one
   filter at a time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
 function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1105,24 +695,15 @@ end
 
 Gets a list of the entity detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_entities_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_entities_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListEntitiesDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListEntitiesDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1130,21 +711,13 @@ end
 
 Gets a list of summaries for the entity recognizers that you have created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return on each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return on each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_entity_recognizer_summaries(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_entity_recognizer_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListEntityRecognizerSummaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListEntityRecognizerSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1156,24 +729,15 @@ criteria such as status and submission time. This call returns up to 500 entity 
 in the list, with a default number of 100 recognizers in the list. The results of this list
 are not in any particular order. Please get the list and sort locally if needed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the list of entities returned. You can filter on Status,
+# Keyword Parameters
+- `filter`: Filters the list of entities returned. You can filter on Status,
   SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
-- `"max_results"`:  The maximum number of results to return on each page. The default is
-  100.
-- `"next_token"`: Identifies the next page of results to return.
+- `max_results`:  The maximum number of results to return on each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_entity_recognizers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_entity_recognizers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListEntityRecognizers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListEntityRecognizers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1181,24 +745,15 @@ end
 
 Gets a list of the events detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_events_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_events_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListEventsDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListEventsDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1206,24 +761,15 @@ end
 
 Get a list of key phrase detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_key_phrases_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_key_phrases_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListKeyPhrasesDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListKeyPhrasesDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1231,24 +777,15 @@ end
 
 Gets a list of the PII entity detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_pii_entities_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_pii_entities_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListPiiEntitiesDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListPiiEntitiesDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1256,24 +793,15 @@ end
 
 Gets a list of sentiment detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs on their name,
-  status, or the date and time that they were submitted. You can only set one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs on their name, status,
+  or the date and time that they were submitted. You can only set one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_sentiment_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_sentiment_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListSentimentDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListSentimentDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1286,18 +814,9 @@ Lists all tags associated with a given Amazon Comprehend resource.
   you are querying.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1305,24 +824,15 @@ end
 
 Gets a list of the topic detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. Jobs can be filtered on their name,
-  status, or the date and time that they were submitted. You can set only one filter at a
-  time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. Jobs can be filtered on their name, status,
+  or the date and time that they were submitted. You can set only one filter at a time.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_topics_detection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_topics_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "ListTopicsDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("ListTopicsDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1339,52 +849,27 @@ of the job.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you do not set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: The identifier of the job.
-- `"tags"`: Tags to be associated with the document classification job. A tag is a
-  key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
-  tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you do not set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: The identifier of the job.
+- `tags`: Tags to be associated with the document classification job. A tag is a key-value
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your document classification job. For more
   information, see Amazon VPC.
 """
-function start_document_classification_job(
-    DataAccessRoleArn,
-    DocumentClassifierArn,
-    InputDataConfig,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_document_classification_job(DataAccessRoleArn, DocumentClassifierArn, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartDocumentClassificationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "DocumentClassifierArn" => DocumentClassifierArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartDocumentClassificationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierArn"=>DocumentClassifierArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1402,50 +887,27 @@ the operation to track the status of a job.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you do not set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: An identifier for the job.
-- `"tags"`: Tags to be associated with the dominant language detection job. A tag is a
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you do not set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: An identifier for the job.
+- `tags`: Tags to be associated with the dominant language detection job. A tag is a
   key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
   tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your dominant language detection job. For
   more information, see Amazon VPC.
 """
-function start_dominant_language_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_dominant_language_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartDominantLanguageDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1470,55 +932,30 @@ being used to detect the custom entity.
   the model is used instead.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"entity_recognizer_arn"`: The Amazon Resource Name (ARN) that identifies the specific
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `entity_recognizer_arn`: The Amazon Resource Name (ARN) that identifies the specific
   entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is
   only used for a custom entity recognition job.
-- `"job_name"`: The identifier of the job.
-- `"tags"`: Tags to be associated with the entities detection job. A tag is a key-value
-  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+- `job_name`: The identifier of the job.
+- `tags`: Tags to be associated with the entities detection job. A tag is a key-value pair
+  that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your entity detection job. For more
   information, see Amazon VPC.
 """
-function start_entities_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartEntitiesDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1534,45 +971,18 @@ Starts an asynchronous event detection job for a collection of documents.
 - `output_data_config`: Specifies where to send the output files.
 - `target_event_types`: The types of events to detect in the input documents.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: An unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: The identifier of the events detection job.
-- `"tags"`: Tags to be associated with the events detection job. A tag is a key-value pair
+# Keyword Parameters
+- `client_request_token`: An unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: The identifier of the events detection job.
+- `tags`: Tags to be associated with the events detection job. A tag is a key-value pair
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
 """
-function start_events_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig,
-    TargetEventTypes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartEventsDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "TargetEventTypes" => TargetEventTypes,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1592,52 +1002,27 @@ operation to track the status of a job.
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: The identifier of the job.
-- `"tags"`: Tags to be associated with the key phrases detection job. A tag is a key-value
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: The identifier of the job.
+- `tags`: Tags to be associated with the key phrases detection job. A tag is a key-value
   pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`:  Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`:  Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your key phrases detection job. For more
   information, see Amazon VPC.
 """
-function start_key_phrases_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_key_phrases_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartKeyPhrasesDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1655,48 +1040,21 @@ Starts an asynchronous PII entity detection job for a collection of documents.
 - `output_data_config`: Provides conﬁguration parameters for the output of PII entity
   detection jobs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: The identifier of the job.
-- `"redaction_config"`: Provides configuration parameters for PII entity redaction. This
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: The identifier of the job.
+- `redaction_config`: Provides configuration parameters for PII entity redaction. This
   parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you
   must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
-- `"tags"`: Tags to be associated with the PII entities detection job. A tag is a key-value
+- `tags`: Tags to be associated with the PII entities detection job. A tag is a key-value
   pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
 """
-function start_pii_entities_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    Mode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_pii_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, Mode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartPiiEntitiesDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "Mode" => Mode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartPiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "Mode"=>Mode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1716,52 +1074,27 @@ operation to track the status of a job.
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: The identifier of the job.
-- `"tags"`: Tags to be associated with the sentiment detection job. A tag is a key-value
-  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: The identifier of the job.
+- `tags`: Tags to be associated with the sentiment detection job. A tag is a key-value pair
+  that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your sentiment detection job. For more
   information, see Amazon VPC.
 """
-function start_sentiment_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_sentiment_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartSentimentDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1781,51 +1114,28 @@ track the status of a job.
   compressed archive with two files, topic-terms.csv that lists the terms associated with
   each topic, and doc-topics.csv that lists the documents associated with each topic
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you do not set the
-  client request token, Amazon Comprehend generates one.
-- `"job_name"`: The identifier of the job.
-- `"number_of_topics"`: The number of topics to detect.
-- `"tags"`: Tags to be associated with the topics detection job. A tag is a key-value pair
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you do not set the client
+  request token, Amazon Comprehend generates one.
+- `job_name`: The identifier of the job.
+- `number_of_topics`: The number of topics to detect.
+- `tags`: Tags to be associated with the topics detection job. A tag is a key-value pair
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"volume_kms_key_id"`: ID for the AWS Key Management Service (KMS) key that Amazon
+- `volume_kms_key_id`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"vpc_config"`: Configuration parameters for an optional private Virtual Private Cloud
+- `vpc_config`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your topic detection job. For more
   information, see Amazon VPC.
 """
-function start_topics_detection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_topics_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StartTopicsDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StartTopicsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1843,16 +1153,9 @@ the output location.
 - `job_id`: The identifier of the dominant language detection job to stop.
 
 """
-function stop_dominant_language_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_dominant_language_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopDominantLanguageDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1870,16 +1173,9 @@ output location.
 - `job_id`: The identifier of the entities detection job to stop.
 
 """
-function stop_entities_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopEntitiesDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1891,16 +1187,9 @@ Stops an events detection job in progress.
 - `job_id`: The identifier of the events detection job to stop.
 
 """
-function stop_events_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_events_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopEventsDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1918,16 +1207,9 @@ output location.
 - `job_id`: The identifier of the key phrases detection job to stop.
 
 """
-function stop_key_phrases_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_key_phrases_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopKeyPhrasesDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1939,16 +1221,9 @@ Stops a PII entities detection job in progress.
 - `job_id`: The identifier of the PII entities detection job to stop.
 
 """
-function stop_pii_entities_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_pii_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopPiiEntitiesDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopPiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1966,16 +1241,9 @@ the output location.
 - `job_id`: The identifier of the sentiment detection job to stop.
 
 """
-function stop_sentiment_detection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_sentiment_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopSentimentDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1992,22 +1260,9 @@ training job is stopped and put into the STOPPED state and the service sends bac
   classifier currently being trained.
 
 """
-function stop_training_document_classifier(
-    DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_training_document_classifier(DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopTrainingDocumentClassifier",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DocumentClassifierArn" => DocumentClassifierArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopTrainingDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2024,22 +1279,9 @@ HTTP 200 response with an empty HTTP body.
   recognizer currently being trained.
 
 """
-function stop_training_entity_recognizer(
-    EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_training_entity_recognizer(EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "StopTrainingEntityRecognizer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("StopTrainingEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2057,22 +1299,9 @@ department.
   maximum of 50 tags (both existing and pending) associated with a specific resource.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2089,22 +1318,9 @@ Removes a specific tag associated with an Amazon Comprehend resource.
   for a particular resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2115,25 +1331,15 @@ Updates information about the specified endpoint.
 # Arguments
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"desired_data_access_role_arn"`: Data access role ARN to use in case the new model is
+# Keyword Parameters
+- `desired_data_access_role_arn`: Data access role ARN to use in case the new model is
   encrypted with a customer CMK.
-- `"desired_inference_units"`:  The desired number of inference units to be used by the
-  model using this endpoint. Each inference unit represents of a throughput of 100 characters
-  per second.
-- `"desired_model_arn"`: The ARN of the new model to use when updating an existing endpoint.
+- `desired_inference_units`:  The desired number of inference units to be used by the model
+  using this endpoint. Each inference unit represents of a throughput of 100 characters per
+  second.
+- `desired_model_arn`: The ARN of the new model to use when updating an existing endpoint.
 """
-function update_endpoint(
-    EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehend(
-        "UpdateEndpoint",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehend("UpdateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

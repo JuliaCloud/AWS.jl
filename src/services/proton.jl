@@ -4,33 +4,8 @@ using AWS.AWSServices: proton
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "provisioning" => "provisioning",
-    "branch_name" => "branchName",
-    "compatible_environment_templates" => "compatibleEnvironmentTemplates",
-    "major_version" => "majorVersion",
-    "next_token" => "nextToken",
-    "proton_service_role_arn" => "protonServiceRoleArn",
-    "repository_id" => "repositoryId",
-    "environment_name" => "environmentName",
-    "pipeline_service_role_arn" => "pipelineServiceRoleArn",
-    "spec" => "spec",
-    "encryption_key" => "encryptionKey",
-    "pipeline_provisioning" => "pipelineProvisioning",
-    "environment_templates" => "environmentTemplates",
-    "status" => "status",
-    "environment_account_connection_id" => "environmentAccountConnectionId",
-    "template_major_version" => "templateMajorVersion",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "client_token" => "clientToken",
-    "statuses" => "statuses",
-    "service_name" => "serviceName",
-    "template_minor_version" => "templateMinorVersion",
-    "display_name" => "displayName",
-    "tags" => "tags",
-    "repository_connection_arn" => "repositoryConnectionArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("major_version" => "majorVersion", "max_results" => "maxResults", "next_token" => "nextToken", "environment_templates" => "environmentTemplates", "pipeline_service_role_arn" => "pipelineServiceRoleArn", "spec" => "spec", "template_major_version" => "templateMajorVersion", "template_minor_version" => "templateMinorVersion", "client_token" => "clientToken", "service_name" => "serviceName", "description" => "description", "status" => "status", "display_name" => "displayName", "encryption_key" => "encryptionKey", "provisioning" => "provisioning", "tags" => "tags", "environment_name" => "environmentName", "statuses" => "statuses", "branch_name" => "branchName", "repository_connection_arn" => "repositoryConnectionArn", "repository_id" => "repositoryId", "compatible_environment_templates" => "compatibleEnvironmentTemplates", "environment_account_connection_id" => "environmentAccountConnectionId", "proton_service_role_arn" => "protonServiceRoleArn", "pipeline_provisioning" => "pipelineProvisioning")
 
 """
     accept_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -45,16 +20,9 @@ Administrator guide.
 - `id`: The ID of the environment account connection.
 
 """
-function accept_environment_account_connection(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "AcceptEnvironmentAccountConnection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("AcceptEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -72,20 +40,9 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `environment_name`: The name of the environment with the deployment to cancel.
 
 """
-function cancel_environment_deployment(
-    environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_environment_deployment(environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CancelEnvironmentDeployment",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("environmentName" => environmentName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CancelEnvironmentDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -105,28 +62,9 @@ cancellation attempt has no effect.
 - `service_name`: The name of the service with the service instance deployment to cancel.
 
 """
-function cancel_service_instance_deployment(
-    serviceInstanceName,
-    serviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function cancel_service_instance_deployment(serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CancelServiceInstanceDeployment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "serviceInstanceName" => serviceInstanceName,
-                    "serviceName" => serviceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CancelServiceInstanceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -145,18 +83,9 @@ cancellation attempt has no effect.
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
 
 """
-function cancel_service_pipeline_deployment(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_service_pipeline_deployment(serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CancelServicePipelineDeployment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CancelServicePipelineDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -175,48 +104,23 @@ information, see the Environments in the AWS Proton Administrator Guide.
 - `template_name`: The name of the environment template. For more information, see
   Environment Templates in the AWS Proton Administrator Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the environment that's being created and deployed.
-- `"environment_account_connection_id"`: The ID of the environment account connection that
+# Keyword Parameters
+- `description`: A description of the environment that's being created and deployed.
+- `environment_account_connection_id`: The ID of the environment account connection that
   you provide if you're provisioning your environment infrastructure resources to an
   environment account. You must include either the environmentAccountConnectionId or
   protonServiceRoleArn parameter and value. For more information, see Environment account
   connections in the AWS Proton Administrator guide.
-- `"proton_service_role_arn"`: The Amazon Resource Name (ARN) of the AWS Proton service
-  role that allows AWS Proton to make calls to other services on your behalf. You must
-  include either the environmentAccountConnectionId or protonServiceRoleArn parameter and
-  value.
-- `"tags"`: Create tags for your environment. For more information, see AWS Proton
-  resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
-- `"template_minor_version"`: The ID of the minor version of the environment template.
+- `proton_service_role_arn`: The Amazon Resource Name (ARN) of the AWS Proton service role
+  that allows AWS Proton to make calls to other services on your behalf. You must include
+  either the environmentAccountConnectionId or protonServiceRoleArn parameter and value.
+- `tags`: Create tags for your environment. For more information, see AWS Proton resources
+  and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+- `template_minor_version`: The ID of the minor version of the environment template.
 """
-function create_environment(
-    name,
-    spec,
-    templateMajorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_environment(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateEnvironment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "spec" => spec,
-                    "templateMajorVersion" => templateMajorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -241,36 +145,13 @@ guide.
   environment account. AWS Proton uses this role to provision infrastructure resources in the
   associated environment account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: When included, if two identicial requests are made with the same client
+# Keyword Parameters
+- `client_token`: When included, if two identicial requests are made with the same client
   token, AWS Proton returns the environment account connection that the first request created.
 """
-function create_environment_account_connection(
-    environmentName,
-    managementAccountId,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_environment_account_connection(environmentName, managementAccountId, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateEnvironmentAccountConnection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "environmentName" => environmentName,
-                    "managementAccountId" => managementAccountId,
-                    "roleArn" => roleArn,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName, "managementAccountId"=>managementAccountId, "roleArn"=>roleArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -290,27 +171,18 @@ the AWS Proton Administrator Guide.
 # Arguments
 - `name`: The name of the environment template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the environment template.
-- `"display_name"`: The environment template name as displayed in the developer interface.
-- `"encryption_key"`: A customer provided encryption key that AWS Proton uses to encrypt
-  data.
-- `"provisioning"`: When included, indicates that the environment template is for customer
+# Keyword Parameters
+- `description`: A description of the environment template.
+- `display_name`: The environment template name as displayed in the developer interface.
+- `encryption_key`: A customer provided encryption key that AWS Proton uses to encrypt data.
+- `provisioning`: When included, indicates that the environment template is for customer
   provisioned and managed infrastructure.
-- `"tags"`: Create tags for your environment template. For more information, see AWS Proton
+- `tags`: Create tags for your environment template. For more information, see AWS Proton
   resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 """
-function create_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateEnvironmentTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -325,36 +197,18 @@ environment template is a version that's backwards compatible within its major v
   version of an template.
 - `template_name`: The name of the environment template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: When included, if two identicial requests are made with the same client
+# Keyword Parameters
+- `client_token`: When included, if two identicial requests are made with the same client
   token, AWS Proton returns the environment template version that the first request created.
-- `"description"`: A description of the new version of an environment template.
-- `"major_version"`: To create a new minor version of the environment template, include a
+- `description`: A description of the new version of an environment template.
+- `major_version`: To create a new minor version of the environment template, include a
   majorVersion. To create a new major and minor version of the environment template, exclude
   majorVersion.
-- `"tags"`: Create tags for a new version of an environment template.
+- `tags`: Create tags for a new version of an environment template.
 """
-function create_environment_template_version(
-    source, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_environment_template_version(source, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "source" => source,
-                    "templateName" => templateName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source, "templateName"=>templateName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -376,49 +230,25 @@ Guide.
   used to create the service.
 - `template_name`: The name of the service template that's used to create the service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"branch_name"`: The name of the code repository branch that holds the code that's
-  deployed in AWS Proton. Don't include this parameter if your service template doesn't
-  include a service pipeline.
-- `"description"`: A description of the AWS Proton service.
-- `"repository_connection_arn"`: The Amazon Resource Name (ARN) of the repository
-  connection. For more information, see Set up repository connection in the AWS Proton
-  Administrator Guide and Setting up with AWS Proton in the AWS Proton User Guide. Don't
-  include this parameter if your service template doesn't include a service pipeline.
-- `"repository_id"`: The ID of the code repository. Don't include this parameter if your
+# Keyword Parameters
+- `branch_name`: The name of the code repository branch that holds the code that's deployed
+  in AWS Proton. Don't include this parameter if your service template doesn't include a
+  service pipeline.
+- `description`: A description of the AWS Proton service.
+- `repository_connection_arn`: The Amazon Resource Name (ARN) of the repository connection.
+  For more information, see Set up repository connection in the AWS Proton Administrator
+  Guide and Setting up with AWS Proton in the AWS Proton User Guide. Don't include this
+  parameter if your service template doesn't include a service pipeline.
+- `repository_id`: The ID of the code repository. Don't include this parameter if your
   service template doesn't include a service pipeline.
-- `"tags"`: Create tags for your service. For more information, see AWS Proton resources
-  and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
-- `"template_minor_version"`: The ID of the minor version of the service template that was
+- `tags`: Create tags for your service. For more information, see AWS Proton resources and
+  tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+- `template_minor_version`: The ID of the minor version of the service template that was
   used to create the service.
 """
-function create_service(
-    name,
-    spec,
-    templateMajorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_service(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateService",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "spec" => spec,
-                    "templateMajorVersion" => templateMajorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -434,29 +264,20 @@ template. For more information, see Service Templates in the AWS Proton Administ
 # Arguments
 - `name`: The name of the service template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the service template.
-- `"display_name"`: The name of the service template as displayed in the developer
-  interface.
-- `"encryption_key"`: A customer provided encryption key that's used to encrypt data.
-- `"pipeline_provisioning"`: AWS Proton includes a service pipeline for your service by
+# Keyword Parameters
+- `description`: A description of the service template.
+- `display_name`: The name of the service template as displayed in the developer interface.
+- `encryption_key`: A customer provided encryption key that's used to encrypt data.
+- `pipeline_provisioning`: AWS Proton includes a service pipeline for your service by
   default. When included, this parameter indicates that an AWS Proton service pipeline won't
   be included for your service. Once specified, this parameter can't be changed. For more
   information, see Service template bundles in the AWS Proton Administrator Guide.
-- `"tags"`: Create tags for your service template. For more information, see AWS Proton
+- `tags`: Create tags for your service template. For more information, see AWS Proton
   resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 """
-function create_service_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateServiceTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -473,41 +294,18 @@ template is a version that's backwards compatible within its major version.
   version of a service template.
 - `template_name`: The name of the service template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: When included, if two identicial requests are made with the same client
+# Keyword Parameters
+- `client_token`: When included, if two identicial requests are made with the same client
   token, AWS Proton returns the service template version that the first request created.
-- `"description"`: A description of the new version of a service template.
-- `"major_version"`: To create a new minor version of the service template, include a
+- `description`: A description of the new version of a service template.
+- `major_version`: To create a new minor version of the service template, include a
   majorVersion. To create a new major and minor version of the service template, exclude
   majorVersion.
-- `"tags"`: Create tags for a new version of a service template.
+- `tags`: Create tags for a new version of a service template.
 """
-function create_service_template_version(
-    compatibleEnvironmentTemplates,
-    source,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_service_template_version(compatibleEnvironmentTemplates, source, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "CreateServiceTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
-                    "source" => source,
-                    "templateName" => templateName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("CreateServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("compatibleEnvironmentTemplates"=>compatibleEnvironmentTemplates, "source"=>source, "templateName"=>templateName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -519,16 +317,9 @@ Delete an environment.
 - `name`: The name of the environment to delete.
 
 """
-function delete_environment(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteEnvironment",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -546,16 +337,9 @@ Administrator guide.
 - `id`: The ID of the environment account connection to delete.
 
 """
-function delete_environment_account_connection(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteEnvironmentAccountConnection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -568,16 +352,9 @@ environment template.
 - `name`: The name of the environment template to delete.
 
 """
-function delete_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteEnvironmentTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -598,30 +375,9 @@ template is a version that's backwards compatible.
 - `template_name`: The name of the environment template.
 
 """
-function delete_environment_template_version(
-    majorVersion,
-    minorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersion" => majorVersion,
-                    "minorVersion" => minorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -635,12 +391,7 @@ Delete a service.
 """
 function delete_service(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteService",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -653,16 +404,9 @@ template.
 - `name`: The name of the service template to delete.
 
 """
-function delete_service_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_service_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteServiceTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -683,30 +427,9 @@ compatible.
 - `template_name`: The name of the service template.
 
 """
-function delete_service_template_version(
-    majorVersion,
-    minorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "DeleteServiceTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersion" => majorVersion,
-                    "minorVersion" => minorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("DeleteServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -715,13 +438,9 @@ end
 Get detail data for the AWS Proton pipeline service role.
 
 """
-function get_account_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return proton("GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -735,12 +454,7 @@ Get detail data for an environment.
 """
 function get_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetEnvironment",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -753,16 +467,9 @@ more information, see Environment account connections in the AWS Proton Administ
 - `id`: The ID of the environment account connection.
 
 """
-function get_environment_account_connection(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetEnvironmentAccountConnection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -774,16 +481,9 @@ Get detail data for an environment template.
 - `name`: The name of the environment template that you want to get the detail data for.
 
 """
-function get_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetEnvironmentTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -799,30 +499,9 @@ View detail data for a major or minor version of an environment template.
 - `template_name`: The name of the environment template.
 
 """
-function get_environment_template_version(
-    majorVersion,
-    minorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersion" => majorVersion,
-                    "minorVersion" => minorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -836,12 +515,7 @@ Get detail data for a service.
 """
 function get_service(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetService",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -855,22 +529,9 @@ template, which is running in a specific environment.
 - `service_name`: The name of the service that the service instance belongs to.
 
 """
-function get_service_instance(
-    name, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_instance(name, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetServiceInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "serviceName" => serviceName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -882,16 +543,9 @@ Get detail data for a service template.
 - `name`: The name of the service template that you want to get detail data for.
 
 """
-function get_service_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetServiceTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -905,30 +559,9 @@ View detail data for a major or minor version of a service template.
 - `template_name`: The name of the service template.
 
 """
-function get_service_template_version(
-    majorVersion,
-    minorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "GetServiceTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersion" => majorVersion,
-                    "minorVersion" => minorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("GetServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -940,28 +573,18 @@ account connections in the AWS Proton Administrator guide.
 # Arguments
 - `requested_by`: The type of account making the ListEnvironmentAccountConnections request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"environment_name"`: The environment name that's associated with each listed environment
+# Keyword Parameters
+- `environment_name`: The environment name that's associated with each listed environment
   account connection.
-- `"max_results"`: The maximum number of environment account connections to list.
-- `"next_token"`: A token to indicate the location of the next environment account
-  connection in the array of environment account connections, after the list of environment
-  account connections that was previously requested.
-- `"statuses"`: The status details for each listed environment account connection.
+- `max_results`: The maximum number of environment account connections to list.
+- `next_token`: A token to indicate the location of the next environment account connection
+  in the array of environment account connections, after the list of environment account
+  connections that was previously requested.
+- `statuses`: The status details for each listed environment account connection.
 """
-function list_environment_account_connections(
-    requestedBy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_environment_account_connections(requestedBy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListEnvironmentAccountConnections",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestedBy" => requestedBy), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListEnvironmentAccountConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedBy"=>requestedBy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -972,29 +595,19 @@ List major or minor versions of an environment template with detail data.
 # Arguments
 - `template_name`: The name of the environment template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"major_version"`: To view a list of minor of versions under a major version of an
+# Keyword Parameters
+- `major_version`: To view a list of minor of versions under a major version of an
   environment template, include majorVersion. To view a list of major versions of an
   environment template, exclude majorVersion.
-- `"max_results"`: The maximum number of major or minor versions of an environment template
+- `max_results`: The maximum number of major or minor versions of an environment template
   to list.
-- `"next_token"`: A token to indicate the location of the next major or minor version in
-  the array of major or minor versions of an environment template, after the list of major or
+- `next_token`: A token to indicate the location of the next major or minor version in the
+  array of major or minor versions of an environment template, after the list of major or
   minor versions that was previously requested.
 """
-function list_environment_template_versions(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_environment_template_versions(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListEnvironmentTemplateVersions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListEnvironmentTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1002,23 +615,15 @@ end
 
 List environment templates.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of environment templates to list.
-- `"next_token"`: A token to indicate the location of the next environment template in the
+# Keyword Parameters
+- `max_results`: The maximum number of environment templates to list.
+- `next_token`: A token to indicate the location of the next environment template in the
   array of environment templates, after the list of environment templates that was previously
   requested.
 """
-function list_environment_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListEnvironmentTemplates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListEnvironmentTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1026,18 +631,15 @@ end
 
 List environments with detail data summaries.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"environment_templates"`: An array of the versions of the environment template.
-- `"max_results"`: The maximum number of environments to list.
-- `"next_token"`: A token to indicate the location of the next environment in the array of
+# Keyword Parameters
+- `environment_templates`: An array of the versions of the environment template.
+- `max_results`: The maximum number of environments to list.
+- `next_token`: A token to indicate the location of the next environment in the array of
   environments, after the list of environments that was previously requested.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return proton("ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1045,23 +647,15 @@ end
 
 List service instances with summaries of detail data.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of service instances to list.
-- `"next_token"`: A token to indicate the location of the next service in the array of
+# Keyword Parameters
+- `max_results`: The maximum number of service instances to list.
+- `next_token`: A token to indicate the location of the next service in the array of
   service instances, after the list of service instances that was previously requested.
-- `"service_name"`: The name of the service that the service instance belongs to.
+- `service_name`: The name of the service that the service instance belongs to.
 """
-function list_service_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListServiceInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListServiceInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1072,29 +666,19 @@ List major or minor versions of a service template with detail data.
 # Arguments
 - `template_name`: The name of the service template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"major_version"`: To view a list of minor of versions under a major version of a service
+# Keyword Parameters
+- `major_version`: To view a list of minor of versions under a major version of a service
   template, include majorVersion. To view a list of major versions of a service template,
   exclude majorVersion.
-- `"max_results"`: The maximum number of major or minor versions of a service template to
+- `max_results`: The maximum number of major or minor versions of a service template to
   list.
-- `"next_token"`: A token to indicate the location of the next major or minor version in
-  the array of major or minor versions of a service template, after the list of major or
-  minor versions that was previously requested.
+- `next_token`: A token to indicate the location of the next major or minor version in the
+  array of major or minor versions of a service template, after the list of major or minor
+  versions that was previously requested.
 """
-function list_service_template_versions(
-    templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_service_template_versions(templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListServiceTemplateVersions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListServiceTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1102,22 +686,14 @@ end
 
 List service templates with detail data.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of service templates to list.
-- `"next_token"`: A token to indicate the location of the next service template in the
-  array of service templates, after the list of service templates previously requested.
+# Keyword Parameters
+- `max_results`: The maximum number of service templates to list.
+- `next_token`: A token to indicate the location of the next service template in the array
+  of service templates, after the list of service templates previously requested.
 """
-function list_service_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListServiceTemplates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListServiceTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1125,17 +701,14 @@ end
 
 List services with summaries of detail data.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of services to list.
-- `"next_token"`: A token to indicate the location of the next service in the array of
+# Keyword Parameters
+- `max_results`: The maximum number of services to list.
+- `next_token`: A token to indicate the location of the next service in the array of
   services, after the list of services that was previously requested.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return proton("ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1147,24 +720,14 @@ AWS Proton Administrator Guide or AWS Proton User Guide.
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for the listed tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of tags to list.
-- `"next_token"`: A token to indicate the location of the next resource tag in the array of
+# Keyword Parameters
+- `max_results`: The maximum number of tags to list.
+- `next_token`: A token to indicate the location of the next resource tag in the array of
   resource tags, after the list of resource tags that was previously requested.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1180,16 +743,9 @@ see Environment account connections in the AWS Proton Administrator guide.
 - `id`: The ID of the environment account connection to reject.
 
 """
-function reject_environment_account_connection(
-    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "RejectEnvironmentAccountConnection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("RejectEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1204,22 +760,9 @@ Proton Administrator Guide or AWS Proton User Guide.
 - `tags`: An array of resource tags to apply to a resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1235,22 +778,9 @@ the AWS Proton Administrator Guide or AWS Proton User Guide.
   resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1258,21 +788,13 @@ end
 
 Update the AWS Proton pipeline service account settings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"pipeline_service_role_arn"`: The Amazon Resource Name (ARN) of the AWS Proton pipeline
+# Keyword Parameters
+- `pipeline_service_role_arn`: The Amazon Resource Name (ARN) of the AWS Proton pipeline
   service role.
 """
-function update_account_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateAccountSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1315,35 +837,21 @@ minor version (optional).
   the major version in use and a minor version (optional).
 - `name`: The name of the environment to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the environment update.
-- `"environment_account_connection_id"`: The ID of the environment account connection. You
+# Keyword Parameters
+- `description`: A description of the environment update.
+- `environment_account_connection_id`: The ID of the environment account connection. You
   can only update to a new environment account connection if it was created in the same
   environment account that the current environment account connection was created in and is
   associated with the current environment.
-- `"proton_service_role_arn"`: The Amazon Resource Name (ARN) of the AWS Proton service
-  role that allows AWS Proton to make API calls to other services your behalf.
-- `"spec"`: The formatted specification that defines the update.
-- `"template_major_version"`: The ID of the major version of the environment to update.
-- `"template_minor_version"`: The ID of the minor version of the environment to update.
+- `proton_service_role_arn`: The Amazon Resource Name (ARN) of the AWS Proton service role
+  that allows AWS Proton to make API calls to other services your behalf.
+- `spec`: The formatted specification that defines the update.
+- `template_major_version`: The ID of the major version of the environment to update.
+- `template_minor_version`: The ID of the minor version of the environment to update.
 """
-function update_environment(
-    deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_environment(deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateEnvironment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("deploymentType" => deploymentType, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1359,18 +867,9 @@ guide.
   with the environment account connection to update.
 
 """
-function update_environment_account_connection(
-    id, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_environment_account_connection(id, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateEnvironmentAccountConnection",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("id" => id, "roleArn" => roleArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1381,22 +880,14 @@ Update an environment template.
 # Arguments
 - `name`: The name of the environment template to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the environment template update.
-- `"display_name"`: The name of the environment template to update as displayed in the
+# Keyword Parameters
+- `description`: A description of the environment template update.
+- `display_name`: The name of the environment template to update as displayed in the
   developer interface.
 """
-function update_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateEnvironmentTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1411,35 +902,13 @@ Update a major or minor version of an environment template.
   minorVersion.
 - `template_name`: The name of the environment template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of environment template version to update.
-- `"status"`: The status of the environment template minor version to update.
+# Keyword Parameters
+- `description`: A description of environment template version to update.
+- `status`: The status of the environment template minor version to update.
 """
-function update_environment_template_version(
-    majorVersion,
-    minorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersion" => majorVersion,
-                    "minorVersion" => minorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1453,22 +922,16 @@ to add or delete instances.
 # Arguments
 - `name`: The name of the service to edit.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The edited service description.
-- `"spec"`: Lists the service instances to add and the existing service instances to
-  remain. Omit the existing service instances to delete from the list. Don't include edits to
-  the existing service instances or pipeline. For more information, see Edit a service in the
-  AWS Proton Administrator Guide or the AWS Proton User Guide.
+# Keyword Parameters
+- `description`: The edited service description.
+- `spec`: Lists the service instances to add and the existing service instances to remain.
+  Omit the existing service instances to delete from the list. Don't include edits to the
+  existing service instances or pipeline. For more information, see Edit a service in the AWS
+  Proton Administrator Guide or the AWS Proton User Guide.
 """
 function update_service(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateService",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1505,36 +968,14 @@ different major version that is higher than the major version in use and a minor
 - `name`: The name of the service instance to update.
 - `service_name`: The name of the service that the service instance belongs to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"spec"`: The formatted specification that defines the service instance update.
-- `"template_major_version"`: The major version of the service template to update.
-- `"template_minor_version"`: The minor version of the service template to update.
+# Keyword Parameters
+- `spec`: The formatted specification that defines the service instance update.
+- `template_major_version`: The major version of the service template to update.
+- `template_minor_version`: The minor version of the service template to update.
 """
-function update_service_instance(
-    deploymentType,
-    name,
-    serviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_service_instance(deploymentType, name, serviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateServiceInstance",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "deploymentType" => deploymentType,
-                    "name" => name,
-                    "serviceName" => serviceName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "serviceName"=>serviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1571,37 +1012,15 @@ different major version that is higher than the major version in use and a minor
 - `service_name`: The name of the service to that the pipeline is associated with.
 - `spec`: The spec for the service pipeline to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"template_major_version"`: The major version of the service template that was used to
+# Keyword Parameters
+- `template_major_version`: The major version of the service template that was used to
   create the service that the pipeline is associated with.
-- `"template_minor_version"`: The minor version of the service template that was used to
+- `template_minor_version`: The minor version of the service template that was used to
   create the service that the pipeline is associated with.
 """
-function update_service_pipeline(
-    deploymentType,
-    serviceName,
-    spec;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_service_pipeline(deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateServicePipeline",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "deploymentType" => deploymentType,
-                    "serviceName" => serviceName,
-                    "spec" => spec,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateServicePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "serviceName"=>serviceName, "spec"=>spec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1612,22 +1031,14 @@ Update a service template.
 # Arguments
 - `name`: The name of the service template to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the service template update.
-- `"display_name"`: The name of the service template to update as displayed in the
-  developer interface.
+# Keyword Parameters
+- `description`: A description of the service template update.
+- `display_name`: The name of the service template to update as displayed in the developer
+  interface.
 """
-function update_service_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateServiceTemplate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1640,35 +1051,13 @@ Update a major or minor version of a service template.
 - `minor_version`: To update a minor version of a service template, include minorVersion.
 - `template_name`: The name of the service template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"compatible_environment_templates"`: An array of compatible environment names for a
+# Keyword Parameters
+- `compatible_environment_templates`: An array of compatible environment names for a
   service template major or minor version to update.
-- `"description"`: A description of a service template version to update.
-- `"status"`: The status of the service template minor version to update.
+- `description`: A description of a service template version to update.
+- `status`: The status of the service template minor version to update.
 """
-function update_service_template_version(
-    majorVersion,
-    minorVersion,
-    templateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return proton(
-        "UpdateServiceTemplateVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersion" => majorVersion,
-                    "minorVersion" => minorVersion,
-                    "templateName" => templateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return proton("UpdateServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

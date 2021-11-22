@@ -4,26 +4,8 @@ using AWS.AWSServices: data_pipeline
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "fields" => "fields",
-    "instance_identity" => "instanceIdentity",
-    "error_message" => "errorMessage",
-    "parameter_values" => "parameterValues",
-    "parameter_objects" => "parameterObjects",
-    "description" => "description",
-    "evaluate_expressions" => "evaluateExpressions",
-    "version" => "version",
-    "error_id" => "errorId",
-    "hostname" => "hostname",
-    "worker_group" => "workerGroup",
-    "cancel_active" => "cancelActive",
-    "marker" => "marker",
-    "error_stack_trace" => "errorStackTrace",
-    "start_timestamp" => "startTimestamp",
-    "query" => "query",
-    "tags" => "tags",
-    "limit" => "limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("parameter_values" => "parameterValues", "start_timestamp" => "startTimestamp", "cancel_active" => "cancelActive", "limit" => "limit", "marker" => "marker", "query" => "query", "hostname" => "hostname", "worker_group" => "workerGroup", "instance_identity" => "instanceIdentity", "parameter_objects" => "parameterObjects", "description" => "description", "tags" => "tags", "evaluate_expressions" => "evaluateExpressions", "version" => "version", "fields" => "fields", "error_id" => "errorId", "error_message" => "errorMessage", "error_stack_trace" => "errorStackTrace")
 
 """
     activate_pipeline(pipeline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -36,24 +18,14 @@ activate a finished pipeline, modify the end date for the pipeline and then acti
 # Arguments
 - `pipeline_id`: The ID of the pipeline.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameter_values"`: A list of parameter values to pass to the pipeline at activation.
-- `"start_timestamp"`: The date and time to resume the pipeline. By default, the pipeline
+# Keyword Parameters
+- `parameter_values`: A list of parameter values to pass to the pipeline at activation.
+- `start_timestamp`: The date and time to resume the pipeline. By default, the pipeline
   resumes from the last completed execution.
 """
-function activate_pipeline(
-    pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "ActivatePipeline",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("ActivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -66,20 +38,9 @@ Adds or modifies tags for the specified pipeline.
 - `tags`: The tags to add, as key/value pairs.
 
 """
-function add_tags(
-    pipelineId, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "AddTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("pipelineId" => pipelineId, "tags" => tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -101,27 +62,15 @@ Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipelin
   you'll receive the pipeline identifier from the previous attempt. The uniqueness of the
   name and unique identifier combination is scoped to the AWS account or IAM user credentials.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description for the pipeline.
-- `"tags"`: A list of tags to associate with the pipeline at creation. Tags let you control
+# Keyword Parameters
+- `description`: The description for the pipeline.
+- `tags`: A list of tags to associate with the pipeline at creation. Tags let you control
   access to pipelines. For more information, see Controlling User Access to Pipelines in the
   AWS Data Pipeline Developer Guide.
 """
-function create_pipeline(
-    name, uniqueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "CreatePipeline",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("name" => name, "uniqueId" => uniqueId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -135,24 +84,14 @@ Optionally, you can specify the date and time to resume the pipeline.
 # Arguments
 - `pipeline_id`: The ID of the pipeline.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cancel_active"`: Indicates whether to cancel any running objects. The default is true,
+# Keyword Parameters
+- `cancel_active`: Indicates whether to cancel any running objects. The default is true,
   which sets the state of any running objects to CANCELED. If this value is false, the
   pipeline is deactivated after all running objects finish.
 """
-function deactivate_pipeline(
-    pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "DeactivatePipeline",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("DeactivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -169,18 +108,9 @@ by SetStatus can be resumed.
 - `pipeline_id`: The ID of the pipeline.
 
 """
-function delete_pipeline(
-    pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "DeletePipeline",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -194,30 +124,16 @@ definitions are composed of a set of fields that define the properties of the ob
   described. You can pass as many as 25 identifiers in a single call to DescribeObjects.
 - `pipeline_id`: The ID of the pipeline that contains the object definitions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"evaluate_expressions"`: Indicates whether any expressions in the object should be
+# Keyword Parameters
+- `evaluate_expressions`: Indicates whether any expressions in the object should be
   evaluated when the object descriptions are returned.
-- `"marker"`: The starting point for the results to be returned. For the first call, this
+- `marker`: The starting point for the results to be returned. For the first call, this
   value should be empty. As long as there are more results, continue to call DescribeObjects
   with the marker value from the previous call to retrieve the next set of results.
 """
-function describe_objects(
-    objectIds, pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_objects(objectIds, pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "DescribeObjects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("objectIds" => objectIds, "pipelineId" => pipelineId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("DescribeObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -235,18 +151,9 @@ full pipeline definition instead of metadata about the pipeline, call GetPipelin
   identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
 
 """
-function describe_pipelines(
-    pipelineIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "DescribePipelines",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("pipelineIds" => pipelineIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("DescribePipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineIds"=>pipelineIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -261,30 +168,9 @@ object. For example, a task runner can evaluate SQL queries stored in Amazon S3.
 - `pipeline_id`: The ID of the pipeline.
 
 """
-function evaluate_expression(
-    expression,
-    objectId,
-    pipelineId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function evaluate_expression(expression, objectId, pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "EvaluateExpression",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "expression" => expression,
-                    "objectId" => objectId,
-                    "pipelineId" => pipelineId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("EvaluateExpression", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -296,24 +182,14 @@ retrieve the pipeline definition that you provided using PutPipelineDefinition.
 # Arguments
 - `pipeline_id`: The ID of the pipeline.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version"`: The version of the pipeline definition to retrieve. Set this parameter to
+# Keyword Parameters
+- `version`: The version of the pipeline definition to retrieve. Set this parameter to
   latest (default) to use the last definition saved to the pipeline or active to use the last
   definition that was activated.
 """
-function get_pipeline_definition(
-    pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_pipeline_definition(pipelineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "GetPipelineDefinition",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("GetPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -321,17 +197,14 @@ end
 
 Lists the pipeline identifiers for all active pipelines that you have permission to access.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The starting point for the results to be returned. For the first call, this
+# Keyword Parameters
+- `marker`: The starting point for the results to be returned. For the first call, this
   value should be empty. As long as there are more results, continue to call ListPipelines
   with the marker value from the previous call to retrieve the next set of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "ListPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return data_pipeline("ListPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -355,28 +228,18 @@ same workerGroup until it receives a response, and this can take up to 90 second
   wildcard values permitted in workerGroup; the string must be an exact, case-sensitive,
   match.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hostname"`: The public DNS name of the calling task runner.
-- `"instance_identity"`: Identity information for the EC2 instance that is hosting the task
+# Keyword Parameters
+- `hostname`: The public DNS name of the calling task runner.
+- `instance_identity`: Identity information for the EC2 instance that is hosting the task
   runner. You can get this value from the instance using
   http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance
   Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that
   your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline
   service charges are applied to your pipeline.
 """
-function poll_for_task(
-    workerGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function poll_for_task(workerGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "PollForTask",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("workerGroup" => workerGroup), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("PollForTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workerGroup"=>workerGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -396,32 +259,13 @@ the GetPipelineDefinition action.
 - `pipeline_objects`: The objects that define the pipeline. These objects overwrite the
   existing pipeline definition.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameter_objects"`: The parameter objects used with the pipeline.
-- `"parameter_values"`: The parameter values used with the pipeline.
+# Keyword Parameters
+- `parameter_objects`: The parameter objects used with the pipeline.
+- `parameter_values`: The parameter values used with the pipeline.
 """
-function put_pipeline_definition(
-    pipelineId,
-    pipelineObjects;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_pipeline_definition(pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "PutPipelineDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("PutPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -435,34 +279,19 @@ conditions.
 - `sphere`: Indicates whether the query applies to components or instances. The possible
   values are: COMPONENT, INSTANCE, and ATTEMPT.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of object names that QueryObjects will return in a single
+# Keyword Parameters
+- `limit`: The maximum number of object names that QueryObjects will return in a single
   call. The default value is 100.
-- `"marker"`: The starting point for the results to be returned. For the first call, this
+- `marker`: The starting point for the results to be returned. For the first call, this
   value should be empty. As long as there are more results, continue to call QueryObjects
   with the marker value from the previous call to retrieve the next set of results.
-- `"query"`: The query that defines the objects to be returned. The Query object can
-  contain a maximum of ten selectors. The conditions in the query are limited to top-level
-  String fields in the object. These filters can be applied to components, instances, and
-  attempts.
+- `query`: The query that defines the objects to be returned. The Query object can contain
+  a maximum of ten selectors. The conditions in the query are limited to top-level String
+  fields in the object. These filters can be applied to components, instances, and attempts.
 """
-function query_objects(
-    pipelineId, sphere; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function query_objects(pipelineId, sphere; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "QueryObjects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("pipelineId" => pipelineId, "sphere" => sphere),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("QueryObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -475,22 +304,9 @@ Removes existing tags from the specified pipeline.
 - `tag_keys`: The keys of the tags to remove.
 
 """
-function remove_tags(
-    pipelineId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags(pipelineId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "RemoveTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("pipelineId" => pipelineId, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -510,21 +326,13 @@ call ReportTaskProgress every 60 seconds.
 - `task_id`: The ID of the task assigned to the task runner. This value is provided in the
   response for PollForTask.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"fields"`: Key-value pairs that define the properties of the ReportTaskProgressInput
+# Keyword Parameters
+- `fields`: Key-value pairs that define the properties of the ReportTaskProgressInput
   object.
 """
-function report_task_progress(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function report_task_progress(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "ReportTaskProgress",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("ReportTaskProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -542,26 +350,16 @@ has failed and restart a new instance.
   application. If you have written a custom task runner, you should assign a unique
   identifier for the task runner.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hostname"`: The public DNS name of the task runner.
-- `"worker_group"`: The type of task the task runner is configured to accept and process.
-  The worker group is set as a field on objects in the pipeline when they are created. You
-  can only specify a single value for workerGroup. There are no wildcard values permitted in
+# Keyword Parameters
+- `hostname`: The public DNS name of the task runner.
+- `worker_group`: The type of task the task runner is configured to accept and process. The
+  worker group is set as a field on objects in the pipeline when they are created. You can
+  only specify a single value for workerGroup. There are no wildcard values permitted in
   workerGroup; the string must be an exact, case-sensitive, match.
 """
-function report_task_runner_heartbeat(
-    taskrunnerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function report_task_runner_heartbeat(taskrunnerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "ReportTaskRunnerHeartbeat",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskrunnerId" => taskrunnerId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskrunnerId"=>taskrunnerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -581,28 +379,9 @@ so returns InvalidRequestException.
   use PAUSE or RESUME. For instances, use TRY_CANCEL, RERUN, or MARK_FINISHED.
 
 """
-function set_status(
-    objectIds,
-    pipelineId,
-    status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_status(objectIds, pipelineId, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "SetStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "objectIds" => objectIds, "pipelineId" => pipelineId, "status" => status
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("SetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -619,34 +398,20 @@ that are canceled by the web service during a call to ReportTaskProgress.
 - `task_status`: If FINISHED, the task successfully completed. If FAILED, the task ended
   unsuccessfully. Preconditions use false.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"error_id"`: If an error occurred during the task, this value specifies the error code.
+# Keyword Parameters
+- `error_id`: If an error occurred during the task, this value specifies the error code.
   This value is set on the physical attempt object. It is used to display error information
   to the user. It should not start with string \"Service_\" which is reserved by the system.
-- `"error_message"`: If an error occurred during the task, this value specifies a text
+- `error_message`: If an error occurred during the task, this value specifies a text
   description of the error. This value is set on the physical attempt object. It is used to
   display error information to the user. The web service does not parse this value.
-- `"error_stack_trace"`: If an error occurred during the task, this value specifies the
-  stack trace associated with the error. This value is set on the physical attempt object. It
-  is used to display error information to the user. The web service does not parse this value.
+- `error_stack_trace`: If an error occurred during the task, this value specifies the stack
+  trace associated with the error. This value is set on the physical attempt object. It is
+  used to display error information to the user. The web service does not parse this value.
 """
-function set_task_status(
-    taskId, taskStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_task_status(taskId, taskStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "SetTaskStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("taskId" => taskId, "taskStatus" => taskStatus),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("SetTaskStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -660,30 +425,11 @@ without error.
 - `pipeline_objects`: The objects that define the pipeline changes to validate against the
   pipeline.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameter_objects"`: The parameter objects used with the pipeline.
-- `"parameter_values"`: The parameter values used with the pipeline.
+# Keyword Parameters
+- `parameter_objects`: The parameter objects used with the pipeline.
+- `parameter_values`: The parameter values used with the pipeline.
 """
-function validate_pipeline_definition(
-    pipelineId,
-    pipelineObjects;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function validate_pipeline_definition(pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return data_pipeline(
-        "ValidatePipelineDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return data_pipeline("ValidatePipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

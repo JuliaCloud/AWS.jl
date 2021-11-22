@@ -4,71 +4,8 @@ using AWS.AWSServices: storage_gateway
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "oplocks_enabled" => "OplocksEnabled",
-    "squash" => "Squash",
-    "average_upload_rate_limit_in_bits_per_sec" => "AverageUploadRateLimitInBitsPerSec",
-    "pool_id" => "PoolId",
-    "snapshot_id" => "SnapshotId",
-    "vtldevice_arns" => "VTLDeviceARNs",
-    "notification_policy" => "NotificationPolicy",
-    "gateway_timezone" => "GatewayTimezone",
-    "cache_attributes" => "CacheAttributes",
-    "requester_pays" => "RequesterPays",
-    "day_of_month" => "DayOfMonth",
-    "object_acl" => "ObjectACL",
-    "authentication" => "Authentication",
-    "valid_user_list" => "ValidUserList",
-    "gateway_capacity" => "GatewayCapacity",
-    "file_share_name" => "FileShareName",
-    "vpcendpoint_dnsname" => "VPCEndpointDNSName",
-    "access_based_enumeration" => "AccessBasedEnumeration",
-    "worm" => "Worm",
-    "invalid_user_list" => "InvalidUserList",
-    "nfsfile_share_defaults" => "NFSFileShareDefaults",
-    "gateway_arn" => "GatewayARN",
-    "medium_changer_type" => "MediumChangerType",
-    "tape_arns" => "TapeARNs",
-    "password" => "Password",
-    "endpoint_network_configuration" => "EndpointNetworkConfiguration",
-    "kmskey" => "KMSKey",
-    "force_detach" => "ForceDetach",
-    "case_sensitivity" => "CaseSensitivity",
-    "gateway_name" => "GatewayName",
-    "gateway_type" => "GatewayType",
-    "organizational_unit" => "OrganizationalUnit",
-    "force_delete" => "ForceDelete",
-    "source_volume_arn" => "SourceVolumeARN",
-    "kmsencrypted" => "KMSEncrypted",
-    "day_of_week" => "DayOfWeek",
-    "tape_drive_type" => "TapeDriveType",
-    "marker" => "Marker",
-    "read_only" => "ReadOnly",
-    "tags" => "Tags",
-    "pool_arns" => "PoolARNs",
-    "limit" => "Limit",
-    "target_name" => "TargetName",
-    "cloud_watch_log_group_arn" => "CloudWatchLogGroupARN",
-    "bucket_region" => "BucketRegion",
-    "retention_lock_type" => "RetentionLockType",
-    "default_storage_class" => "DefaultStorageClass",
-    "domain_controllers" => "DomainControllers",
-    "bypass_governance_retention" => "BypassGovernanceRetention",
-    "guess_mimetype_enabled" => "GuessMIMETypeEnabled",
-    "average_download_rate_limit_in_bits_per_sec" => "AverageDownloadRateLimitInBitsPerSec",
-    "secret_to_authenticate_target" => "SecretToAuthenticateTarget",
-    "smbaclenabled" => "SMBACLEnabled",
-    "folder_list" => "FolderList",
-    "user_name" => "UserName",
-    "description" => "Description",
-    "client_list" => "ClientList",
-    "recursive" => "Recursive",
-    "timeout_in_seconds" => "TimeoutInSeconds",
-    "admin_user_list" => "AdminUserList",
-    "retention_lock_time_in_days" => "RetentionLockTimeInDays",
-    "disk_id" => "DiskId",
-    "audit_destination_arn" => "AuditDestinationARN",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("limit" => "Limit", "marker" => "Marker", "force_detach" => "ForceDetach", "kmsencrypted" => "KMSEncrypted", "kmskey" => "KMSKey", "pool_id" => "PoolId", "tags" => "Tags", "worm" => "Worm", "description" => "Description", "disk_id" => "DiskId", "target_name" => "TargetName", "average_download_rate_limit_in_bits_per_sec" => "AverageDownloadRateLimitInBitsPerSec", "average_upload_rate_limit_in_bits_per_sec" => "AverageUploadRateLimitInBitsPerSec", "pool_arns" => "PoolARNs", "gateway_type" => "GatewayType", "medium_changer_type" => "MediumChangerType", "tape_drive_type" => "TapeDriveType", "audit_destination_arn" => "AuditDestinationARN", "cache_attributes" => "CacheAttributes", "password" => "Password", "user_name" => "UserName", "gateway_arn" => "GatewayARN", "retention_lock_time_in_days" => "RetentionLockTimeInDays", "retention_lock_type" => "RetentionLockType", "bucket_region" => "BucketRegion", "client_list" => "ClientList", "default_storage_class" => "DefaultStorageClass", "file_share_name" => "FileShareName", "guess_mimetype_enabled" => "GuessMIMETypeEnabled", "nfsfile_share_defaults" => "NFSFileShareDefaults", "notification_policy" => "NotificationPolicy", "object_acl" => "ObjectACL", "read_only" => "ReadOnly", "requester_pays" => "RequesterPays", "squash" => "Squash", "vpcendpoint_dnsname" => "VPCEndpointDNSName", "vtldevice_arns" => "VTLDeviceARNs", "endpoint_network_configuration" => "EndpointNetworkConfiguration", "bypass_governance_retention" => "BypassGovernanceRetention", "access_based_enumeration" => "AccessBasedEnumeration", "admin_user_list" => "AdminUserList", "case_sensitivity" => "CaseSensitivity", "invalid_user_list" => "InvalidUserList", "oplocks_enabled" => "OplocksEnabled", "smbaclenabled" => "SMBACLEnabled", "valid_user_list" => "ValidUserList", "folder_list" => "FolderList", "recursive" => "Recursive", "tape_arns" => "TapeARNs", "authentication" => "Authentication", "snapshot_id" => "SnapshotId", "force_delete" => "ForceDelete", "cloud_watch_log_group_arn" => "CloudWatchLogGroupARN", "gateway_capacity" => "GatewayCapacity", "gateway_name" => "GatewayName", "gateway_timezone" => "GatewayTimezone", "domain_controllers" => "DomainControllers", "organizational_unit" => "OrganizationalUnit", "timeout_in_seconds" => "TimeoutInSeconds", "secret_to_authenticate_target" => "SecretToAuthenticateTarget", "day_of_month" => "DayOfMonth", "day_of_week" => "DayOfWeek", "source_volume_arn" => "SourceVolumeARN")
 
 """
     activate_gateway(activation_key, gateway_name, gateway_region, gateway_timezone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -103,49 +40,24 @@ gateway.
   GMT. The time zone is used, for example, for scheduling snapshots and your gateway's
   maintenance schedule.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"gateway_type"`: A value that defines the type of gateway to activate. The type
-  specified is critical to all later functions of the gateway and cannot be changed after
-  activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 |
-  FILE_FSX_SMB|
-- `"medium_changer_type"`: The value that indicates the type of medium changer to use for
+# Keyword Parameters
+- `gateway_type`: A value that defines the type of gateway to activate. The type specified
+  is critical to all later functions of the gateway and cannot be changed after activation.
+  The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB|
+- `medium_changer_type`: The value that indicates the type of medium changer to use for
   tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL |
   IBM-03584L32-0402
-- `"tags"`: A list of up to 50 tags that you can assign to the gateway. Each tag is a
+- `tags`: A list of up to 50 tags that you can assign to the gateway. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers that
   can be represented in UTF-8 format, and the following special characters: + - = . _ : / @.
   The maximum length of a tag's key is 128 characters, and the maximum length for a tag's
   value is 256 characters.
-- `"tape_drive_type"`: The value that indicates the type of tape drive to use for tape
+- `tape_drive_type`: The value that indicates the type of tape drive to use for tape
   gateway. This field is optional. Valid Values: IBM-ULT3580-TD5
 """
-function activate_gateway(
-    ActivationKey,
-    GatewayName,
-    GatewayRegion,
-    GatewayTimezone;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function activate_gateway(ActivationKey, GatewayName, GatewayRegion, GatewayTimezone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ActivateGateway",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ActivationKey" => ActivationKey,
-                    "GatewayName" => GatewayName,
-                    "GatewayRegion" => GatewayRegion,
-                    "GatewayTimezone" => GatewayTimezone,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ActivateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayName"=>GatewayName, "GatewayRegion"=>GatewayRegion, "GatewayTimezone"=>GatewayTimezone), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -163,22 +75,9 @@ you want to add cache, and one or more disk IDs that you want to configure as ca
 - `gateway_arn`:
 
 """
-function add_cache(
-    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_cache(DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AddCache",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DiskIds" => DiskIds, "GatewayARN" => GatewayARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AddCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -201,22 +100,9 @@ storage volumes that are recovered to a new gateway maintain their tags.
   value is 256.
 
 """
-function add_tags_to_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags_to_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AddTagsToResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -234,22 +120,9 @@ buffer, and one or more disk IDs that you want to configure as upload buffer.
 - `gateway_arn`:
 
 """
-function add_upload_buffer(
-    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_upload_buffer(DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AddUploadBuffer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DiskIds" => DiskIds, "GatewayARN" => GatewayARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AddUploadBuffer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -270,22 +143,9 @@ configure as working storage.
 - `gateway_arn`:
 
 """
-function add_working_storage(
-    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_working_storage(DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AddWorkingStorage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DiskIds" => DiskIds, "GatewayARN" => GatewayARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AddWorkingStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -305,28 +165,16 @@ Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP
 - `tape_arn`: The unique Amazon Resource Name (ARN) of the virtual tape that you want to
   add to the tape pool.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_governance_retention"`: Set permissions to bypass governance retention. If the
+# Keyword Parameters
+- `bypass_governance_retention`: Set permissions to bypass governance retention. If the
   lock type of the archived tape is Governance, the tape's archived age is not older than
   RetentionLockInDays, and the user does not already have BypassGovernanceRetention, setting
   this to TRUE enables the user to bypass the retention lock. This parameter is set to true
   by default for calls from the console. Valid values: TRUE | FALSE
 """
-function assign_tape_pool(
-    PoolId, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function assign_tape_pool(PoolId, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AssignTapePool",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("PoolId" => PoolId, "TapeARN" => TapeARN), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AssignTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -347,45 +195,19 @@ through the gateway. This operation only supports the FSx File Gateway type.
   share D of the Amazon FSx file system. The user account must belong to the Amazon FSx
   delegated admin user group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audit_destination_arn"`: The Amazon Resource Name (ARN) of the storage used for the
-  audit logs.
-- `"cache_attributes"`:
-- `"endpoint_network_configuration"`: Specifies the network configuration information for
-  the gateway associated with the Amazon FSx file system.  If multiple file systems are
+# Keyword Parameters
+- `audit_destination_arn`: The Amazon Resource Name (ARN) of the storage used for the audit
+  logs.
+- `cache_attributes`:
+- `endpoint_network_configuration`: Specifies the network configuration information for the
+  gateway associated with the Amazon FSx file system.  If multiple file systems are
   associated with this gateway, this parameter's IpAddresses field is required.
-- `"tags"`: A list of up to 50 tags that can be assigned to the file system association.
-  Each tag is a key-value pair.
+- `tags`: A list of up to 50 tags that can be assigned to the file system association. Each
+  tag is a key-value pair.
 """
-function associate_file_system(
-    ClientToken,
-    GatewayARN,
-    LocationARN,
-    Password,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_file_system(ClientToken, GatewayARN, LocationARN, Password, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AssociateFileSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "GatewayARN" => GatewayARN,
-                    "LocationARN" => LocationARN,
-                    "Password" => Password,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AssociateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -405,12 +227,11 @@ volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instanc
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume to attach to the specified
   gateway.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disk_id"`: The unique device ID or other distinguishing data that identifies the local
+# Keyword Parameters
+- `disk_id`: The unique device ID or other distinguishing data that identifies the local
   disk used to create the volume. This value is only required when you are attaching a stored
   volume.
-- `"target_name"`: The name of the iSCSI target used by an initiator to connect to a volume
+- `target_name`: The name of the iSCSI target used by an initiator to connect to a volume
   and used as a suffix for the target ARN. For example, specifying TargetName as myvolume
   results in the target ARN of
   arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.am
@@ -418,30 +239,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   specify a value, Storage Gateway uses the value that was previously used for this volume as
   the new target name.
 """
-function attach_volume(
-    GatewayARN,
-    NetworkInterfaceId,
-    VolumeARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function attach_volume(GatewayARN, NetworkInterfaceId, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "AttachVolume",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN,
-                    "NetworkInterfaceId" => NetworkInterfaceId,
-                    "VolumeARN" => VolumeARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -456,22 +256,9 @@ process is initiated. This operation is only supported in the tape gateway type.
   archiving for.
 
 """
-function cancel_archival(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_archival(GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CancelArchival",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GatewayARN" => GatewayARN, "TapeARN" => TapeARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CancelArchival", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -487,22 +274,9 @@ is only supported in the tape gateway type.
   retrieval for.
 
 """
-function cancel_retrieval(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_retrieval(GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CancelRetrieval",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GatewayARN" => GatewayARN, "TapeARN" => TapeARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CancelRetrieval", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -537,55 +311,29 @@ bytes.
   the new target name.
 - `volume_size_in_bytes`: The size of the volume in bytes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+# Keyword Parameters
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"snapshot_id"`: The snapshot ID (e.g. \"snap-1122aabb\") of the snapshot to restore as
-  the new cached volume. Specify this field if you want to create the iSCSI storage volume
-  from a snapshot; otherwise, do not include this field. To list snapshots for your account
-  use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
-- `"source_volume_arn"`: The ARN for an existing volume. Specifying this ARN makes the new
+- `snapshot_id`: The snapshot ID (e.g. \"snap-1122aabb\") of the snapshot to restore as the
+  new cached volume. Specify this field if you want to create the iSCSI storage volume from a
+  snapshot; otherwise, do not include this field. To list snapshots for your account use
+  DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
+- `source_volume_arn`: The ARN for an existing volume. Specifying this ARN makes the new
   volume into an exact copy of the specified existing volume's latest recovery point. The
   VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the
   existing volume, in bytes.
-- `"tags"`: A list of up to 50 tags that you can assign to a cached volume. Each tag is a
+- `tags`: A list of up to 50 tags that you can assign to a cached volume. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers that
   you can represent in UTF-8 format, and the following special characters: + - = . _ : / @.
   The maximum length of a tag's key is 128 characters, and the maximum length for a tag's
   value is 256 characters.
 """
-function create_cachedi_scsivolume(
-    ClientToken,
-    GatewayARN,
-    NetworkInterfaceId,
-    TargetName,
-    VolumeSizeInBytes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_cachedi_scsivolume(ClientToken, GatewayARN, NetworkInterfaceId, TargetName, VolumeSizeInBytes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateCachediSCSIVolume",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "GatewayARN" => GatewayARN,
-                    "NetworkInterfaceId" => NetworkInterfaceId,
-                    "TargetName" => TargetName,
-                    "VolumeSizeInBytes" => VolumeSizeInBytes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateCachediSCSIVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "TargetName"=>TargetName, "VolumeSizeInBytes"=>VolumeSizeInBytes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -620,33 +368,32 @@ symbolic links on a file share.
 - `role`: The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway
   assumes when it accesses the underlying storage.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audit_destination_arn"`: The Amazon Resource Name (ARN) of the storage used for audit
+# Keyword Parameters
+- `audit_destination_arn`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
-- `"bucket_region"`: Specifies the Region of the S3 bucket where the NFS file share stores
+- `bucket_region`: Specifies the Region of the S3 bucket where the NFS file share stores
   files.  This parameter is required for NFS file shares that connect to Amazon S3 through a
   VPC endpoint, a VPC access point, or an access point alias that points to a VPC access
   point.
-- `"cache_attributes"`: Specifies refresh cache information for the file share.
-- `"client_list"`: The list of clients that are allowed to access the S3 File Gateway. The
+- `cache_attributes`: Specifies refresh cache information for the file share.
+- `client_list`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
-- `"default_storage_class"`: The default storage class for objects put into an Amazon S3
+- `default_storage_class`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
-- `"file_share_name"`: The name of the file share. Optional.   FileShareName must be set if
+- `file_share_name`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
-- `"guess_mimetype_enabled"`: A value that enables guessing of the MIME type for uploaded
+- `guess_mimetype_enabled`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"nfsfile_share_defaults"`: File share default values. Optional.
-- `"notification_policy"`: The notification policy of the file share. SettlingTimeInSeconds
+- `nfsfile_share_defaults`: File share default values. Optional.
+- `notification_policy`: The notification policy of the file share. SettlingTimeInSeconds
   controls the number of seconds to wait after the last point in time a client wrote to a
   file before generating an ObjectUploaded notification. Because clients can make many small
   writes to files, it's best to set this parameter for as long as possible to avoid
@@ -655,55 +402,32 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   only the timing of the notification.  The following example sets NotificationPolicy on with
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
-- `"object_acl"`: A value that sets the access control list (ACL) permission for objects in
+- `object_acl`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
-- `"read_only"`: A value that sets the write status of a file share. Set this value to true
+- `read_only`: A value that sets the write status of a file share. Set this value to true
   to set the write status to read-only, otherwise set to false. Valid Values: true | false
-- `"requester_pays"`: A value that sets who pays the cost of the request and the cost
+- `requester_pays`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to true, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner
   always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket
   that backs the file share, so make sure that the configuration on the file share is the
   same as the S3 bucket configuration.  Valid Values: true | false
-- `"squash"`: A value that maps a user to anonymous user. Valid values are the following:
-   RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to
+- `squash`: A value that maps a user to anonymous user. Valid values are the following:
+  RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to
   anonymous user.    AllSquash: Everyone is mapped to anonymous user.
-- `"tags"`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is
-  a key-value pair.  Valid characters for key and value are letters, spaces, and numbers
+- `tags`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a
+  key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
-- `"vpcendpoint_dnsname"`: Specifies the DNS name for the VPC endpoint that the NFS file
+- `vpcendpoint_dnsname`: Specifies the DNS name for the VPC endpoint that the NFS file
   share uses to connect to Amazon S3.  This parameter is required for NFS file shares that
   connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias
   that points to a VPC access point.
 """
-function create_nfsfile_share(
-    ClientToken,
-    GatewayARN,
-    LocationARN,
-    Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_nfsfile_share(ClientToken, GatewayARN, LocationARN, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateNFSFileShare",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "GatewayARN" => GatewayARN,
-                    "LocationARN" => LocationARN,
-                    "Role" => Role,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -737,46 +461,45 @@ creating hard or symbolic links on a file share.
 - `role`: The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway
   assumes when it accesses the underlying storage.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_based_enumeration"`: The files and folders on this share will only be visible to
+# Keyword Parameters
+- `access_based_enumeration`: The files and folders on this share will only be visible to
   users with read access.
-- `"admin_user_list"`: A list of users or groups in the Active Directory that will be
-  granted administrator privileges on the file share. These users can do all file operations
-  as the super-user. Acceptable formats include: DOMAINUser1, user1, @group1, and
-  @DOMAINgroup1.  Use this option very carefully, because any user in this list can do
-  anything they like on the file share, regardless of file permissions.
-- `"audit_destination_arn"`: The Amazon Resource Name (ARN) of the storage used for audit
+- `admin_user_list`: A list of users or groups in the Active Directory that will be granted
+  administrator privileges on the file share. These users can do all file operations as the
+  super-user. Acceptable formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1.
+  Use this option very carefully, because any user in this list can do anything they like on
+  the file share, regardless of file permissions.
+- `audit_destination_arn`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
-- `"authentication"`: The authentication method that users use to access the file share.
-  The default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess
-- `"bucket_region"`: Specifies the Region of the S3 bucket where the SMB file share stores
+- `authentication`: The authentication method that users use to access the file share. The
+  default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess
+- `bucket_region`: Specifies the Region of the S3 bucket where the SMB file share stores
   files.  This parameter is required for SMB file shares that connect to Amazon S3 through a
   VPC endpoint, a VPC access point, or an access point alias that points to a VPC access
   point.
-- `"cache_attributes"`: Specifies refresh cache information for the file share.
-- `"case_sensitivity"`: The case of an object name in an Amazon S3 bucket. For
+- `cache_attributes`: Specifies refresh cache information for the file share.
+- `case_sensitivity`: The case of an object name in an Amazon S3 bucket. For
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
-- `"default_storage_class"`: The default storage class for objects put into an Amazon S3
+- `default_storage_class`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
-- `"file_share_name"`: The name of the file share. Optional.   FileShareName must be set if
+- `file_share_name`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
-- `"guess_mimetype_enabled"`: A value that enables guessing of the MIME type for uploaded
+- `guess_mimetype_enabled`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
-- `"invalid_user_list"`: A list of users or groups in the Active Directory that are not
+- `invalid_user_list`: A list of users or groups in the Active Directory that are not
   allowed to access the file share. A group must be prefixed with the @ character. Acceptable
   formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if
   Authentication is set to ActiveDirectory.
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"notification_policy"`: The notification policy of the file share. SettlingTimeInSeconds
+- `notification_policy`: The notification policy of the file share. SettlingTimeInSeconds
   controls the number of seconds to wait after the last point in time a client wrote to a
   file before generating an ObjectUploaded notification. Because clients can make many small
   writes to files, it's best to set this parameter for as long as possible to avoid
@@ -785,64 +508,41 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   only the timing of the notification.  The following example sets NotificationPolicy on with
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
-- `"object_acl"`: A value that sets the access control list (ACL) permission for objects in
+- `object_acl`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
-- `"oplocks_enabled"`: Specifies whether opportunistic locking is enabled for the SMB file
+- `oplocks_enabled`: Specifies whether opportunistic locking is enabled for the SMB file
   share.  Enabling opportunistic locking on case-sensitive shares is not recommended for
   workloads that involve access to files with the same name in different case.  Valid Values:
   true | false
-- `"read_only"`: A value that sets the write status of a file share. Set this value to true
+- `read_only`: A value that sets the write status of a file share. Set this value to true
   to set the write status to read-only, otherwise set to false. Valid Values: true | false
-- `"requester_pays"`: A value that sets who pays the cost of the request and the cost
+- `requester_pays`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to true, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner
   always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket
   that backs the file share, so make sure that the configuration on the file share is the
   same as the S3 bucket configuration.  Valid Values: true | false
-- `"smbaclenabled"`: Set this value to true to enable access control list (ACL) on the SMB
+- `smbaclenabled`: Set this value to true to enable access control list (ACL) on the SMB
   file share. Set it to false to map file and directory permissions to the POSIX permissions.
   For more information, see Using Microsoft Windows ACLs to control access to an SMB file
   share in the Storage Gateway User Guide. Valid Values: true | false
-- `"tags"`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is
-  a key-value pair.  Valid characters for key and value are letters, spaces, and numbers
+- `tags`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a
+  key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
-- `"valid_user_list"`: A list of users or groups in the Active Directory that are allowed
-  to access the file  share. A group must be prefixed with the @ character. Acceptable
-  formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if
-  Authentication is set to ActiveDirectory.
-- `"vpcendpoint_dnsname"`: Specifies the DNS name for the VPC endpoint that the SMB file
+- `valid_user_list`: A list of users or groups in the Active Directory that are allowed to
+  access the file  share. A group must be prefixed with the @ character. Acceptable formats
+  include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if Authentication
+  is set to ActiveDirectory.
+- `vpcendpoint_dnsname`: Specifies the DNS name for the VPC endpoint that the SMB file
   share uses to connect to Amazon S3.  This parameter is required for SMB file shares that
   connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias
   that points to a VPC access point.
 """
-function create_smbfile_share(
-    ClientToken,
-    GatewayARN,
-    LocationARN,
-    Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_smbfile_share(ClientToken, GatewayARN, LocationARN, Role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateSMBFileShare",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "GatewayARN" => GatewayARN,
-                    "LocationARN" => LocationARN,
-                    "Role" => Role,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateSMBFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -871,35 +571,16 @@ longer length ID format. For more information, see the important note on the Wel
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation
   to return a list of gateway volumes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
+# Keyword Parameters
+- `tags`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
 """
-function create_snapshot(
-    SnapshotDescription,
-    VolumeARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_snapshot(SnapshotDescription, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SnapshotDescription" => SnapshotDescription, "VolumeARN" => VolumeARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -926,35 +607,16 @@ Cloud API Reference.
   DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified
   VolumeARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
+# Keyword Parameters
+- `tags`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
 """
-function create_snapshot_from_volume_recovery_point(
-    SnapshotDescription,
-    VolumeARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_snapshot_from_volume_recovery_point(SnapshotDescription, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateSnapshotFromVolumeRecoveryPoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SnapshotDescription" => SnapshotDescription, "VolumeARN" => VolumeARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateSnapshotFromVolumeRecoveryPoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -986,51 +648,25 @@ size, and the iSCSI target ARN that initiators can use to connect to the volume 
   specify a value, Storage Gateway uses the value that was previously used for this volume as
   the new target name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+# Keyword Parameters
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"snapshot_id"`: The snapshot ID (e.g., \"snap-1122aabb\") of the snapshot to restore as
+- `snapshot_id`: The snapshot ID (e.g., \"snap-1122aabb\") of the snapshot to restore as
   the new stored volume. Specify this field if you want to create the iSCSI storage volume
   from a snapshot; otherwise, do not include this field. To list snapshots for your account
   use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
-- `"tags"`: A list of up to 50 tags that can be assigned to a stored volume. Each tag is a
+- `tags`: A list of up to 50 tags that can be assigned to a stored volume. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
 """
-function create_storedi_scsivolume(
-    DiskId,
-    GatewayARN,
-    NetworkInterfaceId,
-    PreserveExistingData,
-    TargetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_storedi_scsivolume(DiskId, GatewayARN, NetworkInterfaceId, PreserveExistingData, TargetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateStorediSCSIVolume",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DiskId" => DiskId,
-                    "GatewayARN" => GatewayARN,
-                    "NetworkInterfaceId" => NetworkInterfaceId,
-                    "PreserveExistingData" => PreserveExistingData,
-                    "TargetName" => TargetName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateStorediSCSIVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskId"=>DiskId, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "PreserveExistingData"=>PreserveExistingData, "TargetName"=>TargetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1045,37 +681,23 @@ on tapes that are archived in the custom pool.
   use your backup application to eject the tape, the tape is archived directly into the
   storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"retention_lock_time_in_days"`: Tape retention lock time is set in days. Tape retention
+# Keyword Parameters
+- `retention_lock_time_in_days`: Tape retention lock time is set in days. Tape retention
   lock can be enabled for up to 100 years (36,500 days).
-- `"retention_lock_type"`: Tape retention lock can be configured in two modes. When
+- `retention_lock_type`: Tape retention lock can be configured in two modes. When
   configured in governance mode, Amazon Web Services accounts with specific IAM permissions
   are authorized to remove the tape retention lock from archived virtual tapes. When
   configured in compliance mode, the tape retention lock cannot be removed by any user,
   including the root Amazon Web Services account.
-- `"tags"`: A list of up to 50 tags that can be assigned to tape pool. Each tag is a
+- `tags`: A list of up to 50 tags that can be assigned to tape pool. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
 """
-function create_tape_pool(
-    PoolName, StorageClass; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_tape_pool(PoolName, StorageClass; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateTapePool",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PoolName" => PoolName, "StorageClass" => StorageClass),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName, "StorageClass"=>StorageClass), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1096,50 +718,28 @@ create a virtual tape. Use the AddCache operation to add cache storage to a gate
 - `tape_size_in_bytes`: The size, in bytes, of the virtual tape that you want to create.
   The size must be aligned by gigabyte (1024*1024*1024 bytes).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+# Keyword Parameters
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"pool_id"`: The ID of the pool that you want to add your tape to for archiving. The tape
+- `pool_id`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When you
   use your backup application to eject the tape, the tape is archived directly into the
   storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool. Valid Values:
   GLACIER | DEEP_ARCHIVE
-- `"tags"`: A list of up to 50 tags that can be assigned to a virtual tape that has a
+- `tags`: A list of up to 50 tags that can be assigned to a virtual tape that has a
   barcode. Each tag is a key-value pair.  Valid characters for key and value are letters,
   spaces, and numbers representable in UTF-8 format, and the following special characters: +
   - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length
   for a tag's value is 256.
-- `"worm"`: Set to TRUE if the tape you are creating is to be configured as a
+- `worm`: Set to TRUE if the tape you are creating is to be configured as a
   write-once-read-many (WORM) tape.
 """
-function create_tape_with_barcode(
-    GatewayARN,
-    TapeBarcode,
-    TapeSizeInBytes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_tape_with_barcode(GatewayARN, TapeBarcode, TapeSizeInBytes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateTapeWithBarcode",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN,
-                    "TapeBarcode" => TapeBarcode,
-                    "TapeSizeInBytes" => TapeSizeInBytes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateTapeWithBarcode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeBarcode"=>TapeBarcode, "TapeSizeInBytes"=>TapeSizeInBytes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1164,54 +764,28 @@ add cache storage to a gateway.
 - `tape_size_in_bytes`: The size, in bytes, of the virtual tapes that you want to create.
   The size must be aligned by gigabyte (1024*1024*1024 bytes).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+# Keyword Parameters
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"pool_id"`: The ID of the pool that you want to add your tape to for archiving. The tape
+- `pool_id`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When you
   use your backup application to eject the tape, the tape is archived directly into the
   storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid
   Values: GLACIER | DEEP_ARCHIVE
-- `"tags"`: A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a
+- `tags`: A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
-- `"worm"`: Set to TRUE if the tape you are creating is to be configured as a
+- `worm`: Set to TRUE if the tape you are creating is to be configured as a
   write-once-read-many (WORM) tape.
 """
-function create_tapes(
-    ClientToken,
-    GatewayARN,
-    NumTapesToCreate,
-    TapeBarcodePrefix,
-    TapeSizeInBytes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_tapes(ClientToken, GatewayARN, NumTapesToCreate, TapeBarcodePrefix, TapeSizeInBytes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "CreateTapes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "GatewayARN" => GatewayARN,
-                    "NumTapesToCreate" => NumTapesToCreate,
-                    "TapeBarcodePrefix" => TapeBarcodePrefix,
-                    "TapeSizeInBytes" => TapeSizeInBytes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("CreateTapes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NumTapesToCreate"=>NumTapesToCreate, "TapeBarcodePrefix"=>TapeBarcodePrefix, "TapeSizeInBytes"=>TapeSizeInBytes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1225,18 +799,9 @@ in your request to remove the policy.
 - `gateway_arn`:
 
 """
-function delete_automatic_tape_creation_policy(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_automatic_tape_creation_policy(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteAutomaticTapeCreationPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteAutomaticTapeCreationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1254,24 +819,9 @@ the stored volume, cached volume and tape gateway types.
 - `gateway_arn`:
 
 """
-function delete_bandwidth_rate_limit(
-    BandwidthType, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bandwidth_rate_limit(BandwidthType, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteBandwidthRateLimit",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BandwidthType" => BandwidthType, "GatewayARN" => GatewayARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BandwidthType"=>BandwidthType, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1288,24 +838,9 @@ types.
   VolumeARN.
 
 """
-function delete_chap_credentials(
-    InitiatorName, TargetARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_chap_credentials(InitiatorName, TargetARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteChapCredentials",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InitiatorName" => InitiatorName, "TargetARN" => TargetARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "TargetARN"=>TargetARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1317,26 +852,16 @@ Gateways.
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share to be deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete"`: If this value is set to true, the operation deletes a file share
+# Keyword Parameters
+- `force_delete`: If this value is set to true, the operation deletes a file share
   immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share
   is not deleted until all data is uploaded to Amazon Web Services. This process aborts the
   data upload process, and the file share enters the FORCE_DELETING status. Valid Values:
   true | false
 """
-function delete_file_share(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_file_share(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteFileShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("FileShareARN" => FileShareARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1358,18 +883,9 @@ Amazon EC2 console. For more information, see the Storage Gateway detail page.
 - `gateway_arn`:
 
 """
-function delete_gateway(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteGateway",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1387,18 +903,9 @@ the Amazon Elastic Compute Cloud API Reference.
 - `volume_arn`: The volume which snapshot schedule to delete.
 
 """
-function delete_snapshot_schedule(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_snapshot_schedule(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteSnapshotSchedule",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARN" => VolumeARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1413,29 +920,15 @@ type.
   for your account and Amazon Web Services Region.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_governance_retention"`: Set to TRUE to delete an archived tape that belongs to a
+# Keyword Parameters
+- `bypass_governance_retention`: Set to TRUE to delete an archived tape that belongs to a
   custom pool with tape retention lock. Only archived tapes with tape retention lock set to
   governance can be deleted. Archived tapes with tape retention lock set to compliance can't
   be deleted.
 """
-function delete_tape(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_tape(GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteTape",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GatewayARN" => GatewayARN, "TapeARN" => TapeARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteTape", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1448,23 +941,15 @@ only supported in the tape gateway type.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual
   tape shelf (VTS).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_governance_retention"`: Set to TRUE to delete an archived tape that belongs to a
+# Keyword Parameters
+- `bypass_governance_retention`: Set to TRUE to delete an archived tape that belongs to a
   custom pool with tape retention lock. Only archived tapes with tape retention lock set to
   governance can be deleted. Archived tapes with tape retention lock set to compliance can't
   be deleted.
 """
-function delete_tape_archive(
-    TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_tape_archive(TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteTapeArchive",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TapeARN" => TapeARN), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteTapeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1478,16 +963,9 @@ tape pool.
 - `pool_arn`: The Amazon Resource Name (ARN) of the custom tape pool to delete.
 
 """
-function delete_tape_pool(
-    PoolARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_tape_pool(PoolARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteTapePool",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolARN" => PoolARN), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolARN"=>PoolARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1510,18 +988,9 @@ to delete.
   to return a list of gateway volumes.
 
 """
-function delete_volume(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_volume(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DeleteVolume",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARN" => VolumeARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1535,18 +1004,9 @@ the response would be null.
 - `gateway_arn`:
 
 """
-function describe_availability_monitor_test(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_availability_monitor_test(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeAvailabilityMonitorTest",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeAvailabilityMonitorTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1563,18 +1023,9 @@ to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
 - `gateway_arn`:
 
 """
-function describe_bandwidth_rate_limit(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_bandwidth_rate_limit(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeBandwidthRateLimit",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1597,18 +1048,9 @@ gateway in your request.
 - `gateway_arn`:
 
 """
-function describe_bandwidth_rate_limit_schedule(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_bandwidth_rate_limit_schedule(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeBandwidthRateLimitSchedule",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeBandwidthRateLimitSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1622,18 +1064,9 @@ configured as cache, and it includes the amount of cache allocated and used.
 - `gateway_arn`:
 
 """
-function describe_cache(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cache(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeCache",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1650,18 +1083,9 @@ information sorted by volume Amazon Resource Name (ARN).
   gateway. Use ListVolumes to get volume ARNs for a gateway.
 
 """
-function describe_cachedi_scsivolumes(
-    VolumeARNs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cachedi_scsivolumes(VolumeARNs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeCachediSCSIVolumes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARNs" => VolumeARNs), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeCachediSCSIVolumes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARNs"=>VolumeARNs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1677,18 +1101,9 @@ operation is supported in the volume and tape gateway types.
   VolumeARN.
 
 """
-function describe_chap_credentials(
-    TargetARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_chap_credentials(TargetARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeChapCredentials",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TargetARN" => TargetARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetARN"=>TargetARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1702,26 +1117,9 @@ Gateways.
   each file system association to be described.
 
 """
-function describe_file_system_associations(
-    FileSystemAssociationARNList;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_file_system_associations(FileSystemAssociationARNList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeFileSystemAssociations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemAssociationARNList" => FileSystemAssociationARNList
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeFileSystemAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemAssociationARNList"=>FileSystemAssociationARNList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1735,18 +1133,9 @@ describe, use the Amazon Resource Name (ARN) of the gateway in your request.
 - `gateway_arn`:
 
 """
-function describe_gateway_information(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_gateway_information(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeGatewayInformation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1759,18 +1148,9 @@ week. Note that values are in terms of the gateway's time zone.
 - `gateway_arn`:
 
 """
-function describe_maintenance_start_time(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_maintenance_start_time(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeMaintenanceStartTime",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1784,20 +1164,9 @@ Gateway. This operation is only supported for S3 File Gateways.
   share to be described.
 
 """
-function describe_nfsfile_shares(
-    FileShareARNList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_nfsfile_shares(FileShareARNList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeNFSFileShares",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("FileShareARNList" => FileShareARNList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeNFSFileShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARNList"=>FileShareARNList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1811,20 +1180,9 @@ Gateway. This operation is only supported for S3 File Gateways.
   share to be described.
 
 """
-function describe_smbfile_shares(
-    FileShareARNList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_smbfile_shares(FileShareARNList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeSMBFileShares",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("FileShareARNList" => FileShareARNList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeSMBFileShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARNList"=>FileShareARNList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1837,18 +1195,9 @@ This operation is only supported for file gateways.
 - `gateway_arn`:
 
 """
-function describe_smbsettings(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_smbsettings(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeSMBSettings",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeSMBSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1863,18 +1212,9 @@ volume. This operation is only supported in the cached volume and stored volume 
   to return a list of gateway volumes.
 
 """
-function describe_snapshot_schedule(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_snapshot_schedule(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeSnapshotSchedule",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARN" => VolumeARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1891,18 +1231,9 @@ stored volume gateway type.
   gateway. Use ListVolumes to get volume ARNs for a gateway.
 
 """
-function describe_storedi_scsivolumes(
-    VolumeARNs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_storedi_scsivolumes(VolumeARNs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeStorediSCSIVolumes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARNs" => VolumeARNs), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeStorediSCSIVolumes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARNs"=>VolumeARNs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1913,25 +1244,17 @@ operation is only supported in the tape gateway type. If a specific TapeARN is n
 specified, Storage Gateway returns a description of all virtual tapes found in the VTS
 associated with your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies that the number of virtual tapes described be limited to the
-  specified number.
-- `"marker"`: An opaque string that indicates the position at which to begin describing
+# Keyword Parameters
+- `limit`: Specifies that the number of virtual tapes described be limited to the specified
+  number.
+- `marker`: An opaque string that indicates the position at which to begin describing
   virtual tapes.
-- `"tape_arns"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent
-  the virtual tapes you want to describe.
+- `tape_arns`: Specifies one or more unique Amazon Resource Names (ARNs) that represent the
+  virtual tapes you want to describe.
 """
-function describe_tape_archives(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tape_archives(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeTapeArchives",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeTapeArchives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1946,25 +1269,15 @@ tape gateway type.
 # Arguments
 - `gateway_arn`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies that the number of virtual tape recovery points that are described
-  be limited to the specified number.
-- `"marker"`: An opaque string that indicates the position at which to begin describing the
+# Keyword Parameters
+- `limit`: Specifies that the number of virtual tape recovery points that are described be
+  limited to the specified number.
+- `marker`: An opaque string that indicates the position at which to begin describing the
   virtual tape recovery points.
 """
-function describe_tape_recovery_points(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tape_recovery_points(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeTapeRecoveryPoints",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeTapeRecoveryPoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1977,29 +1290,19 @@ specified gateway. This operation is only supported in the tape gateway type.
 # Arguments
 - `gateway_arn`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies that the number of virtual tapes described be limited to the
-  specified number.  Amazon Web Services may impose its own limit, if this field is not set.
-- `"marker"`: A marker value, obtained in a previous call to DescribeTapes. This marker
+# Keyword Parameters
+- `limit`: Specifies that the number of virtual tapes described be limited to the specified
+  number.  Amazon Web Services may impose its own limit, if this field is not set.
+- `marker`: A marker value, obtained in a previous call to DescribeTapes. This marker
   indicates which page of results to retrieve. If not specified, the first page of results is
   retrieved.
-- `"tape_arns"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent
-  the virtual tapes you want to describe. If this parameter is not specified, Tape gateway
+- `tape_arns`: Specifies one or more unique Amazon Resource Names (ARNs) that represent the
+  virtual tapes you want to describe. If this parameter is not specified, Tape gateway
   returns a description of all virtual tapes associated with the specified gateway.
 """
-function describe_tapes(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tapes(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeTapes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeTapes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2014,18 +1317,9 @@ space allocated and used.
 - `gateway_arn`:
 
 """
-function describe_upload_buffer(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_upload_buffer(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeUploadBuffer",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeUploadBuffer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2038,29 +1332,19 @@ supported in the tape gateway type.
 # Arguments
 - `gateway_arn`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies that the number of VTL devices described be limited to the specified
+# Keyword Parameters
+- `limit`: Specifies that the number of VTL devices described be limited to the specified
   number.
-- `"marker"`: An opaque string that indicates the position at which to begin describing the
+- `marker`: An opaque string that indicates the position at which to begin describing the
   VTL devices.
-- `"vtldevice_arns"`: An array of strings, where each string represents the Amazon Resource
+- `vtldevice_arns`: An array of strings, where each string represents the Amazon Resource
   Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same
   gateway. If no VTL devices are specified, the result will contain all devices on the
   specified gateway.
 """
-function describe_vtldevices(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_vtldevices(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeVTLDevices",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeVTLDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2078,18 +1362,9 @@ used.
 - `gateway_arn`:
 
 """
-function describe_working_storage(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_working_storage(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DescribeWorkingStorage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DescribeWorkingStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2104,24 +1379,14 @@ instance. This operation is only supported in the volume gateway type.
 # Arguments
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume to detach from the gateway.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_detach"`: Set to true to forcibly remove the iSCSI connection of the target
-  volume and detach the volume. The default is false. If this value is set to false, you must
+# Keyword Parameters
+- `force_detach`: Set to true to forcibly remove the iSCSI connection of the target volume
+  and detach the volume. The default is false. If this value is set to false, you must
   manually disconnect the iSCSI connection from the target volume. Valid Values: true | false
 """
-function detach_volume(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_volume(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DetachVolume",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARN" => VolumeARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2137,18 +1402,9 @@ enabled.
 - `gateway_arn`:
 
 """
-function disable_gateway(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DisableGateway",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DisableGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2162,29 +1418,15 @@ system. This operation is only supported in the FSx File Gateway type.
 - `file_system_association_arn`: The Amazon Resource Name (ARN) of the file system
   association to be deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete"`: If this value is set to true, the operation disassociates an Amazon FSx
+# Keyword Parameters
+- `force_delete`: If this value is set to true, the operation disassociates an Amazon FSx
   file system immediately. It ends all data uploads to the file system, and the file system
   association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx
   file system does not disassociate until all data is uploaded.
 """
-function disassociate_file_system(
-    FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_file_system(FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "DisassociateFileSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FileSystemAssociationARN" => FileSystemAssociationARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("DisassociateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemAssociationARN"=>FileSystemAssociationARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2204,43 +1446,19 @@ file gateways that support the SMB file protocol.
   domain. For example, you can use the domain administrator account or an account with
   delegated permissions to join computers to the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"domain_controllers"`: List of IPv4 addresses, NetBIOS names, or host names of your
-  domain server. If you need to specify the port number include it after the colon (“:”).
-  For example, mydc.mydomain.com:389.
-- `"organizational_unit"`: The organizational unit (OU) is a container in an Active
-  Directory that can hold users, groups, computers, and other OUs and this parameter
-  specifies the OU that the gateway will join within the AD domain.
-- `"timeout_in_seconds"`: Specifies the time in seconds, in which the JoinDomain operation
+# Keyword Parameters
+- `domain_controllers`: List of IPv4 addresses, NetBIOS names, or host names of your domain
+  server. If you need to specify the port number include it after the colon (“:”). For
+  example, mydc.mydomain.com:389.
+- `organizational_unit`: The organizational unit (OU) is a container in an Active Directory
+  that can hold users, groups, computers, and other OUs and this parameter specifies the OU
+  that the gateway will join within the AD domain.
+- `timeout_in_seconds`: Specifies the time in seconds, in which the JoinDomain operation
   must complete. The default is 20 seconds.
 """
-function join_domain(
-    DomainName,
-    GatewayARN,
-    Password,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function join_domain(DomainName, GatewayARN, Password, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "JoinDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainName" => DomainName,
-                    "GatewayARN" => GatewayARN,
-                    "Password" => Password,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("JoinDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "GatewayARN"=>GatewayARN, "Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2250,20 +1468,12 @@ Lists the automatic tape creation policies for a gateway. If there are no automa
 creation policies for the gateway, it returns an empty list. This operation is only
 supported for tape gateways.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"gateway_arn"`:
+# Keyword Parameters
+- `gateway_arn`:
 """
-function list_automatic_tape_creation_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_automatic_tape_creation_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListAutomaticTapeCreationPolicies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ListAutomaticTapeCreationPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2273,21 +1483,18 @@ Gets a list of the file shares for a specific S3 File Gateway, or the list of fi
 that belong to the calling user account. This operation is only supported for S3 File
 Gateways.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"gateway_arn"`: The Amazon Resource Name (ARN) of the gateway whose file shares you want
+# Keyword Parameters
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway whose file shares you want
   to list. If this field is not present, all file shares under your account are listed.
-- `"limit"`: The maximum number of file shares to return in the response. The value must be
+- `limit`: The maximum number of file shares to return in the response. The value must be
   an integer with a value greater than zero. Optional.
-- `"marker"`: Opaque pagination token returned from a previous ListFileShares operation. If
+- `marker`: Opaque pagination token returned from a previous ListFileShares operation. If
   present, Marker specifies where to continue the list from after a previous call to
   ListFileShares. Optional.
 """
 function list_file_shares(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListFileShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return storage_gateway("ListFileShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2296,25 +1503,17 @@ end
 Gets a list of FileSystemAssociationSummary objects. Each object contains a summary of a
 file system association. This operation is only supported for FSx File Gateways.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"gateway_arn"`:
-- `"limit"`: The maximum number of file system associations to return in the response. If
+# Keyword Parameters
+- `gateway_arn`:
+- `limit`: The maximum number of file system associations to return in the response. If
   present, Limit must be an integer with a value greater than zero. Optional.
-- `"marker"`: Opaque pagination token returned from a previous ListFileSystemAssociations
+- `marker`: Opaque pagination token returned from a previous ListFileSystemAssociations
   operation. If present, Marker specifies where to continue the list from after a previous
   call to ListFileSystemAssociations. Optional.
 """
-function list_file_system_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_file_system_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListFileSystemAssociations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ListFileSystemAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2328,18 +1527,15 @@ response. If you have more gateways than are returned in a response (that is, th
 returns only a truncated list of your gateways), the response contains a marker that you
 can specify in your next request to fetch the next page of gateways.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies that the list of gateways returned be limited to the specified
-  number of items.
-- `"marker"`: An opaque string that indicates the position at which to begin the returned
+# Keyword Parameters
+- `limit`: Specifies that the list of gateways returned be limited to the specified number
+  of items.
+- `marker`: An opaque string that indicates the position at which to begin the returned
   list of gateways.
 """
 function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return storage_gateway("ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2357,18 +1553,9 @@ disk that has incorrect metadata or the disk content is corrupted).
 - `gateway_arn`:
 
 """
-function list_local_disks(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_local_disks(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListLocalDisks",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ListLocalDisks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2381,25 +1568,15 @@ in storage gateways of all types.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to list
   tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Specifies that the list of tags returned be limited to the specified number of
+# Keyword Parameters
+- `limit`: Specifies that the list of tags returned be limited to the specified number of
   items.
-- `"marker"`: An opaque string that indicates the position at which to begin returning the
+- `marker`: An opaque string that indicates the position at which to begin returning the
   list of tags.
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2413,20 +1590,17 @@ response. If the number of tape pools returned in the response is truncated, the
 includes a Marker element that you can use in your subsequent request to retrieve the next
 set of tape pools.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: An optional number limit for the tape pools in the list returned by this call.
-- `"marker"`: A string that indicates the position at which to begin the returned list of
+# Keyword Parameters
+- `limit`: An optional number limit for the tape pools in the list returned by this call.
+- `marker`: A string that indicates the position at which to begin the returned list of
   tape pools.
-- `"pool_arns"`: The Amazon Resource Name (ARN) of each of the custom tape pools you want
-  to list. If you don't specify a custom tape pool ARN, the response lists all custom tape
+- `pool_arns`: The Amazon Resource Name (ARN) of each of the custom tape pools you want to
+  list. If you don't specify a custom tape pool ARN, the response lists all custom tape
   pools.
 """
 function list_tape_pools(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListTapePools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return storage_gateway("ListTapePools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2442,18 +1616,15 @@ truncated, the response includes a Marker element that you can use in your subse
 request to retrieve the next set of tapes. This operation is only supported in the tape
 gateway type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: An optional number limit for the tapes in the list returned by this call.
-- `"marker"`: A string that indicates the position at which to begin the returned list of
+# Keyword Parameters
+- `limit`: An optional number limit for the tapes in the list returned by this call.
+- `marker`: A string that indicates the position at which to begin the returned list of
   tapes.
-- `"tape_arns"`:
+- `tape_arns`:
 """
 function list_tapes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListTapes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return storage_gateway("ListTapes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2468,18 +1639,9 @@ cached volume and stored volume gateway types.
   to return a list of gateway volumes for the gateway.
 
 """
-function list_volume_initiators(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_volume_initiators(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListVolumeInitiators",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("VolumeARN" => VolumeARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ListVolumeInitiators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2496,18 +1658,9 @@ operation.
 - `gateway_arn`:
 
 """
-function list_volume_recovery_points(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_volume_recovery_points(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListVolumeRecoveryPoints",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ListVolumeRecoveryPoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2523,19 +1676,16 @@ includes a Marker field. You can use this Marker value in your subsequent reques
 retrieve the next set of volumes. This operation is only supported in the cached volume and
 stored volume gateway types.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"gateway_arn"`:
-- `"limit"`: Specifies that the list of volumes returned be limited to the specified number
+# Keyword Parameters
+- `gateway_arn`:
+- `limit`: Specifies that the list of volumes returned be limited to the specified number
   of items.
-- `"marker"`: A string that indicates the position at which to begin the returned list of
+- `marker`: A string that indicates the position at which to begin the returned list of
   volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
 """
 function list_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ListVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return storage_gateway("ListVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2555,18 +1705,9 @@ Getting file upload notification in the Storage Gateway User Guide.
 - `file_share_arn`:
 
 """
-function notify_when_uploaded(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function notify_when_uploaded(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "NotifyWhenUploaded",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("FileShareARN" => FileShareARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("NotifyWhenUploaded", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2597,31 +1738,21 @@ User Guide.
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share you want to refresh.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"folder_list"`: A comma-separated list of the paths of folders to refresh in the cache.
+# Keyword Parameters
+- `folder_list`: A comma-separated list of the paths of folders to refresh in the cache.
   The default is [\"/\"]. The default refreshes objects and folders at the root of the Amazon
   S3 bucket. If Recursive is set to true, the entire S3 bucket that the file share has access
   to is refreshed.
-- `"recursive"`: A value that specifies whether to recursively refresh folders in the
-  cache. The refresh includes folders that were in the cache the last time the gateway listed
-  the folder's contents. If this value set to true, each folder that is listed in FolderList
-  is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only
+- `recursive`: A value that specifies whether to recursively refresh folders in the cache.
+  The refresh includes folders that were in the cache the last time the gateway listed the
+  folder's contents. If this value set to true, each folder that is listed in FolderList is
+  recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only
   objects that are in folders listed directly under FolderList are found and used for the
   update. The default is true. Valid Values: true | false
 """
-function refresh_cache(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function refresh_cache(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "RefreshCache",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("FileShareARN" => FileShareARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("RefreshCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2637,22 +1768,9 @@ storage gateways of all types.
   composed of a key-value pair.
 
 """
-function remove_tags_from_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags_from_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "RemoveTagsFromResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2673,18 +1791,9 @@ properly.
 - `gateway_arn`:
 
 """
-function reset_cache(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reset_cache(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ResetCache",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ResetCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2707,22 +1816,9 @@ is only supported in the tape gateway type.
   the virtual tape shelf (VTS).
 
 """
-function retrieve_tape_archive(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function retrieve_tape_archive(GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "RetrieveTapeArchive",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GatewayARN" => GatewayARN, "TapeARN" => TapeARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("RetrieveTapeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2741,22 +1837,9 @@ retrieved to only a tape gateway. There is no charge for retrieving recovery poi
   retrieve the recovery point.
 
 """
-function retrieve_tape_recovery_point(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function retrieve_tape_recovery_point(GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "RetrieveTapeRecoveryPoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GatewayARN" => GatewayARN, "TapeARN" => TapeARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("RetrieveTapeRecoveryPoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2771,28 +1854,9 @@ new password. You don't need to know the default password to set a new password.
 - `local_console_password`: The password you want to set for your VM local console.
 
 """
-function set_local_console_password(
-    GatewayARN,
-    LocalConsolePassword;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_local_console_password(GatewayARN, LocalConsolePassword; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "SetLocalConsolePassword",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN,
-                    "LocalConsolePassword" => LocalConsolePassword,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("SetLocalConsolePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "LocalConsolePassword"=>LocalConsolePassword), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2808,22 +1872,9 @@ supported for S3 File Gateways
 - `password`: The password that you want to set for your SMB server.
 
 """
-function set_smbguest_password(
-    GatewayARN, Password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_smbguest_password(GatewayARN, Password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "SetSMBGuestPassword",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GatewayARN" => GatewayARN, "Password" => Password),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("SetSMBGuestPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "Password"=>Password), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2847,18 +1898,9 @@ software charges associated with the gateway.
 - `gateway_arn`:
 
 """
-function shutdown_gateway(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function shutdown_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "ShutdownGateway",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("ShutdownGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2874,18 +1916,9 @@ Starting this test will cause your gateway to go offline for a brief period.
 - `gateway_arn`:
 
 """
-function start_availability_monitor_test(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_availability_monitor_test(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "StartAvailabilityMonitorTest",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("StartAvailabilityMonitorTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2904,18 +1937,9 @@ your request.
 - `gateway_arn`:
 
 """
-function start_gateway(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "StartGateway",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("StartGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2933,28 +1957,9 @@ tape creation policy.
 - `gateway_arn`:
 
 """
-function update_automatic_tape_creation_policy(
-    AutomaticTapeCreationRules,
-    GatewayARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_automatic_tape_creation_policy(AutomaticTapeCreationRules, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateAutomaticTapeCreationPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AutomaticTapeCreationRules" => AutomaticTapeCreationRules,
-                    "GatewayARN" => GatewayARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateAutomaticTapeCreationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomaticTapeCreationRules"=>AutomaticTapeCreationRules, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2971,25 +1976,15 @@ gateway to update, use the Amazon Resource Name (ARN) of the gateway in your req
 # Arguments
 - `gateway_arn`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"average_download_rate_limit_in_bits_per_sec"`: The average download bandwidth rate
-  limit in bits per second.
-- `"average_upload_rate_limit_in_bits_per_sec"`: The average upload bandwidth rate limit in
+# Keyword Parameters
+- `average_download_rate_limit_in_bits_per_sec`: The average download bandwidth rate limit
+  in bits per second.
+- `average_upload_rate_limit_in_bits_per_sec`: The average upload bandwidth rate limit in
   bits per second.
 """
-function update_bandwidth_rate_limit(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_bandwidth_rate_limit(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateBandwidthRateLimit",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3007,28 +2002,9 @@ operation is supported in the volume and tape gateway types.
 - `gateway_arn`:
 
 """
-function update_bandwidth_rate_limit_schedule(
-    BandwidthRateLimitIntervals,
-    GatewayARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_bandwidth_rate_limit_schedule(BandwidthRateLimitIntervals, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateBandwidthRateLimitSchedule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BandwidthRateLimitIntervals" => BandwidthRateLimitIntervals,
-                    "GatewayARN" => GatewayARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateBandwidthRateLimitSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BandwidthRateLimitIntervals"=>BandwidthRateLimitIntervals, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3048,37 +2024,15 @@ and initiators must reconnect with the new credentials.
 - `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
   DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"secret_to_authenticate_target"`: The secret key that the target must provide to
+# Keyword Parameters
+- `secret_to_authenticate_target`: The secret key that the target must provide to
   participate in mutual CHAP with the initiator (e.g. Windows client). Byte constraints:
   Minimum bytes of 12. Maximum bytes of 16.  The secret key must be between 12 and 16 bytes
   when encoded in UTF-8.
 """
-function update_chap_credentials(
-    InitiatorName,
-    SecretToAuthenticateInitiator,
-    TargetARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_chap_credentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateChapCredentials",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InitiatorName" => InitiatorName,
-                    "SecretToAuthenticateInitiator" => SecretToAuthenticateInitiator,
-                    "TargetARN" => TargetARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "SecretToAuthenticateInitiator"=>SecretToAuthenticateInitiator, "TargetARN"=>TargetARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3091,32 +2045,18 @@ Gateways.
 - `file_system_association_arn`: The Amazon Resource Name (ARN) of the file system
   association that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audit_destination_arn"`: The Amazon Resource Name (ARN) of the storage used for the
-  audit logs.
-- `"cache_attributes"`:
-- `"password"`: The password of the user credential.
-- `"user_name"`: The user name of the user credential that has permission to access the
-  root share D of the Amazon FSx file system. The user account must belong to the Amazon FSx
+# Keyword Parameters
+- `audit_destination_arn`: The Amazon Resource Name (ARN) of the storage used for the audit
+  logs.
+- `cache_attributes`:
+- `password`: The password of the user credential.
+- `user_name`: The user name of the user credential that has permission to access the root
+  share D of the Amazon FSx file system. The user account must belong to the Amazon FSx
   delegated admin user group.
 """
-function update_file_system_association(
-    FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_file_system_association(FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateFileSystemAssociation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FileSystemAssociationARN" => FileSystemAssociationARN),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateFileSystemAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemAssociationARN"=>FileSystemAssociationARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3131,27 +2071,17 @@ the gateway's ARN.
 # Arguments
 - `gateway_arn`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cloud_watch_log_group_arn"`: The Amazon Resource Name (ARN) of the Amazon CloudWatch
-  log group that you want to use to monitor and log events in the gateway. For more
-  information, see What is Amazon CloudWatch Logs?
-- `"gateway_capacity"`: Specifies the size of the gateway's metadata cache.
-- `"gateway_name"`:
-- `"gateway_timezone"`: A value that indicates the time zone of the gateway.
+# Keyword Parameters
+- `cloud_watch_log_group_arn`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log
+  group that you want to use to monitor and log events in the gateway. For more information,
+  see What is Amazon CloudWatch Logs?
+- `gateway_capacity`: Specifies the size of the gateway's metadata cache.
+- `gateway_name`:
+- `gateway_timezone`: A value that indicates the time zone of the gateway.
 """
-function update_gateway_information(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_gateway_information(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateGatewayInformation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3171,18 +2101,9 @@ respectively.
 - `gateway_arn`:
 
 """
-function update_gateway_software_now(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_gateway_software_now(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateGatewaySoftwareNow",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3199,38 +2120,16 @@ the week. The maintenance time is the time in your gateway's time zone.
   where mm is the minute (00 to 59). The minute of the hour is in the time zone of the
   gateway.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"day_of_month"`: The day of the month component of the maintenance start time
-  represented as an ordinal number from 1 to 28, where 1 represents the first day of the
-  month and 28 represents the last day of the month.
-- `"day_of_week"`: The day of the week component of the maintenance start time week
+# Keyword Parameters
+- `day_of_month`: The day of the month component of the maintenance start time represented
+  as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28
+  represents the last day of the month.
+- `day_of_week`: The day of the week component of the maintenance start time week
   represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
 """
-function update_maintenance_start_time(
-    GatewayARN,
-    HourOfDay,
-    MinuteOfHour;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_maintenance_start_time(GatewayARN, HourOfDay, MinuteOfHour; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateMaintenanceStartTime",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN,
-                    "HourOfDay" => HourOfDay,
-                    "MinuteOfHour" => MinuteOfHour,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3245,29 +2144,28 @@ Squash settings   Write status of your file share
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"audit_destination_arn"`: The Amazon Resource Name (ARN) of the storage used for audit
+# Keyword Parameters
+- `audit_destination_arn`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
-- `"cache_attributes"`: Specifies refresh cache information for the file share.
-- `"client_list"`: The list of clients that are allowed to access the S3 File Gateway. The
+- `cache_attributes`: Specifies refresh cache information for the file share.
+- `client_list`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
-- `"default_storage_class"`: The default storage class for objects put into an Amazon S3
+- `default_storage_class`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
-- `"file_share_name"`: The name of the file share. Optional.   FileShareName must be set if
+- `file_share_name`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
-- `"guess_mimetype_enabled"`: A value that enables guessing of the MIME type for uploaded
+- `guess_mimetype_enabled`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"nfsfile_share_defaults"`: The default values for the file share. Optional.
-- `"notification_policy"`: The notification policy of the file share. SettlingTimeInSeconds
+- `nfsfile_share_defaults`: The default values for the file share. Optional.
+- `notification_policy`: The notification policy of the file share. SettlingTimeInSeconds
   controls the number of seconds to wait after the last point in time a client wrote to a
   file before generating an ObjectUploaded notification. Because clients can make many small
   writes to files, it's best to set this parameter for as long as possible to avoid
@@ -3276,32 +2174,23 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   only the timing of the notification.  The following example sets NotificationPolicy on with
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
-- `"object_acl"`: A value that sets the access control list (ACL) permission for objects in
+- `object_acl`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
-- `"read_only"`: A value that sets the write status of a file share. Set this value to true
+- `read_only`: A value that sets the write status of a file share. Set this value to true
   to set the write status to read-only, otherwise set to false. Valid Values: true | false
-- `"requester_pays"`: A value that sets who pays the cost of the request and the cost
+- `requester_pays`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to true, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner
   always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket
   that backs the file share, so make sure that the configuration on the file share is the
   same as the S3 bucket configuration.  Valid Values: true | false
-- `"squash"`: The user mapped to anonymous user. Valid values are the following:
+- `squash`: The user mapped to anonymous user. Valid values are the following:
   RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to
   anonymous user.    AllSquash: Everyone is mapped to anonymous user.
 """
-function update_nfsfile_share(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_nfsfile_share(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateNFSFileShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("FileShareARN" => FileShareARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3322,39 +2211,38 @@ on a file share.
 - `file_share_arn`: The Amazon Resource Name (ARN) of the SMB file share that you want to
   update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_based_enumeration"`: The files and folders on this share will only be visible to
+# Keyword Parameters
+- `access_based_enumeration`: The files and folders on this share will only be visible to
   users with read access.
-- `"admin_user_list"`: A list of users or groups in the Active Directory that have
+- `admin_user_list`: A list of users or groups in the Active Directory that have
   administrator rights to the file share. A group must be prefixed with the @ character.
   Acceptable formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set
   if Authentication is set to ActiveDirectory.
-- `"audit_destination_arn"`: The Amazon Resource Name (ARN) of the storage used for audit
+- `audit_destination_arn`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
-- `"cache_attributes"`: Specifies refresh cache information for the file share.
-- `"case_sensitivity"`: The case of an object name in an Amazon S3 bucket. For
+- `cache_attributes`: Specifies refresh cache information for the file share.
+- `case_sensitivity`: The case of an object name in an Amazon S3 bucket. For
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
-- `"default_storage_class"`: The default storage class for objects put into an Amazon S3
+- `default_storage_class`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
-- `"file_share_name"`: The name of the file share. Optional.   FileShareName must be set if
+- `file_share_name`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN, or if an access point or access point alias is
   used.
-- `"guess_mimetype_enabled"`: A value that enables guessing of the MIME type for uploaded
+- `guess_mimetype_enabled`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
-- `"invalid_user_list"`: A list of users or groups in the Active Directory that are not
+- `invalid_user_list`: A list of users or groups in the Active Directory that are not
   allowed to access the file share. A group must be prefixed with the @ character. Acceptable
   formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if
   Authentication is set to ActiveDirectory.
-- `"kmsencrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+- `kmsencrypted`: Set to true to use Amazon S3 server-side encryption with your own KMS
   key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
-- `"kmskey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
+- `kmskey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"notification_policy"`: The notification policy of the file share. SettlingTimeInSeconds
+- `notification_policy`: The notification policy of the file share. SettlingTimeInSeconds
   controls the number of seconds to wait after the last point in time a client wrote to a
   file before generating an ObjectUploaded notification. Because clients can make many small
   writes to files, it's best to set this parameter for as long as possible to avoid
@@ -3363,41 +2251,32 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   only the timing of the notification.  The following example sets NotificationPolicy on with
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
-- `"object_acl"`: A value that sets the access control list (ACL) permission for objects in
+- `object_acl`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
-- `"oplocks_enabled"`: Specifies whether opportunistic locking is enabled for the SMB file
+- `oplocks_enabled`: Specifies whether opportunistic locking is enabled for the SMB file
   share.  Enabling opportunistic locking on case-sensitive shares is not recommended for
   workloads that involve access to files with the same name in different case.  Valid Values:
   true | false
-- `"read_only"`: A value that sets the write status of a file share. Set this value to true
+- `read_only`: A value that sets the write status of a file share. Set this value to true
   to set write status to read-only, otherwise set to false. Valid Values: true | false
-- `"requester_pays"`: A value that sets who pays the cost of the request and the cost
+- `requester_pays`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to true, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner
   always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket
   that backs the file share, so make sure that the configuration on the file share is the
   same as the S3 bucket configuration.  Valid Values: true | false
-- `"smbaclenabled"`: Set this value to true to enable access control list (ACL) on the SMB
+- `smbaclenabled`: Set this value to true to enable access control list (ACL) on the SMB
   file share. Set it to false to map file and directory permissions to the POSIX permissions.
   For more information, see Using Microsoft Windows ACLs to control access to an SMB file
   share in the Storage Gateway User Guide. Valid Values: true | false
-- `"valid_user_list"`: A list of users or groups in the Active Directory that are allowed
-  to access the file share. A group must be prefixed with the @ character. Acceptable formats
+- `valid_user_list`: A list of users or groups in the Active Directory that are allowed to
+  access the file share. A group must be prefixed with the @ character. Acceptable formats
   include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if Authentication
   is set to ActiveDirectory.
 """
-function update_smbfile_share(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_smbfile_share(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateSMBFileShare",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("FileShareARN" => FileShareARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateSMBFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3411,27 +2290,9 @@ The operation is only supported for S3 File Gateways.
 - `gateway_arn`:
 
 """
-function update_smbfile_share_visibility(
-    FileSharesVisible,
-    GatewayARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_smbfile_share_visibility(FileSharesVisible, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateSMBFileShareVisibility",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSharesVisible" => FileSharesVisible, "GatewayARN" => GatewayARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateSMBFileShareVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSharesVisible"=>FileSharesVisible, "GatewayARN"=>GatewayARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3446,24 +2307,9 @@ file shares on the gateway.
   special permissions for SMB file shares on the gateway.
 
 """
-function update_smblocal_groups(
-    GatewayARN, SMBLocalGroups; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_smblocal_groups(GatewayARN, SMBLocalGroups; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateSMBLocalGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN, "SMBLocalGroups" => SMBLocalGroups
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateSMBLocalGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBLocalGroups"=>SMBLocalGroups), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3487,27 +2333,9 @@ affect performance of the gateway.
   Windows 8, Windows Server 2012 or newer.
 
 """
-function update_smbsecurity_strategy(
-    GatewayARN,
-    SMBSecurityStrategy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_smbsecurity_strategy(GatewayARN, SMBSecurityStrategy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateSMBSecurityStrategy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN, "SMBSecurityStrategy" => SMBSecurityStrategy
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateSMBSecurityStrategy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBSecurityStrategy"=>SMBSecurityStrategy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3529,40 +2357,18 @@ the frequency (in hours) of snapshots.
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation
   to return a list of gateway volumes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: Optional description of the snapshot that overwrites the existing
+# Keyword Parameters
+- `description`: Optional description of the snapshot that overwrites the existing
   description.
-- `"tags"`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
+- `tags`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
 """
-function update_snapshot_schedule(
-    RecurrenceInHours,
-    StartAt,
-    VolumeARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_snapshot_schedule(RecurrenceInHours, StartAt, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateSnapshotSchedule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "RecurrenceInHours" => RecurrenceInHours,
-                    "StartAt" => StartAt,
-                    "VolumeARN" => VolumeARN,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecurrenceInHours"=>RecurrenceInHours, "StartAt"=>StartAt, "VolumeARN"=>VolumeARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3579,22 +2385,7 @@ supported in the tape gateway type.
 - `vtldevice_arn`: The Amazon Resource Name (ARN) of the medium changer you want to select.
 
 """
-function update_vtldevice_type(
-    DeviceType, VTLDeviceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_vtldevice_type(DeviceType, VTLDeviceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return storage_gateway(
-        "UpdateVTLDeviceType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DeviceType" => DeviceType, "VTLDeviceARN" => VTLDeviceARN
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return storage_gateway("UpdateVTLDeviceType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceType"=>DeviceType, "VTLDeviceARN"=>VTLDeviceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

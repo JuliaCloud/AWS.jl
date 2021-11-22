@@ -4,13 +4,8 @@ using AWS.AWSServices: pricing
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "filters" => "Filters",
-    "format_version" => "FormatVersion",
-    "service_code" => "ServiceCode",
-    "next_token" => "NextToken",
-    "max_results" => "MaxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("filters" => "Filters", "format_version" => "FormatVersion", "max_results" => "MaxResults", "next_token" => "NextToken", "service_code" => "ServiceCode")
 
 """
     describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -21,22 +16,19 @@ code, such as AmazonEC2, to get information specific to that service, such as th
 names available for that service. For example, some of the attribute names available for
 EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"format_version"`: The format version that you want the response to be in. Valid values
+# Keyword Parameters
+- `format_version`: The format version that you want the response to be in. Valid values
   are: aws_v1
-- `"max_results"`: The maximum number of results that you want returned in the response.
-- `"next_token"`: The pagination token that indicates the next set of results that you want
+- `max_results`: The maximum number of results that you want returned in the response.
+- `next_token`: The pagination token that indicates the next set of results that you want
   to retrieve.
-- `"service_code"`: The code for the service whose information you want to retrieve, such
-  as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To
+- `service_code`: The code for the service whose information you want to retrieve, such as
+  AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To
   retrieve a list of all services, leave this blank.
 """
 function describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return pricing(
-        "DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return pricing("DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -52,30 +44,14 @@ Amazon Web Services Billing and Cost Management User Guide.
 - `service_code`: The service code for the service whose attributes you want to retrieve.
   For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return in response.
-- `"next_token"`: The pagination token that indicates the next set of results that you want
+# Keyword Parameters
+- `max_results`: The maximum number of results to return in response.
+- `next_token`: The pagination token that indicates the next set of results that you want
   to retrieve.
 """
-function get_attribute_values(
-    AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_attribute_values(AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return pricing(
-        "GetAttributeValues",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AttributeName" => AttributeName, "ServiceCode" => ServiceCode
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -83,20 +59,17 @@ end
 
 Returns a list of all products that match the filter criteria.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: The list of filters that limit the returned products. only products that
-  match all filters are returned.
-- `"format_version"`: The format version that you want the response to be in. Valid values
+# Keyword Parameters
+- `filters`: The list of filters that limit the returned products. only products that match
+  all filters are returned.
+- `format_version`: The format version that you want the response to be in. Valid values
   are: aws_v1
-- `"max_results"`: The maximum number of results to return in the response.
-- `"next_token"`: The pagination token that indicates the next set of results that you want
+- `max_results`: The maximum number of results to return in the response.
+- `next_token`: The pagination token that indicates the next set of results that you want
   to retrieve.
-- `"service_code"`: The code for the service whose products you want to retrieve.
+- `service_code`: The code for the service whose products you want to retrieve.
 """
 function get_products(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return pricing(
-        "GetProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return pricing("GetProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

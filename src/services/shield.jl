@@ -4,20 +4,8 @@ using AWS.AWSServices: shield
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "end_time" => "EndTime",
-    "resource_type" => "ResourceType",
-    "next_token" => "NextToken",
-    "start_time" => "StartTime",
-    "auto_renew" => "AutoRenew",
-    "protection_id" => "ProtectionId",
-    "max_results" => "MaxResults",
-    "resource_arns" => "ResourceArns",
-    "members" => "Members",
-    "resource_arn" => "ResourceArn",
-    "emergency_contact_list" => "EmergencyContactList",
-    "tags" => "Tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "members" => "Members", "resource_type" => "ResourceType", "auto_renew" => "AutoRenew", "emergency_contact_list" => "EmergencyContactList", "tags" => "Tags", "end_time" => "EndTime", "resource_arns" => "ResourceArns", "start_time" => "StartTime", "protection_id" => "ProtectionId", "resource_arn" => "ResourceArn")
 
 """
     associate_drtlog_bucket(log_bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,18 +20,9 @@ must be subscribed to the Business Support plan or the Enterprise Support plan.
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
 
 """
-function associate_drtlog_bucket(
-    LogBucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "AssociateDRTLogBucket",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LogBucket" => LogBucket), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("AssociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -74,16 +53,9 @@ plan or the Enterprise Support plan.
   Attaching and Detaching IAM Policies.
 
 """
-function associate_drtrole(
-    RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "AssociateDRTRole",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("AssociateDRTRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -102,27 +74,9 @@ more information, see Shield Advanced Health-Based Detection in the WAF Develope
   check association to.
 
 """
-function associate_health_check(
-    HealthCheckArn,
-    ProtectionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_health_check(HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "AssociateHealthCheck",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("AssociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -148,22 +102,9 @@ call.
   the list using DescribeEmergencyContactSettings and then provide it here.
 
 """
-function associate_proactive_engagement_details(
-    EmergencyContactList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_proactive_engagement_details(EmergencyContactList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "AssociateProactiveEngagementDetails",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EmergencyContactList" => EmergencyContactList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("AssociateProactiveEngagementDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyContactList"=>EmergencyContactList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -190,26 +131,12 @@ Resources.
   arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address:
   arn:aws:ec2:region:account-id:eip-allocation/allocation-id
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: One or more tag key-value pairs for the Protection object that is created.
+# Keyword Parameters
+- `tags`: One or more tag key-value pairs for the Protection object that is created.
 """
-function create_protection(
-    Name, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_protection(Name, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "CreateProtection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "ResourceArn" => ResourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("CreateProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -235,41 +162,19 @@ resource grouping improves the accuracy of detection and reduces false positives
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"members"`: The Amazon Resource Names (ARNs) of the resources to include in the
-  protection group. You must set this when you set Pattern to ARBITRARY and you must not set
-  it for any other Pattern setting.
-- `"resource_type"`: The resource type to include in the protection group. All protected
+# Keyword Parameters
+- `members`: The Amazon Resource Names (ARNs) of the resources to include in the protection
+  group. You must set this when you set Pattern to ARBITRARY and you must not set it for any
+  other Pattern setting.
+- `resource_type`: The resource type to include in the protection group. All protected
   resources of this type are included in the protection group. Newly protected resources of
   this type are automatically added to the group. You must set this when you set Pattern to
   BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
-- `"tags"`: One or more tag key-value pairs for the protection group.
+- `tags`: One or more tag key-value pairs for the protection group.
 """
-function create_protection_group(
-    Aggregation,
-    Pattern,
-    ProtectionGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "CreateProtectionGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Aggregation" => Aggregation,
-                    "Pattern" => Pattern,
-                    "ProtectionGroupId" => ProtectionGroupId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("CreateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -282,9 +187,7 @@ period. You can change this by submitting an UpdateSubscription request.
 """
 function create_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "CreateSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("CreateSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -296,18 +199,9 @@ Deletes an Shield Advanced Protection.
 - `protection_id`: The unique identifier (ID) for the Protection object to be deleted.
 
 """
-function delete_protection(
-    ProtectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_protection(ProtectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DeleteProtection",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProtectionId" => ProtectionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionId"=>ProtectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -321,20 +215,9 @@ Removes the specified protection group.
   delete, or describe it.
 
 """
-function delete_protection_group(
-    ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DeleteProtectionGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DeleteProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -346,9 +229,7 @@ commitment. You cannot delete a subscription prior to the completion of that com
 """
 function delete_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DeleteSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("DeleteSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -360,18 +241,9 @@ Describes the details of a DDoS attack.
 - `attack_id`: The unique identifier (ID) for the attack that to be described.
 
 """
-function describe_attack(
-    AttackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_attack(AttackId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeAttack",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AttackId" => AttackId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DescribeAttack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttackId"=>AttackId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -387,16 +259,9 @@ returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time r
 indicates the period covered by the attack statistics data items.
 
 """
-function describe_attack_statistics(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_attack_statistics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeAttackStatistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DescribeAttackStatistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -408,9 +273,7 @@ Returns the current role and list of Amazon S3 log buckets used by the Shield Re
 """
 function describe_drtaccess(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeDRTAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("DescribeDRTAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -421,16 +284,9 @@ contact you if you have proactive engagement enabled, for escalations to the SRT
 initiate proactive customer support.
 
 """
-function describe_emergency_contact_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_emergency_contact_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeEmergencyContactSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DescribeEmergencyContactSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -438,20 +294,17 @@ end
 
 Lists the details of a Protection object.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"protection_id"`: The unique identifier (ID) for the Protection object that is
-  described. When submitting the DescribeProtection request you must provide either the
-  ResourceArn or the ProtectionID, but not both.
-- `"resource_arn"`: The ARN (Amazon Resource Name) of the Amazon Web Services resource for
+# Keyword Parameters
+- `protection_id`: The unique identifier (ID) for the Protection object that is described.
+  When submitting the DescribeProtection request you must provide either the ResourceArn or
+  the ProtectionID, but not both.
+- `resource_arn`: The ARN (Amazon Resource Name) of the Amazon Web Services resource for
   the Protection object that is described. When submitting the DescribeProtection request you
   must provide either the ResourceArn or the ProtectionID, but not both.
 """
 function describe_protection(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeProtection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("DescribeProtection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -465,20 +318,9 @@ Returns the specification for the specified protection group.
   delete, or describe it.
 
 """
-function describe_protection_group(
-    ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeProtectionGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DescribeProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -487,16 +329,9 @@ end
 Provides details about the Shield Advanced subscription for an account.
 
 """
-function describe_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DescribeSubscription",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DescribeSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -506,16 +341,9 @@ Removes authorization from the Shield Response Team (SRT) to notify contacts abo
 escalations to the SRT and to initiate proactive customer support.
 
 """
-function disable_proactive_engagement(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DisableProactiveEngagement",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DisableProactiveEngagement", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -532,18 +360,9 @@ request to remove this access.
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
 
 """
-function disassociate_drtlog_bucket(
-    LogBucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DisassociateDRTLogBucket",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LogBucket" => LogBucket), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DisassociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -556,16 +375,9 @@ plans, but had been previously and had granted the SRT access to your account, y
 submit a DisassociateDRTRole request to remove this access.
 
 """
-function disassociate_drtrole(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_drtrole(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DisassociateDRTRole",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DisassociateDRTRole", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -585,27 +397,9 @@ Developer Guide.
   health check association from.
 
 """
-function disassociate_health_check(
-    HealthCheckArn,
-    ProtectionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_health_check(HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "DisassociateHealthCheck",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("DisassociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -615,16 +409,9 @@ Authorizes the Shield Response Team (SRT) to use email and phone to notify conta
 escalations to the SRT and to initiate proactive customer support.
 
 """
-function enable_proactive_engagement(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "EnableProactiveEngagement",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("EnableProactiveEngagement", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -633,16 +420,9 @@ end
 Returns the SubscriptionState, either Active or Inactive.
 
 """
-function get_subscription_state(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_subscription_state(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "GetSubscriptionState",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("GetSubscriptionState", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -650,30 +430,27 @@ end
 
 Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The end of the time period for the attacks. This is a timestamp type. The
+# Keyword Parameters
+- `end_time`: The end of the time period for the attacks. This is a timestamp type. The
   sample request above indicates a number type because the default used by WAF is Unix time
   in seconds. However any valid timestamp format is allowed.
-- `"max_results"`: The maximum number of AttackSummary objects to return. If you leave this
+- `max_results`: The maximum number of AttackSummary objects to return. If you leave this
   blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
   Advanced might return the results in smaller batches. That is, the number of objects
   returned could be less than MaxResults, even if there are still more objects yet to return.
   If there are more objects to return, Shield Advanced returns a value in NextToken that you
   can use in your next request, to get the next batch of objects.
-- `"next_token"`: The ListAttacksRequest.NextMarker value from a previous call to
+- `next_token`: The ListAttacksRequest.NextMarker value from a previous call to
   ListAttacksRequest. Pass null if this is the first call.
-- `"resource_arns"`: The ARN (Amazon Resource Name) of the resource that was attacked. If
+- `resource_arns`: The ARN (Amazon Resource Name) of the resource that was attacked. If
   this is left blank, all applicable resources for this account will be included.
-- `"start_time"`: The start of the time period for the attacks. This is a timestamp type.
-  The sample request above indicates a number type because the default used by WAF is Unix
-  time in seconds. However any valid timestamp format is allowed.
+- `start_time`: The start of the time period for the attacks. This is a timestamp type. The
+  sample request above indicates a number type because the default used by WAF is Unix time
+  in seconds. However any valid timestamp format is allowed.
 """
 function list_attacks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "ListAttacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("ListAttacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -681,27 +458,19 @@ end
 
 Retrieves the ProtectionGroup objects for the account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of ProtectionGroup objects to return. If you leave
-  this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
+# Keyword Parameters
+- `max_results`: The maximum number of ProtectionGroup objects to return. If you leave this
+  blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
   Advanced might return the results in smaller batches. That is, the number of objects
   returned could be less than MaxResults, even if there are still more objects yet to return.
   If there are more objects to return, Shield Advanced returns a value in NextToken that you
   can use in your next request, to get the next batch of objects.
-- `"next_token"`: The next token value from a previous call to ListProtectionGroups. Pass
+- `next_token`: The next token value from a previous call to ListProtectionGroups. Pass
   null if this is the first call.
 """
-function list_protection_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_protection_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "ListProtectionGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("ListProtectionGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -709,22 +478,19 @@ end
 
 Lists all Protection objects for the account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of Protection objects to return. If you leave this
+# Keyword Parameters
+- `max_results`: The maximum number of Protection objects to return. If you leave this
   blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
   Advanced might return the results in smaller batches. That is, the number of objects
   returned could be less than MaxResults, even if there are still more objects yet to return.
   If there are more objects to return, Shield Advanced returns a value in NextToken that you
   can use in your next request, to get the next batch of objects.
-- `"next_token"`: The ListProtectionsRequest.NextToken value from a previous call to
+- `next_token`: The ListProtectionsRequest.NextToken value from a previous call to
   ListProtections. Pass null if this is the first call.
 """
 function list_protections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "ListProtections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("ListProtections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -737,31 +503,19 @@ Retrieves the resources that are included in the protection group.
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of resource ARN objects to return. If you leave this
+# Keyword Parameters
+- `max_results`: The maximum number of resource ARN objects to return. If you leave this
   blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield
   Advanced might return the results in smaller batches. That is, the number of objects
   returned could be less than MaxResults, even if there are still more objects yet to return.
   If there are more objects to return, Shield Advanced returns a value in NextToken that you
   can use in your next request, to get the next batch of objects.
-- `"next_token"`: The next token value from a previous call to
+- `next_token`: The next token value from a previous call to
   ListResourcesInProtectionGroup. Pass null if this is the first call.
 """
-function list_resources_in_protection_group(
-    ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resources_in_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "ListResourcesInProtectionGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("ListResourcesInProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -774,18 +528,9 @@ in Shield.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -799,22 +544,9 @@ Adds or updates tags for a resource in Shield.
 - `tags`: The tags that you want to modify or add to the resource.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -828,22 +560,9 @@ Removes tags from a resource in Shield.
 - `tag_keys`: The tag key for each tag that you want to remove from the resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -853,23 +572,15 @@ Updates the details of the list of email addresses and phone numbers that the Sh
 Response Team (SRT) can use to contact you if you have proactive engagement enabled, for
 escalations to the SRT and to initiate proactive customer support.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"emergency_contact_list"`: A list of email addresses and phone numbers that the Shield
+# Keyword Parameters
+- `emergency_contact_list`: A list of email addresses and phone numbers that the Shield
   Response Team (SRT) can use to contact you if you have proactive engagement enabled, for
   escalations to the SRT and to initiate proactive customer support. If you have proactive
   engagement enabled, the contact list must include at least one phone number.
 """
-function update_emergency_contact_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_emergency_contact_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "UpdateEmergencyContactSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("UpdateEmergencyContactSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -896,39 +607,17 @@ accuracy of detection and reduces false positives.
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"members"`: The Amazon Resource Names (ARNs) of the resources to include in the
-  protection group. You must set this when you set Pattern to ARBITRARY and you must not set
-  it for any other Pattern setting.
-- `"resource_type"`: The resource type to include in the protection group. All protected
+# Keyword Parameters
+- `members`: The Amazon Resource Names (ARNs) of the resources to include in the protection
+  group. You must set this when you set Pattern to ARBITRARY and you must not set it for any
+  other Pattern setting.
+- `resource_type`: The resource type to include in the protection group. All protected
   resources of this type are included in the protection group. You must set this when you set
   Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
 """
-function update_protection_group(
-    Aggregation,
-    Pattern,
-    ProtectionGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "UpdateProtectionGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Aggregation" => Aggregation,
-                    "Pattern" => Pattern,
-                    "ProtectionGroupId" => ProtectionGroupId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return shield("UpdateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -937,9 +626,8 @@ end
 Updates the details of an existing subscription. Only enter values for parameters you want
 to change. Empty parameters are not updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_renew"`: When you initally create a subscription, AutoRenew is set to ENABLED. If
+# Keyword Parameters
+- `auto_renew`: When you initally create a subscription, AutoRenew is set to ENABLED. If
   ENABLED, the subscription will be automatically renewed at the end of the existing
   subscription period. You can change this by submitting an UpdateSubscription request. If
   the UpdateSubscription request does not included a value for AutoRenew, the existing value
@@ -947,7 +635,5 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_subscription(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return shield(
-        "UpdateSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return shield("UpdateSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

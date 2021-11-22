@@ -4,18 +4,8 @@ using AWS.AWSServices: ivs
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "tags" => "tags",
-    "filter_by_recording_configuration_arn" => "filterByRecordingConfigurationArn",
-    "authorized" => "authorized",
-    "name" => "name",
-    "latency_mode" => "latencyMode",
-    "filter_by_name" => "filterByName",
-    "next_token" => "nextToken",
-    "recording_configuration_arn" => "recordingConfigurationArn",
-    "max_results" => "maxResults",
-    "type" => "type",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "filter_by_name" => "filterByName", "filter_by_recording_configuration_arn" => "filterByRecordingConfigurationArn", "authorized" => "authorized", "latency_mode" => "latencyMode", "name" => "name", "recording_configuration_arn" => "recordingConfigurationArn", "type" => "type", "stream_id" => "streamId", "tags" => "tags", "filter_by" => "filterBy")
 
 """
     batch_get_channel(arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,17 +16,9 @@ Performs GetChannel on multiple ARNs simultaneously.
 - `arns`: Array of ARNs, one per channel.
 
 """
-function batch_get_channel(
-    arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_channel(arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/BatchGetChannel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/BatchGetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -48,17 +30,9 @@ Performs GetStreamKey on multiple ARNs simultaneously.
 - `arns`: Array of ARNs, one per channel.
 
 """
-function batch_get_stream_key(
-    arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_stream_key(arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/BatchGetStreamKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/BatchGetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -66,18 +40,17 @@ end
 
 Creates a new channel and an associated stream key to start streaming.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorized"`: Whether the channel is private (enabled for playback authorization).
+# Keyword Parameters
+- `authorized`: Whether the channel is private (enabled for playback authorization).
   Default: false.
-- `"latency_mode"`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
+- `latency_mode`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
   to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS
   console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.) Default: LOW.
-- `"name"`: Channel name.
-- `"recording_configuration_arn"`: Recording-configuration ARN. Default: \"\" (empty
-  string, recording is disabled).
-- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
-- `"type"`: Channel type, which determines the allowable resolution and bitrate. If you
+- `name`: Channel name.
+- `recording_configuration_arn`: Recording-configuration ARN. Default: \"\" (empty string,
+  recording is disabled).
+- `tags`: Array of 1-50 maps, each of the form string:string (key:value).
+- `type`: Channel type, which determines the allowable resolution and bitrate. If you
   exceed the allowable resolution or bitrate, the stream probably will disconnect
   immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated
   from the original input, to automatically give viewers the best experience for their
@@ -89,13 +62,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function create_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/CreateChannel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/CreateChannel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -115,28 +82,13 @@ correct region.
 - `destination_configuration`: A complex type that contains a destination configuration for
   where recorded video will be stored.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: Recording-configuration name. The value does not need to be unique.
-- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
+# Keyword Parameters
+- `name`: Recording-configuration name. The value does not need to be unique.
+- `tags`: Array of 1-50 maps, each of the form string:string (key:value).
 """
-function create_recording_configuration(
-    destinationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_recording_configuration(destinationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/CreateRecordingConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("destinationConfiguration" => destinationConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/CreateRecordingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationConfiguration"=>destinationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -151,23 +103,12 @@ CreateStreamKey.
 # Arguments
 - `channel_arn`: ARN of the channel for which to create the stream key.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
+# Keyword Parameters
+- `tags`: Array of 1-50 maps, each of the form string:string (key:value).
 """
-function create_stream_key(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_stream_key(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/CreateStreamKey",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/CreateStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,13 +126,7 @@ EventBridge with Amazon IVS.)
 """
 function delete_channel(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/DeleteChannel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/DeleteChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -205,17 +140,9 @@ the Amazon IVS User Guide.
 - `arn`: ARN of the key pair to be deleted.
 
 """
-function delete_playback_key_pair(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/DeletePlaybackKeyPair",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,17 +158,9 @@ empty string, then use DeleteRecordingConfiguration.
 - `arn`: ARN of the recording configuration to be deleted.
 
 """
-function delete_recording_configuration(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_recording_configuration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/DeleteRecordingConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/DeleteRecordingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -253,17 +172,9 @@ Deletes the stream key for the specified ARN, so it can no longer be used to str
 - `arn`: ARN of the stream key to be deleted.
 
 """
-function delete_stream_key(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_stream_key(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/DeleteStreamKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/DeleteStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -277,13 +188,7 @@ Gets the channel configuration for the specified channel ARN. See also BatchGetC
 """
 function get_channel(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/GetChannel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/GetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,17 +203,9 @@ in the Amazon IVS User Guide.
 - `arn`: ARN of the key pair to be returned.
 
 """
-function get_playback_key_pair(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_playback_key_pair(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/GetPlaybackKeyPair",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -320,17 +217,9 @@ Gets the recording configuration for the specified ARN.
 - `arn`: ARN of the recording configuration to be retrieved.
 
 """
-function get_recording_configuration(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_recording_configuration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/GetRecordingConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/GetRecordingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -342,19 +231,9 @@ Gets information about the active (live) stream on a specified channel.
 - `channel_arn`: Channel ARN for stream to be accessed.
 
 """
-function get_stream(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_stream(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/GetStream",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/GetStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -368,13 +247,25 @@ Gets stream-key information for a specified ARN.
 """
 function get_stream_key(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/GetStreamKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/GetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_stream_session(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets metadata on a specified stream.
+
+# Arguments
+- `channel_arn`: ARN of the channel resource
+
+# Keyword Parameters
+- `stream_id`: Unique identifier for a live or previously live stream in the specified
+  channel. If no streamId is provided, this returns the most recent stream session for the
+  channel, if it exists.
+"""
+function get_stream_session(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return ivs("POST", "/GetStreamSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -388,26 +279,13 @@ Amazon IVS User Guide.
 # Arguments
 - `public_key_material`: The public portion of a customer-generated key pair.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: Playback-key-pair name. The value does not need to be unique.
-- `"tags"`: Any tags provided with the request are added to the playback key pair tags.
+# Keyword Parameters
+- `name`: Playback-key-pair name. The value does not need to be unique.
+- `tags`: Any tags provided with the request are added to the playback key pair tags.
 """
-function import_playback_key_pair(
-    publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function import_playback_key_pair(publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/ImportPlaybackKeyPair",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -418,24 +296,17 @@ region where the API request is processed. This list can be filtered to match a 
 name or recording-configuration ARN. Filters are mutually exclusive and cannot be used
 together. If you try to use both filters, you will get an error (409 ConflictException).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_by_name"`: Filters the channel list to match the specified name.
-- `"filter_by_recording_configuration_arn"`: Filters the channel list to match the
-  specified recording-configuration ARN.
-- `"max_results"`: Maximum number of channels to return. Default: 50.
-- `"next_token"`: The first channel to retrieve. This is used for pagination; see the
+# Keyword Parameters
+- `filter_by_name`: Filters the channel list to match the specified name.
+- `filter_by_recording_configuration_arn`: Filters the channel list to match the specified
+  recording-configuration ARN.
+- `max_results`: Maximum number of channels to return. Default: 50.
+- `next_token`: The first channel to retrieve. This is used for pagination; see the
   nextToken response field.
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/ListChannels",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -444,23 +315,14 @@ end
 Gets summary information about playback key pairs. For more information, see Setting Up
 Private Channels in the Amazon IVS User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The first key pair to retrieve. This is used for pagination; see the
+# Keyword Parameters
+- `max_results`: The first key pair to retrieve. This is used for pagination; see the
   nextToken response field. Default: 50.
-- `"next_token"`: Maximum number of key pairs to return.
+- `next_token`: Maximum number of key pairs to return.
 """
-function list_playback_key_pairs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_playback_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/ListPlaybackKeyPairs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListPlaybackKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -469,23 +331,14 @@ end
 Gets summary information about all recording configurations in your account, in the Amazon
 Web Services region where the API request is processed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of recording configurations to return. Default: 50.
-- `"next_token"`: The first recording configuration to retrieve. This is used for
-  pagination; see the nextToken response field.
+# Keyword Parameters
+- `max_results`: Maximum number of recording configurations to return. Default: 50.
+- `next_token`: The first recording configuration to retrieve. This is used for pagination;
+  see the nextToken response field.
 """
-function list_recording_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_recording_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/ListRecordingConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListRecordingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -496,25 +349,33 @@ Gets summary information about stream keys for the specified channel.
 # Arguments
 - `channel_arn`: Channel ARN used to filter the list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of streamKeys to return. Default: 50.
-- `"next_token"`: The first stream key to retrieve. This is used for pagination; see the
+# Keyword Parameters
+- `max_results`: Maximum number of streamKeys to return. Default: 50.
+- `next_token`: The first stream key to retrieve. This is used for pagination; see the
   nextToken response field.
 """
-function list_stream_keys(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_stream_keys(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/ListStreamKeys",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListStreamKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_stream_sessions(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Gets a summary of current and previous streams for a specified channel in your account, in
+the AWS region where the API request is processed.
+
+# Arguments
+- `channel_arn`: Channel ARN used to filter the list.
+
+# Keyword Parameters
+- `max_results`: Maximum number of streams to return. Default: 50.
+- `next_token`: The first stream to retrieve. This is used for pagination; see the
+  nextToken response field.
+"""
+function list_stream_sessions(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return ivs("POST", "/ListStreamSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -523,21 +384,15 @@ end
 Gets summary information about live streams in your account, in the Amazon Web Services
 region where the API request is processed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of streams to return. Default: 50.
-- `"next_token"`: The first stream to retrieve. This is used for pagination; see the
+# Keyword Parameters
+- `filter_by`: Filters the stream list to match the specified criterion.
+- `max_results`: Maximum number of streams to return. Default: 50.
+- `next_token`: The first stream to retrieve. This is used for pagination; see the
   nextToken response field.
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/ListStreams",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -549,17 +404,9 @@ Gets information about Amazon Web Services tags for the specified ARN.
 - `resource_arn`: The ARN of the resource to be retrieved.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -577,23 +424,9 @@ a Video Stream in the Amazon IVS User Guide.
 - `metadata`: Metadata to insert into the stream. Maximum: 1 KB per request.
 
 """
-function put_metadata(
-    channelArn, metadata; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_metadata(channelArn, metadata; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/PutMetadata",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("channelArn" => channelArn, "metadata" => metadata),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/PutMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -608,19 +441,9 @@ stream permanently, you may want to first revoke the streamKey attached to the c
 - `channel_arn`: ARN of the channel for which the stream is to be stopped.
 
 """
-function stop_stream(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_stream(channelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/StopStream",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/StopStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -633,17 +456,9 @@ Adds or updates tags for the Amazon Web Services resource with the specified ARN
 - `tags`: Array of tags to be added or updated.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -656,17 +471,9 @@ Removes tags from the resource with the specified ARN.
 - `tag_keys`: Array of tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -678,17 +485,16 @@ You must stop and restart the stream for the changes to take effect.
 # Arguments
 - `arn`: ARN of the channel to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authorized"`: Whether the channel is private (enabled for playback authorization).
-- `"latency_mode"`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
+# Keyword Parameters
+- `authorized`: Whether the channel is private (enabled for playback authorization).
+- `latency_mode`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
   to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS
   console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
-- `"name"`: Channel name.
-- `"recording_configuration_arn"`: Recording-configuration ARN. If this is set to an empty
+- `name`: Channel name.
+- `recording_configuration_arn`: Recording-configuration ARN. If this is set to an empty
   string, recording is disabled. A value other than an empty string indicates that recording
   is enabled
-- `"type"`: Channel type, which determines the allowable resolution and bitrate. If you
+- `type`: Channel type, which determines the allowable resolution and bitrate. If you
   exceed the allowable resolution or bitrate, the stream probably will disconnect
   immediately. Valid values:    STANDARD: Multiple qualities are generated from the original
   input, to automatically give viewers the best experience for their devices and network
@@ -700,11 +506,5 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_channel(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ivs(
-        "POST",
-        "/UpdateChannel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/UpdateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

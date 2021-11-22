@@ -4,48 +4,8 @@ using AWS.AWSServices: mturk
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "hitid" => "HITId",
-    "auto_granted_value" => "AutoGrantedValue",
-    "retrieve_actions" => "RetrieveActions",
-    "question" => "Question",
-    "active" => "Active",
-    "must_be_owned_by_caller" => "MustBeOwnedByCaller",
-    "keywords" => "Keywords",
-    "unique_request_token" => "UniqueRequestToken",
-    "next_token" => "NextToken",
-    "qualification_type_id" => "QualificationTypeId",
-    "retry_delay_in_seconds" => "RetryDelayInSeconds",
-    "assignment_review_policy" => "AssignmentReviewPolicy",
-    "max_assignments" => "MaxAssignments",
-    "send_notification" => "SendNotification",
-    "status" => "Status",
-    "reason" => "Reason",
-    "revert" => "Revert",
-    "description" => "Description",
-    "max_results" => "MaxResults",
-    "qualification_type_status" => "QualificationTypeStatus",
-    "hitreview_policy" => "HITReviewPolicy",
-    "override_rejection" => "OverrideRejection",
-    "test_duration_in_seconds" => "TestDurationInSeconds",
-    "auto_approval_delay_in_seconds" => "AutoApprovalDelayInSeconds",
-    "hittype_id" => "HITTypeId",
-    "hitlayout_id" => "HITLayoutId",
-    "integer_value" => "IntegerValue",
-    "policy_levels" => "PolicyLevels",
-    "notification" => "Notification",
-    "requester_feedback" => "RequesterFeedback",
-    "qualification_requirements" => "QualificationRequirements",
-    "test" => "Test",
-    "assignment_statuses" => "AssignmentStatuses",
-    "auto_granted" => "AutoGranted",
-    "answer_key" => "AnswerKey",
-    "query" => "Query",
-    "retrieve_results" => "RetrieveResults",
-    "hitlayout_parameters" => "HITLayoutParameters",
-    "assignment_id" => "AssignmentId",
-    "requester_annotation" => "RequesterAnnotation",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "policy_levels" => "PolicyLevels", "retrieve_actions" => "RetrieveActions", "retrieve_results" => "RetrieveResults", "reason" => "Reason", "hittype_id" => "HITTypeId", "status" => "Status", "auto_approval_delay_in_seconds" => "AutoApprovalDelayInSeconds", "keywords" => "Keywords", "qualification_requirements" => "QualificationRequirements", "assignment_statuses" => "AssignmentStatuses", "qualification_type_id" => "QualificationTypeId", "must_be_owned_by_caller" => "MustBeOwnedByCaller", "query" => "Query", "integer_value" => "IntegerValue", "unique_request_token" => "UniqueRequestToken", "active" => "Active", "notification" => "Notification", "revert" => "Revert", "assignment_review_policy" => "AssignmentReviewPolicy", "hitlayout_id" => "HITLayoutId", "hitlayout_parameters" => "HITLayoutParameters", "hitreview_policy" => "HITReviewPolicy", "max_assignments" => "MaxAssignments", "question" => "Question", "requester_annotation" => "RequesterAnnotation", "assignment_id" => "AssignmentId", "hitid" => "HITId", "answer_key" => "AnswerKey", "auto_granted" => "AutoGranted", "auto_granted_value" => "AutoGrantedValue", "retry_delay_in_seconds" => "RetryDelayInSeconds", "test" => "Test", "test_duration_in_seconds" => "TestDurationInSeconds", "description" => "Description", "qualification_type_status" => "QualificationTypeStatus", "send_notification" => "SendNotification", "override_rejection" => "OverrideRejection", "requester_feedback" => "RequesterFeedback")
 
 """
     accept_qualification_request(qualification_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -59,27 +19,13 @@ and an empty body.
 - `qualification_request_id`: The ID of the Qualification request, as returned by the
   GetQualificationRequests operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"integer_value"`:  The value of the Qualification. You can omit this value if you are
+# Keyword Parameters
+- `integer_value`:  The value of the Qualification. You can omit this value if you are
   using the presence or absence of the Qualification as the basis for a HIT requirement.
 """
-function accept_qualification_request(
-    QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "AcceptQualificationRequest",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationRequestId" => QualificationRequestId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("AcceptQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -101,25 +47,15 @@ deleted.
 - `assignment_id`:  The ID of the assignment. The assignment must correspond to a HIT
   created by the Requester.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"override_rejection"`:  A flag indicating that an assignment should be approved even if
-  it was previously rejected. Defaults to False.
-- `"requester_feedback"`:  A message for the Worker, which the Worker can see in the Status
+# Keyword Parameters
+- `override_rejection`:  A flag indicating that an assignment should be approved even if it
+  was previously rejected. Defaults to False.
+- `requester_feedback`:  A message for the Worker, which the Worker can see in the Status
   section of the web site.
 """
-function approve_assignment(
-    AssignmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ApproveAssignment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AssignmentId" => AssignmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ApproveAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -142,34 +78,15 @@ RejectQualificationRequest operation.
 - `worker_id`:  The ID of the Worker to whom the Qualification is being assigned. Worker
   IDs are included with submitted HIT assignments and Qualification requests.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"integer_value"`: The value of the Qualification to assign.
-- `"send_notification"`:  Specifies whether to send a notification email message to the
+# Keyword Parameters
+- `integer_value`: The value of the Qualification to assign.
+- `send_notification`:  Specifies whether to send a notification email message to the
   Worker saying that the qualification was assigned to the Worker. Note: this is true by
   default.
 """
-function associate_qualification_with_worker(
-    QualificationTypeId,
-    WorkerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_qualification_with_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "AssociateQualificationWithWorker",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "QualificationTypeId" => QualificationTypeId, "WorkerId" => WorkerId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("AssociateQualificationWithWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -190,37 +107,17 @@ AWS.MechanicalTurk.HITTooOldForExtension exception.
 - `number_of_additional_assignments`: The number of additional assignments to request for
   this HIT.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"unique_request_token"`:  A unique identifier for this request, which allows you to
-  retry the call on error without extending the HIT multiple times. This is useful in cases
-  such as network timeouts where it is unclear whether or not the call succeeded on the
-  server. If the extend HIT already exists in the system from a previous call using the same
+# Keyword Parameters
+- `unique_request_token`:  A unique identifier for this request, which allows you to retry
+  the call on error without extending the HIT multiple times. This is useful in cases such as
+  network timeouts where it is unclear whether or not the call succeeded on the server. If
+  the extend HIT already exists in the system from a previous call using the same
   UniqueRequestToken, subsequent calls will return an error with a message containing the
   request ID.
 """
-function create_additional_assignments_for_hit(
-    HITId,
-    NumberOfAdditionalAssignments;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "CreateAdditionalAssignmentsForHIT",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HITId" => HITId,
-                    "NumberOfAdditionalAssignments" => NumberOfAdditionalAssignments,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -261,45 +158,44 @@ more information, see Amazon Mechanical Turk Pricing.
   task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in
   search results, and everywhere the HIT is mentioned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_review_policy"`:  The Assignment-level Review Policy applies to the
+# Keyword Parameters
+- `assignment_review_policy`:  The Assignment-level Review Policy applies to the
   assignments under the HIT. You can specify for Mechanical Turk to take various actions
   based on the policy.
-- `"auto_approval_delay_in_seconds"`:  The number of seconds after an assignment for the
-  HIT has been submitted, after which the assignment is considered Approved automatically
-  unless the Requester explicitly rejects it.
-- `"hitlayout_id"`:  The HITLayoutId allows you to use a pre-existing HIT design with
+- `auto_approval_delay_in_seconds`:  The number of seconds after an assignment for the HIT
+  has been submitted, after which the assignment is considered Approved automatically unless
+  the Requester explicitly rejects it.
+- `hitlayout_id`:  The HITLayoutId allows you to use a pre-existing HIT design with
   placeholder values and create an additional HIT by providing those values as
   HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter
   must be provided.
-- `"hitlayout_parameters"`:  If the HITLayoutId is provided, any placeholder values must be
+- `hitlayout_parameters`:  If the HITLayoutId is provided, any placeholder values must be
   filled in with values using the HITLayoutParameter structure. For more information, see
   HITLayout.
-- `"hitreview_policy"`:  The HIT-level Review Policy applies to the HIT. You can specify
-  for Mechanical Turk to take various actions based on the policy.
-- `"keywords"`:  One or more words or phrases that describe the HIT, separated by commas.
+- `hitreview_policy`:  The HIT-level Review Policy applies to the HIT. You can specify for
+  Mechanical Turk to take various actions based on the policy.
+- `keywords`:  One or more words or phrases that describe the HIT, separated by commas.
   These words are used in searches to find HITs.
-- `"max_assignments"`:  The number of times the HIT can be accepted and completed before
-  the HIT becomes unavailable.
-- `"qualification_requirements"`:  Conditions that a Worker's Qualifications must meet in
+- `max_assignments`:  The number of times the HIT can be accepted and completed before the
+  HIT becomes unavailable.
+- `qualification_requirements`:  Conditions that a Worker's Qualifications must meet in
   order to accept the HIT. A HIT can have between zero and ten Qualification requirements.
   All requirements must be met in order for a Worker to accept the HIT. Additionally, other
   actions can be restricted using the ActionsGuarded field on each QualificationRequirement
   structure.
-- `"question"`:  The data the person completing the HIT uses to produce the results.
+- `question`:  The data the person completing the HIT uses to produce the results.
   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or
   an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes
   (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId
   parameter must be provided.
-- `"requester_annotation"`:  An arbitrary data field. The RequesterAnnotation parameter
-  lets your application attach arbitrary data to the HIT for tracking purposes. For example,
-  this parameter could be an identifier internal to the Requester's application that
-  corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to
-  the Requester who created the HIT. It is not shown to the Worker, or any other Requester.
-  The RequesterAnnotation parameter may be different for each HIT you submit. It does not
-  affect how your HITs are grouped.
-- `"unique_request_token"`:  A unique identifier for this request which allows you to retry
+- `requester_annotation`:  An arbitrary data field. The RequesterAnnotation parameter lets
+  your application attach arbitrary data to the HIT for tracking purposes. For example, this
+  parameter could be an identifier internal to the Requester's application that corresponds
+  with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the
+  Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The
+  RequesterAnnotation parameter may be different for each HIT you submit. It does not affect
+  how your HITs are grouped.
+- `unique_request_token`:  A unique identifier for this request which allows you to retry
   the call on error without creating duplicate HITs. This is useful in cases such as network
   timeouts where it is unclear whether or not the call succeeded on the server. If the HIT
   already exists in the system from a previous call using the same UniqueRequestToken,
@@ -308,34 +204,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken
   made after the 24 hour limit could create duplicate HITs.
 """
-function create_hit(
-    AssignmentDurationInSeconds,
-    Description,
-    LifetimeInSeconds,
-    Reward,
-    Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "CreateHIT",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssignmentDurationInSeconds" => AssignmentDurationInSeconds,
-                    "Description" => Description,
-                    "LifetimeInSeconds" => LifetimeInSeconds,
-                    "Reward" => Reward,
-                    "Title" => Title,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("CreateHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -363,45 +234,21 @@ returned.
   task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in
   search results, and everywhere the HIT is mentioned.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_approval_delay_in_seconds"`:  The number of seconds after an assignment for the
-  HIT has been submitted, after which the assignment is considered Approved automatically
-  unless the Requester explicitly rejects it.
-- `"keywords"`:  One or more words or phrases that describe the HIT, separated by commas.
+# Keyword Parameters
+- `auto_approval_delay_in_seconds`:  The number of seconds after an assignment for the HIT
+  has been submitted, after which the assignment is considered Approved automatically unless
+  the Requester explicitly rejects it.
+- `keywords`:  One or more words or phrases that describe the HIT, separated by commas.
   These words are used in searches to find HITs.
-- `"qualification_requirements"`:  Conditions that a Worker's Qualifications must meet in
+- `qualification_requirements`:  Conditions that a Worker's Qualifications must meet in
   order to accept the HIT. A HIT can have between zero and ten Qualification requirements.
   All requirements must be met in order for a Worker to accept the HIT. Additionally, other
   actions can be restricted using the ActionsGuarded field on each QualificationRequirement
   structure.
 """
-function create_hittype(
-    AssignmentDurationInSeconds,
-    Description,
-    Reward,
-    Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_hittype(AssignmentDurationInSeconds, Description, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "CreateHITType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssignmentDurationInSeconds" => AssignmentDurationInSeconds,
-                    "Description" => Description,
-                    "Reward" => Reward,
-                    "Title" => Title,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("CreateHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -422,35 +269,34 @@ an additional fee. For more information, see Amazon Mechanical Turk Pricing.
   available for users to accept. After the lifetime of the HIT elapses, the HIT no longer
   appears in HIT searches, even if not all of the assignments for the HIT have been accepted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_review_policy"`:  The Assignment-level Review Policy applies to the
+# Keyword Parameters
+- `assignment_review_policy`:  The Assignment-level Review Policy applies to the
   assignments under the HIT. You can specify for Mechanical Turk to take various actions
   based on the policy.
-- `"hitlayout_id"`:  The HITLayoutId allows you to use a pre-existing HIT design with
+- `hitlayout_id`:  The HITLayoutId allows you to use a pre-existing HIT design with
   placeholder values and create an additional HIT by providing those values as
   HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter
   must be provided.
-- `"hitlayout_parameters"`:  If the HITLayoutId is provided, any placeholder values must be
+- `hitlayout_parameters`:  If the HITLayoutId is provided, any placeholder values must be
   filled in with values using the HITLayoutParameter structure. For more information, see
   HITLayout.
-- `"hitreview_policy"`:  The HIT-level Review Policy applies to the HIT. You can specify
-  for Mechanical Turk to take various actions based on the policy.
-- `"max_assignments"`:  The number of times the HIT can be accepted and completed before
-  the HIT becomes unavailable.
-- `"question"`:  The data the person completing the HIT uses to produce the results.
+- `hitreview_policy`:  The HIT-level Review Policy applies to the HIT. You can specify for
+  Mechanical Turk to take various actions based on the policy.
+- `max_assignments`:  The number of times the HIT can be accepted and completed before the
+  HIT becomes unavailable.
+- `question`:  The data the person completing the HIT uses to produce the results.
   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or
   an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes
   (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId
   parameter must be provided.
-- `"requester_annotation"`:  An arbitrary data field. The RequesterAnnotation parameter
-  lets your application attach arbitrary data to the HIT for tracking purposes. For example,
-  this parameter could be an identifier internal to the Requester's application that
-  corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to
-  the Requester who created the HIT. It is not shown to the Worker, or any other Requester.
-  The RequesterAnnotation parameter may be different for each HIT you submit. It does not
-  affect how your HITs are grouped.
-- `"unique_request_token"`:  A unique identifier for this request which allows you to retry
+- `requester_annotation`:  An arbitrary data field. The RequesterAnnotation parameter lets
+  your application attach arbitrary data to the HIT for tracking purposes. For example, this
+  parameter could be an identifier internal to the Requester's application that corresponds
+  with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the
+  Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The
+  RequesterAnnotation parameter may be different for each HIT you submit. It does not affect
+  how your HITs are grouped.
+- `unique_request_token`:  A unique identifier for this request which allows you to retry
   the call on error without creating duplicate HITs. This is useful in cases such as network
   timeouts where it is unclear whether or not the call succeeded on the server. If the HIT
   already exists in the system from a previous call using the same UniqueRequestToken,
@@ -459,27 +305,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken
   made after the 24 hour limit could create duplicate HITs.
 """
-function create_hitwith_hittype(
-    HITTypeId,
-    LifetimeInSeconds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_hitwith_hittype(HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "CreateHITWithHITType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HITTypeId" => HITTypeId, "LifetimeInSeconds" => LifetimeInSeconds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("CreateHITWithHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -497,59 +325,37 @@ represented by a QualificationType data structure.
 - `qualification_type_status`: The initial status of the Qualification type. Constraints:
   Valid values are: Active | Inactive
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"answer_key"`: The answers to the Qualification test specified in the Test parameter, in
+# Keyword Parameters
+- `answer_key`: The answers to the Qualification test specified in the Test parameter, in
   the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes.
   Constraints: None. If not specified, you must process Qualification requests manually.
-- `"auto_granted"`: Specifies whether requests for the Qualification type are granted
+- `auto_granted`: Specifies whether requests for the Qualification type are granted
   immediately, without prompting the Worker with a Qualification test. Constraints: If the
   Test parameter is specified, this parameter cannot be true.
-- `"auto_granted_value"`: The Qualification value to use for automatically granted
+- `auto_granted_value`: The Qualification value to use for automatically granted
   Qualifications. This parameter is used only if the AutoGranted parameter is true.
-- `"keywords"`: One or more words or phrases that describe the Qualification type,
-  separated by commas. The keywords of a type make the type easier to find during a search.
-- `"retry_delay_in_seconds"`: The number of seconds that a Worker must wait after
-  requesting a Qualification of the Qualification type before the worker can retry the
-  Qualification request. Constraints: None. If not specified, retries are disabled and
-  Workers can request a Qualification of this type only once, even if the Worker has not been
-  granted the Qualification. It is not possible to disable retries for a Qualification type
-  after it has been created with retries enabled. If you want to disable retries, you must
-  delete existing retry-enabled Qualification type and then create a new Qualification type
-  with retries disabled.
-- `"test"`:  The questions for the Qualification test a Worker must answer correctly to
+- `keywords`: One or more words or phrases that describe the Qualification type, separated
+  by commas. The keywords of a type make the type easier to find during a search.
+- `retry_delay_in_seconds`: The number of seconds that a Worker must wait after requesting
+  a Qualification of the Qualification type before the worker can retry the Qualification
+  request. Constraints: None. If not specified, retries are disabled and Workers can request
+  a Qualification of this type only once, even if the Worker has not been granted the
+  Qualification. It is not possible to disable retries for a Qualification type after it has
+  been created with retries enabled. If you want to disable retries, you must delete existing
+  retry-enabled Qualification type and then create a new Qualification type with retries
+  disabled.
+- `test`:  The questions for the Qualification test a Worker must answer correctly to
   obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds
   must also be specified.  Constraints: Must not be longer than 65535 bytes. Must be a
   QuestionForm data structure. This parameter cannot be specified if AutoGranted is true.
   Constraints: None. If not specified, the Worker may request the Qualification without
   answering any questions.
-- `"test_duration_in_seconds"`: The number of seconds the Worker has to complete the
+- `test_duration_in_seconds`: The number of seconds the Worker has to complete the
   Qualification test, starting from the time the Worker requests the Qualification.
 """
-function create_qualification_type(
-    Description,
-    Name,
-    QualificationTypeStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_qualification_type(Description, Name, QualificationTypeStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "CreateQualificationType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Description" => Description,
-                    "Name" => Name,
-                    "QualificationTypeStatus" => QualificationTypeStatus,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("CreateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -565,20 +371,9 @@ For example, you can block a Worker who is producing poor quality work. You can 
 - `worker_id`: The ID of the Worker to block.
 
 """
-function create_worker_block(
-    Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_worker_block(Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "CreateWorkerBlock",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Reason" => Reason, "WorkerId" => WorkerId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("CreateWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -601,12 +396,7 @@ can improve the performance of operations such as ListReviewableHITs and ListHIT
 """
 function delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "DeleteHIT",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("DeleteHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -626,22 +416,9 @@ available for reuse with CreateQualificationType.
 - `qualification_type_id`: The ID of the QualificationType to dispose.
 
 """
-function delete_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "DeleteQualificationType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationTypeId" => QualificationTypeId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("DeleteQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -656,23 +433,13 @@ blocked, this operation returns successfully.
 # Arguments
 - `worker_id`: The ID of the Worker to unblock.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"reason"`: A message that explains the reason for unblocking the Worker. The Worker does
+# Keyword Parameters
+- `reason`: A message that explains the reason for unblocking the Worker. The Worker does
   not see this message.
 """
-function delete_worker_block(
-    WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "DeleteWorkerBlock",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("WorkerId" => WorkerId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("DeleteWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -687,32 +454,13 @@ user who had the Qualification can see this message.
   revoked.
 - `worker_id`: The ID of the Worker who possesses the Qualification to be revoked.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"reason"`: A text message that explains why the Qualification was revoked. The user who
+# Keyword Parameters
+- `reason`: A text message that explains why the Qualification was revoked. The user who
   had the Qualification sees this message.
 """
-function disassociate_qualification_from_worker(
-    QualificationTypeId,
-    WorkerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_qualification_from_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "DisassociateQualificationFromWorker",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "QualificationTypeId" => QualificationTypeId, "WorkerId" => WorkerId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("DisassociateQualificationFromWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -727,9 +475,7 @@ balance can be viewed on the My Account page in the Requester console.
 """
 function get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "GetAccountBalance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mturk("GetAccountBalance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -741,18 +487,9 @@ end
 - `assignment_id`: The ID of the Assignment to be retrieved.
 
 """
-function get_assignment(
-    AssignmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "GetAssignment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AssignmentId" => AssignmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("GetAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -775,28 +512,9 @@ HITs asking Workers to upload files to use Amazon S3.
   specified in the QuestionForm of the HIT.
 
 """
-function get_file_upload_url(
-    AssignmentId,
-    QuestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_file_upload_url(AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "GetFileUploadURL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssignmentId" => AssignmentId,
-                    "QuestionIdentifier" => QuestionIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("GetFileUploadURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -810,12 +528,7 @@ end
 """
 function get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "GetHIT",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("GetHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -832,27 +545,9 @@ Qualification of that type.
 - `worker_id`: The ID of the Worker whose Qualification is being updated.
 
 """
-function get_qualification_score(
-    QualificationTypeId,
-    WorkerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_qualification_score(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "GetQualificationScore",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "QualificationTypeId" => QualificationTypeId, "WorkerId" => WorkerId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("GetQualificationScore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -865,22 +560,9 @@ its ID.
 - `qualification_type_id`: The ID of the QualificationType.
 
 """
-function get_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "GetQualificationType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationTypeId" => QualificationTypeId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("GetQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -902,23 +584,15 @@ You can use the parameters of the operation to control sorting and pagination.
 # Arguments
 - `hitid`: The ID of the HIT.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_statuses"`: The status of the assignments to return: Submitted | Approved |
+# Keyword Parameters
+- `assignment_statuses`: The status of the assignments to return: Submitted | Approved |
   Rejected
-- `"max_results"`:
-- `"next_token"`: Pagination token
+- `max_results`:
+- `next_token`: Pagination token
 """
-function list_assignments_for_hit(
-    HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListAssignmentsForHIT",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ListAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -927,22 +601,19 @@ end
  The ListBonusPayments operation retrieves the amounts of bonuses you have paid to Workers
 for a given HIT or assignment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_id"`: The ID of the assignment associated with the bonus payments to
-  retrieve. If specified, only bonus payments for the given assignment are returned. Either
-  the HITId parameter or the AssignmentId parameter must be specified
-- `"hitid"`: The ID of the HIT associated with the bonus payments to retrieve. If not
+# Keyword Parameters
+- `assignment_id`: The ID of the assignment associated with the bonus payments to retrieve.
+  If specified, only bonus payments for the given assignment are returned. Either the HITId
+  parameter or the AssignmentId parameter must be specified
+- `hitid`: The ID of the HIT associated with the bonus payments to retrieve. If not
   specified, all bonus payments for all assignments for the given HIT are returned. Either
   the HITId parameter or the AssignmentId parameter must be specified
-- `"max_results"`:
-- `"next_token"`: Pagination token
+- `max_results`:
+- `next_token`: Pagination token
 """
 function list_bonus_payments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListBonusPayments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mturk("ListBonusPayments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -952,10 +623,9 @@ end
 any status, except for HITs that have been deleted of with the DeleteHIT operation or that
 have been auto-deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`: Pagination token
+# Keyword Parameters
+- `max_results`:
+- `next_token`: Pagination token
 """
 function list_hits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
@@ -973,27 +643,13 @@ been auto-deleted.
 # Arguments
 - `qualification_type_id`:  The ID of the Qualification type to use when querying HITs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Limit the number of results returned.
-- `"next_token"`: Pagination Token
+# Keyword Parameters
+- `max_results`:  Limit the number of results returned.
+- `next_token`: Pagination Token
 """
-function list_hits_for_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_hits_for_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListHITsForQualificationType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationTypeId" => QualificationTypeId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ListHITsForQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1003,22 +659,14 @@ end
 particular Qualification type. The owner of the Qualification type calls this operation to
 poll for pending requests, and accepts them using the AcceptQualification operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of results to return in a single call.
-- `"next_token"`:
-- `"qualification_type_id"`: The ID of the QualificationType.
+# Keyword Parameters
+- `max_results`:  The maximum number of results to return in a single call.
+- `next_token`:
+- `qualification_type_id`: The ID of the QualificationType.
 """
-function list_qualification_requests(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_qualification_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListQualificationRequests",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ListQualificationRequests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1035,28 +683,16 @@ optional search term.
   Qualification types, including those managed by the system, are considered. Valid values
   are True | False.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of results to return in a single call.
-- `"must_be_owned_by_caller"`:  Specifies that only Qualification types that the Requester
+# Keyword Parameters
+- `max_results`:  The maximum number of results to return in a single call.
+- `must_be_owned_by_caller`:  Specifies that only Qualification types that the Requester
   created are returned. If false, the operation returns all Qualification types.
-- `"next_token"`:
-- `"query"`:  A text query against all of the searchable attributes of Qualification types.
+- `next_token`:
+- `query`:  A text query against all of the searchable attributes of Qualification types.
 """
-function list_qualification_types(
-    MustBeRequestable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_qualification_types(MustBeRequestable; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListQualificationTypes",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("MustBeRequestable" => MustBeRequestable), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ListQualificationTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MustBeRequestable"=>MustBeRequestable), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1071,28 +707,20 @@ HIT-level review results.
 # Arguments
 - `hitid`: The unique identifier of the HIT to retrieve review results for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Limit the number of results returned.
-- `"next_token"`: Pagination token
-- `"policy_levels"`:  The Policy Level(s) to retrieve review results for - HIT or
-  Assignment. If omitted, the default behavior is to retrieve all data for both policy
-  levels. For a list of all the described policies, see Review Policies.
-- `"retrieve_actions"`:  Specify if the operation should retrieve a list of the actions
-  taken executing the Review Policies and their outcomes.
-- `"retrieve_results"`:  Specify if the operation should retrieve a list of the results
+# Keyword Parameters
+- `max_results`: Limit the number of results returned.
+- `next_token`: Pagination token
+- `policy_levels`:  The Policy Level(s) to retrieve review results for - HIT or Assignment.
+  If omitted, the default behavior is to retrieve all data for both policy levels. For a list
+  of all the described policies, see Review Policies.
+- `retrieve_actions`:  Specify if the operation should retrieve a list of the actions taken
+  executing the Review Policies and their outcomes.
+- `retrieve_results`:  Specify if the operation should retrieve a list of the results
   computed by the Review Policies.
 """
-function list_review_policy_results_for_hit(
-    HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_review_policy_results_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListReviewPolicyResultsForHIT",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1101,21 +729,16 @@ end
  The ListReviewableHITs operation retrieves the HITs with Status equal to Reviewable or
 Status equal to Reviewing that belong to the Requester calling the operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hittype_id"`:  The ID of the HIT type of the HITs to consider for the query. If not
+# Keyword Parameters
+- `hittype_id`:  The ID of the HIT type of the HITs to consider for the query. If not
   specified, all HITs for the Reviewer are considered
-- `"max_results"`:  Limit the number of results returned.
-- `"next_token"`: Pagination Token
-- `"status"`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
+- `max_results`:  Limit the number of results returned.
+- `next_token`: Pagination Token
+- `status`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
 """
-function list_reviewable_hits(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_reviewable_hits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListReviewableHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mturk("ListReviewableHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1124,16 +747,13 @@ end
 The ListWorkersBlocks operation retrieves a list of Workers who are blocked from working on
 your HITs.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`: Pagination token
+# Keyword Parameters
+- `max_results`:
+- `next_token`: Pagination token
 """
 function list_worker_blocks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListWorkerBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mturk("ListWorkerBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1145,28 +765,14 @@ associated with a given Qualification type.
 # Arguments
 - `qualification_type_id`: The ID of the Qualification type of the Qualifications to return.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  Limit the number of results returned.
-- `"next_token"`: Pagination Token
-- `"status"`:  The status of the Qualifications to return. Can be Granted | Revoked.
+# Keyword Parameters
+- `max_results`:  Limit the number of results returned.
+- `next_token`: Pagination Token
+- `status`:  The status of the Qualifications to return. Can be Granted | Revoked.
 """
-function list_workers_with_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_workers_with_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "ListWorkersWithQualificationType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationTypeId" => QualificationTypeId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("ListWorkersWithQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1185,30 +791,9 @@ email to a Worker only if you have previously approved or rejected work from the
   a time.
 
 """
-function notify_workers(
-    MessageText,
-    Subject,
-    WorkerIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function notify_workers(MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "NotifyWorkers",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MessageText" => MessageText,
-                    "Subject" => Subject,
-                    "WorkerIds" => WorkerIds,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("NotifyWorkers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1228,27 +813,9 @@ reject an assignment for the HIT.
   section of the web site.
 
 """
-function reject_assignment(
-    AssignmentId,
-    RequesterFeedback;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function reject_assignment(AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "RejectAssignment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssignmentId" => AssignmentId, "RequesterFeedback" => RequesterFeedback
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("RejectAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1262,27 +829,13 @@ the request can see this message.
 - `qualification_request_id`:  The ID of the Qualification request, as returned by the
   ListQualificationRequests operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"reason"`: A text message explaining why the request was rejected, to be shown to the
+# Keyword Parameters
+- `reason`: A text message explaining why the request was rejected, to be shown to the
   Worker who made the request.
 """
-function reject_qualification_request(
-    QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "RejectQualificationRequest",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationRequestId" => QualificationRequestId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("RejectQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1306,41 +859,17 @@ the fees.
   the bonus can see this message.
 - `worker_id`: The ID of the Worker being paid the bonus.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"unique_request_token"`: A unique identifier for this request, which allows you to retry
+# Keyword Parameters
+- `unique_request_token`: A unique identifier for this request, which allows you to retry
   the call on error without granting multiple bonuses. This is useful in cases such as
   network timeouts where it is unclear whether or not the call succeeded on the server. If
   the bonus already exists in the system from a previous call using the same
   UniqueRequestToken, subsequent calls will return an error with a message containing the
   request ID.
 """
-function send_bonus(
-    AssignmentId,
-    BonusAmount,
-    Reason,
-    WorkerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_bonus(AssignmentId, BonusAmount, Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "SendBonus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssignmentId" => AssignmentId,
-                    "BonusAmount" => BonusAmount,
-                    "Reason" => Reason,
-                    "WorkerId" => WorkerId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("SendBonus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1361,27 +890,9 @@ the service attempts to send the test notification immediately.
   include the event type. The notification specification does not filter out the test event.
 
 """
-function send_test_event_notification(
-    Notification,
-    TestEventType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_test_event_notification(Notification, TestEventType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "SendTestEventNotification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Notification" => Notification, "TestEventType" => TestEventType
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("SendTestEventNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1395,20 +906,9 @@ you update it to a time in the past, the HIT will be immediately expired.
 - `hitid`:  The HIT to update.
 
 """
-function update_expiration_for_hit(
-    ExpireAt, HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_expiration_for_hit(ExpireAt, HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "UpdateExpirationForHIT",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ExpireAt" => ExpireAt, "HITId" => HITId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("UpdateExpirationForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1421,22 +921,14 @@ HIT back to the Reviewable status.
 # Arguments
 - `hitid`:  The ID of the HIT to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"revert"`:  Specifies how to update the HIT status. Default is False.     Setting this
-  to false will only transition a HIT from Reviewable to Reviewing     Setting this to true
-  will only transition a HIT from Reviewing to Reviewable
+# Keyword Parameters
+- `revert`:  Specifies how to update the HIT status. Default is False.     Setting this to
+  false will only transition a HIT from Reviewable to Reviewing     Setting this to true will
+  only transition a HIT from Reviewing to Reviewable
 """
-function update_hitreview_status(
-    HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "UpdateHITReviewStatus",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("UpdateHITReviewStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1452,20 +944,9 @@ the old ones.
 - `hittype_id`: The ID of the new HIT type.
 
 """
-function update_hittype_of_hit(
-    HITId, HITTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_hittype_of_hit(HITId, HITTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "UpdateHITTypeOfHIT",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("HITId" => HITId, "HITTypeId" => HITTypeId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("UpdateHITTypeOfHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1484,25 +965,15 @@ same call to UpdateNotificationSettings.
 # Arguments
 - `hittype_id`:  The ID of the HIT type whose notification specification is being updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"active"`:  Specifies whether notifications are sent for HITs of this HIT type,
-  according to the notification specification. You must specify either the Notification
-  parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
-- `"notification"`:  The notification specification for the HIT type.
+# Keyword Parameters
+- `active`:  Specifies whether notifications are sent for HITs of this HIT type, according
+  to the notification specification. You must specify either the Notification parameter or
+  the Active parameter for the call to UpdateNotificationSettings to succeed.
+- `notification`:  The notification specification for the HIT type.
 """
-function update_notification_settings(
-    HITTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_notification_settings(HITTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "UpdateNotificationSettings",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("HITTypeId" => HITTypeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("UpdateNotificationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1532,47 +1003,32 @@ AutoGranted and AutoGrantedValue attributes of the Qualification type.
 # Arguments
 - `qualification_type_id`: The ID of the Qualification type to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"answer_key"`: The answers to the Qualification test specified in the Test parameter, in
+# Keyword Parameters
+- `answer_key`: The answers to the Qualification test specified in the Test parameter, in
   the form of an AnswerKey data structure.
-- `"auto_granted"`: Specifies whether requests for the Qualification type are granted
+- `auto_granted`: Specifies whether requests for the Qualification type are granted
   immediately, without prompting the Worker with a Qualification test. Constraints: If the
   Test parameter is specified, this parameter cannot be true.
-- `"auto_granted_value"`: The Qualification value to use for automatically granted
+- `auto_granted_value`: The Qualification value to use for automatically granted
   Qualifications. This parameter is used only if the AutoGranted parameter is true.
-- `"description"`: The new description of the Qualification type.
-- `"qualification_type_status"`: The new status of the Qualification type - Active |
-  Inactive
-- `"retry_delay_in_seconds"`: The amount of time, in seconds, that Workers must wait after
+- `description`: The new description of the Qualification type.
+- `qualification_type_status`: The new status of the Qualification type - Active | Inactive
+- `retry_delay_in_seconds`: The amount of time, in seconds, that Workers must wait after
   requesting a Qualification of the specified Qualification type before they can retry the
   Qualification request. It is not possible to disable retries for a Qualification type after
   it has been created with retries enabled. If you want to disable retries, you must dispose
   of the existing retry-enabled Qualification type using DisposeQualificationType and then
   create a new Qualification type with retries disabled using CreateQualificationType.
-- `"test"`: The questions for the Qualification test a Worker must answer correctly to
-  obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds
-  must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a
-  QuestionForm data structure. This parameter cannot be specified if AutoGranted is true.
-  Constraints: None. If not specified, the Worker may request the Qualification without
-  answering any questions.
-- `"test_duration_in_seconds"`: The number of seconds the Worker has to complete the
+- `test`: The questions for the Qualification test a Worker must answer correctly to obtain
+  a Qualification of this type. If this parameter is specified, TestDurationInSeconds must
+  also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm
+  data structure. This parameter cannot be specified if AutoGranted is true. Constraints:
+  None. If not specified, the Worker may request the Qualification without answering any
+  questions.
+- `test_duration_in_seconds`: The number of seconds the Worker has to complete the
   Qualification test, starting from the time the Worker requests the Qualification.
 """
-function update_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mturk(
-        "UpdateQualificationType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QualificationTypeId" => QualificationTypeId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mturk("UpdateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

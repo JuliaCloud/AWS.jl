@@ -4,25 +4,8 @@ using AWS.AWSServices: sqs
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "message_attributes" => "MessageAttribute",
-    "max_number_of_messages" => "MaxNumberOfMessages",
-    "visibility_timeout" => "VisibilityTimeout",
-    "next_token" => "NextToken",
-    "wait_time_seconds" => "WaitTimeSeconds",
-    "max_results" => "MaxResults",
-    "message_group_id" => "MessageGroupId",
-    "queue_owner_awsaccount_id" => "QueueOwnerAWSAccountId",
-    "delay_seconds" => "DelaySeconds",
-    "message_system_attributes" => "MessageSystemAttribute",
-    "receive_request_attempt_id" => "ReceiveRequestAttemptId",
-    "attribute_names" => "AttributeName",
-    "queue_name_prefix" => "QueueNamePrefix",
-    "attributes" => "Attribute",
-    "message_attribute_names" => "MessageAttributeName",
-    "tags" => "Tag",
-    "message_deduplication_id" => "MessageDeduplicationId",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("delay_seconds" => "DelaySeconds", "message_attributes" => "MessageAttribute", "message_deduplication_id" => "MessageDeduplicationId", "message_group_id" => "MessageGroupId", "message_system_attributes" => "MessageSystemAttribute", "attributes" => "Attribute", "tags" => "Tag", "attribute_names" => "AttributeName", "max_number_of_messages" => "MaxNumberOfMessages", "message_attribute_names" => "MessageAttributeName", "receive_request_attempt_id" => "ReceiveRequestAttemptId", "visibility_timeout" => "VisibilityTimeout", "wait_time_seconds" => "WaitTimeSeconds", "max_results" => "MaxResults", "next_token" => "NextToken", "queue_name_prefix" => "QueueNamePrefix", "queue_owner_awsaccount_id" => "QueueOwnerAWSAccountId")
 
 """
     add_permission(awsaccount_id, action_name, label, queue_url; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -60,32 +43,9 @@ and a user name in the Amazon SQS Developer Guide.
   and names are case-sensitive.
 
 """
-function add_permission(
-    AWSAccountId,
-    ActionName,
-    Label,
-    QueueUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_permission(AWSAccountId, ActionName, Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "AddPermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AWSAccountId" => AWSAccountId,
-                    "ActionName" => ActionName,
-                    "Label" => Label,
-                    "QueueUrl" => QueueUrl,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("AddPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -131,30 +91,9 @@ ChangeMessageVisibility action) the next time the message is received.
   Values range: 0 to 43200. Maximum: 12 hours.
 
 """
-function change_message_visibility(
-    QueueUrl,
-    ReceiptHandle,
-    VisibilityTimeout;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function change_message_visibility(QueueUrl, ReceiptHandle, VisibilityTimeout; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "ChangeMessageVisibility",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "QueueUrl" => QueueUrl,
-                    "ReceiptHandle" => ReceiptHandle,
-                    "VisibilityTimeout" => VisibilityTimeout,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("ChangeMessageVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle, "VisibilityTimeout"=>VisibilityTimeout), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -177,29 +116,9 @@ For example, a parameter list with two elements looks like this:
   URLs and names are case-sensitive.
 
 """
-function change_message_visibility_batch(
-    ChangeMessageVisibilityBatchRequestEntry,
-    QueueUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function change_message_visibility_batch(ChangeMessageVisibilityBatchRequestEntry, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "ChangeMessageVisibilityBatch",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChangeMessageVisibilityBatchRequestEntry" =>
-                        ChangeMessageVisibilityBatchRequestEntry,
-                    "QueueUrl" => QueueUrl,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("ChangeMessageVisibilityBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeMessageVisibilityBatchRequestEntry"=>ChangeMessageVisibilityBatchRequestEntry, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -234,9 +153,8 @@ and a user name in the Amazon SQS Developer Guide.
   (-), and underscores (_).   A FIFO queue name must end with the .fifo suffix.   Queue URLs
   and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attributes"`: A map of attributes with their corresponding values. The following lists
+# Keyword Parameters
+- `attributes`: A map of attributes with their corresponding values. The following lists
   the names, descriptions, and values of the special request parameters that the CreateQueue
   action uses:    DelaySeconds – The length of time, in seconds, for which the delivery of
   all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15
@@ -318,9 +236,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   throughput, normal throughput is in effect and deduplication occurs as specified. For
   information on throughput quotas, see Quotas related to messages in the Amazon SQS
   Developer Guide.
-- `"tags"`: Add cost allocation tags to the specified Amazon SQS queue. For an overview,
-  see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide. When you use queue
-  tags, keep the following guidelines in mind:   Adding more than 50 tags to a queue isn't
+- `tags`: Add cost allocation tags to the specified Amazon SQS queue. For an overview, see
+  Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide. When you use queue tags,
+  keep the following guidelines in mind:   Adding more than 50 tags to a queue isn't
   recommended.   Tags don't have any semantic meaning. Amazon SQS interprets tags as
   character strings.   Tags are case-sensitive.   A new tag with a key identical to that of
   an existing tag overwrites the existing tag.   For a full list of tag restrictions, see
@@ -329,18 +247,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   permissions don't apply to this action. For more information, see Grant cross-account
   permissions to a role and a user name in the Amazon SQS Developer Guide.
 """
-function create_queue(
-    QueueName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_queue(QueueName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "CreateQueue",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueName" => QueueName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("CreateQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueName"=>QueueName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -368,22 +277,9 @@ not cause issues.
 - `receipt_handle`: The receipt handle associated with the message to delete.
 
 """
-function delete_message(
-    QueueUrl, ReceiptHandle; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_message(QueueUrl, ReceiptHandle; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "DeleteMessage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("QueueUrl" => QueueUrl, "ReceiptHandle" => ReceiptHandle),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("DeleteMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -405,28 +301,9 @@ list with two elements looks like this:  &amp;AttributeName.1=first
   and names are case-sensitive.
 
 """
-function delete_message_batch(
-    DeleteMessageBatchRequestEntry,
-    QueueUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_message_batch(DeleteMessageBatchRequestEntry, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "DeleteMessageBatch",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DeleteMessageBatchRequestEntry" => DeleteMessageBatchRequestEntry,
-                    "QueueUrl" => QueueUrl,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("DeleteMessageBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteMessageBatchRequestEntry"=>DeleteMessageBatchRequestEntry, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -447,18 +324,9 @@ user name in the Amazon SQS Developer Guide.
   case-sensitive.
 
 """
-function delete_queue(
-    QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "DeleteQueue",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("DeleteQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -471,9 +339,8 @@ check whether QueueName ends with the .fifo suffix.
 - `queue_url`: The URL of the Amazon SQS queue whose attribute information is retrieved.
   Queue URLs and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_names"`: A list of attributes for which to retrieve information. The
+# Keyword Parameters
+- `attribute_names`: A list of attributes for which to retrieve information. The
   AttributeName.N parameter is optional, but if you don't specify values for this parameter,
   the request returns empty results.  In the future, new attributes might be added. If you
   write code that calls this action, we recommend that you structure your code so that it can
@@ -546,18 +413,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   information on throughput quotas, see Quotas related to messages in the Amazon SQS
   Developer Guide.
 """
-function get_queue_attributes(
-    QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "GetQueueAttributes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("GetQueueAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -574,22 +432,12 @@ Messages to a Shared Queue in the Amazon SQS Developer Guide.
   Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and
   names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"queue_owner_awsaccount_id"`: The account ID of the account that created the queue.
+# Keyword Parameters
+- `queue_owner_awsaccount_id`: The account ID of the account that created the queue.
 """
-function get_queue_url(
-    QueueName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_queue_url(QueueName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "GetQueueUrl",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueName" => QueueName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("GetQueueUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueName"=>QueueName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -608,24 +456,14 @@ Developer Guide.
 # Arguments
 - `queue_url`: The URL of a dead-letter queue. Queue URLs and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to include in the response. Value range is 1
-  to 1000. You must set MaxResults to receive a value for NextToken in the response.
-- `"next_token"`: Pagination token to request the next set of results.
+# Keyword Parameters
+- `max_results`: Maximum number of results to include in the response. Value range is 1 to
+  1000. You must set MaxResults to receive a value for NextToken in the response.
+- `next_token`: Pagination token to request the next set of results.
 """
-function list_dead_letter_source_queues(
-    QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dead_letter_source_queues(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "ListDeadLetterSourceQueues",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("ListDeadLetterSourceQueues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -640,18 +478,9 @@ permissions to a role and a user name in the Amazon SQS Developer Guide.
 - `queue_url`: The URL of the queue.
 
 """
-function list_queue_tags(
-    QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "ListQueueTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("ListQueueTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -668,12 +497,11 @@ as a parameter in your next request to listQueues to receive the next page of re
 Cross-account permissions don't apply to this action. For more information, see Grant
 cross-account permissions to a role and a user name in the Amazon SQS Developer Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to include in the response. Value range is 1
-  to 1000. You must set MaxResults to receive a value for NextToken in the response.
-- `"next_token"`: Pagination token to request the next set of results.
-- `"queue_name_prefix"`: A string to use for filtering the list results. Only those queues
+# Keyword Parameters
+- `max_results`: Maximum number of results to include in the response. Value range is 1 to
+  1000. You must set MaxResults to receive a value for NextToken in the response.
+- `next_token`: Pagination token to request the next set of results.
+- `queue_name_prefix`: A string to use for filtering the list results. Only those queues
   whose name begins with the specified string are returned. Queue URLs and names are
   case-sensitive.
 """
@@ -699,14 +527,7 @@ PurgeQueue might be deleted while the queue is being purged.
 """
 function purge_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "PurgeQueue",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("PurgeQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -740,10 +561,9 @@ attributes gracefully.
 - `queue_url`: The URL of the Amazon SQS queue from which messages are received. Queue URLs
   and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attribute_names"`: A list of attributes that need to be returned along with each
-  message. These attributes include:    All – Returns all values.
+# Keyword Parameters
+- `attribute_names`: A list of attributes that need to be returned along with each message.
+  These attributes include:    All – Returns all values.
   ApproximateFirstReceiveTimestamp – Returns the time the message was first received from
   the queue (epoch time in milliseconds).    ApproximateReceiveCount – Returns the number
   of times a message has been received across all queues but not deleted.    AWSTraceHeader
@@ -755,11 +575,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   MessageGroupId – Returns the value provided by the producer that calls the  SendMessage
   action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber
   – Returns the value provided by Amazon SQS.
-- `"max_number_of_messages"`: The maximum number of messages to return. Amazon SQS never
+- `max_number_of_messages`: The maximum number of messages to return. Amazon SQS never
   returns more messages than this value (however, fewer messages might be returned). Valid
   values: 1 to 10. Default: 1.
-- `"message_attribute_names"`: The name of the message attribute, where N is the index.
-  The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period
+- `message_attribute_names`: The name of the message attribute, where N is the index.   The
+  name can contain alphanumeric characters and the underscore (_), hyphen (-), and period
   (.).   The name is case-sensitive and must be unique among all attribute names for the
   message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or
   any casing variants).   The name must not start or end with a period (.), and it should not
@@ -767,7 +587,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   ReceiveMessage, you can send a list of attribute names to receive, or you can return all of
   the attributes by specifying All or .* in your request. You can also use all message
   attributes starting with a prefix, for example bar.*.
-- `"receive_request_attempt_id"`: This parameter applies only to FIFO (first-in-first-out)
+- `receive_request_attempt_id`: This parameter applies only to FIFO (first-in-first-out)
   queues. The token used for deduplication of ReceiveMessage calls. If a networking issue
   occurs after a ReceiveMessage action, and instead of a response you receive a generic
   error, it is possible to retry the same action with an identical ReceiveRequestAttemptId to
@@ -798,10 +618,10 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). For best practices of using
   ReceiveRequestAttemptId, see Using the ReceiveRequestAttemptId Request Parameter in the
   Amazon SQS Developer Guide.
-- `"visibility_timeout"`: The duration (in seconds) that the received messages are hidden
+- `visibility_timeout`: The duration (in seconds) that the received messages are hidden
   from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
-- `"wait_time_seconds"`: The duration (in seconds) for which the call waits for a message
-  to arrive in the queue before returning. If a message is available, the call returns sooner
+- `wait_time_seconds`: The duration (in seconds) for which the call waits for a message to
+  arrive in the queue before returning. If a message is available, the call returns sooner
   than WaitTimeSeconds. If no messages are available and the wait time expires, the call
   returns successfully with an empty list of messages.  To avoid HTTP errors, ensure that the
   HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds
@@ -809,18 +629,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   NettyNioAsyncHttpClient for asynchronous clients, or the  ApacheHttpClient for synchronous
   clients.
 """
-function receive_message(
-    QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function receive_message(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "ReceiveMessage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("ReceiveMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -840,20 +651,9 @@ SetQueueAttributes actions in your IAM policy.
   URLs and names are case-sensitive.
 
 """
-function remove_permission(
-    Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_permission(Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "RemovePermission",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Label" => Label, "QueueUrl" => QueueUrl), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -873,16 +673,15 @@ will be rejected. For more information, see the W3C specification for characters
 - `queue_url`: The URL of the Amazon SQS queue to which a message is sent. Queue URLs and
   names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delay_seconds"`:  The length of time, in seconds, for which to delay a specific
-  message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds
-  value become available for processing after the delay period is finished. If you don't
-  specify a value, the default value for the queue applies.   When you set FifoQueue, you
-  can't set DelaySeconds per message. You can set this parameter only on a queue level.
-- `"message_attributes"`: Each message attribute consists of a Name, Type, and Value. For
+# Keyword Parameters
+- `delay_seconds`:  The length of time, in seconds, for which to delay a specific message.
+  Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value
+  become available for processing after the delay period is finished. If you don't specify a
+  value, the default value for the queue applies.   When you set FifoQueue, you can't set
+  DelaySeconds per message. You can set this parameter only on a queue level.
+- `message_attributes`: Each message attribute consists of a Name, Type, and Value. For
   more information, see Amazon SQS message attributes in the Amazon SQS Developer Guide.
-- `"message_deduplication_id"`: This parameter applies only to FIFO (first-in-first-out)
+- `message_deduplication_id`: This parameter applies only to FIFO (first-in-first-out)
   queues. The token used for deduplication of sent messages. If a message with a particular
   MessageDeduplicationId is sent successfully, any messages sent with the same
   MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute
@@ -909,43 +708,29 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   characters (a-z, A-Z, 0-9) and punctuation (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). For
   best practices of using MessageDeduplicationId, see Using the MessageDeduplicationId
   Property in the Amazon SQS Developer Guide.
-- `"message_group_id"`: This parameter applies only to FIFO (first-in-first-out) queues.
-  The tag that specifies that a message belongs to a specific message group. Messages that
-  belong to the same message group are processed in a FIFO manner (however, messages in
-  different message groups might be processed out of order). To interleave multiple ordered
-  streams within a single queue, use MessageGroupId values (for example, session data for
-  multiple users). In this scenario, multiple consumers can process the queue, but the
-  session data of each user is processed in a FIFO fashion.   You must associate a non-empty
-  MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.
-  ReceiveMessage might return messages with multiple MessageGroupId values. For each
-  MessageGroupId, the messages are sorted by time sent. The caller can't specify a
-  MessageGroupId.   The length of MessageGroupId is 128 characters. Valid values:
-  alphanumeric characters and punctuation (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). For
-  best practices of using MessageGroupId, see Using the MessageGroupId Property in the Amazon
-  SQS Developer Guide.   MessageGroupId is required for FIFO queues. You can't use it for
-  Standard queues.
-- `"message_system_attributes"`: The message system attribute to send. Each message system
+- `message_group_id`: This parameter applies only to FIFO (first-in-first-out) queues. The
+  tag that specifies that a message belongs to a specific message group. Messages that belong
+  to the same message group are processed in a FIFO manner (however, messages in different
+  message groups might be processed out of order). To interleave multiple ordered streams
+  within a single queue, use MessageGroupId values (for example, session data for multiple
+  users). In this scenario, multiple consumers can process the queue, but the session data of
+  each user is processed in a FIFO fashion.   You must associate a non-empty MessageGroupId
+  with a message. If you don't provide a MessageGroupId, the action fails.    ReceiveMessage
+  might return messages with multiple MessageGroupId values. For each MessageGroupId, the
+  messages are sorted by time sent. The caller can't specify a MessageGroupId.   The length
+  of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation
+  (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). For best practices of using MessageGroupId,
+  see Using the MessageGroupId Property in the Amazon SQS Developer Guide.   MessageGroupId
+  is required for FIFO queues. You can't use it for Standard queues.
+- `message_system_attributes`: The message system attribute to send. Each message system
   attribute consists of a Name, Type, and Value.    Currently, the only supported message
   system attribute is AWSTraceHeader. Its type must be String and its value must be a
   correctly formatted X-Ray trace header string.   The size of a message system attribute
   doesn't count towards the total size of a message.
 """
-function send_message(
-    MessageBody, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function send_message(MessageBody, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "SendMessage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("MessageBody" => MessageBody, "QueueUrl" => QueueUrl),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("SendMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageBody"=>MessageBody, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -973,28 +758,9 @@ looks like this:  &amp;AttributeName.1=first   &amp;AttributeName.2=second
 - `send_message_batch_request_entry`: A list of  SendMessageBatchRequestEntry  items.
 
 """
-function send_message_batch(
-    QueueUrl,
-    SendMessageBatchRequestEntry;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function send_message_batch(QueueUrl, SendMessageBatchRequestEntry; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "SendMessageBatch",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "QueueUrl" => QueueUrl,
-                    "SendMessageBatchRequestEntry" => SendMessageBatchRequestEntry,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("SendMessageBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "SendMessageBatchRequestEntry"=>SendMessageBatchRequestEntry), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1091,22 +857,9 @@ AddPermission, RemovePermission, and SetQueueAttributes actions in your IAM poli
   names are case-sensitive.
 
 """
-function set_queue_attributes(
-    Attribute, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_queue_attributes(Attribute, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "SetQueueAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Attribute" => Attribute, "QueueUrl" => QueueUrl),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("SetQueueAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1127,20 +880,9 @@ in the Amazon SQS Developer Guide.
 - `tags`: The list of tags to be added to the specified queue.
 
 """
-function tag_queue(
-    QueueUrl, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "TagQueue",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("QueueUrl" => QueueUrl, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("TagQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1156,18 +898,7 @@ permissions to a role and a user name in the Amazon SQS Developer Guide.
 - `tag_key`: The list of tags to be removed from the specified queue.
 
 """
-function untag_queue(
-    QueueUrl, TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_queue(QueueUrl, TagKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sqs(
-        "UntagQueue",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("QueueUrl" => QueueUrl, "TagKey" => TagKey), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sqs("UntagQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "TagKey"=>TagKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

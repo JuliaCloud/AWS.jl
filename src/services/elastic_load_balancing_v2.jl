@@ -4,47 +4,8 @@ using AWS.AWSServices: elastic_load_balancing_v2
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "protocol_version" => "ProtocolVersion",
-    "protocol" => "Protocol",
-    "subnet_mappings" => "SubnetMappings",
-    "default_actions" => "DefaultActions",
-    "health_check_port" => "HealthCheckPort",
-    "page_size" => "PageSize",
-    "targets" => "Targets",
-    "security_groups" => "SecurityGroups",
-    "names" => "Names",
-    "load_balancer_type" => "LoadBalancerType",
-    "ip_address_type" => "IpAddressType",
-    "target_group_arns" => "TargetGroupArns",
-    "rule_arns" => "RuleArns",
-    "load_balancer_arn" => "LoadBalancerArn",
-    "target_type" => "TargetType",
-    "actions" => "Actions",
-    "listener_arns" => "ListenerArns",
-    "health_check_path" => "HealthCheckPath",
-    "health_check_timeout_seconds" => "HealthCheckTimeoutSeconds",
-    "scheme" => "Scheme",
-    "conditions" => "Conditions",
-    "health_check_interval_seconds" => "HealthCheckIntervalSeconds",
-    "healthy_threshold_count" => "HealthyThresholdCount",
-    "load_balancer_arns" => "LoadBalancerArns",
-    "subnets" => "Subnets",
-    "unhealthy_threshold_count" => "UnhealthyThresholdCount",
-    "port" => "Port",
-    "vpc_id" => "VpcId",
-    "alpn_policy" => "AlpnPolicy",
-    "listener_arn" => "ListenerArn",
-    "health_check_enabled" => "HealthCheckEnabled",
-    "marker" => "Marker",
-    "certificates" => "Certificates",
-    "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool",
-    "tags" => "Tags",
-    "ssl_policy" => "SslPolicy",
-    "matcher" => "Matcher",
-    "type" => "Type",
-    "health_check_protocol" => "HealthCheckProtocol",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("listener_arns" => "ListenerArns", "load_balancer_arn" => "LoadBalancerArn", "marker" => "Marker", "page_size" => "PageSize", "load_balancer_type" => "LoadBalancerType", "names" => "Names", "targets" => "Targets", "alpn_policy" => "AlpnPolicy", "certificates" => "Certificates", "default_actions" => "DefaultActions", "port" => "Port", "protocol" => "Protocol", "ssl_policy" => "SslPolicy", "load_balancer_arns" => "LoadBalancerArns", "ip_address_type" => "IpAddressType", "subnet_mappings" => "SubnetMappings", "subnets" => "Subnets", "tags" => "Tags", "health_check_enabled" => "HealthCheckEnabled", "health_check_interval_seconds" => "HealthCheckIntervalSeconds", "health_check_path" => "HealthCheckPath", "health_check_port" => "HealthCheckPort", "health_check_protocol" => "HealthCheckProtocol", "health_check_timeout_seconds" => "HealthCheckTimeoutSeconds", "healthy_threshold_count" => "HealthyThresholdCount", "matcher" => "Matcher", "protocol_version" => "ProtocolVersion", "target_type" => "TargetType", "unhealthy_threshold_count" => "UnhealthyThresholdCount", "vpc_id" => "VpcId", "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool", "scheme" => "Scheme", "security_groups" => "SecurityGroups", "type" => "Type", "target_group_arns" => "TargetGroupArns", "listener_arn" => "ListenerArn", "rule_arns" => "RuleArns", "actions" => "Actions", "conditions" => "Conditions")
 
 """
     add_listener_certificates(certificates, listener_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -61,24 +22,9 @@ Balancers Guide.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-function add_listener_certificates(
-    Certificates, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_listener_certificates(Certificates, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "AddListenerCertificates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Certificates" => Certificates, "ListenerArn" => ListenerArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -94,22 +40,9 @@ already has a tag with the same key, AddTags updates its value.
 - `tags`: The tags.
 
 """
-function add_tags(
-    ResourceArns, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_tags(ResourceArns, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "AddTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArns" => ResourceArns, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -126,48 +59,29 @@ call succeeds.
 - `default_actions`: The actions for the default rule.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alpn_policy"`: [TLS listeners] The name of the Application-Layer Protocol Negotiation
+# Keyword Parameters
+- `alpn_policy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation
   (ALPN) policy. You can specify one policy name. The following are the possible values:
   HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more
   information, see ALPN policies in the Network Load Balancers Guide.
-- `"certificates"`: [HTTPS and TLS listeners] The default certificate for the listener. You
+- `certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You
   must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not
   set IsDefault.
-- `"port"`: The port on which the load balancer is listening. You cannot specify a port for
-  a Gateway Load Balancer.
-- `"protocol"`: The protocol for connections from clients to the load balancer. For
+- `port`: The port on which the load balancer is listening. You cannot specify a port for a
+  Gateway Load Balancer.
+- `protocol`: The protocol for connections from clients to the load balancer. For
   Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load
   Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the
   UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for a
   Gateway Load Balancer.
-- `"ssl_policy"`: [HTTPS and TLS listeners] The security policy that defines which
-  protocols and ciphers are supported. For more information, see Security policies in the
-  Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
-- `"tags"`: The tags to assign to the listener.
+- `ssl_policy`: [HTTPS and TLS listeners] The security policy that defines which protocols
+  and ciphers are supported. For more information, see Security policies in the Application
+  Load Balancers Guide and Security policies in the Network Load Balancers Guide.
+- `tags`: The tags to assign to the listener.
 """
-function create_listener(
-    DefaultActions,
-    LoadBalancerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_listener(DefaultActions, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "CreateListener",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DefaultActions" => DefaultActions, "LoadBalancerArn" => LoadBalancerArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -184,24 +98,23 @@ settings, each call succeeds.
   can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens,
   must not begin or end with a hyphen, and must not begin with \"internal-\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"customer_owned_ipv4_pool"`: [Application Load Balancers on Outposts] The ID of the
+# Keyword Parameters
+- `customer_owned_ipv4_pool`: [Application Load Balancers on Outposts] The ID of the
   customer-owned address pool (CoIP pool).
-- `"ip_address_type"`: The type of IP addresses used by the subnets for your load balancer.
+- `ip_address_type`: The type of IP addresses used by the subnets for your load balancer.
   The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6
   addresses). Internal load balancers must use ipv4.
-- `"scheme"`: The nodes of an Internet-facing load balancer have public IP addresses. The
-  DNS name of an Internet-facing load balancer is publicly resolvable to the public IP
-  addresses of the nodes. Therefore, Internet-facing load balancers can route requests from
-  clients over the internet. The nodes of an internal load balancer have only private IP
-  addresses. The DNS name of an internal load balancer is publicly resolvable to the private
-  IP addresses of the nodes. Therefore, internal load balancers can route requests only from
+- `scheme`: The nodes of an Internet-facing load balancer have public IP addresses. The DNS
+  name of an Internet-facing load balancer is publicly resolvable to the public IP addresses
+  of the nodes. Therefore, Internet-facing load balancers can route requests from clients
+  over the internet. The nodes of an internal load balancer have only private IP addresses.
+  The DNS name of an internal load balancer is publicly resolvable to the private IP
+  addresses of the nodes. Therefore, internal load balancers can route requests only from
   clients with access to the VPC for the load balancer. The default is an Internet-facing
   load balancer. You cannot specify a scheme for a Gateway Load Balancer.
-- `"security_groups"`: [Application Load Balancers] The IDs of the security groups for the
+- `security_groups`: [Application Load Balancers] The IDs of the security groups for the
   load balancer.
-- `"subnet_mappings"`: The IDs of the public subnets. You can specify only one subnet per
+- `subnet_mappings`: The IDs of the public subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings. [Application Load
   Balancers] You must specify subnets from at least two Availability Zones. You cannot
   specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You
@@ -213,26 +126,19 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
   [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You
   cannot specify Elastic IP addresses for your subnets.
-- `"subnets"`: The IDs of the public subnets. You can specify only one subnet per
+- `subnets`: The IDs of the public subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings. [Application Load
   Balancers] You must specify subnets from at least two Availability Zones. [Application Load
   Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on
   Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers]
   You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You
   can specify subnets from one or more Availability Zones.
-- `"tags"`: The tags to assign to the load balancer.
-- `"type"`: The type of load balancer. The default is application.
+- `tags`: The tags to assign to the load balancer.
+- `type`: The type of load balancer. The default is application.
 """
-function create_load_balancer(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_load_balancer(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "CreateLoadBalancer",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -252,36 +158,12 @@ information, see Listener rules in the Application Load Balancers Guide.
 - `priority`: The rule priority. A listener can't have multiple rules with the same
   priority.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to assign to the rule.
+# Keyword Parameters
+- `tags`: The tags to assign to the rule.
 """
-function create_rule(
-    Actions,
-    Conditions,
-    ListenerArn,
-    Priority;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_rule(Actions, Conditions, ListenerArn, Priority; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "CreateRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Actions" => Actions,
-                    "Conditions" => Conditions,
-                    "ListenerArn" => ListenerArn,
-                    "Priority" => Priority,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,56 +180,55 @@ settings, each call succeeds.
   can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens,
   and must not begin or end with a hyphen.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"health_check_enabled"`: Indicates whether health checks are enabled. If the target type
+# Keyword Parameters
+- `health_check_enabled`: Indicates whether health checks are enabled. If the target type
   is lambda, health checks are disabled by default but can be enabled. If the target type is
   instance, ip, or alb, health checks are always enabled and cannot be disabled.
-- `"health_check_interval_seconds"`: The approximate amount of time, in seconds, between
+- `health_check_interval_seconds`: The approximate amount of time, in seconds, between
   health checks of an individual target. If the target group protocol is TCP, TLS, UDP, or
   TCP_UDP, the supported values are 10 and 30 seconds. If the target group protocol is HTTP
   or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is
   10 seconds. If the target type is lambda, the default is 35 seconds.
-- `"health_check_path"`: [HTTP/HTTPS health checks] The destination for health checks on
-  the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC
-  protocol version] The path of a custom health check method with the format
-  /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
-- `"health_check_port"`: The port the load balancer uses when performing health checks on
+- `health_check_path`: [HTTP/HTTPS health checks] The destination for health checks on the
+  targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
+  version] The path of a custom health check method with the format /package.service/method.
+  The default is /Amazon Web Services.ALB/healthcheck.
+- `health_check_port`: The port the load balancer uses when performing health checks on
   targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is
   traffic-port, which is the port on which each target receives traffic from the load
   balancer. If the protocol is GENEVE, the default is port 80.
-- `"health_check_protocol"`: The protocol the load balancer uses when performing health
+- `health_check_protocol`: The protocol the load balancer uses when performing health
   checks on targets. For Application Load Balancers, the default is HTTP. For Network Load
   Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported
   for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS,
   UDP, and TCP_UDP protocols are not supported for health checks.
-- `"health_check_timeout_seconds"`: The amount of time, in seconds, during which no
-  response from a target means a failed health check. For target groups with a protocol of
-  HTTP, HTTPS, or GENEVE, the default is 5 seconds. For target groups with a protocol of TCP
-  or TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and
-  HTTPS health checks. If the target type is lambda, the default is 30 seconds.
-- `"healthy_threshold_count"`: The number of consecutive health checks successes required
+- `health_check_timeout_seconds`: The amount of time, in seconds, during which no response
+  from a target means a failed health check. For target groups with a protocol of HTTP,
+  HTTPS, or GENEVE, the default is 5 seconds. For target groups with a protocol of TCP or
+  TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS
+  health checks. If the target type is lambda, the default is 30 seconds.
+- `healthy_threshold_count`: The number of consecutive health checks successes required
   before considering an unhealthy target healthy. For target groups with a protocol of HTTP
   or HTTPS, the default is 5. For target groups with a protocol of TCP, TLS, or GENEVE, the
   default is 3. If the target type is lambda, the default is 5.
-- `"ip_address_type"`: The type of IP address used for this target group. The possible
-  values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address
-  type defaults to ipv4.
-- `"matcher"`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
+- `ip_address_type`: The type of IP address used for this target group. The possible values
+  are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type
+  defaults to ipv4.
+- `matcher`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
   successful response from a target.
-- `"port"`: The port on which the targets receive traffic. This port is used unless you
+- `port`: The port on which the targets receive traffic. This port is used unless you
   specify a port override when registering the target. If the target is a Lambda function,
   this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
-- `"protocol"`: The protocol to use for routing traffic to the targets. For Application
-  Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the
+- `protocol`: The protocol to use for routing traffic to the targets. For Application Load
+  Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the
   supported protocols are TCP, TLS, UDP, or TCP_UDP. For Gateway Load Balancers, the
   supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target
   group. If the target is a Lambda function, this parameter does not apply.
-- `"protocol_version"`: [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send
+- `protocol_version`: [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send
   requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The
   default is HTTP1, which sends requests to targets using HTTP/1.1.
-- `"tags"`: The tags to assign to the target group.
-- `"target_type"`: The type of target that you must specify when registering targets with
+- `tags`: The tags to assign to the target group.
+- `target_type`: The type of target that you must specify when registering targets with
   this target group. You can't specify targets for a target group using more than one target
   type.    instance - Register targets by instance ID. This is the default value.    ip -
   Register targets by IP address. You can specify IP addresses from the subnets of the
@@ -355,24 +236,17 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't
   specify publicly routable IP addresses.    lambda - Register a single Lambda function as a
   target.    alb - Register a single Application Load Balancer as a target.
-- `"unhealthy_threshold_count"`: The number of consecutive health check failures required
+- `unhealthy_threshold_count`: The number of consecutive health check failures required
   before considering a target unhealthy. If the target group protocol is HTTP or HTTPS, the
   default is 2. If the target group protocol is TCP or TLS, this value must be the same as
   the healthy threshold count. If the target group protocol is GENEVE, the default is 3. If
   the target type is lambda, the default is 2.
-- `"vpc_id"`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
+- `vpc_id`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
   function, this parameter does not apply. Otherwise, this parameter is required.
 """
-function create_target_group(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_target_group(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "CreateTargetGroup",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -385,18 +259,9 @@ load balancer to which it is attached.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-function delete_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DeleteListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -414,20 +279,9 @@ or terminate them.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
-function delete_load_balancer(
-    LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_load_balancer(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DeleteLoadBalancer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -441,12 +295,7 @@ Deletes the specified rule. You can't delete the default rule.
 """
 function delete_rule(RuleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DeleteRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleArn" => RuleArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -461,18 +310,9 @@ continue to run until you stop or terminate them.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
-function delete_target_group(
-    TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DeleteTargetGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -487,22 +327,9 @@ deregistered, they no longer receive traffic from the load balancer.
   you must specify both the target ID and the port when you deregister it.
 
 """
-function deregister_targets(
-    TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deregister_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DeregisterTargets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("TargetGroupArn" => TargetGroupArn, "Targets" => Targets),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -513,22 +340,14 @@ account. For more information, see the following:    Quotas for your Application
 Balancers     Quotas for your Network Load Balancers     Quotas for your Gateway Load
 Balancers
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"page_size"`: The maximum number of results to return with this call.
+- `page_size`: The maximum number of results to return with this call.
 """
-function describe_account_limits(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeAccountLimits",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeAccountLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -543,24 +362,14 @@ certificates in the Network Load Balancers Guide.
 # Arguments
 - `listener_arn`: The Amazon Resource Names (ARN) of the listener.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"page_size"`: The maximum number of results to return with this call.
+- `page_size`: The maximum number of results to return with this call.
 """
-function describe_listener_certificates(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_listener_certificates(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeListenerCertificates",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -570,19 +379,16 @@ Describes the specified listeners or the listeners for the specified Application
 Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load
 balancer or one or more listeners.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"listener_arns"`: The Amazon Resource Names (ARN) of the listeners.
-- `"load_balancer_arn"`: The Amazon Resource Name (ARN) of the load balancer.
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `listener_arns`: The Amazon Resource Names (ARN) of the listeners.
+- `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"page_size"`: The maximum number of results to return with this call.
+- `page_size`: The maximum number of results to return with this call.
 """
 function describe_listeners(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeListeners", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return elastic_load_balancing_v2("DescribeListeners", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -598,20 +404,9 @@ Guide
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
-function describe_load_balancer_attributes(
-    LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_balancer_attributes(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeLoadBalancerAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -619,25 +414,17 @@ end
 
 Describes the specified load balancers or all of your load balancers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"load_balancer_arns"`: The Amazon Resource Names (ARN) of the load balancers. You can
+# Keyword Parameters
+- `load_balancer_arns`: The Amazon Resource Names (ARN) of the load balancers. You can
   specify up to 20 load balancers in a single call.
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"names"`: The names of the load balancers.
-- `"page_size"`: The maximum number of results to return with this call.
+- `names`: The names of the load balancers.
+- `page_size`: The maximum number of results to return with this call.
 """
-function describe_load_balancers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeLoadBalancers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeLoadBalancers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -646,19 +433,16 @@ end
 Describes the specified rules or the rules for the specified listener. You must specify
 either a listener or one or more rules.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"listener_arn"`: The Amazon Resource Name (ARN) of the listener.
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `listener_arn`: The Amazon Resource Name (ARN) of the listener.
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"page_size"`: The maximum number of results to return with this call.
-- `"rule_arns"`: The Amazon Resource Names (ARN) of the rules.
+- `page_size`: The maximum number of results to return with this call.
+- `rule_arns`: The Amazon Resource Names (ARN) of the rules.
 """
 function describe_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return elastic_load_balancing_v2("DescribeRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -668,25 +452,17 @@ Describes the specified policies or all policies used for SSL negotiation. For m
 information, see Security policies in the Application Load Balancers Guide or Security
 policies in the Network Load Balancers Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"load_balancer_type"`:  The type of load balancer. The default lists the SSL policies
-  for all load balancers.
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `load_balancer_type`:  The type of load balancer. The default lists the SSL policies for
+  all load balancers.
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"names"`: The names of the policies.
-- `"page_size"`: The maximum number of results to return with this call.
+- `names`: The names of the policies.
+- `page_size`: The maximum number of results to return with this call.
 """
-function describe_sslpolicies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_sslpolicies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeSSLPolicies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeSSLPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -701,18 +477,9 @@ Balancers, target groups, listeners, or rules.
   20 resources in a single call.
 
 """
-function describe_tags(
-    ResourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_tags(ResourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArns" => ResourceArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -727,18 +494,9 @@ Gateway Load Balancers Guide
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
-function describe_target_group_attributes(
-    TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_target_group_attributes(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeTargetGroupAttributes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -749,25 +507,17 @@ groups are described. Alternatively, you can specify one of the following to fil
 results: the ARN of the load balancer, the names of one or more target groups, or the ARNs
 of one or more target groups.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"load_balancer_arn"`: The Amazon Resource Name (ARN) of the load balancer.
-- `"marker"`: The marker for the next set of results. (You received this marker from a
+# Keyword Parameters
+- `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
+- `marker`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `"names"`: The names of the target groups.
-- `"page_size"`: The maximum number of results to return with this call.
-- `"target_group_arns"`: The Amazon Resource Names (ARN) of the target groups.
+- `names`: The names of the target groups.
+- `page_size`: The maximum number of results to return with this call.
+- `target_group_arns`: The Amazon Resource Names (ARN) of the target groups.
 """
-function describe_target_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_target_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeTargetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeTargetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -778,22 +528,12 @@ Describes the health of the specified targets or all of your targets.
 # Arguments
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"targets"`: The targets.
+# Keyword Parameters
+- `targets`: The targets.
 """
-function describe_target_health(
-    TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_target_health(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "DescribeTargetHealth",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -810,38 +550,28 @@ list with the current actions plus the new action.
 # Arguments
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alpn_policy"`: [TLS listeners] The name of the Application-Layer Protocol Negotiation
+# Keyword Parameters
+- `alpn_policy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation
   (ALPN) policy. You can specify one policy name. The following are the possible values:
   HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more
   information, see ALPN policies in the Network Load Balancers Guide.
-- `"certificates"`: [HTTPS and TLS listeners] The default certificate for the listener. You
+- `certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You
   must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not
   set IsDefault.
-- `"default_actions"`: The actions for the default rule.
-- `"port"`: The port for connections from clients to the load balancer. You cannot specify
-  a port for a Gateway Load Balancer.
-- `"protocol"`: The protocol for connections from clients to the load balancer. Application
+- `default_actions`: The actions for the default rule.
+- `port`: The port for connections from clients to the load balancer. You cannot specify a
+  port for a Gateway Load Balancer.
+- `protocol`: The protocol for connections from clients to the load balancer. Application
   Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the
   TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if
   dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
-- `"ssl_policy"`: [HTTPS and TLS listeners] The security policy that defines which
-  protocols and ciphers are supported. For more information, see Security policies in the
-  Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
+- `ssl_policy`: [HTTPS and TLS listeners] The security policy that defines which protocols
+  and ciphers are supported. For more information, see Security policies in the Application
+  Load Balancers Guide or Security policies in the Network Load Balancers Guide.
 """
-function modify_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "ModifyListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("ModifyListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -857,27 +587,9 @@ current values.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
-function modify_load_balancer_attributes(
-    Attributes,
-    LoadBalancerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function modify_load_balancer_attributes(Attributes, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "ModifyLoadBalancerAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Attributes" => Attributes, "LoadBalancerArn" => LoadBalancerArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -891,19 +603,13 @@ list with the current actions plus the new action.
 # Arguments
 - `rule_arn`: The Amazon Resource Name (ARN) of the rule.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"actions"`: The actions.
-- `"conditions"`: The conditions.
+# Keyword Parameters
+- `actions`: The actions.
+- `conditions`: The conditions.
 """
 function modify_rule(RuleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "ModifyRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleArn" => RuleArn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("ModifyRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -915,49 +621,39 @@ specified target group.
 # Arguments
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"health_check_enabled"`: Indicates whether health checks are enabled.
-- `"health_check_interval_seconds"`: The approximate amount of time, in seconds, between
+# Keyword Parameters
+- `health_check_enabled`: Indicates whether health checks are enabled.
+- `health_check_interval_seconds`: The approximate amount of time, in seconds, between
   health checks of an individual target. For TCP health checks, the supported values are 10
   or 30 seconds. With Network Load Balancers, you can't modify this setting.
-- `"health_check_path"`: [HTTP/HTTPS health checks] The destination for health checks on
-  the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC
-  protocol version] The path of a custom health check method with the format
-  /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
-- `"health_check_port"`: The port the load balancer uses when performing health checks on
+- `health_check_path`: [HTTP/HTTPS health checks] The destination for health checks on the
+  targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
+  version] The path of a custom health check method with the format /package.service/method.
+  The default is /Amazon Web Services.ALB/healthcheck.
+- `health_check_port`: The port the load balancer uses when performing health checks on
   targets.
-- `"health_check_protocol"`: The protocol the load balancer uses when performing health
+- `health_check_protocol`: The protocol the load balancer uses when performing health
   checks on targets. For Application Load Balancers, the default is HTTP. For Network Load
   Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported
   for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for
   health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The
   GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks. With Network
   Load Balancers, you can't modify this setting.
-- `"health_check_timeout_seconds"`: [HTTP/HTTPS health checks] The amount of time, in
+- `health_check_timeout_seconds`: [HTTP/HTTPS health checks] The amount of time, in
   seconds, during which no response means a failed health check. With Network Load Balancers,
   you can't modify this setting.
-- `"healthy_threshold_count"`: The number of consecutive health checks successes required
+- `healthy_threshold_count`: The number of consecutive health checks successes required
   before considering an unhealthy target healthy.
-- `"matcher"`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
+- `matcher`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
   successful response from a target. With Network Load Balancers, you can't modify this
   setting.
-- `"unhealthy_threshold_count"`: The number of consecutive health check failures required
+- `unhealthy_threshold_count`: The number of consecutive health check failures required
   before considering the target unhealthy. For target groups with a protocol of TCP or TLS,
   this value must be the same as the healthy threshold count.
 """
-function modify_target_group(
-    TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "ModifyTargetGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TargetGroupArn" => TargetGroupArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -970,24 +666,9 @@ Modifies the specified attributes of the specified target group.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
-function modify_target_group_attributes(
-    Attributes, TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function modify_target_group_attributes(Attributes, TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "ModifyTargetGroupAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Attributes" => Attributes, "TargetGroupArn" => TargetGroupArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1007,22 +688,9 @@ HS1, M1, M2, M3, and T1. You can register instances of these types by IP address
 - `targets`: The targets.
 
 """
-function register_targets(
-    TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function register_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "RegisterTargets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("TargetGroupArn" => TargetGroupArn, "Targets" => Targets),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1037,24 +705,9 @@ listener.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-function remove_listener_certificates(
-    Certificates, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_listener_certificates(Certificates, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "RemoveListenerCertificates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Certificates" => Certificates, "ListenerArn" => ListenerArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1069,22 +722,9 @@ Load Balancers, target groups, listeners, or rules.
 - `tag_keys`: The tag keys for the tags to remove.
 
 """
-function remove_tags(
-    ResourceArns, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_tags(ResourceArns, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "RemoveTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArns" => ResourceArns, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1100,27 +740,9 @@ Balancer or Network Load Balancer.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
-function set_ip_address_type(
-    IpAddressType,
-    LoadBalancerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_ip_address_type(IpAddressType, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "SetIpAddressType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IpAddressType" => IpAddressType, "LoadBalancerArn" => LoadBalancerArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1134,18 +756,9 @@ their current priority.
 - `rule_priorities`: The rule priorities.
 
 """
-function set_rule_priorities(
-    RulePriorities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_rule_priorities(RulePriorities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "SetRulePriorities",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RulePriorities" => RulePriorities), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RulePriorities"=>RulePriorities), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1160,27 +773,9 @@ specify a security group for a Network Load Balancer or Gateway Load Balancer.
 - `security_groups`: The IDs of the security groups.
 
 """
-function set_security_groups(
-    LoadBalancerArn,
-    SecurityGroups;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function set_security_groups(LoadBalancerArn, SecurityGroups; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "SetSecurityGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LoadBalancerArn" => LoadBalancerArn, "SecurityGroups" => SecurityGroups
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1195,13 +790,12 @@ any additional subnets.
 # Arguments
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ip_address_type"`: [Network Load Balancers] The type of IP addresses used by the
-  subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and
-  dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer
-  with a UDP or TCP_UDP listener. Internal load balancers must use ipv4.
-- `"subnet_mappings"`: The IDs of the public subnets. You can specify only one subnet per
+# Keyword Parameters
+- `ip_address_type`: [Network Load Balancers] The type of IP addresses used by the subnets
+  for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack
+  (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP
+  or TCP_UDP listener. Internal load balancers must use ipv4.
+- `subnet_mappings`: The IDs of the public subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings. [Application Load
   Balancers] You must specify subnets from at least two Availability Zones. You cannot
   specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You
@@ -1211,25 +805,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   subnet if you need static IP addresses for your internet-facing load balancer. For internal
   load balancers, you can specify one private IP address per subnet from the IPv4 range of
   the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
-- `"subnets"`: The IDs of the public subnets. You can specify only one subnet per
+- `subnets`: The IDs of the public subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings. [Application Load
   Balancers] You must specify subnets from at least two Availability Zones. [Application Load
   Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on
   Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers]
   You can specify subnets from one or more Availability Zones.
 """
-function set_subnets(
-    LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return elastic_load_balancing_v2(
-        "SetSubnets",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("LoadBalancerArn" => LoadBalancerArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return elastic_load_balancing_v2("SetSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

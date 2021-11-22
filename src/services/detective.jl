@@ -4,13 +4,8 @@ using AWS.AWSServices: detective
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "disable_email_notification" => "DisableEmailNotification",
-    "message" => "Message",
-    "tags" => "Tags",
-    "next_token" => "NextToken",
-    "max_results" => "MaxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "disable_email_notification" => "DisableEmailNotification", "message" => "Message", "tags" => "Tags")
 
 """
     accept_invitation(graph_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,19 +19,9 @@ behavior graph. The member account status in the graph must be INVITED.
   invitation for. The member account status in the behavior graph must be INVITED.
 
 """
-function accept_invitation(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "PUT",
-        "/invitation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("PUT", "/invitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -56,17 +41,14 @@ graph within a Region. If the same account calls CreateGraph with the same admin
 account, it always returns the same behavior graph ARN. It does not create a new behavior
 graph.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags to assign to the new behavior graph. You can add up to 50 tags. For
-  each tag, you provide the tag key and the tag value. Each tag key can contain up to 128
+# Keyword Parameters
+- `tags`: The tags to assign to the new behavior graph. You can add up to 50 tags. For each
+  tag, you provide the tag key and the tag value. Each tag key can contain up to 128
   characters. Each tag value can contain up to 256 characters.
 """
 function create_graph(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST", "/graph", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return detective("POST", "/graph", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -91,31 +73,16 @@ were already invited to be member accounts in the behavior graph.
 - `graph_arn`: The ARN of the behavior graph to invite the member accounts to contribute
   their data to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"disable_email_notification"`: if set to true, then the member accounts do not receive
+# Keyword Parameters
+- `disable_email_notification`: if set to true, then the member accounts do not receive
   email notifications. By default, this is set to false, and the member accounts receive
   email notifications.
-- `"message"`: Customized message text to include in the invitation email message to the
+- `message`: Customized message text to include in the invitation email message to the
   invited member accounts.
 """
-function create_members(
-    Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_members(Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graph/members",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Accounts" => Accounts, "GraphArn" => GraphArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graph/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -129,19 +96,9 @@ called by the administrator account for a behavior graph.
 - `graph_arn`: The ARN of the behavior graph to disable.
 
 """
-function delete_graph(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graph/removal",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graph/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -158,23 +115,9 @@ graph, the administrator account uses the DeleteGraph API method.
 - `graph_arn`: The ARN of the behavior graph to delete members from.
 
 """
-function delete_members(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_members(AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graph/members/removal",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graph/members/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -188,19 +131,9 @@ called by a member account that has the ENABLED status.
   account's member status in the behavior graph must be ENABLED.
 
 """
-function disassociate_membership(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_membership(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/membership/removal",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/membership/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -216,23 +149,9 @@ Returns the membership details for specified member accounts for a behavior grap
 - `graph_arn`: The ARN of the behavior graph for which to request the member details.
 
 """
-function get_members(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_members(AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graph/members/get",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graph/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -243,23 +162,16 @@ of. This operation can only be called by an administrator account. Because an ac
 currently only be the administrator of one behavior graph within a Region, the results
 always contain a single behavior graph.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of graphs to return at a time. The total must be less
+# Keyword Parameters
+- `max_results`: The maximum number of graphs to return at a time. The total must be less
   than the overall limit on the number of results to return, which is currently 200.
-- `"next_token"`: For requests to get the next page of results, the pagination token that
-  was returned with the previous set of results. The initial request does not include a
+- `next_token`: For requests to get the next page of results, the pagination token that was
+  returned with the previous set of results. The initial request does not include a
   pagination token.
 """
 function list_graphs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graphs/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graphs/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -271,24 +183,17 @@ that the member account has not responded to. The results do not include behavio
 for which the member account declined the invitation. The results also do not include
 behavior graphs that the member account resigned from or was removed from.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of behavior graph invitations to return in the
+# Keyword Parameters
+- `max_results`: The maximum number of behavior graph invitations to return in the
   response. The total must be less than the overall limit on the number of results to return,
   which is currently 200.
-- `"next_token"`: For requests to retrieve the next page of results, the pagination token
+- `next_token`: For requests to retrieve the next page of results, the pagination token
   that was returned with the previous page of results. The initial request does not include a
   pagination token.
 """
 function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/invitations/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/invitations/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -301,28 +206,17 @@ that were removed from the behavior graph.
 - `graph_arn`: The ARN of the behavior graph for which to retrieve the list of member
   accounts.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of member accounts to include in the response. The
+# Keyword Parameters
+- `max_results`: The maximum number of member accounts to include in the response. The
   total must be less than the overall limit on the number of results to return, which is
   currently 200.
-- `"next_token"`: For requests to retrieve the next page of member account results, the
+- `next_token`: For requests to retrieve the next page of member account results, the
   pagination token that was returned with the previous page of results. The initial request
   does not include a pagination token.
 """
-function list_members(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graph/members/list",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -334,17 +228,9 @@ Returns the tag values that are assigned to a behavior graph.
 - `resource_arn`: The ARN of the behavior graph for which to retrieve the tag values.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -358,19 +244,9 @@ must be called by a member account that has the INVITED status.
   account's current member status in the behavior graph must be INVITED.
 
 """
-function reject_invitation(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/invitation/removal",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/invitation/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -387,23 +263,9 @@ enable the member account, the status remains ACCEPTED_BUT_DISABLED.
 - `graph_arn`: The ARN of the behavior graph.
 
 """
-function start_monitoring_member(
-    AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_monitoring_member(AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/graph/member/monitoringstate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -418,17 +280,9 @@ Applies tag values to a behavior graph.
   characters. Each tag value can contain up to 256 characters.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -442,15 +296,7 @@ Removes tags from a behavior graph.
   to 50 tags at a time.
 
 """
-function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return detective(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return detective("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

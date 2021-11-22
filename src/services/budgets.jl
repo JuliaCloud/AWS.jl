@@ -4,18 +4,8 @@ using AWS.AWSServices: budgets
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "action_threshold" => "ActionThreshold",
-    "definition" => "Definition",
-    "execution_role_arn" => "ExecutionRoleArn",
-    "approval_model" => "ApprovalModel",
-    "subscribers" => "Subscribers",
-    "notification_type" => "NotificationType",
-    "next_token" => "NextToken",
-    "time_period" => "TimePeriod",
-    "max_results" => "MaxResults",
-    "notifications_with_subscribers" => "NotificationsWithSubscribers",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "notifications_with_subscribers" => "NotificationsWithSubscribers", "time_period" => "TimePeriod", "action_threshold" => "ActionThreshold", "approval_model" => "ApprovalModel", "definition" => "Definition", "execution_role_arn" => "ExecutionRoleArn", "notification_type" => "NotificationType", "subscribers" => "Subscribers")
 
 """
     create_budget(account_id, budget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,29 +19,15 @@ PlannedBudgetLimits, see the Examples section.
 - `account_id`: The accountId that is associated with the budget.
 - `budget`: The budget object that you want to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"notifications_with_subscribers"`: A notification that you want to associate with a
+# Keyword Parameters
+- `notifications_with_subscribers`: A notification that you want to associate with a
   budget. A budget can have up to five notifications, and each notification can have one SNS
   subscriber and up to 10 email subscribers. If you include notifications and subscribers in
   your CreateBudget call, AWS creates the notifications and subscribers for you.
 """
-function create_budget(
-    AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "CreateBudget",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "Budget" => Budget),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -73,42 +49,9 @@ end
 - `subscribers`:
 
 """
-function create_budget_action(
-    AccountId,
-    ActionThreshold,
-    ActionType,
-    ApprovalModel,
-    BudgetName,
-    Definition,
-    ExecutionRoleArn,
-    NotificationType,
-    Subscribers;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_budget_action(AccountId, ActionThreshold, ActionType, ApprovalModel, BudgetName, Definition, ExecutionRoleArn, NotificationType, Subscribers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "CreateBudgetAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "ActionThreshold" => ActionThreshold,
-                    "ActionType" => ActionType,
-                    "ApprovalModel" => ApprovalModel,
-                    "BudgetName" => BudgetName,
-                    "Definition" => Definition,
-                    "ExecutionRoleArn" => ExecutionRoleArn,
-                    "NotificationType" => NotificationType,
-                    "Subscribers" => Subscribers,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("CreateBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionThreshold"=>ActionThreshold, "ActionType"=>ActionType, "ApprovalModel"=>ApprovalModel, "BudgetName"=>BudgetName, "Definition"=>Definition, "ExecutionRoleArn"=>ExecutionRoleArn, "NotificationType"=>NotificationType, "Subscribers"=>Subscribers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -127,32 +70,9 @@ notification.
   Each notification can have one SNS subscriber and up to 10 email subscribers.
 
 """
-function create_notification(
-    AccountId,
-    BudgetName,
-    Notification,
-    Subscribers;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_notification(AccountId, BudgetName, Notification, Subscribers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "CreateNotification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "Notification" => Notification,
-                    "Subscribers" => Subscribers,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("CreateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -170,32 +90,9 @@ create the subscriber.
 - `subscriber`: The subscriber that you want to associate with a budget notification.
 
 """
-function create_subscriber(
-    AccountId,
-    BudgetName,
-    Notification,
-    Subscriber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "CreateSubscriber",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "Notification" => Notification,
-                    "Subscriber" => Subscriber,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("CreateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -209,22 +106,9 @@ the notifications and subscribers that are associated with that budget.
 - `budget_name`: The name of the budget that you want to delete.
 
 """
-function delete_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DeleteBudget",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -238,30 +122,9 @@ end
 - `budget_name`:
 
 """
-function delete_budget_action(
-    AccountId,
-    ActionId,
-    BudgetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_budget_action(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DeleteBudgetAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "ActionId" => ActionId,
-                    "BudgetName" => BudgetName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DeleteBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -277,30 +140,9 @@ associated with the notification.
 - `notification`: The notification that you want to delete.
 
 """
-function delete_notification(
-    AccountId,
-    BudgetName,
-    Notification;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_notification(AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DeleteNotification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "Notification" => Notification,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DeleteNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -317,32 +159,9 @@ notification.
 - `subscriber`: The subscriber that you want to delete.
 
 """
-function delete_subscriber(
-    AccountId,
-    BudgetName,
-    Notification,
-    Subscriber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DeleteSubscriber",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "Notification" => Notification,
-                    "Subscriber" => Subscriber,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DeleteSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -357,22 +176,9 @@ PlannedBudgetLimits, see the Examples section.
 - `budget_name`: The name of the budget that you want a description of.
 
 """
-function describe_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudget",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -386,30 +192,9 @@ end
 - `budget_name`:
 
 """
-function describe_budget_action(
-    AccountId,
-    ActionId,
-    BudgetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_budget_action(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudgetAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "ActionId" => ActionId,
-                    "BudgetName" => BudgetName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -422,36 +207,14 @@ end
 - `action_id`:  A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`:
-- `"time_period"`:
+# Keyword Parameters
+- `max_results`:
+- `next_token`:
+- `time_period`:
 """
-function describe_budget_action_histories(
-    AccountId,
-    ActionId,
-    BudgetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_budget_action_histories(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudgetActionHistories",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "ActionId" => ActionId,
-                    "BudgetName" => BudgetName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudgetActionHistories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -462,23 +225,13 @@ end
 # Arguments
 - `account_id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`:
+# Keyword Parameters
+- `max_results`:
+- `next_token`:
 """
-function describe_budget_actions_for_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_budget_actions_for_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudgetActionsForAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudgetActionsForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -490,27 +243,13 @@ end
 - `account_id`:
 - `budget_name`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`:
+# Keyword Parameters
+- `max_results`:
+- `next_token`:
 """
-function describe_budget_actions_for_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_budget_actions_for_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudgetActionsForBudget",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudgetActionsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -523,29 +262,15 @@ available for ANNUAL budgets.
 - `account_id`:
 - `budget_name`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`:
-- `"time_period"`: Retrieves how often the budget went into an ALARM state for the
-  specified time period.
+# Keyword Parameters
+- `max_results`:
+- `next_token`:
+- `time_period`: Retrieves how often the budget went into an ALARM state for the specified
+  time period.
 """
-function describe_budget_performance_history(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_budget_performance_history(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudgetPerformanceHistory",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -558,25 +283,15 @@ the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
 - `account_id`: The accountId that is associated with the budgets that you want
   descriptions of.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: An optional integer that represents how many entries a paginated
-  response contains. The maximum is 100.
-- `"next_token"`: The pagination token that you include in your request to indicate the
-  next set of results that you want to retrieve.
+# Keyword Parameters
+- `max_results`: An optional integer that represents how many entries a paginated response
+  contains. The maximum is 100.
+- `next_token`: The pagination token that you include in your request to indicate the next
+  set of results that you want to retrieve.
 """
-function describe_budgets(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_budgets(AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeBudgets",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeBudgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -589,29 +304,15 @@ Lists the notifications that are associated with a budget.
   want descriptions of.
 - `budget_name`: The name of the budget whose notifications you want descriptions of.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: An optional integer that represents how many entries a paginated
-  response contains. The maximum is 100.
-- `"next_token"`: The pagination token that you include in your request to indicate the
-  next set of results that you want to retrieve.
+# Keyword Parameters
+- `max_results`: An optional integer that represents how many entries a paginated response
+  contains. The maximum is 100.
+- `next_token`: The pagination token that you include in your request to indicate the next
+  set of results that you want to retrieve.
 """
-function describe_notifications_for_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_notifications_for_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeNotificationsForBudget",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeNotificationsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -625,37 +326,15 @@ Lists the subscribers that are associated with a notification.
 - `budget_name`: The name of the budget whose subscribers you want descriptions of.
 - `notification`: The notification whose subscribers you want to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: An optional integer that represents how many entries a paginated
-  response contains. The maximum is 100.
-- `"next_token"`: The pagination token that you include in your request to indicate the
-  next set of results that you want to retrieve.
+# Keyword Parameters
+- `max_results`: An optional integer that represents how many entries a paginated response
+  contains. The maximum is 100.
+- `next_token`: The pagination token that you include in your request to indicate the next
+  set of results that you want to retrieve.
 """
-function describe_subscribers_for_notification(
-    AccountId,
-    BudgetName,
-    Notification;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_subscribers_for_notification(AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "DescribeSubscribersForNotification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "Notification" => Notification,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -670,32 +349,9 @@ end
 - `execution_type`:  The type of execution.
 
 """
-function execute_budget_action(
-    AccountId,
-    ActionId,
-    BudgetName,
-    ExecutionType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function execute_budget_action(AccountId, ActionId, BudgetName, ExecutionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "ExecuteBudgetAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "ActionId" => ActionId,
-                    "BudgetName" => BudgetName,
-                    "ExecutionType" => ExecutionType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("ExecuteBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName, "ExecutionType"=>ExecutionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -713,22 +369,9 @@ section.
 - `new_budget`: The budget that you want to update your budget to.
 
 """
-function update_budget(
-    AccountId, NewBudget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_budget(AccountId, NewBudget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "UpdateBudget",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "NewBudget" => NewBudget),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -741,40 +384,18 @@ end
 - `action_id`:  A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"action_threshold"`:
-- `"approval_model"`:  This specifies if the action needs manual or automatic approval.
-- `"definition"`:
-- `"execution_role_arn"`:  The role passed for action execution and reversion. Roles and
+# Keyword Parameters
+- `action_threshold`:
+- `approval_model`:  This specifies if the action needs manual or automatic approval.
+- `definition`:
+- `execution_role_arn`:  The role passed for action execution and reversion. Roles and
   actions must be in the same account.
-- `"notification_type"`:
-- `"subscribers"`:
+- `notification_type`:
+- `subscribers`:
 """
-function update_budget_action(
-    AccountId,
-    ActionId,
-    BudgetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_budget_action(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "UpdateBudgetAction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "ActionId" => ActionId,
-                    "BudgetName" => BudgetName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("UpdateBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -790,32 +411,9 @@ Updates a notification.
 - `old_notification`: The previous notification that is associated with a budget.
 
 """
-function update_notification(
-    AccountId,
-    BudgetName,
-    NewNotification,
-    OldNotification;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_notification(AccountId, BudgetName, NewNotification, OldNotification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "UpdateNotification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "NewNotification" => NewNotification,
-                    "OldNotification" => OldNotification,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("UpdateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -832,32 +430,7 @@ Updates a subscriber.
 - `old_subscriber`: The previous subscriber that is associated with a budget notification.
 
 """
-function update_subscriber(
-    AccountId,
-    BudgetName,
-    NewSubscriber,
-    Notification,
-    OldSubscriber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return budgets(
-        "UpdateSubscriber",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccountId" => AccountId,
-                    "BudgetName" => BudgetName,
-                    "NewSubscriber" => NewSubscriber,
-                    "Notification" => Notification,
-                    "OldSubscriber" => OldSubscriber,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return budgets("UpdateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

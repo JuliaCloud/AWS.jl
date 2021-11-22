@@ -47,15 +47,10 @@ const aws_config = Ref{AbstractAWSConfig}()
 function amazonify(mapping, kwargs)
     new_kwargs = Dict{String,Any}()
 
-    for kwarg in kwargs
-        str = string(kwarg.first)
-        _key = if haskey(mapping, str)
-            mapping[str]
-        else
-            str
-        end
-
-        new_kwargs[string(_key)] = kwarg.second
+    for (k, v) in kwargs
+        str = string(k)
+        _key = get(mapping, str, str)
+        new_kwargs[string(_key)] = v
     end
 
     return new_kwargs

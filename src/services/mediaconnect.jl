@@ -4,45 +4,8 @@ using AWS.AWSServices: mediaconnect
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "cidr_allow_list" => "cidrAllowList",
-    "max_latency" => "maxLatency",
-    "protocol" => "protocol",
-    "destination" => "destination",
-    "source_failover_config" => "sourceFailoverConfig",
-    "min_latency" => "minLatency",
-    "media_streams" => "mediaStreams",
-    "vpc_interfaces" => "vpcInterfaces",
-    "next_token" => "nextToken",
-    "clock_rate" => "clockRate",
-    "media_stream_type" => "mediaStreamType",
-    "media_stream_source_configurations" => "mediaStreamSourceConfigurations",
-    "outputs" => "outputs",
-    "smoothing_latency" => "smoothingLatency",
-    "max_bitrate" => "maxBitrate",
-    "entitlement_status" => "entitlementStatus",
-    "description" => "description",
-    "encryption" => "encryption",
-    "max_results" => "maxResults",
-    "remote_id" => "remoteId",
-    "video_format" => "videoFormat",
-    "ingest_port" => "ingestPort",
-    "stream_id" => "streamId",
-    "max_sync_buffer" => "maxSyncBuffer",
-    "port" => "port",
-    "entitlement_arn" => "entitlementArn",
-    "vpc_interface_name" => "vpcInterfaceName",
-    "whitelist_cidr" => "whitelistCidr",
-    "vpc_interface_attachment" => "vpcInterfaceAttachment",
-    "availability_zone" => "availabilityZone",
-    "entitlements" => "entitlements",
-    "subscribers" => "subscribers",
-    "media_stream_output_configurations" => "mediaStreamOutputConfigurations",
-    "source" => "source",
-    "attributes" => "attributes",
-    "decryption" => "decryption",
-    "sources" => "sources",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("cidr_allow_list" => "cidrAllowList", "description" => "description", "destination" => "destination", "encryption" => "encryption", "max_latency" => "maxLatency", "media_stream_output_configurations" => "mediaStreamOutputConfigurations", "min_latency" => "minLatency", "port" => "port", "protocol" => "protocol", "remote_id" => "remoteId", "smoothing_latency" => "smoothingLatency", "stream_id" => "streamId", "vpc_interface_attachment" => "vpcInterfaceAttachment", "max_results" => "maxResults", "next_token" => "nextToken", "entitlement_status" => "entitlementStatus", "subscribers" => "subscribers", "source_failover_config" => "sourceFailoverConfig", "decryption" => "decryption", "entitlement_arn" => "entitlementArn", "ingest_port" => "ingestPort", "max_bitrate" => "maxBitrate", "max_sync_buffer" => "maxSyncBuffer", "media_stream_source_configurations" => "mediaStreamSourceConfigurations", "vpc_interface_name" => "vpcInterfaceName", "whitelist_cidr" => "whitelistCidr", "attributes" => "attributes", "clock_rate" => "clockRate", "media_stream_type" => "mediaStreamType", "video_format" => "videoFormat", "availability_zone" => "availabilityZone", "entitlements" => "entitlements", "media_streams" => "mediaStreams", "outputs" => "outputs", "source" => "source", "sources" => "sources", "vpc_interfaces" => "vpcInterfaces")
 
 """
     add_flow_media_streams(flow_arn, media_streams; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -55,19 +18,9 @@ associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI
 - `media_streams`: The media streams that you want to add to the flow.
 
 """
-function add_flow_media_streams(
-    flowArn, mediaStreams; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_flow_media_streams(flowArn, mediaStreams; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/$(flowArn)/mediaStreams",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("mediaStreams" => mediaStreams), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/$(flowArn)/mediaStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mediaStreams"=>mediaStreams), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -80,17 +33,9 @@ Adds outputs to an existing flow. You can create up to 50 outputs per flow.
 - `outputs`: A list of outputs that you want to add.
 
 """
-function add_flow_outputs(
-    flowArn, outputs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_flow_outputs(flowArn, outputs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/$(flowArn)/outputs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("outputs" => outputs), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/$(flowArn)/outputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outputs"=>outputs), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -103,17 +48,9 @@ Adds Sources to flow
 - `sources`: A list of sources that you want to add.
 
 """
-function add_flow_sources(
-    flowArn, sources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_flow_sources(flowArn, sources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/$(flowArn)/source",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/$(flowArn)/source", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -126,19 +63,9 @@ Adds VPC interfaces to flow
 - `vpc_interfaces`: A list of VPC interfaces that you want to add.
 
 """
-function add_flow_vpc_interfaces(
-    flowArn, vpcInterfaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_flow_vpc_interfaces(flowArn, vpcInterfaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/$(flowArn)/vpcInterfaces",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("vpcInterfaces" => vpcInterfaces), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/$(flowArn)/vpcInterfaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcInterfaces"=>vpcInterfaces), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -150,28 +77,21 @@ outputs (up to 50) and entitlements (up to 50).
 # Arguments
 - `name`: The name of the flow.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zone"`: The Availability Zone that you want to create the flow in. These
+# Keyword Parameters
+- `availability_zone`: The Availability Zone that you want to create the flow in. These
   options are limited to the Availability Zones within the current AWS Region.
-- `"entitlements"`: The entitlements that you want to grant on a flow.
-- `"media_streams"`: The media streams that you want to add to the flow. You can associate
+- `entitlements`: The entitlements that you want to grant on a flow.
+- `media_streams`: The media streams that you want to add to the flow. You can associate
   these media streams with sources and outputs on the flow.
-- `"outputs"`: The outputs that you want to add to this flow.
-- `"source"`:
-- `"source_failover_config"`:
-- `"sources"`:
-- `"vpc_interfaces"`: The VPC interfaces you want on the flow.
+- `outputs`: The outputs that you want to add to this flow.
+- `source`:
+- `source_failover_config`:
+- `sources`:
+- `vpc_interfaces`: The VPC interfaces you want on the flow.
 """
 function create_flow(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,13 +105,7 @@ Deletes a flow. Before you can delete a flow, you must stop the flow.
 """
 function delete_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/v1/flows/$(flowArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -204,17 +118,9 @@ Zone, as well as details about the source, outputs, and entitlements.
 - `flow_arn`: The ARN of the flow that you want to describe.
 
 """
-function describe_flow(
-    flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/v1/flows/$(flowArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/v1/flows/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -227,17 +133,9 @@ duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
 - `offering_arn`: The Amazon Resource Name (ARN) of the offering.
 
 """
-function describe_offering(
-    offeringArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_offering(offeringArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/v1/offerings/$(offeringArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/v1/offerings/$(offeringArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,17 +149,9 @@ reservation (such as price, duration, and outbound bandwidth).
 - `reservation_arn`: The Amazon Resource Name (ARN) of the reservation.
 
 """
-function describe_reservation(
-    reservationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_reservation(reservationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/v1/reservations/$(reservationArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/v1/reservations/$(reservationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -274,19 +164,9 @@ Grants entitlements to an existing flow.
 - `flow_arn`: The flow that you want to grant entitlements on.
 
 """
-function grant_flow_entitlements(
-    entitlements, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function grant_flow_entitlements(entitlements, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/$(flowArn)/entitlements",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("entitlements" => entitlements), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/$(flowArn)/entitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entitlements"=>entitlements), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,29 +175,22 @@ end
 Displays a list of all entitlements that have been granted to this account. This request
 returns 20 results per page.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per API request. For example,
-  you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match
-  your request, the service returns no more than the first 5 items. (The service also returns
-  a NextToken value that you can use to fetch the next batch of results.) The service might
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per API request. For example, you
+  submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your
+  request, the service returns no more than the first 5 items. (The service also returns a
+  NextToken value that you can use to fetch the next batch of results.) The service might
   return fewer results than the MaxResults value. If MaxResults is not included in the
   request, the service defaults to pagination with a maximum of 20 results per page.
-- `"next_token"`: The token that identifies which batch of results that you want to see.
-  For example, you submit a ListEntitlements request with MaxResults set at 5. The service
+- `next_token`: The token that identifies which batch of results that you want to see. For
+  example, you submit a ListEntitlements request with MaxResults set at 5. The service
   returns the first batch of results (up to 5) and a NextToken value. To see the next batch
   of results, you can submit the ListEntitlements request a second time and specify the
   NextToken value.
 """
 function list_entitlements(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/v1/entitlements",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/v1/entitlements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -326,24 +199,21 @@ end
 Displays a list of flows that are associated with this account. This request returns a
 paginated result.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per API request. For example,
-  you submit a ListFlows request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
-- `"next_token"`: The token that identifies which batch of results that you want to see.
-  For example, you submit a ListFlows request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListFlows request a second time and specify the NextToken value.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per API request. For example, you
+  submit a ListFlows request with MaxResults set at 5. Although 20 items match your request,
+  the service returns no more than the first 5 items. (The service also returns a NextToken
+  value that you can use to fetch the next batch of results.) The service might return fewer
+  results than the MaxResults value. If MaxResults is not included in the request, the
+  service defaults to pagination with a maximum of 10 results per page.
+- `next_token`: The token that identifies which batch of results that you want to see. For
+  example, you submit a ListFlows request with MaxResults set at 5. The service returns the
+  first batch of results (up to 5) and a NextToken value. To see the next batch of results,
+  you can submit the ListFlows request a second time and specify the NextToken value.
 """
 function list_flows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET", "/v1/flows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediaconnect("GET", "/v1/flows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -354,29 +224,22 @@ Region. If you have an active reservation (which means you've purchased an offer
 has already started and hasn't expired yet), your account isn't eligible for other
 offerings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per API request. For example,
-  you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per API request. For example, you
+  submit a ListOfferings request with MaxResults set at 5. Although 20 items match your
   request, the service returns no more than the first 5 items. (The service also returns a
   NextToken value that you can use to fetch the next batch of results.) The service might
   return fewer results than the MaxResults value. If MaxResults is not included in the
   request, the service defaults to pagination with a maximum of 10 results per page.
-- `"next_token"`: The token that identifies which batch of results that you want to see.
-  For example, you submit a ListOfferings request with MaxResults set at 5. The service
-  returns the first batch of results (up to 5) and a NextToken value. To see the next batch
-  of results, you can submit the ListOfferings request a second time and specify the
-  NextToken value.
+- `next_token`: The token that identifies which batch of results that you want to see. For
+  example, you submit a ListOfferings request with MaxResults set at 5. The service returns
+  the first batch of results (up to 5) and a NextToken value. To see the next batch of
+  results, you can submit the ListOfferings request a second time and specify the NextToken
+  value.
 """
 function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/v1/offerings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/v1/offerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -385,29 +248,22 @@ end
 Displays a list of all reservations that have been purchased by this account in the current
 AWS Region. This list includes all reservations in all states (such as active and expired).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per API request. For example,
-  you submit a ListReservations request with MaxResults set at 5. Although 20 items match
-  your request, the service returns no more than the first 5 items. (The service also returns
-  a NextToken value that you can use to fetch the next batch of results.) The service might
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per API request. For example, you
+  submit a ListReservations request with MaxResults set at 5. Although 20 items match your
+  request, the service returns no more than the first 5 items. (The service also returns a
+  NextToken value that you can use to fetch the next batch of results.) The service might
   return fewer results than the MaxResults value. If MaxResults is not included in the
   request, the service defaults to pagination with a maximum of 10 results per page.
-- `"next_token"`: The token that identifies which batch of results that you want to see.
-  For example, you submit a ListReservations request with MaxResults set at 5. The service
+- `next_token`: The token that identifies which batch of results that you want to see. For
+  example, you submit a ListReservations request with MaxResults set at 5. The service
   returns the first batch of results (up to 5) and a NextToken value. To see the next batch
   of results, you can submit the ListOfferings request a second time and specify the
   NextToken value.
 """
 function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/v1/reservations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/v1/reservations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -420,17 +276,9 @@ List all tags on an AWS Elemental MediaConnect resource
   MediaConnect resource for which to list the tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -449,27 +297,9 @@ can't purchase another offering.
   characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
 
 """
-function purchase_offering(
-    offeringArn,
-    reservationName,
-    start;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function purchase_offering(offeringArn, reservationName, start; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/offerings/$(offeringArn)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("reservationName" => reservationName, "start" => start),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/offerings/$(offeringArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservationName"=>reservationName, "start"=>start), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -483,17 +313,9 @@ not associated with a source or output.
 - `media_stream_name`: The name of the media stream that you want to remove.
 
 """
-function remove_flow_media_stream(
-    flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -509,17 +331,9 @@ automatically removes the associated output.
 - `output_arn`: The ARN of the output that you want to remove.
 
 """
-function remove_flow_output(
-    flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_flow_output(flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/v1/flows/$(flowArn)/outputs/$(outputArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -533,17 +347,9 @@ one source on the flow.
 - `source_arn`: The ARN of the source that you want to remove.
 
 """
-function remove_flow_source(
-    flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_flow_source(flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/v1/flows/$(flowArn)/source/$(sourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -559,17 +365,9 @@ no longer reference the VPC interface.
 - `vpc_interface_name`: The name of the VPC interface that you want to remove.
 
 """
-function remove_flow_vpc_interface(
-    flowArn, vpcInterfaceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_flow_vpc_interface(flowArn, vpcInterfaceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -583,17 +381,9 @@ unavailable to the subscriber and the associated output is removed.
 - `flow_arn`: The flow that you want to revoke an entitlement from.
 
 """
-function revoke_flow_entitlement(
-    entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function revoke_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -607,13 +397,7 @@ Starts a flow.
 """
 function start_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/start/$(flowArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/start/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -627,13 +411,7 @@ Stops a flow.
 """
 function stop_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/v1/flows/stop/$(flowArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/v1/flows/stop/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -650,17 +428,9 @@ a resource is deleted, the tags associated with that resource are deleted as wel
   128 characters, and tag values can have a maximum length of 256 characters.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -674,17 +444,9 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -695,19 +457,12 @@ Updates flow
 # Arguments
 - `flow_arn`: The flow that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"source_failover_config"`:
+# Keyword Parameters
+- `source_failover_config`:
 """
 function update_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "PUT",
-        "/v1/flows/$(flowArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -721,31 +476,22 @@ are removed.
 - `entitlement_arn`: The ARN of the entitlement that you want to update.
 - `flow_arn`: The flow that is associated with the entitlement that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the entitlement. This description appears only on the
-  AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
-- `"encryption"`: The type of encryption that will be used on the output associated with
-  this entitlement.
-- `"entitlement_status"`: An indication of whether you want to enable the entitlement to
+# Keyword Parameters
+- `description`: A description of the entitlement. This description appears only on the AWS
+  Elemental MediaConnect console and will not be seen by the subscriber or end user.
+- `encryption`: The type of encryption that will be used on the output associated with this
+  entitlement.
+- `entitlement_status`: An indication of whether you want to enable the entitlement to
   allow access, or disable it to stop streaming content to the subscriber’s flow
   temporarily. If you don’t specify the entitlementStatus field in your request,
   MediaConnect leaves the value unchanged.
-- `"subscribers"`: The AWS account IDs that you want to share your content with. The
+- `subscribers`: The AWS account IDs that you want to share your content with. The
   receiving accounts (subscribers) will be allowed to create their own flow using your
   content as the source.
 """
-function update_flow_entitlement(
-    entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "PUT",
-        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -757,27 +503,18 @@ Updates an existing media stream.
 - `flow_arn`: The Amazon Resource Name (ARN) of the flow.
 - `media_stream_name`: The name of the media stream that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attributes"`: The attributes that you want to assign to the media stream.
-- `"clock_rate"`: The sample rate (in Hz) for the stream. If the media stream type is video
+# Keyword Parameters
+- `attributes`: The attributes that you want to assign to the media stream.
+- `clock_rate`: The sample rate (in Hz) for the stream. If the media stream type is video
   or ancillary data, set this value to 90000. If the media stream type is audio, set this
   value to either 48000 or 96000.
-- `"description"`: Description
-- `"media_stream_type"`: The type of media stream.
-- `"video_format"`: The resolution of the video.
+- `description`: Description
+- `media_stream_type`: The type of media stream.
+- `video_format`: The resolution of the video.
 """
-function update_flow_media_stream(
-    flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "PUT",
-        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -789,45 +526,36 @@ Updates an existing flow output.
 - `flow_arn`: The flow that is associated with the output that you want to update.
 - `output_arn`: The ARN of the output that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cidr_allow_list"`: The range of IP addresses that should be allowed to initiate output
+# Keyword Parameters
+- `cidr_allow_list`: The range of IP addresses that should be allowed to initiate output
   requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain
   Routing (CIDR) block; for example, 10.0.0.0/16.
-- `"description"`: A description of the output. This description appears only on the AWS
+- `description`: A description of the output. This description appears only on the AWS
   Elemental MediaConnect console and will not be seen by the end user.
-- `"destination"`: The IP address where you want to send the output.
-- `"encryption"`: The type of key used for the encryption. If no keyType is provided, the
+- `destination`: The IP address where you want to send the output.
+- `encryption`: The type of key used for the encryption. If no keyType is provided, the
   service will use the default setting (static-key).
-- `"max_latency"`: The maximum latency in milliseconds for Zixi-based streams.
-- `"media_stream_output_configurations"`: The media streams that are associated with the
+- `max_latency`: The maximum latency in milliseconds for Zixi-based streams.
+- `media_stream_output_configurations`: The media streams that are associated with the
   output, and the parameters for those associations.
-- `"min_latency"`: The minimum latency in milliseconds for SRT-based streams. In streams
-  that use the SRT protocol, this value that you set on your MediaConnect source or output
+- `min_latency`: The minimum latency in milliseconds for SRT-based streams. In streams that
+  use the SRT protocol, this value that you set on your MediaConnect source or output
   represents the minimal potential latency of that connection. The latency of the stream is
   set to the highest number between the sender’s minimum latency and the receiver’s
   minimum latency.
-- `"port"`: The port to use when content is distributed to this output.
-- `"protocol"`: The protocol to use for the output.
-- `"remote_id"`: The remote ID for the Zixi-pull stream.
-- `"smoothing_latency"`: The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC
+- `port`: The port to use when content is distributed to this output.
+- `protocol`: The protocol to use for the output.
+- `remote_id`: The remote ID for the Zixi-pull stream.
+- `smoothing_latency`: The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC
   streams.
-- `"stream_id"`: The stream ID that you want to use for this transport. This parameter
+- `stream_id`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi-based streams.
-- `"vpc_interface_attachment"`: The name of the VPC interface attachment to use for this
+- `vpc_interface_attachment`: The name of the VPC interface attachment to use for this
   output.
 """
-function update_flow_output(
-    flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_flow_output(flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "PUT",
-        "/v1/flows/$(flowArn)/outputs/$(outputArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -839,44 +567,35 @@ Updates the source of a flow.
 - `flow_arn`: The flow that is associated with the source that you want to update.
 - `source_arn`: The ARN of the source that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"decryption"`: The type of encryption used on the content ingested from this source.
-- `"description"`: A description for the source. This value is not used or seen outside of
+# Keyword Parameters
+- `decryption`: The type of encryption used on the content ingested from this source.
+- `description`: A description for the source. This value is not used or seen outside of
   the current AWS Elemental MediaConnect account.
-- `"entitlement_arn"`: The ARN of the entitlement that allows you to subscribe to this
-  flow. The entitlement is set by the flow originator, and the ARN is generated as part of
-  the originator's flow.
-- `"ingest_port"`: The port that the flow will be listening on for incoming content.
-- `"max_bitrate"`: The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
-- `"max_latency"`: The maximum latency in milliseconds. This parameter applies only to
+- `entitlement_arn`: The ARN of the entitlement that allows you to subscribe to this flow.
+  The entitlement is set by the flow originator, and the ARN is generated as part of the
+  originator's flow.
+- `ingest_port`: The port that the flow will be listening on for incoming content.
+- `max_bitrate`: The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+- `max_latency`: The maximum latency in milliseconds. This parameter applies only to
   RIST-based and Zixi-based streams.
-- `"max_sync_buffer"`: The size of the buffer (in milliseconds) to use to sync incoming
+- `max_sync_buffer`: The size of the buffer (in milliseconds) to use to sync incoming
   source data.
-- `"media_stream_source_configurations"`: The media streams that are associated with the
+- `media_stream_source_configurations`: The media streams that are associated with the
   source, and the parameters for those associations.
-- `"min_latency"`: The minimum latency in milliseconds for SRT-based streams. In streams
-  that use the SRT protocol, this value that you set on your MediaConnect source or output
+- `min_latency`: The minimum latency in milliseconds for SRT-based streams. In streams that
+  use the SRT protocol, this value that you set on your MediaConnect source or output
   represents the minimal potential latency of that connection. The latency of the stream is
   set to the highest number between the sender’s minimum latency and the receiver’s
   minimum latency.
-- `"protocol"`: The protocol that is used by the source.
-- `"stream_id"`: The stream ID that you want to use for this transport. This parameter
+- `protocol`: The protocol that is used by the source.
+- `stream_id`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi-based streams.
-- `"vpc_interface_name"`: The name of the VPC interface to use for this source.
-- `"whitelist_cidr"`: The range of IP addresses that should be allowed to contribute
-  content to your source. These IP addresses should be in the form of a Classless
-  Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+- `vpc_interface_name`: The name of the VPC interface to use for this source.
+- `whitelist_cidr`: The range of IP addresses that should be allowed to contribute content
+  to your source. These IP addresses should be in the form of a Classless Inter-Domain
+  Routing (CIDR) block; for example, 10.0.0.0/16.
 """
-function update_flow_source(
-    flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_flow_source(flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mediaconnect(
-        "PUT",
-        "/v1/flows/$(flowArn)/source/$(sourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

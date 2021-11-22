@@ -4,30 +4,8 @@ using AWS.AWSServices: route_53_domains
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "fiauth_key" => "FIAuthKey",
-    "admin_contact" => "AdminContact",
-    "registrant_contact" => "RegistrantContact",
-    "tech_contact" => "TechContact",
-    "submitted_since" => "SubmittedSince",
-    "nameservers" => "Nameservers",
-    "registrant_privacy" => "RegistrantPrivacy",
-    "auto_renew" => "AutoRenew",
-    "privacy_protect_admin_contact" => "PrivacyProtectAdminContact",
-    "idn_lang_code" => "IdnLangCode",
-    "domain_name" => "domainName",
-    "privacy_protect_registrant_contact" => "PrivacyProtectRegistrantContact",
-    "start" => "Start",
-    "tech_privacy" => "TechPrivacy",
-    "auth_code" => "AuthCode",
-    "privacy_protect_tech_contact" => "PrivacyProtectTechContact",
-    "max_items" => "MaxItems",
-    "end" => "End",
-    "admin_privacy" => "AdminPrivacy",
-    "marker" => "Marker",
-    "duration_in_years" => "DurationInYears",
-    "tags_to_update" => "TagsToUpdate",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("tags_to_update" => "TagsToUpdate", "fiauth_key" => "FIAuthKey", "end" => "End", "marker" => "Marker", "max_items" => "MaxItems", "start" => "Start", "auto_renew" => "AutoRenew", "idn_lang_code" => "IdnLangCode", "privacy_protect_admin_contact" => "PrivacyProtectAdminContact", "privacy_protect_registrant_contact" => "PrivacyProtectRegistrantContact", "privacy_protect_tech_contact" => "PrivacyProtectTechContact", "domain_name" => "domainName", "admin_privacy" => "AdminPrivacy", "registrant_privacy" => "RegistrantPrivacy", "tech_privacy" => "TechPrivacy", "duration_in_years" => "DurationInYears", "auth_code" => "AuthCode", "nameservers" => "Nameservers", "admin_contact" => "AdminContact", "registrant_contact" => "RegistrantContact", "tech_contact" => "TechContact", "submitted_since" => "SubmittedSince")
 
 """
     accept_domain_transfer_from_another_aws_account(domain_name, password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -45,22 +23,9 @@ Account 111122223333 has been cancelled.
   request.
 
 """
-function accept_domain_transfer_from_another_aws_account(
-    DomainName, Password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_domain_transfer_from_another_aws_account(DomainName, Password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "AcceptDomainTransferFromAnotherAwsAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainName" => DomainName, "Password" => Password),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -78,18 +43,9 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   another AWS account.
 
 """
-function cancel_domain_transfer_to_another_aws_account(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_domain_transfer_to_another_aws_account(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "CancelDomainTransferToAnotherAwsAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -111,22 +67,12 @@ availability of the domain name.
   supports internationalized domain names, see Domains that You Can Register with Amazon
   Route 53. For more information, see Formatting Internationalized Domain Names.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"idn_lang_code"`: Reserved for future use.
+# Keyword Parameters
+- `idn_lang_code`: Reserved for future use.
 """
-function check_domain_availability(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function check_domain_availability(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "CheckDomainAvailability",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("CheckDomainAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -143,24 +89,14 @@ Checks whether a domain name can be transferred to Amazon Route 53.
   can't specify a hyphen at the beginning or end of a label.    Period (.) to separate the
   labels in the name, such as the . in example.com.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auth_code"`: If the registrar for the top-level domain (TLD) requires an authorization
+# Keyword Parameters
+- `auth_code`: If the registrar for the top-level domain (TLD) requires an authorization
   code to transfer the domain, the code that you got from the current registrar for the
   domain.
 """
-function check_domain_transferability(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function check_domain_transferability(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "CheckDomainTransferability",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("CheckDomainTransferability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -174,24 +110,9 @@ consistent; subsequent operations might not immediately represent all issued ope
 - `tags_to_delete`: A list of tag keys to delete.
 
 """
-function delete_tags_for_domain(
-    DomainName, TagsToDelete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_tags_for_domain(DomainName, TagsToDelete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "DeleteTagsForDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainName" => DomainName, "TagsToDelete" => TagsToDelete
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("DeleteTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -203,18 +124,9 @@ This operation disables automatic renewal of domain registration for the specifi
 - `domain_name`: The name of the domain that you want to disable automatic renewal for.
 
 """
-function disable_domain_auto_renew(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "DisableDomainAutoRenew",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("DisableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,18 +143,9 @@ registrant will be notified by email.
 - `domain_name`: The name of the domain that you want to remove the transfer lock for.
 
 """
-function disable_domain_transfer_lock(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "DisableDomainTransferLock",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("DisableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -259,18 +162,9 @@ before the end of the renewal period so we can complete processing before the de
 - `domain_name`: The name of the domain that you want to enable automatic renewal for.
 
 """
-function enable_domain_auto_renew(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "EnableDomainAutoRenew",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("EnableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -285,18 +179,9 @@ request is not completed successfully, the domain registrant will be notified by
 - `domain_name`: The name of the domain that you want to set the transfer lock for.
 
 """
-function enable_domain_transfer_lock(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "EnableDomainTransferLock",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("EnableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -307,21 +192,13 @@ is valid, such as registering a new domain, this operation returns information a
 whether the registrant contact has responded. If you want us to resend the email, use the
 ResendContactReachabilityEmail operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"domain_name"`: The name of the domain for which you want to know whether the registrant
+# Keyword Parameters
+- `domain_name`: The name of the domain for which you want to know whether the registrant
   contact has confirmed that the email address is valid.
 """
-function get_contact_reachability_status(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_contact_reachability_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "GetContactReachabilityStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("GetContactReachabilityStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -335,18 +212,9 @@ of the output.
 - `domain_name`: The name of the domain that you want to get detailed information about.
 
 """
-function get_domain_detail(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_domain_detail(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "GetDomainDetail",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("GetDomainDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -373,30 +241,9 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
   return. Specify a value between 1 and 50.
 
 """
-function get_domain_suggestions(
-    DomainName,
-    OnlyAvailable,
-    SuggestionCount;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "GetDomainSuggestions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainName" => DomainName,
-                    "OnlyAvailable" => OnlyAvailable,
-                    "SuggestionCount" => SuggestionCount,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("GetDomainSuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,18 +256,9 @@ This operation returns the current status of an operation that is not completed.
   Route 53 returned the identifier in the response to the original request.
 
 """
-function get_operation_detail(
-    OperationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_operation_detail(OperationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "GetOperationDetail",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("GetOperationDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -429,21 +267,18 @@ end
 This operation returns all the domain names registered with Amazon Route 53 for the current
 AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: For an initial request for a list of domains, omit this element. If the
-  number of domains that are associated with the current AWS account is greater than the
-  value that you specified for MaxItems, you can use Marker to return additional domains. Get
-  the value of NextPageMarker from the previous response, and submit another request that
-  includes the value of NextPageMarker in the Marker element. Constraints: The marker must
-  match the value specified in the previous request.
-- `"max_items"`: Number of domains to be returned. Default: 20
+# Keyword Parameters
+- `marker`: For an initial request for a list of domains, omit this element. If the number
+  of domains that are associated with the current AWS account is greater than the value that
+  you specified for MaxItems, you can use Marker to return additional domains. Get the value
+  of NextPageMarker from the previous response, and submit another request that includes the
+  value of NextPageMarker in the Marker element. Constraints: The marker must match the value
+  specified in the previous request.
+- `max_items`: Number of domains to be returned. Default: 20
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return route_53_domains("ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -452,23 +287,20 @@ end
 Returns information about all of the operations that return an operation ID and that have
 ever been performed on domains that were registered by the current account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: For an initial request for a list of operations, omit this element. If the
+# Keyword Parameters
+- `marker`: For an initial request for a list of operations, omit this element. If the
   number of operations that are not yet complete is greater than the value that you specified
   for MaxItems, you can use Marker to return additional operations. Get the value of
   NextPageMarker from the previous response, and submit another request that includes the
   value of NextPageMarker in the Marker element.
-- `"max_items"`: Number of domains to be returned. Default: 20
-- `"submitted_since"`: An optional parameter that lets you get information about all the
+- `max_items`: Number of domains to be returned. Default: 20
+- `submitted_since`: An optional parameter that lets you get information about all the
   operations that you submitted after a specified date and time. Specify the date and time in
   Unix time format and Coordinated Universal time (UTC).
 """
 function list_operations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return route_53_domains("ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -482,18 +314,9 @@ represent all issued operations.
 - `domain_name`: The domain for which you want to get a list of tags.
 
 """
-function list_tags_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "ListTagsForDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("ListTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -538,56 +361,30 @@ amount based on the top-level domain. For more information, see Amazon Route 53 
 - `tech_contact`: Provides detailed contact information. For information about the values
   that you specify for each element, see ContactDetail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_renew"`: Indicates whether the domain will be automatically renewed (true) or not
+# Keyword Parameters
+- `auto_renew`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Autorenewal only takes effect after the account is charged. Default: true
-- `"idn_lang_code"`: Reserved for future use.
-- `"privacy_protect_admin_contact"`: Whether you want to conceal contact information from
+- `idn_lang_code`: Reserved for future use.
+- `privacy_protect_admin_contact`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
   information that you entered for the admin contact. Default: true
-- `"privacy_protect_registrant_contact"`: Whether you want to conceal contact information
+- `privacy_protect_registrant_contact`: Whether you want to conceal contact information
   from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact
   information either for Amazon Registrar (for .com, .net, and .org domains) or for our
   registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return
   the information that you entered for the registrant contact (the domain owner). Default:
   true
-- `"privacy_protect_tech_contact"`: Whether you want to conceal contact information from
+- `privacy_protect_tech_contact`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
   information that you entered for the technical contact. Default: true
 """
-function register_domain(
-    AdminContact,
-    DomainName,
-    DurationInYears,
-    RegistrantContact,
-    TechContact;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "RegisterDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AdminContact" => AdminContact,
-                    "DomainName" => DomainName,
-                    "DurationInYears" => DurationInYears,
-                    "RegistrantContact" => RegistrantContact,
-                    "TechContact" => TechContact,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -604,18 +401,9 @@ Account 111122223333 has been cancelled.
   submitted a TransferDomainToAnotherAwsAccount request.
 
 """
-function reject_domain_transfer_from_another_aws_account(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_domain_transfer_from_another_aws_account(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "RejectDomainTransferFromAnotherAwsAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -632,34 +420,15 @@ registration, see Renewing Registration for a Domain in the Amazon Route 53 Deve
   This value must match the current expiration date for the domain.
 - `domain_name`: The name of the domain that you want to renew.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"duration_in_years"`: The number of years that you want to renew the domain for. The
+# Keyword Parameters
+- `duration_in_years`: The number of years that you want to renew the domain for. The
   maximum number of years depends on the top-level domain. For the range of valid values for
   your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53
   Developer Guide. Default: 1
 """
-function renew_domain(
-    CurrentExpiryYear,
-    DomainName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function renew_domain(CurrentExpiryYear, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "RenewDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CurrentExpiryYear" => CurrentExpiryYear, "DomainName" => DomainName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("RenewDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -669,21 +438,13 @@ For operations that require confirmation that the email address for the registra
 is valid, such as registering a new domain, this operation resends the confirmation email
 to the current email address for the registrant contact.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"domain_name"`: The name of the domain for which you want Route 53 to resend a
+# Keyword Parameters
+- `domain_name`: The name of the domain for which you want Route 53 to resend a
   confirmation email to the registrant contact.
 """
-function resend_contact_reachability_email(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function resend_contact_reachability_email(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "ResendContactReachabilityEmail",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("ResendContactReachabilityEmail", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -696,18 +457,9 @@ registrar, you provide this value to the new registrar.
 - `domain_name`: The name of the domain that you want to get an authorization code for.
 
 """
-function retrieve_domain_auth_code(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function retrieve_domain_auth_code(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "RetrieveDomainAuthCode",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -750,58 +502,32 @@ notified by email.
 - `registrant_contact`: Provides detailed contact information.
 - `tech_contact`: Provides detailed contact information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auth_code"`: The authorization code for the domain. You get this value from the current
+# Keyword Parameters
+- `auth_code`: The authorization code for the domain. You get this value from the current
   registrar.
-- `"auto_renew"`: Indicates whether the domain will be automatically renewed (true) or not
+- `auto_renew`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Autorenewal only takes effect after the account is charged. Default: true
-- `"idn_lang_code"`: Reserved for future use.
-- `"nameservers"`: Contains details for the host and glue IP addresses.
-- `"privacy_protect_admin_contact"`: Whether you want to conceal contact information from
+- `idn_lang_code`: Reserved for future use.
+- `nameservers`: Contains details for the host and glue IP addresses.
+- `privacy_protect_admin_contact`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
   information that you entered for the admin contact. Default: true
-- `"privacy_protect_registrant_contact"`: Whether you want to conceal contact information
+- `privacy_protect_registrant_contact`: Whether you want to conceal contact information
   from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact
   information either for Amazon Registrar (for .com, .net, and .org domains) or for our
   registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return
   the information that you entered for the registrant contact (domain owner). Default: true
-- `"privacy_protect_tech_contact"`: Whether you want to conceal contact information from
+- `privacy_protect_tech_contact`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
   either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
   associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
   information that you entered for the technical contact. Default: true
 """
-function transfer_domain(
-    AdminContact,
-    DomainName,
-    DurationInYears,
-    RegistrantContact,
-    TechContact;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "TransferDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AdminContact" => AdminContact,
-                    "DomainName" => DomainName,
-                    "DurationInYears" => DurationInYears,
-                    "RegistrantContact" => RegistrantContact,
-                    "TechContact" => TechContact,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("TransferDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -829,22 +555,9 @@ Account 111122223333 has been cancelled.
   account to another account.
 
 """
-function transfer_domain_to_another_aws_account(
-    AccountId, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function transfer_domain_to_another_aws_account(AccountId, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "TransferDomainToAnotherAwsAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountId" => AccountId, "DomainName" => DomainName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -859,24 +572,14 @@ domain registrant will be notified by email.
 # Arguments
 - `domain_name`: The name of the domain that you want to update contact information for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"admin_contact"`: Provides detailed contact information.
-- `"registrant_contact"`: Provides detailed contact information.
-- `"tech_contact"`: Provides detailed contact information.
+# Keyword Parameters
+- `admin_contact`: Provides detailed contact information.
+- `registrant_contact`: Provides detailed contact information.
+- `tech_contact`: Provides detailed contact information.
 """
-function update_domain_contact(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_domain_contact(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "UpdateDomainContact",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("UpdateDomainContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -901,36 +604,26 @@ on our privacy practices, see https://aws.amazon.com/privacy/.
 # Arguments
 - `domain_name`: The name of the domain that you want to update the privacy setting for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"admin_privacy"`: Whether you want to conceal contact information from WHOIS queries. If
+# Keyword Parameters
+- `admin_privacy`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
   Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
   other TLDs). If you specify false, WHOIS queries return the information that you entered
   for the admin contact.
-- `"registrant_privacy"`: Whether you want to conceal contact information from WHOIS
-  queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the registrant contact (domain owner).
-- `"tech_privacy"`: Whether you want to conceal contact information from WHOIS queries. If
+- `registrant_privacy`: Whether you want to conceal contact information from WHOIS queries.
+  If you specify true, WHOIS (\"who is\") queries return contact information either for
+  Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi
+  (for all other TLDs). If you specify false, WHOIS queries return the information that you
+  entered for the registrant contact (domain owner).
+- `tech_privacy`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
   Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
   other TLDs). If you specify false, WHOIS queries return the information that you entered
   for the technical contact.
 """
-function update_domain_contact_privacy(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_domain_contact_privacy(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "UpdateDomainContactPrivacy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -947,26 +640,12 @@ notified by email.
 - `domain_name`: The name of the domain that you want to change name servers for.
 - `nameservers`: A list of new name servers for the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"fiauth_key"`: The authorization key for .fi domains
+# Keyword Parameters
+- `fiauth_key`: The authorization key for .fi domains
 """
-function update_domain_nameservers(
-    DomainName, Nameservers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_domain_nameservers(DomainName, Nameservers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "UpdateDomainNameservers",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainName" => DomainName, "Nameservers" => Nameservers),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("UpdateDomainNameservers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -979,23 +658,13 @@ operations.
 # Arguments
 - `domain_name`: The domain for which you want to add or update tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags_to_update"`: A list of the tag keys and values that you want to add or update. If
+# Keyword Parameters
+- `tags_to_update`: A list of the tag keys and values that you want to add or update. If
   you specify a key that already exists, the corresponding value will be replaced.
 """
-function update_tags_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "UpdateTagsForDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return route_53_domains("UpdateTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1004,25 +673,22 @@ end
 Returns all the domain-related billing records for the current AWS account for a specified
 period
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end"`: The end date and time for the time period for which you want a list of billing
+# Keyword Parameters
+- `end`: The end date and time for the time period for which you want a list of billing
   records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
-- `"marker"`: For an initial request for a list of billing records, omit this element. If
-  the number of billing records that are associated with the current AWS account during the
+- `marker`: For an initial request for a list of billing records, omit this element. If the
+  number of billing records that are associated with the current AWS account during the
   specified period is greater than the value that you specified for MaxItems, you can use
   Marker to return additional billing records. Get the value of NextPageMarker from the
   previous response, and submit another request that includes the value of NextPageMarker in
   the Marker element.  Constraints: The marker must match the value of NextPageMarker that
   was returned in the previous response.
-- `"max_items"`: The number of billing records to be returned. Default: 20
-- `"start"`: The beginning date and time for the time period for which you want a list of
+- `max_items`: The number of billing records to be returned. Default: 20
+- `start`: The beginning date and time for the time period for which you want a list of
   billing records. Specify the date and time in Unix time format and Coordinated Universal
   time (UTC).
 """
 function view_billing(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return route_53_domains(
-        "ViewBilling", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return route_53_domains("ViewBilling", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

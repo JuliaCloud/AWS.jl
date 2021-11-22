@@ -4,24 +4,8 @@ using AWS.AWSServices: cloud9
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "next_token" => "nextToken",
-    "client_request_token" => "clientRequestToken",
-    "image_id" => "imageId",
-    "dry_run" => "dryRun",
-    "name" => "name",
-    "environment_id" => "environmentId",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "permissions" => "permissions",
-    "managed_credentials_action" => "managedCredentialsAction",
-    "connection_type" => "connectionType",
-    "subnet_id" => "subnetId",
-    "user_arn" => "userArn",
-    "tags" => "tags",
-    "owner_arn" => "ownerArn",
-    "automatic_stop_time_minutes" => "automaticStopTimeMinutes",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("automatic_stop_time_minutes" => "automaticStopTimeMinutes", "client_request_token" => "clientRequestToken", "connection_type" => "connectionType", "description" => "description", "dry_run" => "dryRun", "image_id" => "imageId", "owner_arn" => "ownerArn", "subnet_id" => "subnetId", "tags" => "tags", "environment_id" => "environmentId", "max_results" => "maxResults", "next_token" => "nextToken", "permissions" => "permissions", "user_arn" => "userArn", "managed_credentials_action" => "managedCredentialsAction", "name" => "name")
 
 """
     create_environment_ec2(instance_type, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,22 +19,21 @@ EC2) instance, and then connects from the instance to the environment.
 - `name`: The name of the environment to create. This name is visible to other IAM users in
   the same Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"automatic_stop_time_minutes"`: The number of minutes until the running instance is shut
+# Keyword Parameters
+- `automatic_stop_time_minutes`: The number of minutes until the running instance is shut
   down after the environment has last been used.
-- `"client_request_token"`: A unique, case-sensitive string that helps Cloud9 to ensure
-  this operation completes no more than one time. For more information, see Client Tokens in
-  the Amazon EC2 API Reference.
-- `"connection_type"`: The connection type used for connecting to an Amazon EC2
-  environment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through
-  Amazon EC2 Systems Manager). For more information, see Accessing no-ingress EC2 instances
-  with Amazon EC2 Systems Manager in the Cloud9 User Guide.
-- `"description"`: The description of the environment to create.
-- `"dry_run"`: Checks whether you have the required permissions for the action, without
+- `client_request_token`: A unique, case-sensitive string that helps Cloud9 to ensure this
+  operation completes no more than one time. For more information, see Client Tokens in the
+  Amazon EC2 API Reference.
+- `connection_type`: The connection type used for connecting to an Amazon EC2 environment.
+  Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through Amazon EC2
+  Systems Manager). For more information, see Accessing no-ingress EC2 instances with Amazon
+  EC2 Systems Manager in the Cloud9 User Guide.
+- `description`: The description of the environment to create.
+- `dry_run`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"image_id"`: The identifier for the Amazon Machine Image (AMI) that's used to create the
+- `image_id`: The identifier for the Amazon Machine Image (AMI) that's used to create the
   EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a
   valid Amazon EC2 Systems Manager (SSM) path. The default AMI is used if the parameter isn't
   explicitly assigned a value in the request. Because Amazon Linux AMI has ended standard
@@ -61,30 +44,17 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64     Amazon Linux 2:
   resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04:
   resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
-- `"owner_arn"`: The Amazon Resource Name (ARN) of the environment owner. This ARN can be
-  the ARN of any IAM principal. If this value is not specified, the ARN defaults to this
+- `owner_arn`: The Amazon Resource Name (ARN) of the environment owner. This ARN can be the
+  ARN of any IAM principal. If this value is not specified, the ARN defaults to this
   environment's creator.
-- `"subnet_id"`: The ID of the subnet in Amazon VPC that Cloud9 will use to communicate
-  with the Amazon EC2 instance.
-- `"tags"`: An array of key-value pairs that will be associated with the new Cloud9
+- `subnet_id`: The ID of the subnet in Amazon VPC that Cloud9 will use to communicate with
+  the Amazon EC2 instance.
+- `tags`: An array of key-value pairs that will be associated with the new Cloud9
   development environment.
 """
-function create_environment_ec2(
-    instanceType, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_environment_ec2(instanceType, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "CreateEnvironmentEC2",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("instanceType" => instanceType, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("CreateEnvironmentEC2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceType"=>instanceType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -101,30 +71,9 @@ Adds an environment member to an Cloud9 development environment.
 - `user_arn`: The Amazon Resource Name (ARN) of the environment member you want to add.
 
 """
-function create_environment_membership(
-    environmentId,
-    permissions,
-    userArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_environment_membership(environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "CreateEnvironmentMembership",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "environmentId" => environmentId,
-                    "permissions" => permissions,
-                    "userArn" => userArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("CreateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -137,18 +86,9 @@ environment, also terminates the instance.
 - `environment_id`: The ID of the environment to delete.
 
 """
-function delete_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "DeleteEnvironment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -162,22 +102,9 @@ Deletes an environment member from an Cloud9 development environment.
   environment.
 
 """
-function delete_environment_membership(
-    environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_environment_membership(environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "DeleteEnvironmentMembership",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("environmentId" => environmentId, "userArn" => userArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("DeleteEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -185,33 +112,25 @@ end
 
 Gets information about environment members for an Cloud9 development environment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"environment_id"`: The ID of the environment to get environment member information about.
-- `"max_results"`: The maximum number of environment members to get information about.
-- `"next_token"`: During a previous call, if there are more than 25 items in the list, only
+# Keyword Parameters
+- `environment_id`: The ID of the environment to get environment member information about.
+- `max_results`: The maximum number of environment members to get information about.
+- `next_token`: During a previous call, if there are more than 25 items in the list, only
   the first 25 items are returned, along with a unique string called a next token. To get the
   next batch of items in the list, call this operation again, adding the next token to the
   call. To get all of the items in the list, keep calling this operation with each subsequent
   next token that is returned, until no more next tokens are returned.
-- `"permissions"`: The type of environment member permissions to get information about.
+- `permissions`: The type of environment member permissions to get information about.
   Available values include:    owner: Owns the environment.    read-only: Has read-only
   access to the environment.    read-write: Has read-write access to the environment.   If no
   value is specified, information about all environment members are returned.
-- `"user_arn"`: The Amazon Resource Name (ARN) of an individual environment member to get
+- `user_arn`: The Amazon Resource Name (ARN) of an individual environment member to get
   information about. If no value is specified, information about all environment members are
   returned.
 """
-function describe_environment_memberships(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_environment_memberships(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "DescribeEnvironmentMemberships",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("DescribeEnvironmentMemberships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -223,18 +142,9 @@ Gets status information for an Cloud9 development environment.
 - `environment_id`: The ID of the environment to get status information about.
 
 """
-function describe_environment_status(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_environment_status(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "DescribeEnvironmentStatus",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("DescribeEnvironmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -246,18 +156,9 @@ Gets information about Cloud9 development environments.
 - `environment_ids`: The IDs of individual environments to get information about.
 
 """
-function describe_environments(
-    environmentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_environments(environmentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "DescribeEnvironments",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("environmentIds" => environmentIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("DescribeEnvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentIds"=>environmentIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -265,10 +166,9 @@ end
 
 Gets a list of Cloud9 development environment identifiers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of environments to get identifiers for.
-- `"next_token"`: During a previous call, if there are more than 25 items in the list, only
+# Keyword Parameters
+- `max_results`: The maximum number of environments to get identifiers for.
+- `next_token`: During a previous call, if there are more than 25 items in the list, only
   the first 25 items are returned, along with a unique string called a next token. To get the
   next batch of items in the list, call this operation again, adding the next token to the
   call. To get all of the items in the list, keep calling this operation with each subsequent
@@ -276,9 +176,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloud9("ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -291,18 +189,9 @@ Gets a list of the tags associated with an Cloud9 development environment.
   get the tags for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -317,22 +206,9 @@ by using this method will NOT be automatically propagated to underlying resource
 - `tags`: The list of tags to add to the given Cloud9 development environment.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -347,22 +223,9 @@ Removes tags from an Cloud9 development environment.
   environment.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -373,29 +236,19 @@ Changes the settings of an existing Cloud9 development environment.
 # Arguments
 - `environment_id`: The ID of the environment to change settings.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: Any new or replacement description for the environment.
-- `"managed_credentials_action"`: Allows the environment owner to turn on or turn off the
+# Keyword Parameters
+- `description`: Any new or replacement description for the environment.
+- `managed_credentials_action`: Allows the environment owner to turn on or turn off the
   Amazon Web Services managed temporary credentials for an Cloud9 environment by using one of
   the following values:    ENABLE     DISABLE     Only the environment owner can change the
   status of managed temporary credentials. An AccessDeniedException is thrown if an attempt
   to turn on or turn off managed temporary credentials is made by an account that's not the
   environment owner.
-- `"name"`: A replacement name for the environment.
+- `name`: A replacement name for the environment.
 """
-function update_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "UpdateEnvironment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -415,28 +268,7 @@ environment.
   want to change.
 
 """
-function update_environment_membership(
-    environmentId,
-    permissions,
-    userArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_environment_membership(environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloud9(
-        "UpdateEnvironmentMembership",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "environmentId" => environmentId,
-                    "permissions" => permissions,
-                    "userArn" => userArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloud9("UpdateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

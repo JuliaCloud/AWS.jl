@@ -4,24 +4,8 @@ using AWS.AWSServices: wafv2
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "resource_type" => "ResourceType",
-    "next_marker" => "NextMarker",
-    "recommended_version" => "RecommendedVersion",
-    "custom_response_bodies" => "CustomResponseBodies",
-    "name" => "Name",
-    "id" => "Id",
-    "description" => "Description",
-    "arn" => "ARN",
-    "scope" => "Scope",
-    "version_name" => "VersionName",
-    "captcha_config" => "CaptchaConfig",
-    "rule_group_rule_name" => "RuleGroupRuleName",
-    "versions_to_publish" => "VersionsToPublish",
-    "tags" => "Tags",
-    "rules" => "Rules",
-    "limit" => "Limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("arn" => "ARN", "id" => "Id", "name" => "Name", "scope" => "Scope", "description" => "Description", "tags" => "Tags", "version_name" => "VersionName", "limit" => "Limit", "next_marker" => "NextMarker", "recommended_version" => "RecommendedVersion", "versions_to_publish" => "VersionsToPublish", "custom_response_bodies" => "CustomResponseBodies", "rules" => "Rules", "captcha_config" => "CaptchaConfig", "rule_group_rule_name" => "RuleGroupRuleName", "resource_type" => "ResourceType")
 
 """
     associate_web_acl(resource_arn, web_aclarn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -44,22 +28,9 @@ For information, see UpdateDistribution.
   with the resource.
 
 """
-function associate_web_acl(
-    ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_web_acl(ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "AssociateWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLArn" => WebACLArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -84,18 +55,9 @@ they use a rule group. The WCU limit for web ACLs is 1,500.
   all calls, use the Region endpoint us-east-1.
 
 """
-function check_capacity(
-    Rules, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "CheckCapacity",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Rules" => Rules, "Scope" => Scope), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("CheckCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -129,37 +91,13 @@ lists those IP addresses.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the IP set that helps with identification.
-- `"tags"`: An array of key:value pairs to associate with the resource.
+# Keyword Parameters
+- `description`: A description of the IP set that helps with identification.
+- `tags`: An array of key:value pairs to associate with the resource.
 """
-function create_ipset(
-    Addresses,
-    IPAddressVersion,
-    Name,
-    Scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_ipset(Addresses, IPAddressVersion, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "CreateIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Addresses" => Addresses,
-                    "IPAddressVersion" => IPAddressVersion,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -178,35 +116,13 @@ have WAF inspect a web request component for the specified patterns.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the set that helps with identification.
-- `"tags"`: An array of key:value pairs to associate with the resource.
+# Keyword Parameters
+- `description`: A description of the set that helps with identification.
+- `tags`: An array of key:value pairs to associate with the resource.
 """
-function create_regex_pattern_set(
-    Name,
-    RegularExpressionList,
-    Scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_regex_pattern_set(Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "CreateRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "RegularExpressionList" => RegularExpressionList,
-                    "Scope" => Scope,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -239,47 +155,23 @@ capacity requirements.
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_response_bodies"`: A map of custom response keys and content bodies. When you
+# Keyword Parameters
+- `custom_response_bodies`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the rule group, and then use them in the rules that you define in the rule
   group.  For information about customizing web requests and responses, see Customizing web
   requests and responses in WAF in the WAF Developer Guide.  For information about the limits
   on count and size for custom request and response settings, see WAF quotas in the WAF
   Developer Guide.
-- `"description"`: A description of the rule group that helps with identification.
-- `"rules"`: The Rule statements used to identify the web requests that you want to allow,
+- `description`: A description of the rule group that helps with identification.
+- `rules`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that WAF uses to identify
   matching web requests, and parameters that govern how WAF handles them.
-- `"tags"`: An array of key:value pairs to associate with the resource.
+- `tags`: An array of key:value pairs to associate with the resource.
 """
-function create_rule_group(
-    Capacity,
-    Name,
-    Scope,
-    VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_rule_group(Capacity, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "CreateRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Capacity" => Capacity,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                    "VisibilityConfig" => VisibilityConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -308,50 +200,26 @@ API, an Application Load Balancer, or an AppSync GraphQL API.
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"captcha_config"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
+# Keyword Parameters
+- `captcha_config`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
-- `"custom_response_bodies"`: A map of custom response keys and content bodies. When you
+- `custom_response_bodies`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the web ACL, and then use them in the rules and default actions that you
   define in the web ACL.  For information about customizing web requests and responses, see
   Customizing web requests and responses in WAF in the WAF Developer Guide.  For information
   about the limits on count and size for custom request and response settings, see WAF quotas
   in the WAF Developer Guide.
-- `"description"`: A description of the web ACL that helps with identification.
-- `"rules"`: The Rule statements used to identify the web requests that you want to allow,
+- `description`: A description of the web ACL that helps with identification.
+- `rules`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that WAF uses to identify
   matching web requests, and parameters that govern how WAF handles them.
-- `"tags"`: An array of key:value pairs to associate with the resource.
+- `tags`: An array of key:value pairs to associate with the resource.
 """
-function create_web_acl(
-    DefaultAction,
-    Name,
-    Scope,
-    VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_web_acl(DefaultAction, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "CreateWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DefaultAction" => DefaultAction,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                    "VisibilityConfig" => VisibilityConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -371,24 +239,9 @@ You can only use this if ManagedByFirewallManager is false in the specified WebA
   returned by that operation.
 
 """
-function delete_firewall_manager_rule_groups(
-    WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeleteFirewallManagerRuleGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "WebACLArn" => WebACLArn, "WebACLLockToken" => WebACLLockToken
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -416,24 +269,9 @@ Deletes the specified IPSet.
   all calls, use the Region endpoint us-east-1.
 
 """
-function delete_ipset(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_ipset(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeleteIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -446,18 +284,9 @@ Deletes the LoggingConfiguration from the specified web ACL.
   delete the LoggingConfiguration.
 
 """
-function delete_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeleteLoggingConfiguration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -471,18 +300,9 @@ the rule group to perform this operation.
   delete the policy. You must be the owner of the rule group to perform this operation.
 
 """
-function delete_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeletePermissionPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -509,24 +329,9 @@ Deletes the specified RegexPatternSet.
   all calls, use the Region endpoint us-east-1.
 
 """
-function delete_regex_pattern_set(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_regex_pattern_set(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeleteRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -554,24 +359,9 @@ Deletes the specified RuleGroup.
   all calls, use the Region endpoint us-east-1.
 
 """
-function delete_rule_group(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_rule_group(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeleteRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -600,24 +390,9 @@ the specified WebACL.
   all calls, use the Region endpoint us-east-1.
 
 """
-function delete_web_acl(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_web_acl(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DeleteWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -638,29 +413,13 @@ rules.
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify the rule group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version_name"`: The version of the rule group. You can only use a version that is not
+# Keyword Parameters
+- `version_name`: The version of the rule group. You can only use a version that is not
   scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
 """
-function describe_managed_rule_group(
-    Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_managed_rule_group(Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DescribeManagedRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "Scope" => Scope, "VendorName" => VendorName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DescribeManagedRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -682,18 +441,9 @@ call UpdateDistribution. For information, see UpdateDistribution.
   API: arn:aws:appsync:region:account-id:apis/GraphQLApiId
 
 """
-function disassociate_web_acl(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "DisassociateWebACL",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -714,22 +464,9 @@ Retrieves the specified IPSet.
   all calls, use the Region endpoint us-east-1.
 
 """
-function get_ipset(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -742,18 +479,9 @@ Returns the LoggingConfiguration for the specified web ACL.
   the LoggingConfiguration.
 
 """
-function get_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetLoggingConfiguration",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -780,22 +508,9 @@ UpdateManagedRuleSetVersionExpiryDate.
   all calls, use the Region endpoint us-east-1.
 
 """
-function get_managed_rule_set(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_managed_rule_set(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetManagedRuleSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetManagedRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -809,18 +524,9 @@ of the rule group to perform this operation.
   get the policy.
 
 """
-function get_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetPermissionPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -854,37 +560,13 @@ independent of your first.
 - `web_aclname`: The name of the web ACL. You cannot change the name of a web ACL after you
   create it.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"rule_group_rule_name"`: The name of the rule group reference statement in your web ACL.
+# Keyword Parameters
+- `rule_group_rule_name`: The name of the rule group reference statement in your web ACL.
   This is required only when you have the rate-based rule nested inside a rule group.
 """
-function get_rate_based_statement_managed_keys(
-    RuleName,
-    Scope,
-    WebACLId,
-    WebACLName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetRateBasedStatementManagedKeys",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "RuleName" => RuleName,
-                    "Scope" => Scope,
-                    "WebACLId" => WebACLId,
-                    "WebACLName" => WebACLName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -904,22 +586,9 @@ Retrieves the specified RegexPatternSet.
   all calls, use the Region endpoint us-east-1.
 
 """
-function get_regex_pattern_set(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_regex_pattern_set(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -927,14 +596,13 @@ end
 
 Retrieves the specified RuleGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"arn"`: The Amazon Resource Name (ARN) of the entity.
-- `"id"`: A unique identifier for the rule group. This ID is returned in the responses to
+# Keyword Parameters
+- `arn`: The Amazon Resource Name (ARN) of the entity.
+- `id`: A unique identifier for the rule group. This ID is returned in the responses to
   create and list commands. You provide it to operations like update and delete.
-- `"name"`: The name of the rule group. You cannot change the name of a rule group after
-  you create it.
-- `"scope"`: Specifies whether this is for an Amazon CloudFront distribution or for a
+- `name`: The name of the rule group. You cannot change the name of a rule group after you
+  create it.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
   regional application. A regional application can be an Application Load Balancer (ALB), an
   Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
   also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
@@ -943,9 +611,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function get_rule_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return wafv2("GetRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -983,34 +649,9 @@ the actual period during which WAF selected the requests in the sample.
   of requests.
 
 """
-function get_sampled_requests(
-    MaxItems,
-    RuleMetricName,
-    Scope,
-    TimeWindow,
-    WebAclArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetSampledRequests",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MaxItems" => MaxItems,
-                    "RuleMetricName" => RuleMetricName,
-                    "Scope" => Scope,
-                    "TimeWindow" => TimeWindow,
-                    "WebAclArn" => WebAclArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1031,22 +672,9 @@ Retrieves the specified WebACL.
   all calls, use the Region endpoint us-east-1.
 
 """
-function get_web_acl(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1058,18 +686,9 @@ Retrieves the WebACL for the specified resource.
 - `resource_arn`: The ARN (Amazon Resource Name) of the resource.
 
 """
-function get_web_aclfor_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "GetWebACLForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1089,34 +708,18 @@ Returns a list of the available versions for the specified managed rule group.
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify the rule group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_available_managed_rule_group_versions(
-    Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_available_managed_rule_group_versions(Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListAvailableManagedRuleGroupVersions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "Scope" => Scope, "VendorName" => VendorName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListAvailableManagedRuleGroupVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1134,26 +737,18 @@ Services Marketplace managed rule groups that you're subscribed to.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_available_managed_rule_groups(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_available_managed_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListAvailableManagedRuleGroups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1169,24 +764,18 @@ Retrieves an array of IPSetSummary objects for the IP sets that you manage.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
 function list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListIPSets",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListIPSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1202,26 +791,18 @@ Retrieves an array of your LoggingConfiguration objects.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_logging_configurations(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_logging_configurations(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListLoggingConfigurations",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListLoggingConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1242,26 +823,18 @@ UpdateManagedRuleSetVersionExpiryDate.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_managed_rule_sets(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListManagedRuleSets",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListManagedRuleSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1278,26 +851,18 @@ manage.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_regex_pattern_sets(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListRegexPatternSets",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListRegexPatternSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1310,24 +875,14 @@ use the CloudFront call ListDistributionsByWebACLId.
 # Arguments
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"resource_type"`: Used for web ACLs that are scoped for regional applications. A
-  regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST
-  API, or an AppSync GraphQL API.
+# Keyword Parameters
+- `resource_type`: Used for web ACLs that are scoped for regional applications. A regional
+  application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or
+  an AppSync GraphQL API.
 """
-function list_resources_for_web_acl(
-    WebACLArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resources_for_web_acl(WebACLArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListResourcesForWebACL",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("WebACLArn" => WebACLArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1343,26 +898,18 @@ Retrieves an array of RuleGroupSummary objects for the rule groups that you mana
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_rule_groups(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListRuleGroups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1379,28 +926,18 @@ through the WAF console.
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1416,24 +953,18 @@ Retrieves an array of WebACLSummary objects for the web ACLs that you manage.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of objects that you want WAF to return for this request. If
+# Keyword Parameters
+- `limit`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
-- `"next_marker"`: When you request a list of objects with a Limit setting, if the number
-  of objects that are still available for retrieval exceeds the limit, WAF returns a
-  NextMarker value in the response. To retrieve the next batch of objects, provide the marker
-  from the prior call in your next request.
+- `next_marker`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
 """
 function list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "ListWebACLs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("ListWebACLs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1460,22 +991,9 @@ needed, and then provide the complete logging configuration specification to thi
 - `logging_configuration`:
 
 """
-function put_logging_configuration(
-    LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "PutLoggingConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1516,31 +1034,15 @@ UpdateManagedRuleSetVersionExpiryDate.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"recommended_version"`: The version of the named managed rule group that you'd like your
+# Keyword Parameters
+- `recommended_version`: The version of the named managed rule group that you'd like your
   customers to choose, from among your version offerings.
-- `"versions_to_publish"`: The versions of the named managed rule group that you want to
+- `versions_to_publish`: The versions of the named managed rule group that you want to
   offer to your customers.
 """
-function put_managed_rule_set_versions(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_managed_rule_set_versions(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "PutManagedRuleSetVersions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("PutManagedRuleSetVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1565,22 +1067,9 @@ owner of the rule group.
   attach the policy.
 
 """
-function put_permission_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_permission_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "PutPermissionPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1599,22 +1088,9 @@ through the WAF console.
 - `tags`: An array of key:value pairs to associate with the resource.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1630,22 +1106,9 @@ add to each container. You can add up to 50 tags to each Amazon Web Services res
 - `tag_keys`: An array of keys identifying the tags to disassociate from the resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1687,38 +1150,12 @@ and then provide the complete IP set specification to this call.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the IP set that helps with identification.
+# Keyword Parameters
+- `description`: A description of the IP set that helps with identification.
 """
-function update_ipset(
-    Addresses,
-    Id,
-    LockToken,
-    Name,
-    Scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_ipset(Addresses, Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "UpdateIPSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Addresses" => Addresses,
-                    "Id" => Id,
-                    "LockToken" => LockToken,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1759,36 +1196,9 @@ PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
   the named managed rule group.
 
 """
-function update_managed_rule_set_version_expiry_date(
-    ExpiryTimestamp,
-    Id,
-    LockToken,
-    Name,
-    Scope,
-    VersionToExpire;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_managed_rule_set_version_expiry_date(ExpiryTimestamp, Id, LockToken, Name, Scope, VersionToExpire; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "UpdateManagedRuleSetVersionExpiryDate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ExpiryTimestamp" => ExpiryTimestamp,
-                    "Id" => Id,
-                    "LockToken" => LockToken,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                    "VersionToExpire" => VersionToExpire,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("UpdateManagedRuleSetVersionExpiryDate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpiryTimestamp"=>ExpiryTimestamp, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VersionToExpire"=>VersionToExpire), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1819,38 +1229,12 @@ pattern set specification to this call.
   you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
   all calls, use the Region endpoint us-east-1.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the set that helps with identification.
+# Keyword Parameters
+- `description`: A description of the set that helps with identification.
 """
-function update_regex_pattern_set(
-    Id,
-    LockToken,
-    Name,
-    RegularExpressionList,
-    Scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "UpdateRegexPatternSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id,
-                    "LockToken" => LockToken,
-                    "Name" => Name,
-                    "RegularExpressionList" => RegularExpressionList,
-                    "Scope" => Scope,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1886,48 +1270,22 @@ rule group with confidence in its capacity requirements.
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_response_bodies"`: A map of custom response keys and content bodies. When you
+# Keyword Parameters
+- `custom_response_bodies`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the rule group, and then use them in the rules that you define in the rule
   group.  For information about customizing web requests and responses, see Customizing web
   requests and responses in WAF in the WAF Developer Guide.  For information about the limits
   on count and size for custom request and response settings, see WAF quotas in the WAF
   Developer Guide.
-- `"description"`: A description of the rule group that helps with identification.
-- `"rules"`: The Rule statements used to identify the web requests that you want to allow,
+- `description`: A description of the rule group that helps with identification.
+- `rules`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that WAF uses to identify
   matching web requests, and parameters that govern how WAF handles them.
 """
-function update_rule_group(
-    Id,
-    LockToken,
-    Name,
-    Scope,
-    VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "UpdateRuleGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Id" => Id,
-                    "LockToken" => LockToken,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                    "VisibilityConfig" => VisibilityConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1969,51 +1327,23 @@ GraphQL API.
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"captcha_config"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
+# Keyword Parameters
+- `captcha_config`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
-- `"custom_response_bodies"`: A map of custom response keys and content bodies. When you
+- `custom_response_bodies`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the web ACL, and then use them in the rules and default actions that you
   define in the web ACL.  For information about customizing web requests and responses, see
   Customizing web requests and responses in WAF in the WAF Developer Guide.  For information
   about the limits on count and size for custom request and response settings, see WAF quotas
   in the WAF Developer Guide.
-- `"description"`: A description of the web ACL that helps with identification.
-- `"rules"`: The Rule statements used to identify the web requests that you want to allow,
+- `description`: A description of the web ACL that helps with identification.
+- `rules`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that WAF uses to identify
   matching web requests, and parameters that govern how WAF handles them.
 """
-function update_web_acl(
-    DefaultAction,
-    Id,
-    LockToken,
-    Name,
-    Scope,
-    VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return wafv2(
-        "UpdateWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DefaultAction" => DefaultAction,
-                    "Id" => Id,
-                    "LockToken" => LockToken,
-                    "Name" => Name,
-                    "Scope" => Scope,
-                    "VisibilityConfig" => VisibilityConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

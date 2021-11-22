@@ -4,55 +4,8 @@ using AWS.AWSServices: amplify
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "branch_name" => "branchName",
-    "custom_rules" => "customRules",
-    "enable_branch_auto_build" => "enableBranchAutoBuild",
-    "auto_branch_creation_config" => "autoBranchCreationConfig",
-    "enable_auto_build" => "enableAutoBuild",
-    "enable_auto_sub_domain" => "enableAutoSubDomain",
-    "enable_auto_branch_creation" => "enableAutoBranchCreation",
-    "start_time" => "startTime",
-    "name" => "name",
-    "deployment_artifacts" => "deploymentArtifacts",
-    "ttl" => "ttl",
-    "max_results" => "maxResults",
-    "enable_basic_auth" => "enableBasicAuth",
-    "auto_branch_creation_patterns" => "autoBranchCreationPatterns",
-    "job_id" => "jobId",
-    "enable_performance_mode" => "enablePerformanceMode",
-    "source_url" => "sourceUrl",
-    "environment_variables" => "environmentVariables",
-    "next_token" => "nextToken",
-    "repository" => "repository",
-    "pull_request_environment_name" => "pullRequestEnvironmentName",
-    "oauth_token" => "oauthToken",
-    "stack_name" => "stackName",
-    "file_map" => "fileMap",
-    "stage" => "stage",
-    "auto_sub_domain_creation_patterns" => "autoSubDomainCreationPatterns",
-    "job_reason" => "jobReason",
-    "display_name" => "displayName",
-    "tags" => "tags",
-    "basic_auth_credentials" => "basicAuthCredentials",
-    "custom_headers" => "customHeaders",
-    "auto_sub_domain_iamrole" => "autoSubDomainIAMRole",
-    "end_time" => "endTime",
-    "access_token" => "accessToken",
-    "environment_name" => "environmentName",
-    "platform" => "platform",
-    "framework" => "framework",
-    "description" => "description",
-    "build_spec" => "buildSpec",
-    "commit_id" => "commitId",
-    "backend_environment_arn" => "backendEnvironmentArn",
-    "enable_notification" => "enableNotification",
-    "commit_time" => "commitTime",
-    "iam_service_role_arn" => "iamServiceRoleArn",
-    "commit_message" => "commitMessage",
-    "enable_pull_request_preview" => "enablePullRequestPreview",
-    "enable_branch_auto_deletion" => "enableBranchAutoDeletion",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("auto_sub_domain_creation_patterns" => "autoSubDomainCreationPatterns", "auto_sub_domain_iamrole" => "autoSubDomainIAMRole", "enable_auto_sub_domain" => "enableAutoSubDomain", "job_id" => "jobId", "source_url" => "sourceUrl", "file_map" => "fileMap", "commit_id" => "commitId", "commit_message" => "commitMessage", "commit_time" => "commitTime", "job_reason" => "jobReason", "max_results" => "maxResults", "next_token" => "nextToken", "backend_environment_arn" => "backendEnvironmentArn", "basic_auth_credentials" => "basicAuthCredentials", "build_spec" => "buildSpec", "description" => "description", "display_name" => "displayName", "enable_auto_build" => "enableAutoBuild", "enable_basic_auth" => "enableBasicAuth", "enable_notification" => "enableNotification", "enable_performance_mode" => "enablePerformanceMode", "enable_pull_request_preview" => "enablePullRequestPreview", "environment_variables" => "environmentVariables", "framework" => "framework", "pull_request_environment_name" => "pullRequestEnvironmentName", "stage" => "stage", "tags" => "tags", "ttl" => "ttl", "end_time" => "endTime", "start_time" => "startTime", "access_token" => "accessToken", "auto_branch_creation_config" => "autoBranchCreationConfig", "auto_branch_creation_patterns" => "autoBranchCreationPatterns", "custom_headers" => "customHeaders", "custom_rules" => "customRules", "enable_auto_branch_creation" => "enableAutoBranchCreation", "enable_branch_auto_build" => "enableBranchAutoBuild", "enable_branch_auto_deletion" => "enableBranchAutoDeletion", "iam_service_role_arn" => "iamServiceRoleArn", "name" => "name", "oauth_token" => "oauthToken", "platform" => "platform", "repository" => "repository", "deployment_artifacts" => "deploymentArtifacts", "stack_name" => "stackName", "branch_name" => "branchName", "environment_name" => "environmentName")
 
 """
     create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -62,45 +15,38 @@ MAPPING = Dict(
 # Arguments
 - `name`:  The name for an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_token"`:  The personal access token for a third-party source control system for
-  an Amplify app. The personal access token is used to create a webhook and a read-only
-  deploy key. The token is not stored.
-- `"auto_branch_creation_config"`:  The automated branch creation configuration for an
+# Keyword Parameters
+- `access_token`:  The personal access token for a third-party source control system for an
+  Amplify app. The personal access token is used to create a webhook and a read-only deploy
+  key. The token is not stored.
+- `auto_branch_creation_config`:  The automated branch creation configuration for an
   Amplify app.
-- `"auto_branch_creation_patterns"`:  The automated branch creation glob patterns for an
+- `auto_branch_creation_patterns`:  The automated branch creation glob patterns for an
   Amplify app.
-- `"basic_auth_credentials"`:  The credentials for basic authorization for an Amplify app.
-- `"build_spec"`:  The build specification (build spec) for an Amplify app.
-- `"custom_headers"`: The custom HTTP headers for an Amplify app.
-- `"custom_rules"`:  The custom rewrite and redirect rules for an Amplify app.
-- `"description"`:  The description for an Amplify app.
-- `"enable_auto_branch_creation"`:  Enables automated branch creation for an Amplify app.
-- `"enable_basic_auth"`:  Enables basic authorization for an Amplify app. This will apply
-  to all branches that are part of this app.
-- `"enable_branch_auto_build"`:  Enables the auto building of branches for an Amplify app.
-- `"enable_branch_auto_deletion"`:  Automatically disconnects a branch in the Amplify
-  Console when you delete a branch from your Git repository.
-- `"environment_variables"`:  The environment variables map for an Amplify app.
-- `"iam_service_role_arn"`:  The AWS Identity and Access Management (IAM) service role for
-  an Amplify app.
-- `"oauth_token"`:  The OAuth token for a third-party source control system for an Amplify
+- `basic_auth_credentials`:  The credentials for basic authorization for an Amplify app.
+- `build_spec`:  The build specification (build spec) for an Amplify app.
+- `custom_headers`: The custom HTTP headers for an Amplify app.
+- `custom_rules`:  The custom rewrite and redirect rules for an Amplify app.
+- `description`:  The description for an Amplify app.
+- `enable_auto_branch_creation`:  Enables automated branch creation for an Amplify app.
+- `enable_basic_auth`:  Enables basic authorization for an Amplify app. This will apply to
+  all branches that are part of this app.
+- `enable_branch_auto_build`:  Enables the auto building of branches for an Amplify app.
+- `enable_branch_auto_deletion`:  Automatically disconnects a branch in the Amplify Console
+  when you delete a branch from your Git repository.
+- `environment_variables`:  The environment variables map for an Amplify app.
+- `iam_service_role_arn`:  The AWS Identity and Access Management (IAM) service role for an
+  Amplify app.
+- `oauth_token`:  The OAuth token for a third-party source control system for an Amplify
   app. The OAuth token is used to create a webhook and a read-only deploy key. The OAuth
   token is not stored.
-- `"platform"`:  The platform or framework for an Amplify app.
-- `"repository"`:  The repository for an Amplify app.
-- `"tags"`:  The tag for an Amplify app.
+- `platform`:  The platform or framework for an Amplify app.
+- `repository`:  The repository for an Amplify app.
+- `tags`:  The tag for an Amplify app.
 """
 function create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -112,26 +58,13 @@ end
 - `app_id`:  The unique ID for an Amplify app.
 - `environment_name`:  The name for the backend environment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deployment_artifacts"`:  The name of deployment artifacts.
-- `"stack_name"`:  The AWS CloudFormation stack name of a backend environment.
+# Keyword Parameters
+- `deployment_artifacts`:  The name of deployment artifacts.
+- `stack_name`:  The AWS CloudFormation stack name of a backend environment.
 """
-function create_backend_environment(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/backendenvironments",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("environmentName" => environmentName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -143,43 +76,32 @@ end
 - `app_id`:  The unique ID for an Amplify app.
 - `branch_name`:  The name for the branch.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backend_environment_arn"`:  The Amazon Resource Name (ARN) for a backend environment
-  that is part of an Amplify app.
-- `"basic_auth_credentials"`:  The basic authorization credentials for the branch.
-- `"build_spec"`:  The build specification (build spec) for the branch.
-- `"description"`:  The description for the branch.
-- `"display_name"`:  The display name for a branch. This is used as the default domain
+# Keyword Parameters
+- `backend_environment_arn`:  The Amazon Resource Name (ARN) for a backend environment that
+  is part of an Amplify app.
+- `basic_auth_credentials`:  The basic authorization credentials for the branch.
+- `build_spec`:  The build specification (build spec) for the branch.
+- `description`:  The description for the branch.
+- `display_name`:  The display name for a branch. This is used as the default domain
   prefix.
-- `"enable_auto_build"`:  Enables auto building for the branch.
-- `"enable_basic_auth"`:  Enables basic authorization for the branch.
-- `"enable_notification"`:  Enables notifications for the branch.
-- `"enable_performance_mode"`: Enables performance mode for the branch. Performance mode
+- `enable_auto_build`:  Enables auto building for the branch.
+- `enable_basic_auth`:  Enables basic authorization for the branch.
+- `enable_notification`:  Enables notifications for the branch.
+- `enable_performance_mode`: Enables performance mode for the branch. Performance mode
   optimizes for faster hosting performance by keeping content cached at the edge for a longer
   interval. When performance mode is enabled, hosting configuration or code changes can take
   up to 10 minutes to roll out.
-- `"enable_pull_request_preview"`:  Enables pull request previews for this branch.
-- `"environment_variables"`:  The environment variables for the branch.
-- `"framework"`:  The framework for the branch.
-- `"pull_request_environment_name"`:  The Amplify environment name for the pull request.
-- `"stage"`:  Describes the current stage for the branch.
-- `"tags"`:  The tag for the branch.
-- `"ttl"`:  The content Time To Live (TTL) for the website in seconds.
+- `enable_pull_request_preview`:  Enables pull request previews for this branch.
+- `environment_variables`:  The environment variables for the branch.
+- `framework`:  The framework for the branch.
+- `pull_request_environment_name`:  The Amplify environment name for the pull request.
+- `stage`:  Describes the current stage for the branch.
+- `tags`:  The tag for the branch.
+- `ttl`:  The content Time To Live (TTL) for the website in seconds.
 """
-function create_branch(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/branches",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("branchName" => branchName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,24 +114,15 @@ connected to a repository.
 - `app_id`:  The unique ID for an Amplify app.
 - `branch_name`:  The name for the branch, for the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"file_map"`:  An optional file map that contains the file name as the key and the file
+# Keyword Parameters
+- `file_map`:  An optional file map that contains the file name as the key and the file
   content md5 hash as the value. If this argument is provided, the service will generate a
   unique upload URL per file. Otherwise, the service will only generate a single upload URL
   for the zipped files.
 """
-function create_deployment(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/branches/$(branchName)/deployments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -223,37 +136,16 @@ domain with the Amplify app
 - `domain_name`:  The domain name for the domain association.
 - `sub_domain_settings`:  The setting for the subdomain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_sub_domain_creation_patterns"`:  Sets the branch patterns for automatic subdomain
+# Keyword Parameters
+- `auto_sub_domain_creation_patterns`:  Sets the branch patterns for automatic subdomain
   creation.
-- `"auto_sub_domain_iamrole"`:  The required AWS Identity and Access Management (IAM)
-  service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
-- `"enable_auto_sub_domain"`:  Enables the automated creation of subdomains for branches.
+- `auto_sub_domain_iamrole`:  The required AWS Identity and Access Management (IAM) service
+  role for the Amazon Resource Name (ARN) for automatically creating subdomains.
+- `enable_auto_sub_domain`:  Enables the automated creation of subdomains for branches.
 """
-function create_domain_association(
-    appId,
-    domainName,
-    subDomainSettings;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_domain_association(appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/domains",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domainName" => domainName, "subDomainSettings" => subDomainSettings
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -265,23 +157,12 @@ end
 - `app_id`:  The unique ID for an Amplify app.
 - `branch_name`:  The name for a branch that is part of an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`:  The description for a webhook.
+# Keyword Parameters
+- `description`:  The description for a webhook.
 """
-function create_webhook(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_webhook(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/webhooks",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("branchName" => branchName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,13 +176,7 @@ end
 """
 function delete_app(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/apps/$(appId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -314,17 +189,9 @@ end
 - `environment_name`:  The name of a backend environment of an Amplify app.
 
 """
-function delete_backend_environment(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/backendenvironments/$(environmentName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -337,17 +204,9 @@ end
 - `branch_name`:  The name for the branch.
 
 """
-function delete_branch(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/branches/$(branchName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -360,17 +219,9 @@ end
 - `domain_name`:  The name of the domain.
 
 """
-function delete_domain_association(
-    appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_domain_association(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/domains/$(domainName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -384,17 +235,9 @@ end
 - `job_id`:  The unique ID for the job.
 
 """
-function delete_job(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -406,17 +249,9 @@ end
 - `webhook_id`:  The unique ID for a webhook.
 
 """
-function delete_webhook(
-    webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/webhooks/$(webhookId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/webhooks/$(webhookId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -428,26 +263,15 @@ end
 - `app_id`:  The unique ID for an Amplify app.
 - `domain_name`:  The name of the domain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`:  The time at which the logs should end. The time range specified is
-  inclusive of the end time.
-- `"start_time"`:  The time at which the logs should start. The time range specified is
+# Keyword Parameters
+- `end_time`:  The time at which the logs should end. The time range specified is inclusive
+  of the end time.
+- `start_time`:  The time at which the logs should start. The time range specified is
   inclusive of the start time.
 """
-function generate_access_logs(
-    appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_access_logs(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/accesslogs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -461,13 +285,7 @@ end
 """
 function get_app(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -479,17 +297,9 @@ end
 - `artifact_id`:  The unique ID for an artifact.
 
 """
-function get_artifact_url(
-    artifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_artifact_url(artifactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/artifacts/$(artifactId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/artifacts/$(artifactId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -502,17 +312,9 @@ end
 - `environment_name`:  The name for the backend environment.
 
 """
-function get_backend_environment(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/backendenvironments/$(environmentName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -525,17 +327,9 @@ end
 - `branch_name`:  The name for the branch.
 
 """
-function get_branch(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -548,17 +342,9 @@ end
 - `domain_name`:  The name of the domain.
 
 """
-function get_domain_association(
-    appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_domain_association(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/domains/$(domainName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -572,17 +358,9 @@ end
 - `job_id`:  The unique ID for the job.
 
 """
-function get_job(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -594,17 +372,9 @@ end
 - `webhook_id`:  The unique ID for a webhook.
 
 """
-function get_webhook(
-    webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/webhooks/$(webhookId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/webhooks/$(webhookId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -612,17 +382,14 @@ end
 
  Returns a list of the existing Amplify apps.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. If non-null, the pagination token is returned in a
+# Keyword Parameters
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. If non-null, the pagination token is returned in a
   result. Pass its value in another request to retrieve more entries.
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET", "/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return amplify("GET", "/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -635,24 +402,15 @@ end
 - `branch_name`:  The name of a branch that is part of an Amplify app.
 - `job_id`:  The unique ID for a job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. Set to null to start listing artifacts from start.
-  If a non-null pagination token is returned in a result, pass its value in here to list more
+# Keyword Parameters
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. Set to null to start listing artifacts from start. If
+  a non-null pagination token is returned in a result, pass its value in here to list more
   artifacts.
 """
-function list_artifacts(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_artifacts(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -663,25 +421,16 @@ end
 # Arguments
 - `app_id`:  The unique ID for an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"environment_name"`:  The name of the backend environment
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. Set to null to start listing backend environments
-  from the start. If a non-null pagination token is returned in a result, pass its value in
-  here to list more backend environments.
+# Keyword Parameters
+- `environment_name`:  The name of the backend environment
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. Set to null to start listing backend environments from
+  the start. If a non-null pagination token is returned in a result, pass its value in here
+  to list more backend environments.
 """
-function list_backend_environments(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_backend_environments(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/backendenvironments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/backendenvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -692,22 +441,15 @@ end
 # Arguments
 - `app_id`:  The unique ID for an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. Set to null to start listing branches from the
-  start. If a non-null pagination token is returned in a result, pass its value in here to
-  list more branches.
+# Keyword Parameters
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. Set to null to start listing branches from the start.
+  If a non-null pagination token is returned in a result, pass its value in here to list more
+  branches.
 """
 function list_branches(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/branches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -718,24 +460,15 @@ end
 # Arguments
 - `app_id`:  The unique ID for an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. Set to null to start listing apps from the start. If
+# Keyword Parameters
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. Set to null to start listing apps from the start. If
   non-null, a pagination token is returned in a result. Pass its value in here to list more
   projects.
 """
-function list_domain_associations(
-    appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_domain_associations(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/domains",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -747,24 +480,15 @@ end
 - `app_id`:  The unique ID for an Amplify app.
 - `branch_name`:  The name for a branch.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. Set to null to start listing steps from the start.
-  If a non-null pagination token is returned in a result, pass its value in here to list more
+# Keyword Parameters
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. Set to null to start listing steps from the start. If
+  a non-null pagination token is returned in a result, pass its value in here to list more
   steps.
 """
-function list_jobs(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_jobs(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)/jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -776,17 +500,9 @@ end
 - `resource_arn`:  The Amazon Resource Name (ARN) to use to list tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -797,22 +513,15 @@ end
 # Arguments
 - `app_id`:  The unique ID for an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:  The maximum number of records to list in a single response.
-- `"next_token"`:  A pagination token. Set to null to start listing webhooks from the
-  start. If non-null,the pagination token is returned in a result. Pass its value in here to
-  list more webhooks.
+# Keyword Parameters
+- `max_results`:  The maximum number of records to list in a single response.
+- `next_token`:  A pagination token. Set to null to start listing webhooks from the start.
+  If non-null,the pagination token is returned in a result. Pass its value in here to list
+  more webhooks.
 """
 function list_webhooks(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "GET",
-        "/apps/$(appId)/webhooks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("GET", "/apps/$(appId)/webhooks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -825,24 +534,15 @@ to a repository.
 - `app_id`:  The unique ID for an Amplify app.
 - `branch_name`:  The name for the branch, for the job.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"job_id"`:  The job ID for this deployment, generated by the create deployment request.
-- `"source_url"`:  The source URL for this deployment, used when calling start deployment
+# Keyword Parameters
+- `job_id`:  The job ID for this deployment, generated by the create deployment request.
+- `source_url`:  The source URL for this deployment, used when calling start deployment
   without create deployment. The source URL can be any HTTP GET URL that is publicly
   accessible and downloads a single .zip file.
 """
-function start_deployment(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/branches/$(branchName)/deployments/start",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -858,27 +558,17 @@ end
   connected to a repository. The job type RETRY retries an existing job. If the job type
   value is RETRY, the jobId is also required.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"commit_id"`:  The commit ID from a third-party repository provider for the job.
-- `"commit_message"`:  The commit message from a third-party repository provider for the
-  job.
-- `"commit_time"`:  The commit date and time for the job.
-- `"job_id"`:  The unique ID for an existing job. This is required if the value of jobType
-  is RETRY.
-- `"job_reason"`:  A descriptive reason for starting this job.
+# Keyword Parameters
+- `commit_id`:  The commit ID from a third-party repository provider for the job.
+- `commit_message`:  The commit message from a third-party repository provider for the job.
+- `commit_time`:  The commit date and time for the job.
+- `job_id`:  The unique ID for an existing job. This is required if the value of jobType is
+  RETRY.
+- `job_reason`:  A descriptive reason for starting this job.
 """
-function start_job(
-    appId, branchName, jobType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_job(appId, branchName, jobType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/branches/$(branchName)/jobs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobType" => jobType), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobType"=>jobType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -892,17 +582,9 @@ end
 - `job_id`:  The unique id for the job.
 
 """
-function stop_job(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -915,17 +597,9 @@ end
 - `tags`:  The tags used to tag the resource.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -938,17 +612,9 @@ end
 - `tag_keys`:  The tag keys to use to untag a resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -959,44 +625,37 @@ end
 # Arguments
 - `app_id`:  The unique ID for an Amplify app.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_token"`:  The personal access token for a third-party source control system for
-  an Amplify app. The token is used to create webhook and a read-only deploy key. The token
-  is not stored.
-- `"auto_branch_creation_config"`:  The automated branch creation configuration for an
+# Keyword Parameters
+- `access_token`:  The personal access token for a third-party source control system for an
+  Amplify app. The token is used to create webhook and a read-only deploy key. The token is
+  not stored.
+- `auto_branch_creation_config`:  The automated branch creation configuration for an
   Amplify app.
-- `"auto_branch_creation_patterns"`:  Describes the automated branch creation glob patterns
+- `auto_branch_creation_patterns`:  Describes the automated branch creation glob patterns
   for an Amplify app.
-- `"basic_auth_credentials"`:  The basic authorization credentials for an Amplify app.
-- `"build_spec"`:  The build specification (build spec) for an Amplify app.
-- `"custom_headers"`: The custom HTTP headers for an Amplify app.
-- `"custom_rules"`:  The custom redirect and rewrite rules for an Amplify app.
-- `"description"`:  The description for an Amplify app.
-- `"enable_auto_branch_creation"`:  Enables automated branch creation for an Amplify app.
-- `"enable_basic_auth"`:  Enables basic authorization for an Amplify app.
-- `"enable_branch_auto_build"`:  Enables branch auto-building for an Amplify app.
-- `"enable_branch_auto_deletion"`:  Automatically disconnects a branch in the Amplify
-  Console when you delete a branch from your Git repository.
-- `"environment_variables"`:  The environment variables for an Amplify app.
-- `"iam_service_role_arn"`:  The AWS Identity and Access Management (IAM) service role for
-  an Amplify app.
-- `"name"`:  The name for an Amplify app.
-- `"oauth_token"`:  The OAuth token for a third-party source control system for an Amplify
+- `basic_auth_credentials`:  The basic authorization credentials for an Amplify app.
+- `build_spec`:  The build specification (build spec) for an Amplify app.
+- `custom_headers`: The custom HTTP headers for an Amplify app.
+- `custom_rules`:  The custom redirect and rewrite rules for an Amplify app.
+- `description`:  The description for an Amplify app.
+- `enable_auto_branch_creation`:  Enables automated branch creation for an Amplify app.
+- `enable_basic_auth`:  Enables basic authorization for an Amplify app.
+- `enable_branch_auto_build`:  Enables branch auto-building for an Amplify app.
+- `enable_branch_auto_deletion`:  Automatically disconnects a branch in the Amplify Console
+  when you delete a branch from your Git repository.
+- `environment_variables`:  The environment variables for an Amplify app.
+- `iam_service_role_arn`:  The AWS Identity and Access Management (IAM) service role for an
+  Amplify app.
+- `name`:  The name for an Amplify app.
+- `oauth_token`:  The OAuth token for a third-party source control system for an Amplify
   app. The token is used to create a webhook and a read-only deploy key. The OAuth token is
   not stored.
-- `"platform"`:  The platform for an Amplify app.
-- `"repository"`:  The name of the repository for an Amplify app
+- `platform`:  The platform for an Amplify app.
+- `repository`:  The name of the repository for an Amplify app
 """
 function update_app(appId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1008,40 +667,31 @@ end
 - `app_id`:  The unique ID for an Amplify app.
 - `branch_name`:  The name for the branch.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backend_environment_arn"`:  The Amazon Resource Name (ARN) for a backend environment
-  that is part of an Amplify app.
-- `"basic_auth_credentials"`:  The basic authorization credentials for the branch.
-- `"build_spec"`:  The build specification (build spec) for the branch.
-- `"description"`:  The description for the branch.
-- `"display_name"`:  The display name for a branch. This is used as the default domain
+# Keyword Parameters
+- `backend_environment_arn`:  The Amazon Resource Name (ARN) for a backend environment that
+  is part of an Amplify app.
+- `basic_auth_credentials`:  The basic authorization credentials for the branch.
+- `build_spec`:  The build specification (build spec) for the branch.
+- `description`:  The description for the branch.
+- `display_name`:  The display name for a branch. This is used as the default domain
   prefix.
-- `"enable_auto_build"`:  Enables auto building for the branch.
-- `"enable_basic_auth"`:  Enables basic authorization for the branch.
-- `"enable_notification"`:  Enables notifications for the branch.
-- `"enable_performance_mode"`: Enables performance mode for the branch. Performance mode
+- `enable_auto_build`:  Enables auto building for the branch.
+- `enable_basic_auth`:  Enables basic authorization for the branch.
+- `enable_notification`:  Enables notifications for the branch.
+- `enable_performance_mode`: Enables performance mode for the branch. Performance mode
   optimizes for faster hosting performance by keeping content cached at the edge for a longer
   interval. When performance mode is enabled, hosting configuration or code changes can take
   up to 10 minutes to roll out.
-- `"enable_pull_request_preview"`:  Enables pull request previews for this branch.
-- `"environment_variables"`:  The environment variables for the branch.
-- `"framework"`:  The framework for the branch.
-- `"pull_request_environment_name"`:  The Amplify environment name for the pull request.
-- `"stage"`:  Describes the current stage for the branch.
-- `"ttl"`:  The content Time to Live (TTL) for the website in seconds.
+- `enable_pull_request_preview`:  Enables pull request previews for this branch.
+- `environment_variables`:  The environment variables for the branch.
+- `framework`:  The framework for the branch.
+- `pull_request_environment_name`:  The Amplify environment name for the pull request.
+- `stage`:  Describes the current stage for the branch.
+- `ttl`:  The content Time to Live (TTL) for the website in seconds.
 """
-function update_branch(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/branches/$(branchName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1054,33 +704,16 @@ end
 - `domain_name`:  The name of the domain.
 - `sub_domain_settings`:  Describes the settings for the subdomain.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_sub_domain_creation_patterns"`:  Sets the branch patterns for automatic subdomain
+# Keyword Parameters
+- `auto_sub_domain_creation_patterns`:  Sets the branch patterns for automatic subdomain
   creation.
-- `"auto_sub_domain_iamrole"`:  The required AWS Identity and Access Management (IAM)
-  service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
-- `"enable_auto_sub_domain"`:  Enables the automated creation of subdomains for branches.
+- `auto_sub_domain_iamrole`:  The required AWS Identity and Access Management (IAM) service
+  role for the Amazon Resource Name (ARN) for automatically creating subdomains.
+- `enable_auto_sub_domain`:  Enables the automated creation of subdomains for branches.
 """
-function update_domain_association(
-    appId,
-    domainName,
-    subDomainSettings;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_domain_association(appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/apps/$(appId)/domains/$(domainName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("subDomainSettings" => subDomainSettings), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1091,20 +724,11 @@ end
 # Arguments
 - `webhook_id`:  The unique ID for a webhook.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"branch_name"`:  The name for a branch that is part of an Amplify app.
-- `"description"`:  The description for a webhook.
+# Keyword Parameters
+- `branch_name`:  The name for a branch that is part of an Amplify app.
+- `description`:  The description for a webhook.
 """
-function update_webhook(
-    webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amplify(
-        "POST",
-        "/webhooks/$(webhookId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amplify("POST", "/webhooks/$(webhookId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

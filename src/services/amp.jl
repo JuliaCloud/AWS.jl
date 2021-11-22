@@ -4,14 +4,8 @@ using AWS.AWSServices: amp
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "name" => "name",
-    "client_token" => "clientToken",
-    "tags" => "tags",
-    "next_token" => "nextToken",
-    "max_results" => "maxResults",
-    "alias" => "alias",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("alias" => "alias", "max_results" => "maxResults", "next_token" => "nextToken", "client_token" => "clientToken", "tags" => "tags", "name" => "name")
 
 """
     create_alert_manager_definition(data, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -22,28 +16,13 @@ Create an alert manager definition.
 - `data`: The alert manager definition data.
 - `workspace_id`: The ID of the workspace in which to create the alert manager definition.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function create_alert_manager_definition(
-    data, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_alert_manager_definition(data, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "POST",
-        "/workspaces/$(workspaceId)/alertmanager/definition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("data" => data, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("POST", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -56,31 +35,14 @@ Create a rule group namespace.
 - `name`: The rule groups namespace name.
 - `workspace_id`: The ID of the workspace in which to create the rule group namespace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
-- `"tags"`: Optional, user-provided tags for this rule groups namespace.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
+- `tags`: Optional, user-provided tags for this rule groups namespace.
 """
-function create_rule_groups_namespace(
-    data, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_rule_groups_namespace(data, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "POST",
-        "/workspaces/$(workspaceId)/rulegroupsnamespaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "data" => data, "name" => name, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("POST", "/workspaces/$(workspaceId)/rulegroupsnamespaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "name"=>name, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -88,25 +50,16 @@ end
 
 Creates a new AMP workspace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias"`: An optional user-assigned alias for this workspace. This alias is for user
+# Keyword Parameters
+- `alias`: An optional user-assigned alias for this workspace. This alias is for user
   reference and does not need to be unique.
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
-- `"tags"`: Optional, user-provided tags for this workspace.
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
+- `tags`: Optional, user-provided tags for this workspace.
 """
 function create_workspace(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "POST",
-        "/workspaces",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("POST", "/workspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -117,24 +70,13 @@ Deletes an alert manager definition.
 # Arguments
 - `workspace_id`: The ID of the workspace in which to delete the alert manager definition.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function delete_alert_manager_definition(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_alert_manager_definition(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "DELETE",
-        "/workspaces/$(workspaceId)/alertmanager/definition",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("DELETE", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -146,24 +88,13 @@ Delete a rule groups namespace.
 - `name`: The rule groups namespace name.
 - `workspace_id`: The ID of the workspace to delete rule group definition.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function delete_rule_groups_namespace(
-    name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_rule_groups_namespace(name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "DELETE",
-        "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("DELETE", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -174,24 +105,13 @@ Deletes an AMP workspace.
 # Arguments
 - `workspace_id`: The ID of the workspace to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function delete_workspace(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "DELETE",
-        "/workspaces/$(workspaceId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -203,17 +123,9 @@ Describes an alert manager definition.
 - `workspace_id`: The ID of the workspace to describe.
 
 """
-function describe_alert_manager_definition(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_alert_manager_definition(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "GET",
-        "/workspaces/$(workspaceId)/alertmanager/definition",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("GET", "/workspaces/$(workspaceId)/alertmanager/definition", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -226,17 +138,9 @@ Describe a rule groups namespace.
 - `workspace_id`: The ID of the workspace to describe.
 
 """
-function describe_rule_groups_namespace(
-    name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_rule_groups_namespace(name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "GET",
-        "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -248,17 +152,9 @@ Describes an existing AMP workspace.
 - `workspace_id`: The ID of the workspace to describe.
 
 """
-function describe_workspace(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "GET",
-        "/workspaces/$(workspaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -269,25 +165,16 @@ Lists rule groups namespaces.
 # Arguments
 - `workspace_id`: The ID of the workspace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum results to return in response (default=100, maximum=1000).
-- `"name"`: Optional filter for rule groups namespace name. Only the rule groups namespace
+# Keyword Parameters
+- `max_results`: Maximum results to return in response (default=100, maximum=1000).
+- `name`: Optional filter for rule groups namespace name. Only the rule groups namespace
   that begin with this value will be returned.
-- `"next_token"`: Pagination token to request the next page in a paginated list. This token
+- `next_token`: Pagination token to request the next page in a paginated list. This token
   is obtained from the output of the previous ListRuleGroupsNamespaces request.
 """
-function list_rule_groups_namespaces(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_rule_groups_namespaces(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "GET",
-        "/workspaces/$(workspaceId)/rulegroupsnamespaces",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("GET", "/workspaces/$(workspaceId)/rulegroupsnamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -299,17 +186,9 @@ Lists the tags you have assigned to the resource.
 - `resource_arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -317,19 +196,16 @@ end
 
 Lists all AMP workspaces, including workspaces being created or deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias"`: Optional filter for workspace alias. Only the workspaces with aliases that
-  begin with this value will be returned.
-- `"max_results"`: Maximum results to return in response (default=100, maximum=1000).
-- `"next_token"`: Pagination token to request the next page in a paginated list. This token
+# Keyword Parameters
+- `alias`: Optional filter for workspace alias. Only the workspaces with aliases that begin
+  with this value will be returned.
+- `max_results`: Maximum results to return in response (default=100, maximum=1000).
+- `next_token`: Pagination token to request the next page in a paginated list. This token
   is obtained from the output of the previous ListWorkspaces request.
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return amp("GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -341,28 +217,13 @@ Update an alert manager definition.
 - `data`: The alert manager definition data.
 - `workspace_id`: The ID of the workspace in which to update the alert manager definition.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function put_alert_manager_definition(
-    data, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_alert_manager_definition(data, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "PUT",
-        "/workspaces/$(workspaceId)/alertmanager/definition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("data" => data, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("PUT", "/workspaces/$(workspaceId)/alertmanager/definition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -375,28 +236,13 @@ Update a rule groups namespace.
 - `name`: The rule groups namespace name.
 - `workspace_id`: The ID of the workspace in which to update the rule group namespace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function put_rule_groups_namespace(
-    data, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_rule_groups_namespace(data, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "PUT",
-        "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("data" => data, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("PUT", "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,17 +255,9 @@ Creates tags for the specified resource.
 - `tags`:
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -432,17 +270,9 @@ Deletes tags from the specified resource.
 - `tag_keys`: One or more tag keys
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -453,23 +283,12 @@ Updates an AMP workspace alias.
 # Arguments
 - `workspace_id`: The ID of the workspace being updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias"`: The new alias of the workspace.
-- `"client_token"`: Optional, unique, case-sensitive, user-provided identifier to ensure
-  the idempotency of the request.
+# Keyword Parameters
+- `alias`: The new alias of the workspace.
+- `client_token`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
-function update_workspace_alias(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_workspace_alias(workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return amp(
-        "POST",
-        "/workspaces/$(workspaceId)/alias",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

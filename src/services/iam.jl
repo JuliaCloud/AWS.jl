@@ -4,54 +4,8 @@ using AWS.AWSServices: iam
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "resource_owner" => "ResourceOwner",
-    "new_server_certificate_name" => "NewServerCertificateName",
-    "password_reset_required" => "PasswordResetRequired",
-    "new_path" => "NewPath",
-    "max_items" => "MaxItems",
-    "policy_usage_filter" => "PolicyUsageFilter",
-    "service_name" => "ServiceName",
-    "path" => "Path",
-    "assignment_status" => "AssignmentStatus",
-    "password_reuse_prevention" => "PasswordReusePrevention",
-    "only_attached" => "OnlyAttached",
-    "scope" => "Scope",
-    "caller_arn" => "CallerArn",
-    "new_group_name" => "NewGroupName",
-    "password" => "Password",
-    "hard_expiry" => "HardExpiry",
-    "allow_users_to_change_password" => "AllowUsersToChangePassword",
-    "path_prefix" => "PathPrefix",
-    "client_idlist" => "ClientIDList",
-    "new_user_name" => "NewUserName",
-    "permissions_boundary" => "PermissionsBoundary",
-    "require_numbers" => "RequireNumbers",
-    "policy_input_list" => "PolicyInputList",
-    "sort_key" => "SortKey",
-    "custom_suffix" => "CustomSuffix",
-    "max_password_age" => "MaxPasswordAge",
-    "marker" => "Marker",
-    "context_entries" => "ContextEntries",
-    "granularity" => "Granularity",
-    "entity_filter" => "EntityFilter",
-    "tags" => "Tags",
-    "minimum_password_length" => "MinimumPasswordLength",
-    "resource_handling_option" => "ResourceHandlingOption",
-    "set_as_default" => "SetAsDefault",
-    "permissions_boundary_policy_input_list" => "PermissionsBoundaryPolicyInputList",
-    "require_lowercase_characters" => "RequireLowercaseCharacters",
-    "filter" => "Filter",
-    "require_uppercase_characters" => "RequireUppercaseCharacters",
-    "resource_policy" => "ResourcePolicy",
-    "user_name" => "UserName",
-    "description" => "Description",
-    "organizations_policy_id" => "OrganizationsPolicyId",
-    "max_session_duration" => "MaxSessionDuration",
-    "resource_arns" => "ResourceArns",
-    "certificate_chain" => "CertificateChain",
-    "require_symbols" => "RequireSymbols",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("custom_suffix" => "CustomSuffix", "description" => "Description", "marker" => "Marker", "max_items" => "MaxItems", "path" => "Path", "permissions_boundary" => "PermissionsBoundary", "tags" => "Tags", "filter" => "Filter", "allow_users_to_change_password" => "AllowUsersToChangePassword", "hard_expiry" => "HardExpiry", "max_password_age" => "MaxPasswordAge", "minimum_password_length" => "MinimumPasswordLength", "password_reuse_prevention" => "PasswordReusePrevention", "require_lowercase_characters" => "RequireLowercaseCharacters", "require_numbers" => "RequireNumbers", "require_symbols" => "RequireSymbols", "require_uppercase_characters" => "RequireUppercaseCharacters", "set_as_default" => "SetAsDefault", "path_prefix" => "PathPrefix", "user_name" => "UserName", "password" => "Password", "password_reset_required" => "PasswordResetRequired", "assignment_status" => "AssignmentStatus", "new_path" => "NewPath", "new_server_certificate_name" => "NewServerCertificateName", "policy_input_list" => "PolicyInputList", "max_session_duration" => "MaxSessionDuration", "caller_arn" => "CallerArn", "context_entries" => "ContextEntries", "permissions_boundary_policy_input_list" => "PermissionsBoundaryPolicyInputList", "resource_arns" => "ResourceArns", "resource_handling_option" => "ResourceHandlingOption", "resource_owner" => "ResourceOwner", "resource_policy" => "ResourcePolicy", "certificate_chain" => "CertificateChain", "new_user_name" => "NewUserName", "client_idlist" => "ClientIDList", "service_name" => "ServiceName", "sort_key" => "SortKey", "granularity" => "Granularity", "only_attached" => "OnlyAttached", "policy_usage_filter" => "PolicyUsageFilter", "scope" => "Scope", "organizations_policy_id" => "OrganizationsPolicyId", "entity_filter" => "EntityFilter", "new_group_name" => "NewGroupName")
 
 """
     add_client_idto_open_idconnect_provider(client_id, open_idconnect_provider_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -69,28 +23,9 @@ provider.
   by using the ListOpenIDConnectProviders operation.
 
 """
-function add_client_idto_open_idconnect_provider(
-    ClientID,
-    OpenIDConnectProviderArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "AddClientIDToOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientID" => ClientID,
-                    "OpenIDConnectProviderArn" => OpenIDConnectProviderArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -116,27 +51,9 @@ profiles, see About instance profiles.
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function add_role_to_instance_profile(
-    InstanceProfileName,
-    RoleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_role_to_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "AddRoleToInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceProfileName" => InstanceProfileName, "RoleName" => RoleName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -153,22 +70,9 @@ Adds the specified user to the specified group.
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function add_user_to_group(
-    GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function add_user_to_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "AddUserToGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupName" => GroupName, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -190,22 +94,9 @@ Managed policies and inline policies in the IAM User Guide.
   General Reference.
 
 """
-function attach_group_policy(
-    GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "AttachGroupPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupName" => GroupName, "PolicyArn" => PolicyArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,22 +122,9 @@ the IAM User Guide.
   characters: _+=,.@-
 
 """
-function attach_role_policy(
-    PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "AttachRolePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "RoleName" => RoleName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -268,22 +146,9 @@ and inline policies in the IAM User Guide.
   following characters: _+=,.@-
 
 """
-function attach_user_policy(
-    PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function attach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "AttachUserPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -309,24 +174,9 @@ IAM User Guide.
 - `old_password`: The IAM user's current password.
 
 """
-function change_password(
-    NewPassword, OldPassword; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function change_password(NewPassword, OldPassword; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ChangePassword",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "NewPassword" => NewPassword, "OldPassword" => OldPassword
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -345,18 +195,15 @@ creation. You must save the key (for example, in a text file) if you want to be 
 access it again. If a secret key is lost, you can delete the access keys for the associated
 user and then create new keys.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the IAM user that the new key will belong to. This parameter
+# Keyword Parameters
+- `user_name`: The name of the IAM user that the new key will belong to. This parameter
   allows (through its regex pattern) a string of characters consisting of upper and lowercase
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
 function create_access_key(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateAccessKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("CreateAccessKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -372,18 +219,9 @@ ID in the IAM User Guide.
   cannot start or finish with a dash, nor can you have two dashes in a row.
 
 """
-function create_account_alias(
-    AccountAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateAccountAlias",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountAlias" => AccountAlias), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -398,28 +236,18 @@ and STS quotas in the IAM User Guide.
   distinguished by case. For example, you cannot create resources named both \"MyResource\"
   and \"myresource\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"path"`:  The path to the group. For more information about paths, see IAM identifiers
-  in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
+# Keyword Parameters
+- `path`:  The path to the group. For more information about paths, see IAM identifiers in
+  the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
   slash (/). This parameter allows (through its regex pattern) a string of characters
   consisting of either a forward slash (/) by itself or a string that must begin and end with
   forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
   the DEL character (u007F), including most punctuation characters, digits, and upper and
   lowercased letters.
 """
-function create_group(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -436,37 +264,23 @@ IAM object quotas in the IAM User Guide.
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"path"`:  The path to the instance profile. For more information about paths, see IAM
+# Keyword Parameters
+- `path`:  The path to the instance profile. For more information about paths, see IAM
   Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
   defaults to a slash (/). This parameter allows (through its regex pattern) a string of
   characters consisting of either a forward slash (/) by itself or a string that must begin
   and end with forward slashes. In addition, it can contain any ASCII character from the !
   (u0021) through the DEL character (u007F), including most punctuation characters, digits,
   and upper and lowercased letters.
-- `"tags"`: A list of tags that you want to attach to the newly created IAM instance
-  profile. Each tag consists of a key name and an associated value. For more information
-  about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
+- `tags`: A list of tags that you want to attach to the newly created IAM instance profile.
+  Each tag consists of a key name and an associated value. For more information about
+  tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
   invalid or if you exceed the allowed maximum number of tags, then the entire request fails
   and the resource is not created.
 """
-function create_instance_profile(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstanceProfileName" => InstanceProfileName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -492,27 +306,13 @@ information about managing passwords, see Managing passwords in the IAM User Gui
   of upper and lowercase alphanumeric characters with no spaces. You can also include any of
   the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"password_reset_required"`: Specifies whether the user is required to set a new password
+# Keyword Parameters
+- `password_reset_required`: Specifies whether the user is required to set a new password
   on next sign-in.
 """
-function create_login_profile(
-    Password, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_login_profile(Password, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateLoginProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Password" => Password, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -563,38 +363,24 @@ CreateOpenIDConnectProvider operation to highly privileged users.
   used for an OpenID Connect provider in the Amazon Web Services account, you will get an
   error.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_idlist"`: Provides a list of client IDs, also known as audiences. When a mobile
-  or web app registers with an OpenID Connect provider, they establish a value that
-  identifies the application. This is the value that's sent as the client_id parameter on
-  OAuth requests. You can register multiple client IDs with the same provider. For example,
-  you might have multiple applications that use the same OIDC provider. You cannot register
-  more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a
+# Keyword Parameters
+- `client_idlist`: Provides a list of client IDs, also known as audiences. When a mobile or
+  web app registers with an OpenID Connect provider, they establish a value that identifies
+  the application. This is the value that's sent as the client_id parameter on OAuth
+  requests. You can register multiple client IDs with the same provider. For example, you
+  might have multiple applications that use the same OIDC provider. You cannot register more
+  than 100 client IDs with a single IAM OIDC provider. There is no defined format for a
   client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255
   characters long.
-- `"tags"`: A list of tags that you want to attach to the new IAM OpenID Connect (OIDC)
+- `tags`: A list of tags that you want to attach to the new IAM OpenID Connect (OIDC)
   provider. Each tag consists of a key name and an associated value. For more information
   about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
   invalid or if you exceed the allowed maximum number of tags, then the entire request fails
   and the resource is not created.
 """
-function create_open_idconnect_provider(
-    ThumbprintList, Url; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_open_idconnect_provider(ThumbprintList, Url; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ThumbprintList" => ThumbprintList, "Url" => Url),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -625,43 +411,27 @@ in general, see Managed policies and inline policies in the IAM User Guide.
   must be unique within the account. Names are not distinguished by case. For example, you
   cannot create resources named both \"MyResource\" and \"myresource\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A friendly description of the policy. Typically used to store
-  information about the permissions defined in the policy. For example, \"Grants access to
-  production DynamoDB tables.\" The policy description is immutable. After a value is
-  assigned, it cannot be changed.
-- `"path"`: The path for the policy. For more information about paths, see IAM identifiers
-  in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
+# Keyword Parameters
+- `description`: A friendly description of the policy. Typically used to store information
+  about the permissions defined in the policy. For example, \"Grants access to production
+  DynamoDB tables.\" The policy description is immutable. After a value is assigned, it
+  cannot be changed.
+- `path`: The path for the policy. For more information about paths, see IAM identifiers in
+  the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
   slash (/). This parameter allows (through its regex pattern) a string of characters
   consisting of either a forward slash (/) by itself or a string that must begin and end with
   forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
   the DEL character (u007F), including most punctuation characters, digits, and upper and
   lowercased letters.  You cannot use an asterisk (*) in the path name.
-- `"tags"`: A list of tags that you want to attach to the new IAM customer managed policy.
+- `tags`: A list of tags that you want to attach to the new IAM customer managed policy.
   Each tag consists of a key name and an associated value. For more information about
   tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
   invalid or if you exceed the allowed maximum number of tags, then the entire request fails
   and the resource is not created.
 """
-function create_policy(
-    PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_policy(PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreatePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -692,32 +462,16 @@ versions, see Versioning for managed policies in the IAM User Guide.
   character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
   carriage return (u000D)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"set_as_default"`: Specifies whether to set this version as the policy's default
-  version. When this parameter is true, the new policy version becomes the operative version.
-  That is, it becomes the version that is in effect for the IAM users, groups, and roles that
-  the policy is attached to. For more information about managed policy versions, see
-  Versioning for managed policies in the IAM User Guide.
+# Keyword Parameters
+- `set_as_default`: Specifies whether to set this version as the policy's default version.
+  When this parameter is true, the new policy version becomes the operative version. That is,
+  it becomes the version that is in effect for the IAM users, groups, and roles that the
+  policy is attached to. For more information about managed policy versions, see Versioning
+  for managed policies in the IAM User Guide.
 """
-function create_policy_version(
-    PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_policy_version(PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreatePolicyVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PolicyArn" => PolicyArn, "PolicyDocument" => PolicyDocument
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -742,10 +496,9 @@ create, see IAM and STS quotas in the IAM User Guide.
   be unique within the account. Names are not distinguished by case. For example, you cannot
   create resources named both \"MyResource\" and \"myresource\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the role.
-- `"max_session_duration"`: The maximum session duration (in seconds) that you want to set
+# Keyword Parameters
+- `description`: A description of the role.
+- `max_session_duration`: The maximum session duration (in seconds) that you want to set
   for the specified role. If you do not specify a value for this setting, the default maximum
   of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who
   assumes the role from the or API can use the DurationSeconds API parameter or the
@@ -756,43 +509,24 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   API operations or the assume-role* CLI operations but does not apply when you use those
   operations to create a console URL. For more information, see Using IAM roles in the IAM
   User Guide.
-- `"path"`:  The path to the role. For more information about paths, see IAM Identifiers in
+- `path`:  The path to the role. For more information about paths, see IAM Identifiers in
   the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
   slash (/). This parameter allows (through its regex pattern) a string of characters
   consisting of either a forward slash (/) by itself or a string that must begin and end with
   forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
   the DEL character (u007F), including most punctuation characters, digits, and upper and
   lowercased letters.
-- `"permissions_boundary"`: The ARN of the policy that is used to set the permissions
+- `permissions_boundary`: The ARN of the policy that is used to set the permissions
   boundary for the role.
-- `"tags"`: A list of tags that you want to attach to the new role. Each tag consists of a
+- `tags`: A list of tags that you want to attach to the new role. Each tag consists of a
   key name and an associated value. For more information about tagging, see Tagging IAM
   resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the
   allowed maximum number of tags, then the entire request fails and the resource is not
   created.
 """
-function create_role(
-    AssumeRolePolicyDocument,
-    RoleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_role(AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateRole",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssumeRolePolicyDocument" => AssumeRolePolicyDocument,
-                    "RoleName" => RoleName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -823,32 +557,16 @@ the IAM User Guide.
   management software that is used as your organization's IdP. For more information, see
   About SAML 2.0-based federation in the IAM User Guide
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of tags that you want to attach to the new IAM SAML provider. Each tag
+# Keyword Parameters
+- `tags`: A list of tags that you want to attach to the new IAM SAML provider. Each tag
   consists of a key name and an associated value. For more information about tagging, see
   Tagging IAM resources in the IAM User Guide.  If any one of the tags is invalid or if you
   exceed the allowed maximum number of tags, then the entire request fails and the resource
   is not created.
 """
-function create_samlprovider(
-    Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_samlprovider(Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateSAMLProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name, "SAMLMetadataDocument" => SAMLMetadataDocument
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -872,28 +590,18 @@ Web Services service that depends on this role.
   services that have Yes in the Service-Linked Role column. Choose the Yes link to view the
   service-linked role documentation for that service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_suffix"`:  A string that you provide, which is combined with the
-  service-provided prefix to form the complete role name. If you make multiple requests for
-  the same service, then you must supply a different CustomSuffix for each request. Otherwise
-  the request fails with a duplicate role name error. For example, you could add -1 or -debug
-  to the suffix. Some services do not support the CustomSuffix parameter. If you provide an
-  optional suffix and the operation fails, try the operation again without the suffix.
-- `"description"`: The description of the role.
+# Keyword Parameters
+- `custom_suffix`:  A string that you provide, which is combined with the service-provided
+  prefix to form the complete role name. If you make multiple requests for the same service,
+  then you must supply a different CustomSuffix for each request. Otherwise the request fails
+  with a duplicate role name error. For example, you could add -1 or -debug to the suffix.
+  Some services do not support the CustomSuffix parameter. If you provide an optional suffix
+  and the operation fails, try the operation again without the suffix.
+- `description`: The description of the role.
 """
-function create_service_linked_role(
-    AWSServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_service_linked_role(AWSServiceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateServiceLinkedRole",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AWSServiceName" => AWSServiceName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -920,22 +628,9 @@ keys in the IAM User Guide.
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function create_service_specific_credential(
-    ServiceName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_service_specific_credential(ServiceName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateServiceSpecificCredential",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServiceName" => ServiceName, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -949,18 +644,17 @@ for the number of IAM users you can create, see IAM and STS quotas in the IAM Us
   be unique within the account. Names are not distinguished by case. For example, you cannot
   create resources named both \"MyResource\" and \"myresource\".
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"path"`:  The path for the user name. For more information about paths, see IAM
+# Keyword Parameters
+- `path`:  The path for the user name. For more information about paths, see IAM
   identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
   defaults to a slash (/). This parameter allows (through its regex pattern) a string of
   characters consisting of either a forward slash (/) by itself or a string that must begin
   and end with forward slashes. In addition, it can contain any ASCII character from the !
   (u0021) through the DEL character (u007F), including most punctuation characters, digits,
   and upper and lowercased letters.
-- `"permissions_boundary"`: The ARN of the policy that is used to set the permissions
+- `permissions_boundary`: The ARN of the policy that is used to set the permissions
   boundary for the user.
-- `"tags"`: A list of tags that you want to attach to the new user. Each tag consists of a
+- `tags`: A list of tags that you want to attach to the new user. Each tag consists of a
   key name and an associated value. For more information about tagging, see Tagging IAM
   resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the
   allowed maximum number of tags, then the entire request fails and the resource is not
@@ -968,14 +662,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function create_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateUser",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -997,37 +684,23 @@ ensure that the information is destroyed following secure procedures.
   of characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"path"`:  The path for the virtual MFA device. For more information about paths, see IAM
+# Keyword Parameters
+- `path`:  The path for the virtual MFA device. For more information about paths, see IAM
   identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
   defaults to a slash (/). This parameter allows (through its regex pattern) a string of
   characters consisting of either a forward slash (/) by itself or a string that must begin
   and end with forward slashes. In addition, it can contain any ASCII character from the !
   (u0021) through the DEL character (u007F), including most punctuation characters, digits,
   and upper and lowercased letters.
-- `"tags"`: A list of tags that you want to attach to the new IAM virtual MFA device. Each
+- `tags`: A list of tags that you want to attach to the new IAM virtual MFA device. Each
   tag consists of a key name and an associated value. For more information about tagging, see
   Tagging IAM resources in the IAM User Guide.  If any one of the tags is invalid or if you
   exceed the allowed maximum number of tags, then the entire request fails and the resource
   is not created.
 """
-function create_virtual_mfadevice(
-    VirtualMFADeviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_virtual_mfadevice(VirtualMFADeviceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "CreateVirtualMFADevice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("VirtualMFADeviceName" => VirtualMFADeviceName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1049,22 +722,9 @@ IAM User Guide.
   characters: _+=,.@-
 
 """
-function deactivate_mfadevice(
-    SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deactivate_mfadevice(SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeactivateMFADevice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SerialNumber" => SerialNumber, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1082,25 +742,15 @@ users.
   to delete. This parameter allows (through its regex pattern) a string of characters that
   can consist of any upper or lowercased letter or digit.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the user whose access key pair you want to delete. This
+# Keyword Parameters
+- `user_name`: The name of the user whose access key pair you want to delete. This
   parameter allows (through its regex pattern) a string of characters consisting of upper and
   lowercase alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function delete_access_key(
-    AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteAccessKey",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccessKeyId" => AccessKeyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1116,18 +766,9 @@ ID in the IAM User Guide.
   dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
 
 """
-function delete_account_alias(
-    AccountAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteAccountAlias",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccountAlias" => AccountAlias), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1136,16 +777,9 @@ end
 Deletes the password policy for the Amazon Web Services account. There are no parameters.
 
 """
-function delete_account_password_policy(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteAccountPasswordPolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteAccountPasswordPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1160,18 +794,9 @@ policies.
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function delete_group(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1193,22 +818,9 @@ inline policies in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function delete_group_policy(
-    GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteGroupPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupName" => GroupName, "PolicyName" => PolicyName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1227,22 +839,9 @@ information about instance profiles, see About instance profiles.
   characters: _+=,.@-
 
 """
-function delete_instance_profile(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstanceProfileName" => InstanceProfileName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1265,18 +864,9 @@ making keys inactive or deleting them, see UpdateAccessKey and DeleteAccessKey.
   characters: _+=,.@-
 
 """
-function delete_login_profile(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteLoginProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1294,22 +884,9 @@ operation for a provider that does not exist.
   ARNs by using the ListOpenIDConnectProviders operation.
 
 """
-function delete_open_idconnect_provider(
-    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OpenIDConnectProviderArn" => OpenIDConnectProviderArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1334,18 +911,9 @@ policies, see Managed policies and inline policies in the IAM User Guide.
   General Reference.
 
 """
-function delete_policy(
-    PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeletePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1368,22 +936,9 @@ Versioning for managed policies in the IAM User Guide.
   the IAM User Guide.
 
 """
-function delete_policy_version(
-    PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeletePolicyVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "VersionId" => VersionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1403,14 +958,7 @@ the instance.
 """
 function delete_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteRole",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1425,18 +973,9 @@ assumes the role to perform all the actions granted in its permissions policies.
   remove the permissions boundary.
 
 """
-function delete_role_permissions_boundary(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_role_permissions_boundary(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteRolePermissionsBoundary",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1458,22 +997,9 @@ policies in the IAM User Guide.
   include any of the following characters: _+=,.@-
 
 """
-function delete_role_policy(
-    PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteRolePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyName" => PolicyName, "RoleName" => RoleName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1488,20 +1014,9 @@ resource ARN fails.   This operation requires Signature Version 4.
 - `samlprovider_arn`: The Amazon Resource Name (ARN) of the SAML provider to delete.
 
 """
-function delete_samlprovider(
-    SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteSAMLProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1525,22 +1040,9 @@ DeleteLoadBalancerListeners in the Elastic Load Balancing API Reference.
   characters: _+=,.@-
 
 """
-function delete_server_certificate(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteServerCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServerCertificateName" => ServerCertificateName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1565,18 +1067,9 @@ terms and concepts: Amazon Web Services service-linked role in the IAM User Guid
 - `role_name`: The name of the service-linked role to be deleted.
 
 """
-function delete_service_linked_role(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_service_linked_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteServiceLinkedRole",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1590,34 +1083,16 @@ Deletes the specified service-specific credential.
   parameter allows (through its regex pattern) a string of characters that can consist of any
   upper or lowercased letter or digit.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the IAM user associated with the service-specific credential.
-  If this value is not specified, then the operation assumes the user whose credentials are
-  used to call the operation. This parameter allows (through its regex pattern) a string of
+# Keyword Parameters
+- `user_name`: The name of the IAM user associated with the service-specific credential. If
+  this value is not specified, then the operation assumes the user whose credentials are used
+  to call the operation. This parameter allows (through its regex pattern) a string of
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 """
-function delete_service_specific_credential(
-    ServiceSpecificCredentialId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteServiceSpecificCredential",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServiceSpecificCredentialId" => ServiceSpecificCredentialId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1635,25 +1110,15 @@ associated IAM users.
   parameter, as described by its regex pattern, is a string of characters that can be upper-
   or lower-cased letters or digits.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the user the signing certificate belongs to. This parameter
+# Keyword Parameters
+- `user_name`: The name of the user the signing certificate belongs to. This parameter
   allows (through its regex pattern) a string of characters consisting of upper and lowercase
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function delete_signing_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_signing_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteSigningCertificate",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CertificateId" => CertificateId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1674,24 +1139,9 @@ CodeCommit for SSH connections in the CodeCommit User Guide.
   characters: _+=,.@-
 
 """
-function delete_sshpublic_key(
-    SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_sshpublic_key(SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SSHPublicKeyId" => SSHPublicKeyId, "UserName" => UserName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1715,14 +1165,7 @@ authentication (MFA) device (DeactivateMFADevice, DeleteVirtualMFADevice)   Inli
 """
 function delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteUser",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1737,18 +1180,9 @@ actions granted in its permissions policies.
   remove the permissions boundary.
 
 """
-function delete_user_permissions_boundary(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_user_permissions_boundary(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteUserPermissionsBoundary",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1770,22 +1204,9 @@ policies in the IAM User Guide.
   include any of the following characters: _+=,.@-
 
 """
-function delete_user_policy(
-    PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteUserPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyName" => PolicyName, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1801,18 +1222,9 @@ can delete it. For information about deactivating MFA devices, see DeactivateMFA
   characters with no spaces. You can also include any of the following characters: =,.@:/-
 
 """
-function delete_virtual_mfadevice(
-    SerialNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_virtual_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DeleteVirtualMFADevice",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1832,22 +1244,9 @@ information about policies, see Managed policies and inline policies in the IAM 
   General Reference.
 
 """
-function detach_group_policy(
-    GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DetachGroupPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupName" => GroupName, "PolicyArn" => PolicyArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1867,22 +1266,9 @@ information about policies, see Managed policies and inline policies in the IAM 
   following characters: _+=,.@-
 
 """
-function detach_role_policy(
-    PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DetachRolePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "RoleName" => RoleName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1902,22 +1288,9 @@ information about policies, see Managed policies and inline policies in the IAM 
   following characters: _+=,.@-
 
 """
-function detach_user_policy(
-    PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "DetachUserPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1950,32 +1323,9 @@ with the device.
   characters: _+=,.@-
 
 """
-function enable_mfadevice(
-    AuthenticationCode1,
-    AuthenticationCode2,
-    SerialNumber,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "EnableMFADevice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AuthenticationCode1" => AuthenticationCode1,
-                    "AuthenticationCode2" => AuthenticationCode2,
-                    "SerialNumber" => SerialNumber,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1985,16 +1335,9 @@ end
 about the credential report, see Getting credential reports in the IAM User Guide.
 
 """
-function generate_credential_report(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_credential_report(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GenerateCredentialReport",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GenerateCredentialReport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2081,25 +1424,15 @@ viewing user activity in the IAM User Guide.
   root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path
   is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"organizations_policy_id"`: The identifier of the Organizations service control policy
+# Keyword Parameters
+- `organizations_policy_id`: The identifier of the Organizations service control policy
   (SCP). This parameter is optional. This ID is used to generate information about when an
   account principal that is limited by the SCP attempted to access an Amazon Web Services
   service.
 """
-function generate_organizations_access_report(
-    EntityPath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_organizations_access_report(EntityPath; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GenerateOrganizationsAccessReport",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EntityPath" => EntityPath), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2144,24 +1477,16 @@ User Guide.
   generate information about when the resource was last used in an attempt to access an
   Amazon Web Services service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"granularity"`: The level of detail that you want to generate. You can specify whether
-  you want to generate information about the last attempt to access services or actions. If
-  you specify service-level granularity, this operation generates only service data. If you
+# Keyword Parameters
+- `granularity`: The level of detail that you want to generate. You can specify whether you
+  want to generate information about the last attempt to access services or actions. If you
+  specify service-level granularity, this operation generates only service data. If you
   specify action-level granularity, it generates service and action data. If you don't
   include this optional parameter, the operation generates service data.
 """
-function generate_service_last_accessed_details(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_service_last_accessed_details(Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GenerateServiceLastAccessedDetails",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2177,18 +1502,9 @@ Region that were specified in the last request made with that key.
   digit.
 
 """
-function get_access_key_last_used(
-    AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_access_key_last_used(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetAccessKeyLastUsed",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AccessKeyId" => AccessKeyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2204,17 +1520,16 @@ java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs prov
 functionality.  You can optionally filter the results using the Filter parameter. You can
 paginate the results using the MaxItems and Marker parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: A list of entity types used to filter the results. Only the entities that
-  match the types you specify are included in the output. Use the value LocalManagedPolicy to
+# Keyword Parameters
+- `filter`: A list of entity types used to filter the results. Only the entities that match
+  the types you specify are included in the output. Use the value LocalManagedPolicy to
   include customer managed policies. The format for this parameter is a comma-separated (if
   more than one) list of strings. Each string value in the list must be one of the valid
   values listed below.
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -2222,16 +1537,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function get_account_authorization_details(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_account_authorization_details(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetAccountAuthorizationDetails",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetAccountAuthorizationDetails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2243,16 +1551,9 @@ account. For more information about using a password policy, see Managing an IAM
 policy.
 
 """
-function get_account_password_policy(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetAccountPasswordPolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetAccountPasswordPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2264,9 +1565,7 @@ account.  For information about IAM quotas, see IAM and STS quotas in the IAM Us
 """
 function get_account_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetAccountSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("GetAccountSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2293,20 +1592,9 @@ of a real HTML request.
   return (u000D)
 
 """
-function get_context_keys_for_custom_policy(
-    PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_context_keys_for_custom_policy(PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetContextKeysForCustomPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("PolicyInputList" => PolicyInputList), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2335,30 +1623,18 @@ key names and values you must supply when you call SimulatePrincipalPolicy.
   real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) in the
   Amazon Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"policy_input_list"`: An optional list of additional policies for which you want the
-  list of context keys that are referenced. The regex pattern used to validate this parameter
-  is a string of characters consisting of the following:   Any printable ASCII character
-  ranging from the space character (u0020) through the end of the ASCII character range   The
+# Keyword Parameters
+- `policy_input_list`: An optional list of additional policies for which you want the list
+  of context keys that are referenced. The regex pattern used to validate this parameter is a
+  string of characters consisting of the following:   Any printable ASCII character ranging
+  from the space character (u0020) through the end of the ASCII character range   The
   printable characters in the Basic Latin and Latin-1 Supplement character set (through
   u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
   
 """
-function get_context_keys_for_principal_policy(
-    PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_context_keys_for_principal_policy(PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetContextKeysForPrincipalPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("PolicySourceArn" => PolicySourceArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2368,16 +1644,9 @@ end
 about the credential report, see Getting credential reports in the IAM User Guide.
 
 """
-function get_credential_report(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_credential_report(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetCredentialReport",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetCredentialReport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2391,12 +1660,11 @@ results using the MaxItems and Marker parameters.
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -2406,14 +1674,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function get_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2439,22 +1700,9 @@ and inline policies in the IAM User Guide.
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function get_group_policy(
-    GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetGroupPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupName" => GroupName, "PolicyName" => PolicyName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2471,22 +1719,9 @@ About instance profiles in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function get_instance_profile(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstanceProfileName" => InstanceProfileName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2509,18 +1744,9 @@ for the user to access the Amazon Web Services Management Console.
   characters: _+=,.@-
 
 """
-function get_login_profile(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetLoginProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2536,22 +1762,9 @@ IAM.
   see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
 
 """
-function get_open_idconnect_provider(
-    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OpenIDConnectProviderArn" => OpenIDConnectProviderArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2575,32 +1788,24 @@ failed. By default, the list is sorted by service namespace.
 - `job_id`: The identifier of the request generated by the
   GenerateOrganizationsAccessReport operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"sort_key"`: The key that is used to sort the results. If you choose the namespace key,
+- `sort_key`: The key that is used to sort the results. If you choose the namespace key,
   the results are returned in alphabetical order. If you choose the time key, the results are
   sorted numerically by the date and time.
 """
-function get_organizations_access_report(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_organizations_access_report(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetOrganizationsAccessReport",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2624,14 +1829,7 @@ Managed policies and inline policies in the IAM User Guide.
 """
 function get_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2659,22 +1857,9 @@ managed policy versions, see Versioning for managed policies in the IAM User Gui
   letters and digits.
 
 """
-function get_policy_version(
-    PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetPolicyVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "VersionId" => VersionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2697,14 +1882,7 @@ functionality.
 """
 function get_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetRole",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2731,22 +1909,9 @@ roles, see Using roles to delegate permissions and federate identities.
   characters: _+=,.@-
 
 """
-function get_role_policy(
-    PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetRolePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyName" => PolicyName, "RoleName" => RoleName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2761,20 +1926,9 @@ resource object was created or updated.  This operation requires Signature Versi
   (ARNs) in the Amazon Web Services General Reference.
 
 """
-function get_samlprovider(
-    SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetSAMLProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2792,22 +1946,9 @@ the server certificates that you manage with IAM.
   include any of the following characters: _+=,.@-
 
 """
-function get_server_certificate(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetServerCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServerCertificateName" => ServerCertificateName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2846,12 +1987,11 @@ using service last accessed data in the IAM User Guide.
   operation. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same
   role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -2859,16 +1999,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function get_service_last_accessed_details(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_last_accessed_details(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetServiceLastAccessedDetails",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2898,12 +2031,11 @@ listed first.
   prefix. For example, (service prefix: a4b). For more information about service namespaces,
   see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -2911,22 +2043,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function get_service_last_accessed_details_with_entities(
-    JobId, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_last_accessed_details_with_entities(JobId, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetServiceLastAccessedDetailsWithEntities",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("JobId" => JobId, "ServiceNamespace" => ServiceNamespace),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2944,18 +2063,9 @@ information is returned by the service.
   task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
 
 """
-function get_service_linked_role_deletion_status(
-    DeletionTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_linked_role_deletion_status(DeletionTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetServiceLinkedRoleDeletionStatus",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DeletionTaskId" => DeletionTaskId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2980,30 +2090,9 @@ Guide.
   characters: _+=,.@-
 
 """
-function get_sshpublic_key(
-    Encoding,
-    SSHPublicKeyId,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_sshpublic_key(Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Encoding" => Encoding,
-                    "SSHPublicKeyId" => SSHPublicKeyId,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3014,9 +2103,8 @@ path, unique ID, and ARN. If you do not specify a user name, IAM determines the 
 implicitly based on the Amazon Web Services access key ID used to sign the request to this
 operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the user to get information about. This parameter is optional.
+# Keyword Parameters
+- `user_name`: The name of the user to get information about. This parameter is optional.
   If it is not included, it defaults to the user making the request. This parameter allows
   (through its regex pattern) a string of characters consisting of upper and lowercase
   alphanumeric characters with no spaces. You can also include any of the following
@@ -3050,22 +2138,9 @@ and inline policies in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function get_user_policy(
-    PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "GetUserPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyName" => PolicyName, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3081,27 +2156,24 @@ operation to manage Amazon Web Services account root user credentials even if th
 Web Services account has no associated users.  To ensure the security of your Amazon Web
 Services account, the secret access key is accessible only during key and user creation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"user_name"`: The name of the user. This parameter allows (through its regex pattern) a
+- `user_name`: The name of the user. This parameter allows (through its regex pattern) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: _+=,.@-
 """
 function list_access_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListAccessKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListAccessKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3111,12 +2183,11 @@ Lists the account alias associated with the Amazon Web Services account (Note: y
 only one). For information about using an Amazon Web Services account alias, see Using an
 alias for your Amazon Web Services account ID in the IAM User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3124,13 +2195,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_account_aliases(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_account_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListAccountAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListAccountAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3151,37 +2218,27 @@ empty list.
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`: The path prefix for filtering the results. This parameter is optional.
-  If it is not included, it defaults to a slash (/), listing all policies. This parameter
-  allows (through its regex pattern) a string of characters consisting of either a forward
-  slash (/) by itself or a string that must begin and end with forward slashes. In addition,
-  it can contain any ASCII character from the ! (u0021) through the DEL character (u007F),
-  including most punctuation characters, digits, and upper and lowercased letters.
+- `path_prefix`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
 """
-function list_attached_group_policies(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_attached_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListAttachedGroupPolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3202,37 +2259,27 @@ empty list.
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`: The path prefix for filtering the results. This parameter is optional.
-  If it is not included, it defaults to a slash (/), listing all policies. This parameter
-  allows (through its regex pattern) a string of characters consisting of either a forward
-  slash (/) by itself or a string that must begin and end with forward slashes. In addition,
-  it can contain any ASCII character from the ! (u0021) through the DEL character (u007F),
-  including most punctuation characters, digits, and upper and lowercased letters.
+- `path_prefix`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
 """
-function list_attached_role_policies(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_attached_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListAttachedRolePolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3253,37 +2300,27 @@ empty list.
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`: The path prefix for filtering the results. This parameter is optional.
-  If it is not included, it defaults to a slash (/), listing all policies. This parameter
-  allows (through its regex pattern) a string of characters consisting of either a forward
-  slash (/) by itself or a string that must begin and end with forward slashes. In addition,
-  it can contain any ASCII character from the ! (u0021) through the DEL character (u007F),
-  including most punctuation characters, digits, and upper and lowercased letters.
+- `path_prefix`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
 """
-function list_attached_user_policies(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_attached_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListAttachedUserPolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3300,46 +2337,36 @@ MaxItems and Marker parameters.
   versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon
   Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"entity_filter"`: The entity type to use for filtering the results. For example, when
+# Keyword Parameters
+- `entity_filter`: The entity type to use for filtering the results. For example, when
   EntityFilter is Role, only the roles that are attached to the specified policy are
   returned. This parameter is optional. If it is not included, all attached entities (users,
   groups, and roles) are returned. The argument for this parameter must be one of the valid
   values listed below.
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`: The path prefix for filtering the results. This parameter is optional.
-  If it is not included, it defaults to a slash (/), listing all entities. This parameter
-  allows (through its regex pattern) a string of characters consisting of either a forward
-  slash (/) by itself or a string that must begin and end with forward slashes. In addition,
-  it can contain any ASCII character from the ! (u0021) through the DEL character (u007F),
-  including most punctuation characters, digits, and upper and lowercased letters.
-- `"policy_usage_filter"`: The policy usage method to use for filtering the results. To
-  list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only
-  the policies used to set permissions boundaries, set the value to PermissionsBoundary.
-  This parameter is optional. If it is not included, all policies are returned.
+- `path_prefix`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all entities. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
+- `policy_usage_filter`: The policy usage method to use for filtering the results. To list
+  only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the
+  policies used to set permissions boundaries, set the value to PermissionsBoundary. This
+  parameter is optional. If it is not included, all policies are returned.
 """
-function list_entities_for_policy(
-    PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_entities_for_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListEntitiesForPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3357,12 +2384,11 @@ with the specified group, the operation returns an empty list.
   its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3370,18 +2396,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_group_policies(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListGroupPolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3390,19 +2407,18 @@ end
 Lists the IAM groups that have the specified path prefix.  You can paginate the results
 using the MaxItems and Marker parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`:  The path prefix for filtering the results. For example, the prefix
+- `path_prefix`:  The path prefix for filtering the results. For example, the prefix
   /division_abc/subdivision_xyz/ gets all groups whose path starts with
   /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it
   defaults to a slash (/), listing all groups. This parameter allows (through its regex
@@ -3427,12 +2443,11 @@ using the MaxItems and Marker parameters.
   regex pattern) a string of characters consisting of upper and lowercase alphanumeric
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3440,18 +2455,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_groups_for_user(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListGroupsForUser",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3467,12 +2473,11 @@ in the IAM User Guide.
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3480,22 +2485,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_instance_profile_tags(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_instance_profile_tags(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListInstanceProfileTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstanceProfileName" => InstanceProfileName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListInstanceProfileTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3509,19 +2501,18 @@ they are an attribute of the returned object. To view all of the information for
 instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems
 and Marker parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`:  The path prefix for filtering the results. For example, the prefix
+- `path_prefix`:  The path prefix for filtering the results. For example, the prefix
   /application_abc/component_xyz/ gets all instance profiles whose path starts with
   /application_abc/component_xyz/. This parameter is optional. If it is not included, it
   defaults to a slash (/), listing all instance profiles. This parameter allows (through its
@@ -3530,16 +2521,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   ASCII character from the ! (u0021) through the DEL character (u007F), including most
   punctuation characters, digits, and upper and lowercased letters.
 """
-function list_instance_profiles(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListInstanceProfiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListInstanceProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3556,12 +2540,11 @@ parameters.
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3569,18 +2552,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_instance_profiles_for_role(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_instance_profiles_for_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListInstanceProfilesForRole",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3597,12 +2571,11 @@ tagging, see Tagging IAM resources in the IAM User Guide.
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3610,18 +2583,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_mfadevice_tags(
-    SerialNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_mfadevice_tags(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListMFADeviceTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListMFADeviceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3633,28 +2597,25 @@ specify a user name, IAM determines the user name implicitly based on the Amazon
 Services access key ID signing the request for this operation. You can paginate the results
 using the MaxItems and Marker parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"user_name"`: The name of the user whose MFA devices you want to list. This parameter
+- `user_name`: The name of the user whose MFA devices you want to list. This parameter
   allows (through its regex pattern) a string of characters consisting of upper and lowercase
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
 function list_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3671,12 +2632,11 @@ the IAM User Guide.
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3684,22 +2644,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_open_idconnect_provider_tags(
-    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_open_idconnect_provider_tags(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListOpenIDConnectProviderTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OpenIDConnectProviderArn" => OpenIDConnectProviderArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListOpenIDConnectProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3712,16 +2659,9 @@ even though they are an attribute of the returned object. To view all of the inf
 for an OIDC provider, see GetOpenIDConnectProvider.
 
 """
-function list_open_idconnect_providers(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_open_idconnect_providers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListOpenIDConnectProviders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListOpenIDConnectProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3739,42 +2679,39 @@ operations return a subset of the available attributes for the resource. For exa
 operation does not return tags, even though they are an attribute of the returned object.
 To view all of the information for a customer manged policy, see GetPolicy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"only_attached"`: A flag to filter the results to only the attached policies. When
+- `only_attached`: A flag to filter the results to only the attached policies. When
   OnlyAttached is true, the returned list contains only the policies that are attached to an
   IAM user, group, or role. When OnlyAttached is false, or when the parameter is not
   included, all policies are returned.
-- `"path_prefix"`: The path prefix for filtering the results. This parameter is optional.
-  If it is not included, it defaults to a slash (/), listing all policies. This parameter
-  allows (through its regex pattern) a string of characters consisting of either a forward
-  slash (/) by itself or a string that must begin and end with forward slashes. In addition,
-  it can contain any ASCII character from the ! (u0021) through the DEL character (u007F),
-  including most punctuation characters, digits, and upper and lowercased letters.
-- `"policy_usage_filter"`: The policy usage method to use for filtering the results. To
-  list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only
-  the policies used to set permissions boundaries, set the value to PermissionsBoundary.
-  This parameter is optional. If it is not included, all policies are returned.
-- `"scope"`: The scope to use for filtering the results. To list only Amazon Web Services
+- `path_prefix`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
+- `policy_usage_filter`: The policy usage method to use for filtering the results. To list
+  only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the
+  policies used to set permissions boundaries, set the value to PermissionsBoundary. This
+  parameter is optional. If it is not included, all policies are returned.
+- `scope`: The scope to use for filtering the results. To list only Amazon Web Services
   managed policies, set Scope to AWS. To list only the customer managed policies in your
   Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not
   included, or if it is set to All, all policies are returned.
 """
 function list_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3810,28 +2747,14 @@ set the permissions boundary for a user or role, use the GetUser or GetRole oper
   service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services
   General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
 """
-function list_policies_granting_service_access(
-    Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policies_granting_service_access(Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListPoliciesGrantingServiceAccess",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Arn" => Arn, "ServiceNamespaces" => ServiceNamespaces),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3847,12 +2770,11 @@ resources in the IAM User Guide.
   lowercase alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3860,18 +2782,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_policy_tags(
-    PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListPolicyTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListPolicyTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3886,12 +2799,11 @@ policies, see Managed policies and inline policies in the IAM User Guide.
   versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon
   Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3899,18 +2811,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_policy_versions(
-    PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListPolicyVersions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3928,12 +2831,11 @@ specified role, the operation returns an empty list.
   its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3941,18 +2843,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_role_policies(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListRolePolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3968,12 +2861,11 @@ Guide.
   and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -3981,18 +2873,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_role_tags(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_role_tags(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListRoleTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4005,19 +2888,18 @@ For example, this operation does not return tags, even though they are an attrib
 returned object. To view all of the information for a role, see GetRole.  You can paginate
 the results using the MaxItems and Marker parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`:  The path prefix for filtering the results. For example, the prefix
+- `path_prefix`:  The path prefix for filtering the results. For example, the prefix
   /application_abc/component_xyz/ gets all roles whose path starts with
   /application_abc/component_xyz/. This parameter is optional. If it is not included, it
   defaults to a slash (/), listing all roles. This parameter allows (through its regex
@@ -4045,12 +2927,11 @@ resources in the IAM User Guide.
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -4058,20 +2939,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_samlprovider_tags(
-    SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_samlprovider_tags(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListSAMLProviderTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListSAMLProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4086,9 +2956,7 @@ This operation requires Signature Version 4.
 """
 function list_samlproviders(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListSAMLProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListSAMLProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4107,12 +2975,11 @@ server certificates, Working with server certificates in the IAM User Guide.
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -4120,22 +2987,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_server_certificate_tags(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_server_certificate_tags(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListServerCertificateTags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServerCertificateName" => ServerCertificateName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListServerCertificateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4151,19 +3005,18 @@ attributes for the resource. For example, this operation does not return tags, e
 they are an attribute of the returned object. To view all of the information for a
 servercertificate, see GetServerCertificate.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`:  The path prefix for filtering the results. For example:
+- `path_prefix`:  The path prefix for filtering the results. For example:
   /company/servercerts would get all server certificates for which the path starts with
   /company/servercerts. This parameter is optional. If it is not included, it defaults to a
   slash (/), listing all server certificates. This parameter allows (through its regex
@@ -4172,16 +3025,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   character from the ! (u0021) through the DEL character (u007F), including most punctuation
   characters, digits, and upper and lowercased letters.
 """
-function list_server_certificates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_server_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListServerCertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListServerCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4194,27 +3040,19 @@ specific service. For more information about using service-specific credentials 
 authenticate to an Amazon Web Services service, see Set up service-specific credentials in
 the CodeCommit User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"service_name"`: Filters the returned results to only those for the specified Amazon Web
+# Keyword Parameters
+- `service_name`: Filters the returned results to only those for the specified Amazon Web
   Services service. If not specified, then Amazon Web Services returns service-specific
   credentials for all services.
-- `"user_name"`: The name of the user whose service-specific credentials you want
-  information about. If this value is not specified, then the operation assumes the user
-  whose credentials are used to call the operation. This parameter allows (through its regex
+- `user_name`: The name of the user whose service-specific credentials you want information
+  about. If this value is not specified, then the operation assumes the user whose
+  credentials are used to call the operation. This parameter allows (through its regex
   pattern) a string of characters consisting of upper and lowercase alphanumeric characters
   with no spaces. You can also include any of the following characters: _+=,.@-
 """
-function list_service_specific_credentials(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_service_specific_credentials(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListServiceSpecificCredentials",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListServiceSpecificCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4229,33 +3067,25 @@ operation. This operation works for access keys under the Amazon Web Services ac
 Consequently, you can use this operation to manage Amazon Web Services account root user
 credentials even if the Amazon Web Services account has no associated users.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"user_name"`: The name of the IAM user whose signing certificates you want to examine.
+- `user_name`: The name of the IAM user whose signing certificates you want to examine.
   This parameter allows (through its regex pattern) a string of characters consisting of
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 """
-function list_signing_certificates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_signing_certificates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListSigningCertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListSigningCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4269,29 +3099,26 @@ up CodeCommit for SSH connections in the CodeCommit User Guide. Although each us
 limited to a small number of keys, you can still paginate the results using the MaxItems
 and Marker parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"user_name"`: The name of the IAM user to list SSH public keys for. If none is
-  specified, the UserName field is determined implicitly based on the Amazon Web Services
-  access key used to sign the request. This parameter allows (through its regex pattern) a
-  string of characters consisting of upper and lowercase alphanumeric characters with no
-  spaces. You can also include any of the following characters: _+=,.@-
+- `user_name`: The name of the IAM user to list SSH public keys for. If none is specified,
+  the UserName field is determined implicitly based on the Amazon Web Services access key
+  used to sign the request. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
 """
 function list_sshpublic_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListSSHPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListSSHPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4309,12 +3136,11 @@ user, the operation returns an empty list.
   its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -4322,18 +3148,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_user_policies(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListUserPolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4349,12 +3166,11 @@ User Guide.
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -4362,18 +3178,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_user_tags(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_user_tags(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListUserTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4387,19 +3194,18 @@ even though they are an attribute of the returned object. To view all of the inf
 for a user, see GetUser.  You can paginate the results using the MaxItems and Marker
 parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"path_prefix"`:  The path prefix for filtering the results. For example:
+- `path_prefix`:  The path prefix for filtering the results. For example:
   /division_abc/subdivision_xyz/, which would get all user names whose path starts with
   /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it
   defaults to a slash (/), listing all user names. This parameter allows (through its regex
@@ -4425,15 +3231,14 @@ returned object. To view all of the information for a virtual MFA device, see
 ListVirtualMFADevices.  You can paginate the results using the MaxItems and Marker
 parameters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_status"`:  The status (Unassigned or Assigned) of the devices to list. If
-  you do not specify an AssignmentStatus, the operation defaults to Any, which lists both
+# Keyword Parameters
+- `assignment_status`:  The status (Unassigned or Assigned) of the devices to list. If you
+  do not specify an AssignmentStatus, the operation defaults to Any, which lists both
   assigned and unassigned virtual MFA devices.,
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
@@ -4441,16 +3246,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_virtual_mfadevices(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_virtual_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ListVirtualMFADevices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListVirtualMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4483,30 +3281,9 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function put_group_policy(
-    GroupName,
-    PolicyDocument,
-    PolicyName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_group_policy(GroupName, PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "PutGroupPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GroupName" => GroupName,
-                    "PolicyDocument" => PolicyDocument,
-                    "PolicyName" => PolicyName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4528,27 +3305,9 @@ IAM JSON policy evaluation logic in the IAM User Guide.
   the permissions boundary.
 
 """
-function put_role_permissions_boundary(
-    PermissionsBoundary,
-    RoleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_role_permissions_boundary(PermissionsBoundary, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "PutRolePermissionsBoundary",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PermissionsBoundary" => PermissionsBoundary, "RoleName" => RoleName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4586,30 +3345,9 @@ Guide.
   characters: _+=,.@-
 
 """
-function put_role_policy(
-    PolicyDocument,
-    PolicyName,
-    RoleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_role_policy(PolicyDocument, PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "PutRolePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PolicyDocument" => PolicyDocument,
-                    "PolicyName" => PolicyName,
-                    "RoleName" => RoleName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4631,27 +3369,9 @@ Guide.
   the permissions boundary.
 
 """
-function put_user_permissions_boundary(
-    PermissionsBoundary,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_user_permissions_boundary(PermissionsBoundary, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "PutUserPermissionsBoundary",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PermissionsBoundary" => PermissionsBoundary, "UserName" => UserName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4684,30 +3404,9 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function put_user_policy(
-    PolicyDocument,
-    PolicyName,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_user_policy(PolicyDocument, PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "PutUserPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PolicyDocument" => PolicyDocument,
-                    "PolicyName" => PolicyName,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4727,28 +3426,9 @@ ID that does not exist.
   Resource Names (ARNs) in the Amazon Web Services General Reference.
 
 """
-function remove_client_idfrom_open_idconnect_provider(
-    ClientID,
-    OpenIDConnectProviderArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "RemoveClientIDFromOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientID" => ClientID,
-                    "OpenIDConnectProviderArn" => OpenIDConnectProviderArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4771,27 +3451,9 @@ profiles, see About instance profiles.
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function remove_role_from_instance_profile(
-    InstanceProfileName,
-    RoleName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_role_from_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "RemoveRoleFromInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceProfileName" => InstanceProfileName, "RoleName" => RoleName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4808,22 +3470,9 @@ Removes the specified user from the specified group.
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function remove_user_from_group(
-    GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function remove_user_from_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "RemoveUserFromGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GroupName" => GroupName, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4839,34 +3488,16 @@ user.
   credential. This parameter allows (through its regex pattern) a string of characters that
   can consist of any upper or lowercased letter or digit.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the IAM user associated with the service-specific credential.
-  If this value is not specified, then the operation assumes the user whose credentials are
-  used to call the operation. This parameter allows (through its regex pattern) a string of
+# Keyword Parameters
+- `user_name`: The name of the IAM user associated with the service-specific credential. If
+  this value is not specified, then the operation assumes the user whose credentials are used
+  to call the operation. This parameter allows (through its regex pattern) a string of
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 """
-function reset_service_specific_credential(
-    ServiceSpecificCredentialId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function reset_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ResetServiceSpecificCredential",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServiceSpecificCredentialId" => ServiceSpecificCredentialId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4891,32 +3522,9 @@ see Using a virtual MFA device in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function resync_mfadevice(
-    AuthenticationCode1,
-    AuthenticationCode2,
-    SerialNumber,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "ResyncMFADevice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AuthenticationCode1" => AuthenticationCode1,
-                    "AuthenticationCode2" => AuthenticationCode2,
-                    "SerialNumber" => SerialNumber,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4937,22 +3545,9 @@ inline policies in the IAM User Guide.
   IAM User Guide.
 
 """
-function set_default_policy_version(
-    PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_default_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "SetDefaultPolicyVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "VersionId" => VersionId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4983,24 +3578,9 @@ GlobalEndpointTokenVersion entry in the response of the GetAccountSummary operat
   deactivating STS in an Amazon Web Services Region in the IAM User Guide.
 
 """
-function set_security_token_service_preferences(
-    GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_security_token_service_preferences(GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "SetSecurityTokenServicePreferences",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GlobalEndpointTokenVersion" => GlobalEndpointTokenVersion
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5040,27 +3620,26 @@ see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"caller_arn"`: The ARN of the IAM user that you want to use as the simulated caller of
-  the API operations. CallerArn is required if you include a ResourcePolicy so that the
-  policy's Principal element has a value to use in evaluating the policy. You can specify
-  only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user,
-  or a service principal.
-- `"context_entries"`: A list of context keys and corresponding values for the simulation
-  to use. Whenever a context key is evaluated in one of the simulated IAM permissions
-  policies, the corresponding value is supplied.
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+# Keyword Parameters
+- `caller_arn`: The ARN of the IAM user that you want to use as the simulated caller of the
+  API operations. CallerArn is required if you include a ResourcePolicy so that the policy's
+  Principal element has a value to use in evaluating the policy. You can specify only the ARN
+  of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service
+  principal.
+- `context_entries`: A list of context keys and corresponding values for the simulation to
+  use. Whenever a context key is evaluated in one of the simulated IAM permissions policies,
+  the corresponding value is supplied.
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"permissions_boundary_policy_input_list"`: The IAM permissions boundary policy to
+- `permissions_boundary_policy_input_list`: The IAM permissions boundary policy to
   simulate. The permissions boundary sets the maximum permissions that an IAM entity can
   have. You can input only one permissions boundary when you pass a policy to this operation.
   For more information about permissions boundaries, see Permissions boundaries for IAM
@@ -5073,7 +3652,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   space character (u0020) through the end of the ASCII character range   The printable
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
-- `"resource_arns"`: A list of ARNs of Amazon Web Services resources to include in the
+- `resource_arns`: A list of ARNs of Amazon Web Services resources to include in the
   simulation. If this parameter is not provided, then the value defaults to * (all
   resources). Each API in the ActionNames parameter is evaluated for each resource in this
   list. The simulation determines the access result (allowed or denied) of each combination
@@ -5084,7 +3663,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   ResourcePolicy, then it must be applicable to all of the resources included in the
   simulation or you receive an invalid input error. For more information about ARNs, see
   Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-- `"resource_handling_option"`: Specifies the type of simulation to run. Different API
+- `resource_handling_option`: Specifies the type of simulation to run. Different API
   operations that support resource-based policies require different combinations of
   resources. By specifying the type of simulation to run, you enable the policy simulator to
   enforce the presence of the required resources to ensure reliable simulation results. If
@@ -5101,7 +3680,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   EC2-VPC-InstanceStore-Subnet  instance, image, security-group, network-interface, subnet
   EC2-VPC-EBS  instance, image, security-group, network-interface, volume
   EC2-VPC-EBS-Subnet  instance, image, security-group, network-interface, subnet, volume
-- `"resource_owner"`: An ARN representing the Amazon Web Services account ID that specifies
+- `resource_owner`: An ARN representing the Amazon Web Services account ID that specifies
   the owner of any simulated resource that does not identify its owner in the resource ARN.
   Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it
   is also used as the account owner of any ResourcePolicy included in the simulation. If the
@@ -5112,7 +3691,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to
   represent the account with the 112233445566 ID, use the following ARN:
   arn:aws:iam::112233445566-ID:root.
-- `"resource_policy"`: A resource-based policy to include in the simulation provided as a
+- `resource_policy`: A resource-based policy to include in the simulation provided as a
   string. Each resource in the simulation is treated as if it had this policy attached. You
   can include only one resource-based policy in a simulation. The maximum length of the
   policy document that you can pass in this operation, including whitespace, is listed below.
@@ -5123,27 +3702,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
 """
-function simulate_custom_policy(
-    ActionNames,
-    PolicyInputList;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function simulate_custom_policy(ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "SimulateCustomPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ActionNames" => ActionNames, "PolicyInputList" => PolicyInputList
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5183,11 +3744,10 @@ IAM User Guide.
   policy with no whitespaces, see IAM and STS character quotas. For more information about
   ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"caller_arn"`: The ARN of the IAM user that you want to specify as the simulated caller
-  of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the
-  user that you specify in PolicySourceArn, if you specified a user. If you include both a
+# Keyword Parameters
+- `caller_arn`: The ARN of the IAM user that you want to specify as the simulated caller of
+  the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user
+  that you specify in PolicySourceArn, if you specified a user. If you include both a
   PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for
   example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the
   API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an
@@ -5196,20 +3756,20 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   is not the ARN for an IAM user. This is required so that the resource-based policy's
   Principal element has a value to use in evaluating the policy. For more information about
   ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-- `"context_entries"`: A list of context keys and corresponding values for the simulation
-  to use. Whenever a context key is evaluated in one of the simulated IAM permissions
-  policies, the corresponding value is supplied.
-- `"marker"`: Use this parameter only when paginating results and only after you receive a
+- `context_entries`: A list of context keys and corresponding values for the simulation to
+  use. Whenever a context key is evaluated in one of the simulated IAM permissions policies,
+  the corresponding value is supplied.
+- `marker`: Use this parameter only when paginating results and only after you receive a
   response indicating that the results are truncated. Set it to the value of the Marker
   element in the response that you received to indicate where the next call should start.
-- `"max_items"`: Use this only when paginating results to indicate the maximum number of
+- `max_items`: Use this only when paginating results to indicate the maximum number of
   items you want in the response. If additional items exist beyond the maximum you specify,
   the IsTruncated response element is true. If you do not include this parameter, the number
   of items defaults to 100. Note that IAM might return fewer results, even when there are
   more results available. In that case, the IsTruncated response element returns true, and
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
-- `"permissions_boundary_policy_input_list"`: The IAM permissions boundary policy to
+- `permissions_boundary_policy_input_list`: The IAM permissions boundary policy to
   simulate. The permissions boundary sets the maximum permissions that the entity can have.
   You can input only one permissions boundary when you pass a policy to this operation. An
   IAM entity can only have one permissions boundary in effect at a time. For example, if a
@@ -5226,14 +3786,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   range   The printable characters in the Basic Latin and Latin-1 Supplement character set
   (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage
   return (u000D)
-- `"policy_input_list"`: An optional list of additional policy documents to include in the
+- `policy_input_list`: An optional list of additional policy documents to include in the
   simulation. Each document is specified as a string containing the complete, valid JSON text
   of an IAM policy. The regex pattern used to validate this parameter is a string of
   characters consisting of the following:   Any printable ASCII character ranging from the
   space character (u0020) through the end of the ASCII character range   The printable
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
-- `"resource_arns"`: A list of ARNs of Amazon Web Services resources to include in the
+- `resource_arns`: A list of ARNs of Amazon Web Services resources to include in the
   simulation. If this parameter is not provided, then the value defaults to * (all
   resources). Each API in the ActionNames parameter is evaluated for each resource in this
   list. The simulation determines the access result (allowed or denied) of each combination
@@ -5242,7 +3802,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   resources. If you want to include a resource policy in the simulation, then you must
   include the policy as a string in the ResourcePolicy parameter. For more information about
   ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-- `"resource_handling_option"`: Specifies the type of simulation to run. Different API
+- `resource_handling_option`: Specifies the type of simulation to run. Different API
   operations that support resource-based policies require different combinations of
   resources. By specifying the type of simulation to run, you enable the policy simulator to
   enforce the presence of the required resources to ensure reliable simulation results. If
@@ -5259,7 +3819,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet
   EC2-VPC-EBS  instance, image, security group, network interface, volume
   EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
-- `"resource_owner"`: An Amazon Web Services account ID that specifies the owner of any
+- `resource_owner`: An Amazon Web Services account ID that specifies the owner of any
   simulated resource that does not identify its owner in the resource ARN. Examples of
   resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also
   used as the account owner of any ResourcePolicy included in the simulation. If the
@@ -5267,7 +3827,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   policy defaults to the account of the identity provided in CallerArn. This parameter is
   required only if you specify a resource-based policy and account that owns the resource is
   different from the account that owns the simulated calling user CallerArn.
-- `"resource_policy"`: A resource-based policy to include in the simulation provided as a
+- `resource_policy`: A resource-based policy to include in the simulation provided as a
   string. Each resource in the simulation is treated as if it had this policy attached. You
   can include only one resource-based policy in a simulation. The maximum length of the
   policy document that you can pass in this operation, including whitespace, is listed below.
@@ -5278,27 +3838,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
 """
-function simulate_principal_policy(
-    ActionNames,
-    PolicySourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function simulate_principal_policy(ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "SimulatePrincipalPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ActionNames" => ActionNames, "PolicySourceArn" => PolicySourceArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5329,24 +3871,9 @@ values in the string. However, you must interpret the value in your code.
   consists of a key name and an associated value.
 
 """
-function tag_instance_profile(
-    InstanceProfileName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_instance_profile(InstanceProfileName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceProfileName" => InstanceProfileName, "Tags" => Tags
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5379,22 +3906,9 @@ in your code.
   consists of a key name and an associated value.
 
 """
-function tag_mfadevice(
-    SerialNumber, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_mfadevice(SerialNumber, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagMFADevice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SerialNumber" => SerialNumber, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5426,27 +3940,9 @@ values in the string. However, you must interpret the value in your code.
   Each tag consists of a key name and an associated value.
 
 """
-function tag_open_idconnect_provider(
-    OpenIDConnectProviderArn,
-    Tags;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OpenIDConnectProviderArn" => OpenIDConnectProviderArn, "Tags" => Tags
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5477,20 +3973,9 @@ comma-separated values in the string. However, you must interpret the value in y
   tag consists of a key name and an associated value.
 
 """
-function tag_policy(
-    PolicyArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("PolicyArn" => PolicyArn, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5525,20 +4010,9 @@ the IAM User Guide.
   key name and an associated value.
 
 """
-function tag_role(
-    RoleName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagRole",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RoleName" => RoleName, "Tags" => Tags), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5570,22 +4044,9 @@ comma-separated values in the string. However, you must interpret the value in y
   Each tag consists of a key name and an associated value.
 
 """
-function tag_samlprovider(
-    SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_samlprovider(SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagSAMLProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5621,27 +4082,9 @@ you must interpret the value in your code.
   consists of a key name and an associated value.
 
 """
-function tag_server_certificate(
-    ServerCertificateName,
-    Tags;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function tag_server_certificate(ServerCertificateName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagServerCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServerCertificateName" => ServerCertificateName, "Tags" => Tags
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5675,20 +4118,9 @@ information about tagging, see Tagging IAM identities in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function tag_user(
-    Tags, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_user(Tags, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "TagUser",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Tags" => Tags, "UserName" => UserName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5706,27 +4138,9 @@ tagging, see Tagging IAM resources in the IAM User Guide.
   are removed from the specified instance profile.
 
 """
-function untag_instance_profile(
-    InstanceProfileName,
-    TagKeys;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function untag_instance_profile(InstanceProfileName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagInstanceProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceProfileName" => InstanceProfileName, "TagKeys" => TagKeys
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5745,22 +4159,9 @@ For more information about tagging, see Tagging IAM resources in the IAM User Gu
   are removed from the specified instance profile.
 
 """
-function untag_mfadevice(
-    SerialNumber, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_mfadevice(SerialNumber, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagMFADevice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SerialNumber" => SerialNumber, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5780,28 +4181,9 @@ Guide.
   are removed from the specified OIDC provider.
 
 """
-function untag_open_idconnect_provider(
-    OpenIDConnectProviderArn,
-    TagKeys;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OpenIDConnectProviderArn" => OpenIDConnectProviderArn,
-                    "TagKeys" => TagKeys,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5819,22 +4201,9 @@ tagging, see Tagging IAM resources in the IAM User Guide.
   are removed from the specified policy.
 
 """
-function untag_policy(
-    PolicyArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_policy(PolicyArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("PolicyArn" => PolicyArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5852,22 +4221,9 @@ IAM resources in the IAM User Guide.
   are removed from the specified role.
 
 """
-function untag_role(
-    RoleName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagRole",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("RoleName" => RoleName, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5887,24 +4243,9 @@ IAM User Guide.
   are removed from the specified SAML identity provider.
 
 """
-function untag_samlprovider(
-    SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_samlprovider(SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagSAMLProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SAMLProviderArn" => SAMLProviderArn, "TagKeys" => TagKeys
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5926,27 +4267,9 @@ IAM User Guide.
   are removed from the specified IAM server certificate.
 
 """
-function untag_server_certificate(
-    ServerCertificateName,
-    TagKeys;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function untag_server_certificate(ServerCertificateName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagServerCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServerCertificateName" => ServerCertificateName, "TagKeys" => TagKeys
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5964,22 +4287,9 @@ IAM resources in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function untag_user(
-    TagKeys, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UntagUser",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("TagKeys" => TagKeys, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6002,29 +4312,15 @@ in the IAM User Guide.
   key can be used for programmatic calls to Amazon Web Services, while Inactive means that
   the key cannot be used.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the user whose key you want to update. This parameter allows
+# Keyword Parameters
+- `user_name`: The name of the user whose key you want to update. This parameter allows
   (through its regex pattern) a string of characters consisting of upper and lowercase
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function update_access_key(
-    AccessKeyId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_access_key(AccessKeyId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateAccessKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccessKeyId" => AccessKeyId, "Status" => Status),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6038,56 +4334,48 @@ default parameter to be explicitly set. Instead, to invoke the default value, do
 include that parameter when you invoke the operation.     For more information about using
 a password policy, see Managing an IAM password policy in the IAM User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_users_to_change_password"`:  Allows all IAM users in your account to use the
-  Amazon Web Services Management Console to change their own passwords. For more information,
-  see Letting IAM users change their own passwords in the IAM User Guide. If you do not
-  specify a value for this parameter, then the operation uses the default value of false. The
-  result is that IAM users in the account do not automatically have permissions to change
-  their own password.
-- `"hard_expiry"`: Prevents IAM users from setting a new password after their password has
+# Keyword Parameters
+- `allow_users_to_change_password`:  Allows all IAM users in your account to use the Amazon
+  Web Services Management Console to change their own passwords. For more information, see
+  Letting IAM users change their own passwords in the IAM User Guide. If you do not specify a
+  value for this parameter, then the operation uses the default value of false. The result is
+  that IAM users in the account do not automatically have permissions to change their own
+  password.
+- `hard_expiry`: Prevents IAM users from setting a new password after their password has
   expired. The IAM user cannot be accessed until an administrator resets the password. If you
   do not specify a value for this parameter, then the operation uses the default value of
   false. The result is that IAM users can change their passwords after they expire and
   continue to sign in as the user.
-- `"max_password_age"`: The number of days that an IAM user password is valid. If you do
-  not specify a value for this parameter, then the operation uses the default value of 0. The
+- `max_password_age`: The number of days that an IAM user password is valid. If you do not
+  specify a value for this parameter, then the operation uses the default value of 0. The
   result is that IAM user passwords never expire.
-- `"minimum_password_length"`: The minimum number of characters allowed in an IAM user
+- `minimum_password_length`: The minimum number of characters allowed in an IAM user
   password. If you do not specify a value for this parameter, then the operation uses the
   default value of 6.
-- `"password_reuse_prevention"`: Specifies the number of previous passwords that IAM users
+- `password_reuse_prevention`: Specifies the number of previous passwords that IAM users
   are prevented from reusing. If you do not specify a value for this parameter, then the
   operation uses the default value of 0. The result is that IAM users are not prevented from
   reusing previous passwords.
-- `"require_lowercase_characters"`: Specifies whether IAM user passwords must contain at
+- `require_lowercase_characters`: Specifies whether IAM user passwords must contain at
   least one lowercase character from the ISO basic Latin alphabet (a to z). If you do not
   specify a value for this parameter, then the operation uses the default value of false. The
   result is that passwords do not require at least one lowercase character.
-- `"require_numbers"`: Specifies whether IAM user passwords must contain at least one
-  numeric character (0 to 9). If you do not specify a value for this parameter, then the
-  operation uses the default value of false. The result is that passwords do not require at
-  least one numeric character.
-- `"require_symbols"`: Specifies whether IAM user passwords must contain at least one of
-  the following non-alphanumeric characters: ! @ #  % ^ &amp; * ( ) _ + - = [ ] { } | ' If
-  you do not specify a value for this parameter, then the operation uses the default value of
-  false. The result is that passwords do not require at least one symbol character.
-- `"require_uppercase_characters"`: Specifies whether IAM user passwords must contain at
+- `require_numbers`: Specifies whether IAM user passwords must contain at least one numeric
+  character (0 to 9). If you do not specify a value for this parameter, then the operation
+  uses the default value of false. The result is that passwords do not require at least one
+  numeric character.
+- `require_symbols`: Specifies whether IAM user passwords must contain at least one of the
+  following non-alphanumeric characters: ! @ #  % ^ &amp; * ( ) _ + - = [ ] { } | ' If you do
+  not specify a value for this parameter, then the operation uses the default value of false.
+  The result is that passwords do not require at least one symbol character.
+- `require_uppercase_characters`: Specifies whether IAM user passwords must contain at
   least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not
   specify a value for this parameter, then the operation uses the default value of false. The
   result is that passwords do not require at least one uppercase character.
 """
-function update_account_password_policy(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateAccountPasswordPolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateAccountPasswordPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6113,24 +4401,9 @@ to delegate permissions and federate identities.
   characters: _+=,.@-
 
 """
-function update_assume_role_policy(
-    PolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_assume_role_policy(PolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateAssumeRolePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PolicyDocument" => PolicyDocument, "RoleName" => RoleName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6151,31 +4424,21 @@ Access management.
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"new_group_name"`: New name for the IAM group. Only include this if changing the group's
+# Keyword Parameters
+- `new_group_name`: New name for the IAM group. Only include this if changing the group's
   name. IAM user, group, role, and policy names must be unique within the account. Names are
   not distinguished by case. For example, you cannot create resources named both
   \"MyResource\" and \"myresource\".
-- `"new_path"`: New path for the IAM group. Only include this if changing the group's path.
+- `new_path`: New path for the IAM group. Only include this if changing the group's path.
   This parameter allows (through its regex pattern) a string of characters consisting of
   either a forward slash (/) by itself or a string that must begin and end with forward
   slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL
   character (u007F), including most punctuation characters, digits, and upper and lowercased
   letters.
 """
-function update_group(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6193,9 +4456,8 @@ Managing passwords in the IAM User Guide.
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"password"`: The new password for the specified IAM user. The regex pattern used to
+# Keyword Parameters
+- `password`: The new password for the specified IAM user. The regex pattern used to
   validate this parameter is a string of characters consisting of the following:   Any
   printable ASCII character ranging from the space character (u0020) through the end of the
   ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
@@ -6203,21 +4465,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   carriage return (u000D)   However, the format can be further restricted by the account
   administrator by setting a password policy on the Amazon Web Services account. For more
   information, see UpdateAccountPasswordPolicy.
-- `"password_reset_required"`: Allows this new password to be used only once by requiring
-  the specified IAM user to set a new password on next sign-in.
+- `password_reset_required`: Allows this new password to be used only once by requiring the
+  specified IAM user to set a new password on next sign-in.
 """
-function update_login_profile(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateLoginProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6249,28 +4502,9 @@ privileged users.
   CreateOpenIDConnectProvider.
 
 """
-function update_open_idconnect_provider_thumbprint(
-    OpenIDConnectProviderArn,
-    ThumbprintList;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateOpenIDConnectProviderThumbprint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OpenIDConnectProviderArn" => OpenIDConnectProviderArn,
-                    "ThumbprintList" => ThumbprintList,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6281,10 +4515,9 @@ Updates the description or maximum session duration setting of a role.
 # Arguments
 - `role_name`: The name of the role that you want to modify.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The new description that you want to apply to the specified role.
-- `"max_session_duration"`: The maximum session duration (in seconds) that you want to set
+# Keyword Parameters
+- `description`: The new description that you want to apply to the specified role.
+- `max_session_duration`: The maximum session duration (in seconds) that you want to set
   for the specified role. If you do not specify a value for this setting, the default maximum
   of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who
   assumes the role from the CLI or API can use the DurationSeconds API parameter or the
@@ -6298,14 +4531,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function update_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateRole",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6319,22 +4545,9 @@ the same function as the Description parameter in the UpdateRole operation.
 - `role_name`: The name of the role that you want to modify.
 
 """
-function update_role_description(
-    Description, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_role_description(Description, RoleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateRoleDescription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Description" => Description, "RoleName" => RoleName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6354,28 +4567,9 @@ operation requires Signature Version 4.
   General Reference.
 
 """
-function update_samlprovider(
-    SAMLMetadataDocument,
-    SAMLProviderArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_samlprovider(SAMLMetadataDocument, SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateSAMLProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SAMLMetadataDocument" => SAMLMetadataDocument,
-                    "SAMLProviderArn" => SAMLProviderArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6400,36 +4594,22 @@ management in the IAM User Guide.
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"new_path"`: The new path for the server certificate. Include this only if you are
+# Keyword Parameters
+- `new_path`: The new path for the server certificate. Include this only if you are
   updating the server certificate's path. This parameter allows (through its regex pattern) a
   string of characters consisting of either a forward slash (/) by itself or a string that
   must begin and end with forward slashes. In addition, it can contain any ASCII character
   from the ! (u0021) through the DEL character (u007F), including most punctuation
   characters, digits, and upper and lowercased letters.
-- `"new_server_certificate_name"`: The new name for the server certificate. Include this
-  only if you are updating the server certificate's name. The name of the certificate cannot
+- `new_server_certificate_name`: The new name for the server certificate. Include this only
+  if you are updating the server certificate's name. The name of the certificate cannot
   contain any spaces. This parameter allows (through its regex pattern) a string of
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 """
-function update_server_certificate(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateServerCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ServerCertificateName" => ServerCertificateName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6446,36 +4626,16 @@ credential rotation work flow.
   can consist of any upper or lowercased letter or digit.
 - `status`: The status to be assigned to the service-specific credential.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the IAM user associated with the service-specific credential.
-  If you do not specify this value, then the operation assumes the user whose credentials are
+# Keyword Parameters
+- `user_name`: The name of the IAM user associated with the service-specific credential. If
+  you do not specify this value, then the operation assumes the user whose credentials are
   used to call the operation. This parameter allows (through its regex pattern) a string of
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 """
-function update_service_specific_credential(
-    ServiceSpecificCredentialId,
-    Status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_service_specific_credential(ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateServiceSpecificCredential",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServiceSpecificCredentialId" => ServiceSpecificCredentialId,
-                    "Status" => Status,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6497,29 +4657,15 @@ credentials even if the Amazon Web Services account has no associated users.
   certificate can be used for programmatic calls to Amazon Web Services Inactive means that
   the certificate cannot be used.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the IAM user the signing certificate belongs to. This
-  parameter allows (through its regex pattern) a string of characters consisting of upper and
-  lowercase alphanumeric characters with no spaces. You can also include any of the following
+# Keyword Parameters
+- `user_name`: The name of the IAM user the signing certificate belongs to. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function update_signing_certificate(
-    CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_signing_certificate(CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateSigningCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CertificateId" => CertificateId, "Status" => Status),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6545,30 +4691,9 @@ repository, see Set up CodeCommit for SSH connections in the CodeCommit User Gui
   characters: _+=,.@-
 
 """
-function update_sshpublic_key(
-    SSHPublicKeyId,
-    Status,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_sshpublic_key(SSHPublicKeyId, Status, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SSHPublicKeyId" => SSHPublicKeyId,
-                    "Status" => Status,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6588,29 +4713,21 @@ about permissions, see Permissions and policies.
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"new_path"`: New path for the IAM user. Include this parameter only if you're changing
-  the user's path. This parameter allows (through its regex pattern) a string of characters
+# Keyword Parameters
+- `new_path`: New path for the IAM user. Include this parameter only if you're changing the
+  user's path. This parameter allows (through its regex pattern) a string of characters
   consisting of either a forward slash (/) by itself or a string that must begin and end with
   forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
   the DEL character (u007F), including most punctuation characters, digits, and upper and
   lowercased letters.
-- `"new_user_name"`: New name for the user. Include this parameter only if you're changing
+- `new_user_name`: New name for the user. Include this parameter only if you're changing
   the user's name. IAM user, group, role, and policy names must be unique within the account.
   Names are not distinguished by case. For example, you cannot create resources named both
   \"MyResource\" and \"myresource\".
 """
 function update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UpdateUser",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6652,16 +4769,15 @@ API with IAM, see Calling the API by making HTTP query requests in the IAM User 
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"certificate_chain"`: The contents of the certificate chain. This is typically a
+# Keyword Parameters
+- `certificate_chain`: The contents of the certificate chain. This is typically a
   concatenation of the PEM-encoded public key certificates of the chain. The regex pattern
   used to validate this parameter is a string of characters consisting of the following:
   Any printable ASCII character ranging from the space character (u0020) through the end of
   the ASCII character range   The printable characters in the Basic Latin and Latin-1
   Supplement character set (through u00FF)   The special characters tab (u0009), line feed
   (u000A), and carriage return (u000D)
-- `"path"`: The path for the server certificate. For more information about paths, see IAM
+- `path`: The path for the server certificate. For more information about paths, see IAM
   identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
   defaults to a slash (/). This parameter allows (through its regex pattern) a string of
   characters consisting of either a forward slash (/) by itself or a string that must begin
@@ -6671,36 +4787,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   for use with Amazon CloudFront distributions, you must specify a path using the path
   parameter. The path must begin with /cloudfront and must include a trailing slash (for
   example, /cloudfront/test/).
-- `"tags"`: A list of tags that you want to attach to the new IAM server certificate
+- `tags`: A list of tags that you want to attach to the new IAM server certificate
   resource. Each tag consists of a key name and an associated value. For more information
   about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
   invalid or if you exceed the allowed maximum number of tags, then the entire request fails
   and the resource is not created.
 """
-function upload_server_certificate(
-    CertificateBody,
-    PrivateKey,
-    ServerCertificateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UploadServerCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CertificateBody" => CertificateBody,
-                    "PrivateKey" => PrivateKey,
-                    "ServerCertificateName" => ServerCertificateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6729,27 +4824,15 @@ the Query API with IAM, see Making query requests in the IAM User Guide.
   character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
   carriage return (u000D)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"user_name"`: The name of the user the signing certificate is for. This parameter allows
+# Keyword Parameters
+- `user_name`: The name of the user the signing certificate is for. This parameter allows
   (through its regex pattern) a string of characters consisting of upper and lowercase
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function upload_signing_certificate(
-    CertificateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function upload_signing_certificate(CertificateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UploadSigningCertificate",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CertificateBody" => CertificateBody), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6776,22 +4859,7 @@ Guide.
   characters: _+=,.@-
 
 """
-function upload_sshpublic_key(
-    SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function upload_sshpublic_key(SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iam(
-        "UploadSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SSHPublicKeyBody" => SSHPublicKeyBody, "UserName" => UserName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

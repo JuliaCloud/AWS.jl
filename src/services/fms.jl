@@ -4,17 +4,8 @@ using AWS.AWSServices: fms
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "start_time" => "StartTime",
-    "end_time" => "EndTime",
-    "default_list" => "DefaultList",
-    "tag_list" => "TagList",
-    "member_account_id" => "MemberAccountId",
-    "delete_all_policy_resources" => "DeleteAllPolicyResources",
-    "default_lists" => "DefaultLists",
-    "next_token" => "NextToken",
-    "max_results" => "MaxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("default_lists" => "DefaultLists", "next_token" => "NextToken", "end_time" => "EndTime", "max_results" => "MaxResults", "member_account_id" => "MemberAccountId", "start_time" => "StartTime", "delete_all_policy_resources" => "DeleteAllPolicyResources", "default_list" => "DefaultList", "tag_list" => "TagList")
 
 """
     associate_admin_account(admin_account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -32,18 +23,9 @@ administrator account.
   Your Organization.
 
 """
-function associate_admin_account(
-    AdminAccount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_admin_account(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "AssociateAdminAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AdminAccount" => AdminAccount), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("AssociateAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccount"=>AdminAccount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -56,16 +38,9 @@ Permanently deletes an Firewall Manager applications list.
   ID from PutAppsList, ListAppsLists, and GetAppsList.
 
 """
-function delete_apps_list(
-    ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "DeleteAppsList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("DeleteAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -75,16 +50,9 @@ Deletes an Firewall Manager association with the IAM role and the Amazon Simple
 Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
 
 """
-function delete_notification_channel(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "DeleteNotificationChannel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("DeleteNotificationChannel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -96,9 +64,8 @@ Permanently deletes an Firewall Manager policy.
 - `policy_id`: The ID of the policy that you want to delete. You can retrieve this ID from
   PutPolicy and ListPolicies.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delete_all_policy_resources"`: If True, the request performs cleanup according to the
+# Keyword Parameters
+- `delete_all_policy_resources`: If True, the request performs cleanup according to the
   policy type.  For WAF and Shield Advanced policies, the cleanup does the following:
   Deletes rule groups created by Firewall Manager   Removes web ACLs from in-scope resources
    Deletes web ACLs that contain no rules or rule groups   For security group policies, the
@@ -112,18 +79,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   in scope of the policy, those accounts and resources are handled by the policy. All others
   are out of scope. If you don't specify tags or accounts, all resources are in scope.
 """
-function delete_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "DeletePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -136,16 +94,9 @@ Permanently deletes an Firewall Manager protocols list.
   from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
 
 """
-function delete_protocols_list(
-    ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "DeleteProtocolsList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("DeleteProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -156,16 +107,9 @@ To set a different account as the administrator account, you must submit an
 AssociateAdminAccount request.
 
 """
-function disassociate_admin_account(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_admin_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "DisassociateAdminAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("DisassociateAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -177,9 +121,7 @@ Manager administrator.
 """
 function get_admin_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("GetAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -190,19 +132,13 @@ Returns information about the specified Firewall Manager applications list.
 # Arguments
 - `list_id`: The ID of the Firewall Manager applications list that you want the details for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_list"`: Specifies whether the list to retrieve is a default list owned by
+# Keyword Parameters
+- `default_list`: Specifies whether the list to retrieve is a default list owned by
   Firewall Manager.
 """
 function get_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetAppsList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -228,22 +164,9 @@ rule group associations for the VPC.
   returned by PutPolicy and by ListPolicies.
 
 """
-function get_compliance_detail(
-    MemberAccount, PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_compliance_detail(MemberAccount, PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetComplianceDetail",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("MemberAccount" => MemberAccount, "PolicyId" => PolicyId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetComplianceDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -253,16 +176,9 @@ Information about the Amazon Simple Notification Service (SNS) topic that is use
 Firewall Manager SNS logs.
 
 """
-function get_notification_channel(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetNotificationChannel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetNotificationChannel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -276,14 +192,7 @@ Returns information about the specified Firewall Manager policy.
 """
 function get_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -295,37 +204,27 @@ the event of a potential DDoS attack. Other policy types are currently unsupport
 # Arguments
 - `policy_id`: The ID of the policy for which you want to get the attack information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The end of the time period to query for the attacks. This is a timestamp
+# Keyword Parameters
+- `end_time`: The end of the time period to query for the attacks. This is a timestamp
   type. The request syntax listing indicates a number type because the default used by
   Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
-- `"max_results"`: Specifies the number of objects that you want Firewall Manager to return
+- `max_results`: Specifies the number of objects that you want Firewall Manager to return
   for this request. If you have more objects than the number that you specify for MaxResults,
   the response includes a NextToken value that you can use to get another batch of objects.
-- `"member_account_id"`: The Amazon Web Services account that is in scope of the policy
-  that you want to get the details for.
-- `"next_token"`: If you specify a value for MaxResults and you have more objects than the
+- `member_account_id`: The Amazon Web Services account that is in scope of the policy that
+  you want to get the details for.
+- `next_token`: If you specify a value for MaxResults and you have more objects than the
   number that you specify for MaxResults, Firewall Manager returns a NextToken value in the
   response, which you can use to retrieve another group of objects. For the second and
   subsequent GetProtectionStatus requests, specify the value of NextToken from the previous
   response to get information about another batch of objects.
-- `"start_time"`: The start of the time period to query for the attacks. This is a
-  timestamp type. The request syntax listing indicates a number type because the default used
-  by Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
+- `start_time`: The start of the time period to query for the attacks. This is a timestamp
+  type. The request syntax listing indicates a number type because the default used by
+  Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
 """
-function get_protection_status(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_protection_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetProtectionStatus",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetProtectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -336,21 +235,13 @@ Returns information about the specified Firewall Manager protocols list.
 # Arguments
 - `list_id`: The ID of the Firewall Manager protocols list that you want the details for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_list"`: Specifies whether the list to retrieve is a default list owned by
+# Keyword Parameters
+- `default_list`: Specifies whether the list to retrieve is a default list owned by
   Firewall Manager.
 """
-function get_protocols_list(
-    ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetProtocolsList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -370,32 +261,9 @@ Amazon Web Services account.
   and AWS::EC2::Subnet.
 
 """
-function get_violation_details(
-    MemberAccount,
-    PolicyId,
-    ResourceId,
-    ResourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_violation_details(MemberAccount, PolicyId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "GetViolationDetails",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MemberAccount" => MemberAccount,
-                    "PolicyId" => PolicyId,
-                    "ResourceId" => ResourceId,
-                    "ResourceType" => ResourceType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("GetViolationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,27 +277,17 @@ Returns an array of AppsListDataSummary objects.
   NextToken value that you can use in a subsequent call to get the next batch of objects. If
   you don't specify this, Firewall Manager returns all available objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_lists"`: Specifies whether the lists to retrieve are default lists owned by
+# Keyword Parameters
+- `default_lists`: Specifies whether the lists to retrieve are default lists owned by
   Firewall Manager.
-- `"next_token"`: If you specify a value for MaxResults in your list request, and you have
+- `next_token`: If you specify a value for MaxResults in your list request, and you have
   more objects than the maximum, Firewall Manager returns this token in the response. For all
   but the first request, you provide the token returned by the prior request in the request
   parameters, to retrieve the next batch of objects.
 """
-function list_apps_lists(
-    MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "ListAppsLists",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("ListAppsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -441,31 +299,21 @@ summary of which member accounts are protected by the specified policy.
 # Arguments
 - `policy_id`: The ID of the Firewall Manager policy that you want the details for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Specifies the number of PolicyComplianceStatus objects that you want
+# Keyword Parameters
+- `max_results`: Specifies the number of PolicyComplianceStatus objects that you want
   Firewall Manager to return for this request. If you have more PolicyComplianceStatus
   objects than the number that you specify for MaxResults, the response includes a NextToken
   value that you can use to get another batch of PolicyComplianceStatus objects.
-- `"next_token"`: If you specify a value for MaxResults and you have more
+- `next_token`: If you specify a value for MaxResults and you have more
   PolicyComplianceStatus objects than the number that you specify for MaxResults, Firewall
   Manager returns a NextToken value in the response that allows you to list another group of
   PolicyComplianceStatus objects. For the second and subsequent ListComplianceStatus
   requests, specify the value of NextToken from the previous response to get information
   about another batch of PolicyComplianceStatus objects.
 """
-function list_compliance_status(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_compliance_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "ListComplianceStatus",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("ListComplianceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -475,25 +323,20 @@ Returns a MemberAccounts object that lists the member accounts in the administra
 Amazon Web Services organization. The ListMemberAccounts must be submitted by the account
 that is set as the Firewall Manager administrator.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Specifies the number of member account IDs that you want Firewall
-  Manager to return for this request. If you have more IDs than the number that you specify
-  for MaxResults, the response includes a NextToken value that you can use to get another
-  batch of member account IDs.
-- `"next_token"`: If you specify a value for MaxResults and you have more account IDs than
+# Keyword Parameters
+- `max_results`: Specifies the number of member account IDs that you want Firewall Manager
+  to return for this request. If you have more IDs than the number that you specify for
+  MaxResults, the response includes a NextToken value that you can use to get another batch
+  of member account IDs.
+- `next_token`: If you specify a value for MaxResults and you have more account IDs than
   the number that you specify for MaxResults, Firewall Manager returns a NextToken value in
   the response that allows you to list another group of IDs. For the second and subsequent
   ListMemberAccountsRequest requests, specify the value of NextToken from the previous
   response to get information about another batch of member account IDs.
 """
-function list_member_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "ListMemberAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("ListMemberAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -501,13 +344,12 @@ end
 
 Returns an array of PolicySummary objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Specifies the number of PolicySummary objects that you want Firewall
+# Keyword Parameters
+- `max_results`: Specifies the number of PolicySummary objects that you want Firewall
   Manager to return for this request. If you have more PolicySummary objects than the number
   that you specify for MaxResults, the response includes a NextToken value that you can use
   to get another batch of PolicySummary objects.
-- `"next_token"`: If you specify a value for MaxResults and you have more PolicySummary
+- `next_token`: If you specify a value for MaxResults and you have more PolicySummary
   objects than the number that you specify for MaxResults, Firewall Manager returns a
   NextToken value in the response that allows you to list another group of PolicySummary
   objects. For the second and subsequent ListPolicies requests, specify the value of
@@ -516,9 +358,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -532,27 +372,17 @@ Returns an array of ProtocolsListDataSummary objects.
   NextToken value that you can use in a subsequent call to get the next batch of objects. If
   you don't specify this, Firewall Manager returns all available objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"default_lists"`: Specifies whether the lists to retrieve are default lists owned by
+# Keyword Parameters
+- `default_lists`: Specifies whether the lists to retrieve are default lists owned by
   Firewall Manager.
-- `"next_token"`: If you specify a value for MaxResults in your list request, and you have
+- `next_token`: If you specify a value for MaxResults in your list request, and you have
   more objects than the maximum, Firewall Manager returns this token in the response. For all
   but the first request, you provide the token returned by the prior request in the request
   parameters, to retrieve the next batch of objects.
 """
-function list_protocols_lists(
-    MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_protocols_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "ListProtocolsLists",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("ListProtocolsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -566,18 +396,9 @@ Retrieves the list of tags for the specified Amazon Web Services resource.
   protocols lists.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -588,22 +409,12 @@ Creates an Firewall Manager applications list.
 # Arguments
 - `apps_list`: The details of the Firewall Manager applications list to be created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tag_list"`: The tags associated with the resource.
+# Keyword Parameters
+- `tag_list`: The tags associated with the resource.
 """
-function put_apps_list(
-    AppsList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_apps_list(AppsList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "PutAppsList",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AppsList" => AppsList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("PutAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppsList"=>AppsList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -622,24 +433,9 @@ in the Firewall Manager Developer Guide.
   notifications from Firewall Manager.
 
 """
-function put_notification_channel(
-    SnsRoleName, SnsTopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_notification_channel(SnsRoleName, SnsTopicArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "PutNotificationChannel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SnsRoleName" => SnsRoleName, "SnsTopicArn" => SnsTopicArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("PutNotificationChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -662,18 +458,12 @@ subscribing to Shield Advanced, see CreateSubscription.
 # Arguments
 - `policy`: The details of the Firewall Manager policy to be created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tag_list"`: The tags to add to the Amazon Web Services resource.
+# Keyword Parameters
+- `tag_list`: The tags to add to the Amazon Web Services resource.
 """
 function put_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "PutPolicy",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -684,22 +474,12 @@ Creates an Firewall Manager protocols list.
 # Arguments
 - `protocols_list`: The details of the Firewall Manager protocols list to be created.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tag_list"`: The tags associated with the resource.
+# Keyword Parameters
+- `tag_list`: The tags associated with the resource.
 """
-function put_protocols_list(
-    ProtocolsList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_protocols_list(ProtocolsList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "PutProtocolsList",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProtocolsList" => ProtocolsList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("PutProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtocolsList"=>ProtocolsList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -714,22 +494,9 @@ Adds one or more tags to an Amazon Web Services resource.
 - `tag_list`: The tags to add to the resource.
 
 """
-function tag_resource(
-    ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagList" => TagList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -744,20 +511,7 @@ Removes one or more tags from an Amazon Web Services resource.
 - `tag_keys`: The keys of the tags to remove from the resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fms(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

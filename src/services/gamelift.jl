@@ -4,107 +4,8 @@ using AWS.AWSServices: gamelift
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "game_properties" => "GameProperties",
-    "game_session_data" => "GameSessionData",
-    "zip_file" => "ZipFile",
-    "game_server_id" => "GameServerId",
-    "flex_match_mode" => "FlexMatchMode",
-    "instance_role_arn" => "InstanceRoleArn",
-    "sort_order" => "SortOrder",
-    "metric_groups" => "MetricGroups",
-    "utilization_status" => "UtilizationStatus",
-    "game_server_protection_policy" => "GameServerProtectionPolicy",
-    "min_size" => "MinSize",
-    "destinations" => "Destinations",
-    "routing_strategy" => "RoutingStrategy",
-    "filter_configuration" => "FilterConfiguration",
-    "player_data_map" => "PlayerDataMap",
-    "fleet_type" => "FleetType",
-    "delete_option" => "DeleteOption",
-    "health_check" => "HealthCheck",
-    "desired_player_sessions" => "DesiredPlayerSessions",
-    "player_session_id" => "PlayerSessionId",
-    "instance_definitions" => "InstanceDefinitions",
-    "log_paths" => "LogPaths",
-    "instance_ids" => "InstanceIds",
-    "ticket_id" => "TicketId",
-    "certificate_configuration" => "CertificateConfiguration",
-    "policy_type" => "PolicyType",
-    "server_launch_parameters" => "ServerLaunchParameters",
-    "backfill_mode" => "BackfillMode",
-    "inbound_permission_revocations" => "InboundPermissionRevocations",
-    "game_session_id" => "GameSessionId",
-    "status_filter" => "StatusFilter",
-    "additional_player_count" => "AdditionalPlayerCount",
-    "scaling_adjustment" => "ScalingAdjustment",
-    "auto_scaling_policy" => "AutoScalingPolicy",
-    "filter_expression" => "FilterExpression",
-    "start_time" => "StartTime",
-    "name" => "Name",
-    "fleet_ids" => "FleetIds",
-    "new_game_session_protection_policy" => "NewGameSessionProtectionPolicy",
-    "creator_id" => "CreatorId",
-    "ec2_instance_type" => "EC2InstanceType",
-    "idempotency_token" => "IdempotencyToken",
-    "peer_vpc_aws_account_id" => "PeerVpcAwsAccountId",
-    "request_timeout_seconds" => "RequestTimeoutSeconds",
-    "instance_id" => "InstanceId",
-    "threshold" => "Threshold",
-    "vpc_subnets" => "VpcSubnets",
-    "inbound_permission_authorizations" => "InboundPermissionAuthorizations",
-    "player_session_status_filter" => "PlayerSessionStatusFilter",
-    "next_token" => "NextToken",
-    "player_data" => "PlayerData",
-    "player_latency_policies" => "PlayerLatencyPolicies",
-    "storage_location" => "StorageLocation",
-    "locations" => "Locations",
-    "runtime_configuration" => "RuntimeConfiguration",
-    "location" => "Location",
-    "protection_policy" => "ProtectionPolicy",
-    "acceptance_timeout_seconds" => "AcceptanceTimeoutSeconds",
-    "script_id" => "ScriptId",
-    "server_launch_path" => "ServerLaunchPath",
-    "target_configuration" => "TargetConfiguration",
-    "rule_set_name" => "RuleSetName",
-    "role_arn" => "RoleArn",
-    "player_id" => "PlayerId",
-    "version" => "Version",
-    "max_size" => "MaxSize",
-    "acceptance_required" => "AcceptanceRequired",
-    "ec2_inbound_permissions" => "EC2InboundPermissions",
-    "alias_id" => "AliasId",
-    "operating_system" => "OperatingSystem",
-    "game_session_queue_arns" => "GameSessionQueueArns",
-    "game_session_arn" => "GameSessionArn",
-    "tags" => "Tags",
-    "fleet_id" => "FleetId",
-    "limit" => "Limit",
-    "routing_strategy_type" => "RoutingStrategyType",
-    "end_time" => "EndTime",
-    "player_latencies" => "PlayerLatencies",
-    "names" => "Names",
-    "player_session_creation_policy" => "PlayerSessionCreationPolicy",
-    "peer_vpc_id" => "PeerVpcId",
-    "evaluation_periods" => "EvaluationPeriods",
-    "status" => "Status",
-    "game_server_data" => "GameServerData",
-    "notification_target" => "NotificationTarget",
-    "description" => "Description",
-    "sort_expression" => "SortExpression",
-    "comparison_operator" => "ComparisonOperator",
-    "resource_creation_limit_policy" => "ResourceCreationLimitPolicy",
-    "scaling_adjustment_type" => "ScalingAdjustmentType",
-    "timeout_in_seconds" => "TimeoutInSeconds",
-    "connection_info" => "ConnectionInfo",
-    "priority_configuration" => "PriorityConfiguration",
-    "game_session_name" => "GameSessionName",
-    "desired_instances" => "DesiredInstances",
-    "maximum_player_session_count" => "MaximumPlayerSessionCount",
-    "custom_event_data" => "CustomEventData",
-    "balancing_strategy" => "BalancingStrategy",
-    "build_id" => "BuildId",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("delete_option" => "DeleteOption", "maximum_player_session_count" => "MaximumPlayerSessionCount", "name" => "Name", "player_session_creation_policy" => "PlayerSessionCreationPolicy", "protection_policy" => "ProtectionPolicy", "connection_info" => "ConnectionInfo", "game_server_data" => "GameServerData", "limit" => "Limit", "location" => "Location", "next_token" => "NextToken", "status_filter" => "StatusFilter", "names" => "Names", "rule_set_name" => "RuleSetName", "instance_ids" => "InstanceIds", "game_server_id" => "GameServerId", "player_data" => "PlayerData", "acceptance_timeout_seconds" => "AcceptanceTimeoutSeconds", "additional_player_count" => "AdditionalPlayerCount", "backfill_mode" => "BackfillMode", "custom_event_data" => "CustomEventData", "description" => "Description", "flex_match_mode" => "FlexMatchMode", "game_properties" => "GameProperties", "game_session_data" => "GameSessionData", "game_session_queue_arns" => "GameSessionQueueArns", "notification_target" => "NotificationTarget", "tags" => "Tags", "alias_id" => "AliasId", "fleet_id" => "FleetId", "game_session_id" => "GameSessionId", "filter_expression" => "FilterExpression", "sort_expression" => "SortExpression", "build_id" => "BuildId", "certificate_configuration" => "CertificateConfiguration", "ec2_inbound_permissions" => "EC2InboundPermissions", "fleet_type" => "FleetType", "instance_role_arn" => "InstanceRoleArn", "locations" => "Locations", "log_paths" => "LogPaths", "metric_groups" => "MetricGroups", "new_game_session_protection_policy" => "NewGameSessionProtectionPolicy", "peer_vpc_aws_account_id" => "PeerVpcAwsAccountId", "peer_vpc_id" => "PeerVpcId", "resource_creation_limit_policy" => "ResourceCreationLimitPolicy", "runtime_configuration" => "RuntimeConfiguration", "script_id" => "ScriptId", "server_launch_parameters" => "ServerLaunchParameters", "server_launch_path" => "ServerLaunchPath", "auto_scaling_policy" => "AutoScalingPolicy", "balancing_strategy" => "BalancingStrategy", "game_server_protection_policy" => "GameServerProtectionPolicy", "vpc_subnets" => "VpcSubnets", "player_id" => "PlayerId", "player_session_id" => "PlayerSessionId", "player_session_status_filter" => "PlayerSessionStatusFilter", "desired_instances" => "DesiredInstances", "max_size" => "MaxSize", "min_size" => "MinSize", "storage_location" => "StorageLocation", "version" => "Version", "zip_file" => "ZipFile", "fleet_ids" => "FleetIds", "operating_system" => "OperatingSystem", "destinations" => "Destinations", "filter_configuration" => "FilterConfiguration", "player_latency_policies" => "PlayerLatencyPolicies", "priority_configuration" => "PriorityConfiguration", "timeout_in_seconds" => "TimeoutInSeconds", "acceptance_required" => "AcceptanceRequired", "request_timeout_seconds" => "RequestTimeoutSeconds", "creator_id" => "CreatorId", "idempotency_token" => "IdempotencyToken", "routing_strategy" => "RoutingStrategy", "instance_id" => "InstanceId", "routing_strategy_type" => "RoutingStrategyType", "health_check" => "HealthCheck", "utilization_status" => "UtilizationStatus", "end_time" => "EndTime", "start_time" => "StartTime", "comparison_operator" => "ComparisonOperator", "evaluation_periods" => "EvaluationPeriods", "policy_type" => "PolicyType", "scaling_adjustment" => "ScalingAdjustment", "scaling_adjustment_type" => "ScalingAdjustmentType", "target_configuration" => "TargetConfiguration", "threshold" => "Threshold", "sort_order" => "SortOrder", "inbound_permission_authorizations" => "InboundPermissionAuthorizations", "inbound_permission_revocations" => "InboundPermissionRevocations", "player_data_map" => "PlayerDataMap", "ticket_id" => "TicketId", "status" => "Status", "game_session_arn" => "GameSessionArn", "ec2_instance_type" => "EC2InstanceType", "desired_player_sessions" => "DesiredPlayerSessions", "game_session_name" => "GameSessionName", "player_latencies" => "PlayerLatencies", "instance_definitions" => "InstanceDefinitions", "role_arn" => "RoleArn")
 
 """
     accept_match(acceptance_type, player_ids, ticket_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -136,30 +37,9 @@ StartMatchBackfill | All APIs by task
   REQUIRES_ACCEPTANCE; otherwise this request will fail.
 
 """
-function accept_match(
-    AcceptanceType,
-    PlayerIds,
-    TicketId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function accept_match(AcceptanceType, PlayerIds, TicketId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "AcceptMatch",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AcceptanceType" => AcceptanceType,
-                    "PlayerIds" => PlayerIds,
-                    "TicketId" => TicketId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("AcceptMatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptanceType"=>AcceptanceType, "PlayerIds"=>PlayerIds, "TicketId"=>TicketId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -194,31 +74,17 @@ DescribeGameServer | UpdateGameServer | DeregisterGameServer | All APIs by task
   specifying a game server to claim, this value identifies where you want GameLift FleetIQ to
   look for an available game server to claim.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"game_server_data"`: A set of custom game server properties, formatted as a single
-  string value. This data is passed to a game client or service when it requests information
-  on game servers using ListGameServers or ClaimGameServer.
-- `"game_server_id"`: A custom string that uniquely identifies the game server to claim. If
+# Keyword Parameters
+- `game_server_data`: A set of custom game server properties, formatted as a single string
+  value. This data is passed to a game client or service when it requests information on game
+  servers using ListGameServers or ClaimGameServer.
+- `game_server_id`: A custom string that uniquely identifies the game server to claim. If
   this parameter is left empty, GameLift FleetIQ searches for an available game server in the
   specified game server group.
 """
-function claim_game_server(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function claim_game_server(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ClaimGameServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameServerGroupName" => GameServerGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ClaimGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -244,33 +110,18 @@ ResolveAlias | All APIs by task
 - `routing_strategy`: The routing configuration, including routing type and fleet target,
   for the alias.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A human-readable description of the alias.
-- `"tags"`: A list of labels to assign to the new alias resource. Tags are
-  developer-defined key-value pairs. Tagging AWS resources are useful for resource
-  management, access management and cost allocation. For more information, see  Tagging AWS
-  Resources in the AWS General Reference. Once the resource is created, you can use
-  TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The
-  maximum tag limit may be lower than stated. See the AWS General Reference for actual
-  tagging limits.
+# Keyword Parameters
+- `description`: A human-readable description of the alias.
+- `tags`: A list of labels to assign to the new alias resource. Tags are developer-defined
+  key-value pairs. Tagging AWS resources are useful for resource management, access
+  management and cost allocation. For more information, see  Tagging AWS Resources in the AWS
+  General Reference. Once the resource is created, you can use TagResource, UntagResource,
+  and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower
+  than stated. See the AWS General Reference for actual tagging limits.
 """
-function create_alias(
-    Name, RoutingStrategy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_alias(Name, RoutingStrategy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateAlias",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "RoutingStrategy" => RoutingStrategy),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoutingStrategy"=>RoutingStrategy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -297,35 +148,31 @@ status. A build must be in READY status before you can create fleets with it.  L
 Uploading Your Game    Create a Build with Files in Amazon S3   Related actions
 CreateBuild | ListBuilds | DescribeBuild | UpdateBuild | DeleteBuild | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: A descriptive label that is associated with a build. Build names do not need to
+# Keyword Parameters
+- `name`: A descriptive label that is associated with a build. Build names do not need to
   be unique. You can use UpdateBuild to change this value later.
-- `"operating_system"`: The operating system that the game server binaries are built to run
+- `operating_system`: The operating system that the game server binaries are built to run
   on. This value determines the type of fleet resources that you can use for this build. If
   your game build contains multiple executables, they all must run on the same operating
   system. If an operating system is not specified when creating a build, Amazon GameLift uses
   the default value (WINDOWS_2012). This value cannot be changed later.
-- `"storage_location"`: Information indicating where your game build files are stored. Use
+- `storage_location`: Information indicating where your game build files are stored. Use
   this parameter only when creating a build with files stored in an Amazon S3 bucket that you
   own. The storage location must specify an Amazon S3 bucket name and key. The location must
   also specify a role ARN that you set up to allow Amazon GameLift to access your Amazon S3
   bucket. The S3 bucket and your new build must be in the same Region.
-- `"tags"`: A list of labels to assign to the new build resource. Tags are
-  developer-defined key-value pairs. Tagging AWS resources are useful for resource
-  management, access management and cost allocation. For more information, see  Tagging AWS
-  Resources in the AWS General Reference. Once the resource is created, you can use
-  TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The
-  maximum tag limit may be lower than stated. See the AWS General Reference for actual
-  tagging limits.
-- `"version"`: Version information that is associated with a build or script. Version
-  strings do not need to be unique. You can use UpdateBuild to change this value later.
+- `tags`: A list of labels to assign to the new build resource. Tags are developer-defined
+  key-value pairs. Tagging AWS resources are useful for resource management, access
+  management and cost allocation. For more information, see  Tagging AWS Resources in the AWS
+  General Reference. Once the resource is created, you can use TagResource, UntagResource,
+  and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower
+  than stated. See the AWS General Reference for actual tagging limits.
+- `version`: Version information that is associated with a build or script. Version strings
+  do not need to be unique. You can use UpdateBuild to change this value later.
 """
 function create_build(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("CreateBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -367,12 +214,11 @@ StopFleetActions | DeleteFleet | All APIs by task
 - `name`: A descriptive label that is associated with a fleet. Fleet names do not need to
   be unique.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"build_id"`: The unique identifier for a custom game server build to be deployed on
-  fleet instances. You can use either the build ID or ARN. The build must be uploaded to
-  GameLift and in READY status. This fleet property cannot be changed later.
-- `"certificate_configuration"`: Prompts GameLift to generate a TLS/SSL certificate for the
+# Keyword Parameters
+- `build_id`: The unique identifier for a custom game server build to be deployed on fleet
+  instances. You can use either the build ID or ARN. The build must be uploaded to GameLift
+  and in READY status. This fleet property cannot be changed later.
+- `certificate_configuration`: Prompts GameLift to generate a TLS/SSL certificate for the
   fleet. TLS certificates are used for encrypting traffic between game clients and the game
   servers that are running on GameLift. By default, the CertificateConfiguration is set to
   DISABLED. Learn more at Securing Client/Server Communication. This property cannot be
@@ -380,87 +226,74 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Manager (ACM) service, which is not available in all AWS regions. When working in a region
   that does not support this feature, a fleet creation request with certificate generation
   fails with a 4xx error.
-- `"description"`: A human-readable description of the fleet.
-- `"ec2_inbound_permissions"`: The allowed IP address ranges and port settings that allow
+- `description`: A human-readable description of the fleet.
+- `ec2_inbound_permissions`: The allowed IP address ranges and port settings that allow
   inbound traffic to access game sessions on this fleet. If the fleet is hosting a custom
   game build, this property must be set before players can connect to game sessions. For
   Realtime Servers fleets, GameLift automatically sets TCP and UDP ranges.
-- `"fleet_type"`: Indicates whether to use On-Demand or Spot instances for this fleet. By
+- `fleet_type`: Indicates whether to use On-Demand or Spot instances for this fleet. By
   default, this property is set to ON_DEMAND. Learn more about when to use  On-Demand versus
   Spot Instances. This property cannot be changed after the fleet is created.
-- `"instance_role_arn"`: A unique identifier for an AWS IAM role that manages access to
-  your AWS services. With an instance role ARN set, any application that runs on an instance
-  in this fleet can assume the role, including install scripts, server processes, and daemons
+- `instance_role_arn`: A unique identifier for an AWS IAM role that manages access to your
+  AWS services. With an instance role ARN set, any application that runs on an instance in
+  this fleet can assume the role, including install scripts, server processes, and daemons
   (background processes). Create a role or look up a role's ARN by using the IAM dashboard in
   the AWS Management Console. Learn more about using on-box credentials for your game servers
   at  Access external resources from a game server. This property cannot be changed after the
   fleet is created.
-- `"locations"`: A set of remote locations to deploy additional instances to and manage as
+- `locations`: A set of remote locations to deploy additional instances to and manage as
   part of the fleet. This parameter can only be used when creating fleets in AWS Regions that
   support multiple locations. You can add any GameLift-supported AWS Region as a remote
   location, in the form of an AWS Region code such as us-west-2. To create a fleet with
   instances in the home Region only, omit this parameter.
-- `"log_paths"`:  This parameter is no longer used. To specify where GameLift should store
+- `log_paths`:  This parameter is no longer used. To specify where GameLift should store
   log files once a server process shuts down, use the GameLift server API ProcessReady() and
   specify one or more directory paths in logParameters. See more information in the Server
   API Reference.
-- `"metric_groups"`: The name of an AWS CloudWatch metric group to add this fleet to. A
+- `metric_groups`: The name of an AWS CloudWatch metric group to add this fleet to. A
   metric group is used to aggregate the metrics for multiple fleets. You can specify an
   existing metric group name or set a new name to create a new metric group. A fleet can be
   included in only one metric group at a time.
-- `"new_game_session_protection_policy"`: The status of termination protection for active
+- `new_game_session_protection_policy`: The status of termination protection for active
   game sessions on the fleet. By default, this property is set to NoProtection. You can also
   set game session protection for an individual game session by calling UpdateGameSession.
   NoProtection - Game sessions can be terminated during active gameplay as a result of a
   scale-down event.     FullProtection - Game sessions in ACTIVE status cannot be terminated
   during a scale-down event.
-- `"peer_vpc_aws_account_id"`: Used when peering your GameLift fleet with a VPC, the unique
+- `peer_vpc_aws_account_id`: Used when peering your GameLift fleet with a VPC, the unique
   identifier for the AWS account that owns the VPC. You can find your account ID in the AWS
   Management Console under account settings.
-- `"peer_vpc_id"`: A unique identifier for a VPC with resources to be accessed by your
+- `peer_vpc_id`: A unique identifier for a VPC with resources to be accessed by your
   GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use
   the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC
   Peering with GameLift Fleets.
-- `"resource_creation_limit_policy"`: A policy that limits the number of game sessions that
+- `resource_creation_limit_policy`: A policy that limits the number of game sessions that
   an individual player can create on instances in this fleet within a specified span of time.
-- `"runtime_configuration"`: Instructions for how to launch and maintain server processes
-  on instances in the fleet. The runtime configuration defines one or more server process
+- `runtime_configuration`: Instructions for how to launch and maintain server processes on
+  instances in the fleet. The runtime configuration defines one or more server process
   configurations, each identifying a build executable or Realtime script file and the number
   of processes of that type to run concurrently.   The RuntimeConfiguration parameter is
   required unless the fleet is being configured using the older parameters ServerLaunchPath
   and ServerLaunchParameters, which are still supported for backward compatibility.
-- `"script_id"`: The unique identifier for a Realtime configuration script to be deployed
-  on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to
+- `script_id`: The unique identifier for a Realtime configuration script to be deployed on
+  fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to
   GameLift prior to creating the fleet. This fleet property cannot be changed later.
-- `"server_launch_parameters"`:  This parameter is no longer used. Specify server launch
+- `server_launch_parameters`:  This parameter is no longer used. Specify server launch
   parameters using the RuntimeConfiguration parameter. Requests that use this parameter
   instead continue to be valid.
-- `"server_launch_path"`:  This parameter is no longer used. Specify a server launch path
+- `server_launch_path`:  This parameter is no longer used. Specify a server launch path
   using the RuntimeConfiguration parameter. Requests that use this parameter instead continue
   to be valid.
-- `"tags"`: A list of labels to assign to the new fleet resource. Tags are
-  developer-defined key-value pairs. Tagging AWS resources are useful for resource
-  management, access management and cost allocation. For more information, see  Tagging AWS
-  Resources in the AWS General Reference. Once the fleet is created, you can use TagResource,
-  UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit
-  may be lower than stated. See the AWS General Reference for actual tagging limits.
+- `tags`: A list of labels to assign to the new fleet resource. Tags are developer-defined
+  key-value pairs. Tagging AWS resources are useful for resource management, access
+  management and cost allocation. For more information, see  Tagging AWS Resources in the AWS
+  General Reference. Once the fleet is created, you can use TagResource, UntagResource, and
+  ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than
+  stated. See the AWS General Reference for actual tagging limits.
 """
-function create_fleet(
-    EC2InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_fleet(EC2InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateFleet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EC2InstanceType" => EC2InstanceType, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EC2InstanceType"=>EC2InstanceType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -492,22 +325,9 @@ All APIs by task
   of an AWS Region code such as us-west-2.
 
 """
-function create_fleet_locations(
-    FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_fleet_locations(FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateFleetLocations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateFleetLocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Locations"=>Locations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -572,14 +392,13 @@ task
 - `role_arn`: The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to
   access your EC2 Auto Scaling groups.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"auto_scaling_policy"`: Configuration settings to define a scaling policy for the Auto
+# Keyword Parameters
+- `auto_scaling_policy`: Configuration settings to define a scaling policy for the Auto
   Scaling group that is optimized for game hosting. The scaling policy uses the metric
   \"PercentUtilizedGameServers\" to maintain a buffer of idle game servers that can
   immediately accommodate new games and players. After the Auto Scaling group is created,
   update this value directly in the Auto Scaling group using the AWS console or APIs.
-- `"balancing_strategy"`: Indicates how GameLift FleetIQ balances the use of Spot Instances
+- `balancing_strategy`: Indicates how GameLift FleetIQ balances the use of Spot Instances
   and On-Demand Instances in the game server group. Method options include the following:
   SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are
   unavailable or not viable for game hosting, the game server group provides no hosting
@@ -592,57 +411,30 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   replaced with new On-Demand Instances.    ON_DEMAND_ONLY - Only On-Demand Instances are
   used in the game server group. No Spot Instances are used, even when available, while this
   balancing strategy is in force.
-- `"game_server_protection_policy"`: A flag that indicates whether instances in the game
+- `game_server_protection_policy`: A flag that indicates whether instances in the game
   server group are protected from early termination. Unprotected instances that have active
   game servers running might be terminated during a scale-down event, causing players to be
   dropped from the game. Protected instances cannot be terminated while there are active game
   servers running except in the event of a forced game server group deletion (see ). An
   exception to this is with Spot Instances, which can be terminated by AWS regardless of
   protection status. This property is set to NO_PROTECTION by default.
-- `"tags"`: A list of labels to assign to the new game server group resource. Tags are
+- `tags`: A list of labels to assign to the new game server group resource. Tags are
   developer-defined key-value pairs. Tagging AWS resources is useful for resource management,
   access management, and cost allocation. For more information, see  Tagging AWS Resources in
   the AWS General Reference. Once the resource is created, you can use TagResource,
   UntagResource, and ListTagsForResource to add, remove, and view tags, respectively. The
   maximum tag limit may be lower than stated. See the AWS General Reference for actual
   tagging limits.
-- `"vpc_subnets"`: A list of virtual private cloud (VPC) subnets to use with instances in
-  the game server group. By default, all GameLift FleetIQ-supported Availability Zones are
-  used. You can use this parameter to specify VPCs that you've set up. This property cannot
-  be updated after the game server group is created, and the corresponding Auto Scaling group
+- `vpc_subnets`: A list of virtual private cloud (VPC) subnets to use with instances in the
+  game server group. By default, all GameLift FleetIQ-supported Availability Zones are used.
+  You can use this parameter to specify VPCs that you've set up. This property cannot be
+  updated after the game server group is created, and the corresponding Auto Scaling group
   will always use the property value that is set with this request, even if the Auto Scaling
   group is updated directly.
 """
-function create_game_server_group(
-    GameServerGroupName,
-    InstanceDefinitions,
-    LaunchTemplate,
-    MaxSize,
-    MinSize,
-    RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_game_server_group(GameServerGroupName, InstanceDefinitions, LaunchTemplate, MaxSize, MinSize, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateGameServerGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "InstanceDefinitions" => InstanceDefinitions,
-                    "LaunchTemplate" => LaunchTemplate,
-                    "MaxSize" => MaxSize,
-                    "MinSize" => MinSize,
-                    "RoleArn" => RoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "InstanceDefinitions"=>InstanceDefinitions, "LaunchTemplate"=>LaunchTemplate, "MaxSize"=>MaxSize, "MinSize"=>MinSize, "RoleArn"=>RoleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -675,60 +467,46 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 - `maximum_player_session_count`: The maximum number of players that can be connected
   simultaneously to the game session.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_id"`: A unique identifier for the alias associated with the fleet to create a
-  game session in. You can use either the alias ID or ARN value. Each request must reference
+# Keyword Parameters
+- `alias_id`: A unique identifier for the alias associated with the fleet to create a game
+  session in. You can use either the alias ID or ARN value. Each request must reference
   either a fleet ID or alias ID, but not both.
-- `"creator_id"`: A unique identifier for a player or entity creating the game session.
-  This parameter is required when requesting a new game session on a fleet with a resource
+- `creator_id`: A unique identifier for a player or entity creating the game session. This
+  parameter is required when requesting a new game session on a fleet with a resource
   creation limit policy. This type of policy limits the number of concurrent active game
   sessions that one player can create within a certain time span. GameLift uses the CreatorId
   to evaluate the new request against the policy.
-- `"fleet_id"`: A unique identifier for the fleet to create a game session in. You can use
+- `fleet_id`: A unique identifier for the fleet to create a game session in. You can use
   either the fleet ID or ARN value. Each request must reference either a fleet ID or alias
   ID, but not both.
-- `"game_properties"`: A set of custom properties for a game session, formatted as
-  key:value pairs. These properties are passed to a game server process in the GameSession
-  object with a request to start a new game session.
-- `"game_session_data"`: A set of custom game session properties, formatted as a single
+- `game_properties`: A set of custom properties for a game session, formatted as key:value
+  pairs. These properties are passed to a game server process in the GameSession object with
+  a request to start a new game session.
+- `game_session_data`: A set of custom game session properties, formatted as a single
   string value. This data is passed to a game server process in the GameSession object with a
   request to start a new game session.
-- `"game_session_id"`:  This parameter is no longer preferred. Please use IdempotencyToken
+- `game_session_id`:  This parameter is no longer preferred. Please use IdempotencyToken
   instead. Custom string that uniquely identifies a request for a new game session. Maximum
   token length is 48 characters. If provided, this string is included in the new game
   session's ID.
-- `"idempotency_token"`: Custom string that uniquely identifies the new game session
-  request. This is useful for ensuring that game session requests with the same idempotency
-  token are processed only once. Subsequent requests with the same string return the original
+- `idempotency_token`: Custom string that uniquely identifies the new game session request.
+  This is useful for ensuring that game session requests with the same idempotency token are
+  processed only once. Subsequent requests with the same string return the original
   GameSession object, with an updated status. Maximum token length is 48 characters. If
   provided, this string is included in the new game session's ID. A game session ARN has the
   following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom
   ID string or idempotency token&gt;. Idempotency tokens remain in use for 30 days after a
   game session has ended; game session objects are retained for this time period and then
   deleted.
-- `"location"`: A fleet's remote location to place the new game session in. If this
-  parameter is not set, the new game session is placed in the fleet's home Region. Specify a
-  remote location with an AWS Region code such as us-west-2.
-- `"name"`: A descriptive label that is associated with a game session. Session names do
-  not need to be unique.
+- `location`: A fleet's remote location to place the new game session in. If this parameter
+  is not set, the new game session is placed in the fleet's home Region. Specify a remote
+  location with an AWS Region code such as us-west-2.
+- `name`: A descriptive label that is associated with a game session. Session names do not
+  need to be unique.
 """
-function create_game_session(
-    MaximumPlayerSessionCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_game_session(MaximumPlayerSessionCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateGameSession",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("MaximumPlayerSessionCount" => MaximumPlayerSessionCount),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateGameSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaximumPlayerSessionCount"=>MaximumPlayerSessionCount), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -762,49 +540,40 @@ DeleteGameSessionQueue | All APIs by task
 - `name`: A descriptive label that is associated with game session queue. Queue names must
   be unique within each Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_event_data"`:  Information to be added to all events that are related to this
-  game session queue.
-- `"destinations"`: A list of fleets and/or fleet aliases that can be used to fulfill game
+# Keyword Parameters
+- `custom_event_data`:  Information to be added to all events that are related to this game
+  session queue.
+- `destinations`: A list of fleets and/or fleet aliases that can be used to fulfill game
   session placement requests in the queue. Destinations are identified by either a fleet ARN
   or a fleet alias ARN, and are listed in order of placement preference.
-- `"filter_configuration"`: A list of locations where a queue is allowed to place new game
+- `filter_configuration`: A list of locations where a queue is allowed to place new game
   sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If
   this parameter is not set, game sessions can be placed in any queue location.
-- `"notification_target"`: An SNS topic ARN that is set up to receive game session
-  placement notifications. See  Setting up notifications for game session placement.
-- `"player_latency_policies"`: A set of policies that act as a sliding cap on player
-  latency. FleetIQ works to deliver low latency for most players in a game session. These
-  policies ensure that no individual player can be placed into a game with unreasonably high
-  latency. Use multiple policies to gradually relax latency requirements a step at a time.
-  Multiple policies are applied based on their maximum allowed latency, starting with the
-  lowest value.
-- `"priority_configuration"`: Custom settings to use when prioritizing destinations and
+- `notification_target`: An SNS topic ARN that is set up to receive game session placement
+  notifications. See  Setting up notifications for game session placement.
+- `player_latency_policies`: A set of policies that act as a sliding cap on player latency.
+  FleetIQ works to deliver low latency for most players in a game session. These policies
+  ensure that no individual player can be placed into a game with unreasonably high latency.
+  Use multiple policies to gradually relax latency requirements a step at a time. Multiple
+  policies are applied based on their maximum allowed latency, starting with the lowest value.
+- `priority_configuration`: Custom settings to use when prioritizing destinations and
   locations for game session placements. This configuration replaces the FleetIQ default
   prioritization process. Priority types that are not explicitly named will be automatically
   applied at the end of the prioritization process.
-- `"tags"`: A list of labels to assign to the new game session queue resource. Tags are
+- `tags`: A list of labels to assign to the new game session queue resource. Tags are
   developer-defined key-value pairs. Tagging AWS resources are useful for resource
   management, access management and cost allocation. For more information, see  Tagging AWS
   Resources in the AWS General Reference. Once the resource is created, you can use
   TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The
   maximum tag limit may be lower than stated. See the AWS General Reference for actual
   tagging limits.
-- `"timeout_in_seconds"`: The maximum time, in seconds, that a new game session placement
+- `timeout_in_seconds`: The maximum time, in seconds, that a new game session placement
   request remains in the queue. When a request exceeds this time, the game session placement
   changes to a TIMED_OUT status.
 """
-function create_game_session_queue(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateGameSessionQueue",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateGameSessionQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -846,47 +615,46 @@ APIs by task
   configuration. You can use either the rule set name or ARN value. A matchmaking
   configuration can only use rule sets that are defined in the same Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"acceptance_timeout_seconds"`: The length of time (in seconds) to wait for players to
+# Keyword Parameters
+- `acceptance_timeout_seconds`: The length of time (in seconds) to wait for players to
   accept a proposed match, if acceptance is required.
-- `"additional_player_count"`: The number of player slots in a match to keep open for
-  future players. For example, if the configuration's rule set specifies a match for a single
+- `additional_player_count`: The number of player slots in a match to keep open for future
+  players. For example, if the configuration's rule set specifies a match for a single
   12-person team, and the additional player count is set to 2, only 10 players are selected
   for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
-- `"backfill_mode"`: The method used to backfill game sessions that are created with this
+- `backfill_mode`: The method used to backfill game sessions that are created with this
   matchmaking configuration. Specify MANUAL when your game manages backfill requests manually
   or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a
   StartMatchBackfill request whenever a game session has one or more open slots. Learn more
   about manual and automatic backfill in  Backfill Existing Games with FlexMatch. Automatic
   backfill is not available when FlexMatchMode is set to STANDALONE.
-- `"custom_event_data"`: Information to be added to all events related to this matchmaking
+- `custom_event_data`: Information to be added to all events related to this matchmaking
   configuration.
-- `"description"`: A human-readable description of the matchmaking configuration.
-- `"flex_match_mode"`: Indicates whether this matchmaking configuration is being used with
+- `description`: A human-readable description of the matchmaking configuration.
+- `flex_match_mode`: Indicates whether this matchmaking configuration is being used with
   GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms
   matches and returns match information, including players and team assignments, in a
   MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified
   GameLift queue to start a game session for the match.
-- `"game_properties"`: A set of custom properties for a game session, formatted as
-  key:value pairs. These properties are passed to a game server process in the GameSession
-  object with a request to start a new game session (see Start a Game Session). This
-  information is added to the new GameSession object that is created for a successful match.
-  This parameter is not used if FlexMatchMode is set to STANDALONE.
-- `"game_session_data"`: A set of custom game session properties, formatted as a single
+- `game_properties`: A set of custom properties for a game session, formatted as key:value
+  pairs. These properties are passed to a game server process in the GameSession object with
+  a request to start a new game session (see Start a Game Session). This information is added
+  to the new GameSession object that is created for a successful match. This parameter is not
+  used if FlexMatchMode is set to STANDALONE.
+- `game_session_data`: A set of custom game session properties, formatted as a single
   string value. This data is passed to a game server process in the GameSession object with a
   request to start a new game session (see Start a Game Session). This information is added
   to the new GameSession object that is created for a successful match. This parameter is not
   used if FlexMatchMode is set to STANDALONE.
-- `"game_session_queue_arns"`: The Amazon Resource Name (ARN) that is assigned to a
-  GameLift game session queue resource and uniquely identifies it. ARNs are unique across all
-  Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;.
-  Queues can be located in any Region. Queues are used to start new GameLift-hosted game
-  sessions for matches that are created with this matchmaking configuration. If FlexMatchMode
-  is set to STANDALONE, do not set this parameter.
-- `"notification_target"`: An SNS topic ARN that is set up to receive matchmaking
+- `game_session_queue_arns`: The Amazon Resource Name (ARN) that is assigned to a GameLift
+  game session queue resource and uniquely identifies it. ARNs are unique across all Regions.
+  Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;. Queues can
+  be located in any Region. Queues are used to start new GameLift-hosted game sessions for
+  matches that are created with this matchmaking configuration. If FlexMatchMode is set to
+  STANDALONE, do not set this parameter.
+- `notification_target`: An SNS topic ARN that is set up to receive matchmaking
   notifications. See  Setting up notifications for matchmaking for more information.
-- `"tags"`: A list of labels to assign to the new matchmaking configuration resource. Tags
+- `tags`: A list of labels to assign to the new matchmaking configuration resource. Tags
   are developer-defined key-value pairs. Tagging AWS resources are useful for resource
   management, access management and cost allocation. For more information, see  Tagging AWS
   Resources in the AWS General Reference. Once the resource is created, you can use
@@ -894,32 +662,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   maximum tag limit may be lower than stated. See the AWS General Reference for actual
   tagging limits.
 """
-function create_matchmaking_configuration(
-    AcceptanceRequired,
-    Name,
-    RequestTimeoutSeconds,
-    RuleSetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_matchmaking_configuration(AcceptanceRequired, Name, RequestTimeoutSeconds, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateMatchmakingConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AcceptanceRequired" => AcceptanceRequired,
-                    "Name" => Name,
-                    "RequestTimeoutSeconds" => RequestTimeoutSeconds,
-                    "RuleSetName" => RuleSetName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptanceRequired"=>AcceptanceRequired, "Name"=>Name, "RequestTimeoutSeconds"=>RequestTimeoutSeconds, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -945,9 +690,8 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
 - `rule_set_body`: A collection of matchmaking rules, formatted as a JSON string. Comments
   are not allowed in JSON, but most elements support a description field.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of labels to assign to the new matchmaking rule set resource. Tags are
+# Keyword Parameters
+- `tags`: A list of labels to assign to the new matchmaking rule set resource. Tags are
   developer-defined key-value pairs. Tagging AWS resources are useful for resource
   management, access management and cost allocation. For more information, see  Tagging AWS
   Resources in the AWS General Reference. Once the resource is created, you can use
@@ -955,22 +699,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   maximum tag limit may be lower than stated. See the AWS General Reference for actual
   tagging limits.
 """
-function create_matchmaking_rule_set(
-    Name, RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_matchmaking_rule_set(Name, RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateMatchmakingRuleSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "RuleSetBody" => RuleSetBody),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateMatchmakingRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleSetBody"=>RuleSetBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -992,27 +723,13 @@ StartGameSessionPlacement | DescribeGameSessionPlacement | All APIs by task
 - `game_session_id`: A unique identifier for the game session to add a player to.
 - `player_id`: A unique identifier for a player. Player IDs are developer-defined.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"player_data"`: Developer-defined information related to a player. GameLift does not use
+# Keyword Parameters
+- `player_data`: Developer-defined information related to a player. GameLift does not use
   this data, so it can be formatted as needed for use in the game.
 """
-function create_player_session(
-    GameSessionId, PlayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_player_session(GameSessionId, PlayerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreatePlayerSession",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerId" => PlayerId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreatePlayerSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId, "PlayerId"=>PlayerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1035,31 +752,15 @@ DescribeGameSessionPlacement | All APIs by task
 - `game_session_id`: A unique identifier for the game session to add players to.
 - `player_ids`: List of unique identifiers for the players to be added.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"player_data_map"`: Map of string pairs, each specifying a player ID and a set of
+# Keyword Parameters
+- `player_data_map`: Map of string pairs, each specifying a player ID and a set of
   developer-defined information related to the player. Amazon GameLift does not use this
   data, so it can be formatted as needed for use in the game. Any player data strings for
   player IDs that are not included in the PlayerIds parameter are ignored.
 """
-function create_player_sessions(
-    GameSessionId, PlayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_player_sessions(GameSessionId, PlayerIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreatePlayerSessions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameSessionId" => GameSessionId, "PlayerIds" => PlayerIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreatePlayerSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId, "PlayerIds"=>PlayerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1083,27 +784,25 @@ location as needed for deployment.  Learn more   Amazon GameLift Realtime Server
 a Role for Amazon GameLift Access   Related actions   CreateScript | ListScripts |
 DescribeScript | UpdateScript | DeleteScript | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: A descriptive label that is associated with a script. Script names do not need
-  to be unique. You can use UpdateScript to change this value later.
-- `"storage_location"`: The location of the Amazon S3 bucket where a zipped file containing
+# Keyword Parameters
+- `name`: A descriptive label that is associated with a script. Script names do not need to
+  be unique. You can use UpdateScript to change this value later.
+- `storage_location`: The location of the Amazon S3 bucket where a zipped file containing
   your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket
   name, the zip file name (the \"key\"), and a role ARN that allows Amazon GameLift to access
   the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to
   create a new script. By default, Amazon GameLift uploads the latest version of the zip
   file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter
   to specify an earlier version.
-- `"tags"`: A list of labels to assign to the new script resource. Tags are
-  developer-defined key-value pairs. Tagging AWS resources are useful for resource
-  management, access management and cost allocation. For more information, see  Tagging AWS
-  Resources in the AWS General Reference. Once the resource is created, you can use
-  TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The
-  maximum tag limit may be lower than stated. See the AWS General Reference for actual
-  tagging limits.
-- `"version"`: Version information that is associated with a build or script. Version
-  strings do not need to be unique. You can use UpdateScript to change this value later.
-- `"zip_file"`: A data object containing your Realtime scripts and dependencies as a zip
+- `tags`: A list of labels to assign to the new script resource. Tags are developer-defined
+  key-value pairs. Tagging AWS resources are useful for resource management, access
+  management and cost allocation. For more information, see  Tagging AWS Resources in the AWS
+  General Reference. Once the resource is created, you can use TagResource, UntagResource,
+  and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower
+  than stated. See the AWS General Reference for actual tagging limits.
+- `version`: Version information that is associated with a build or script. Version strings
+  do not need to be unique. You can use UpdateScript to change this value later.
+- `zip_file`: A data object containing your Realtime scripts and dependencies as a zip
   file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When
   using the AWS CLI tool to create a script, this parameter is set to the zip file name. It
   must be prepended with the string \"fileb://\" to indicate that the file data is a binary
@@ -1111,9 +810,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function create_script(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateScript", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("CreateScript", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1152,27 +849,9 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
   Peering with GameLift Fleets.
 
 """
-function create_vpc_peering_authorization(
-    GameLiftAwsAccountId,
-    PeerVpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_vpc_peering_authorization(GameLiftAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateVpcPeeringAuthorization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateVpcPeeringAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameLiftAwsAccountId"=>GameLiftAwsAccountId, "PeerVpcId"=>PeerVpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1211,30 +890,9 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
   Peering with GameLift Fleets.
 
 """
-function create_vpc_peering_connection(
-    FleetId,
-    PeerVpcAwsAccountId,
-    PeerVpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_vpc_peering_connection(FleetId, PeerVpcAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "CreateVpcPeeringConnection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FleetId" => FleetId,
-                    "PeerVpcAwsAccountId" => PeerVpcAwsAccountId,
-                    "PeerVpcId" => PeerVpcId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("CreateVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "PeerVpcAwsAccountId"=>PeerVpcAwsAccountId, "PeerVpcId"=>PeerVpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1252,12 +910,7 @@ DescribeAlias | UpdateAlias | DeleteAlias | ResolveAlias | All APIs by task
 """
 function delete_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteAlias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1276,12 +929,7 @@ CreateBuild | ListBuilds | DescribeBuild | UpdateBuild | DeleteBuild | All APIs 
 """
 function delete_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteBuild",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1308,12 +956,7 @@ task
 """
 function delete_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteFleet",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1337,22 +980,9 @@ DescribeFleetLocationCapacity | DescribeFleetLocationUtilization | DescribeFleet
   AWS Region code, such as us-west-2.
 
 """
-function delete_fleet_locations(
-    FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_fleet_locations(FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteFleetLocations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteFleetLocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Locations"=>Locations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1380,31 +1010,17 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
 - `game_server_group_name`: A unique identifier for the game server group. Use either the
   GameServerGroup name or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delete_option"`: The type of delete to perform. Options include the following:
+# Keyword Parameters
+- `delete_option`: The type of delete to perform. Options include the following:
   SAFE_DELETE – (default) Terminates the game server group and EC2 Auto Scaling group only
   when it has no game servers that are in UTILIZED status.    FORCE_DELETE – Terminates the
   game server group, including all active game servers regardless of their utilization
   status, and the EC2 Auto Scaling group.     RETAIN – Does a safe delete of the game
   server group but retains the EC2 Auto Scaling group as is.
 """
-function delete_game_server_group(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_game_server_group(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteGameServerGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameServerGroupName" => GameServerGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1421,16 +1037,9 @@ DeleteGameSessionQueue | All APIs by task
   be unique within each Region. You can use either the queue ID or ARN value.
 
 """
-function delete_game_session_queue(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteGameSessionQueue",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteGameSessionQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1448,16 +1057,9 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
   configuration name or ARN value.
 
 """
-function delete_matchmaking_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_matchmaking_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteMatchmakingConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1477,16 +1079,9 @@ APIs by task
   either the rule set name or ARN value.
 
 """
-function delete_matchmaking_rule_set(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_matchmaking_rule_set(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteMatchmakingRuleSet",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteMatchmakingRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1507,20 +1102,9 @@ All APIs by task
   names do not need to be unique.
 
 """
-function delete_scaling_policy(
-    FleetId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_scaling_policy(FleetId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteScalingPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("FleetId" => FleetId, "Name" => Name), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1540,18 +1124,9 @@ UpdateScript | DeleteScript | All APIs by task
   the script ID or ARN value.
 
 """
-function delete_script(
-    ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteScript",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ScriptId" => ScriptId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScriptId"=>ScriptId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1573,27 +1148,9 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
   Peering with GameLift Fleets.
 
 """
-function delete_vpc_peering_authorization(
-    GameLiftAwsAccountId,
-    PeerVpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_vpc_peering_authorization(GameLiftAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteVpcPeeringAuthorization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteVpcPeeringAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameLiftAwsAccountId"=>GameLiftAwsAccountId, "PeerVpcId"=>PeerVpcId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1618,27 +1175,9 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
   DescribeVpcPeeringConnections.
 
 """
-function delete_vpc_peering_connection(
-    FleetId,
-    VpcPeeringConnectionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_vpc_peering_connection(FleetId, VpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeleteVpcPeeringConnection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FleetId" => FleetId, "VpcPeeringConnectionId" => VpcPeeringConnectionId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeleteVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "VpcPeeringConnectionId"=>VpcPeeringConnectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1659,28 +1198,9 @@ DeregisterGameServer | All APIs by task
 - `game_server_id`: A custom string that uniquely identifies the game server to deregister.
 
 """
-function deregister_game_server(
-    GameServerGroupName,
-    GameServerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function deregister_game_server(GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DeregisterGameServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "GameServerId" => GameServerId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DeregisterGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1697,16 +1217,9 @@ APIs by task
   use either the alias ID or ARN value.
 
 """
-function describe_alias(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeAlias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1722,16 +1235,9 @@ UpdateBuild | DeleteBuild | All APIs by task
   either the build ID or ARN value.
 
 """
-function describe_build(
-    BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeBuild",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1768,25 +1274,17 @@ fleets   Related actions   CreateFleet | UpdateFleetCapacity | PutScalingPolicy 
 DescribeEC2InstanceLimits | DescribeFleetAttributes | DescribeFleetLocationAttributes |
 UpdateFleetAttributes | StopFleetActions | DeleteFleet | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ec2_instance_type"`: Name of an EC2 instance type that is supported in GameLift. A
-  fleet instance type determines the computing resources of each instance in the fleet,
-  including CPU, memory, storage, and networking capacity. Do not specify a value for this
-  parameter to retrieve limits for all instance types.
-- `"location"`: The name of a remote location to request instance limits for, in the form
-  of an AWS Region code such as us-west-2.
+# Keyword Parameters
+- `ec2_instance_type`: Name of an EC2 instance type that is supported in GameLift. A fleet
+  instance type determines the computing resources of each instance in the fleet, including
+  CPU, memory, storage, and networking capacity. Do not specify a value for this parameter to
+  retrieve limits for all instance types.
+- `location`: The name of a remote location to request instance limits for, in the form of
+  an AWS Region code such as us-west-2.
 """
-function describe_ec2_instance_limits(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_ec2_instance_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeEC2InstanceLimits",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeEC2InstanceLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1806,29 +1304,21 @@ DescribeFleetAttributes | DescribeFleetCapacity | DescribeFleetEvents |
 DescribeFleetLocationAttributes | DescribeFleetPortSettings | DescribeFleetUtilization |
 DescribeRuntimeConfiguration | DescribeScalingPolicies | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"fleet_ids"`: A list of unique fleet identifiers to retrieve attributes for. You can use
+# Keyword Parameters
+- `fleet_ids`: A list of unique fleet identifiers to retrieve attributes for. You can use
   either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not
   include this parameter.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. This parameter is ignored when the request
   specifies one or a list of fleet IDs.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value. This parameter is ignored when the
   request specifies one or a list of fleet IDs.
 """
-function describe_fleet_attributes(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_attributes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetAttributes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1853,29 +1343,21 @@ DescribeFleetAttributes | DescribeFleetCapacity | DescribeFleetEvents |
 DescribeFleetLocationAttributes | DescribeFleetPortSettings | DescribeFleetUtilization |
 DescribeRuntimeConfiguration | DescribeScalingPolicies | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"fleet_ids"`: A unique identifier for the fleet(s) to retrieve capacity information for.
+# Keyword Parameters
+- `fleet_ids`: A unique identifier for the fleet(s) to retrieve capacity information for.
   You can use either the fleet ID or ARN value. Leave this parameter empty to retrieve
   capacity information for all fleets.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. This parameter is ignored when the request
   specifies one or a list of fleet IDs.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value. This parameter is ignored when the
   request specifies one or a list of fleet IDs.
 """
-function describe_fleet_capacity(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_capacity(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetCapacity",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetCapacity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1896,31 +1378,23 @@ DescribeScalingPolicies | All APIs by task
 - `fleet_id`: A unique identifier for the fleet to get event logs for. You can use either
   the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The most recent date to retrieve event logs for. If no end time is
-  specified, this call returns entries from the specified start time up to the present.
-  Format is a number expressed in Unix time as milliseconds (ex: \"1469498468.057\").
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `end_time`: The most recent date to retrieve event logs for. If no end time is specified,
+  this call returns entries from the specified start time up to the present. Format is a
+  number expressed in Unix time as milliseconds (ex: \"1469498468.057\").
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"start_time"`: The earliest date to retrieve event logs for. If no start time is
+- `start_time`: The earliest date to retrieve event logs for. If no start time is
   specified, this call returns entries starting from when the fleet was created to the
   specified end time. Format is a number expressed in Unix time as milliseconds (ex:
   \"1469498468.057\").
 """
-function describe_fleet_events(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_events(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetEvents",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1945,26 +1419,18 @@ DescribeFleetLocationCapacity | DescribeFleetLocationUtilization | DescribeFleet
 - `fleet_id`: A unique identifier for the fleet to retrieve remote locations for. You can
   use either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. This limit is not currently enforced.
-- `"locations"`: A list of fleet locations to retrieve information for. Specify locations
-  in the form of an AWS Region code, such as us-west-2.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `locations`: A list of fleet locations to retrieve information for. Specify locations in
+  the form of an AWS Region code, such as us-west-2.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_fleet_location_attributes(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_location_attributes(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetLocationAttributes",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetLocationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1989,22 +1455,9 @@ All APIs by task
   in the form of an AWS Region code, such as us-west-2.
 
 """
-function describe_fleet_location_capacity(
-    FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_location_capacity(FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetLocationCapacity",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FleetId" => FleetId, "Location" => Location),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetLocationCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Location"=>Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2028,22 +1481,9 @@ DescribeFleetLocationCapacity | DescribeFleetLocationUtilization | DescribeFleet
   location in the form of an AWS Region code, such as us-west-2.
 
 """
-function describe_fleet_location_utilization(
-    FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_location_utilization(FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetLocationUtilization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FleetId" => FleetId, "Location" => Location),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetLocationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "Location"=>Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2068,21 +1508,13 @@ DescribeScalingPolicies | All APIs by task
 - `fleet_id`: A unique identifier for the fleet to retrieve port settings for. You can use
   either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"location"`: A remote location to check for status of port setting updates. Use the AWS
+# Keyword Parameters
+- `location`: A remote location to check for status of port setting updates. Use the AWS
   Region code format, such as us-west-2.
 """
-function describe_fleet_port_settings(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_port_settings(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetPortSettings",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetPortSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2107,29 +1539,21 @@ DescribeFleetEvents | DescribeFleetLocationAttributes | DescribeFleetPortSetting
 DescribeFleetUtilization | DescribeRuntimeConfiguration | DescribeScalingPolicies | All
 APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"fleet_ids"`: A unique identifier for the fleet(s) to retrieve utilization data for. You
+# Keyword Parameters
+- `fleet_ids`: A unique identifier for the fleet(s) to retrieve utilization data for. You
   can use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do
   not include this parameter.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. This parameter is ignored when the request
   specifies one or a list of fleet IDs.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value. This parameter is ignored when the
   request specifies one or a list of fleet IDs.
 """
-function describe_fleet_utilization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_fleet_utilization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeFleetUtilization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeFleetUtilization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2150,28 +1574,9 @@ UpdateGameServer | DeregisterGameServer | All APIs by task
   be retrieved.
 
 """
-function describe_game_server(
-    GameServerGroupName,
-    GameServerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_game_server(GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "GameServerId" => GameServerId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2193,22 +1598,9 @@ DescribeGameServerInstances | All APIs by task
   GameServerGroup name or ARN value.
 
 """
-function describe_game_server_group(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_game_server_group(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameServerGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameServerGroupName" => GameServerGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2235,33 +1627,19 @@ DescribeGameServerInstances | All APIs by task
 - `game_server_group_name`: A unique identifier for the game server group. Use either the
   GameServerGroup name or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_ids"`: The EC2 instance IDs that you want to retrieve status on. EC2 instance
+# Keyword Parameters
+- `instance_ids`: The EC2 instance IDs that you want to retrieve status on. EC2 instance
   IDs use a 17-character format, for example: i-1234567890abcdef0. To retrieve all instances
   in the game server group, leave this parameter empty.
-- `"limit"`:  The maximum number of results to return. Use this parameter with NextToken to
+- `limit`:  The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`:  A token that indicates the start of the next sequential page of results.
+- `next_token`:  A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_game_server_instances(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_game_server_instances(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameServerInstances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameServerGroupName" => GameServerGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameServerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2287,34 +1665,25 @@ CreateGameSession | DescribeGameSessions | DescribeGameSessionDetails | SearchGa
 | UpdateGameSession | GetGameSessionLogUrl | StartGameSessionPlacement |
 DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_id"`: A unique identifier for the alias associated with the fleet to retrieve all
+# Keyword Parameters
+- `alias_id`: A unique identifier for the alias associated with the fleet to retrieve all
   game sessions for. You can use either the alias ID or ARN value.
-- `"fleet_id"`: A unique identifier for the fleet to retrieve all game sessions active on
-  the fleet. You can use either the fleet ID or ARN value.
-- `"game_session_id"`: A unique identifier for the game session to retrieve.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `fleet_id`: A unique identifier for the fleet to retrieve all game sessions active on the
+  fleet. You can use either the fleet ID or ARN value.
+- `game_session_id`: A unique identifier for the game session to retrieve.
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"location"`: A fleet location to get game sessions for. You can specify a fleet's home
+- `location`: A fleet location to get game sessions for. You can specify a fleet's home
   Region or a remote location. Use the AWS Region code format, such as us-west-2.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"status_filter"`: Game session status to filter results on. Possible game session
-  statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are
-  transitory).
+- `status_filter`: Game session status to filter results on. Possible game session statuses
+  include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory).
 """
-function describe_game_session_details(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_game_session_details(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameSessionDetails",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameSessionDetails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2331,18 +1700,9 @@ StopGameSessionPlacement | All APIs by task
 - `placement_id`: A unique identifier for a game session placement to retrieve.
 
 """
-function describe_game_session_placement(
-    PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_game_session_placement(PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameSessionPlacement",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PlacementId" => PlacementId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameSessionPlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlacementId"=>PlacementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2356,26 +1716,18 @@ Learn more    View Your Queues   Related actions   CreateGameSessionQueue |
 DescribeGameSessionQueues | UpdateGameSessionQueue | DeleteGameSessionQueue | All APIs by
 task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. You can request up to 50 results.
-- `"names"`: A list of queue names to retrieve information for. You can use either the
-  queue ID or ARN value. To request settings for all queues, leave this parameter empty.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `names`: A list of queue names to retrieve information for. You can use either the queue
+  ID or ARN value. To request settings for all queues, leave this parameter empty.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_game_session_queues(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_game_session_queues(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameSessionQueues",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameSessionQueues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2401,34 +1753,26 @@ DescribeGameSessionDetails | SearchGameSessions | UpdateGameSession | GetGameSes
 | StartGameSessionPlacement | DescribeGameSessionPlacement | StopGameSessionPlacement | All
 APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_id"`: A unique identifier for the alias associated with the fleet to retrieve
-  game sessions for. You can use either the alias ID or ARN value.
-- `"fleet_id"`: A unique identifier for the fleet to retrieve game sessions for. You can
-  use either the fleet ID or ARN value.
-- `"game_session_id"`: A unique identifier for the game session to retrieve.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `alias_id`: A unique identifier for the alias associated with the fleet to retrieve game
+  sessions for. You can use either the alias ID or ARN value.
+- `fleet_id`: A unique identifier for the fleet to retrieve game sessions for. You can use
+  either the fleet ID or ARN value.
+- `game_session_id`: A unique identifier for the game session to retrieve.
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"location"`: A fleet location to get game session details for. You can specify a fleet's
+- `location`: A fleet location to get game session details for. You can specify a fleet's
   home Region or a remote location. Use the AWS Region code format, such as us-west-2.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"status_filter"`: Game session status to filter results on. You can filter on the
+- `status_filter`: Game session status to filter results on. You can filter on the
   following states: ACTIVE, TERMINATED, ACTIVATING, and TERMINATING. The last two are
   transitory and used for only very brief periods of time.
 """
-function describe_game_sessions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeGameSessions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeGameSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2449,28 +1793,20 @@ GetInstanceAccess | DescribeEC2InstanceLimits | All APIs by task
 - `fleet_id`: A unique identifier for the fleet to retrieve instance information for. You
   can use either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"instance_id"`: A unique identifier for an instance to retrieve. Specify an instance ID
-  or leave blank to retrieve all instances in the fleet.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `instance_id`: A unique identifier for an instance to retrieve. Specify an instance ID or
+  leave blank to retrieve all instances in the fleet.
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"location"`: The name of a location to retrieve instance information for, in the form of
+- `location`: The name of a location to retrieve instance information for, in the form of
   an AWS Region code such as us-west-2.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_instances(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_instances(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeInstances",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2494,18 +1830,9 @@ DescribeMatchmaking | StopMatchmaking | AcceptMatch | StartMatchBackfill | All A
   values.
 
 """
-function describe_matchmaking(
-    TicketIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_matchmaking(TicketIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeMatchmaking",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TicketIds" => TicketIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeMatchmaking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TicketIds"=>TicketIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2523,30 +1850,22 @@ UpdateMatchmakingConfiguration | DeleteMatchmakingConfiguration | CreateMatchmak
 | DescribeMatchmakingRuleSets | ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All
 APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. This parameter is limited to 10.
-- `"names"`: A unique identifier for the matchmaking configuration(s) to retrieve. You can
+- `names`: A unique identifier for the matchmaking configuration(s) to retrieve. You can
   use either the configuration name or ARN value. To request all existing configurations,
   leave this parameter empty.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"rule_set_name"`: A unique identifier for the matchmaking rule set. You can use either
-  the rule set name or ARN value. Use this parameter to retrieve all matchmaking
-  configurations that use this rule set.
+- `rule_set_name`: A unique identifier for the matchmaking rule set. You can use either the
+  rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations
+  that use this rule set.
 """
-function describe_matchmaking_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_matchmaking_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeMatchmakingConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeMatchmakingConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2561,27 +1880,19 @@ DescribeMatchmakingConfigurations | UpdateMatchmakingConfiguration |
 DeleteMatchmakingConfiguration | CreateMatchmakingRuleSet | DescribeMatchmakingRuleSets |
 ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"names"`: A list of one or more matchmaking rule set names to retrieve details for.
-  (Note: The rule set name is different from the optional \"name\" field in the rule set
-  body.) You can use either the rule set name or ARN value.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `names`: A list of one or more matchmaking rule set names to retrieve details for. (Note:
+  The rule set name is different from the optional \"name\" field in the rule set body.) You
+  can use either the rule set name or ARN value.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_matchmaking_rule_sets(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_matchmaking_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeMatchmakingRuleSets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeMatchmakingRuleSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2598,20 +1909,19 @@ returned for each session that matches the request.  Available in Amazon GameLif
 Related actions   CreatePlayerSession | CreatePlayerSessions | DescribePlayerSessions |
 StartGameSessionPlacement | DescribeGameSessionPlacement | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"game_session_id"`: A unique identifier for the game session to retrieve player sessions
+# Keyword Parameters
+- `game_session_id`: A unique identifier for the game session to retrieve player sessions
   for.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. If a player session ID is specified, this
   parameter is ignored.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value. If a player session ID is specified,
   this parameter is ignored.
-- `"player_id"`: A unique identifier for a player to retrieve player sessions for.
-- `"player_session_id"`: A unique identifier for a player session to retrieve.
-- `"player_session_status_filter"`: Player session status to filter results on. Possible
+- `player_id`: A unique identifier for a player to retrieve player sessions for.
+- `player_session_id`: A unique identifier for a player session to retrieve.
+- `player_session_status_filter`: Player session status to filter results on. Possible
   player session statuses include the following:    RESERVED -- The player session request
   has been received, but the player has not yet connected to the server process and/or been
   validated.     ACTIVE -- The player has been validated by the server process and is
@@ -2619,16 +1929,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   A player session request was received, but the player did not connect and/or was not
   validated within the timeout limit (60 seconds).
 """
-function describe_player_sessions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_player_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribePlayerSessions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribePlayerSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2650,16 +1953,9 @@ APIs by task
   can use either the fleet ID or ARN value.
 
 """
-function describe_runtime_configuration(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_runtime_configuration(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeRuntimeConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeRuntimeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2680,32 +1976,24 @@ DeleteScalingPolicy | StopFleetActions | StartFleetActions | All APIs by task
 - `fleet_id`: A unique identifier for the fleet to retrieve scaling policies for. You can
   use either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"location"`:  CONTENT TODO
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `location`:  CONTENT TODO
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"status_filter"`: Scaling policy status to filter results on. A scaling policy is only
-  in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.
-   UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING
-  -- A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete
-  the scaling policy has been received.    DELETING -- The scaling policy is being deleted.
-   DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating
+- `status_filter`: Scaling policy status to filter results on. A scaling policy is only in
+  force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.
+  UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING --
+  A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete the
+  scaling policy has been received.    DELETING -- The scaling policy is being deleted.
+  DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating
   the policy. It should be removed and recreated.
 """
-function describe_scaling_policies(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_scaling_policies(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeScalingPolicies",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2721,18 +2009,9 @@ DescribeScript | UpdateScript | DeleteScript | All APIs by task
   can use either the script ID or ARN value.
 
 """
-function describe_script(
-    ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeScript",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ScriptId" => ScriptId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScriptId"=>ScriptId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2746,16 +2025,9 @@ DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringC
 | DeleteVpcPeeringConnection | All APIs by task
 
 """
-function describe_vpc_peering_authorizations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_vpc_peering_authorizations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeVpcPeeringAuthorizations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeVpcPeeringAuthorizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2771,21 +2043,13 @@ connections. Active connections identify the IpV4 CIDR block that the VPC uses t
 DeleteVpcPeeringAuthorization | CreateVpcPeeringConnection | DescribeVpcPeeringConnections
 | DeleteVpcPeeringConnection | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"fleet_id"`: A unique identifier for the fleet. You can use either the fleet ID or ARN
+# Keyword Parameters
+- `fleet_id`: A unique identifier for the fleet. You can use either the fleet ID or ARN
   value.
 """
-function describe_vpc_peering_connections(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_vpc_peering_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "DescribeVpcPeeringConnections",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("DescribeVpcPeeringConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2803,18 +2067,9 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 - `game_session_id`: A unique identifier for the game session to get logs for.
 
 """
-function get_game_session_log_url(
-    GameSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_game_session_log_url(GameSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "GetGameSessionLogUrl",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GameSessionId" => GameSessionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("GetGameSessionLogUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2844,22 +2099,9 @@ Remotely Access Fleet Instances   Debug Fleet Issues   Related actions   Describ
   access an instance in any status.
 
 """
-function get_instance_access(
-    FleetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_instance_access(FleetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "GetInstanceAccess",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FleetId" => FleetId, "InstanceId" => InstanceId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("GetInstanceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2871,16 +2113,15 @@ sequential pages.  Returned aliases are not listed in any particular order.   Re
 actions   CreateAlias | ListAliases | DescribeAlias | UpdateAlias | DeleteAlias |
 ResolveAlias | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"name"`: A descriptive label that is associated with an alias. Alias names do not need
-  to be unique.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `name`: A descriptive label that is associated with an alias. Alias names do not need to
+  be unique.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"routing_strategy_type"`: The routing type to filter results on. Use this parameter to
+- `routing_strategy_type`: The routing type to filter results on. Use this parameter to
   retrieve only aliases with a certain routing type. To retrieve all aliases, leave this
   parameter empty. Possible routing types include the following:    SIMPLE -- The alias
   resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL --
@@ -2890,9 +2131,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2905,26 +2144,23 @@ resources are not listed in any particular order.   Learn more    Upload a Custo
 Build   Related actions   CreateBuild | ListBuilds | DescribeBuild | UpdateBuild |
 DeleteBuild | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"status"`: Build status to filter results by. To retrieve all builds, leave this
-  parameter empty. Possible build statuses include the following:    INITIALIZED -- A new
-  build has been defined, but no files have been uploaded. You cannot create fleets for
-  builds that are in this status. When a build is successfully created, the build status is
-  set to this value.     READY -- The game build has been successfully uploaded. You can now
-  create new fleets for this build.    FAILED -- The game build upload failed. You cannot
-  create new fleets for this build.
+- `status`: Build status to filter results by. To retrieve all builds, leave this parameter
+  empty. Possible build statuses include the following:    INITIALIZED -- A new build has
+  been defined, but no files have been uploaded. You cannot create fleets for builds that are
+  in this status. When a build is successfully created, the build status is set to this
+  value.     READY -- The game build has been successfully uploaded. You can now create new
+  fleets for this build.    FAILED -- The game build upload failed. You cannot create new
+  fleets for this build.
 """
 function list_builds(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2948,24 +2184,21 @@ UpdateFleetCapacity | PutScalingPolicy | DescribeEC2InstanceLimits |
 DescribeFleetAttributes | DescribeFleetLocationAttributes | UpdateFleetAttributes |
 StopFleetActions | DeleteFleet | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"build_id"`: A unique identifier for the build to request fleets for. Use this parameter
+# Keyword Parameters
+- `build_id`: A unique identifier for the build to request fleets for. Use this parameter
   to return only fleets using a specified build. Use either the build ID or ARN value.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"script_id"`: A unique identifier for the Realtime script to request fleets for. Use
-  this parameter to return only fleets using a specified script. Use either the script ID or
-  ARN value.
+- `script_id`: A unique identifier for the Realtime script to request fleets for. Use this
+  parameter to return only fleets using a specified script. Use either the script ID or ARN
+  value.
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2979,24 +2212,16 @@ CreateGameServerGroup | ListGameServerGroups | DescribeGameServerGroup |
 UpdateGameServerGroup | DeleteGameServerGroup | ResumeGameServerGroup |
 SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function list_game_server_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_game_server_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListGameServerGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ListGameServerGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3013,34 +2238,20 @@ DescribeGameServer | UpdateGameServer | DeregisterGameServer | All APIs by task
 - `game_server_group_name`: An identifier for the game server group to retrieve a list of
   game servers from. Use either the GameServerGroup name or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"sort_order"`: Indicates how to sort the returned data based on game server registration
+- `sort_order`: Indicates how to sort the returned data based on game server registration
   timestamp. Use ASCENDING to retrieve oldest game servers first, or use DESCENDING to
   retrieve newest game servers first. If this parameter is left empty, game servers are
   returned in no particular order.
 """
-function list_game_servers(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_game_servers(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListGameServers",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameServerGroupName" => GameServerGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ListGameServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3050,19 +2261,16 @@ Retrieves script records for all Realtime scripts that are associated with the A
 in use.   Learn more   Amazon GameLift Realtime Servers   Related actions   CreateScript |
 ListScripts | DescribeScript | UpdateScript | DeleteScript | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+# Keyword Parameters
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
 function list_scripts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListScripts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("ListScripts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3083,18 +2291,9 @@ TagResource | UntagResource | ListTagsForResource | All APIs by task
   or Describe operation for the resource type.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3175,47 +2374,30 @@ StartFleetActions | All APIs by task
 - `name`: A descriptive label that is associated with a fleet's scaling policy. Policy
   names do not need to be unique. A fleet can have only one scaling policy with the same name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"comparison_operator"`: Comparison operator to use when measuring the metric against the
+# Keyword Parameters
+- `comparison_operator`: Comparison operator to use when measuring the metric against the
   threshold value.
-- `"evaluation_periods"`: Length of time (in minutes) the metric must be at or beyond the
+- `evaluation_periods`: Length of time (in minutes) the metric must be at or beyond the
   threshold before a scaling event is triggered.
-- `"policy_type"`: The type of scaling policy to create. For a target-based policy, set the
+- `policy_type`: The type of scaling policy to create. For a target-based policy, set the
   parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration.
   For a rule-based policy set the following parameters: MetricName, ComparisonOperator,
   Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
-- `"scaling_adjustment"`: Amount of adjustment to make, based on the scaling adjustment
-  type.
-- `"scaling_adjustment_type"`: The type of adjustment to make to a fleet's instance count
+- `scaling_adjustment`: Amount of adjustment to make, based on the scaling adjustment type.
+- `scaling_adjustment_type`: The type of adjustment to make to a fleet's instance count
   (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value
   from the current instance count. Positive values scale up while negative values scale down.
      ExactCapacity -- set the instance count to the scaling adjustment value.
   PercentChangeInCapacity -- increase or reduce the current instance count by the scaling
   adjustment, read as a percentage. Positive values scale up while negative values scale
   down; for example, a value of \"-10\" scales the fleet down by 10%.
-- `"target_configuration"`: An object that contains settings for a target-based scaling
+- `target_configuration`: An object that contains settings for a target-based scaling
   policy.
-- `"threshold"`: Metric value used to trigger a scaling event.
+- `threshold`: Metric value used to trigger a scaling event.
 """
-function put_scaling_policy(
-    FleetId, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_scaling_policy(FleetId, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "PutScalingPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FleetId" => FleetId, "MetricName" => MetricName, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3247,38 +2429,16 @@ DeregisterGameServer | All APIs by task
   This ID is available in the instance metadata. EC2 instance IDs use a 17-character format,
   for example: i-1234567890abcdef0.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"connection_info"`: Information that is needed to make inbound client connections to the
+# Keyword Parameters
+- `connection_info`: Information that is needed to make inbound client connections to the
   game server. This might include the IP address and port, DNS name, and other information.
-- `"game_server_data"`: A set of custom game server properties, formatted as a single
-  string value. This data is passed to a game client or service when it requests information
-  on game servers using ListGameServers or ClaimGameServer.
+- `game_server_data`: A set of custom game server properties, formatted as a single string
+  value. This data is passed to a game client or service when it requests information on game
+  servers using ListGameServers or ClaimGameServer.
 """
-function register_game_server(
-    GameServerGroupName,
-    GameServerId,
-    InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_game_server(GameServerGroupName, GameServerId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "RegisterGameServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "GameServerId" => GameServerId,
-                    "InstanceId" => InstanceId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("RegisterGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId, "InstanceId"=>InstanceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3297,16 +2457,9 @@ DeleteBuild | All APIs by task
   the build ID or ARN value.
 
 """
-function request_upload_credentials(
-    BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function request_upload_credentials(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "RequestUploadCredentials",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("RequestUploadCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3321,16 +2474,9 @@ APIs by task
   You can use either the alias ID or ARN value.
 
 """
-function resolve_alias(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function resolve_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ResolveAlias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ResolveAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3355,28 +2501,9 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
 - `resume_actions`: The activity to resume for this game server group.
 
 """
-function resume_game_server_group(
-    GameServerGroupName,
-    ResumeActions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function resume_game_server_group(GameServerGroupName, ResumeActions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ResumeGameServerGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "ResumeActions" => ResumeActions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ResumeGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "ResumeActions"=>ResumeActions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3421,13 +2548,12 @@ actions   CreateGameSession | DescribeGameSessions | DescribeGameSessionDetails 
 SearchGameSessions | UpdateGameSession | GetGameSessionLogUrl | StartGameSessionPlacement |
 DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_id"`: A unique identifier for the alias associated with the fleet to search for
+# Keyword Parameters
+- `alias_id`: A unique identifier for the alias associated with the fleet to search for
   active game sessions. You can use either the alias ID or ARN value. Each request must
   reference either a fleet ID or alias ID, but not both.
-- `"filter_expression"`: String containing the search criteria for the session search. If
-  no filter expression is included, the request returns results for all game sessions in the
+- `filter_expression`: String containing the search criteria for the session search. If no
+  filter expression is included, the request returns results for all game sessions in the
   fleet that are in ACTIVE status. A filter expression can contain one or multiple
   conditions. Each condition consists of the following:    Operand -- Name of a game session
   attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties,
@@ -3444,33 +2570,29 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this
   filter expression retrieves game sessions hosting at least ten players that have an open
   player slot: \"maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true\".
-- `"fleet_id"`: A unique identifier for the fleet to search for active game sessions. You
-  can use either the fleet ID or ARN value. Each request must reference either a fleet ID or
+- `fleet_id`: A unique identifier for the fleet to search for active game sessions. You can
+  use either the fleet ID or ARN value. Each request must reference either a fleet ID or
   alias ID, but not both.
-- `"limit"`: The maximum number of results to return. Use this parameter with NextToken to
+- `limit`: The maximum number of results to return. Use this parameter with NextToken to
   get results as a set of sequential pages. The maximum number of results returned is 20,
   even if this value is not set or is set higher than 20.
-- `"location"`: A fleet location to search for game sessions. You can specify a fleet's
-  home Region or a remote location. Use the AWS Region code format, such as us-west-2.
-- `"next_token"`: A token that indicates the start of the next sequential page of results.
+- `location`: A fleet location to search for game sessions. You can specify a fleet's home
+  Region or a remote location. Use the AWS Region code format, such as us-west-2.
+- `next_token`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"sort_expression"`: Instructions on how to sort the search results. If no sort
-  expression is included, the request returns results in random order. A sort expression
-  consists of the following elements:    Operand -- Name of a game session attribute. Valid
-  values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions,
-  creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort
-  orders are ASC (ascending) and DESC (descending).   For example, this sort expression
-  returns the oldest active sessions first: \"SortExpression\": \"creationTimeMillis ASC\".
-  Results with a null value for the sort operand are returned at the end of the list.
+- `sort_expression`: Instructions on how to sort the search results. If no sort expression
+  is included, the request returns results in random order. A sort expression consists of the
+  following elements:    Operand -- Name of a game session attribute. Valid values are
+  gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis,
+  playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC
+  (ascending) and DESC (descending).   For example, this sort expression returns the oldest
+  active sessions first: \"SortExpression\": \"creationTimeMillis ASC\". Results with a null
+  value for the sort operand are returned at the end of the list.
 """
-function search_game_sessions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "SearchGameSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return gamelift("SearchGameSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3496,25 +2618,13 @@ All APIs by task
 - `fleet_id`: A unique identifier for the fleet to restart actions on. You can use either
   the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"location"`: The fleet location to restart fleet actions for. Specify a location in the
+# Keyword Parameters
+- `location`: The fleet location to restart fleet actions for. Specify a location in the
   form of an AWS Region code, such as us-west-2.
 """
-function start_fleet_actions(
-    Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_fleet_actions(Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StartFleetActions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Actions" => Actions, "FleetId" => FleetId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StartFleetActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3558,47 +2668,25 @@ APIs by task
   value is developer-defined. The value must be unique across all Regions and cannot be
   reused unless you are resubmitting a canceled or timed-out placement request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"desired_player_sessions"`: Set of information on each player to create a player session
+# Keyword Parameters
+- `desired_player_sessions`: Set of information on each player to create a player session
   for.
-- `"game_properties"`: A set of custom properties for a game session, formatted as
-  key:value pairs. These properties are passed to a game server process in the GameSession
-  object with a request to start a new game session (see Start a Game Session).
-- `"game_session_data"`: A set of custom game session properties, formatted as a single
+- `game_properties`: A set of custom properties for a game session, formatted as key:value
+  pairs. These properties are passed to a game server process in the GameSession object with
+  a request to start a new game session (see Start a Game Session).
+- `game_session_data`: A set of custom game session properties, formatted as a single
   string value. This data is passed to a game server process in the GameSession object with a
   request to start a new game session (see Start a Game Session).
-- `"game_session_name"`: A descriptive label that is associated with a game session.
-  Session names do not need to be unique.
-- `"player_latencies"`: A set of values, expressed in milliseconds, that indicates the
-  amount of latency that a player experiences when connected to AWS Regions. This information
-  is used to try to place the new game session where it can offer the best possible gameplay
+- `game_session_name`: A descriptive label that is associated with a game session. Session
+  names do not need to be unique.
+- `player_latencies`: A set of values, expressed in milliseconds, that indicates the amount
+  of latency that a player experiences when connected to AWS Regions. This information is
+  used to try to place the new game session where it can offer the best possible gameplay
   experience for the players.
 """
-function start_game_session_placement(
-    GameSessionQueueName,
-    MaximumPlayerSessionCount,
-    PlacementId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_game_session_placement(GameSessionQueueName, MaximumPlayerSessionCount, PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StartGameSessionPlacement",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameSessionQueueName" => GameSessionQueueName,
-                    "MaximumPlayerSessionCount" => MaximumPlayerSessionCount,
-                    "PlacementId" => PlacementId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StartGameSessionPlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionQueueName"=>GameSessionQueueName, "MaximumPlayerSessionCount"=>MaximumPlayerSessionCount, "PlacementId"=>PlacementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3642,32 +2730,16 @@ StartMatchmaking | DescribeMatchmaking | StopMatchmaking | AcceptMatch | StartMa
   a latency value, in milliseconds, for the Region that the game session is currently in. Do
   not include latency values for any other Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"game_session_arn"`: A unique identifier for the game session. Use the game session ID.
+# Keyword Parameters
+- `game_session_arn`: A unique identifier for the game session. Use the game session ID.
   When using FlexMatch as a standalone matchmaking solution, this parameter is not needed.
-- `"ticket_id"`: A unique identifier for a matchmaking ticket. If no ticket ID is specified
+- `ticket_id`: A unique identifier for a matchmaking ticket. If no ticket ID is specified
   here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track
   the match backfill ticket status and retrieve match results.
 """
-function start_match_backfill(
-    ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_match_backfill(ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StartMatchBackfill",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ConfigurationName" => ConfigurationName, "Players" => Players
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StartMatchBackfill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationName"=>ConfigurationName, "Players"=>Players), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3699,30 +2771,14 @@ DescribeMatchmaking | StopMatchmaking | AcceptMatch | StartMatchBackfill | All A
   process. After a successful match, Player objects contain the name of the team the player
   is assigned to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ticket_id"`: A unique identifier for a matchmaking ticket. If no ticket ID is specified
+# Keyword Parameters
+- `ticket_id`: A unique identifier for a matchmaking ticket. If no ticket ID is specified
   here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track
   the matchmaking ticket status and retrieve match results.
 """
-function start_matchmaking(
-    ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_matchmaking(ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StartMatchmaking",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ConfigurationName" => ConfigurationName, "Players" => Players
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StartMatchmaking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationName"=>ConfigurationName, "Players"=>Players), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3750,25 +2806,13 @@ StopFleetActions | DeleteFleet | All APIs by task
 - `fleet_id`: A unique identifier for the fleet to stop actions on. You can use either the
   fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"location"`: The fleet location to stop fleet actions for. Specify a location in the
-  form of an AWS Region code, such as us-west-2.
+# Keyword Parameters
+- `location`: The fleet location to stop fleet actions for. Specify a location in the form
+  of an AWS Region code, such as us-west-2.
 """
-function stop_fleet_actions(
-    Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_fleet_actions(Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StopFleetActions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Actions" => Actions, "FleetId" => FleetId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StopFleetActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3784,18 +2828,9 @@ DescribeGameSessionPlacement | StopGameSessionPlacement | All APIs by task
 - `placement_id`: A unique identifier for a game session placement to cancel.
 
 """
-function stop_game_session_placement(
-    PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_game_session_placement(PlacementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StopGameSessionPlacement",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PlacementId" => PlacementId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StopGameSessionPlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlacementId"=>PlacementId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3816,18 +2851,9 @@ StopMatchmaking | AcceptMatch | StartMatchBackfill | All APIs by task
 - `ticket_id`: A unique identifier for a matchmaking ticket.
 
 """
-function stop_matchmaking(
-    TicketId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_matchmaking(TicketId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "StopMatchmaking",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TicketId" => TicketId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("StopMatchmaking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TicketId"=>TicketId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3856,28 +2882,9 @@ SuspendGameServerGroup | DescribeGameServerInstances | All APIs by task
 - `suspend_actions`: The activity to suspend for this game server group.
 
 """
-function suspend_game_server_group(
-    GameServerGroupName,
-    SuspendActions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function suspend_game_server_group(GameServerGroupName, SuspendActions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "SuspendGameServerGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "SuspendActions" => SuspendActions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("SuspendGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "SuspendActions"=>SuspendActions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3904,22 +2911,9 @@ UntagResource | ListTagsForResource | All APIs by task
   than stated. See  Tagging AWS Resources for actual tagging limits.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3945,22 +2939,9 @@ actions   TagResource | UntagResource | ListTagsForResource | All APIs by task
   tag key identifies which tag to remove.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3976,22 +2957,16 @@ ResolveAlias | All APIs by task
 - `alias_id`: A unique identifier for the alias that you want to update. You can use either
   the alias ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A human-readable description of the alias.
-- `"name"`: A descriptive label that is associated with an alias. Alias names do not need
-  to be unique.
-- `"routing_strategy"`: The routing configuration, including routing type and fleet target,
+# Keyword Parameters
+- `description`: A human-readable description of the alias.
+- `name`: A descriptive label that is associated with an alias. Alias names do not need to
+  be unique.
+- `routing_strategy`: The routing configuration, including routing type and fleet target,
   for the alias.
 """
 function update_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateAlias",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4007,21 +2982,15 @@ DeleteBuild | All APIs by task
 - `build_id`: A unique identifier for the build to update. You can use either the build ID
   or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: A descriptive label that is associated with a build. Build names do not need to
+# Keyword Parameters
+- `name`: A descriptive label that is associated with a build. Build names do not need to
   be unique.
-- `"version"`: Version information that is associated with a build or script. Version
-  strings do not need to be unique.
+- `version`: Version information that is associated with a build or script. Version strings
+  do not need to be unique.
 """
 function update_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateBuild",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BuildId"=>BuildId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4039,33 +3008,25 @@ DeleteFleet | DeleteFleetLocations | DeleteScalingPolicy | All APIs by task
 - `fleet_id`: A unique identifier for the fleet to update attribute metadata for. You can
   use either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A human-readable description of a fleet.
-- `"metric_groups"`: The name of a metric group to add this fleet to. Use a metric group in
+# Keyword Parameters
+- `description`: A human-readable description of a fleet.
+- `metric_groups`: The name of a metric group to add this fleet to. Use a metric group in
   Amazon CloudWatch to aggregate the metrics from multiple fleets. Provide an existing metric
   group name, or create a new metric group by providing a new name. A fleet can only be in
   one metric group at a time.
-- `"name"`: A descriptive label that is associated with a fleet. Fleet names do not need to
+- `name`: A descriptive label that is associated with a fleet. Fleet names do not need to
   be unique.
-- `"new_game_session_protection_policy"`: The game session protection policy to apply to
-  all new instances created in this fleet. Instances that already exist are not affected. You
-  can set protection for individual instances using UpdateGameSession.    NoProtection -- The
+- `new_game_session_protection_policy`: The game session protection policy to apply to all
+  new instances created in this fleet. Instances that already exist are not affected. You can
+  set protection for individual instances using UpdateGameSession.    NoProtection -- The
   game session can be terminated during a scale-down event.    FullProtection -- If the game
   session is in an ACTIVE status, it cannot be terminated during a scale-down event.
-- `"resource_creation_limit_policy"`: Policy settings that limit the number of game
-  sessions an individual player can create over a span of time.
+- `resource_creation_limit_policy`: Policy settings that limit the number of game sessions
+  an individual player can create over a span of time.
 """
-function update_fleet_attributes(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_fleet_attributes(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateFleetAttributes",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateFleetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4101,27 +3062,19 @@ task
 - `fleet_id`: A unique identifier for the fleet to update capacity settings for. You can
   use either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"desired_instances"`: The number of EC2 instances you want to maintain in the specified
+# Keyword Parameters
+- `desired_instances`: The number of EC2 instances you want to maintain in the specified
   fleet location. This value must fall between the minimum and maximum size limits.
-- `"location"`: The name of a remote location to update fleet capacity settings for, in the
+- `location`: The name of a remote location to update fleet capacity settings for, in the
   form of an AWS Region code such as us-west-2.
-- `"max_size"`: The maximum number of instances that are allowed in the specified fleet
+- `max_size`: The maximum number of instances that are allowed in the specified fleet
   location. If this parameter is not set, the default is 1.
-- `"min_size"`: The minimum number of instances that are allowed in the specified fleet
+- `min_size`: The minimum number of instances that are allowed in the specified fleet
   location. If this parameter is not set, the default is 0.
 """
-function update_fleet_capacity(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_fleet_capacity(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateFleetCapacity",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateFleetCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4145,23 +3098,15 @@ task
 - `fleet_id`: A unique identifier for the fleet to update port settings for. You can use
   either the fleet ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"inbound_permission_authorizations"`: A collection of port settings to be added to the
+# Keyword Parameters
+- `inbound_permission_authorizations`: A collection of port settings to be added to the
   fleet resource.
-- `"inbound_permission_revocations"`: A collection of port settings to be removed from the
+- `inbound_permission_revocations`: A collection of port settings to be removed from the
   fleet resource.
 """
-function update_fleet_port_settings(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_fleet_port_settings(FleetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateFleetPortSettings",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateFleetPortSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4190,38 +3135,18 @@ DeregisterGameServer | All APIs by task
   server is running. Use either the GameServerGroup name or ARN value.
 - `game_server_id`: A custom string that uniquely identifies the game server to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"game_server_data"`: A set of custom game server properties, formatted as a single
-  string value. This data is passed to a game client or service when it requests information
-  on game servers using ListGameServers or ClaimGameServer.
-- `"health_check"`: Indicates health status of the game server. A request that includes
-  this parameter updates the game server's LastHealthCheckTime timestamp.
-- `"utilization_status"`: Indicates whether the game server is available or is currently
+# Keyword Parameters
+- `game_server_data`: A set of custom game server properties, formatted as a single string
+  value. This data is passed to a game client or service when it requests information on game
+  servers using ListGameServers or ClaimGameServer.
+- `health_check`: Indicates health status of the game server. A request that includes this
+  parameter updates the game server's LastHealthCheckTime timestamp.
+- `utilization_status`: Indicates whether the game server is available or is currently
   hosting gameplay.
 """
-function update_game_server(
-    GameServerGroupName,
-    GameServerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_game_server(GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateGameServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GameServerGroupName" => GameServerGroupName,
-                    "GameServerId" => GameServerId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateGameServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName, "GameServerId"=>GameServerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4243,9 +3168,8 @@ DescribeGameServerInstances | All APIs by task
 - `game_server_group_name`: A unique identifier for the game server group. Use either the
   GameServerGroup name or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"balancing_strategy"`: Indicates how GameLift FleetIQ balances the use of Spot Instances
+# Keyword Parameters
+- `balancing_strategy`: Indicates how GameLift FleetIQ balances the use of Spot Instances
   and On-Demand Instances in the game server group. Method options include the following:
   SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are
   unavailable or not viable for game hosting, the game server group provides no hosting
@@ -4258,40 +3182,27 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   replaced with new On-Demand Instances.    ON_DEMAND_ONLY - Only On-Demand Instances are
   used in the game server group. No Spot Instances are used, even when available, while this
   balancing strategy is in force.
-- `"game_server_protection_policy"`: A flag that indicates whether instances in the game
+- `game_server_protection_policy`: A flag that indicates whether instances in the game
   server group are protected from early termination. Unprotected instances that have active
   game servers running might be terminated during a scale-down event, causing players to be
   dropped from the game. Protected instances cannot be terminated while there are active game
   servers running except in the event of a forced game server group deletion (see ). An
   exception to this is with Spot Instances, which can be terminated by AWS regardless of
   protection status. This property is set to NO_PROTECTION by default.
-- `"instance_definitions"`: An updated list of EC2 instance types to use in the Auto
-  Scaling group. The instance definitions must specify at least two different instance types
-  that are supported by GameLift FleetIQ. This updated list replaces the entire current list
-  of instance definitions for the game server group. For more information on instance types,
-  see EC2 Instance Types in the Amazon EC2 User Guide. You can optionally specify capacity
+- `instance_definitions`: An updated list of EC2 instance types to use in the Auto Scaling
+  group. The instance definitions must specify at least two different instance types that are
+  supported by GameLift FleetIQ. This updated list replaces the entire current list of
+  instance definitions for the game server group. For more information on instance types, see
+  EC2 Instance Types in the Amazon EC2 User Guide. You can optionally specify capacity
   weighting for each instance type. If no weight value is specified for an instance type, it
   is set to the default value \"1\". For more information about capacity weighting, see
   Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
-- `"role_arn"`: The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift
-  to access your EC2 Auto Scaling groups.
+- `role_arn`: The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to
+  access your EC2 Auto Scaling groups.
 """
-function update_game_server_group(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_game_server_group(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateGameServerGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GameServerGroupName" => GameServerGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateGameServerGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameServerGroupName"=>GameServerGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4307,31 +3218,21 @@ APIs by task
 # Arguments
 - `game_session_id`: A unique identifier for the game session to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"maximum_player_session_count"`: The maximum number of players that can be connected
+# Keyword Parameters
+- `maximum_player_session_count`: The maximum number of players that can be connected
   simultaneously to the game session.
-- `"name"`: A descriptive label that is associated with a game session. Session names do
-  not need to be unique.
-- `"player_session_creation_policy"`: A policy that determines whether the game session is
+- `name`: A descriptive label that is associated with a game session. Session names do not
+  need to be unique.
+- `player_session_creation_policy`: A policy that determines whether the game session is
   accepting new players.
-- `"protection_policy"`: Game session protection policy to apply to this game session only.
-     NoProtection -- The game session can be terminated during a scale-down event.
+- `protection_policy`: Game session protection policy to apply to this game session only.
+   NoProtection -- The game session can be terminated during a scale-down event.
   FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated
   during a scale-down event.
 """
-function update_game_session(
-    GameSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_game_session(GameSessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateGameSession",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GameSessionId" => GameSessionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateGameSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GameSessionId"=>GameSessionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4348,45 +3249,37 @@ DeleteGameSessionQueue | All APIs by task
 - `name`: A descriptive label that is associated with game session queue. Queue names must
   be unique within each Region. You can use either the queue ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_event_data"`:  Information to be added to all events that are related to this
-  game session queue.
-- `"destinations"`: A list of fleets and/or fleet aliases that can be used to fulfill game
+# Keyword Parameters
+- `custom_event_data`:  Information to be added to all events that are related to this game
+  session queue.
+- `destinations`: A list of fleets and/or fleet aliases that can be used to fulfill game
   session placement requests in the queue. Destinations are identified by either a fleet ARN
   or a fleet alias ARN, and are listed in order of placement preference. When updating this
   list, provide a complete list of destinations.
-- `"filter_configuration"`: A list of locations where a queue is allowed to place new game
+- `filter_configuration`: A list of locations where a queue is allowed to place new game
   sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If
   this parameter is not set, game sessions can be placed in any queue location. To remove an
   existing filter configuration, pass in an empty set.
-- `"notification_target"`: An SNS topic ARN that is set up to receive game session
-  placement notifications. See  Setting up notifications for game session placement.
-- `"player_latency_policies"`: A set of policies that act as a sliding cap on player
-  latency. FleetIQ works to deliver low latency for most players in a game session. These
-  policies ensure that no individual player can be placed into a game with unreasonably high
-  latency. Use multiple policies to gradually relax latency requirements a step at a time.
-  Multiple policies are applied based on their maximum allowed latency, starting with the
-  lowest value. When updating policies, provide a complete collection of policies.
-- `"priority_configuration"`: Custom settings to use when prioritizing destinations and
+- `notification_target`: An SNS topic ARN that is set up to receive game session placement
+  notifications. See  Setting up notifications for game session placement.
+- `player_latency_policies`: A set of policies that act as a sliding cap on player latency.
+  FleetIQ works to deliver low latency for most players in a game session. These policies
+  ensure that no individual player can be placed into a game with unreasonably high latency.
+  Use multiple policies to gradually relax latency requirements a step at a time. Multiple
+  policies are applied based on their maximum allowed latency, starting with the lowest
+  value. When updating policies, provide a complete collection of policies.
+- `priority_configuration`: Custom settings to use when prioritizing destinations and
   locations for game session placements. This configuration replaces the FleetIQ default
   prioritization process. Priority types that are not explicitly named will be automatically
   applied at the end of the prioritization process. To remove an existing priority
   configuration, pass in an empty set.
-- `"timeout_in_seconds"`: The maximum time, in seconds, that a new game session placement
+- `timeout_in_seconds`: The maximum time, in seconds, that a new game session placement
   request remains in the queue. When a request exceeds this time, the game session placement
   changes to a TIMED_OUT status.
 """
-function update_game_session_queue(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateGameSessionQueue",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateGameSessionQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4404,67 +3297,59 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
 - `name`: A unique identifier for the matchmaking configuration to update. You can use
   either the configuration name or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"acceptance_required"`: A flag that indicates whether a match that was created with this
+# Keyword Parameters
+- `acceptance_required`: A flag that indicates whether a match that was created with this
   configuration must be accepted by the matched players. To require acceptance, set to TRUE.
   With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to
   indicate when a completed potential match is waiting for player acceptance.
-- `"acceptance_timeout_seconds"`: The length of time (in seconds) to wait for players to
+- `acceptance_timeout_seconds`: The length of time (in seconds) to wait for players to
   accept a proposed match, if acceptance is required.
-- `"additional_player_count"`: The number of player slots in a match to keep open for
-  future players. For example, if the configuration's rule set specifies a match for a single
+- `additional_player_count`: The number of player slots in a match to keep open for future
+  players. For example, if the configuration's rule set specifies a match for a single
   12-person team, and the additional player count is set to 2, only 10 players are selected
   for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
-- `"backfill_mode"`: The method that is used to backfill game sessions created with this
+- `backfill_mode`: The method that is used to backfill game sessions created with this
   matchmaking configuration. Specify MANUAL when your game manages backfill requests manually
   or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a
   StartMatchBackfill request whenever a game session has one or more open slots. Learn more
   about manual and automatic backfill in Backfill Existing Games with FlexMatch. Automatic
   backfill is not available when FlexMatchMode is set to STANDALONE.
-- `"custom_event_data"`: Information to add to all events related to the matchmaking
+- `custom_event_data`: Information to add to all events related to the matchmaking
   configuration.
-- `"description"`: A descriptive label that is associated with matchmaking configuration.
-- `"flex_match_mode"`: Indicates whether this matchmaking configuration is being used with
+- `description`: A descriptive label that is associated with matchmaking configuration.
+- `flex_match_mode`: Indicates whether this matchmaking configuration is being used with
   GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms
   matches and returns match information, including players and team assignments, in a
   MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified
   GameLift queue to start a game session for the match.
-- `"game_properties"`: A set of custom properties for a game session, formatted as
-  key:value pairs. These properties are passed to a game server process in the GameSession
-  object with a request to start a new game session (see Start a Game Session). This
-  information is added to the new GameSession object that is created for a successful match.
-  This parameter is not used if FlexMatchMode is set to STANDALONE.
-- `"game_session_data"`: A set of custom game session properties, formatted as a single
+- `game_properties`: A set of custom properties for a game session, formatted as key:value
+  pairs. These properties are passed to a game server process in the GameSession object with
+  a request to start a new game session (see Start a Game Session). This information is added
+  to the new GameSession object that is created for a successful match. This parameter is not
+  used if FlexMatchMode is set to STANDALONE.
+- `game_session_data`: A set of custom game session properties, formatted as a single
   string value. This data is passed to a game server process in the GameSession object with a
   request to start a new game session (see Start a Game Session). This information is added
   to the new GameSession object that is created for a successful match. This parameter is not
   used if FlexMatchMode is set to STANDALONE.
-- `"game_session_queue_arns"`: The Amazon Resource Name (ARN) that is assigned to a
-  GameLift game session queue resource and uniquely identifies it. ARNs are unique across all
-  Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;.
-  Queues can be located in any Region. Queues are used to start new GameLift-hosted game
-  sessions for matches that are created with this matchmaking configuration. If FlexMatchMode
-  is set to STANDALONE, do not set this parameter.
-- `"notification_target"`: An SNS topic ARN that is set up to receive matchmaking
+- `game_session_queue_arns`: The Amazon Resource Name (ARN) that is assigned to a GameLift
+  game session queue resource and uniquely identifies it. ARNs are unique across all Regions.
+  Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;. Queues can
+  be located in any Region. Queues are used to start new GameLift-hosted game sessions for
+  matches that are created with this matchmaking configuration. If FlexMatchMode is set to
+  STANDALONE, do not set this parameter.
+- `notification_target`: An SNS topic ARN that is set up to receive matchmaking
   notifications. See  Setting up notifications for matchmaking for more information.
-- `"request_timeout_seconds"`: The maximum duration, in seconds, that a matchmaking ticket
+- `request_timeout_seconds`: The maximum duration, in seconds, that a matchmaking ticket
   can remain in process before timing out. Requests that fail due to timing out can be
   resubmitted as needed.
-- `"rule_set_name"`: A unique identifier for the matchmaking rule set to use with this
+- `rule_set_name`: A unique identifier for the matchmaking rule set to use with this
   configuration. You can use either the rule set name or ARN value. A matchmaking
   configuration can only use rule sets that are defined in the same Region.
 """
-function update_matchmaking_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_matchmaking_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateMatchmakingConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4494,27 +3379,9 @@ task
   instance, how to launch them, and the number of processes to run concurrently.
 
 """
-function update_runtime_configuration(
-    FleetId,
-    RuntimeConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_runtime_configuration(FleetId, RuntimeConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateRuntimeConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FleetId" => FleetId, "RuntimeConfiguration" => RuntimeConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateRuntimeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "RuntimeConfiguration"=>RuntimeConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4535,37 +3402,27 @@ APIs by task
 - `script_id`: A unique identifier for the Realtime script to update. You can use either
   the script ID or ARN value.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: A descriptive label that is associated with a script. Script names do not need
-  to be unique.
-- `"storage_location"`: The location of the Amazon S3 bucket where a zipped file containing
+# Keyword Parameters
+- `name`: A descriptive label that is associated with a script. Script names do not need to
+  be unique.
+- `storage_location`: The location of the Amazon S3 bucket where a zipped file containing
   your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket
   name, the zip file name (the \"key\"), and a role ARN that allows Amazon GameLift to access
   the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to
   create a new script. By default, Amazon GameLift uploads the latest version of the zip
   file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter
   to specify an earlier version.
-- `"version"`: Version information that is associated with a build or script. Version
-  strings do not need to be unique.
-- `"zip_file"`: A data object containing your Realtime scripts and dependencies as a zip
+- `version`: Version information that is associated with a build or script. Version strings
+  do not need to be unique.
+- `zip_file`: A data object containing your Realtime scripts and dependencies as a zip
   file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When
   using the AWS CLI tool to create a script, this parameter is set to the zip file name. It
   must be prepended with the string \"fileb://\" to indicate that the file data is a binary
   object. For example: --zip-file fileb://myRealtimeScript.zip.
 """
-function update_script(
-    ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "UpdateScript",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ScriptId" => ScriptId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("UpdateScript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScriptId"=>ScriptId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4584,16 +3441,7 @@ ValidateMatchmakingRuleSet | DeleteMatchmakingRuleSet | All APIs by task
   string.
 
 """
-function validate_matchmaking_rule_set(
-    RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function validate_matchmaking_rule_set(RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return gamelift(
-        "ValidateMatchmakingRuleSet",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RuleSetBody" => RuleSetBody), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return gamelift("ValidateMatchmakingRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetBody"=>RuleSetBody), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

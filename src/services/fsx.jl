@@ -4,34 +4,8 @@ using AWS.AWSServices: fsx
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "lustre_configuration" => "LustreConfiguration",
-    "task_ids" => "TaskIds",
-    "kms_key_id" => "KmsKeyId",
-    "storage_type" => "StorageType",
-    "file_system_ids" => "FileSystemIds",
-    "next_token" => "NextToken",
-    "client_request_token" => "ClientRequestToken",
-    "file_system_type_version" => "FileSystemTypeVersion",
-    "windows_configuration" => "WindowsConfiguration",
-    "backup_ids" => "BackupIds",
-    "copy_tags" => "CopyTags",
-    "max_results" => "MaxResults",
-    "file_system_id" => "FileSystemId",
-    "volume_id" => "VolumeId",
-    "root_volume_security_style" => "RootVolumeSecurityStyle",
-    "active_directory_configuration" => "ActiveDirectoryConfiguration",
-    "ontap_configuration" => "OntapConfiguration",
-    "security_group_ids" => "SecurityGroupIds",
-    "filters" => "Filters",
-    "volume_ids" => "VolumeIds",
-    "storage_capacity" => "StorageCapacity",
-    "svm_admin_password" => "SvmAdminPassword",
-    "source_region" => "SourceRegion",
-    "paths" => "Paths",
-    "tags" => "Tags",
-    "storage_virtual_machine_ids" => "StorageVirtualMachineIds",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "client_request_token" => "ClientRequestToken", "file_system_type_version" => "FileSystemTypeVersion", "kms_key_id" => "KmsKeyId", "lustre_configuration" => "LustreConfiguration", "security_group_ids" => "SecurityGroupIds", "storage_type" => "StorageType", "tags" => "Tags", "windows_configuration" => "WindowsConfiguration", "ontap_configuration" => "OntapConfiguration", "storage_capacity" => "StorageCapacity", "backup_ids" => "BackupIds", "filters" => "Filters", "copy_tags" => "CopyTags", "source_region" => "SourceRegion", "volume_ids" => "VolumeIds", "file_system_id" => "FileSystemId", "volume_id" => "VolumeId", "storage_virtual_machine_ids" => "StorageVirtualMachineIds", "active_directory_configuration" => "ActiveDirectoryConfiguration", "svm_admin_password" => "SvmAdminPassword", "paths" => "Paths", "file_system_ids" => "FileSystemIds", "task_ids" => "TaskIds", "root_volume_security_style" => "RootVolumeSecurityStyle")
 
 """
     associate_file_system_aliases(aliases, file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -58,30 +32,12 @@ of the aliases Amazon FSx is associating with the file system.
 - `file_system_id`: Specifies the file system with which you want to associate one or more
   DNS aliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
+# Keyword Parameters
+- `client_request_token`:
 """
-function associate_file_system_aliases(
-    Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "AssociateFileSystemAliases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Aliases" => Aliases,
-                    "FileSystemId" => FileSystemId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("AssociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -97,16 +53,9 @@ any files that have not yet been exported.
 - `task_id`: Specifies the data repository task to cancel.
 
 """
-function cancel_data_repository_task(
-    TaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CancelDataRepositoryTask",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskId" => TaskId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -133,41 +82,24 @@ Lustre User Guide.
 - `source_backup_id`: The ID of the source backup. Specifies the ID of the backup that is
   being copied.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"copy_tags"`: A boolean flag indicating whether tags from the source backup should be
+# Keyword Parameters
+- `client_request_token`:
+- `copy_tags`: A boolean flag indicating whether tags from the source backup should be
   copied to the backup copy. This value defaults to false. If you set CopyTags to true and
   the source backup has existing tags, you can use the Tags parameter to create new tags,
   provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both
   sets of tags are merged. If there are tag conflicts (for example, two tags with the same
   key but different values), the tags created with the Tags parameter take precedence.
-- `"kms_key_id"`:
-- `"source_region"`: The source Amazon Web Services Region of the backup. Specifies the
+- `kms_key_id`:
+- `source_region`: The source Amazon Web Services Region of the backup. Specifies the
   Amazon Web Services Region from which the backup is being copied. The source and
   destination Regions must be in the same Amazon Web Services partition. If you don't specify
   a Region, it defaults to the Region where the request is sent from (in-Region copy).
-- `"tags"`:
+- `tags`:
 """
-function copy_backup(
-    SourceBackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CopyBackup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceBackupId" => SourceBackupId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CopyBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceBackupId"=>SourceBackupId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -196,30 +128,20 @@ The CreateBackup operation returns while the backup's lifecycle state is still C
 You can check the backup creation status by calling the DescribeBackups operation, which
 returns the backup state along with other information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: (Optional) A string of up to 64 ASCII characters that Amazon
-  FSx uses to ensure idempotent creation. This string is automatically filled on your behalf
-  when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
-- `"file_system_id"`: The ID of the file system to back up.
-- `"tags"`: (Optional) The tags to apply to the backup at backup creation. The key value of
+# Keyword Parameters
+- `client_request_token`: (Optional) A string of up to 64 ASCII characters that Amazon FSx
+  uses to ensure idempotent creation. This string is automatically filled on your behalf when
+  you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+- `file_system_id`: The ID of the file system to back up.
+- `tags`: (Optional) The tags to apply to the backup at backup creation. The key value of
   the Name tag appears in the console as the backup name. If you have set CopyTagsToBackups
   to true, and you specify one or more tags using the CreateBackup action, no existing file
   system tags are copied from the file system to the backup.
-- `"volume_id"`: The ID of he FSx for NetApp ONTAP volume to back up.
+- `volume_id`: The ID of he FSx for NetApp ONTAP volume to back up.
 """
 function create_backup(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateBackup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -242,38 +164,19 @@ file system, see Linking your file system to an S3 bucket.
   see Working with Task Completion Reports.
 - `type`: Specifies the type of data repository task to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"paths"`: (Optional) The path or paths on the Amazon FSx file system to use when the
-  data repository task is processed. The default path is the file system root directory. The
-  paths you provide need to be relative to the mount point of the file system. If the mount
-  point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to
+# Keyword Parameters
+- `client_request_token`:
+- `paths`: (Optional) The path or paths on the Amazon FSx file system to use when the data
+  repository task is processed. The default path is the file system root directory. The paths
+  you provide need to be relative to the mount point of the file system. If the mount point
+  is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to
   export, then the path to provide is path1. If a path that you provide isn't valid, the task
   fails.
-- `"tags"`:
+- `tags`:
 """
-function create_data_repository_task(
-    FileSystemId, Report, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_data_repository_task(FileSystemId, Report, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateDataRepositoryTask",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemId" => FileSystemId,
-                    "Report" => Report,
-                    "Type" => Type,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -321,58 +224,35 @@ state along with other information.
   Lustre file systems, provide exactly one subnet ID. The file server is launched in that
   subnet's Availability Zone.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+# Keyword Parameters
+- `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
-- `"file_system_type_version"`: Sets the version of the Amazon FSx for Lustre file system
+- `file_system_type_version`: Sets the version of the Amazon FSx for Lustre file system
   you're creating. Valid values are 2.10 and 2.12.   Set the value to 2.10 to create a Lustre
   2.10 file system.   Set the value to 2.12 to create a Lustre 2.12 file system.   Default
   value is 2.10.
-- `"kms_key_id"`:
-- `"lustre_configuration"`:
-- `"ontap_configuration"`:
-- `"security_group_ids"`: A list of IDs specifying the security groups to apply to all
+- `kms_key_id`:
+- `lustre_configuration`:
+- `ontap_configuration`:
+- `security_group_ids`: A list of IDs specifying the security groups to apply to all
   network interfaces created for file system access. This list isn't returned in later
   requests to describe the file system.
-- `"storage_type"`: Sets the storage type for the file system you're creating. Valid values
+- `storage_type`: Sets the storage type for the file system you're creating. Valid values
   are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all
   Windows, Lustre, and ONTAP deployment types.   Set to HDD to use hard disk drive storage.
   HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on
   PERSISTENT Lustre file system deployment types.     Default value is SSD. For more
   information, see  Storage Type Options in the Amazon FSx for Windows User Guide and
   Multiple Storage Options in the Amazon FSx for Lustre User Guide.
-- `"tags"`: The tags to apply to the file system being created. The key value of the Name
-  tag appears in the console as the file system name.
-- `"windows_configuration"`: The Microsoft Windows configuration for the file system being
+- `tags`: The tags to apply to the file system being created. The key value of the Name tag
+  appears in the console as the file system name.
+- `windows_configuration`: The Microsoft Windows configuration for the file system being
   created.
 """
-function create_file_system(
-    FileSystemType,
-    StorageCapacity,
-    SubnetIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_file_system(FileSystemType, StorageCapacity, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateFileSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemType" => FileSystemType,
-                    "StorageCapacity" => StorageCapacity,
-                    "SubnetIds" => SubnetIds,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -408,23 +288,22 @@ file system state along with other information.
   provide exactly one subnet ID. The file server is launched in that subnet's Availability
   Zone.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+# Keyword Parameters
+- `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
-- `"file_system_type_version"`: Sets the version for the Amazon FSx for Lustre file system
+- `file_system_type_version`: Sets the version for the Amazon FSx for Lustre file system
   you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to specify
   FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion
   setting. If you choose to specify FileSystemTypeVersion when creating from backup, the
   value must match the backup's FileSystemTypeVersion setting.
-- `"kms_key_id"`:
-- `"lustre_configuration"`:
-- `"security_group_ids"`: A list of IDs for the security groups that apply to the specified
+- `kms_key_id`:
+- `lustre_configuration`:
+- `security_group_ids`: A list of IDs for the security groups that apply to the specified
   network interfaces created for file system access. These security groups apply to all
   network interfaces. This value isn't returned in later DescribeFileSystem requests.
-- `"storage_type"`: Sets the storage type for the Windows file system you're creating from
-  a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage.
+- `storage_type`: Sets the storage type for the Windows file system you're creating from a
+  backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage.
   Supported on all Windows deployment types.   Set to HDD to use hard disk drive storage.
   Supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types.     Default
   value is SSD.   HDD and SSD storage types have different minimum storage capacity
@@ -432,30 +311,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   backed up. You can create a file system that uses HDD storage from a backup of a file
   system that used SSD storage only if the original SSD file system had a storage capacity of
   at least 2000 GiB.
-- `"tags"`: The tags to be applied to the file system at file system creation. The key
-  value of the Name tag appears in the console as the file system name.
-- `"windows_configuration"`: The configuration for this Microsoft Windows file system.
+- `tags`: The tags to be applied to the file system at file system creation. The key value
+  of the Name tag appears in the console as the file system name.
+- `windows_configuration`: The configuration for this Microsoft Windows file system.
 """
-function create_file_system_from_backup(
-    BackupId, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_file_system_from_backup(BackupId, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateFileSystemFromBackup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BackupId" => BackupId,
-                    "SubnetIds" => SubnetIds,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -467,45 +329,27 @@ Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
 - `file_system_id`:
 - `name`: The name of the SVM.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"active_directory_configuration"`: Describes the self-managed Microsoft Active Directory
+# Keyword Parameters
+- `active_directory_configuration`: Describes the self-managed Microsoft Active Directory
   to which you want to join the SVM. Joining an Active Directory provides user authentication
   and access control for SMB clients, including Microsoft Windows and macOS client accessing
   the file system.
-- `"client_request_token"`:
-- `"root_volume_security_style"`: The security style of the root volume of the SVM. Specify
+- `client_request_token`:
+- `root_volume_security_style`: The security style of the root volume of the SVM. Specify
   one of the following values:    UNIX if the file system is managed by a UNIX administrator,
   the majority of users are NFS clients, and an application accessing the data uses a UNIX
   user as the service account.    NTFS if the file system is managed by a Windows
   administrator, the majority of users are SMB clients, and an application accessing the data
   uses a Windows user as the service account.    MIXED if the file system is managed by both
   UNIX and Windows administrators and users consist of both NFS and SMB clients.
-- `"svm_admin_password"`: The password to use when managing the SVM using the NetApp ONTAP
+- `svm_admin_password`: The password to use when managing the SVM using the NetApp ONTAP
   CLI or REST API. If you do not specify a password, you can still use the file system's
   fsxadmin user to manage the SVM.
-- `"tags"`:
+- `tags`:
 """
-function create_storage_virtual_machine(
-    FileSystemId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_storage_virtual_machine(FileSystemId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateStorageVirtualMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemId" => FileSystemId,
-                    "Name" => Name,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -518,32 +362,14 @@ Creates an Amazon FSx for NetApp ONTAP storage volume.
 - `volume_type`: Specifies the type of volume to create; ONTAP is the only valid volume
   type.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"ontap_configuration"`: Specifies the ONTAP configuration to use in creating the volume.
-- `"tags"`:
+# Keyword Parameters
+- `client_request_token`:
+- `ontap_configuration`: Specifies the ONTAP configuration to use in creating the volume.
+- `tags`:
 """
-function create_volume(
-    Name, VolumeType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateVolume",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "VolumeType" => VolumeType,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VolumeType"=>VolumeType, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -555,33 +381,15 @@ Creates a new Amazon FSx for NetApp ONTAP volume from an existing Amazon FSx vol
 - `backup_id`:
 - `name`: The name of the new volume you're creating.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"ontap_configuration"`: Specifies the configuration of the ONTAP volume that you are
+# Keyword Parameters
+- `client_request_token`:
+- `ontap_configuration`: Specifies the configuration of the ONTAP volume that you are
   creating.
-- `"tags"`:
+- `tags`:
 """
-function create_volume_from_backup(
-    BackupId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_volume_from_backup(BackupId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "CreateVolumeFromBackup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BackupId" => BackupId,
-                    "Name" => Name,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("CreateVolumeFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "Name"=>Name, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -595,30 +403,14 @@ can't be recovered by any means.
 # Arguments
 - `backup_id`: The ID of the backup you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+# Keyword Parameters
+- `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent deletion. This is automatically filled on your behalf when using the CLI
   or SDK.
 """
-function delete_backup(
-    BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DeleteBackup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BackupId" => BackupId, "client_request_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -641,33 +433,16 @@ a deleted file system is also deleted and can't be recovered by any means.
 # Arguments
 - `file_system_id`: The ID of the file system you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+# Keyword Parameters
+- `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent deletion. This is automatically filled on your behalf when using the
   Command Line Interface (CLI) or an Amazon Web Services SDK.
-- `"lustre_configuration"`:
-- `"windows_configuration"`:
+- `lustre_configuration`:
+- `windows_configuration`:
 """
-function delete_file_system(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DeleteFileSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemId" => FileSystemId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -679,29 +454,12 @@ an SVM, you must delete all non-root volumes in the SVM, otherwise the operation
 # Arguments
 - `storage_virtual_machine_id`: The ID of the SVM that you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
+# Keyword Parameters
+- `client_request_token`:
 """
-function delete_storage_virtual_machine(
-    StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_storage_virtual_machine(StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DeleteStorageVirtualMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "StorageVirtualMachineId" => StorageVirtualMachineId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DeleteStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -715,30 +473,14 @@ backup.
 # Arguments
 - `volume_id`: The ID of the volume you are deleting.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"ontap_configuration"`: For Amazon FSx for ONTAP volumes, specify whether to take a
-  final backup of the volume, and apply tags to the backup.
+# Keyword Parameters
+- `client_request_token`:
+- `ontap_configuration`: For Amazon FSx for ONTAP volumes, specify whether to take a final
+  backup of the volume, and apply tags to the backup.
 """
-function delete_volume(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DeleteVolume",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "VolumeId" => VolumeId, "client_request_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -759,25 +501,22 @@ than MaxResults backup descriptions while still including a NextToken value.   T
 backups returned in the response of one DescribeBackups call and the order of backups
 returned across the responses of a multi-call iteration is unspecified.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"backup_ids"`: IDs of the backups you want to retrieve (String). This overrides any
+# Keyword Parameters
+- `backup_ids`: IDs of the backups you want to retrieve (String). This overrides any
   filters. If any IDs are not found, BackupNotFound will be thrown.
-- `"filters"`: Filters structure. Supported names are file-system-id, backup-type,
+- `filters`: Filters structure. Supported names are file-system-id, backup-type,
   file-system-type, and volume-id.
-- `"max_results"`: Maximum number of backups to return in the response (integer). This
+- `max_results`: Maximum number of backups to return in the response (integer). This
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
-- `"next_token"`: Opaque pagination token returned from a previous DescribeBackups
-  operation (String). If a token present, the action continues the list from where the
-  returning call left off.
+- `next_token`: Opaque pagination token returned from a previous DescribeBackups operation
+  (String). If a token present, the action continues the list from where the returning call
+  left off.
 """
 function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fsx("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -794,26 +533,17 @@ tasks remain, Amazon FSx returns a NextToken value in the response. In this case
 later request with the NextToken request parameter set to the value of NextToken from the
 last response.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: (Optional) You can use filters to narrow the DescribeDataRepositoryTasks
+# Keyword Parameters
+- `filters`: (Optional) You can use filters to narrow the DescribeDataRepositoryTasks
   response to include just tasks for specific file systems, or tasks in a specific lifecycle
   state.
-- `"max_results"`:
-- `"next_token"`:
-- `"task_ids"`: (Optional) IDs of the tasks whose descriptions you want to retrieve
-  (String).
+- `max_results`:
+- `next_token`:
+- `task_ids`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
-function describe_data_repository_tasks(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_data_repository_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DescribeDataRepositoryTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DescribeDataRepositoryTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -828,36 +558,19 @@ provided in the DescribeFileSystems operation response.
 - `file_system_id`: The ID of the file system to return the associated DNS aliases for
   (String).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"max_results"`: Maximum number of DNS aliases to return in the response (integer). This
+# Keyword Parameters
+- `client_request_token`:
+- `max_results`: Maximum number of DNS aliases to return in the response (integer). This
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
-- `"next_token"`: Opaque pagination token returned from a previous
-  DescribeFileSystemAliases operation (String). If a token is included in the request, the
-  action continues the list from where the previous returning call left off.
+- `next_token`: Opaque pagination token returned from a previous DescribeFileSystemAliases
+  operation (String). If a token is included in the request, the action continues the list
+  from where the previous returning call left off.
 """
-function describe_file_system_aliases(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_file_system_aliases(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DescribeFileSystemAliases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemId" => FileSystemId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DescribeFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -879,28 +592,20 @@ file system descriptions while still including a NextToken value.   The order of
 systems returned in the response of one DescribeFileSystems call and the order of file
 systems returned across the responses of a multicall iteration is unspecified.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"file_system_ids"`: IDs of the file systems whose descriptions you want to retrieve
+# Keyword Parameters
+- `file_system_ids`: IDs of the file systems whose descriptions you want to retrieve
   (String).
-- `"max_results"`: Maximum number of file systems to return in the response (integer). This
+- `max_results`: Maximum number of file systems to return in the response (integer). This
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
-- `"next_token"`: Opaque pagination token returned from a previous DescribeFileSystems
+- `next_token`: Opaque pagination token returned from a previous DescribeFileSystems
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
-function describe_file_systems(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DescribeFileSystems",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DescribeFileSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -908,23 +613,15 @@ end
 
 Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Enter a filter name:value pair to view a select set of SVMs.
-- `"max_results"`:
-- `"next_token"`:
-- `"storage_virtual_machine_ids"`: Enter the ID of one or more SVMs that you want to view.
+# Keyword Parameters
+- `filters`: Enter a filter name:value pair to view a select set of SVMs.
+- `max_results`:
+- `next_token`:
+- `storage_virtual_machine_ids`: Enter the ID of one or more SVMs that you want to view.
 """
-function describe_storage_virtual_machines(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_storage_virtual_machines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DescribeStorageVirtualMachines",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DescribeStorageVirtualMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -932,18 +629,15 @@ end
 
 Describes one or more Amazon FSx for NetApp ONTAP volumes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Enter a filter name:value pair to view a select set of volumes.
-- `"max_results"`:
-- `"next_token"`:
-- `"volume_ids"`: IDs of the volumes whose descriptions you want to retrieve.
+# Keyword Parameters
+- `filters`: Enter a filter name:value pair to view a select set of volumes.
+- `max_results`:
+- `next_token`:
+- `volume_ids`: IDs of the volumes whose descriptions you want to retrieve.
 """
 function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fsx("DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -962,30 +656,12 @@ with the file system.
   file system.
 - `file_system_id`: Specifies the file system from which to disassociate the DNS aliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
+# Keyword Parameters
+- `client_request_token`:
 """
-function disassociate_file_system_aliases(
-    Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "DisassociateFileSystemAliases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Aliases" => Aliases,
-                    "FileSystemId" => FileSystemId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("DisassociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1007,28 +683,18 @@ tags returned across the responses of a multi-call iteration is unspecified.
 # Arguments
 - `resource_arn`: The ARN of the Amazon FSx resource that will have its tags listed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of tags to return in the response (integer). This
-  parameter value must be greater than 0. The number of items that Amazon FSx returns is the
-  minimum of the MaxResults parameter specified in the request and the service's internal
-  maximum number of items per page.
-- `"next_token"`: Opaque pagination token returned from a previous ListTagsForResource
+# Keyword Parameters
+- `max_results`: Maximum number of tags to return in the response (integer). This parameter
+  value must be greater than 0. The number of items that Amazon FSx returns is the minimum of
+  the MaxResults parameter specified in the request and the service's internal maximum number
+  of items per page.
+- `next_token`: Opaque pagination token returned from a previous ListTagsForResource
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1043,22 +709,9 @@ Tags an Amazon FSx resource.
   value is replaced by the one specified in this parameter.
 
 """
-function tag_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1072,22 +725,9 @@ This action removes a tag from an Amazon FSx resource.
   exist, the call will still succeed to be idempotent.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1108,15 +748,14 @@ FsxAdminPassword   WeeklyMaintenanceStartTime
 # Arguments
 - `file_system_id`: Identifies the file system that you are updating.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+# Keyword Parameters
+- `client_request_token`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent updates. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
-- `"lustre_configuration"`:
-- `"ontap_configuration"`:
-- `"storage_capacity"`: Use this parameter to increase the storage capacity of an Amazon
-  FSx for Windows File Server or Amazon FSx for Lustre file system. Specifies the storage
+- `lustre_configuration`:
+- `ontap_configuration`:
+- `storage_capacity`: Use this parameter to increase the storage capacity of an Amazon FSx
+  for Windows File Server or Amazon FSx for Lustre file system. Specifies the storage
   capacity target value, GiB, to increase the storage capacity for the file system that
   you're updating. You cannot make a storage capacity increase request if there is an
   existing storage capacity increase request in progress. For Windows file systems, the
@@ -1131,28 +770,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   increase the storage capacity.   For more information, see Managing storage capacity in the
   Amazon FSx for Windows File Server User Guide and Managing storage and throughput capacity
   in the Amazon FSx for Lustre User Guide.
-- `"windows_configuration"`: The configuration updates for an Amazon FSx for Windows File
+- `windows_configuration`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
-function update_file_system(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "UpdateFileSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "FileSystemId" => FileSystemId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1164,32 +787,15 @@ Updates an Amazon FSx for ONTAP storage virtual machine (SVM).
 - `storage_virtual_machine_id`: The ID of the SVM that you want to update, in the format
   svm-0123456789abcdef0.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"active_directory_configuration"`: Updates the Microsoft Active Directory (AD)
+# Keyword Parameters
+- `active_directory_configuration`: Updates the Microsoft Active Directory (AD)
   configuration for an SVM that is joined to an AD.
-- `"client_request_token"`:
-- `"svm_admin_password"`: Enter a new SvmAdminPassword if you are updating it.
+- `client_request_token`:
+- `svm_admin_password`: Enter a new SvmAdminPassword if you are updating it.
 """
-function update_storage_virtual_machine(
-    StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_storage_virtual_machine(StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "UpdateStorageVirtualMachine",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "StorageVirtualMachineId" => StorageVirtualMachineId,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("UpdateStorageVirtualMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageVirtualMachineId"=>StorageVirtualMachineId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1201,27 +807,11 @@ Updates an Amazon FSx for NetApp ONTAP volume's configuration.
 - `volume_id`: Specifies the volume that you want to update, formatted
   fsvol-0123456789abcdef0.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`:
-- `"ontap_configuration"`: The ONTAP configuration of the volume you are updating.
+# Keyword Parameters
+- `client_request_token`:
+- `ontap_configuration`: The ONTAP configuration of the volume you are updating.
 """
-function update_volume(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return fsx(
-        "UpdateVolume",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "VolumeId" => VolumeId, "client_request_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return fsx("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

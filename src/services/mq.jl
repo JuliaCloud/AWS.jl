@@ -4,29 +4,8 @@ using AWS.AWSServices: mq
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "groups" => "groups",
-    "auto_minor_version_upgrade" => "autoMinorVersionUpgrade",
-    "ldap_server_metadata" => "ldapServerMetadata",
-    "storage_type" => "storageType",
-    "engine_version" => "engineVersion",
-    "security_groups" => "securityGroups",
-    "next_token" => "nextToken",
-    "configuration" => "configuration",
-    "creator_request_id" => "creatorRequestId",
-    "logs" => "logs",
-    "engine_type" => "engineType",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "host_instance_type" => "hostInstanceType",
-    "console_access" => "consoleAccess",
-    "authentication_strategy" => "authenticationStrategy",
-    "subnet_ids" => "subnetIds",
-    "password" => "password",
-    "encryption_options" => "encryptionOptions",
-    "tags" => "tags",
-    "maintenance_window_start_time" => "maintenanceWindowStartTime",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("authentication_strategy" => "authenticationStrategy", "auto_minor_version_upgrade" => "autoMinorVersionUpgrade", "configuration" => "configuration", "engine_version" => "engineVersion", "host_instance_type" => "hostInstanceType", "ldap_server_metadata" => "ldapServerMetadata", "logs" => "logs", "maintenance_window_start_time" => "maintenanceWindowStartTime", "security_groups" => "securityGroups", "console_access" => "consoleAccess", "groups" => "groups", "engine_type" => "engineType", "max_results" => "maxResults", "next_token" => "nextToken", "password" => "password", "tags" => "tags", "storage_type" => "storageType", "description" => "description", "creator_request_id" => "creatorRequestId", "encryption_options" => "encryptionOptions", "subnet_ids" => "subnetIds")
 
 """
     create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -67,25 +46,24 @@ the Amazon MQ Developer Guide.
   users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web
   console.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authentication_strategy"`: Optional. The authentication strategy used to secure the
+# Keyword Parameters
+- `authentication_strategy`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
-- `"configuration"`: A list of information about the configuration.
-- `"creator_request_id"`: The unique ID that the requester receives for the created broker.
+- `configuration`: A list of information about the configuration.
+- `creator_request_id`: The unique ID that the requester receives for the created broker.
   Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique
   Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your
   application doesn't require idempotency.
-- `"encryption_options"`: Encryption options for the broker. Does not apply to RabbitMQ
+- `encryption_options`: Encryption options for the broker. Does not apply to RabbitMQ
   brokers.
-- `"ldap_server_metadata"`: Optional. The metadata of the LDAP server used to authenticate
+- `ldap_server_metadata`: Optional. The metadata of the LDAP server used to authenticate
   and authorize connections to the broker. Does not apply to RabbitMQ brokers.
-- `"logs"`: Enables Amazon CloudWatch logging for brokers.
-- `"maintenance_window_start_time"`: The parameters that determine the WeeklyStartTime.
-- `"security_groups"`: The list of rules (1 minimum, 125 maximum) that authorize
-  connections to brokers.
-- `"storage_type"`: The broker's storage type.
-- `"subnet_ids"`: The list of groups that define which subnets and IP ranges the broker can
+- `logs`: Enables Amazon CloudWatch logging for brokers.
+- `maintenance_window_start_time`: The parameters that determine the WeeklyStartTime.
+- `security_groups`: The list of rules (1 minimum, 125 maximum) that authorize connections
+  to brokers.
+- `storage_type`: The broker's storage type.
+- `subnet_ids`: The list of groups that define which subnets and IP ranges the broker can
   use from different Availability Zones. If you specify more than one subnet, the subnets
   must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints
   for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE
@@ -96,44 +74,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   subnet. If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to
   which the specified subnets belong must be owned by your AWS account. Amazon MQ will not be
   able to create VPC endpoints in VPCs that are not owned by your AWS account.
-- `"tags"`: Create tags when creating the broker.
+- `tags`: Create tags when creating the broker.
 """
-function create_broker(
-    autoMinorVersionUpgrade,
-    brokerName,
-    deploymentMode,
-    engineType,
-    engineVersion,
-    hostInstanceType,
-    publiclyAccessible,
-    users;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_broker(autoMinorVersionUpgrade, brokerName, deploymentMode, engineType, engineVersion, hostInstanceType, publiclyAccessible, users; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "POST",
-        "/v1/brokers",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "autoMinorVersionUpgrade" => autoMinorVersionUpgrade,
-                    "brokerName" => brokerName,
-                    "deploymentMode" => deploymentMode,
-                    "engineType" => engineType,
-                    "engineVersion" => engineVersion,
-                    "hostInstanceType" => hostInstanceType,
-                    "publiclyAccessible" => publiclyAccessible,
-                    "users" => users,
-                    "creator_request_id" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("POST", "/v1/brokers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoMinorVersionUpgrade"=>autoMinorVersionUpgrade, "brokerName"=>brokerName, "deploymentMode"=>deploymentMode, "engineType"=>engineType, "engineVersion"=>engineVersion, "hostInstanceType"=>hostInstanceType, "publiclyAccessible"=>publiclyAccessible, "users"=>users, "creator_request_id"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -151,37 +96,14 @@ default configuration (the engine type and version).
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150
   characters long.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authentication_strategy"`: Optional. The authentication strategy associated with the
+# Keyword Parameters
+- `authentication_strategy`: Optional. The authentication strategy associated with the
   configuration. The default is SIMPLE.
-- `"tags"`: Create tags when creating the configuration.
+- `tags`: Create tags when creating the configuration.
 """
-function create_configuration(
-    engineType,
-    engineVersion,
-    name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_configuration(engineType, engineVersion, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "POST",
-        "/v1/configurations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "engineType" => engineType,
-                    "engineVersion" => engineVersion,
-                    "name" => name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("engineType"=>engineType, "engineVersion"=>engineVersion, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -192,21 +114,12 @@ Add a tag to a resource.
 # Arguments
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The key-value pair for the resource tag.
+# Keyword Parameters
+- `tags`: The key-value pair for the resource tag.
 """
-function create_tags(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "POST",
-        "/v1/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("POST", "/v1/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -223,30 +136,15 @@ Creates an ActiveMQ user.
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
   characters long.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"console_access"`: Enables access to the ActiveMQ Web Console for the ActiveMQ user.
-- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This
-  value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (-
-  . _ ~). This value must be 2-100 characters long.
+# Keyword Parameters
+- `console_access`: Enables access to the ActiveMQ Web Console for the ActiveMQ user.
+- `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
 """
-function create_user(
-    broker_id,
-    password,
-    username;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_user(broker_id, password, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "POST",
-        "/v1/brokers/$(broker-id)/users/$(username)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("password" => password), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("POST", "/v1/brokers/$(broker-id)/users/$(username)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("password"=>password), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -258,17 +156,9 @@ Deletes a broker. Note: This API is asynchronous.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-function delete_broker(
-    broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "DELETE",
-        "/v1/brokers/$(broker-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("DELETE", "/v1/brokers/$(broker-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -281,17 +171,9 @@ Removes a tag from a resource.
 - `tag_keys`: An array of tag keys to delete
 
 """
-function delete_tags(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_tags(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "DELETE",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -306,17 +188,9 @@ Deletes an ActiveMQ user.
   characters long.
 
 """
-function delete_user(
-    broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "DELETE",
-        "/v1/brokers/$(broker-id)/users/$(username)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -328,17 +202,9 @@ Returns information about the specified broker.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-function describe_broker(
-    broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/brokers/$(broker-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/brokers/$(broker-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -346,25 +212,16 @@ end
 
 Describe available engine types and versions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine_type"`: Filter response by engine type.
-- `"max_results"`: The maximum number of brokers that Amazon MQ can return per page (20 by
+# Keyword Parameters
+- `engine_type`: Filter response by engine type.
+- `max_results`: The maximum number of brokers that Amazon MQ can return per page (20 by
   default). This value must be an integer from 5 to 100.
-- `"next_token"`: The token that specifies the next page of results Amazon MQ should
-  return. To request the first page, leave nextToken empty.
+- `next_token`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
-function describe_broker_engine_types(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_broker_engine_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/broker-engine-types",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/broker-engine-types", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -372,27 +229,18 @@ end
 
 Describe available broker instance options.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"engine_type"`: Filter response by engine type.
-- `"host_instance_type"`: Filter response by host instance type.
-- `"max_results"`: The maximum number of brokers that Amazon MQ can return per page (20 by
+# Keyword Parameters
+- `engine_type`: Filter response by engine type.
+- `host_instance_type`: Filter response by host instance type.
+- `max_results`: The maximum number of brokers that Amazon MQ can return per page (20 by
   default). This value must be an integer from 5 to 100.
-- `"next_token"`: The token that specifies the next page of results Amazon MQ should
-  return. To request the first page, leave nextToken empty.
-- `"storage_type"`: Filter response by storage type.
+- `next_token`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
+- `storage_type`: Filter response by storage type.
 """
-function describe_broker_instance_options(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_broker_instance_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/broker-instance-options",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/broker-instance-options", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -404,17 +252,9 @@ Returns information about the specified configuration.
 - `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
 
 """
-function describe_configuration(
-    configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_configuration(configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/configurations/$(configuration-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/configurations/$(configuration-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -427,20 +267,9 @@ Returns the specified configuration revision for the specified configuration.
 - `configuration-revision`: The revision of the configuration.
 
 """
-function describe_configuration_revision(
-    configuration_id,
-    configuration_revision;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_configuration_revision(configuration_id, configuration_revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -455,17 +284,9 @@ Returns information about an ActiveMQ user.
   characters long.
 
 """
-function describe_user(
-    broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/brokers/$(broker-id)/users/$(username)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/brokers/$(broker-id)/users/$(username)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -473,18 +294,15 @@ end
 
 Returns a list of all brokers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of brokers that Amazon MQ can return per page (20 by
+# Keyword Parameters
+- `max_results`: The maximum number of brokers that Amazon MQ can return per page (20 by
   default). This value must be an integer from 5 to 100.
-- `"next_token"`: The token that specifies the next page of results Amazon MQ should
-  return. To request the first page, leave nextToken empty.
+- `next_token`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 function list_brokers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET", "/v1/brokers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mq("GET", "/v1/brokers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -495,24 +313,15 @@ Returns a list of all revisions for the specified configuration.
 # Arguments
 - `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of brokers that Amazon MQ can return per page (20 by
+# Keyword Parameters
+- `max_results`: The maximum number of brokers that Amazon MQ can return per page (20 by
   default). This value must be an integer from 5 to 100.
-- `"next_token"`: The token that specifies the next page of results Amazon MQ should
-  return. To request the first page, leave nextToken empty.
+- `next_token`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
-function list_configuration_revisions(
-    configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_configuration_revisions(configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/configurations/$(configuration-id)/revisions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/configurations/$(configuration-id)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -520,22 +329,15 @@ end
 
 Returns a list of all configurations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of brokers that Amazon MQ can return per page (20 by
+# Keyword Parameters
+- `max_results`: The maximum number of brokers that Amazon MQ can return per page (20 by
   default). This value must be an integer from 5 to 100.
-- `"next_token"`: The token that specifies the next page of results Amazon MQ should
-  return. To request the first page, leave nextToken empty.
+- `next_token`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 function list_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -547,17 +349,9 @@ Lists tags for a resource.
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
 
 """
-function list_tags(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -568,22 +362,15 @@ Returns a list of all ActiveMQ users.
 # Arguments
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of brokers that Amazon MQ can return per page (20 by
+# Keyword Parameters
+- `max_results`: The maximum number of brokers that Amazon MQ can return per page (20 by
   default). This value must be an integer from 5 to 100.
-- `"next_token"`: The token that specifies the next page of results Amazon MQ should
-  return. To request the first page, leave nextToken empty.
+- `next_token`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 function list_users(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "GET",
-        "/v1/brokers/$(broker-id)/users",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/brokers/$(broker-id)/users", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -595,17 +382,9 @@ Reboots a broker. Note: This API is asynchronous.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-function reboot_broker(
-    broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "POST",
-        "/v1/brokers/$(broker-id)/reboot",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("POST", "/v1/brokers/$(broker-id)/reboot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -616,36 +395,27 @@ Adds a pending configuration change to a broker.
 # Arguments
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"authentication_strategy"`: Optional. The authentication strategy used to secure the
+# Keyword Parameters
+- `authentication_strategy`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
-- `"auto_minor_version_upgrade"`: Enables automatic upgrades to new minor versions for
+- `auto_minor_version_upgrade`: Enables automatic upgrades to new minor versions for
   brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur
   during the scheduled maintenance window of the broker or after a manual broker reboot.
-- `"configuration"`: A list of information about the configuration.
-- `"engine_version"`: The broker engine version. For a list of supported engine versions,
-  see Supported engines.
-- `"host_instance_type"`: The broker's host instance type to upgrade to. For a list of
+- `configuration`: A list of information about the configuration.
+- `engine_version`: The broker engine version. For a list of supported engine versions, see
+  Supported engines.
+- `host_instance_type`: The broker's host instance type to upgrade to. For a list of
   supported instance types, see Broker instance types.
-- `"ldap_server_metadata"`: Optional. The metadata of the LDAP server used to authenticate
+- `ldap_server_metadata`: Optional. The metadata of the LDAP server used to authenticate
   and authorize connections to the broker. Does not apply to RabbitMQ brokers.
-- `"logs"`: Enables Amazon CloudWatch logging for brokers.
-- `"maintenance_window_start_time"`: The parameters that determine the WeeklyStartTime.
-- `"security_groups"`: The list of security groups (1 minimum, 5 maximum) that authorizes
+- `logs`: Enables Amazon CloudWatch logging for brokers.
+- `maintenance_window_start_time`: The parameters that determine the WeeklyStartTime.
+- `security_groups`: The list of security groups (1 minimum, 5 maximum) that authorizes
   connections to brokers.
 """
-function update_broker(
-    broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "PUT",
-        "/v1/brokers/$(broker-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("PUT", "/v1/brokers/$(broker-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -657,21 +427,12 @@ Updates the specified configuration.
 - `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
 - `data`: Required. The base64-encoded XML configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description of the configuration.
+# Keyword Parameters
+- `description`: The description of the configuration.
 """
-function update_configuration(
-    configuration_id, data; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_configuration(configuration_id, data; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "PUT",
-        "/v1/configurations/$(configuration-id)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("data" => data), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("PUT", "/v1/configurations/$(configuration-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("data"=>data), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -685,25 +446,16 @@ Updates the information for an ActiveMQ user.
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
   characters long.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"console_access"`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This
-  value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (-
-  . _ ~). This value must be 2-100 characters long.
-- `"password"`: The password of the user. This value must be at least 12 characters long,
+# Keyword Parameters
+- `console_access`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+- `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
+- `password`: The password of the user. This value must be at least 12 characters long,
   must contain at least 4 unique characters, and must not contain commas, colons, or equal
   signs (,:=).
 """
-function update_user(
-    broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return mq(
-        "PUT",
-        "/v1/brokers/$(broker-id)/users/$(username)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

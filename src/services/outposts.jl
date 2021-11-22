@@ -4,18 +4,8 @@ using AWS.AWSServices: outposts
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "tags" => "Tags",
-    "availability_zone_id" => "AvailabilityZoneId",
-    "payment_term" => "PaymentTerm",
-    "life_cycle_status_filter" => "LifeCycleStatusFilter",
-    "availability_zone_id_filter" => "AvailabilityZoneIdFilter",
-    "availability_zone" => "AvailabilityZone",
-    "availability_zone_filter" => "AvailabilityZoneFilter",
-    "next_token" => "NextToken",
-    "max_results" => "MaxResults",
-    "description" => "Description",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("availability_zone_filter" => "AvailabilityZoneFilter", "availability_zone_id_filter" => "AvailabilityZoneIdFilter", "life_cycle_status_filter" => "LifeCycleStatusFilter", "max_results" => "MaxResults", "next_token" => "NextToken", "availability_zone" => "AvailabilityZone", "availability_zone_id" => "AvailabilityZoneId", "description" => "Description", "tags" => "Tags", "payment_term" => "PaymentTerm")
 
 """
     create_order(line_items, outpost_identifier, payment_option; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -27,35 +17,12 @@ Creates an order for an Outpost.
 - `outpost_identifier`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
 - `payment_option`: The payment option for the order.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"payment_term"`: The payment terms for the order.
+# Keyword Parameters
+- `payment_term`: The payment terms for the order.
 """
-function create_order(
-    LineItems,
-    OutpostIdentifier,
-    PaymentOption;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_order(LineItems, OutpostIdentifier, PaymentOption; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "POST",
-        "/orders",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LineItems" => LineItems,
-                    "OutpostIdentifier" => OutpostIdentifier,
-                    "PaymentOption" => PaymentOption,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("POST", "/orders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LineItems"=>LineItems, "OutpostIdentifier"=>OutpostIdentifier, "PaymentOption"=>PaymentOption), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -67,26 +34,15 @@ Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
 - `name`:
 - `site_id`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zone"`:
-- `"availability_zone_id"`:
-- `"description"`:
-- `"tags"`: The tags to apply to the Outpost.
+# Keyword Parameters
+- `availability_zone`:
+- `availability_zone_id`:
+- `description`:
+- `tags`: The tags to apply to the Outpost.
 """
-function create_outpost(
-    Name, SiteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "POST",
-        "/outposts",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Name" => Name, "SiteId" => SiteId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -98,17 +54,9 @@ Deletes the Outpost.
 - `outpost_id`:  The ID of the Outpost.
 
 """
-function delete_outpost(
-    OutpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "DELETE",
-        "/outposts/$(OutpostId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("DELETE", "/outposts/$(OutpostId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -122,13 +70,7 @@ Deletes the site.
 """
 function delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "DELETE",
-        "/sites/$(SiteId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("DELETE", "/sites/$(SiteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -140,17 +82,9 @@ Gets information about the specified Outpost.
 - `outpost_id`:  The ID of the Outpost.
 
 """
-function get_outpost(
-    OutpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "GET",
-        "/outposts/$(OutpostId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("GET", "/outposts/$(OutpostId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -161,22 +95,13 @@ Lists the instance types for the specified Outpost.
 # Arguments
 - `outpost_id`:  The ID of the Outpost.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`:
+# Keyword Parameters
+- `max_results`:
+- `next_token`:
 """
-function get_outpost_instance_types(
-    OutpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_outpost_instance_types(OutpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "GET",
-        "/outposts/$(OutpostId)/instanceTypes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("GET", "/outposts/$(OutpostId)/instanceTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -188,28 +113,25 @@ Availibility Zone (us-east-1a), and AZ ID (use1-az1).  If you specify multiple f
 filters are joined with an AND, and the request returns only results that match all of the
 specified filters.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"availability_zone_filter"`:  A filter for the Availibility Zone (us-east-1a) of the
+# Keyword Parameters
+- `availability_zone_filter`:  A filter for the Availibility Zone (us-east-1a) of the
   Outpost.   Filter values are case sensitive. If you specify multiple values for a filter,
   the values are joined with an OR, and the request returns all results that match any of the
   specified values.
-- `"availability_zone_id_filter"`:  A filter for the AZ IDs (use1-az1) of the Outpost.
+- `availability_zone_id_filter`:  A filter for the AZ IDs (use1-az1) of the Outpost.
   Filter values are case sensitive. If you specify multiple values for a filter, the values
   are joined with an OR, and the request returns all results that match any of the specified
   values.
-- `"life_cycle_status_filter"`:  A filter for the lifecycle status of the Outpost.   Filter
+- `life_cycle_status_filter`:  A filter for the lifecycle status of the Outpost.   Filter
   values are case sensitive. If you specify multiple values for a filter, the values are
   joined with an OR, and the request returns all results that match any of the specified
   values.
-- `"max_results"`:
-- `"next_token"`:
+- `max_results`:
+- `next_token`:
 """
 function list_outposts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "GET", "/outposts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return outposts("GET", "/outposts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -217,16 +139,13 @@ end
 
 Lists the sites for the specified AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`:
-- `"next_token"`:
+# Keyword Parameters
+- `max_results`:
+- `next_token`:
 """
 function list_sites(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "GET", "/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return outposts("GET", "/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -238,17 +157,9 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -261,17 +172,9 @@ Adds tags to the specified resource.
 - `tags`: The tags to add to the resource.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -284,15 +187,7 @@ Removes tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return outposts(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

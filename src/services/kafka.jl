@@ -4,22 +4,8 @@ using AWS.AWSServices: kafka
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "cluster_arn" => "clusterArn",
-    "current_version" => "currentVersion",
-    "open_monitoring" => "openMonitoring",
-    "enhanced_monitoring" => "enhancedMonitoring",
-    "next_token" => "nextToken",
-    "configuration_info" => "configurationInfo",
-    "client_authentication" => "clientAuthentication",
-    "cluster_name_filter" => "clusterNameFilter",
-    "description" => "description",
-    "max_results" => "maxResults",
-    "kafka_versions" => "kafkaVersions",
-    "logging_info" => "loggingInfo",
-    "encryption_info" => "encryptionInfo",
-    "tags" => "tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_authentication" => "clientAuthentication", "configuration_info" => "configurationInfo", "encryption_info" => "encryptionInfo", "enhanced_monitoring" => "enhancedMonitoring", "logging_info" => "loggingInfo", "open_monitoring" => "openMonitoring", "tags" => "tags", "max_results" => "maxResults", "next_token" => "nextToken", "cluster_arn" => "clusterArn", "description" => "description", "kafka_versions" => "kafkaVersions", "current_version" => "currentVersion", "cluster_name_filter" => "clusterNameFilter")
 
 """
     batch_associate_scram_secret(cluster_arn, secret_arn_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -35,19 +21,9 @@ MAPPING = Dict(
             List of AWS Secrets Manager secret ARNs.
 
 """
-function batch_associate_scram_secret(
-    clusterArn, secretArnList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_associate_scram_secret(clusterArn, secretArnList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "POST",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("secretArnList" => secretArnList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("POST", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("secretArnList"=>secretArnList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -64,19 +40,9 @@ end
             List of AWS Secrets Manager secret ARNs.
 
 """
-function batch_disassociate_scram_secret(
-    clusterArn, secretArnList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_disassociate_scram_secret(clusterArn, secretArnList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PATCH",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("secretArnList" => secretArnList), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PATCH", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("secretArnList"=>secretArnList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -97,53 +63,28 @@ end
             The number of broker nodes in the cluster.
   
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_authentication"`: 
+# Keyword Parameters
+- `client_authentication`: 
             Includes all client authentication related
   information.
-- `"configuration_info"`: 
-            Represents the configuration that you want MSK to
-  use for the brokers in a cluster.
-- `"encryption_info"`: 
+- `configuration_info`: 
+            Represents the configuration that you want MSK to use
+  for the brokers in a cluster.
+- `encryption_info`: 
             Includes all encryption-related information.
-- `"enhanced_monitoring"`: 
+- `enhanced_monitoring`: 
             Specifies the level of monitoring for the MSK
   cluster. The possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and
   PER_TOPIC_PER_PARTITION.
-- `"logging_info"`:
-- `"open_monitoring"`: 
+- `logging_info`:
+- `open_monitoring`: 
             The settings for open monitoring.
-- `"tags"`: 
+- `tags`: 
             Create tags when creating the cluster.
 """
-function create_cluster(
-    brokerNodeGroupInfo,
-    clusterName,
-    kafkaVersion,
-    numberOfBrokerNodes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_cluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "POST",
-        "/v1/clusters",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "brokerNodeGroupInfo" => brokerNodeGroupInfo,
-                    "clusterName" => clusterName,
-                    "kafkaVersion" => kafkaVersion,
-                    "numberOfBrokerNodes" => numberOfBrokerNodes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("POST", "/v1/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -162,31 +103,16 @@ end
   using the AWS Management Console, the SDK, or the AWS CLI, the contents of
   server.properties can be in plaintext.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: 
+# Keyword Parameters
+- `description`: 
             The description of the configuration.
-- `"kafka_versions"`: 
+- `kafka_versions`: 
             The versions of Apache Kafka with which you can use this
   MSK configuration.
 """
-function create_configuration(
-    name, serverProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_configuration(name, serverProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "POST",
-        "/v1/configurations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "serverProperties" => serverProperties),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -201,22 +127,13 @@ request.
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"current_version"`: 
+# Keyword Parameters
+- `current_version`: 
             The current version of the MSK cluster.
 """
-function delete_cluster(
-    clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "DELETE",
-        "/v1/clusters/$(clusterArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("DELETE", "/v1/clusters/$(clusterArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -231,17 +148,9 @@ end
   configuration.
 
 """
-function delete_configuration(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_configuration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "DELETE",
-        "/v1/configurations/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("DELETE", "/v1/configurations/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -257,17 +166,9 @@ specified in the request.
   cluster.
 
 """
-function describe_cluster(
-    clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/clusters/$(clusterArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/clusters/$(clusterArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -282,17 +183,9 @@ end
   identifies the MSK cluster operation.
 
 """
-function describe_cluster_operation(
-    clusterOperationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_cluster_operation(clusterOperationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/operations/$(clusterOperationArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/operations/$(clusterOperationArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -307,17 +200,9 @@ end
   configuration and all of its revisions.
 
 """
-function describe_configuration(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_configuration(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/configurations/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/configurations/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -335,17 +220,9 @@ end
   configuration.
 
 """
-function describe_configuration_revision(
-    arn, revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_configuration_revision(arn, revision; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/configurations/$(arn)/revisions/$(revision)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -360,17 +237,9 @@ end
   cluster.
 
 """
-function get_bootstrap_brokers(
-    clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bootstrap_brokers(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/clusters/$(clusterArn)/bootstrap-brokers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -380,23 +249,14 @@ end
             Gets the Apache Kafka versions to which you can update the MSK cluster.
 
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cluster_arn"`: 
+# Keyword Parameters
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) of the cluster check.
   
 """
-function get_compatible_kafka_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/compatible-kafka-versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/compatible-kafka-versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -411,28 +271,19 @@ MSK cluster.
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: 
+# Keyword Parameters
+- `max_results`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `"next_token"`: 
-            The paginated results marker. When the result of the
-  operation is truncated, the call returns NextToken in the response. 
-            To get the
-  next batch, provide this token in your next request.
+- `next_token`: 
+            The paginated results marker. When the result of the operation
+  is truncated, the call returns NextToken in the response. 
+            To get the next
+  batch, provide this token in your next request.
 """
-function list_cluster_operations(
-    clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_cluster_operations(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/clusters/$(clusterArn)/operations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/clusters/$(clusterArn)/operations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -441,30 +292,23 @@ end
 
             Returns a list of all the MSK clusters in the current Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cluster_name_filter"`: 
-            Specify a prefix of the name of the clusters that
-  you want to list. The service lists all the clusters whose names start with this prefix.
+# Keyword Parameters
+- `cluster_name_filter`: 
+            Specify a prefix of the name of the clusters that you
+  want to list. The service lists all the clusters whose names start with this prefix.
   
-- `"max_results"`: 
+- `max_results`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `"next_token"`: 
-            The paginated results marker. When the result of the
-  operation is truncated, the call returns NextToken in the response. 
-            To get the
-  next batch, provide this token in your next request.
+- `next_token`: 
+            The paginated results marker. When the result of the operation
+  is truncated, the call returns NextToken in the response. 
+            To get the next
+  batch, provide this token in your next request.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/clusters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -478,28 +322,19 @@ end
             The Amazon Resource Name (ARN) that uniquely identifies an MSK
   configuration and all of its revisions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: 
+# Keyword Parameters
+- `max_results`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `"next_token"`: 
-            The paginated results marker. When the result of the
-  operation is truncated, the call returns NextToken in the response. 
-            To get the
-  next batch, provide this token in your next request.
+- `next_token`: 
+            The paginated results marker. When the result of the operation
+  is truncated, the call returns NextToken in the response. 
+            To get the next
+  batch, provide this token in your next request.
 """
-function list_configuration_revisions(
-    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_configuration_revisions(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/configurations/$(arn)/revisions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/configurations/$(arn)/revisions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -508,53 +343,39 @@ end
 
             Returns a list of all the MSK configurations in this Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: 
+# Keyword Parameters
+- `max_results`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `"next_token"`: 
-            The paginated results marker. When the result of the
-  operation is truncated, the call returns NextToken in the response. 
-            To get the
-  next batch, provide this token in your next request.
+- `next_token`: 
+            The paginated results marker. When the result of the operation
+  is truncated, the call returns NextToken in the response. 
+            To get the next
+  batch, provide this token in your next request.
 """
 function list_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/configurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
     list_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 
-            Returns a list of Kafka versions.
+            Returns a list of Apache Kafka versions.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: 
+# Keyword Parameters
+- `max_results`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `"next_token"`: 
-            The paginated results marker. When the result of the
-  operation is truncated, the call returns NextToken in the response. To get the next batch,
-  provide this token in your next request.
+- `next_token`: 
+            The paginated results marker. When the result of the operation
+  is truncated, the call returns NextToken in the response. To get the next batch, provide
+  this token in your next request.
 """
 function list_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/kafka-versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/kafka-versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -568,28 +389,19 @@ end
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: 
+# Keyword Parameters
+- `max_results`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `"next_token"`: 
-            The paginated results marker. When the result of the
-  operation is truncated, the call returns NextToken in the response. 
-            To get the
-  next batch, provide this token in your next request.
+- `next_token`: 
+            The paginated results marker. When the result of the operation
+  is truncated, the call returns NextToken in the response. 
+            To get the next
+  batch, provide this token in your next request.
 """
-function list_nodes(
-    clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_nodes(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/clusters/$(clusterArn)/nodes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/clusters/$(clusterArn)/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -603,24 +415,15 @@ end
 - `cluster_arn`: 
             The arn of the cluster.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: 
+# Keyword Parameters
+- `max_results`: 
             The maxResults of the query.
-- `"next_token"`: 
+- `next_token`: 
             The nextToken of the query.
 """
-function list_scram_secrets(
-    clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/clusters/$(clusterArn)/scram-secrets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -635,17 +438,9 @@ end
   resource that's associated with the tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "GET",
-        "/v1/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -662,19 +457,9 @@ Reboots brokers.
   
 
 """
-function reboot_broker(
-    brokerIds, clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reboot_broker(brokerIds, clusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/reboot-broker",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("brokerIds" => brokerIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerIds"=>brokerIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -691,17 +476,9 @@ end
             The key-value pair for the resource tag.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "POST",
-        "/v1/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -735,17 +512,9 @@ end
                     @.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "DELETE",
-        "/v1/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -766,30 +535,9 @@ end
   the cluster to have after this operation completes successfully.
 
 """
-function update_broker_count(
-    clusterArn,
-    currentVersion,
-    targetNumberOfBrokerNodes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_broker_count(clusterArn, currentVersion, targetNumberOfBrokerNodes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/count",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetNumberOfBrokerNodes" => targetNumberOfBrokerNodes,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -810,30 +558,9 @@ end
   of the broker to apply the update to.
 
 """
-function update_broker_storage(
-    clusterArn,
-    currentVersion,
-    targetBrokerEBSVolumeInfo;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_broker_storage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/storage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetBrokerEBSVolumeInfo" => targetBrokerEBSVolumeInfo,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -854,30 +581,9 @@ end
   brokers in this cluster to be.
 
 """
-function update_broker_type(
-    clusterArn,
-    currentVersion,
-    targetInstanceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_broker_type(clusterArn, currentVersion, targetInstanceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/type",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetInstanceType" => targetInstanceType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/type", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetInstanceType"=>targetInstanceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -899,30 +605,9 @@ body.
   
 
 """
-function update_cluster_configuration(
-    clusterArn,
-    configurationInfo,
-    currentVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_cluster_configuration(clusterArn, configurationInfo, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "configurationInfo" => configurationInfo,
-                    "currentVersion" => currentVersion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -940,36 +625,14 @@ end
 - `target_kafka_version`: 
             Target Kafka version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration_info"`: 
-            The custom configuration that should be applied on
-  the new version of cluster.
+# Keyword Parameters
+- `configuration_info`: 
+            The custom configuration that should be applied on the
+  new version of cluster.
 """
-function update_cluster_kafka_version(
-    clusterArn,
-    currentVersion,
-    targetKafkaVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_cluster_kafka_version(clusterArn, currentVersion, targetKafkaVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/version",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetKafkaVersion" => targetKafkaVersion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -988,26 +651,36 @@ end
   using the AWS Management Console, the SDK, or the AWS CLI, the contents of
   server.properties can be in plaintext.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: 
+# Keyword Parameters
+- `description`: 
             The description of the configuration revision.
 """
-function update_configuration(
-    arn, serverProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_configuration(arn, serverProperties; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/configurations/$(arn)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("serverProperties" => serverProperties), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/configurations/$(arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serverProperties"=>serverProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    update_connectivity(cluster_arn, connectivity_info, current_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+
+            Updates the cluster's connectivity configuration.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the configuration.
+- `connectivity_info`: 
+            Information about the broker access configuration.
+  
+- `current_version`: 
+            The version of the MSK cluster to update. Cluster
+  versions aren't simple numbers. You can describe an MSK cluster to find its version. When
+  this update operation is successful, it generates a new cluster version.
+
+"""
+function update_connectivity(clusterArn, connectivityInfo, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/connectivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectivityInfo"=>connectivityInfo, "currentVersion"=>currentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1027,28 +700,17 @@ can also specify settings for open monitoring with Prometheus.
   versions aren't simple numbers. You can describe an MSK cluster to find its version. When
   this update operation is successful, it generates a new cluster version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enhanced_monitoring"`: 
+# Keyword Parameters
+- `enhanced_monitoring`: 
             Specifies which Apache Kafka metrics Amazon MSK
   gathers and sends to Amazon CloudWatch for this cluster.
-- `"logging_info"`:
-- `"open_monitoring"`: 
+- `logging_info`:
+- `open_monitoring`: 
             The settings for open monitoring.
 """
-function update_monitoring(
-    clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_monitoring(clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PUT",
-        "/v1/clusters/$(clusterArn)/monitoring",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1067,25 +729,14 @@ specify encryption and authentication on existing clusters.
   versions aren't simple numbers. You can describe an MSK cluster to find its version. When
   this update operation is successful, it generates a new cluster version.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_authentication"`: 
+# Keyword Parameters
+- `client_authentication`: 
             Includes all client authentication related
   information.
-- `"encryption_info"`: 
+- `encryption_info`: 
             Includes all encryption-related information.
 """
-function update_security(
-    clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_security(clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kafka(
-        "PATCH",
-        "/v1/clusters/$(clusterArn)/security",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kafka("PATCH", "/v1/clusters/$(clusterArn)/security", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

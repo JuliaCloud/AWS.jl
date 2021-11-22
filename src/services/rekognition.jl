@@ -4,38 +4,8 @@ using AWS.AWSServices: rekognition
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "quality_filter" => "QualityFilter",
-    "min_confidence" => "MinConfidence",
-    "dataset_source" => "DatasetSource",
-    "kms_key_id" => "KmsKeyId",
-    "has_errors" => "HasErrors",
-    "notification_channel" => "NotificationChannel",
-    "next_token" => "NextToken",
-    "client_request_token" => "ClientRequestToken",
-    "testing_data" => "TestingData",
-    "contains_labels" => "ContainsLabels",
-    "version_names" => "VersionNames",
-    "sort_by" => "SortBy",
-    "similarity_threshold" => "SimilarityThreshold",
-    "job_tag" => "JobTag",
-    "max_results" => "MaxResults",
-    "detection_attributes" => "DetectionAttributes",
-    "labeled" => "Labeled",
-    "max_labels" => "MaxLabels",
-    "face_match_threshold" => "FaceMatchThreshold",
-    "max_faces" => "MaxFaces",
-    "face_attributes" => "FaceAttributes",
-    "filters" => "Filters",
-    "source_ref_contains" => "SourceRefContains",
-    "summarization_attributes" => "SummarizationAttributes",
-    "human_loop_config" => "HumanLoopConfig",
-    "attributes" => "Attributes",
-    "external_image_id" => "ExternalImageId",
-    "tags" => "Tags",
-    "training_data" => "TrainingData",
-    "project_names" => "ProjectNames",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("face_match_threshold" => "FaceMatchThreshold", "max_faces" => "MaxFaces", "max_results" => "MaxResults", "next_token" => "NextToken", "sort_by" => "SortBy", "quality_filter" => "QualityFilter", "attributes" => "Attributes", "dataset_source" => "DatasetSource", "filters" => "Filters", "detection_attributes" => "DetectionAttributes", "external_image_id" => "ExternalImageId", "kms_key_id" => "KmsKeyId", "tags" => "Tags", "testing_data" => "TestingData", "training_data" => "TrainingData", "contains_labels" => "ContainsLabels", "has_errors" => "HasErrors", "labeled" => "Labeled", "source_ref_contains" => "SourceRefContains", "client_request_token" => "ClientRequestToken", "job_tag" => "JobTag", "notification_channel" => "NotificationChannel", "summarization_attributes" => "SummarizationAttributes", "human_loop_config" => "HumanLoopConfig", "min_confidence" => "MinConfidence", "project_names" => "ProjectNames", "face_attributes" => "FaceAttributes", "version_names" => "VersionNames", "similarity_threshold" => "SimilarityThreshold", "max_labels" => "MaxLabels")
 
 """
     compare_faces(source_image, target_image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -87,10 +57,9 @@ requires permissions to perform the rekognition:CompareFaces action.
   base64-encode image bytes passed using the Bytes field. For more information, see Images in
   the Amazon Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"quality_filter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition
+# Keyword Parameters
+- `quality_filter`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition
   chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces
   that don’t meet the chosen quality bar. The quality bar is based on a variety of common
   use cases. Low-quality detections can occur for a number of reasons. Some examples are an
@@ -98,27 +67,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   that's too extreme to use. If you specify NONE, no filtering is performed. The default
   value is NONE.  To use quality filtering, the collection you are using must be associated
   with version 3 of the face model or higher.
-- `"similarity_threshold"`: The minimum level of confidence in the face matches that a
-  match must meet to be included in the FaceMatches array.
+- `similarity_threshold`: The minimum level of confidence in the face matches that a match
+  must meet to be included in the FaceMatches array.
 """
-function compare_faces(
-    SourceImage, TargetImage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function compare_faces(SourceImage, TargetImage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "CompareFaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceImage" => SourceImage, "TargetImage" => TargetImage
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("CompareFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -137,22 +91,12 @@ operation.
 # Arguments
 - `collection_id`: ID for the collection that you are creating.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`:  A set of tags (key-value pairs) that you want to attach to the collection.
+# Keyword Parameters
+- `tags`:  A set of tags (key-value pairs) that you want to attach to the collection.
 """
-function create_collection(
-    CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "CreateCollection",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -179,29 +123,15 @@ permission to perform the rekognition:ListDatasetEntries action.
 - `project_arn`:  The ARN of the Amazon Rekognition Custom Labels project to which you want
   to asssign the dataset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dataset_source"`:  The source files for the dataset. You can specify the ARN of an
+# Keyword Parameters
+- `dataset_source`:  The source files for the dataset. You can specify the ARN of an
   existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
   manifest file. If you don't specify datasetSource, an empty dataset is created. To add
   labeled images to the dataset, You can use the console or call UpdateDatasetEntries.
 """
-function create_dataset(
-    DatasetType, ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_dataset(DatasetType, ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "CreateDataset",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DatasetType" => DatasetType, "ProjectArn" => ProjectArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "ProjectArn"=>ProjectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -216,18 +146,9 @@ rekognition:CreateProject action.
 - `project_name`: The name of the project to create.
 
 """
-function create_project(
-    ProjectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "CreateProject",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -262,9 +183,8 @@ the rekognition:CreateProjectVersion action.
   model that you want to train.
 - `version_name`: A name for the version of the model. This value must be unique.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kms_key_id"`: The identifier for your AWS Key Management Service key (AWS KMS key). You
+# Keyword Parameters
+- `kms_key_id`: The identifier for your AWS Key Management Service key (AWS KMS key). You
   can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias
   for your KMS key, or an alias ARN. The key is used to encrypt training and test images
   copied into the service for model training. Your source images are unaffected. The key is
@@ -273,38 +193,17 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   permissions on the KMS key.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey
   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are
   encrypted using a key that AWS owns and manages.
-- `"tags"`:  A set of tags (key-value pairs) that you want to attach to the model.
-- `"testing_data"`: Specifies an external manifest that the service uses to test the model.
+- `tags`:  A set of tags (key-value pairs) that you want to attach to the model.
+- `testing_data`: Specifies an external manifest that the service uses to test the model.
   If you specify TestingData you must also specify TrainingData. The project must not have
   any associated datasets.
-- `"training_data"`: Specifies an external manifest that the services uses to train the
+- `training_data`: Specifies an external manifest that the services uses to train the
   model. If you specify TrainingData you must also specify TestingData. The project must not
   have any associated datasets.
 """
-function create_project_version(
-    OutputConfig,
-    ProjectArn,
-    VersionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_project_version(OutputConfig, ProjectArn, VersionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "CreateProjectVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "OutputConfig" => OutputConfig,
-                    "ProjectArn" => ProjectArn,
-                    "VersionName" => VersionName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "VersionName"=>VersionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -336,39 +235,12 @@ the rekognition:TagResource operation.
 - `settings`: Face recognition input parameters to be used by the stream processor.
   Includes the collection to use for face recognition and the face attributes to detect.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`:  A set of tags (key-value pairs) that you want to attach to the stream
-  processor.
+# Keyword Parameters
+- `tags`:  A set of tags (key-value pairs) that you want to attach to the stream processor.
 """
-function create_stream_processor(
-    Input,
-    Name,
-    Output,
-    RoleArn,
-    Settings;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_stream_processor(Input, Name, Output, RoleArn, Settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "CreateStreamProcessor",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Input" => Input,
-                    "Name" => Name,
-                    "Output" => Output,
-                    "RoleArn" => RoleArn,
-                    "Settings" => Settings,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -382,18 +254,9 @@ permissions to perform the rekognition:DeleteCollection action.
 - `collection_id`: ID of the collection to delete.
 
 """
-function delete_collection(
-    CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DeleteCollection",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DeleteCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -412,18 +275,9 @@ rekognition:DeleteDataset action.
   delete.
 
 """
-function delete_dataset(
-    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DeleteDataset",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -438,22 +292,9 @@ rekognition:DeleteFaces action.
 - `face_ids`: An array of face IDs to delete.
 
 """
-function delete_faces(
-    CollectionId, FaceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_faces(CollectionId, FaceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DeleteFaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CollectionId" => CollectionId, "FaceIds" => FaceIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DeleteFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -470,18 +311,9 @@ action.
 - `project_arn`: The Amazon Resource Name (ARN) of the project that you want to delete.
 
 """
-function delete_project(
-    ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_project(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DeleteProject",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -498,20 +330,9 @@ rekognition:DeleteProjectVersion action.
   to delete.
 
 """
-function delete_project_version(
-    ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DeleteProjectVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ProjectVersionArn" => ProjectVersionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DeleteProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -525,16 +346,9 @@ same name for a stream processor for a few seconds after calling DeleteStreamPro
 - `name`: The name of the stream processor you want to delete.
 
 """
-function delete_stream_processor(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DeleteStreamProcessor",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DeleteStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -549,18 +363,9 @@ Amazon Rekognition Developer Guide.
 - `collection_id`: The ID of the collection to describe.
 
 """
-function describe_collection(
-    CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DescribeCollection",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DescribeCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -574,18 +379,9 @@ operation requires permissions to perform the rekognition:DescribeDataset action
 - `dataset_arn`:  The Amazon Resource Name (ARN) of the dataset that you want to describe.
 
 """
-function describe_dataset(
-    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DescribeDataset",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -600,33 +396,23 @@ requires permissions to perform the rekognition:DescribeProjectVersions action.
 - `project_arn`: The Amazon Resource Name (ARN) of the project that contains the models you
   want to describe.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more results to
+- `next_token`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
   can use this pagination token to retrieve the next set of results.
-- `"version_names"`: A list of model version names that you want to describe. You can add
-  up to 10 model version names to the list. If you don't specify a value, all model
-  descriptions are returned. A version name is part of a model (ProjectVersion) ARN. For
-  example, my-model.2020-01-21T09.10.15 is the version name in the following ARN.
+- `version_names`: A list of model version names that you want to describe. You can add up
+  to 10 model version names to the list. If you don't specify a value, all model descriptions
+  are returned. A version name is part of a model (ProjectVersion) ARN. For example,
+  my-model.2020-01-21T09.10.15 is the version name in the following ARN.
   arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/my-model.2020-01
   -21T09.10.15/1234567890123.
 """
-function describe_project_versions(
-    ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_project_versions(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DescribeProjectVersions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DescribeProjectVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -635,23 +421,20 @@ end
 Gets information about your Amazon Rekognition Custom Labels projects.  This operation
 requires permissions to perform the rekognition:DescribeProjects action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more results to
+- `next_token`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
   can use this pagination token to retrieve the next set of results.
-- `"project_names"`: A list of the projects that you want Amazon Rekognition Custom Labels
-  to describe. If you don't specify a value, the response includes descriptions for all the
+- `project_names`: A list of the projects that you want Amazon Rekognition Custom Labels to
+  describe. If you don't specify a value, the response includes descriptions for all the
   projects in your AWS account.
 """
 function describe_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DescribeProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rekognition("DescribeProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -665,16 +448,9 @@ recognition being performed, and the current status of the stream processor.
 - `name`: Name of the stream processor for which you want information.
 
 """
-function describe_stream_processor(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DescribeStreamProcessor",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DescribeStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -709,36 +485,20 @@ Developer Guide.
 - `image`:
 - `project_version_arn`: The ARN of the model version that you want to use.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results you want the service to return in the
-  response. The service returns the specified number of highest confidence labels ranked from
-  highest confidence to lowest.
-- `"min_confidence"`: Specifies the minimum confidence level for the labels to return.
+# Keyword Parameters
+- `max_results`: Maximum number of results you want the service to return in the response.
+  The service returns the specified number of highest confidence labels ranked from highest
+  confidence to lowest.
+- `min_confidence`: Specifies the minimum confidence level for the labels to return.
   DetectCustomLabels doesn't return any labels with a confidence value that's lower than this
   specified value. If you specify a value of 0, DetectCustomLabels returns all labels,
   regardless of the assumed threshold applied to each label. If you don't specify a value for
   MinConfidence, DetectCustomLabels returns labels based on the assumed threshold of each
   label.
 """
-function detect_custom_labels(
-    Image, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_custom_labels(Image, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DetectCustomLabels",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Image" => Image, "ProjectVersionArn" => ProjectVersionArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DetectCustomLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -765,9 +525,8 @@ rekognition:DetectFaces action.
   base64-encode image bytes passed using the Bytes field. For more information, see Images in
   the Amazon Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"attributes"`: An array of facial attributes you want to be returned. This can be the
+# Keyword Parameters
+- `attributes`: An array of facial attributes you want to be returned. This can be the
   default list of attributes or all attributes. If you don't specify a value for Attributes
   or if you specify [\"DEFAULT\"], the API returns the following subset of facial attributes:
   BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide [\"ALL\"], all facial
@@ -777,12 +536,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function detect_faces(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DetectFaces",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DetectFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -831,23 +585,17 @@ operation requires permissions to perform the rekognition:DetectLabels action.
   Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes
   field. For more information, see Images in the Amazon Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_labels"`: Maximum number of labels you want the service to return in the response.
+# Keyword Parameters
+- `max_labels`: Maximum number of labels you want the service to return in the response.
   The service returns the specified number of highest confidence labels.
-- `"min_confidence"`: Specifies the minimum confidence level for the labels to return.
-  Amazon Rekognition doesn't return any labels with confidence lower than this specified
-  value. If MinConfidence is not specified, the operation returns labels with a confidence
-  values greater than or equal to 55 percent.
+- `min_confidence`: Specifies the minimum confidence level for the labels to return. Amazon
+  Rekognition doesn't return any labels with confidence lower than this specified value. If
+  MinConfidence is not specified, the operation returns labels with a confidence values
+  greater than or equal to 55 percent.
 """
 function detect_labels(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DetectLabels",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DetectLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -870,25 +618,17 @@ either a PNG or JPEG formatted file.
   base64-encode image bytes passed using the Bytes field. For more information, see Images in
   the Amazon Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"human_loop_config"`: Sets up the configuration for human evaluation, including the
+# Keyword Parameters
+- `human_loop_config`: Sets up the configuration for human evaluation, including the
   FlowDefinition the image will be sent to.
-- `"min_confidence"`: Specifies the minimum confidence level for the labels to return.
-  Amazon Rekognition doesn't return any labels with a confidence level lower than this
-  specified value. If you don't specify MinConfidence, the operation returns labels with
-  confidence values greater than or equal to 50 percent.
+- `min_confidence`: Specifies the minimum confidence level for the labels to return. Amazon
+  Rekognition doesn't return any labels with a confidence level lower than this specified
+  value. If you don't specify MinConfidence, the operation returns labels with confidence
+  values greater than or equal to 50 percent.
 """
-function detect_moderation_labels(
-    Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_moderation_labels(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DetectModerationLabels",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -916,20 +656,12 @@ rekognition:DetectProtectiveEquipment action.
 - `image`: The image in which you want to detect PPE on detected persons. The image can be
   passed as image bytes or you can reference an image stored in an Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"summarization_attributes"`: An array of PPE types that you want to summarize.
+# Keyword Parameters
+- `summarization_attributes`: An array of PPE types that you want to summarize.
 """
-function detect_protective_equipment(
-    Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_protective_equipment(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DetectProtectiveEquipment",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -962,19 +694,13 @@ Rekognition Developer Guide.
   bytes passed using the Bytes field. For more information, see Images in the Amazon
   Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Optional parameters that let you set the criteria that the text must meet to
+# Keyword Parameters
+- `filters`: Optional parameters that let you set the criteria that the text must meet to
   be included in your response.
 """
 function detect_text(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DetectText",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DetectText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -997,18 +723,9 @@ rekognition:DistributeDatasetEntries action.
   datasets must belong to the same project. The test dataset must be empty.
 
 """
-function distribute_dataset_entries(
-    Datasets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function distribute_dataset_entries(Datasets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "DistributeDatasetEntries",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Datasets" => Datasets), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("DistributeDatasetEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Datasets"=>Datasets), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1025,16 +742,9 @@ operation requires permissions to perform the rekognition:GetCelebrityInfo actio
   RecognizeCelebrities operation, which recognizes celebrities in an image.
 
 """
-function get_celebrity_info(
-    Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_celebrity_info(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetCelebrityInfo",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetCelebrityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1075,28 +785,20 @@ returned from the previous call to GetCelebrityRecognition.
 - `job_id`: Job identifier for the required celebrity recognition analysis. You can get the
   job identifer from a call to StartCelebrityRecognition.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
-- `"next_token"`: If the previous response was incomplete (because there is more recognized
+- `next_token`: If the previous response was incomplete (because there is more recognized
   celebrities to retrieve), Amazon Rekognition Video returns a pagination token in the
   response. You can use this pagination token to retrieve the next set of celebrities.
-- `"sort_by"`: Sort to use for celebrities returned in Celebrities field. Specify ID to
-  sort by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was
+- `sort_by`: Sort to use for celebrities returned in Celebrities field. Specify ID to sort
+  by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was
   recognized.
 """
-function get_celebrity_recognition(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_celebrity_recognition(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetCelebrityRecognition",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1130,29 +832,21 @@ information, see Content moderation in the Amazon Rekognition Developer Guide.
 - `job_id`: The identifier for the inappropriate, unwanted, or offensive content moderation
   job. Use JobId to identify the job in a subsequent call to GetContentModeration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
-- `"next_token"`: If the previous response was incomplete (because there is more data to
+- `next_token`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of content moderation labels.
-- `"sort_by"`: Sort to use for elements in the ModerationLabelDetections array. Use
-  TIMESTAMP to sort array elements by the time labels are detected. Use NAME to
-  alphabetically group elements for a label together. Within each label group, the array
-  element are sorted by detection confidence. The default sort is by TIMESTAMP.
+- `sort_by`: Sort to use for elements in the ModerationLabelDetections array. Use TIMESTAMP
+  to sort array elements by the time labels are detected. Use NAME to alphabetically group
+  elements for a label together. Within each label group, the array element are sorted by
+  detection confidence. The default sort is by TIMESTAMP.
 """
-function get_content_moderation(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_content_moderation(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetContentModeration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1177,25 +871,17 @@ parameter with the token value returned from the previous call to GetFaceDetecti
 - `job_id`: Unique identifier for the face detection job. The JobId is returned from
   StartFaceDetection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
-- `"next_token"`: If the previous response was incomplete (because there are more faces to
+- `next_token`: If the previous response was incomplete (because there are more faces to
   retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use
   this pagination token to retrieve the next set of faces.
 """
-function get_face_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_face_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetFaceDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1226,27 +912,19 @@ persons by specifying INDEX for the SORTBY input parameter.
 - `job_id`: The job identifer for the search request. You get the job identifier from an
   initial call to StartFaceSearch.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
-- `"next_token"`: If the previous response was incomplete (because there is more search
+- `next_token`: If the previous response was incomplete (because there is more search
   results to retrieve), Amazon Rekognition Video returns a pagination token in the response.
   You can use this pagination token to retrieve the next set of search results.
-- `"sort_by"`: Sort to use for grouping faces in the response. Use TIMESTAMP to group faces
+- `sort_by`: Sort to use for grouping faces in the response. Use TIMESTAMP to group faces
   by the time that they are recognized. Use INDEX to sort by recognized faces.
 """
-function get_face_search(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_face_search(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetFaceSearch",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1276,29 +954,21 @@ GetLabelDetection.
 - `job_id`: Job identifier for the label detection operation for which you want results
   returned. You get the job identifer from an initial call to StartlabelDetection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
-- `"next_token"`: If the previous response was incomplete (because there are more labels to
+- `next_token`: If the previous response was incomplete (because there are more labels to
   retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use
   this pagination token to retrieve the next set of labels.
-- `"sort_by"`: Sort to use for elements in the Labels array. Use TIMESTAMP to sort array
+- `sort_by`: Sort to use for elements in the Labels array. Use TIMESTAMP to sort array
   elements by the time labels are detected. Use NAME to alphabetically group elements for a
   label together. Within each label group, the array element are sorted by detection
   confidence. The default sort is by TIMESTAMP.
 """
-function get_label_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_label_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetLabelDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1328,29 +998,21 @@ parameter with the token value returned from the previous call to GetPersonTrack
 - `job_id`: The identifier for a job that tracks persons in a video. You get the JobId from
   a call to StartPersonTracking.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
-- `"next_token"`: If the previous response was incomplete (because there are more persons
-  to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can
-  use this pagination token to retrieve the next set of persons.
-- `"sort_by"`: Sort to use for elements in the Persons array. Use TIMESTAMP to sort array
+- `next_token`: If the previous response was incomplete (because there are more persons to
+  retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of persons.
+- `sort_by`: Sort to use for elements in the Persons array. Use TIMESTAMP to sort array
   elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you
   sort by INDEX, the array elements for each person are sorted by detection confidence. The
   default sort is by TIMESTAMP.
 """
-function get_person_tracking(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_person_tracking(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetPersonTracking",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1382,23 +1044,15 @@ the Amazon Rekognition Developer Guide.
 - `job_id`: Job identifier for the text detection operation for which you want results
   returned. You get the job identifer from an initial call to StartSegmentDetection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000.
-- `"next_token"`: If the response is truncated, Amazon Rekognition Video returns this token
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000.
+- `next_token`: If the response is truncated, Amazon Rekognition Video returns this token
   that you can use in the subsequent request to retrieve the next set of text.
 """
-function get_segment_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_segment_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetSegmentDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1427,24 +1081,16 @@ previous call to GetTextDetection.
 - `job_id`: Job identifier for the text detection operation for which you want results
   returned. You get the job identifer from an initial call to StartTextDetection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return per paginated call. The largest
-  value you can specify is 1000.
-- `"next_token"`: If the previous response was incomplete (because there are more labels to
+# Keyword Parameters
+- `max_results`: Maximum number of results to return per paginated call. The largest value
+  you can specify is 1000.
+- `next_token`: If the previous response was incomplete (because there are more labels to
   retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use
   this pagination token to retrieve the next set of text.
 """
-function get_text_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "GetTextDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("GetTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1509,28 +1155,27 @@ rekognition:IndexFaces action.
   image bytes passed using the Bytes field. For more information, see Images in the Amazon
   Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"detection_attributes"`: An array of facial attributes that you want to be returned.
-  This can be the default list of attributes or all attributes. If you don't specify a value
-  for Attributes or if you specify [\"DEFAULT\"], the API returns the following subset of
-  facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide
+# Keyword Parameters
+- `detection_attributes`: An array of facial attributes that you want to be returned. This
+  can be the default list of attributes or all attributes. If you don't specify a value for
+  Attributes or if you specify [\"DEFAULT\"], the API returns the following subset of facial
+  attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide
   [\"ALL\"], all facial attributes are returned, but the operation takes longer to complete.
   If you provide both, [\"ALL\", \"DEFAULT\"], the service uses a logical AND operator to
   determine which attributes to return (in this case, all attributes).
-- `"external_image_id"`: The ID you want to assign to all the faces detected in the image.
-- `"max_faces"`: The maximum number of faces to index. The value of MaxFaces must be
-  greater than or equal to 1. IndexFaces returns no more than 100 detected faces in an image,
-  even if you specify a larger value for MaxFaces. If IndexFaces detects more faces than the
-  value of MaxFaces, the faces with the lowest quality are filtered out first. If there are
-  still more faces than the value of MaxFaces, the faces with the smallest bounding boxes are
-  filtered out (up to the number that's needed to satisfy the value of MaxFaces). Information
-  about the unindexed faces is available in the UnindexedFaces array.  The faces that are
-  returned by IndexFaces are sorted by the largest face bounding box size to the smallest
-  size, in descending order.  MaxFaces can be used with a collection associated with any
-  version of the face model.
-- `"quality_filter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't indexed. If you specify AUTO, Amazon Rekognition
+- `external_image_id`: The ID you want to assign to all the faces detected in the image.
+- `max_faces`: The maximum number of faces to index. The value of MaxFaces must be greater
+  than or equal to 1. IndexFaces returns no more than 100 detected faces in an image, even if
+  you specify a larger value for MaxFaces. If IndexFaces detects more faces than the value of
+  MaxFaces, the faces with the lowest quality are filtered out first. If there are still more
+  faces than the value of MaxFaces, the faces with the smallest bounding boxes are filtered
+  out (up to the number that's needed to satisfy the value of MaxFaces). Information about
+  the unindexed faces is available in the UnindexedFaces array.  The faces that are returned
+  by IndexFaces are sorted by the largest face bounding box size to the smallest size, in
+  descending order.  MaxFaces can be used with a collection associated with any version of
+  the face model.
+- `quality_filter`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't indexed. If you specify AUTO, Amazon Rekognition
   chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces
   that don’t meet the chosen quality bar. The default value is AUTO. The quality bar is
   based on a variety of common use cases. Low-quality detections can occur for a number of
@@ -1539,22 +1184,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   is performed.  To use quality filtering, the collection you are using must be associated
   with version 3 of the face model or higher.
 """
-function index_faces(
-    CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function index_faces(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "IndexFaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("IndexFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1566,16 +1198,13 @@ of collection IDs. For an example, see Listing Collections in the Amazon Rekogni
 Developer Guide. This operation requires permissions to perform the
 rekognition:ListCollections action.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of collection IDs to return.
-- `"next_token"`: Pagination token from the previous response.
+# Keyword Parameters
+- `max_results`: Maximum number of collection IDs to return.
+- `next_token`: Pagination token from the previous response.
 """
 function list_collections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rekognition("ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1595,39 +1224,29 @@ rekognition:ListDatasetEntries action.
 # Arguments
 - `dataset_arn`:  The Amazon Resource Name (ARN) for the dataset that you want to use.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"contains_labels"`: Specifies a label filter for the response. The response includes an
+# Keyword Parameters
+- `contains_labels`: Specifies a label filter for the response. The response includes an
   entry only if one or more of the labels in ContainsLabels exist in the entry.
-- `"has_errors"`: Specifies an error filter for the response. Specify True to only include
+- `has_errors`: Specifies an error filter for the response. Specify True to only include
   entries that have errors.
-- `"labeled"`:  Specify true to get only the JSON Lines where the image is labeled. Specify
+- `labeled`:  Specify true to get only the JSON Lines where the image is labeled. Specify
   false to get only the JSON Lines where the image isn't labeled. If you don't specify
   Labeled, ListDatasetEntries returns JSON Lines for labeled and unlabeled images.
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more results to
+- `next_token`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
   can use this pagination token to retrieve the next set of results.
-- `"source_ref_contains"`: If specified, ListDatasetEntries only returns JSON Lines where
-  the value of SourceRefContains is part of the source-ref field. The source-ref field
-  contains the Amazon S3 location of the image. You can use SouceRefContains for tasks such
-  as getting the JSON Line for a single image, or gettting JSON Lines for all images within a
-  specific folder.
+- `source_ref_contains`: If specified, ListDatasetEntries only returns JSON Lines where the
+  value of SourceRefContains is part of the source-ref field. The source-ref field contains
+  the Amazon S3 location of the image. You can use SouceRefContains for tasks such as getting
+  the JSON Line for a single image, or gettting JSON Lines for all images within a specific
+  folder.
 """
-function list_dataset_entries(
-    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dataset_entries(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "ListDatasetEntries",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("ListDatasetEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1641,27 +1260,17 @@ Labeling images in the Amazon Rekognition Custom Labels Developer Guide.
 # Arguments
 - `dataset_arn`:  The Amazon Resource Name (ARN) of the dataset that you want to use.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return per paginated call. The largest
+# Keyword Parameters
+- `max_results`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
-- `"next_token"`: If the previous response was incomplete (because there is more results to
+- `next_token`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You
   can use this pagination token to retrieve the next set of results.
 """
-function list_dataset_labels(
-    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dataset_labels(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "ListDatasetLabels",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("ListDatasetLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1676,25 +1285,15 @@ rekognition:ListFaces action.
 # Arguments
 - `collection_id`: ID of the collection from which to list the faces.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of faces to return.
-- `"next_token"`: If the previous response was incomplete (because there is more data to
+# Keyword Parameters
+- `max_results`: Maximum number of faces to return.
+- `next_token`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of faces.
 """
-function list_faces(
-    CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_faces(CollectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "ListFaces",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("ListFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1702,24 +1301,16 @@ end
 
 Gets a list of stream processors that you have created with CreateStreamProcessor.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of stream processors you want Amazon Rekognition Video to
+# Keyword Parameters
+- `max_results`: Maximum number of stream processors you want Amazon Rekognition Video to
   return in the response. The default is 1000.
-- `"next_token"`: If the previous response was incomplete (because there are more stream
+- `next_token`: If the previous response was incomplete (because there are more stream
   processors to retrieve), Amazon Rekognition Video returns a pagination token in the
   response. You can use this pagination token to retrieve the next set of stream processors.
 """
-function list_stream_processors(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_stream_processors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "ListStreamProcessors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("ListStreamProcessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1734,18 +1325,9 @@ rekognition:ListTagsForResource action.
   that contains the tags that you want a list of.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1779,16 +1361,9 @@ operation.
   the Amazon Rekognition developer guide.
 
 """
-function recognize_celebrities(
-    Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function recognize_celebrities(Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "RecognizeCelebrities",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("RecognizeCelebrities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1810,30 +1385,16 @@ permissions to perform the rekognition:SearchFaces action.
 - `collection_id`: ID of the collection the face belongs to.
 - `face_id`: ID of a face to find matches for in the collection.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"face_match_threshold"`: Optional value specifying the minimum confidence in the face
+# Keyword Parameters
+- `face_match_threshold`: Optional value specifying the minimum confidence in the face
   match to return. For example, don't return any matches where confidence in matches is less
   than 70%. The default value is 80%.
-- `"max_faces"`: Maximum number of faces to return. The operation returns the maximum
-  number of faces with the highest confidence in the match.
+- `max_faces`: Maximum number of faces to return. The operation returns the maximum number
+  of faces with the highest confidence in the match.
 """
-function search_faces(
-    CollectionId, FaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_faces(CollectionId, FaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "SearchFaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CollectionId" => CollectionId, "FaceId" => FaceId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("SearchFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1873,39 +1434,25 @@ permissions to perform the rekognition:SearchFacesByImage action.
   base64-encode image bytes passed using the Bytes field. For more information, see Images in
   the Amazon Rekognition developer guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"face_match_threshold"`: (Optional) Specifies the minimum confidence in the face match
-  to return. For example, don't return any matches where confidence in matches is less than
-  70%. The default value is 80%.
-- `"max_faces"`: Maximum number of faces to return. The operation returns the maximum
-  number of faces with the highest confidence in the match.
-- `"quality_filter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't searched for in the collection. If you specify
-  AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH,
-  filtering removes all faces that don’t meet the chosen quality bar. The quality bar is
-  based on a variety of common use cases. Low-quality detections can occur for a number of
-  reasons. Some examples are an object that's misidentified as a face, a face that's too
-  blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering
-  is performed. The default value is NONE.  To use quality filtering, the collection you are
-  using must be associated with version 3 of the face model or higher.
+# Keyword Parameters
+- `face_match_threshold`: (Optional) Specifies the minimum confidence in the face match to
+  return. For example, don't return any matches where confidence in matches is less than 70%.
+  The default value is 80%.
+- `max_faces`: Maximum number of faces to return. The operation returns the maximum number
+  of faces with the highest confidence in the match.
+- `quality_filter`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't searched for in the collection. If you specify AUTO,
+  Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering
+  removes all faces that don’t meet the chosen quality bar. The quality bar is based on a
+  variety of common use cases. Low-quality detections can occur for a number of reasons. Some
+  examples are an object that's misidentified as a face, a face that's too blurry, or a face
+  with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The
+  default value is NONE.  To use quality filtering, the collection you are using must be
+  associated with version 3 of the face model or higher.
 """
-function search_faces_by_image(
-    CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_faces_by_image(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "SearchFacesByImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("SearchFacesByImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1926,30 +1473,22 @@ more information, see Recognizing Celebrities in the Amazon Rekognition Develope
 - `video`: The video in which you want to recognize celebrities. The video must be stored
   in an Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartCelebrityRecognition requests, the same JobId is
   returned. Use ClientRequestToken to prevent the same job from being accidently started more
   than once.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
+- `notification_channel`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
   to publish the completion status of the celebrity recognition analysis to. The Amazon SNS
   topic must have a topic name that begins with AmazonRekognition if you are using the
   AmazonRekognitionServiceRole permissions policy.
 """
-function start_celebrity_recognition(
-    Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_celebrity_recognition(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartCelebrityRecognition",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1972,37 +1511,29 @@ Rekognition Developer Guide.
 - `video`: The video in which you want to detect inappropriate, unwanted, or offensive
   content. The video must be stored in an Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartContentModeration requests, the same JobId is returned.
   Use ClientRequestToken to prevent the same job from being accidently started more than
   once.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"min_confidence"`: Specifies the minimum confidence that Amazon Rekognition must have in
+- `min_confidence`: Specifies the minimum confidence that Amazon Rekognition must have in
   order to return a moderated content label. Confidence represents how certain Amazon
   Rekognition is that the moderated content is correctly identified. 0 is the lowest
   confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated
   content labels with a confidence level lower than this specified value. If you don't
   specify MinConfidence, GetContentModeration returns labels with confidence values greater
   than or equal to 50 percent.
-- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
+- `notification_channel`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
   to publish the completion status of the content analysis to. The Amazon SNS topic must have
   a topic name that begins with AmazonRekognition if you are using the
   AmazonRekognitionServiceRole permissions policy to access the topic.
 """
-function start_content_moderation(
-    Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_content_moderation(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartContentModeration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2023,32 +1554,24 @@ Video in the Amazon Rekognition Developer Guide.
 - `video`: The video in which you want to detect faces. The video must be stored in an
   Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartFaceDetection requests, the same JobId is returned. Use
   ClientRequestToken to prevent the same job from being accidently started more than once.
-- `"face_attributes"`: The face attributes you want returned.  DEFAULT - The following
-  subset of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and
-  Landmarks.   ALL - All facial attributes are returned.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `face_attributes`: The face attributes you want returned.  DEFAULT - The following subset
+  of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and Landmarks.
+  ALL - All facial attributes are returned.
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"notification_channel"`: The ARN of the Amazon SNS topic to which you want Amazon
+- `notification_channel`: The ARN of the Amazon SNS topic to which you want Amazon
   Rekognition Video to publish the completion status of the face detection operation. The
   Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using
   the AmazonRekognitionServiceRole permissions policy.
 """
-function start_face_detection(
-    Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_face_detection(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartFaceDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2068,38 +1591,24 @@ call to StartFaceSearch. For more information, see procedure-person-search-video
 - `collection_id`: ID of the collection that contains the faces you want to search for.
 - `video`: The video you want to search. The video must be stored in an Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartFaceSearch requests, the same JobId is returned. Use
   ClientRequestToken to prevent the same job from being accidently started more than once.
-- `"face_match_threshold"`: The minimum confidence in the person match to return. For
+- `face_match_threshold`: The minimum confidence in the person match to return. For
   example, don't return any matches where confidence in matches is less than 70%. The default
   value is 80%.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"notification_channel"`: The ARN of the Amazon SNS topic to which you want Amazon
+- `notification_channel`: The ARN of the Amazon SNS topic to which you want Amazon
   Rekognition Video to publish the completion status of the search. The Amazon SNS topic must
   have a topic name that begins with AmazonRekognition if you are using the
   AmazonRekognitionServiceRole permissions policy to access the topic.
 """
-function start_face_search(
-    CollectionId, Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_face_search(CollectionId, Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartFaceSearch",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CollectionId" => CollectionId, "Video" => Video),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2122,35 +1631,27 @@ from the initial call to StartLabelDetection.
 - `video`: The video in which you want to detect labels. The video must be stored in an
   Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartLabelDetection requests, the same JobId is returned. Use
   ClientRequestToken to prevent the same job from being accidently started more than once.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"min_confidence"`: Specifies the minimum confidence that Amazon Rekognition Video must
+- `min_confidence`: Specifies the minimum confidence that Amazon Rekognition Video must
   have in order to return a detected label. Confidence represents how certain Amazon
   Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the
   highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence
   level lower than this specified value. If you don't specify MinConfidence, the operation
   returns labels with confidence values greater than or equal to 50 percent.
-- `"notification_channel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
+- `notification_channel`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
   publish the completion status of the label detection operation to. The Amazon SNS topic
   must have a topic name that begins with AmazonRekognition if you are using the
   AmazonRekognitionServiceRole permissions policy.
 """
-function start_label_detection(
-    Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartLabelDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2170,29 +1671,21 @@ from the initial call to StartPersonTracking.
 - `video`: The video in which you want to detect people. The video must be stored in an
   Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartPersonTracking requests, the same JobId is returned. Use
   ClientRequestToken to prevent the same job from being accidently started more than once.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"notification_channel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
+- `notification_channel`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
   publish the completion status of the people detection operation to. The Amazon SNS topic
   must have a topic name that begins with AmazonRekognition if you are using the
   AmazonRekognitionServiceRole permissions policy.
 """
-function start_person_tracking(
-    Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_person_tracking(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartPersonTracking",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2214,28 +1707,9 @@ rekognition:StartProjectVersion action.
   to start.
 
 """
-function start_project_version(
-    MinInferenceUnits,
-    ProjectVersionArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_project_version(MinInferenceUnits, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartProjectVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MinInferenceUnits" => MinInferenceUnits,
-                    "ProjectVersionArn" => ProjectVersionArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2261,37 +1735,23 @@ Segments in Stored Video in the Amazon Rekognition Developer Guide.
   TECHNICAL_CUE and SHOT.
 - `video`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartSegmentDetection requests, the same JobId is returned.
   Use ClientRequestToken to prevent the same job from being accidently started more than
   once.
-- `"filters"`: Filters for technical cue or shot detection.
-- `"job_tag"`: An identifier you specify that's returned in the completion notification
+- `filters`: Filters for technical cue or shot detection.
+- `job_tag`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
-- `"notification_channel"`: The ARN of the Amazon SNS topic to which you want Amazon
+- `notification_channel`: The ARN of the Amazon SNS topic to which you want Amazon
   Rekognition Video to publish the completion status of the segment detection operation. Note
   that the Amazon SNS topic must have a topic name that begins with AmazonRekognition if you
   are using the AmazonRekognitionServiceRole permissions policy to access the topic.
 """
-function start_segment_detection(
-    SegmentTypes, Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_segment_detection(SegmentTypes, Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartSegmentDetection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SegmentTypes" => SegmentTypes, "Video" => Video),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2305,16 +1765,9 @@ the value of the Name field specified in the call to CreateStreamProcessor.
 - `name`: The name of the stream processor to start processing.
 
 """
-function start_stream_processor(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartStreamProcessor",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2333,28 +1786,20 @@ initial call to StartTextDetection.
 # Arguments
 - `video`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: Idempotent token used to identify the start request. If you use
+# Keyword Parameters
+- `client_request_token`: Idempotent token used to identify the start request. If you use
   the same token with multiple StartTextDetection requests, the same JobId is returned. Use
   ClientRequestToken to prevent the same job from being accidentaly started more than once.
-- `"filters"`: Optional parameters that let you set criteria the text must meet to be
+- `filters`: Optional parameters that let you set criteria the text must meet to be
   included in your response.
-- `"job_tag"`: An identifier returned in the completion status published by your Amazon
+- `job_tag`: An identifier returned in the completion status published by your Amazon
   Simple Notification Service topic. For example, you can use JobTag to group related jobs
   and identify them in the completion notification.
-- `"notification_channel"`:
+- `notification_channel`:
 """
-function start_text_detection(
-    Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function start_text_detection(Video; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StartTextDetection",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StartTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2369,20 +1814,9 @@ status, call DescribeProjectVersions.
   rekognition:StopProjectVersion action.
 
 """
-function stop_project_version(
-    ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StopProjectVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ProjectVersionArn" => ProjectVersionArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StopProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2394,16 +1828,9 @@ Stops a running stream processor that was created by CreateStreamProcessor.
 - `name`: The name of a stream processor created by CreateStreamProcessor.
 
 """
-function stop_stream_processor(
-    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "StopStreamProcessor",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2419,22 +1846,9 @@ requires permissions to perform the rekognition:TagResource action.
 - `tags`:  The key-value tags to assign to the resource.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2450,22 +1864,9 @@ rekognition:UntagResource action.
 - `tag_keys`:  A list of the tags that you want to remove.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2493,20 +1894,7 @@ This operation requires permissions to perform the rekognition:UpdateDatasetEntr
 - `dataset_arn`:  The Amazon Resource Name (ARN) of the dataset that you want to update.
 
 """
-function update_dataset_entries(
-    Changes, DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_dataset_entries(Changes, DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return rekognition(
-        "UpdateDatasetEntries",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Changes" => Changes, "DatasetArn" => DatasetArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rekognition("UpdateDatasetEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "DatasetArn"=>DatasetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,46 +4,8 @@ using AWS.AWSServices: iotsitewise
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "asset_model_composite_models" => "assetModelCompositeModels",
-    "kms_key_id" => "kmsKeyId",
-    "resource_id" => "resourceId",
-    "resource_type" => "resourceType",
-    "filter" => "filter",
-    "property_id" => "propertyId",
-    "next_token" => "nextToken",
-    "alarms" => "alarms",
-    "portal_logo_image_file" => "portalLogoImageFile",
-    "start_time_offset_in_nanos" => "startTimeOffsetInNanos",
-    "identity_type" => "identityType",
-    "identity_id" => "identityId",
-    "portal_description" => "portalDescription",
-    "max_results" => "maxResults",
-    "interval_window_in_seconds" => "intervalWindowInSeconds",
-    "portal_auth_mode" => "portalAuthMode",
-    "qualities" => "qualities",
-    "asset_id" => "assetId",
-    "client_token" => "clientToken",
-    "start_date" => "startDate",
-    "asset_model_description" => "assetModelDescription",
-    "property_alias" => "propertyAlias",
-    "time_ordering" => "timeOrdering",
-    "project_description" => "projectDescription",
-    "notification_sender_email" => "notificationSenderEmail",
-    "portal_logo_image" => "portalLogoImage",
-    "asset_model_id" => "assetModelId",
-    "dashboard_description" => "dashboardDescription",
-    "asset_model_properties" => "assetModelProperties",
-    "hierarchy_id" => "hierarchyId",
-    "asset_model_hierarchies" => "assetModelHierarchies",
-    "end_date" => "endDate",
-    "traversal_direction" => "traversalDirection",
-    "property_notification_state" => "propertyNotificationState",
-    "tags" => "tags",
-    "end_time_offset_in_nanos" => "endTimeOffsetInNanos",
-    "multi_layer_storage" => "multiLayerStorage",
-    "iam_arn" => "iamArn",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "maxResults", "next_token" => "nextToken", "asset_id" => "assetId", "property_alias" => "propertyAlias", "property_id" => "propertyId", "qualities" => "qualities", "time_ordering" => "timeOrdering", "client_token" => "clientToken", "project_description" => "projectDescription", "kms_key_id" => "kmsKeyId", "dashboard_description" => "dashboardDescription", "tags" => "tags", "property_notification_state" => "propertyNotificationState", "asset_model_composite_models" => "assetModelCompositeModels", "asset_model_description" => "assetModelDescription", "asset_model_hierarchies" => "assetModelHierarchies", "asset_model_properties" => "assetModelProperties", "end_date" => "endDate", "start_date" => "startDate", "iam_arn" => "iamArn", "identity_id" => "identityId", "identity_type" => "identityType", "resource_id" => "resourceId", "resource_type" => "resourceType", "end_time_offset_in_nanos" => "endTimeOffsetInNanos", "interval_window_in_seconds" => "intervalWindowInSeconds", "start_time_offset_in_nanos" => "startTimeOffsetInNanos", "asset_model_id" => "assetModelId", "filter" => "filter", "alarms" => "alarms", "notification_sender_email" => "notificationSenderEmail", "portal_auth_mode" => "portalAuthMode", "portal_description" => "portalDescription", "portal_logo_image_file" => "portalLogoImageFile", "hierarchy_id" => "hierarchyId", "traversal_direction" => "traversalDirection", "portal_logo_image" => "portalLogoImage", "multi_layer_storage" => "multiLayerStorage")
 
 """
     associate_assets(asset_id, child_asset_id, hierarchy_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -59,37 +21,14 @@ Guide.
   different groupings of assets to be formed that all come from the same asset model. For
   more information, see Asset hierarchies in the IoT SiteWise User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function associate_assets(
-    assetId,
-    childAssetId,
-    hierarchyId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_assets(assetId, childAssetId, hierarchyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/assets/$(assetId)/associate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "childAssetId" => childAssetId,
-                    "hierarchyId" => hierarchyId,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/assets/$(assetId)/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -101,29 +40,14 @@ Associates a group (batch) of assets with an IoT SiteWise Monitor project.
 - `asset_ids`: The IDs of the assets to be associated to the project.
 - `project_id`: The ID of the project to which to associate the assets.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function batch_associate_project_assets(
-    assetIds, projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_associate_project_assets(assetIds, projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/projects/$(projectId)/assets/associate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("assetIds" => assetIds, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/projects/$(projectId)/assets/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetIds"=>assetIds, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -135,29 +59,14 @@ Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
 - `asset_ids`: The IDs of the assets to be disassociated from the project.
 - `project_id`: The ID of the project from which to disassociate the assets.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function batch_disassociate_project_assets(
-    assetIds, projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_disassociate_project_assets(assetIds, projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/projects/$(projectId)/assets/disassociate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("assetIds" => assetIds, "client_token" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/projects/$(projectId)/assets/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetIds"=>assetIds, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -183,17 +92,9 @@ BatchPutAssetPropertyValue authorization in the IoT SiteWise User Guide.
   specify up to 10 entries per request.
 
 """
-function batch_put_asset_property_value(
-    entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_put_asset_property_value(entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/properties",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/properties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entries"=>entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -211,40 +112,16 @@ portal or project resource.
 - `access_policy_resource`: The IoT SiteWise Monitor resource for this access policy.
   Choose either a portal or a project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"tags"`: A list of key-value pairs that contain metadata for the access policy. For more
+- `tags`: A list of key-value pairs that contain metadata for the access policy. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_access_policy(
-    accessPolicyIdentity,
-    accessPolicyPermission,
-    accessPolicyResource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_access_policy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/access-policies",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "accessPolicyIdentity" => accessPolicyIdentity,
-                    "accessPolicyPermission" => accessPolicyPermission,
-                    "accessPolicyResource" => accessPolicyResource,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/access-policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -257,35 +134,16 @@ the IoT SiteWise User Guide.
 - `asset_model_id`: The ID of the asset model from which to create the asset.
 - `asset_name`: A unique, friendly name for the asset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"tags"`: A list of key-value pairs that contain metadata for the asset. For more
+- `tags`: A list of key-value pairs that contain metadata for the asset. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_asset(
-    assetModelId, assetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_asset(assetModelId, assetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/assets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assetModelId" => assetModelId,
-                    "assetName" => assetName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelId"=>assetModelId, "assetName"=>assetName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -300,46 +158,29 @@ IoT SiteWise User Guide.
 # Arguments
 - `asset_model_name`: A unique, friendly name for the asset model.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_model_composite_models"`: The composite asset models that are part of this asset
+# Keyword Parameters
+- `asset_model_composite_models`: The composite asset models that are part of this asset
   model. Composite asset models are asset models that contain specific properties. Each
   composite model has a type that defines the properties that the composite model supports.
   Use composite asset models to define alarms on this asset model.
-- `"asset_model_description"`: A description for the asset model.
-- `"asset_model_hierarchies"`: The hierarchy definitions of the asset model. Each hierarchy
+- `asset_model_description`: A description for the asset model.
+- `asset_model_hierarchies`: The hierarchy definitions of the asset model. Each hierarchy
   specifies an asset model whose assets can be children of any other assets created from this
   asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
   You can specify up to 10 hierarchies per asset model. For more information, see Quotas in
   the IoT SiteWise User Guide.
-- `"asset_model_properties"`: The property definitions of the asset model. For more
+- `asset_model_properties`: The property definitions of the asset model. For more
   information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200
   properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"tags"`: A list of key-value pairs that contain metadata for the asset model. For more
+- `tags`: A list of key-value pairs that contain metadata for the asset model. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_asset_model(
-    assetModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_asset_model(assetModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/asset-models",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assetModelName" => assetModelName, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/asset-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelName"=>assetModelName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -353,41 +194,17 @@ Creates a dashboard in an IoT SiteWise Monitor project.
 - `dashboard_name`: A friendly name for the dashboard.
 - `project_id`: The ID of the project in which to create the dashboard.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"dashboard_description"`: A description for the dashboard.
-- `"tags"`: A list of key-value pairs that contain metadata for the dashboard. For more
+- `dashboard_description`: A description for the dashboard.
+- `tags`: A list of key-value pairs that contain metadata for the dashboard. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_dashboard(
-    dashboardDefinition,
-    dashboardName,
-    projectId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dashboard(dashboardDefinition, dashboardName, projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/dashboards",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dashboardDefinition" => dashboardDefinition,
-                    "dashboardName" => dashboardName,
-                    "projectId" => projectId,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "projectId"=>projectId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -402,33 +219,13 @@ gateway in the IoT SiteWise User Guide.
 - `gateway_platform`: The gateway's platform. You can only specify one platform in a
   gateway.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: A list of key-value pairs that contain metadata for the gateway. For more
+# Keyword Parameters
+- `tags`: A list of key-value pairs that contain metadata for the gateway. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_gateway(
-    gatewayName,
-    gatewayPlatform;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_gateway(gatewayName, gatewayPlatform; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/20200301/gateways",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "gatewayName" => gatewayName, "gatewayPlatform" => gatewayPlatform
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/20200301/gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayName"=>gatewayName, "gatewayPlatform"=>gatewayPlatform), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -447,19 +244,18 @@ Guide.
   SiteWise resources on your behalf. For more information, see Using service roles for IoT
   SiteWise Monitor in the IoT SiteWise User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alarms"`: Contains the configuration information of an alarm created in an IoT SiteWise
+# Keyword Parameters
+- `alarms`: Contains the configuration information of an alarm created in an IoT SiteWise
   Monitor portal. You can use the alarm to monitor an asset property and get notified when
   the asset property value is outside a specified range. For more information, see Monitoring
   with alarms in the IoT SiteWise Application Guide.
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"notification_sender_email"`: The email address that sends alarm notifications.  If you
+- `notification_sender_email`: The email address that sends alarm notifications.  If you
   use the IoT Events managed Lambda function to manage your emails, you must verify the
   sender email address in Amazon SES.
-- `"portal_auth_mode"`: The service to use to authenticate users to the portal. Choose from
+- `portal_auth_mode`: The service to use to authenticate users to the portal. Choose from
   the following options:    SSO – The portal uses Amazon Web Services Single Sign On to
   authenticate users and manage user permissions. Before you can create a portal that uses
   Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see
@@ -468,38 +264,15 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   portal uses Identity and Access Management to authenticate users and manage user
   permissions. This option is only available in the China Regions.   You can't change this
   value after you create a portal. Default: SSO
-- `"portal_description"`: A description for the portal.
-- `"portal_logo_image_file"`: A logo image to display in the portal. Upload a square,
+- `portal_description`: A description for the portal.
+- `portal_logo_image_file`: A logo image to display in the portal. Upload a square,
   high-resolution image. The image is displayed on a dark background.
-- `"tags"`: A list of key-value pairs that contain metadata for the portal. For more
+- `tags`: A list of key-value pairs that contain metadata for the portal. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_portal(
-    portalContactEmail,
-    portalName,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_portal(portalContactEmail, portalName, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/portals",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "portalContactEmail" => portalContactEmail,
-                    "portalName" => portalName,
-                    "roleArn" => roleArn,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/portals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -511,36 +284,17 @@ Creates a project in the specified portal.
 - `portal_id`: The ID of the portal in which to create the project.
 - `project_name`: A friendly name for the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"project_description"`: A description for the project.
-- `"tags"`: A list of key-value pairs that contain metadata for the project. For more
+- `project_description`: A description for the project.
+- `tags`: A list of key-value pairs that contain metadata for the project. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
-function create_project(
-    portalId, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_project(portalId, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/projects",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "portalId" => portalId,
-                    "projectName" => projectName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalId"=>portalId, "projectName"=>projectName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -553,25 +307,14 @@ Monitor resource.
 # Arguments
 - `access_policy_id`: The ID of the access policy to be deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function delete_access_policy(
-    accessPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_access_policy(accessPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/access-policies/$(accessPolicyId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/access-policies/$(accessPolicyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -584,23 +327,14 @@ another asset. For more information, see DisassociateAssets.
 # Arguments
 - `asset_id`: The ID of the asset to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
 function delete_asset(assetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/assets/$(assetId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/assets/$(assetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -615,25 +349,14 @@ models in the IoT SiteWise User Guide.
 # Arguments
 - `asset_model_id`: The ID of the asset model to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function delete_asset_model(
-    assetModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_asset_model(assetModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/asset-models/$(assetModelId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/asset-models/$(assetModelId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -644,25 +367,14 @@ Deletes a dashboard from IoT SiteWise Monitor.
 # Arguments
 - `dashboard_id`: The ID of the dashboard to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function delete_dashboard(
-    dashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dashboard(dashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/dashboards/$(dashboardId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/dashboards/$(dashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -675,17 +387,9 @@ remain in your gateway's file system.
 - `gateway_id`: The ID of the gateway to delete.
 
 """
-function delete_gateway(
-    gatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_gateway(gatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/20200301/gateways/$(gatewayId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -696,25 +400,14 @@ Deletes a portal from IoT SiteWise Monitor.
 # Arguments
 - `portal_id`: The ID of the portal to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function delete_portal(
-    portalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_portal(portalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/portals/$(portalId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/portals/$(portalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -725,25 +418,14 @@ Deletes a project from IoT SiteWise Monitor.
 # Arguments
 - `project_id`: The ID of the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function delete_project(
-    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/projects/$(projectId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/projects/$(projectId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -756,17 +438,9 @@ portal or project.
 - `access_policy_id`: The ID of the access policy.
 
 """
-function describe_access_policy(
-    accessPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_access_policy(accessPolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/access-policies/$(accessPolicyId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/access-policies/$(accessPolicyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -778,17 +452,9 @@ Retrieves information about an asset.
 - `asset_id`: The ID of the asset.
 
 """
-function describe_asset(
-    assetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_asset(assetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/assets/$(assetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/assets/$(assetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -800,17 +466,9 @@ Retrieves information about an asset model.
 - `asset_model_id`: The ID of the asset model.
 
 """
-function describe_asset_model(
-    assetModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_asset_model(assetModelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/asset-models/$(assetModelId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/asset-models/$(assetModelId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -827,17 +485,9 @@ property. To get the value of an asset property, use GetAssetPropertyValue.
 - `property_id`: The ID of the asset property.
 
 """
-function describe_asset_property(
-    assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_asset_property(assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/assets/$(assetId)/properties/$(propertyId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -849,17 +499,9 @@ Retrieves information about a dashboard.
 - `dashboard_id`: The ID of the dashboard.
 
 """
-function describe_dashboard(
-    dashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dashboard(dashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/dashboards/$(dashboardId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/dashboards/$(dashboardId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -870,17 +512,9 @@ Services account in the default or specified Region. For more information, see K
 management in the IoT SiteWise User Guide.
 
 """
-function describe_default_encryption_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_default_encryption_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/configuration/account/encryption",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/configuration/account/encryption", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -892,17 +526,9 @@ Retrieves information about a gateway.
 - `gateway_id`: The ID of the gateway device.
 
 """
-function describe_gateway(
-    gatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_gateway(gatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/20200301/gateways/$(gatewayId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/20200301/gateways/$(gatewayId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -922,20 +548,9 @@ capability configurations for a gateway, use DescribeGateway.
 - `gateway_id`: The ID of the gateway that defines the capability configuration.
 
 """
-function describe_gateway_capability_configuration(
-    capabilityNamespace,
-    gatewayId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_gateway_capability_configuration(capabilityNamespace, gatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -944,13 +559,9 @@ end
 Retrieves the current IoT SiteWise logging options.
 
 """
-function describe_logging_options(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotsitewise("GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -962,17 +573,9 @@ Retrieves information about a portal.
 - `portal_id`: The ID of the portal.
 
 """
-function describe_portal(
-    portalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_portal(portalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/portals/$(portalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/portals/$(portalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -984,17 +587,9 @@ Retrieves information about a project.
 - `project_id`: The ID of the project.
 
 """
-function describe_project(
-    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/projects/$(projectId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/projects/$(projectId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1003,17 +598,9 @@ end
 Retrieves information about the storage configuration for IoT SiteWise.
 
 """
-function describe_storage_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_storage_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/configuration/account/storage",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/configuration/account/storage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1030,37 +617,14 @@ parent asset's model.
   use the hierarchy ID to identify the correct asset to disassociate. For more information,
   see Asset hierarchies in the IoT SiteWise User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function disassociate_assets(
-    assetId,
-    childAssetId,
-    hierarchyId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_assets(assetId, childAssetId, hierarchyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/assets/$(assetId)/disassociate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "childAssetId" => childAssetId,
-                    "hierarchyId" => hierarchyId,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/assets/$(assetId)/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1080,47 +644,22 @@ asset property's alias, see UpdateAssetProperty.
 - `start_date`: The exclusive start of the range from which to query historical data,
   expressed in seconds in Unix epoch time.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_id"`: The ID of the asset.
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `asset_id`: The ID of the asset.
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 100
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"property_alias"`: The alias that identifies the property, such as an OPC-UA server data
+- `next_token`: The token to be used for the next set of paginated results.
+- `property_alias`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,
   see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
-- `"property_id"`: The ID of the asset property.
-- `"qualities"`: The quality by which to filter asset data.
-- `"time_ordering"`: The chronological sorting order of the requested information. Default:
+- `property_id`: The ID of the asset property.
+- `qualities`: The quality by which to filter asset data.
+- `time_ordering`: The chronological sorting order of the requested information. Default:
   ASCENDING
 """
-function get_asset_property_aggregates(
-    aggregateTypes,
-    endDate,
-    resolution,
-    startDate;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_asset_property_aggregates(aggregateTypes, endDate, resolution, startDate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/properties/aggregates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "aggregateTypes" => aggregateTypes,
-                    "endDate" => endDate,
-                    "resolution" => resolution,
-                    "startDate" => startDate,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/properties/aggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateTypes"=>aggregateTypes, "endDate"=>endDate, "resolution"=>resolution, "startDate"=>startDate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1132,25 +671,16 @@ following:   The assetId and propertyId of an asset property.   A propertyAlias,
 data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an
 asset property's alias, see UpdateAssetProperty.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_id"`: The ID of the asset.
-- `"property_alias"`: The alias that identifies the property, such as an OPC-UA server data
+# Keyword Parameters
+- `asset_id`: The ID of the asset.
+- `property_alias`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,
   see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
-- `"property_id"`: The ID of the asset property.
+- `property_id`: The ID of the asset property.
 """
-function get_asset_property_value(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_asset_property_value(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/properties/latest",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/properties/latest", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1163,35 +693,26 @@ propertyAlias, which is a data stream alias (for example,
 /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see
 UpdateAssetProperty.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_id"`: The ID of the asset.
-- `"end_date"`: The inclusive end of the range from which to query historical data,
-  expressed in seconds in Unix epoch time.
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `asset_id`: The ID of the asset.
+- `end_date`: The inclusive end of the range from which to query historical data, expressed
+  in seconds in Unix epoch time.
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 100
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"property_alias"`: The alias that identifies the property, such as an OPC-UA server data
+- `next_token`: The token to be used for the next set of paginated results.
+- `property_alias`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,
   see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
-- `"property_id"`: The ID of the asset property.
-- `"qualities"`: The quality by which to filter asset data.
-- `"start_date"`: The exclusive start of the range from which to query historical data,
+- `property_id`: The ID of the asset property.
+- `qualities`: The quality by which to filter asset data.
+- `start_date`: The exclusive start of the range from which to query historical data,
   expressed in seconds in Unix epoch time.
-- `"time_ordering"`: The chronological sorting order of the requested information. Default:
+- `time_ordering`: The chronological sorting order of the requested information. Default:
   ASCENDING
 """
-function get_asset_property_value_history(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_asset_property_value_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/properties/history",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/properties/history", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1230,62 +751,34 @@ asset property's alias, see UpdateAssetProperty.
   interpolated value. If no data point is found after 9 AM on July 2, 2021, IoT SiteWise uses
   the same interpolated value for the rest of the days.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_id"`: The ID of the asset.
-- `"end_time_offset_in_nanos"`: The nanosecond offset converted from endTimeInSeconds.
-- `"interval_window_in_seconds"`: The query interval for the window in seconds. IoT
-  SiteWise computes each interpolated value by using data points from the timestamp of each
-  interval minus the window to the timestamp of each interval plus the window. If not
-  specified, the window is between the start time minus the interval and the end time plus
-  the interval.     If you specify a value for the intervalWindowInSeconds parameter, the
-  type parameter must be LINEAR_INTERPOLATION.   If no data point is found during the
-  specified query window, IoT SiteWise won't return an interpolated value for the interval.
-  This indicates that there's a gap in the ingested data points.    For example, you can get
-  the interpolated temperature values for a wind turbine every 24 hours over a duration of 7
-  days. If the interpolation starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT
-  SiteWise uses the data points from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2 hours) on July
-  2, 2021 to compute the first interpolated value, uses the data points from 7 AM (9 AM - 2
-  hours) to 11 AM (9 AM + 2 hours) on July 3, 2021 to compute the second interpolated value,
-  and so on.
-- `"max_results"`: The maximum number of results to return for each paginated request. If
-  not specified, the default value is 10.
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"property_alias"`: The alias that identifies the property, such as an OPC-UA server data
+# Keyword Parameters
+- `asset_id`: The ID of the asset.
+- `end_time_offset_in_nanos`: The nanosecond offset converted from endTimeInSeconds.
+- `interval_window_in_seconds`: The query interval for the window in seconds. IoT SiteWise
+  computes each interpolated value by using data points from the timestamp of each interval
+  minus the window to the timestamp of each interval plus the window. If not specified, the
+  window is between the start time minus the interval and the end time plus the interval.
+  If you specify a value for the intervalWindowInSeconds parameter, the type parameter must
+  be LINEAR_INTERPOLATION.   If no data point is found during the specified query window, IoT
+  SiteWise won't return an interpolated value for the interval. This indicates that there's a
+  gap in the ingested data points.    For example, you can get the interpolated temperature
+  values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation
+  starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points
+  from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2 hours) on July 2, 2021 to compute the first
+  interpolated value, uses the data points from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2
+  hours) on July 3, 2021 to compute the second interpolated value, and so on.
+- `max_results`: The maximum number of results to return for each paginated request. If not
+  specified, the default value is 10.
+- `next_token`: The token to be used for the next set of paginated results.
+- `property_alias`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,
   see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
-- `"property_id"`: The ID of the asset property.
-- `"start_time_offset_in_nanos"`: The nanosecond offset converted from startTimeInSeconds.
+- `property_id`: The ID of the asset property.
+- `start_time_offset_in_nanos`: The nanosecond offset converted from startTimeInSeconds.
 """
-function get_interpolated_asset_property_values(
-    endTimeInSeconds,
-    intervalInSeconds,
-    quality,
-    startTimeInSeconds,
-    type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_interpolated_asset_property_values(endTimeInSeconds, intervalInSeconds, quality, startTimeInSeconds, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/properties/interpolated",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTimeInSeconds" => endTimeInSeconds,
-                    "intervalInSeconds" => intervalInSeconds,
-                    "quality" => quality,
-                    "startTimeInSeconds" => startTimeInSeconds,
-                    "type" => type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/properties/interpolated", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTimeInSeconds"=>endTimeInSeconds, "intervalInSeconds"=>intervalInSeconds, "quality"=>quality, "startTimeInSeconds"=>startTimeInSeconds, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1295,33 +788,24 @@ Retrieves a paginated list of access policies for an identity (an Amazon Web Ser
 user, an Amazon Web Services SSO group, or an IAM user) or an IoT SiteWise Monitor resource
 (a portal or project).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"iam_arn"`: The ARN of the IAM user. For more information, see IAM ARNs in the IAM User
+# Keyword Parameters
+- `iam_arn`: The ARN of the IAM user. For more information, see IAM ARNs in the IAM User
   Guide. This parameter is required if you specify IAM for identityType.
-- `"identity_id"`: The ID of the identity. This parameter is required if you specify USER
-  or GROUP for identityType.
-- `"identity_type"`: The type of identity (Amazon Web Services SSO user, Amazon Web
-  Services SSO group, or IAM user). This parameter is required if you specify identityId.
-- `"max_results"`: The maximum number of results to return for each paginated request.
+- `identity_id`: The ID of the identity. This parameter is required if you specify USER or
+  GROUP for identityType.
+- `identity_type`: The type of identity (Amazon Web Services SSO user, Amazon Web Services
+  SSO group, or IAM user). This parameter is required if you specify identityId.
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"resource_id"`: The ID of the resource. This parameter is required if you specify
+- `next_token`: The token to be used for the next set of paginated results.
+- `resource_id`: The ID of the resource. This parameter is required if you specify
   resourceType.
-- `"resource_type"`: The type of resource (portal or project). This parameter is required
-  if you specify resourceId.
+- `resource_type`: The type of resource (portal or project). This parameter is required if
+  you specify resourceId.
 """
-function list_access_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_access_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/access-policies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/access-policies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1329,21 +813,14 @@ end
 
 Retrieves a paginated list of summaries of all asset models.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
 function list_asset_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/asset-models",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/asset-models", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1359,24 +836,13 @@ to identify an asset's root asset and all associated assets between that asset a
   asset. The asset that you specify in assetId is the first result in the list of
   assetRelationshipSummaries, and the root asset is the last result.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
-- `"next_token"`: The token to be used for the next set of paginated results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_asset_relationships(
-    assetId, traversalType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_asset_relationships(assetId, traversalType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/assets/$(assetId)/assetRelationships",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("traversalType" => traversalType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/assets/$(assetId)/assetRelationships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("traversalType"=>traversalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1388,23 +854,20 @@ can't use this operation to list all assets. To retrieve summaries for all of yo
 use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all
 assets for each asset model.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_model_id"`: The ID of the asset model by which to filter the list of assets. This
+# Keyword Parameters
+- `asset_model_id`: The ID of the asset model by which to filter the list of assets. This
   parameter is required if you choose ALL for filter.
-- `"filter"`: The filter for the requested list of assets. Choose one of the following
+- `filter`: The filter for the requested list of assets. Choose one of the following
   options:    ALL – The list includes all assets for a given asset model ID. The
   assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes
   only top-level assets in the asset hierarchy tree.   Default: ALL
-- `"max_results"`: The maximum number of results to return for each paginated request.
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
 function list_assets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotsitewise("GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1417,31 +880,22 @@ specify.   List an asset's parent asset.
 # Arguments
 - `asset_id`: The ID of the asset to query.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"hierarchy_id"`: The ID of the hierarchy by which child assets are associated to the
+# Keyword Parameters
+- `hierarchy_id`: The ID of the hierarchy by which child assets are associated to the
   asset. To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel operations. This
   parameter is required if you choose CHILD for traversalDirection. For more information, see
   Asset hierarchies in the IoT SiteWise User Guide.
-- `"max_results"`: The maximum number of results to return for each paginated request.
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
-- `"traversal_direction"`: The direction to list associated assets. Choose one of the
+- `next_token`: The token to be used for the next set of paginated results.
+- `traversal_direction`: The direction to list associated assets. Choose one of the
   following options:    CHILD – The list includes all child assets associated to the asset.
   The hierarchyId parameter is required if you choose CHILD.    PARENT – The list includes
   the asset's parent asset.   Default: CHILD
 """
-function list_associated_assets(
-    assetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_associated_assets(assetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/assets/$(assetId)/hierarchies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/assets/$(assetId)/hierarchies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1452,25 +906,14 @@ Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
 # Arguments
 - `project_id`: The ID of the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_dashboards(
-    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dashboards(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/dashboards",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1478,21 +921,14 @@ end
 
 Retrieves a paginated list of gateways.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
 function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/20200301/gateways",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/20200301/gateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1500,17 +936,14 @@ end
 
 Retrieves a paginated list of IoT SiteWise Monitor portals.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
 function list_portals(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET", "/portals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotsitewise("GET", "/portals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1521,23 +954,14 @@ Retrieves a paginated list of assets associated with an IoT SiteWise Monitor pro
 # Arguments
 - `project_id`: The ID of the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_project_assets(
-    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_project_assets(projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/projects/$(projectId)/assets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/projects/$(projectId)/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1548,25 +972,14 @@ Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
 # Arguments
 - `portal_id`: The ID of the portal.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return for each paginated request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return for each paginated request.
   Default: 50
-- `"next_token"`: The token to be used for the next set of paginated results.
+- `next_token`: The token to be used for the next set of paginated results.
 """
-function list_projects(
-    portalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_projects(portalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/projects",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("portalId" => portalId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalId"=>portalId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1578,19 +991,9 @@ Retrieves the list of tags for an IoT SiteWise resource.
 - `resource_arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "GET",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1602,24 +1005,13 @@ information, see Key management in the IoT SiteWise User Guide.
 # Arguments
 - `encryption_type`: The type of encryption used for the encryption configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kms_key_id"`: The Key ID of the customer managed customer master key (CMK) used for KMS
+# Keyword Parameters
+- `kms_key_id`: The Key ID of the customer managed customer master key (CMK) used for KMS
   encryption. This is required if you use KMS_BASED_ENCRYPTION.
 """
-function put_default_encryption_configuration(
-    encryptionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_default_encryption_configuration(encryptionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/configuration/account/encryption",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("encryptionType" => encryptionType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/configuration/account/encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("encryptionType"=>encryptionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1631,19 +1023,9 @@ Sets logging options for IoT SiteWise.
 - `logging_options`: The logging options to set.
 
 """
-function put_logging_options(
-    loggingOptions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_logging_options(loggingOptions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/logging",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1658,24 +1040,13 @@ Configures storage settings for IoT SiteWise.
   replicates your data into a service managed database and saves a copy of your raw data and
   metadata in an Amazon S3 object that you specified.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"multi_layer_storage"`: Identifies a storage destination. If you specified
+# Keyword Parameters
+- `multi_layer_storage`: Identifies a storage destination. If you specified
   MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object.
 """
-function put_storage_configuration(
-    storageType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_storage_configuration(storageType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/configuration/account/storage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("storageType" => storageType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/configuration/account/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("storageType"=>storageType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1690,23 +1061,9 @@ operation updates the tag's value.
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1719,23 +1076,9 @@ Removes a tag from an IoT SiteWise resource.
 - `tag_keys`: A list of keys for tags to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "DELETE",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1753,39 +1096,14 @@ Monitor portal or project resource.
 - `access_policy_resource`: The IoT SiteWise Monitor resource for this access policy.
   Choose either a portal or a project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function update_access_policy(
-    accessPolicyId,
-    accessPolicyIdentity,
-    accessPolicyPermission,
-    accessPolicyResource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_access_policy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/access-policies/$(accessPolicyId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "accessPolicyIdentity" => accessPolicyIdentity,
-                    "accessPolicyPermission" => accessPolicyPermission,
-                    "accessPolicyResource" => accessPolicyResource,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/access-policies/$(accessPolicyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1798,31 +1116,14 @@ SiteWise User Guide.
 - `asset_id`: The ID of the asset to update.
 - `asset_name`: A unique, friendly name for the asset.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function update_asset(
-    assetId, assetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_asset(assetId, assetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/assets/$(assetId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assetName" => assetName, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/assets/$(assetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetName"=>assetName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1843,47 +1144,27 @@ type or data type of an existing property.
 - `asset_model_id`: The ID of the asset model to update.
 - `asset_model_name`: A unique, friendly name for the asset model.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"asset_model_composite_models"`: The composite asset models that are part of this asset
+# Keyword Parameters
+- `asset_model_composite_models`: The composite asset models that are part of this asset
   model. Composite asset models are asset models that contain specific properties. Each
   composite model has a type that defines the properties that the composite model supports.
   Use composite asset models to define alarms on this asset model.
-- `"asset_model_description"`: A description for the asset model.
-- `"asset_model_hierarchies"`: The updated hierarchy definitions of the asset model. Each
+- `asset_model_description`: A description for the asset model.
+- `asset_model_hierarchies`: The updated hierarchy definitions of the asset model. Each
   hierarchy specifies an asset model whose assets can be children of any other assets created
   from this asset model. For more information, see Asset hierarchies in the IoT SiteWise User
   Guide. You can specify up to 10 hierarchies per asset model. For more information, see
   Quotas in the IoT SiteWise User Guide.
-- `"asset_model_properties"`: The updated property definitions of the asset model. For more
+- `asset_model_properties`: The updated property definitions of the asset model. For more
   information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200
   properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-function update_asset_model(
-    assetModelId,
-    assetModelName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_asset_model(assetModelId, assetModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/asset-models/$(assetModelId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assetModelName" => assetModelName, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/asset-models/$(assetModelId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelName"=>assetModelName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1898,34 +1179,23 @@ request. For more information, see DescribeAssetProperty.
 - `asset_id`: The ID of the asset to be updated.
 - `property_id`: The ID of the asset property to be updated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"property_alias"`: The alias that identifies the property, such as an OPC-UA server data
+- `property_alias`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,
   see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide. If
   you omit this parameter, the alias is removed from the property.
-- `"property_notification_state"`: The MQTT notification state (enabled or disabled) for
-  this asset property. When the notification state is enabled, IoT SiteWise publishes
-  property value updates to a unique MQTT topic. For more information, see Interacting with
-  other services in the IoT SiteWise User Guide. If you omit this parameter, the notification
-  state is set to DISABLED.
+- `property_notification_state`: The MQTT notification state (enabled or disabled) for this
+  asset property. When the notification state is enabled, IoT SiteWise publishes property
+  value updates to a unique MQTT topic. For more information, see Interacting with other
+  services in the IoT SiteWise User Guide. If you omit this parameter, the notification state
+  is set to DISABLED.
 """
-function update_asset_property(
-    assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_asset_property(assetId, propertyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/assets/$(assetId)/properties/$(propertyId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1939,38 +1209,15 @@ Updates an IoT SiteWise Monitor dashboard.
 - `dashboard_id`: The ID of the dashboard to update.
 - `dashboard_name`: A new friendly name for the dashboard.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"dashboard_description"`: A new description for the dashboard.
+- `dashboard_description`: A new description for the dashboard.
 """
-function update_dashboard(
-    dashboardDefinition,
-    dashboardId,
-    dashboardName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_dashboard(dashboardDefinition, dashboardId, dashboardName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/dashboards/$(dashboardId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dashboardDefinition" => dashboardDefinition,
-                    "dashboardName" => dashboardName,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/dashboards/$(dashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1983,19 +1230,9 @@ Updates a gateway's name.
 - `gateway_name`: A unique, friendly name for the gateway.
 
 """
-function update_gateway(
-    gatewayId, gatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_gateway(gatewayId, gatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/20200301/gateways/$(gatewayId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("gatewayName" => gatewayName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/20200301/gateways/$(gatewayId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayName"=>gatewayName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2018,30 +1255,9 @@ configuration. To list all capability configurations for a gateway, use Describe
 - `gateway_id`: The ID of the gateway to be updated.
 
 """
-function update_gateway_capability_configuration(
-    capabilityConfiguration,
-    capabilityNamespace,
-    gatewayId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_gateway_capability_configuration(capabilityConfiguration, capabilityNamespace, gatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "POST",
-        "/20200301/gateways/$(gatewayId)/capability",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "capabilityConfiguration" => capabilityConfiguration,
-                    "capabilityNamespace" => capabilityNamespace,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capabilityConfiguration"=>capabilityConfiguration, "capabilityNamespace"=>capabilityNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2057,46 +1273,21 @@ Updates an IoT SiteWise Monitor portal.
   SiteWise resources on your behalf. For more information, see Using service roles for IoT
   SiteWise Monitor in the IoT SiteWise User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alarms"`: Contains the configuration information of an alarm created in an IoT SiteWise
+# Keyword Parameters
+- `alarms`: Contains the configuration information of an alarm created in an IoT SiteWise
   Monitor portal. You can use the alarm to monitor an asset property and get notified when
   the asset property value is outside a specified range. For more information, see Monitoring
   with alarms in the IoT SiteWise Application Guide.
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"notification_sender_email"`: The email address that sends alarm notifications.
-- `"portal_description"`: A new description for the portal.
-- `"portal_logo_image"`:
+- `notification_sender_email`: The email address that sends alarm notifications.
+- `portal_description`: A new description for the portal.
+- `portal_logo_image`:
 """
-function update_portal(
-    portalContactEmail,
-    portalId,
-    portalName,
-    roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_portal(portalContactEmail, portalId, portalName, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/portals/$(portalId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "portalContactEmail" => portalContactEmail,
-                    "portalName" => portalName,
-                    "roleArn" => roleArn,
-                    "client_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/portals/$(portalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2108,30 +1299,13 @@ Updates an IoT SiteWise Monitor project.
 - `project_id`: The ID of the project to update.
 - `project_name`: A new friendly name for the project.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
+# Keyword Parameters
+- `client_token`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
-- `"project_description"`: A new description for the project.
+- `project_description`: A new description for the project.
 """
-function update_project(
-    projectId, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_project(projectId, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return iotsitewise(
-        "PUT",
-        "/projects/$(projectId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "projectName" => projectName, "client_token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iotsitewise("PUT", "/projects/$(projectId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName, "client_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

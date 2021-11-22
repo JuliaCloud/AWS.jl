@@ -4,64 +4,8 @@ using AWS.AWSServices: quicksight
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "theme_arn" => "ThemeArn",
-    "field_folders" => "FieldFolders",
-    "force_delete_without_recovery" => "force-delete-without-recovery",
-    "notification_email" => "NotificationEmail",
-    "data_source_parameters" => "DataSourceParameters",
-    "custom_federation_provider_url" => "CustomFederationProviderUrl",
-    "resolved" => "resolved",
-    "configuration" => "Configuration",
-    "ingestion_type" => "IngestionType",
-    "entry_point" => "entry-point",
-    "ip_restriction_rule_map" => "IpRestrictionRuleMap",
-    "revoke_permissions" => "RevokePermissions",
-    "policy_arn" => "PolicyArn",
-    "additional_dashboard_ids" => "additional-dashboard-ids",
-    "permissions" => "Permissions",
-    "logical_table_map" => "LogicalTableMap",
-    "unapply_custom_permissions" => "UnapplyCustomPermissions",
-    "session_lifetime_in_minutes" => "SessionLifetimeInMinutes",
-    "dashboard_publish_options" => "DashboardPublishOptions",
-    "reset_disabled" => "reset-disabled",
-    "state_persistence_enabled" => "state-persistence-enabled",
-    "column_level_permission_rules" => "ColumnLevelPermissionRules",
-    "session_tags" => "SessionTags",
-    "name" => "Name",
-    "version_number" => "version-number",
-    "parameters" => "Parameters",
-    "assignment_status" => "AssignmentStatus",
-    "identities" => "Identities",
-    "external_login_federation_provider_type" => "ExternalLoginFederationProviderType",
-    "max_results" => "max-results",
-    "version_description" => "VersionDescription",
-    "vpc_connection_properties" => "VpcConnectionProperties",
-    "user_arn" => "user-arn",
-    "credentials" => "Credentials",
-    "row_level_permission_tag_configuration" => "RowLevelPermissionTagConfiguration",
-    "enabled" => "Enabled",
-    "namespace" => "namespace",
-    "undo_redo_disabled" => "undo-redo-disabled",
-    "row_level_permission_data_set" => "RowLevelPermissionDataSet",
-    "next_token" => "next-token",
-    "external_login_id" => "ExternalLoginId",
-    "folder_type" => "FolderType",
-    "custom_permissions_name" => "CustomPermissionsName",
-    "alias_name" => "alias-name",
-    "session_name" => "SessionName",
-    "tags" => "Tags",
-    "column_groups" => "ColumnGroups",
-    "recovery_window_in_days" => "recovery-window-in-days",
-    "parent_folder_arn" => "ParentFolderArn",
-    "user_name" => "UserName",
-    "description" => "Description",
-    "ssl_properties" => "SslProperties",
-    "data_set_usage_configuration" => "DataSetUsageConfiguration",
-    "type" => "type",
-    "iam_arn" => "IamArn",
-    "grant_permissions" => "GrantPermissions",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "max-results", "next_token" => "next-token", "session_lifetime_in_minutes" => "SessionLifetimeInMinutes", "session_tags" => "SessionTags", "name" => "Name", "permissions" => "Permissions", "tags" => "Tags", "version_description" => "VersionDescription", "alias_name" => "alias-name", "version_number" => "version-number", "folder_type" => "FolderType", "parent_folder_arn" => "ParentFolderArn", "identities" => "Identities", "policy_arn" => "PolicyArn", "ingestion_type" => "IngestionType", "dashboard_publish_options" => "DashboardPublishOptions", "parameters" => "Parameters", "theme_arn" => "ThemeArn", "notification_email" => "NotificationEmail", "additional_dashboard_ids" => "additional-dashboard-ids", "namespace" => "namespace", "reset_disabled" => "reset-disabled", "state_persistence_enabled" => "state-persistence-enabled", "undo_redo_disabled" => "undo-redo-disabled", "user_arn" => "user-arn", "assignment_status" => "AssignmentStatus", "credentials" => "Credentials", "data_source_parameters" => "DataSourceParameters", "ssl_properties" => "SslProperties", "vpc_connection_properties" => "VpcConnectionProperties", "configuration" => "Configuration", "custom_federation_provider_url" => "CustomFederationProviderUrl", "custom_permissions_name" => "CustomPermissionsName", "external_login_federation_provider_type" => "ExternalLoginFederationProviderType", "external_login_id" => "ExternalLoginId", "iam_arn" => "IamArn", "session_name" => "SessionName", "user_name" => "UserName", "grant_permissions" => "GrantPermissions", "revoke_permissions" => "RevokePermissions", "column_groups" => "ColumnGroups", "column_level_permission_rules" => "ColumnLevelPermissionRules", "data_set_usage_configuration" => "DataSetUsageConfiguration", "field_folders" => "FieldFolders", "logical_table_map" => "LogicalTableMap", "row_level_permission_data_set" => "RowLevelPermissionDataSet", "row_level_permission_tag_configuration" => "RowLevelPermissionTagConfiguration", "description" => "Description", "force_delete_without_recovery" => "force-delete-without-recovery", "recovery_window_in_days" => "recovery-window-in-days", "unapply_custom_permissions" => "UnapplyCustomPermissions", "entry_point" => "entry-point", "type" => "type", "enabled" => "Enabled", "ip_restriction_rule_map" => "IpRestrictionRuleMap", "resolved" => "resolved")
 
 """
     cancel_ingestion(aws_account_id, data_set_id, ingestion_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -74,21 +18,9 @@ Cancels an ongoing ingestion of data into SPICE.
 - `ingestion_id`: An ID for the ingestion.
 
 """
-function cancel_ingestion(
-    AwsAccountId,
-    DataSetId,
-    IngestionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function cancel_ingestion(AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -121,31 +53,13 @@ DescribeThemePermissions  API operation. To share the theme, grant permissions b
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to customize
   Amazon QuickSight for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"namespace"`: The Amazon QuickSight namespace that you want to add customizations to.
-- `"tags"`: A list of the tags that you want to attach to this resource.
+# Keyword Parameters
+- `namespace`: The Amazon QuickSight namespace that you want to add customizations to.
+- `tags`: A list of the tags that you want to attach to this resource.
 """
-function create_account_customization(
-    AccountCustomization,
-    AwsAccountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_account_customization(AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/customizations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountCustomization" => AccountCustomization),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/customizations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountCustomization"=>AccountCustomization), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -164,42 +78,22 @@ Creates an analysis in Amazon QuickSight.
   metadata structure contains details that describe a source template and one or more
   datasets.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameters"`: The parameter names and override values that you want to use. An analysis
+# Keyword Parameters
+- `parameters`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
-- `"permissions"`: A structure that describes the principals and the resource-level
+- `permissions`: A structure that describes the principals and the resource-level
   permissions on an analysis. You can use the Permissions structure to grant permissions by
   providing a list of Identity and Access Management (IAM) action information for each
   principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit
   Permissions.
-- `"tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the analysis.
-- `"theme_arn"`: The ARN for the theme to apply to the analysis that you're creating. To
-  see the theme in the Amazon QuickSight console, make sure that you have access to it.
+- `theme_arn`: The ARN for the theme to apply to the analysis that you're creating. To see
+  the theme in the Amazon QuickSight console, make sure that you have access to it.
 """
-function create_analysis(
-    AnalysisId,
-    AwsAccountId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_analysis(AnalysisId, AwsAccountId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -227,10 +121,9 @@ Amazon Web Services account.
   entity within SourceTemplate to list the replacement datasets for the placeholders listed
   in the original. The schema in each dataset must match its placeholder.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dashboard_publish_options"`: Options for publishing the dashboard when you create it:
-   AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or
+# Keyword Parameters
+- `dashboard_publish_options`: Options for publishing the dashboard when you create it:
+  AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or
   DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on
   the published dashboard, which can be used for ad hoc (one-time) filtering. This option is
   ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be
@@ -238,43 +131,23 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for
   SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This
   option is COLLAPSED by default.
-- `"parameters"`: The parameters for the creation of the dashboard, which you want to use
-  to override the default settings. A dashboard can have any type of parameters, and some
+- `parameters`: The parameters for the creation of the dashboard, which you want to use to
+  override the default settings. A dashboard can have any type of parameters, and some
   parameters might accept multiple values.
-- `"permissions"`: A structure that contains the permissions of the dashboard. You can use
+- `permissions`: A structure that contains the permissions of the dashboard. You can use
   this structure for granting permissions by providing a list of IAMaction information for
   each principal ARN.  To specify no permissions, omit the permissions list.
-- `"tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the dashboard.
-- `"theme_arn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
+- `theme_arn`: The Amazon Resource Name (ARN) of the theme that is being used for this
   dashboard. If you add a value for this field, it overrides the value that is used in the
   source entity. The theme ARN must exist in the same Amazon Web Services account where you
   create the dashboard.
-- `"version_description"`: A description for the first version of the dashboard being
-  created.
+- `version_description`: A description for the first version of the dashboard being created.
 """
-function create_dashboard(
-    AwsAccountId,
-    DashboardId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_dashboard(AwsAccountId, DashboardId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -291,53 +164,27 @@ Creates a dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
   data sources.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"column_groups"`: Groupings of columns that work together in certain Amazon QuickSight
+# Keyword Parameters
+- `column_groups`: Groupings of columns that work together in certain Amazon QuickSight
   features. Currently, only geospatial hierarchy is supported.
-- `"column_level_permission_rules"`: A set of one or more definitions of a
+- `column_level_permission_rules`: A set of one or more definitions of a
   ColumnLevelPermissionRule .
-- `"data_set_usage_configuration"`:
-- `"field_folders"`: The folder that contains fields and nested subfolders for your dataset.
-- `"logical_table_map"`: Configures the combination and transformation of the data from the
+- `data_set_usage_configuration`:
+- `field_folders`: The folder that contains fields and nested subfolders for your dataset.
+- `logical_table_map`: Configures the combination and transformation of the data from the
   physical tables.
-- `"permissions"`: A list of resource permissions on the dataset.
-- `"row_level_permission_data_set"`: The row-level security configuration for the data that
+- `permissions`: A list of resource permissions on the dataset.
+- `row_level_permission_data_set`: The row-level security configuration for the data that
   you want to create.
-- `"row_level_permission_tag_configuration"`: The configuration of tags on a dataset to set
+- `row_level_permission_tag_configuration`: The configuration of tags on a dataset to set
   row-level security. Row-level security tags are currently supported for anonymous embedding
   only.
-- `"tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the dataset.
 """
-function create_data_set(
-    AwsAccountId,
-    DataSetId,
-    ImportMode,
-    Name,
-    PhysicalTableMap;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/data-sets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataSetId" => DataSetId,
-                    "ImportMode" => ImportMode,
-                    "Name" => Name,
-                    "PhysicalTableMap" => PhysicalTableMap,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSetId"=>DataSetId, "ImportMode"=>ImportMode, "Name"=>Name, "PhysicalTableMap"=>PhysicalTableMap), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -353,45 +200,22 @@ Creates a data source.
 - `type`: The type of the data source. To return a list of all data sources, use
   ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"credentials"`: The credentials Amazon QuickSight that uses to connect to your
-  underlying source. Currently, only credentials based on user name and password are
-  supported.
-- `"data_source_parameters"`: The parameters that Amazon QuickSight uses to connect to your
+# Keyword Parameters
+- `credentials`: The credentials Amazon QuickSight that uses to connect to your underlying
+  source. Currently, only credentials based on user name and password are supported.
+- `data_source_parameters`: The parameters that Amazon QuickSight uses to connect to your
   underlying source.
-- `"permissions"`: A list of resource permissions on the data source.
-- `"ssl_properties"`: Secure Socket Layer (SSL) properties that apply when Amazon
-  QuickSight connects to your underlying source.
-- `"tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
+- `permissions`: A list of resource permissions on the data source.
+- `ssl_properties`: Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
+  connects to your underlying source.
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the data source.
-- `"vpc_connection_properties"`: Use this parameter only when you want Amazon QuickSight to
+- `vpc_connection_properties`: Use this parameter only when you want Amazon QuickSight to
   use a VPC connection when connecting to your underlying source.
 """
-function create_data_source(
-    AwsAccountId,
-    DataSourceId,
-    Name,
-    Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_data_source(AwsAccountId, DataSourceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/data-sources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataSourceId" => DataSourceId, "Name" => Name, "Type" => Type
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/data-sources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -403,27 +227,18 @@ Creates an empty shared folder.
 - `aws_account_id`: The AWS Account ID.
 - `folder_id`: The folder ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"folder_type"`: The type of folder. By default, folderType is SHARED.
-- `"name"`: The name of the folder.
-- `"parent_folder_arn"`: The Amazon Resource Name (ARN) for the parent folder.
+# Keyword Parameters
+- `folder_type`: The type of folder. By default, folderType is SHARED.
+- `name`: The name of the folder.
+- `parent_folder_arn`: The Amazon Resource Name (ARN) for the parent folder.
   ParentFolderArn can be null. An empty parentFolderArn creates a root-level folder.
-- `"permissions"`: A structure that describes the principals and the resource-level
+- `permissions`: A structure that describes the principals and the resource-level
   permissions of a folder. To specify no permissions, omit Permissions.
-- `"tags"`: Tags for the folder.
+- `tags`: Tags for the folder.
 """
-function create_folder(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -438,22 +253,9 @@ Adds an asset, such as a dashboard, analysis, or dataset into a folder.
 - `member_type`: The type of the member, including DASHBOARD, ANALYSIS, and DATASET.
 
 """
-function create_folder_membership(
-    AwsAccountId,
-    FolderId,
-    MemberId,
-    MemberType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_folder_membership(AwsAccountId, FolderId, MemberId, MemberType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -470,27 +272,12 @@ arn:aws:quicksight:us-east-1:&lt;relevant-aws-account-id&gt;:group/default/&lt;g
 - `group_name`: A name for the group that you want to create.
 - `namespace`: The namespace. Currently, you should set this to default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description for the group that you want to create.
+# Keyword Parameters
+- `description`: A description for the group that you want to create.
 """
-function create_group(
-    AwsAccountId,
-    GroupName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -507,22 +294,9 @@ Adds an Amazon QuickSight user to an Amazon QuickSight group.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-function create_group_membership(
-    AwsAccountId,
-    GroupName,
-    MemberName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_group_membership(AwsAccountId, GroupName, MemberName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -544,38 +318,15 @@ overwriting rules in other namespaces, use assignment names that are unique.
   IAMpolicy to Amazon QuickSight users or groups.
 - `namespace`: The namespace that contains the assignment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"identities"`: The Amazon QuickSight users, groups, or both that you want to assign the
+# Keyword Parameters
+- `identities`: The Amazon QuickSight users, groups, or both that you want to assign the
   policy to.
-- `"policy_arn"`: The ARN for the IAMpolicy to apply to the Amazon QuickSight users and
+- `policy_arn`: The ARN for the IAMpolicy to apply to the Amazon QuickSight users and
   groups specified in this assignment.
 """
-function create_iampolicy_assignment(
-    AssignmentName,
-    AssignmentStatus,
-    AwsAccountId,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_iampolicy_assignment(AssignmentName, AssignmentStatus, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AssignmentName" => AssignmentName,
-                    "AssignmentStatus" => AssignmentStatus,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentName"=>AssignmentName, "AssignmentStatus"=>AssignmentStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -592,25 +343,12 @@ the ingestion resource.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 - `ingestion_id`: An ID for the ingestion.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"ingestion_type"`: The type of ingestion that you want to create.
+# Keyword Parameters
+- `ingestion_type`: The type of ingestion that you want to create.
 """
-function create_ingestion(
-    AwsAccountId,
-    DataSetId,
-    IngestionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_ingestion(AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -632,33 +370,12 @@ your limit, create a ticket with Amazon Web Services Support.
   supports users with an identity type of QUICKSIGHT.
 - `namespace`: The name that you want to use to describe the new namespace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"tags"`: The tags that you want to associate with the namespace that you're creating.
+# Keyword Parameters
+- `tags`: The tags that you want to associate with the namespace that you're creating.
 """
-function create_namespace(
-    AwsAccountId,
-    IdentityStore,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_namespace(AwsAccountId, IdentityStore, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityStore" => IdentityStore, "Namespace" => Namespace
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStore"=>IdentityStore, "Namespace"=>Namespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -687,34 +404,19 @@ create the source analysis and template.
 - `template_id`: An ID for the template that you want to create. This template is unique
   per Amazon Web Services Region; in each Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: A display name for the template.
-- `"permissions"`: A list of resource permissions to be set on the template.
-- `"tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
+# Keyword Parameters
+- `name`: A display name for the template.
+- `permissions`: A list of resource permissions to be set on the template.
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the resource.
-- `"version_description"`: A description of the current template version being created.
-  This API operation creates the first version of the template. Every time UpdateTemplate is
+- `version_description`: A description of the current template version being created. This
+  API operation creates the first version of the template. Every time UpdateTemplate is
   called, a new version is created. Each version of the template maintains a description of
   the version in the VersionDescription field.
 """
-function create_template(
-    AwsAccountId,
-    SourceEntity,
-    TemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_template(AwsAccountId, SourceEntity, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SourceEntity" => SourceEntity), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceEntity"=>SourceEntity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -732,28 +434,9 @@ Creates a template alias for a template.
 - `template_version_number`: The version number of the template.
 
 """
-function create_template_alias(
-    AliasName,
-    AwsAccountId,
-    TemplateId,
-    TemplateVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateVersionNumber"=>TemplateVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -774,42 +457,17 @@ the Amazon QuickSight User Guide.
 - `theme_id`: An ID for the theme that you want to create. The theme ID is unique per
   Amazon Web Services Region in each Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"permissions"`: A valid grouping of resource permissions to apply to the new theme.
-- `"tags"`: A map of the key-value pairs for the resource tag or tags that you want to add
-  to the resource.
-- `"version_description"`: A description of the first version of the theme that you're
+# Keyword Parameters
+- `permissions`: A valid grouping of resource permissions to apply to the new theme.
+- `tags`: A map of the key-value pairs for the resource tag or tags that you want to add to
+  the resource.
+- `version_description`: A description of the first version of the theme that you're
   creating. Every time UpdateTheme is called, a new version is created. Each version of the
   theme has a description of the version in the VersionDescription field.
 """
-function create_theme(
-    AwsAccountId,
-    BaseThemeId,
-    Configuration,
-    Name,
-    ThemeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_theme(AwsAccountId, BaseThemeId, Configuration, Name, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BaseThemeId" => BaseThemeId,
-                    "Configuration" => Configuration,
-                    "Name" => Name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseThemeId"=>BaseThemeId, "Configuration"=>Configuration, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -827,26 +485,9 @@ Creates a theme alias for a theme.
 - `theme_version_number`: The version number of the theme.
 
 """
-function create_theme_alias(
-    AliasName,
-    AwsAccountId,
-    ThemeId,
-    ThemeVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_theme_alias(AliasName, AwsAccountId, ThemeId, ThemeVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThemeVersionNumber"=>ThemeVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -859,22 +500,12 @@ specified Amazon Web Services account and Amazon QuickSight namespace.
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to delete
   Amazon QuickSight customizations from in this Amazon Web Services Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"namespace"`: The Amazon QuickSight namespace that you're deleting the customizations
-  from.
+# Keyword Parameters
+- `namespace`: The Amazon QuickSight namespace that you're deleting the customizations from.
 """
-function delete_account_customization(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_account_customization(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/customizations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/customizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -897,26 +528,17 @@ publish from it.
 - `aws_account_id`: The ID of the Amazon Web Services account where you want to delete an
   analysis.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force_delete_without_recovery"`: This option defaults to the value
+# Keyword Parameters
+- `force_delete_without_recovery`: This option defaults to the value
   NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the
   ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
-- `"recovery_window_in_days"`: A value that specifies the number of days that Amazon
+- `recovery_window_in_days`: A value that specifies the number of days that Amazon
   QuickSight waits before it deletes the analysis. You can't use this parameter with the
   ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
 """
-function delete_analysis(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_analysis(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -929,22 +551,13 @@ Deletes a dashboard.
   that you're deleting.
 - `dashboard_id`: The ID for the dashboard.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version_number"`: The version number of the dashboard. If the version number property
-  is provided, only the specified version of the dashboard is deleted.
+# Keyword Parameters
+- `version_number`: The version number of the dashboard. If the version number property is
+  provided, only the specified version of the dashboard is deleted.
 """
-function delete_dashboard(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_dashboard(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -958,17 +571,9 @@ Deletes a dataset.
   Amazon Web Services Region for each Amazon Web Services account.
 
 """
-function delete_data_set(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_data_set(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -983,17 +588,9 @@ the deleted data source.
   Region for each Amazon Web Services account.
 
 """
-function delete_data_source(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_data_source(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1006,17 +603,9 @@ Deletes an empty folder.
 - `folder_id`: The folder ID.
 
 """
-function delete_folder(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1032,22 +621,9 @@ Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
 - `member_type`: The type of the member, including DASHBOARD, ANALYSIS, and DATASET
 
 """
-function delete_folder_membership(
-    AwsAccountId,
-    FolderId,
-    MemberId,
-    MemberType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_folder_membership(AwsAccountId, FolderId, MemberId, MemberType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1063,21 +639,9 @@ Removes a user group from Amazon QuickSight.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-function delete_group(
-    AwsAccountId,
-    GroupName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1094,22 +658,9 @@ Removes a user from a group so that the user is no longer a member of the group.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-function delete_group_membership(
-    AwsAccountId,
-    GroupName,
-    MemberName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_group_membership(AwsAccountId, GroupName, MemberName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1124,21 +675,9 @@ Deletes an existing IAMpolicy assignment.
 - `namespace`: The namespace that contains the assignment.
 
 """
-function delete_iampolicy_assignment(
-    AssignmentName,
-    AwsAccountId,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1155,17 +694,9 @@ relevant asset.
 - `namespace`: The namespace that you want to delete.
 
 """
-function delete_namespace(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_namespace(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1178,22 +709,13 @@ Deletes a template.
   that you're deleting.
 - `template_id`: An ID for the template you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version_number"`: Specifies the version of the template that you want to delete. If you
+# Keyword Parameters
+- `version_number`: Specifies the version of the template that you want to delete. If you
   don't provide a version number, DeleteTemplate deletes all versions of the template.
 """
-function delete_template(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_template(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1211,21 +733,9 @@ alias, you delete the version of the template that the alias points to.
 - `template_id`: The ID for the template that the specified alias is for.
 
 """
-function delete_template_alias(
-    AliasName,
-    AwsAccountId,
-    TemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_template_alias(AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1238,23 +748,14 @@ Deletes a theme.
   you're deleting.
 - `theme_id`: An ID for the theme that you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version_number"`: The version of the theme that you want to delete.   Note: If you
-  don't provide a version number, you're using this call to DeleteTheme to delete all
-  versions of the theme.
+# Keyword Parameters
+- `version_number`: The version of the theme that you want to delete.   Note: If you don't
+  provide a version number, you're using this call to DeleteTheme to delete all versions of
+  the theme.
 """
-function delete_theme(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_theme(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1270,21 +771,9 @@ specific alias, you delete the version of the theme that the alias points to.
 - `theme_id`: The ID for the theme that the specified alias is for.
 
 """
-function delete_theme_alias(
-    AliasName,
-    AwsAccountId,
-    ThemeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_theme_alias(AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1302,21 +791,9 @@ a result of this call.
 - `user_name`: The name of the user that you want to delete.
 
 """
-function delete_user(
-    AwsAccountId,
-    Namespace,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_user(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1332,21 +809,9 @@ Deletes a user identified by its principal ID.
 - `principal_id`: The principal ID of the user.
 
 """
-function delete_user_by_principal_id(
-    AwsAccountId,
-    Namespace,
-    PrincipalId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_user_by_principal_id(AwsAccountId, Namespace, PrincipalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1387,27 +852,18 @@ where you want to apply the same customizations.
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to describe
   Amazon QuickSight customizations for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"namespace"`: The Amazon QuickSight namespace that you want to describe Amazon
-  QuickSight customizations for.
-- `"resolved"`: The Resolved flag works with the other parameters to determine which view
-  of Amazon QuickSight customizations is returned. You can add this flag to your command to
-  use the same view that Amazon QuickSight uses to identify which customizations to apply to
-  the console. Omit this flag, or set it to no-resolved, to reveal customizations that are
+# Keyword Parameters
+- `namespace`: The Amazon QuickSight namespace that you want to describe Amazon QuickSight
+  customizations for.
+- `resolved`: The Resolved flag works with the other parameters to determine which view of
+  Amazon QuickSight customizations is returned. You can add this flag to your command to use
+  the same view that Amazon QuickSight uses to identify which customizations to apply to the
+  console. Omit this flag, or set it to no-resolved, to reveal customizations that are
   configured at different levels.
 """
-function describe_account_customization(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_customization(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/customizations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/customizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1421,17 +877,9 @@ created in this Amazon Web Services account.
   that you want to list.
 
 """
-function describe_account_settings(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_account_settings(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1446,17 +894,9 @@ Provides a summary of the metadata for an analysis.
   You must be using the Amazon Web Services account that the analysis is in.
 
 """
-function describe_analysis(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_analysis(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1472,17 +912,9 @@ Provides the read and write permissions for an analysis.
   the analysis is in.
 
 """
-function describe_analysis_permissions(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_analysis_permissions(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1495,23 +927,14 @@ Provides a summary for a dashboard.
   that you're describing.
 - `dashboard_id`: The ID for the dashboard.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_name"`: The alias name.
-- `"version_number"`: The version number for the dashboard. If a version number isn't
-  passed, the latest published dashboard version is described.
+# Keyword Parameters
+- `alias_name`: The alias name.
+- `version_number`: The version number for the dashboard. If a version number isn't passed,
+  the latest published dashboard version is described.
 """
-function describe_dashboard(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dashboard(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1525,17 +948,9 @@ Describes read and write permissions for a dashboard.
 - `dashboard_id`: The ID for the dashboard, also added to the IAMpolicy.
 
 """
-function describe_dashboard_permissions(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_dashboard_permissions(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1549,17 +964,9 @@ Describes a dataset.
   Amazon Web Services Region for each Amazon Web Services account.
 
 """
-function describe_data_set(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_data_set(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1574,17 +981,9 @@ arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
   Amazon Web Services Region for each Amazon Web Services account.
 
 """
-function describe_data_set_permissions(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_data_set_permissions(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1598,17 +997,9 @@ Describes a data source.
   Region for each Amazon Web Services account.
 
 """
-function describe_data_source(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_data_source(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1622,17 +1013,9 @@ Describes the resource permissions for a data source.
   Region for each Amazon Web Services account.
 
 """
-function describe_data_source_permissions(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_data_source_permissions(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1645,17 +1028,9 @@ Describes a folder.
 - `folder_id`: The folder ID.
 
 """
-function describe_folder(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1668,17 +1043,9 @@ Describes permissions for a folder.
 - `folder_id`: The folder ID.
 
 """
-function describe_folder_permissions(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_folder_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1692,17 +1059,9 @@ permissions and the inherited permissions from the ancestor folders.
 - `folder_id`: The folder ID.
 
 """
-function describe_folder_resolved_permissions(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_folder_resolved_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1718,21 +1077,9 @@ Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-function describe_group(
-    AwsAccountId,
-    GroupName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1747,21 +1094,9 @@ Describes an existing IAMpolicy assignment, as specified by the assignment name.
 - `namespace`: The namespace that contains the assignment.
 
 """
-function describe_iampolicy_assignment(
-    AssignmentName,
-    AwsAccountId,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1775,21 +1110,9 @@ Describes a SPICE ingestion.
 - `ingestion_id`: An ID for the ingestion.
 
 """
-function describe_ingestion(
-    AwsAccountId,
-    DataSetId,
-    IngestionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_ingestion(AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1801,17 +1124,9 @@ Provides a summary and status of IP Rules.
 - `aws_account_id`: Your AWS account ID.
 
 """
-function describe_ip_restriction(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_ip_restriction(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/ip-restriction",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/ip-restriction", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1825,17 +1140,9 @@ Describes the current namespace.
 - `namespace`: The namespace that you want to describe.
 
 """
-function describe_namespace(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_namespace(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1848,26 +1155,17 @@ Describes a template's metadata.
   that you're describing.
 - `template_id`: The ID for the template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_name"`: The alias of the template that you want to describe. If you name a
-  specific alias, you describe the version that the alias points to. You can specify the
-  latest version of the template by providing the keyword LATEST in the AliasName parameter.
-  The keyword PUBLISHED doesn't apply to templates.
-- `"version_number"`: (Optional) The number for the version to describe. If a VersionNumber
+# Keyword Parameters
+- `alias_name`: The alias of the template that you want to describe. If you name a specific
+  alias, you describe the version that the alias points to. You can specify the latest
+  version of the template by providing the keyword LATEST in the AliasName parameter. The
+  keyword PUBLISHED doesn't apply to templates.
+- `version_number`: (Optional) The number for the version to describe. If a VersionNumber
   parameter value isn't provided, the latest version of the template is described.
 """
-function describe_template(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_template(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1885,21 +1183,9 @@ Describes the template alias for a template.
 - `template_id`: The ID for the template.
 
 """
-function describe_template_alias(
-    AliasName,
-    AwsAccountId,
-    TemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_template_alias(AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1913,17 +1199,9 @@ Describes read and write permissions on a template.
 - `template_id`: The ID for the template.
 
 """
-function describe_template_permissions(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_template_permissions(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1936,26 +1214,17 @@ Describes a theme.
   you're describing.
 - `theme_id`: The ID for the theme.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alias_name"`: The alias of the theme that you want to describe. If you name a specific
+# Keyword Parameters
+- `alias_name`: The alias of the theme that you want to describe. If you name a specific
   alias, you describe the version that the alias points to. You can specify the latest
   version of the theme by providing the keyword LATEST in the AliasName parameter. The
   keyword PUBLISHED doesn't apply to themes.
-- `"version_number"`: The version number for the version to describe. If a VersionNumber
+- `version_number`: The version number for the version to describe. If a VersionNumber
   parameter value isn't provided, the latest version of the theme is described.
 """
-function describe_theme(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_theme(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1970,21 +1239,9 @@ Describes the alias for a theme.
 - `theme_id`: The ID for the theme.
 
 """
-function describe_theme_alias(
-    AliasName,
-    AwsAccountId,
-    ThemeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_theme_alias(AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1998,17 +1255,9 @@ Describes the read and write permissions for a theme.
 - `theme_id`: The ID for the theme that you want to describe permissions for.
 
 """
-function describe_theme_permissions(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_theme_permissions(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2024,21 +1273,9 @@ Returns information about a user, given the user name.
 - `user_name`: The name of the user that you want to describe.
 
 """
-function describe_user(
-    AwsAccountId,
-    Namespace,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_user(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2068,43 +1305,19 @@ embedding, visit the Amazon QuickSight Developer Portal.
 - `namespace`: The Amazon QuickSight namespace that the anonymous user virtually belongs
   to. If you are not using an Amazon QuickSight custom namespace, set this to default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"session_lifetime_in_minutes"`: How many minutes the session is valid. The session
+# Keyword Parameters
+- `session_lifetime_in_minutes`: How many minutes the session is valid. The session
   lifetime must be in [15-600] minutes range.
-- `"session_tags"`: The session tags used for row-level security. Before you use this
+- `session_tags`: The session tags used for row-level security. Before you use this
   parameter, make sure that you have configured the relevant datasets using the
   DataSetRowLevelPermissionTagConfiguration parameter so that session tags can be used to
   provide row-level security. These are not the tags used for the Amazon Web Services
   resource tagging feature. For more information, see Using Row-Level Security (RLS) with
   Tags.
 """
-function generate_embed_url_for_anonymous_user(
-    AuthorizedResourceArns,
-    AwsAccountId,
-    ExperienceConfiguration,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function generate_embed_url_for_anonymous_user(AuthorizedResourceArns, AwsAccountId, ExperienceConfiguration, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/embed-url/anonymous-user",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AuthorizedResourceArns" => AuthorizedResourceArns,
-                    "ExperienceConfiguration" => ExperienceConfiguration,
-                    "Namespace" => Namespace,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/embed-url/anonymous-user", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedResourceArns"=>AuthorizedResourceArns, "ExperienceConfiguration"=>ExperienceConfiguration, "Namespace"=>Namespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2132,35 +1345,13 @@ QuickSight Developer Portal.
   QuickSight Q search bar.
 - `user_arn`: The Amazon Resource Name for the registered user.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"session_lifetime_in_minutes"`: How many minutes the session is valid. The session
+# Keyword Parameters
+- `session_lifetime_in_minutes`: How many minutes the session is valid. The session
   lifetime must be in [15-600] minutes range.
 """
-function generate_embed_url_for_registered_user(
-    AwsAccountId,
-    ExperienceConfiguration,
-    UserArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function generate_embed_url_for_registered_user(AwsAccountId, ExperienceConfiguration, UserArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/embed-url/registered-user",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ExperienceConfiguration" => ExperienceConfiguration,
-                    "UserArn" => UserArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/embed-url/registered-user", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperienceConfiguration"=>ExperienceConfiguration, "UserArn"=>UserArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2184,29 +1375,28 @@ ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
   Management (IAM) policy.
 - `creds-type`: The authentication method that the user uses to sign in.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"additional_dashboard_ids"`: A list of one or more dashboard IDs that you want to add to
-  a session that includes anonymous users. The IdentityType parameter must be set to
-  ANONYMOUS for this to work, because other identity types authenticate as Amazon QuickSight
-  or IAMusers. For example, if you set \"--dashboard-id dash_id1 --dashboard-id dash_id2
+# Keyword Parameters
+- `additional_dashboard_ids`: A list of one or more dashboard IDs that you want to add to a
+  session that includes anonymous users. The IdentityType parameter must be set to ANONYMOUS
+  for this to work, because other identity types authenticate as Amazon QuickSight or
+  IAMusers. For example, if you set \"--dashboard-id dash_id1 --dashboard-id dash_id2
   dash_id3 identity-type ANONYMOUS\", the session can access all three dashboards.
-- `"namespace"`: The Amazon QuickSight namespace that contains the dashboard IDs in this
+- `namespace`: The Amazon QuickSight namespace that contains the dashboard IDs in this
   request. If you're not using a custom namespace, set Namespace = default.
-- `"reset_disabled"`: Remove the reset button on the embedded dashboard. The default is
+- `reset_disabled`: Remove the reset button on the embedded dashboard. The default is
   FALSE, which enables the reset button.
-- `"session_lifetime_in_minutes"`: How many minutes the session is valid. The session
+- `session_lifetime_in_minutes`: How many minutes the session is valid. The session
   lifetime must be 15-600 minutes.
-- `"state_persistence_enabled"`: Adds persistence of state for the user session in an
+- `state_persistence_enabled`: Adds persistence of state for the user session in an
   embedded dashboard. Persistence applies to the sheet and the parameter settings. These are
   control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while
   viewing the dashboard. If this is set to TRUE, the settings are the same when the
   subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in
   a browser cookie. If this is set to FALSE, the state of the user session is not persisted.
   The default is FALSE.
-- `"undo_redo_disabled"`: Remove the undo/redo button on the embedded dashboard. The
-  default is FALSE, which enables the undo/redo button.
-- `"user_arn"`: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
+- `undo_redo_disabled`: Remove the undo/redo button on the embedded dashboard. The default
+  is FALSE, which enables the undo/redo button.
+- `user_arn`: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
   QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account
   (readers, authors, or admins) authenticated as one of the following:   Active Directory
   (AD) users or group members   Invited nonfederated users   IAMusers and IAMrole-based
@@ -2214,23 +1404,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   IAMfederation.   Omit this parameter for users in the third group – IAMusers and IAM
   role-based sessions.
 """
-function get_dashboard_embed_url(
-    AwsAccountId,
-    DashboardId,
-    creds_type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_dashboard_embed_url(AwsAccountId, DashboardId, creds_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("creds-type" => creds_type), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("creds-type"=>creds_type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2250,16 +1426,15 @@ Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Co
 - `aws_account_id`: The ID for the Amazon Web Services account associated with your Amazon
   QuickSight subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"entry_point"`: The URL you use to access the embedded session. The entry point URL is
+# Keyword Parameters
+- `entry_point`: The URL you use to access the embedded session. The entry point URL is
   constrained to the following paths:    /start     /start/analyses     /start/dashboards
   /start/favorites     /dashboards/DashboardId  - where DashboardId is the actual ID key from
   the Amazon QuickSight console URL of the dashboard    /analyses/AnalysisId  - where
   AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis
-- `"session_lifetime_in_minutes"`: How many minutes the session is valid. The session
+- `session_lifetime_in_minutes`: How many minutes the session is valid. The session
   lifetime must be 15-600 minutes.
-- `"user_arn"`: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
+- `user_arn`: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
   QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your
   account (readers, authors, or admins). They need to be authenticated as one of the
   following:   Active Directory (AD) users or group members   Invited nonfederated users
@@ -2267,17 +1442,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this
   parameter for users in the third group, IAM users and IAM role-based sessions.
 """
-function get_session_embed_url(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_session_embed_url(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/session-embed-url",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/session-embed-url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2288,22 +1455,13 @@ Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services
 # Arguments
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the analyses.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function list_analyses(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/analyses",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/analyses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2316,23 +1474,13 @@ Lists all the versions of the dashboards in the Amazon QuickSight subscription.
   that you're listing versions for.
 - `dashboard_id`: The ID for the dashboard.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_dashboard_versions(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dashboard_versions(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2344,23 +1492,13 @@ Lists dashboards in an Amazon Web Services account.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the dashboards
   that you're listing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_dashboards(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/dashboards",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/dashboards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2373,23 +1511,13 @@ arn:aws:quicksight:region:aws-account-id:dataset/*.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_data_sets(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2401,23 +1529,13 @@ Services account.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_data_sources(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2429,23 +1547,13 @@ List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
 - `aws_account_id`: The AWS account ID.
 - `folder_id`: The folder ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_folder_members(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_folder_members(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2456,23 +1564,13 @@ Lists all folders in an account.
 # Arguments
 - `aws_account_id`: The AWS account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_folders(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/folders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/folders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2487,26 +1585,13 @@ Lists member users in a group.
 - `group_name`: The name of the group that you want to see a membership list of.
 - `namespace`: The namespace. Currently, you should set this to default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return from this request.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return from this request.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function list_group_memberships(
-    AwsAccountId,
-    GroupName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_group_memberships(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2520,22 +1605,13 @@ Lists all user groups in Amazon QuickSight.
   QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function list_groups(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_groups(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2548,24 +1624,14 @@ Lists IAMpolicy assignments in the current Amazon QuickSight account.
   assignments.
 - `namespace`: The namespace for the assignments.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_status"`: The status of the assignments.
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `assignment_status`: The status of the assignments.
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_iampolicy_assignments(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_iampolicy_assignments(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2579,27 +1645,13 @@ policies assigned to the specified user and group or groups that the user belong
 - `namespace`: The namespace of the assignment.
 - `user_name`: The name of the user.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_iampolicy_assignments_for_user(
-    AwsAccountId,
-    Namespace,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_iampolicy_assignments_for_user(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2611,23 +1663,13 @@ Lists the history of SPICE ingestions for a dataset.
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_ingestions(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_ingestions(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2639,22 +1681,13 @@ Lists the namespaces for the specified Amazon Web Services account.
 - `aws_account_id`: The ID for the Amazon Web Services account that contains the Amazon
   QuickSight namespaces that you want to list.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function list_namespaces(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2667,17 +1700,9 @@ Lists the tags assigned to a resource.
   tags for.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/resources/$(ResourceArn)/tags",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/resources/$(ResourceArn)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2690,23 +1715,13 @@ Lists all the aliases of a template.
   aliases that you're listing.
 - `template_id`: The ID for the template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_template_aliases(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_template_aliases(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2719,23 +1734,13 @@ Lists all the versions of the templates in the current Amazon QuickSight account
   that you're listing.
 - `template_id`: The ID for the template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_template_versions(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_template_versions(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2747,23 +1752,13 @@ Lists all the templates in the current Amazon QuickSight account.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the templates
   that you're listing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_templates(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/templates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2776,23 +1771,13 @@ Lists all the aliases of a theme.
   aliases that you're listing.
 - `theme_id`: The ID for the theme.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_theme_aliases(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_theme_aliases(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2805,23 +1790,13 @@ Lists all the versions of the themes in the current Amazon Web Services account.
   you're listing.
 - `theme_id`: The ID for the theme.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function list_theme_versions(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_theme_versions(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2833,27 +1808,17 @@ Lists all the themes in the current Amazon Web Services account.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the themes that
   you're listing.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
-- `"type"`: The type of themes that you want to list. Valid options include the following:
-    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created
-  by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined
-  by Amazon QuickSight.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
+- `type`: The type of themes that you want to list. Valid options include the following:
+  ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by
+  people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by
+  Amazon QuickSight.
 """
-function list_themes(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/themes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2867,26 +1832,13 @@ Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of
 - `namespace`: The namespace. Currently, you should set this to default.
 - `user_name`: The Amazon QuickSight user name that you want to list group memberships for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return from this request.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return from this request.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function list_user_groups(
-    AwsAccountId,
-    Namespace,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_user_groups(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2900,22 +1852,13 @@ Returns a list of all of the Amazon QuickSight users belonging to this account.
   QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return from this request.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return from this request.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function list_users(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_users(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2941,13 +1884,12 @@ Access Management (IAM) identity or role specified in the request.
   isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently
   available for use.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_federation_provider_url"`: The URL of the custom OpenID Connect (OIDC) provider
+# Keyword Parameters
+- `custom_federation_provider_url`: The URL of the custom OpenID Connect (OIDC) provider
   that provides identity to let a user federate into Amazon QuickSight with an associated
   Identity and Access Management(IAM) role. This parameter should only be used when
   ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
-- `"custom_permissions_name"`: (Enterprise edition only) The name of the custom permissions
+- `custom_permissions_name`: (Enterprise edition only) The name of the custom permissions
   profile that you want to assign to this user. Customized permissions allows you to control
   a user's access by restricting access the following operations:   Create and update data
   sources   Create and update datasets   Create and update email reports   Subscribe to email
@@ -2960,51 +1902,29 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   QuickSight users to one of the default security cohorts in Amazon QuickSight (admin,
   author, reader). This feature is available only to Amazon QuickSight Enterprise edition
   subscriptions.
-- `"external_login_federation_provider_type"`: The type of supported external login
-  provider that provides identity to let a user federate into Amazon QuickSight with an
-  associated Identity and Access Management(IAM) role. The type of supported external login
-  provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is
+- `external_login_federation_provider_type`: The type of supported external login provider
+  that provides identity to let a user federate into Amazon QuickSight with an associated
+  Identity and Access Management(IAM) role. The type of supported external login provider can
+  be one of the following.    COGNITO: Amazon Cognito. The provider URL is
   cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the
   \"CustomFederationProviderUrl\" parameter which is only needed when the external provider
   is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC
   type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider
   URL.
-- `"external_login_id"`: The identity ID for a user in the external login provider.
-- `"iam_arn"`: The ARN of the IAMuser or role that you are registering with Amazon
+- `external_login_id`: The identity ID for a user in the external login provider.
+- `iam_arn`: The ARN of the IAMuser or role that you are registering with Amazon
   QuickSight.
-- `"session_name"`: You need to use this parameter only when you register one or more users
+- `session_name`: You need to use this parameter only when you register one or more users
   using an assumed IAMrole. You don't need to provide the session name for other scenarios,
   for example when you are registering an IAMuser or an Amazon QuickSight user. You can
   register multiple users using the same IAMrole if each user has a different session name.
   For more information on assuming IAMroles, see  assume-role  in the AWS CLI Reference.
-- `"user_name"`: The Amazon QuickSight user name that you want to create for the user you
-  are registering.
+- `user_name`: The Amazon QuickSight user name that you want to create for the user you are
+  registering.
 """
-function register_user(
-    AwsAccountId,
-    Email,
-    IdentityType,
-    Namespace,
-    UserRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_user(AwsAccountId, Email, IdentityType, Namespace, UserRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Email" => Email, "IdentityType" => IdentityType, "UserRole" => UserRole
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "IdentityType"=>IdentityType, "UserRole"=>UserRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3017,17 +1937,9 @@ Restores an analysis.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the analysis.
 
 """
-function restore_analysis(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function restore_analysis(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3042,22 +1954,13 @@ and changes.
   that you're searching for.
 - `filters`: The structure for the search filters that you want to apply to your search.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: A pagination token that can be used in a subsequent request.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: A pagination token that can be used in a subsequent request.
 """
-function search_analyses(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_analyses(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/search/analyses",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/search/analyses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3073,23 +1976,13 @@ The results are best effort and may not reflect very recent updates and changes.
   name, for example, \"Filters\": [ { \"Name\": \"QUICKSIGHT_USER\", \"Operator\":
   \"StringEquals\", \"Value\": \"arn:aws:quicksight:us-east-1:1:user/default/UserName1\" } ]
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function search_dashboards(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_dashboards(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/search/dashboards",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/search/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3104,23 +1997,13 @@ Searches the subfolders in a folder.
   \"Operator\": \"StringEquals\", \"Value\":
   \"arn:aws:quicksight:us-east-1:1:folder/folderId\" } ].
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned per request.
-- `"next_token"`: The token for the next set of results, or null if there are no more
-  results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned per request.
+- `next_token`: The token for the next set of results, or null if there are no more results.
 """
-function search_folders(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function search_folders(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/search/folders",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/search/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3146,17 +2029,9 @@ Amazon QuickSight doesn't currently support the Tag Editor for Resource Groups.
   the resource.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/resources/$(ResourceArn)/tags",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/resources/$(ResourceArn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3170,17 +2045,9 @@ Removes a tag or tags from a resource.
   resource.
 
 """
-function untag_resource(
-    ResourceArn, keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "DELETE",
-        "/resources/$(ResourceArn)/tags",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("keys" => keys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("DELETE", "/resources/$(ResourceArn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keys"=>keys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3199,30 +2066,12 @@ DescribeAccountCustomization API operation.
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to update
   Amazon QuickSight customizations for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"namespace"`: The namespace that you want to update Amazon QuickSight customizations for.
+# Keyword Parameters
+- `namespace`: The namespace that you want to update Amazon QuickSight customizations for.
 """
-function update_account_customization(
-    AccountCustomization,
-    AwsAccountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_account_customization(AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/customizations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccountCustomization" => AccountCustomization),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/customizations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountCustomization"=>AccountCustomization), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3238,30 +2087,14 @@ Updates the Amazon QuickSight settings in your Amazon Web Services account.
   for the first time with Amazon QuickSight provide an email that becomes associated with the
   default namespace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"notification_email"`: The email address that you want Amazon QuickSight to send
+# Keyword Parameters
+- `notification_email`: The email address that you want Amazon QuickSight to send
   notifications to regarding your Amazon Web Services account or Amazon QuickSight
   subscription.
 """
-function update_account_settings(
-    AwsAccountId,
-    DefaultNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_account_settings(AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/settings",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DefaultNamespace" => DefaultNamespace), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultNamespace"=>DefaultNamespace), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3280,36 +2113,16 @@ Updates an analysis in Amazon QuickSight
   metadata structure contains details that describe a source template and one or more
   datasets.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"parameters"`: The parameter names and override values that you want to use. An analysis
+# Keyword Parameters
+- `parameters`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
-- `"theme_arn"`: The Amazon Resource Name (ARN) for the theme to apply to the analysis that
+- `theme_arn`: The Amazon Resource Name (ARN) for the theme to apply to the analysis that
   you're creating. To see the theme in the Amazon QuickSight console, make sure that you have
   access to it.
 """
-function update_analysis(
-    AnalysisId,
-    AwsAccountId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_analysis(AnalysisId, AwsAccountId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3324,24 +2137,15 @@ Updates the read and write permissions for an analysis.
   whose permissions you're updating. You must be using the Amazon Web Services account that
   the analysis is in.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: A structure that describes the permissions to add and the
-  principal to add them to.
-- `"revoke_permissions"`: A structure that describes the permissions to remove and the
+# Keyword Parameters
+- `grant_permissions`: A structure that describes the permissions to add and the principal
+  to add them to.
+- `revoke_permissions`: A structure that describes the permissions to remove and the
   principal to remove them from.
 """
-function update_analysis_permissions(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_analysis_permissions(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3367,10 +2171,9 @@ operation.
   entity within SourceTemplate to list the replacement datasets for the placeholders listed
   in the original. The schema in each dataset must match its placeholder.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dashboard_publish_options"`: Options for publishing the dashboard when you create it:
-   AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or
+# Keyword Parameters
+- `dashboard_publish_options`: Options for publishing the dashboard when you create it:
+  AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or
   DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on
   the published dashboard, which can be used for ad hoc (one-time) filtering. This option is
   ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be
@@ -3378,38 +2181,18 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for
   SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This
   option is COLLAPSED by default.
-- `"parameters"`: A structure that contains the parameters of the dashboard. These are
+- `parameters`: A structure that contains the parameters of the dashboard. These are
   parameter overrides for a dashboard. A dashboard can have any type of parameters, and some
   parameters might accept multiple values.
-- `"theme_arn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
+- `theme_arn`: The Amazon Resource Name (ARN) of the theme that is being used for this
   dashboard. If you add a value for this field, it overrides the value that was originally
   associated with the entity. The theme ARN must exist in the same Amazon Web Services
   account where you create the dashboard.
-- `"version_description"`: A description for the first version of the dashboard being
-  created.
+- `version_description`: A description for the first version of the dashboard being created.
 """
-function update_dashboard(
-    AwsAccountId,
-    DashboardId,
-    Name,
-    SourceEntity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_dashboard(AwsAccountId, DashboardId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3422,22 +2205,13 @@ Updates read and write permissions on a dashboard.
   whose permissions you're updating.
 - `dashboard_id`: The ID for the dashboard.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: The permissions that you want to grant on this resource.
-- `"revoke_permissions"`: The permissions that you want to revoke from this resource.
+# Keyword Parameters
+- `grant_permissions`: The permissions that you want to grant on this resource.
+- `revoke_permissions`: The permissions that you want to revoke from this resource.
 """
-function update_dashboard_permissions(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_dashboard_permissions(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3452,21 +2226,9 @@ Updates the published version of a dashboard.
 - `version_number`: The version number of the dashboard.
 
 """
-function update_dashboard_published_version(
-    AwsAccountId,
-    DashboardId,
-    VersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_dashboard_published_version(AwsAccountId, DashboardId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3483,49 +2245,24 @@ Updates a dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
   data sources.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"column_groups"`: Groupings of columns that work together in certain Amazon QuickSight
+# Keyword Parameters
+- `column_groups`: Groupings of columns that work together in certain Amazon QuickSight
   features. Currently, only geospatial hierarchy is supported.
-- `"column_level_permission_rules"`: A set of one or more definitions of a
+- `column_level_permission_rules`: A set of one or more definitions of a
   ColumnLevelPermissionRule .
-- `"data_set_usage_configuration"`:
-- `"field_folders"`: The folder that contains fields and nested subfolders for your dataset.
-- `"logical_table_map"`: Configures the combination and transformation of the data from the
+- `data_set_usage_configuration`:
+- `field_folders`: The folder that contains fields and nested subfolders for your dataset.
+- `logical_table_map`: Configures the combination and transformation of the data from the
   physical tables.
-- `"row_level_permission_data_set"`: The row-level security configuration for the data you
+- `row_level_permission_data_set`: The row-level security configuration for the data you
   want to create.
-- `"row_level_permission_tag_configuration"`: The configuration of tags on a dataset to set
+- `row_level_permission_tag_configuration`: The configuration of tags on a dataset to set
   row-level security. Row-level security tags are currently supported for anonymous embedding
   only.
 """
-function update_data_set(
-    AwsAccountId,
-    DataSetId,
-    ImportMode,
-    Name,
-    PhysicalTableMap;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ImportMode" => ImportMode,
-                    "Name" => Name,
-                    "PhysicalTableMap" => PhysicalTableMap,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportMode"=>ImportMode, "Name"=>Name, "PhysicalTableMap"=>PhysicalTableMap), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3539,22 +2276,13 @@ arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 - `data_set_id`: The ID for the dataset whose permissions you want to update. This ID is
   unique per Amazon Web Services Region for each Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: The resource permissions that you want to grant to the dataset.
-- `"revoke_permissions"`: The resource permissions that you want to revoke from the dataset.
+# Keyword Parameters
+- `grant_permissions`: The resource permissions that you want to grant to the dataset.
+- `revoke_permissions`: The resource permissions that you want to revoke from the dataset.
 """
-function update_data_set_permissions(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_data_set_permissions(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3568,33 +2296,20 @@ Updates a data source.
   Region for each Amazon Web Services account.
 - `name`: A display name for the data source.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"credentials"`: The credentials that Amazon QuickSight that uses to connect to your
+# Keyword Parameters
+- `credentials`: The credentials that Amazon QuickSight that uses to connect to your
   underlying source. Currently, only credentials based on user name and password are
   supported.
-- `"data_source_parameters"`: The parameters that Amazon QuickSight uses to connect to your
+- `data_source_parameters`: The parameters that Amazon QuickSight uses to connect to your
   underlying source.
-- `"ssl_properties"`: Secure Socket Layer (SSL) properties that apply when Amazon
-  QuickSight connects to your underlying source.
-- `"vpc_connection_properties"`: Use this parameter only when you want Amazon QuickSight to
+- `ssl_properties`: Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
+  connects to your underlying source.
+- `vpc_connection_properties`: Use this parameter only when you want Amazon QuickSight to
   use a VPC connection when connecting to your underlying source.
 """
-function update_data_source(
-    AwsAccountId,
-    DataSourceId,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_data_source(AwsAccountId, DataSourceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3607,24 +2322,15 @@ Updates the permissions to a data source.
 - `data_source_id`: The ID of the data source. This ID is unique per Amazon Web Services
   Region for each Amazon Web Services account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: A list of resource permissions that you want to grant on the data
+# Keyword Parameters
+- `grant_permissions`: A list of resource permissions that you want to grant on the data
   source.
-- `"revoke_permissions"`: A list of resource permissions that you want to revoke on the
-  data source.
+- `revoke_permissions`: A list of resource permissions that you want to revoke on the data
+  source.
 """
-function update_data_source_permissions(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_data_source_permissions(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3638,21 +2344,9 @@ Updates the name of a folder.
 - `name`: The name of the folder.
 
 """
-function update_folder(
-    AwsAccountId,
-    FolderId,
-    Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_folder(AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3664,22 +2358,13 @@ Updates permissions of a folder.
 - `aws_account_id`: The AWS account ID.
 - `folder_id`: The folder ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: The permissions that you want to grant on a resource.
-- `"revoke_permissions"`: The permissions that you want to revoke from a resource.
+# Keyword Parameters
+- `grant_permissions`: The permissions that you want to grant on a resource.
+- `revoke_permissions`: The permissions that you want to revoke from a resource.
 """
-function update_folder_permissions(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_folder_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3694,25 +2379,12 @@ Changes a group description.
 - `group_name`: The name of the group that you want to update.
 - `namespace`: The namespace. Currently, you should set this to default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: The description for the group that you want to update.
+# Keyword Parameters
+- `description`: The description for the group that you want to update.
 """
-function update_group(
-    AwsAccountId,
-    GroupName,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3729,32 +2401,19 @@ included in Identities.
   assignment.
 - `namespace`: The namespace of the assignment.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"assignment_status"`: The status of the assignment. Possible values are as follows:
+# Keyword Parameters
+- `assignment_status`: The status of the assignment. Possible values are as follows:
   ENABLED - Anything specified in this assignment is used when creating the data source.
   DISABLED - This assignment isn't used when creating the data source.    DRAFT - This
   assignment is an unfinished draft and isn't used when creating the data source.
-- `"identities"`: The Amazon QuickSight users, groups, or both that you want to assign the
+- `identities`: The Amazon QuickSight users, groups, or both that you want to assign the
   policy to.
-- `"policy_arn"`: The ARN for the IAMpolicy to apply to the Amazon QuickSight users and
+- `policy_arn`: The ARN for the IAMpolicy to apply to the Amazon QuickSight users and
   groups specified in this assignment.
 """
-function update_iampolicy_assignment(
-    AssignmentName,
-    AwsAccountId,
-    Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3765,22 +2424,13 @@ Updates content and status of IP Rules.
 # Arguments
 - `aws_account_id`: Your AWS account ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`: Whether or not IP rules are enabled.
-- `"ip_restriction_rule_map"`: Describes updated IP rules.
+# Keyword Parameters
+- `enabled`: Whether or not IP rules are enabled.
+- `ip_restriction_rule_map`: Describes updated IP rules.
 """
-function update_ip_restriction(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_ip_restriction(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/ip-restriction",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("POST", "/accounts/$(AwsAccountId)/ip-restriction", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3802,31 +2452,16 @@ Updates a template from an existing Amazon QuickSight analysis or another templa
   its placeholder.
 - `template_id`: The ID for the template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"name"`: The name for the template.
-- `"version_description"`: A description of the current template version that is being
+# Keyword Parameters
+- `name`: The name for the template.
+- `version_description`: A description of the current template version that is being
   updated. Every time you call UpdateTemplate, you create a new version of the template. Each
   version of the template maintains a description of the version in the VersionDescription
   field.
 """
-function update_template(
-    AwsAccountId,
-    SourceEntity,
-    TemplateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_template(AwsAccountId, SourceEntity, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SourceEntity" => SourceEntity), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceEntity"=>SourceEntity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3845,28 +2480,9 @@ Updates the template alias of a template.
 - `template_version_number`: The version number of the template.
 
 """
-function update_template_alias(
-    AliasName,
-    AwsAccountId,
-    TemplateId,
-    TemplateVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateVersionNumber"=>TemplateVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3878,22 +2494,13 @@ Updates the resource permissions for a template.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the template.
 - `template_id`: The ID for the template.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: A list of resource permissions to be granted on the template.
-- `"revoke_permissions"`: A list of resource permissions to be revoked from the template.
+# Keyword Parameters
+- `grant_permissions`: A list of resource permissions to be granted on the template.
+- `revoke_permissions`: A list of resource permissions to be revoked from the template.
 """
-function update_template_permissions(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_template_permissions(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3908,31 +2515,16 @@ Updates a theme.
   from. All themes initially inherit from a default Amazon QuickSight theme.
 - `theme_id`: The ID for the theme.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"configuration"`: The theme configuration, which contains the theme display properties.
-- `"name"`: The name for the theme.
-- `"version_description"`: A description of the theme version that you're updating Every
-  time that you call UpdateTheme, you create a new version of the theme. Each version of the
-  theme maintains a description of the version in VersionDescription.
+# Keyword Parameters
+- `configuration`: The theme configuration, which contains the theme display properties.
+- `name`: The name for the theme.
+- `version_description`: A description of the theme version that you're updating Every time
+  that you call UpdateTheme, you create a new version of the theme. Each version of the theme
+  maintains a description of the version in VersionDescription.
 """
-function update_theme(
-    AwsAccountId,
-    BaseThemeId,
-    ThemeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_theme(AwsAccountId, BaseThemeId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("BaseThemeId" => BaseThemeId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseThemeId"=>BaseThemeId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3948,26 +2540,9 @@ Updates an alias of a theme.
 - `theme_version_number`: The version number of the theme that the alias should reference.
 
 """
-function update_theme_alias(
-    AliasName,
-    AwsAccountId,
-    ThemeId,
-    ThemeVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_theme_alias(AliasName, AwsAccountId, ThemeId, ThemeVersionNumber; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThemeVersionNumber"=>ThemeVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3990,22 +2565,13 @@ specify no permissions, omit the permissions list.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the theme.
 - `theme_id`: The ID for the theme.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_permissions"`: A list of resource permissions to be granted for the theme.
-- `"revoke_permissions"`: A list of resource permissions to be revoked from the theme.
+# Keyword Parameters
+- `grant_permissions`: A list of resource permissions to be granted for the theme.
+- `revoke_permissions`: A list of resource permissions to be revoked from the theme.
 """
-function update_theme_permissions(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_theme_permissions(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4027,13 +2593,12 @@ Updates an Amazon QuickSight user.
   permissions.
 - `user_name`: The Amazon QuickSight user name that you want to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_federation_provider_url"`: The URL of the custom OpenID Connect (OIDC) provider
+# Keyword Parameters
+- `custom_federation_provider_url`: The URL of the custom OpenID Connect (OIDC) provider
   that provides identity to let a user federate into Amazon QuickSight with an associated
   Identity and Access Management(IAM) role. This parameter should only be used when
   ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
-- `"custom_permissions_name"`: (Enterprise edition only) The name of the custom permissions
+- `custom_permissions_name`: (Enterprise edition only) The name of the custom permissions
   profile that you want to assign to this user. Customized permissions allows you to control
   a user's access by restricting access the following operations:   Create and update data
   sources   Create and update datasets   Create and update email reports   Subscribe to email
@@ -4045,39 +2610,23 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   assigning Amazon QuickSight users to one of the default security cohorts in Amazon
   QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight
   Enterprise edition subscriptions.
-- `"external_login_federation_provider_type"`: The type of supported external login
-  provider that provides identity to let a user federate into Amazon QuickSight with an
-  associated Identity and Access Management(IAM) role. The type of supported external login
-  provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is
+- `external_login_federation_provider_type`: The type of supported external login provider
+  that provides identity to let a user federate into Amazon QuickSight with an associated
+  Identity and Access Management(IAM) role. The type of supported external login provider can
+  be one of the following.    COGNITO: Amazon Cognito. The provider URL is
   cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the
   \"CustomFederationProviderUrl\" parameter which is only needed when the external provider
   is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC
   type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider
   URL.    NONE: This clears all the previously saved external login information for a user.
   Use  DescribeUser  API to check the external login information.
-- `"external_login_id"`: The identity ID for a user in the external login provider.
-- `"unapply_custom_permissions"`: A flag that you use to indicate that you want to remove
-  all custom permissions from this user. Using this parameter resets the user to the state it
-  was in before a custom permissions profile was applied. This parameter defaults to NULL and
-  it doesn't accept any other value.
+- `external_login_id`: The identity ID for a user in the external login provider.
+- `unapply_custom_permissions`: A flag that you use to indicate that you want to remove all
+  custom permissions from this user. Using this parameter resets the user to the state it was
+  in before a custom permissions profile was applied. This parameter defaults to NULL and it
+  doesn't accept any other value.
 """
-function update_user(
-    AwsAccountId,
-    Email,
-    Namespace,
-    Role,
-    UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_user(AwsAccountId, Email, Namespace, Role, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return quicksight(
-        "PUT",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Email" => Email, "Role" => Role), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "Role"=>Role), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,44 +4,8 @@ using AWS.AWSServices: license_manager
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "token_ids" => "TokenIds",
-    "organization_configuration" => "OrganizationConfiguration",
-    "checkout_metadata" => "CheckoutMetadata",
-    "license_configuration_arns" => "LicenseConfigurationArns",
-    "next_token" => "NextToken",
-    "remove_license_specifications" => "RemoveLicenseSpecifications",
-    "name" => "Name",
-    "status_reason" => "StatusReason",
-    "source_version" => "SourceVersion",
-    "dry_run" => "DryRun",
-    "expiration_in_days" => "ExpirationInDays",
-    "status" => "Status",
-    "license_count" => "LicenseCount",
-    "s3_bucket_arn" => "S3BucketArn",
-    "node_id" => "NodeId",
-    "version" => "Version",
-    "max_results" => "MaxResults",
-    "description" => "Description",
-    "allowed_operations" => "AllowedOperations",
-    "enable_cross_accounts_discovery" => "EnableCrossAccountsDiscovery",
-    "license_count_hard_limit" => "LicenseCountHardLimit",
-    "role_arns" => "RoleArns",
-    "add_license_specifications" => "AddLicenseSpecifications",
-    "disassociate_when_not_found" => "DisassociateWhenNotFound",
-    "license_arns" => "LicenseArns",
-    "license_rules" => "LicenseRules",
-    "filters" => "Filters",
-    "product_information_list" => "ProductInformationList",
-    "license_metadata" => "LicenseMetadata",
-    "sns_topic_arn" => "SnsTopicArn",
-    "grant_arns" => "GrantArns",
-    "grant_name" => "GrantName",
-    "tags" => "Tags",
-    "license_configuration_status" => "LicenseConfigurationStatus",
-    "token_properties" => "TokenProperties",
-    "beneficiary" => "Beneficiary",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("version" => "Version", "max_results" => "MaxResults", "next_token" => "NextToken", "enable_cross_accounts_discovery" => "EnableCrossAccountsDiscovery", "organization_configuration" => "OrganizationConfiguration", "s3_bucket_arn" => "S3BucketArn", "sns_topic_arn" => "SnsTopicArn", "filters" => "Filters", "license_arns" => "LicenseArns", "status_reason" => "StatusReason", "description" => "Description", "tags" => "Tags", "add_license_specifications" => "AddLicenseSpecifications", "remove_license_specifications" => "RemoveLicenseSpecifications", "checkout_metadata" => "CheckoutMetadata", "node_id" => "NodeId", "disassociate_when_not_found" => "DisassociateWhenNotFound", "license_count" => "LicenseCount", "license_count_hard_limit" => "LicenseCountHardLimit", "license_rules" => "LicenseRules", "product_information_list" => "ProductInformationList", "token_properties" => "TokenProperties", "license_metadata" => "LicenseMetadata", "source_version" => "SourceVersion", "token_ids" => "TokenIds", "grant_arns" => "GrantArns", "dry_run" => "DryRun", "beneficiary" => "Beneficiary", "license_configuration_arns" => "LicenseConfigurationArns", "expiration_in_days" => "ExpirationInDays", "role_arns" => "RoleArns", "license_configuration_status" => "LicenseConfigurationStatus", "name" => "Name", "allowed_operations" => "AllowedOperations", "grant_name" => "GrantName", "status" => "Status")
 
 """
     accept_grant(grant_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -52,18 +16,9 @@ Accepts the specified grant.
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
 """
-function accept_grant(
-    GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function accept_grant(GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "AcceptGrant",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GrantArn" => GrantArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("AcceptGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -74,26 +29,12 @@ Checks in the specified license. Check in a license when it is no longer in use.
 # Arguments
 - `license_consumption_token`: License consumption token.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"beneficiary"`: License beneficiary.
+# Keyword Parameters
+- `beneficiary`: License beneficiary.
 """
-function check_in_license(
-    LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function check_in_license(LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CheckInLicense",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConsumptionToken" => LicenseConsumptionToken),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CheckInLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -111,37 +52,13 @@ Checks out the specified license for offline use.
 - `license_arn`: Amazon Resource Name (ARN) of the license. The license must use the borrow
   consumption configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"checkout_metadata"`: Information about constraints.
-- `"node_id"`: Node ID.
+# Keyword Parameters
+- `checkout_metadata`: Information about constraints.
+- `node_id`: Node ID.
 """
-function checkout_borrow_license(
-    ClientToken,
-    DigitalSignatureMethod,
-    Entitlements,
-    LicenseArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function checkout_borrow_license(ClientToken, DigitalSignatureMethod, Entitlements, LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CheckoutBorrowLicense",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "DigitalSignatureMethod" => DigitalSignatureMethod,
-                    "Entitlements" => Entitlements,
-                    "LicenseArn" => LicenseArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CheckoutBorrowLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DigitalSignatureMethod"=>DigitalSignatureMethod, "Entitlements"=>Entitlements, "LicenseArn"=>LicenseArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -157,39 +74,13 @@ Checks out the specified license.
 - `key_fingerprint`: Key fingerprint identifying the license.
 - `product_sku`: Product SKU.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"beneficiary"`: License beneficiary.
-- `"node_id"`: Node ID.
+# Keyword Parameters
+- `beneficiary`: License beneficiary.
+- `node_id`: Node ID.
 """
-function checkout_license(
-    CheckoutType,
-    ClientToken,
-    Entitlements,
-    KeyFingerprint,
-    ProductSKU;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function checkout_license(CheckoutType, ClientToken, Entitlements, KeyFingerprint, ProductSKU; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CheckoutLicense",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CheckoutType" => CheckoutType,
-                    "ClientToken" => ClientToken,
-                    "Entitlements" => Entitlements,
-                    "KeyFingerprint" => KeyFingerprint,
-                    "ProductSKU" => ProductSKU,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CheckoutLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CheckoutType"=>CheckoutType, "ClientToken"=>ClientToken, "Entitlements"=>Entitlements, "KeyFingerprint"=>KeyFingerprint, "ProductSKU"=>ProductSKU), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -208,36 +99,9 @@ with specific Amazon Web Services accounts.
 - `principals`: The grant principals.
 
 """
-function create_grant(
-    AllowedOperations,
-    ClientToken,
-    GrantName,
-    HomeRegion,
-    LicenseArn,
-    Principals;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_grant(AllowedOperations, ClientToken, GrantName, HomeRegion, LicenseArn, Principals; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateGrant",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AllowedOperations" => AllowedOperations,
-                    "ClientToken" => ClientToken,
-                    "GrantName" => GrantName,
-                    "HomeRegion" => HomeRegion,
-                    "LicenseArn" => LicenseArn,
-                    "Principals" => Principals,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedOperations"=>AllowedOperations, "ClientToken"=>ClientToken, "GrantName"=>GrantName, "HomeRegion"=>HomeRegion, "LicenseArn"=>LicenseArn, "Principals"=>Principals), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -250,30 +114,16 @@ Creates a new version of the specified grant.
   idempotency of the request.
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allowed_operations"`: Allowed operations for the grant.
-- `"grant_name"`: Grant name.
-- `"source_version"`: Current version of the grant.
-- `"status"`: Grant status.
-- `"status_reason"`: Grant status reason.
+# Keyword Parameters
+- `allowed_operations`: Allowed operations for the grant.
+- `grant_name`: Grant name.
+- `source_version`: Current version of the grant.
+- `status`: Grant status.
+- `status_reason`: Grant status reason.
 """
-function create_grant_version(
-    ClientToken, GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_grant_version(ClientToken, GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateGrantVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ClientToken" => ClientToken, "GrantArn" => GrantArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateGrantVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GrantArn"=>GrantArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -296,48 +146,12 @@ Creates a license.
 - `product_sku`: Product SKU.
 - `validity`: Date and time range during which the license is valid, in ISO8601-UTC format.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"license_metadata"`: Information about the license.
+# Keyword Parameters
+- `license_metadata`: Information about the license.
 """
-function create_license(
-    Beneficiary,
-    ClientToken,
-    ConsumptionConfiguration,
-    Entitlements,
-    HomeRegion,
-    Issuer,
-    LicenseName,
-    ProductName,
-    ProductSKU,
-    Validity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_license(Beneficiary, ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseName, ProductName, ProductSKU, Validity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateLicense",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Beneficiary" => Beneficiary,
-                    "ClientToken" => ClientToken,
-                    "ConsumptionConfiguration" => ConsumptionConfiguration,
-                    "Entitlements" => Entitlements,
-                    "HomeRegion" => HomeRegion,
-                    "Issuer" => Issuer,
-                    "LicenseName" => LicenseName,
-                    "ProductName" => ProductName,
-                    "ProductSKU" => ProductSKU,
-                    "Validity" => Validity,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Beneficiary"=>Beneficiary, "ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "ProductSKU"=>ProductSKU, "Validity"=>Validity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -354,15 +168,14 @@ licenses purchased and used.
 - `license_counting_type`: Dimension used to track the license inventory.
 - `name`: Name of the license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: Description of the license configuration.
-- `"disassociate_when_not_found"`: When true, disassociates a resource when software is
+# Keyword Parameters
+- `description`: Description of the license configuration.
+- `disassociate_when_not_found`: When true, disassociates a resource when software is
   uninstalled.
-- `"license_count"`: Number of licenses managed by the license configuration.
-- `"license_count_hard_limit"`: Indicates whether hard or soft license enforcement is used.
+- `license_count`: Number of licenses managed by the license configuration.
+- `license_count_hard_limit`: Indicates whether hard or soft license enforcement is used.
   Exceeding a hard limit blocks the launch of new instances.
-- `"license_rules"`: License rules. The syntax is #name=value (for example,
+- `license_rules`: License rules. The syntax is #name=value (for example,
   #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.
   Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores
   Instances dimension: allowedTenancy | maximumCores | minimumCores | maximumSockets |
@@ -372,27 +185,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   is days and the range is 1 to 180. The possible values for allowedTenancy are EC2-Default,
   EC2-DedicatedHost, and EC2-DedicatedInstance. The possible values for honorVcpuOptimization
   are True and False.
-- `"product_information_list"`: Product information.
-- `"tags"`: Tags to add to the license configuration.
+- `product_information_list`: Product information.
+- `tags`: Tags to add to the license configuration.
 """
-function create_license_configuration(
-    LicenseCountingType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_license_configuration(LicenseCountingType, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateLicenseConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LicenseCountingType" => LicenseCountingType, "Name" => Name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -411,30 +209,9 @@ Creates a new license conversion task.
   in the License Manager User Guide.
 
 """
-function create_license_conversion_task_for_resource(
-    DestinationLicenseContext,
-    ResourceArn,
-    SourceLicenseContext;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_license_conversion_task_for_resource(DestinationLicenseContext, ResourceArn, SourceLicenseContext; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateLicenseConversionTaskForResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DestinationLicenseContext" => DestinationLicenseContext,
-                    "ResourceArn" => ResourceArn,
-                    "SourceLicenseContext" => SourceLicenseContext,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateLicenseConversionTaskForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationLicenseContext"=>DestinationLicenseContext, "ResourceArn"=>ResourceArn, "SourceLicenseContext"=>SourceLicenseContext), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -454,39 +231,13 @@ Creates a report generator.
   license configuration.   Resource report - Reports the tracked licenses and resource
   consumption for a license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: Description of the report generator.
-- `"tags"`: Tags to add to the report generator.
+# Keyword Parameters
+- `description`: Description of the report generator.
+- `tags`: Tags to add to the report generator.
 """
-function create_license_manager_report_generator(
-    ClientToken,
-    ReportContext,
-    ReportFrequency,
-    ReportGeneratorName,
-    Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_license_manager_report_generator(ClientToken, ReportContext, ReportFrequency, ReportGeneratorName, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateLicenseManagerReportGenerator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "ReportContext" => ReportContext,
-                    "ReportFrequency" => ReportFrequency,
-                    "ReportGeneratorName" => ReportGeneratorName,
-                    "Type" => Type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "ReportContext"=>ReportContext, "ReportFrequency"=>ReportFrequency, "ReportGeneratorName"=>ReportGeneratorName, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -509,49 +260,13 @@ Creates a new version of the specified license.
 - `status`: License status.
 - `validity`: Date and time range during which the license is valid, in ISO8601-UTC format.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"license_metadata"`: Information about the license.
-- `"source_version"`: Current version of the license.
+# Keyword Parameters
+- `license_metadata`: Information about the license.
+- `source_version`: Current version of the license.
 """
-function create_license_version(
-    ClientToken,
-    ConsumptionConfiguration,
-    Entitlements,
-    HomeRegion,
-    Issuer,
-    LicenseArn,
-    LicenseName,
-    ProductName,
-    Status,
-    Validity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_license_version(ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseArn, LicenseName, ProductName, Status, Validity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateLicenseVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "ConsumptionConfiguration" => ConsumptionConfiguration,
-                    "Entitlements" => Entitlements,
-                    "HomeRegion" => HomeRegion,
-                    "Issuer" => Issuer,
-                    "LicenseArn" => LicenseArn,
-                    "LicenseName" => LicenseName,
-                    "ProductName" => ProductName,
-                    "Status" => Status,
-                    "Validity" => Validity,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateLicenseVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseArn"=>LicenseArn, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "Status"=>Status, "Validity"=>Validity), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -566,31 +281,17 @@ you can use to call License Manager to manage the specified license.
 - `license_arn`: Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud
   claim of the JWT token.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expiration_in_days"`: Token expiration, in days, counted from token creation. The
-  default is 365 days.
-- `"role_arns"`: Amazon Resource Name (ARN) of the IAM roles to embed in the token. License
+# Keyword Parameters
+- `expiration_in_days`: Token expiration, in days, counted from token creation. The default
+  is 365 days.
+- `role_arns`: Amazon Resource Name (ARN) of the IAM roles to embed in the token. License
   Manager does not check whether the roles are in use.
-- `"token_properties"`: Data specified by the caller to be included in the JWT token. The
+- `token_properties`: Data specified by the caller to be included in the JWT token. The
   data is mapped to the amr claim of the JWT token.
 """
-function create_token(
-    ClientToken, LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_token(ClientToken, LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "CreateToken",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ClientToken" => ClientToken, "LicenseArn" => LicenseArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("CreateToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LicenseArn"=>LicenseArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -602,26 +303,12 @@ Deletes the specified grant.
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 - `version`: Current version of the grant.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"status_reason"`: The Status reason for the delete request.
+# Keyword Parameters
+- `status_reason`: The Status reason for the delete request.
 """
-function delete_grant(
-    GrantArn, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_grant(GrantArn, Version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "DeleteGrant",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("GrantArn" => GrantArn, "Version" => Version),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("DeleteGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn, "Version"=>Version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -634,24 +321,9 @@ Deletes the specified license.
 - `source_version`: Current version of the license.
 
 """
-function delete_license(
-    LicenseArn, SourceVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_license(LicenseArn, SourceVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "DeleteLicense",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LicenseArn" => LicenseArn, "SourceVersion" => SourceVersion
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("DeleteLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn, "SourceVersion"=>SourceVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -664,22 +336,9 @@ is in use.
 - `license_configuration_arn`: ID of the license configuration.
 
 """
-function delete_license_configuration(
-    LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "DeleteLicenseConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConfigurationArn" => LicenseConfigurationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("DeleteLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -694,26 +353,9 @@ the previous reports from this generator.
   generator to be deleted.
 
 """
-function delete_license_manager_report_generator(
-    LicenseManagerReportGeneratorArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_license_manager_report_generator(LicenseManagerReportGeneratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "DeleteLicenseManagerReportGenerator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LicenseManagerReportGeneratorArn" => LicenseManagerReportGeneratorArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("DeleteLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -727,12 +369,7 @@ Deletes the specified token. Must be called in the license home Region.
 """
 function delete_token(TokenId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "DeleteToken",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TokenId" => TokenId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("DeleteToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TokenId"=>TokenId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -743,28 +380,14 @@ Extends the expiration date for license consumption.
 # Arguments
 - `license_consumption_token`: License consumption token.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dry_run"`: Checks whether you have the required permissions for the action, without
+# Keyword Parameters
+- `dry_run`: Checks whether you have the required permissions for the action, without
   actually making the request. Provides an error response if you do not have the required
   permissions.
 """
-function extend_license_consumption(
-    LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function extend_license_consumption(LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ExtendLicenseConsumption",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConsumptionToken" => LicenseConsumptionToken),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ExtendLicenseConsumption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -776,20 +399,12 @@ valid for one hour.
 # Arguments
 - `token`: Refresh token, encoded as a JWT token.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"token_properties"`: Token properties to validate against those present in the JWT token.
+# Keyword Parameters
+- `token_properties`: Token properties to validate against those present in the JWT token.
 """
-function get_access_token(
-    Token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_access_token(Token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetAccessToken",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Token" => Token), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetAccessToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -800,20 +415,12 @@ Gets detailed information about the specified grant.
 # Arguments
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version"`: Grant version.
+# Keyword Parameters
+- `version`: Grant version.
 """
 function get_grant(GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetGrant",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GrantArn" => GrantArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -824,22 +431,12 @@ Gets detailed information about the specified license.
 # Arguments
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"version"`: License version.
+# Keyword Parameters
+- `version`: License version.
 """
-function get_license(
-    LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_license(LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetLicense",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LicenseArn" => LicenseArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -851,22 +448,9 @@ Gets detailed information about the specified license configuration.
 - `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 
 """
-function get_license_configuration(
-    LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetLicenseConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConfigurationArn" => LicenseConfigurationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -879,22 +463,9 @@ Gets information about the specified license type conversion task.
   information on.
 
 """
-function get_license_conversion_task(
-    LicenseConversionTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_license_conversion_task(LicenseConversionTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetLicenseConversionTask",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConversionTaskId" => LicenseConversionTaskId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetLicenseConversionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConversionTaskId"=>LicenseConversionTaskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -907,26 +478,9 @@ Gets information about the specified report generator.
   generator.
 
 """
-function get_license_manager_report_generator(
-    LicenseManagerReportGeneratorArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_license_manager_report_generator(LicenseManagerReportGeneratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetLicenseManagerReportGenerator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "LicenseManagerReportGeneratorArn" => LicenseManagerReportGeneratorArn
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -938,18 +492,9 @@ Gets detailed information about the usage of the specified license.
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 
 """
-function get_license_usage(
-    LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_license_usage(LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetLicenseUsage",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LicenseArn" => LicenseArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("GetLicenseUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -958,13 +503,9 @@ end
 Gets the License Manager settings for the current Region.
 
 """
-function get_service_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "GetServiceSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return license_manager("GetServiceSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -977,27 +518,13 @@ a stopped instance might not consume a license (depending on the license rules).
 # Arguments
 - `license_configuration_arn`: Amazon Resource Name (ARN) of a license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+# Keyword Parameters
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_associations_for_license_configuration(
-    LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_associations_for_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListAssociationsForLicenseConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConfigurationArn" => LicenseConfigurationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1005,24 +532,16 @@ end
 
 Lists the grants distributed for the specified license.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters are supported:
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters are supported:
   LicenseArn     GrantStatus     GranteePrincipalARN     ProductSKU     LicenseIssuerName
-- `"grant_arns"`: Amazon Resource Names (ARNs) of the grants.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `grant_arns`: Amazon Resource Names (ARNs) of the grants.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_distributed_grants(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_distributed_grants(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListDistributedGrants",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListDistributedGrants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1033,27 +552,13 @@ Lists the license configuration operations that failed.
 # Arguments
 - `license_configuration_arn`: Amazon Resource Name of the license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+# Keyword Parameters
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_failures_for_license_configuration_operations(
-    LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_failures_for_license_configuration_operations(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListFailuresForLicenseConfigurationOperations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConfigurationArn" => LicenseConfigurationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1061,29 +566,21 @@ end
 
 Lists the license configurations for your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    licenseCountingType - The dimension for which licenses are counted.
-  Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS |
-  NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license
-  enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A
-  Boolean value that indicates whether the available licenses have been exceeded. Logical
-  operators are EQUALS | NOT_EQUALS.
-- `"license_configuration_arns"`: Amazon Resource Names (ARN) of the license configurations.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters and logical operators are
+  supported:    licenseCountingType - The dimension for which licenses are counted. Possible
+  values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.
+  enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is
+  used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value
+  that indicates whether the available licenses have been exceeded. Logical operators are
+  EQUALS | NOT_EQUALS.
+- `license_configuration_arns`: Amazon Resource Names (ARN) of the license configurations.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_license_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_license_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListLicenseConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListLicenseConfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1091,22 +588,14 @@ end
 
 Lists the license type conversion tasks for your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`:  Filters to scope the results. Valid filters are ResourceArns and Status.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+# Keyword Parameters
+- `filters`:  Filters to scope the results. Valid filters are ResourceArns and Status.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_license_conversion_tasks(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_license_conversion_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListLicenseConversionTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListLicenseConversionTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1114,23 +603,15 @@ end
 
 Lists the report generators for your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters are supported:
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters are supported:
   LicenseConfigurationArn
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_license_manager_report_generators(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_license_manager_report_generators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListLicenseManagerReportGenerators",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListLicenseManagerReportGenerators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1142,23 +623,13 @@ Describes the license configurations for the specified resource.
 - `resource_arn`: Amazon Resource Name (ARN) of a resource that has an associated license
   configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+# Keyword Parameters
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_license_specifications_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_license_specifications_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListLicenseSpecificationsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1169,23 +640,13 @@ Lists all versions of the specified license.
 # Arguments
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+# Keyword Parameters
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_license_versions(
-    LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_license_versions(LicenseArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListLicenseVersions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LicenseArn" => LicenseArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListLicenseVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1193,19 +654,16 @@ end
 
 Lists the licenses for your account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters are supported:
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters are supported:
   Beneficiary     ProductSKU     Fingerprint     Status
-- `"license_arns"`: Amazon Resource Names (ARNs) of the licenses.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `license_arns`: Amazon Resource Names (ARNs) of the licenses.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
 function list_licenses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListLicenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return license_manager("ListLicenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1213,21 +671,16 @@ end
 
 Lists grants that are received but not accepted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters are supported:
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters are supported:
   ProductSKU     LicenseIssuerName     LicenseArn     GrantStatus     GranterAccountId
-- `"grant_arns"`: Amazon Resource Names (ARNs) of the grants.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `grant_arns`: Amazon Resource Names (ARNs) of the grants.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_received_grants(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_received_grants(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListReceivedGrants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return license_manager("ListReceivedGrants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1235,24 +688,16 @@ end
 
 Lists received licenses.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters are supported:
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters are supported:
   ProductSKU     Status     Fingerprint     IssuerName     Beneficiary
-- `"license_arns"`: Amazon Resource Names (ARNs) of the licenses.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `license_arns`: Amazon Resource Names (ARNs) of the licenses.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_received_licenses(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_received_licenses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListReceivedLicenses",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListReceivedLicenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1260,10 +705,9 @@ end
 
 Lists resources managed using Systems Manager inventory.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    account_id - The ID of the Amazon Web Services account that owns the
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters and logical operators are
+  supported:    account_id - The ID of the Amazon Web Services account that owns the
   resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the
   application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of
   license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are
@@ -1272,19 +716,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.
   tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical
   operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account).
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_resource_inventory(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resource_inventory(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListResourceInventory",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListResourceInventory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1296,18 +733,9 @@ Lists the tags for the specified license configuration.
 - `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1315,19 +743,16 @@ end
 
 Lists your tokens.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filter is supported:
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filter is supported:
   LicenseArns
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
-- `"token_ids"`: Token IDs.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
+- `token_ids`: Token IDs.
 """
 function list_tokens(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListTokens", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return license_manager("ListTokens", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1340,33 +765,19 @@ license consumption for any license inventory and configuration.
 # Arguments
 - `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    resourceArn - The ARN of the license configuration resource. Logical
+# Keyword Parameters
+- `filters`: Filters to scope the results. The following filters and logical operators are
+  supported:    resourceArn - The ARN of the license configuration resource. Logical
   operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE |
   EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are EQUALS |
   NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource. Logical
   operators are EQUALS | NOT_EQUALS.
-- `"max_results"`: Maximum number of results to return in a single call.
-- `"next_token"`: Token for the next set of results.
+- `max_results`: Maximum number of results to return in a single call.
+- `next_token`: Token for the next set of results.
 """
-function list_usage_for_license_configuration(
-    LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_usage_for_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "ListUsageForLicenseConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConfigurationArn" => LicenseConfigurationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1378,18 +789,9 @@ Rejects the specified grant.
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
 """
-function reject_grant(
-    GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function reject_grant(GrantArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "RejectGrant",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("GrantArn" => GrantArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("RejectGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1402,22 +804,9 @@ Adds the specified tags to the specified license configuration.
 - `tags`: One or more tags.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1430,22 +819,9 @@ Removes the specified tags from the specified license configuration.
 - `tag_keys`: Keys identifying the tags to remove.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1456,35 +832,21 @@ Modifies the attributes of an existing license configuration.
 # Arguments
 - `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: New description of the license configuration.
-- `"disassociate_when_not_found"`: When true, disassociates a resource when software is
+# Keyword Parameters
+- `description`: New description of the license configuration.
+- `disassociate_when_not_found`: When true, disassociates a resource when software is
   uninstalled.
-- `"license_configuration_status"`: New status of the license configuration.
-- `"license_count"`: New number of licenses managed by the license configuration.
-- `"license_count_hard_limit"`: New hard limit of the number of available licenses.
-- `"license_rules"`: New license rule. The only rule that you can add after you create a
+- `license_configuration_status`: New status of the license configuration.
+- `license_count`: New number of licenses managed by the license configuration.
+- `license_count_hard_limit`: New hard limit of the number of available licenses.
+- `license_rules`: New license rule. The only rule that you can add after you create a
   license configuration is licenseAffinityToHost.
-- `"name"`: New name of the license configuration.
-- `"product_information_list"`: New product information.
+- `name`: New name of the license configuration.
+- `product_information_list`: New product information.
 """
-function update_license_configuration(
-    LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "UpdateLicenseConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("LicenseConfigurationArn" => LicenseConfigurationArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("UpdateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1506,40 +868,12 @@ generating new reports within 60 minutes of being updated.
   configuration.   Resource report - Reports the tracked licenses and resource consumption
   for a license configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: Description of the report generator.
+# Keyword Parameters
+- `description`: Description of the report generator.
 """
-function update_license_manager_report_generator(
-    ClientToken,
-    LicenseManagerReportGeneratorArn,
-    ReportContext,
-    ReportFrequency,
-    ReportGeneratorName,
-    Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_license_manager_report_generator(ClientToken, LicenseManagerReportGeneratorArn, ReportContext, ReportFrequency, ReportGeneratorName, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "UpdateLicenseManagerReportGenerator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "LicenseManagerReportGeneratorArn" => LicenseManagerReportGeneratorArn,
-                    "ReportContext" => ReportContext,
-                    "ReportFrequency" => ReportFrequency,
-                    "ReportGeneratorName" => ReportGeneratorName,
-                    "Type" => Type,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("UpdateLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn, "ReportContext"=>ReportContext, "ReportFrequency"=>ReportFrequency, "ReportGeneratorName"=>ReportGeneratorName, "Type"=>Type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1553,23 +887,13 @@ as they send license configurations to the operation that creates the resource.
 # Arguments
 - `resource_arn`: Amazon Resource Name (ARN) of the Amazon Web Services resource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"add_license_specifications"`: ARNs of the license configurations to add.
-- `"remove_license_specifications"`: ARNs of the license configurations to remove.
+# Keyword Parameters
+- `add_license_specifications`: ARNs of the license configurations to add.
+- `remove_license_specifications`: ARNs of the license configurations to remove.
 """
-function update_license_specifications_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_license_specifications_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "UpdateLicenseSpecificationsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1577,24 +901,16 @@ end
 
 Updates License Manager settings for the current Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enable_cross_accounts_discovery"`: Activates cross-account discovery.
-- `"organization_configuration"`: Enables integration with Organizations for cross-account
+# Keyword Parameters
+- `enable_cross_accounts_discovery`: Activates cross-account discovery.
+- `organization_configuration`: Enables integration with Organizations for cross-account
   discovery.
-- `"s3_bucket_arn"`: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License
+- `s3_bucket_arn`: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License
   Manager information is stored.
-- `"sns_topic_arn"`: Amazon Resource Name (ARN) of the Amazon SNS topic used for License
+- `sns_topic_arn`: Amazon Resource Name (ARN) of the Amazon SNS topic used for License
   Manager alerts.
 """
-function update_service_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_service_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return license_manager(
-        "UpdateServiceSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return license_manager("UpdateServiceSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

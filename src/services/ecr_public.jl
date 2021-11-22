@@ -4,20 +4,8 @@ using AWS.AWSServices: ecr_public
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "repository_names" => "repositoryNames",
-    "image_digest" => "imageDigest",
-    "catalog_data" => "catalogData",
-    "image_ids" => "imageIds",
-    "image_manifest_media_type" => "imageManifestMediaType",
-    "next_token" => "nextToken",
-    "registry_id" => "registryId",
-    "force" => "force",
-    "max_results" => "maxResults",
-    "image_tag" => "imageTag",
-    "display_name" => "displayName",
-    "tags" => "tags",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("registry_id" => "registryId", "catalog_data" => "catalogData", "tags" => "tags", "force" => "force", "max_results" => "maxResults", "next_token" => "nextToken", "repository_names" => "repositoryNames", "display_name" => "displayName", "image_ids" => "imageIds", "image_digest" => "imageDigest", "image_manifest_media_type" => "imageManifestMediaType", "image_tag" => "imageTag")
 
 """
     batch_check_layer_availability(layer_digests, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -34,33 +22,14 @@ push images.
 - `repository_name`: The name of the repository that is associated with the image layers to
   check.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   image layers to check. If you do not specify a registry, the default public registry is
   assumed.
 """
-function batch_check_layer_availability(
-    layerDigests,
-    repositoryName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function batch_check_layer_availability(layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "BatchCheckLayerAvailability",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "layerDigests" => layerDigests, "repositoryName" => repositoryName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -77,29 +46,13 @@ tags) by specifying the image's digest in your request.
   format of the imageIds reference is imageTag=tag or imageDigest=digest.
 - `repository_name`: The repository in a public registry that contains the image to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the registry that contains the image
-  to delete. If you do not specify a registry, the default public registry is assumed.
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the registry that contains the image to
+  delete. If you do not specify a registry, the default public registry is assumed.
 """
-function batch_delete_image(
-    imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_delete_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "BatchDeleteImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "imageIds" => imageIds, "repositoryName" => repositoryName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,35 +73,13 @@ push images.
 - `upload_id`: The upload ID from a previous InitiateLayerUpload operation to associate
   with the image layer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the registry to which to upload
-  layers. If you do not specify a registry, the default public registry is assumed.
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the registry to which to upload layers.
+  If you do not specify a registry, the default public registry is assumed.
 """
-function complete_layer_upload(
-    layerDigests,
-    repositoryName,
-    uploadId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "CompleteLayerUpload",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "layerDigests" => layerDigests,
-                    "repositoryName" => repositoryName,
-                    "uploadId" => uploadId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -163,27 +94,17 @@ repositories in the Amazon Elastic Container Registry User Guide.
   nginx-web-app) or it can be prepended with a namespace to group the repository into a
   category (such as project-a/nginx-web-app).
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"catalog_data"`: The details about the repository that are publicly visible in the
-  Amazon ECR Public Gallery.
-- `"tags"`: The metadata that you apply to the repository to help you categorize and
-  organize them. Each tag consists of a key and an optional value, both of which you define.
-  Tag keys can have a maximum character length of 128 characters, and tag values can have a
-  maximum length of 256 characters.
+# Keyword Parameters
+- `catalog_data`: The details about the repository that are publicly visible in the Amazon
+  ECR Public Gallery.
+- `tags`: The metadata that you apply to the repository to help you categorize and organize
+  them. Each tag consists of a key and an optional value, both of which you define. Tag keys
+  can have a maximum character length of 128 characters, and tag values can have a maximum
+  length of 256 characters.
 """
-function create_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "CreateRepository",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -196,25 +117,15 @@ on your behalf before deleting the repository.
 # Arguments
 - `repository_name`: The name of the repository to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`:  If a repository contains images, forces the deletion.
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+# Keyword Parameters
+- `force`:  If a repository contains images, forces the deletion.
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   repository to delete. If you do not specify a registry, the default public registry is
   assumed.
 """
-function delete_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "DeleteRepository",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -226,24 +137,14 @@ Deletes the repository policy associated with the specified repository.
 - `repository_name`: The name of the repository that is associated with the repository
   policy to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   repository policy to delete. If you do not specify a registry, the default public registry
   is assumed.
 """
-function delete_repository_policy(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "DeleteRepositoryPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -255,36 +156,26 @@ Returns the image tag details for a repository in a public registry.
 - `repository_name`: The name of the repository that contains the image tag details to
   describe.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of repository results returned by DescribeImageTags
-  in paginated output. When this parameter is used, DescribeImageTags only returns maxResults
+# Keyword Parameters
+- `max_results`: The maximum number of repository results returned by DescribeImageTags in
+  paginated output. When this parameter is used, DescribeImageTags only returns maxResults
   results in a single page along with a nextToken response element. The remaining results of
   the initial request can be seen by sending another DescribeImageTags request with the
   returned nextToken value. This value can be between 1 and 1000. If this parameter is not
   used, then DescribeImageTags returns up to 100 results and a nextToken value, if
   applicable. This option cannot be used when you specify images with imageIds.
-- `"next_token"`: The nextToken value returned from a previous paginated DescribeImageTags
+- `next_token`: The nextToken value returned from a previous paginated DescribeImageTags
   request where maxResults was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken
   value. This value is null when there are no more results to return. This option cannot be
   used when you specify images with imageIds.
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   repository in which to describe images. If you do not specify a registry, the default
   public registry is assumed.
 """
-function describe_image_tags(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_image_tags(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "DescribeImageTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("DescribeImageTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -298,37 +189,27 @@ so it may return a larger image size than the image sizes returned by DescribeIm
 # Arguments
 - `repository_name`: The repository that contains the images to describe.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"image_ids"`: The list of image IDs for the requested repository.
-- `"max_results"`: The maximum number of repository results returned by DescribeImages in
+# Keyword Parameters
+- `image_ids`: The list of image IDs for the requested repository.
+- `max_results`: The maximum number of repository results returned by DescribeImages in
   paginated output. When this parameter is used, DescribeImages only returns maxResults
   results in a single page along with a nextToken response element. The remaining results of
   the initial request can be seen by sending another DescribeImages request with the returned
   nextToken value. This value can be between 1 and 1000. If this parameter is not used, then
   DescribeImages returns up to 100 results and a nextToken value, if applicable. This option
   cannot be used when you specify images with imageIds.
-- `"next_token"`: The nextToken value returned from a previous paginated DescribeImages
+- `next_token`: The nextToken value returned from a previous paginated DescribeImages
   request where maxResults was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken
   value. This value is null when there are no more results to return. This option cannot be
   used when you specify images with imageIds.
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   repository in which to describe images. If you do not specify a registry, the default
   public registry is assumed.
 """
-function describe_images(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "DescribeImages",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -336,16 +217,15 @@ end
 
 Returns details for a public registry.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of repository results returned by DescribeRegistries
-  in paginated output. When this parameter is used, DescribeRegistries only returns
-  maxResults results in a single page along with a nextToken response element. The remaining
-  results of the initial request can be seen by sending another DescribeRegistries request
-  with the returned nextToken value. This value can be between 1 and 1000. If this parameter
-  is not used, then DescribeRegistries returns up to 100 results and a nextToken value, if
+# Keyword Parameters
+- `max_results`: The maximum number of repository results returned by DescribeRegistries in
+  paginated output. When this parameter is used, DescribeRegistries only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another DescribeRegistries request with the
+  returned nextToken value. This value can be between 1 and 1000. If this parameter is not
+  used, then DescribeRegistries returns up to 100 results and a nextToken value, if
   applicable.
-- `"next_token"`: The nextToken value returned from a previous paginated DescribeRegistries
+- `next_token`: The nextToken value returned from a previous paginated DescribeRegistries
   request where maxResults was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken
   value. This value is null when there are no more results to return.  This token should be
@@ -354,9 +234,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
 """
 function describe_registries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "DescribeRegistries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecr_public("DescribeRegistries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -364,39 +242,30 @@ end
 
 Describes repositories in a public registry.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of repository results returned by
-  DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories
-  only returns maxResults results in a single page along with a nextToken response element.
-  The remaining results of the initial request can be seen by sending another
-  DescribeRepositories request with the returned nextToken value. This value can be between 1
-  and 1000. If this parameter is not used, then DescribeRepositories returns up to 100
-  results and a nextToken value, if applicable. This option cannot be used when you specify
-  repositories with repositoryNames.
-- `"next_token"`: The nextToken value returned from a previous paginated
-  DescribeRepositories request where maxResults was used and the results exceeded the value
-  of that parameter. Pagination continues from the end of the previous results that returned
-  the nextToken value. This value is null when there are no more results to return. This
-  option cannot be used when you specify repositories with repositoryNames.  This token
-  should be treated as an opaque identifier that is only used to retrieve the next items in a
-  list and not for other programmatic purposes.
-- `"registry_id"`: The AWS account ID associated with the registry that contains the
+# Keyword Parameters
+- `max_results`: The maximum number of repository results returned by DescribeRepositories
+  in paginated output. When this parameter is used, DescribeRepositories only returns
+  maxResults results in a single page along with a nextToken response element. The remaining
+  results of the initial request can be seen by sending another DescribeRepositories request
+  with the returned nextToken value. This value can be between 1 and 1000. If this parameter
+  is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if
+  applicable. This option cannot be used when you specify repositories with repositoryNames.
+- `next_token`: The nextToken value returned from a previous paginated DescribeRepositories
+  request where maxResults was used and the results exceeded the value of that parameter.
+  Pagination continues from the end of the previous results that returned the nextToken
+  value. This value is null when there are no more results to return. This option cannot be
+  used when you specify repositories with repositoryNames.  This token should be treated as
+  an opaque identifier that is only used to retrieve the next items in a list and not for
+  other programmatic purposes.
+- `registry_id`: The AWS account ID associated with the registry that contains the
   repositories to be described. If you do not specify a registry, the default public registry
   is assumed.
-- `"repository_names"`: A list of repositories to describe. If this parameter is omitted,
+- `repository_names`: A list of repositories to describe. If this parameter is omitted,
   then all repositories in a registry are described.
 """
-function describe_repositories(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "DescribeRepositories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("DescribeRepositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -408,16 +277,9 @@ access to. The authorization token is valid for 12 hours. This API requires the
 ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
 
 """
-function get_authorization_token(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "GetAuthorizationToken",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("GetAuthorizationToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -426,16 +288,9 @@ end
 Retrieves catalog metadata for a public registry.
 
 """
-function get_registry_catalog_data(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "GetRegistryCatalogData",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("GetRegistryCatalogData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -447,24 +302,14 @@ publicly in the Amazon ECR Public Gallery.
 # Arguments
 - `repository_name`: The name of the repository to retrieve the catalog metadata for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the registry that contains the
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the registry that contains the
   repositories to be described. If you do not specify a registry, the default public registry
   is assumed.
 """
-function get_repository_catalog_data(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_repository_catalog_data(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "GetRepositoryCatalogData",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("GetRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -475,23 +320,13 @@ Retrieves the repository policy for the specified repository.
 # Arguments
 - `repository_name`: The name of the repository with the policy to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   repository. If you do not specify a registry, the default public registry is assumed.
 """
-function get_repository_policy(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "GetRepositoryPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -507,23 +342,13 @@ should use the docker CLI to pull, tag, and push images.
 # Arguments
 - `repository_name`: The name of the repository to which you intend to upload layers.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the registry to which you intend to
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the registry to which you intend to
   upload layers. If you do not specify a registry, the default public registry is assumed.
 """
-function initiate_layer_upload(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function initiate_layer_upload(repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "InitiateLayerUpload",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -536,18 +361,9 @@ List the tags for an Amazon ECR Public resource.
   list the tags. Currently, the supported resource is an Amazon ECR Public repository.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -563,39 +379,20 @@ pushing images. In most cases, you should use the docker CLI to pull, tag, and p
 - `image_manifest`: The image manifest corresponding to the image to be uploaded.
 - `repository_name`: The name of the repository in which to put the image.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"image_digest"`: The image digest of the image manifest corresponding to the image.
-- `"image_manifest_media_type"`: The media type of the image manifest. If you push an image
+# Keyword Parameters
+- `image_digest`: The image digest of the image manifest corresponding to the image.
+- `image_manifest_media_type`: The media type of the image manifest. If you push an image
   manifest that does not contain the mediaType field, you must specify the
   imageManifestMediaType in the request.
-- `"image_tag"`: The tag to associate with the image. This parameter is required for images
+- `image_tag`: The tag to associate with the image. This parameter is required for images
   that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
-- `"registry_id"`: The AWS account ID associated with the public registry that contains the
+- `registry_id`: The AWS account ID associated with the public registry that contains the
   repository in which to put the image. If you do not specify a registry, the default public
   registry is assumed.
 """
-function put_image(
-    imageManifest,
-    repositoryName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_image(imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "PutImage",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "imageManifest" => imageManifest, "repositoryName" => repositoryName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -603,22 +400,14 @@ end
 
 Create or updates the catalog data for a public registry.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"display_name"`: The display name for a public registry. The display name is shown as
-  the repository author in the Amazon ECR Public Gallery.  The registry display name is only
+# Keyword Parameters
+- `display_name`: The display name for a public registry. The display name is shown as the
+  repository author in the Amazon ECR Public Gallery.  The registry display name is only
   publicly visible in the Amazon ECR Public Gallery for verified accounts.
 """
-function put_registry_catalog_data(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "PutRegistryCatalogData",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("PutRegistryCatalogData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -631,32 +420,13 @@ Creates or updates the catalog data for a repository in a public registry.
   publicly visible in the Amazon ECR Public Gallery.
 - `repository_name`: The name of the repository to create or update the catalog data for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the public registry the repository is
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the public registry the repository is
   in. If you do not specify a registry, the default public registry is assumed.
 """
-function put_repository_catalog_data(
-    catalogData,
-    repositoryName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_repository_catalog_data(catalogData, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "PutRepositoryCatalogData",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "catalogData" => catalogData, "repositoryName" => repositoryName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("PutRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -672,32 +442,16 @@ Container Registry User Guide.
   User Guide.
 - `repository_name`: The name of the repository to receive the policy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"force"`: If the policy you are attempting to set on a repository policy would prevent
-  you from setting another policy in the future, you must force the SetRepositoryPolicy
+# Keyword Parameters
+- `force`: If the policy you are attempting to set on a repository policy would prevent you
+  from setting another policy in the future, you must force the SetRepositoryPolicy
   operation. This is intended to prevent accidental repository lock outs.
-- `"registry_id"`: The AWS account ID associated with the registry that contains the
+- `registry_id`: The AWS account ID associated with the registry that contains the
   repository. If you do not specify a registry, the default public registry is assumed.
 """
-function set_repository_policy(
-    policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_repository_policy(policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "SetRepositoryPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "policyText" => policyText, "repositoryName" => repositoryName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -715,22 +469,9 @@ a resource is deleted, the tags associated with that resource are deleted as wel
   length of 256 characters.
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -744,22 +485,9 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -782,38 +510,11 @@ push images.
 - `upload_id`: The upload ID from a previous InitiateLayerUpload operation to associate
   with the layer part upload.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"registry_id"`: The AWS account ID associated with the registry to which you are
-  uploading layer parts. If you do not specify a registry, the default public registry is
-  assumed.
+# Keyword Parameters
+- `registry_id`: The AWS account ID associated with the registry to which you are uploading
+  layer parts. If you do not specify a registry, the default public registry is assumed.
 """
-function upload_layer_part(
-    layerPartBlob,
-    partFirstByte,
-    partLastByte,
-    repositoryName,
-    uploadId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return ecr_public(
-        "UploadLayerPart",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "layerPartBlob" => layerPartBlob,
-                    "partFirstByte" => partFirstByte,
-                    "partLastByte" => partLastByte,
-                    "repositoryName" => repositoryName,
-                    "uploadId" => uploadId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecr_public("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

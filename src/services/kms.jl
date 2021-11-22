@@ -4,44 +4,8 @@ using AWS.AWSServices: kms
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "customer_master_key_spec" => "CustomerMasterKeySpec",
-    "encryption_algorithm" => "EncryptionAlgorithm",
-    "source_encryption_context" => "SourceEncryptionContext",
-    "multi_region" => "MultiRegion",
-    "retiring_principal" => "RetiringPrincipal",
-    "grant_token" => "GrantToken",
-    "pending_window_in_days" => "PendingWindowInDays",
-    "key_spec" => "KeySpec",
-    "expiration_model" => "ExpirationModel",
-    "name" => "Name",
-    "constraints" => "Constraints",
-    "cloud_hsm_cluster_id" => "CloudHsmClusterId",
-    "encryption_context" => "EncryptionContext",
-    "valid_to" => "ValidTo",
-    "destination_encryption_context" => "DestinationEncryptionContext",
-    "description" => "Description",
-    "origin" => "Origin",
-    "source_encryption_algorithm" => "SourceEncryptionAlgorithm",
-    "number_of_bytes" => "NumberOfBytes",
-    "custom_key_store_name" => "CustomKeyStoreName",
-    "policy" => "Policy",
-    "source_key_id" => "SourceKeyId",
-    "grantee_principal" => "GranteePrincipal",
-    "key_usage" => "KeyUsage",
-    "custom_key_store_id" => "CustomKeyStoreId",
-    "destination_encryption_algorithm" => "DestinationEncryptionAlgorithm",
-    "message_type" => "MessageType",
-    "key_store_password" => "KeyStorePassword",
-    "marker" => "Marker",
-    "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck",
-    "key_id" => "KeyId",
-    "tags" => "Tags",
-    "grant_tokens" => "GrantTokens",
-    "new_custom_key_store_name" => "NewCustomKeyStoreName",
-    "grant_id" => "GrantId",
-    "limit" => "Limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("custom_key_store_id" => "CustomKeyStoreId", "number_of_bytes" => "NumberOfBytes", "grant_tokens" => "GrantTokens", "message_type" => "MessageType", "limit" => "Limit", "marker" => "Marker", "cloud_hsm_cluster_id" => "CloudHsmClusterId", "key_store_password" => "KeyStorePassword", "new_custom_key_store_name" => "NewCustomKeyStoreName", "custom_key_store_name" => "CustomKeyStoreName", "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck", "customer_master_key_spec" => "CustomerMasterKeySpec", "description" => "Description", "key_spec" => "KeySpec", "key_usage" => "KeyUsage", "multi_region" => "MultiRegion", "origin" => "Origin", "policy" => "Policy", "tags" => "Tags", "destination_encryption_algorithm" => "DestinationEncryptionAlgorithm", "destination_encryption_context" => "DestinationEncryptionContext", "source_encryption_algorithm" => "SourceEncryptionAlgorithm", "source_encryption_context" => "SourceEncryptionContext", "source_key_id" => "SourceKeyId", "encryption_context" => "EncryptionContext", "expiration_model" => "ExpirationModel", "valid_to" => "ValidTo", "key_id" => "KeyId", "grant_id" => "GrantId", "grantee_principal" => "GranteePrincipal", "encryption_algorithm" => "EncryptionAlgorithm", "pending_window_in_days" => "PendingWindowInDays", "constraints" => "Constraints", "name" => "Name", "retiring_principal" => "RetiringPrincipal", "grant_token" => "GrantToken")
 
 """
     cancel_key_deletion(key_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -62,16 +26,9 @@ kms:CancelKeyDeletion (key policy)  Related operations: ScheduleKeyDeletion
   the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function cancel_key_deletion(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "CancelKeyDeletion",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("CancelKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -110,20 +67,9 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
   connect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
 
 """
-function connect_custom_key_store(
-    CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function connect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ConnectCustomKeyStore",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CustomKeyStoreId" => CustomKeyStoreId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ConnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -166,22 +112,9 @@ DeleteAlias     ListAliases     UpdateAlias
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function create_alias(
-    AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "CreateAlias",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AliasName" => AliasName, "TargetKeyId" => TargetKeyId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -221,32 +154,9 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
   initialized the cluster.
 
 """
-function create_custom_key_store(
-    CloudHsmClusterId,
-    CustomKeyStoreName,
-    KeyStorePassword,
-    TrustAnchorCertificate;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "CreateCustomKeyStore",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CloudHsmClusterId" => CloudHsmClusterId,
-                    "CustomKeyStoreName" => CustomKeyStoreName,
-                    "KeyStorePassword" => KeyStorePassword,
-                    "TrustAnchorCertificate" => TrustAnchorCertificate,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("CreateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -296,9 +206,8 @@ Related operations:     ListGrants     ListRetirableGrants     RetireGrant     R
   GenerateDataKey operation. If you try, KMS returns a ValidationError exception. For
   details, see Grant operations in the Key Management Service Developer Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"constraints"`: Specifies a grant constraint.  KMS supports the EncryptionContextEquals
+# Keyword Parameters
+- `constraints`: Specifies a grant constraint.  KMS supports the EncryptionContextEquals
   and EncryptionContextSubset grant constraints. Each constraint value can include up to 8
   encryption context pairs. The encryption context value in each constraint cannot exceed 384
   characters. These grant constraints allow the permissions in the grant only when the
@@ -310,53 +219,32 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   constraints are supported only on operations that include an encryption context. You cannot
   use an encryption context grant constraint for cryptographic operations with asymmetric KMS
   keys or for management operations, such as DescribeKey or RetireGrant.
-- `"grant_tokens"`: A list of grant tokens.  Use a grant token when your permission to call
+- `grant_tokens`: A list of grant tokens.  Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"name"`: A friendly name for the grant. Use this value to prevent the unintended
-  creation of duplicate grants when retrying this request. When this value is absent, all
-  CreateGrant requests result in a new grant with a unique GrantId even if all the supplied
-  parameters are identical. This can result in unintended duplicates when you retry the
-  CreateGrant request. When this value is present, you can retry a CreateGrant request with
-  identical parameters; if the grant already exists, the original GrantId is returned without
-  creating a new grant. Note that the returned grant token is unique with every CreateGrant
-  request, even when a duplicate GrantId is returned. All grant tokens for the same grant ID
-  can be used interchangeably.
-- `"retiring_principal"`: The principal that has permission to use the RetireGrant
-  operation to retire the grant.  To specify the principal, use the Amazon Resource Name
-  (ARN) of an Amazon Web Services principal. Valid Amazon Web Services principals include
-  Amazon Web Services accounts (root), IAM users, federated users, and assumed role users.
-  For examples of the ARN syntax to use for specifying a principal, see Amazon Web Services
-  Identity and Access Management (IAM) in the Example ARNs section of the Amazon Web Services
-  General Reference. The grant determines the retiring principal. Other principals might have
+- `name`: A friendly name for the grant. Use this value to prevent the unintended creation
+  of duplicate grants when retrying this request. When this value is absent, all CreateGrant
+  requests result in a new grant with a unique GrantId even if all the supplied parameters
+  are identical. This can result in unintended duplicates when you retry the CreateGrant
+  request. When this value is present, you can retry a CreateGrant request with identical
+  parameters; if the grant already exists, the original GrantId is returned without creating
+  a new grant. Note that the returned grant token is unique with every CreateGrant request,
+  even when a duplicate GrantId is returned. All grant tokens for the same grant ID can be
+  used interchangeably.
+- `retiring_principal`: The principal that has permission to use the RetireGrant operation
+  to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an
+  Amazon Web Services principal. Valid Amazon Web Services principals include Amazon Web
+  Services accounts (root), IAM users, federated users, and assumed role users. For examples
+  of the ARN syntax to use for specifying a principal, see Amazon Web Services Identity and
+  Access Management (IAM) in the Example ARNs section of the Amazon Web Services General
+  Reference. The grant determines the retiring principal. Other principals might have
   permission to retire the grant or revoke the grant. For details, see RevokeGrant and
   Retiring and revoking grants in the Key Management Service Developer Guide.
 """
-function create_grant(
-    GranteePrincipal,
-    KeyId,
-    Operations;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_grant(GranteePrincipal, KeyId, Operations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "CreateGrant",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GranteePrincipal" => GranteePrincipal,
-                    "KeyId" => KeyId,
-                    "Operations" => Operations,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -421,35 +309,34 @@ kms:TagResource (IAM policy). For examples and information about related permiss
 Allow a user to create KMS keys in the Key Management Service Developer Guide.  Related
 operations:     DescribeKey     ListKeys     ScheduleKeyDeletion
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_policy_lockout_safety_check"`: A flag to indicate whether to bypass the key
-  policy lockout safety check.  Setting this value to true increases the risk that the KMS
-  key becomes unmanageable. Do not set this value to true indiscriminately. For more
-  information, refer to the scenario in the Default Key Policy section in the  Key Management
-  Service Developer Guide .  Use this parameter only when you include a policy in the request
-  and you intend to prevent the principal that is making the request from making a subsequent
+# Keyword Parameters
+- `bypass_policy_lockout_safety_check`: A flag to indicate whether to bypass the key policy
+  lockout safety check.  Setting this value to true increases the risk that the KMS key
+  becomes unmanageable. Do not set this value to true indiscriminately. For more information,
+  refer to the scenario in the Default Key Policy section in the  Key Management Service
+  Developer Guide .  Use this parameter only when you include a policy in the request and you
+  intend to prevent the principal that is making the request from making a subsequent
   PutKeyPolicy request on the KMS key. The default value is false.
-- `"custom_key_store_id"`: Creates the KMS key in the specified custom key store and the
-  key material in its associated CloudHSM cluster. To create a KMS key in a custom key store,
-  you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The CloudHSM
-  cluster that is associated with the custom key store must have at least two active HSMs,
-  each in a different Availability Zone in the Region. This parameter is valid only for
-  symmetric KMS keys and regional KMS keys. You cannot create an asymmetric KMS key or a
-  multi-Region key in a custom key store. To find the ID of a custom key store, use the
+- `custom_key_store_id`: Creates the KMS key in the specified custom key store and the key
+  material in its associated CloudHSM cluster. To create a KMS key in a custom key store, you
+  must also specify the Origin parameter with a value of AWS_CLOUDHSM. The CloudHSM cluster
+  that is associated with the custom key store must have at least two active HSMs, each in a
+  different Availability Zone in the Region. This parameter is valid only for symmetric KMS
+  keys and regional KMS keys. You cannot create an asymmetric KMS key or a multi-Region key
+  in a custom key store. To find the ID of a custom key store, use the
   DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID
   of the CloudHSM cluster. This operation is part of the Custom Key Store feature feature in
   KMS, which combines the convenience and extensive integration of KMS with the isolation and
   control of a single-tenant key store.
-- `"customer_master_key_spec"`: Instead, use the KeySpec parameter. The KeySpec and
+- `customer_master_key_spec`: Instead, use the KeySpec parameter. The KeySpec and
   CustomerMasterKeySpec parameters work the same way. Only the names differ. We recommend
   that you use KeySpec parameter in your code. However, to avoid breaking changes, KMS will
   support both parameters.
-- `"description"`: A description of the KMS key. Use a description that helps you decide
+- `description`: A description of the KMS key. Use a description that helps you decide
   whether the KMS key is appropriate for a task. The default value is an empty string (no
   description). To set or change the description after the key is created, use
   UpdateKeyDescription.
-- `"key_spec"`: Specifies the type of KMS key to create. The default value,
+- `key_spec`: Specifies the type of KMS key to create. The default value,
   SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit symmetric key for encryption and
   decryption. For help choosing a key spec for your KMS key, see How to Choose Your KMS key
   Configuration in the  Key Management Service Developer Guide . The KeySpec determines
@@ -468,13 +355,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric
   elliptic curve key pairs    ECC_SECG_P256K1 (secp256k1), commonly used for
   cryptocurrencies.
-- `"key_usage"`: Determines the cryptographic operations for which you can use the KMS key.
+- `key_usage`: Determines the cryptographic operations for which you can use the KMS key.
   The default value is ENCRYPT_DECRYPT. This parameter is required only for asymmetric KMS
   keys. You can't change the KeyUsage value after the KMS key is created. Select only one
   valid value.   For symmetric KMS keys, omit the parameter or specify ENCRYPT_DECRYPT.   For
   asymmetric KMS keys with RSA key material, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For
   asymmetric KMS keys with ECC key material, specify SIGN_VERIFY.
-- `"multi_region"`: Creates a multi-Region primary key that you can replicate into other
+- `multi_region`: Creates a multi-Region primary key that you can replicate into other
   Amazon Web Services Regions. You cannot change this value after you create the KMS key.
   For a multi-Region key, set this parameter to True. For a single-Region KMS key, omit this
   parameter or set it to False. The default value is False. This operation supports
@@ -488,7 +375,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   ReplicateKey operation.  You can create a symmetric or asymmetric multi-Region key, and you
   can create a multi-Region key with imported key material. However, you cannot create a
   multi-Region key in a custom key store.
-- `"origin"`: The source of the key material for the KMS key. You cannot change the origin
+- `origin`: The source of the key material for the KMS key. You cannot change the origin
   after you create the KMS key. The default is AWS_KMS, which means that KMS creates the key
   material. To create a KMS key with no key material (for imported key material), set the
   value to EXTERNAL. For more information about importing key material into KMS, see
@@ -497,7 +384,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   key material in the associated CloudHSM cluster, set this value to AWS_CLOUDHSM. You must
   also use the CustomKeyStoreId parameter to identify the custom key store. This value is
   valid only for symmetric KMS keys.
-- `"policy"`: The key policy to attach to the KMS key. If you provide a key policy, it must
+- `policy`: The key policy to attach to the KMS key. If you provide a key policy, it must
   meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the
   key policy must allow the principal that is making the CreateKey request to make a
   subsequent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key
@@ -513,7 +400,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   Policy in the Key Management Service Developer Guide.  The key policy size quota is 32
   kilobytes (32768 bytes). For help writing and formatting a JSON policy document, see the
   IAM JSON Policy Reference in the  Identity and Access Management User Guide .
-- `"tags"`: Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key
+- `tags`: Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key
   when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging or
   untagging a KMS key can allow or deny permission to the KMS key. For details, see Using
   ABAC in KMS in the Key Management Service Developer Guide.  To use this parameter, you must
@@ -572,15 +459,14 @@ permissions: kms:Decrypt (key policy)  Related operations:     Encrypt     Gener
 # Arguments
 - `ciphertext_blob`: Ciphertext to be decrypted. The blob includes metadata.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"encryption_algorithm"`: Specifies the encryption algorithm that will be used to decrypt
+# Keyword Parameters
+- `encryption_algorithm`: Specifies the encryption algorithm that will be used to decrypt
   the ciphertext. Specify the same algorithm that was used to encrypt the data. If you
   specify a different algorithm, the Decrypt operation fails. This parameter is required only
   when the ciphertext was encrypted under an asymmetric KMS key. The default value,
   SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric KMS
   keys.
-- `"encryption_context"`: Specifies the encryption context to use when decrypting the data.
+- `encryption_context`: Specifies the encryption context to use when decrypting the data.
   An encryption context is valid only for cryptographic operations with a symmetric KMS key.
   The standard asymmetric encryption algorithms that KMS uses do not support an encryption
   context. An encryption context is a collection of non-secret key-value pairs that
@@ -589,11 +475,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   decrypt the data. An encryption context is optional when encrypting with a symmetric KMS
   key, but it is highly recommended. For more information, see Encryption Context in the Key
   Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens.  Use a grant token when your permission to call
+- `grant_tokens`: A list of grant tokens.  Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"key_id"`: Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID
+- `key_id`: Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID
   of the KMS key that was used to encrypt the ciphertext.  This parameter is required only
   when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric KMS
   key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob.
@@ -607,18 +493,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias
   name and alias ARN, use ListAliases.
 """
-function decrypt(
-    CiphertextBlob; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function decrypt(CiphertextBlob; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "Decrypt",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("CiphertextBlob" => CiphertextBlob), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("Decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -643,18 +520,9 @@ aliases in the Key Management Service Developer Guide.  Related operations:     
   the alias name, such as alias/ExampleAlias.
 
 """
-function delete_alias(
-    AliasName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DeleteAlias",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -687,20 +555,9 @@ DisconnectCustomKeyStore     UpdateCustomKeyStore
   the ID of a custom key store, use the DescribeCustomKeyStores operation.
 
 """
-function delete_custom_key_store(
-    CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DeleteCustomKeyStore",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CustomKeyStoreId" => CustomKeyStoreId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DeleteCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -726,16 +583,9 @@ operations:     GetParametersForImport     ImportKeyMaterial
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function delete_imported_key_material(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_imported_key_material(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DeleteImportedKeyMaterial",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DeleteImportedKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -762,34 +612,26 @@ Services account.  Required permissions: kms:DescribeCustomKeyStores (IAM policy
 operations:     ConnectCustomKeyStore     CreateCustomKeyStore     DeleteCustomKeyStore
 DisconnectCustomKeyStore     UpdateCustomKeyStore
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_key_store_id"`: Gets only information about the specified custom key store.
-  Enter the key store ID. By default, this operation gets information about all custom key
-  stores in the account and Region. To limit the output to a particular custom key store, you
-  can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
-- `"custom_key_store_name"`: Gets only information about the specified custom key store.
+# Keyword Parameters
+- `custom_key_store_id`: Gets only information about the specified custom key store. Enter
+  the key store ID. By default, this operation gets information about all custom key stores
+  in the account and Region. To limit the output to a particular custom key store, you can
+  use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
+- `custom_key_store_name`: Gets only information about the specified custom key store.
   Enter the friendly name of the custom key store. By default, this operation gets
   information about all custom key stores in the account and Region. To limit the output to a
   particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName
   parameter, but not both.
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
-function describe_custom_key_stores(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_custom_key_stores(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DescribeCustomKeyStores",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DescribeCustomKeyStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -833,21 +675,15 @@ ListGrants     ListKeys     ListResourceTags     ListRetirableGrants
   To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias
   name and alias ARN, use ListAliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+# Keyword Parameters
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
 """
 function describe_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DescribeKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -871,12 +707,7 @@ a different Amazon Web Services account.  Required permissions: kms:DisableKey (
 """
 function disable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DisableKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DisableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -901,16 +732,9 @@ account.  Required permissions: kms:DisableKeyRotation (key policy)  Related ope
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function disable_key_rotation(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DisableKeyRotation",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DisableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -937,20 +761,9 @@ DescribeCustomKeyStores     UpdateCustomKeyStore
   find the ID of a custom key store, use the DescribeCustomKeyStores operation.
 
 """
-function disconnect_custom_key_store(
-    CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disconnect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "DisconnectCustomKeyStore",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CustomKeyStoreId" => CustomKeyStoreId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("DisconnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -972,12 +785,7 @@ kms:EnableKey (key policy)  Related operations: DisableKey
 """
 function enable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "EnableKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("EnableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1003,16 +811,9 @@ DisableKeyRotation     GetKeyRotationStatus
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function enable_key_rotation(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "EnableKeyRotation",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("EnableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1069,14 +870,13 @@ operations:     Decrypt     GenerateDataKey     GenerateDataKeyPair
   ListAliases.
 - `plaintext`: Data to be encrypted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"encryption_algorithm"`: Specifies the encryption algorithm that KMS will use to encrypt
+# Keyword Parameters
+- `encryption_algorithm`: Specifies the encryption algorithm that KMS will use to encrypt
   the plaintext message. The algorithm must be compatible with the KMS key that you specify.
   This parameter is required only for asymmetric KMS keys. The default value,
   SYMMETRIC_DEFAULT, is the algorithm used for symmetric KMS keys. If you are using an
   asymmetric KMS key, we recommend RSAES_OAEP_SHA_256.
-- `"encryption_context"`: Specifies the encryption context that will be used to encrypt the
+- `encryption_context`: Specifies the encryption context that will be used to encrypt the
   data. An encryption context is valid only for cryptographic operations with a symmetric KMS
   key. The standard asymmetric encryption algorithms that KMS uses do not support an
   encryption context.  An encryption context is a collection of non-secret key-value pairs
@@ -1085,25 +885,14 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   to decrypt the data. An encryption context is optional when encrypting with a symmetric KMS
   key, but it is highly recommended. For more information, see Encryption Context in the Key
   Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
 """
-function encrypt(
-    KeyId, Plaintext; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function encrypt(KeyId, Plaintext; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "Encrypt",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("KeyId" => KeyId, "Plaintext" => Plaintext), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1159,37 +948,29 @@ GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
   a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use
   ListAliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"encryption_context"`: Specifies the encryption context that will be used when
-  encrypting the data key. An encryption context is a collection of non-secret key-value
-  pairs that represents additional authenticated data. When you use an encryption context to
-  encrypt data, you must specify the same (an exact case-sensitive match) encryption context
-  to decrypt the data. An encryption context is optional when encrypting with a symmetric KMS
+# Keyword Parameters
+- `encryption_context`: Specifies the encryption context that will be used when encrypting
+  the data key. An encryption context is a collection of non-secret key-value pairs that
+  represents additional authenticated data. When you use an encryption context to encrypt
+  data, you must specify the same (an exact case-sensitive match) encryption context to
+  decrypt the data. An encryption context is optional when encrypting with a symmetric KMS
   key, but it is highly recommended. For more information, see Encryption Context in the Key
   Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"key_spec"`: Specifies the length of the data key. Use AES_128 to generate a 128-bit
+- `key_spec`: Specifies the length of the data key. Use AES_128 to generate a 128-bit
   symmetric key, or AES_256 to generate a 256-bit symmetric key. You must specify either the
   KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
-- `"number_of_bytes"`: Specifies the length of the data key in bytes. For example, use the
+- `number_of_bytes`: Specifies the length of the data key in bytes. For example, use the
   value 64 to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and
   256-bit (32-byte) data keys, use the KeySpec parameter. You must specify either the KeySpec
   or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
 """
-function generate_data_key(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_data_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GenerateDataKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GenerateDataKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1248,36 +1029,22 @@ GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
   verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and
   verify, are not effective on data key pairs, which are used outside of KMS.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"encryption_context"`: Specifies the encryption context that will be used when
-  encrypting the private key in the data key pair. An encryption context is a collection of
-  non-secret key-value pairs that represents additional authenticated data. When you use an
-  encryption context to encrypt data, you must specify the same (an exact case-sensitive
-  match) encryption context to decrypt the data. An encryption context is optional when
-  encrypting with a symmetric KMS key, but it is highly recommended. For more information,
-  see Encryption Context in the Key Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+# Keyword Parameters
+- `encryption_context`: Specifies the encryption context that will be used when encrypting
+  the private key in the data key pair. An encryption context is a collection of non-secret
+  key-value pairs that represents additional authenticated data. When you use an encryption
+  context to encrypt data, you must specify the same (an exact case-sensitive match)
+  encryption context to decrypt the data. An encryption context is optional when encrypting
+  with a symmetric KMS key, but it is highly recommended. For more information, see
+  Encryption Context in the Key Management Service Developer Guide.
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
 """
-function generate_data_key_pair(
-    KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_data_key_pair(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GenerateDataKeyPair",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("KeyId" => KeyId, "KeyPairSpec" => KeyPairSpec),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1329,36 +1096,22 @@ Encrypt     GenerateDataKey     GenerateDataKeyPair     GenerateDataKeyWithoutPl
   verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and
   verify, are not effective on data key pairs, which are used outside of KMS.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"encryption_context"`: Specifies the encryption context that will be used when
-  encrypting the private key in the data key pair. An encryption context is a collection of
-  non-secret key-value pairs that represents additional authenticated data. When you use an
-  encryption context to encrypt data, you must specify the same (an exact case-sensitive
-  match) encryption context to decrypt the data. An encryption context is optional when
-  encrypting with a symmetric KMS key, but it is highly recommended. For more information,
-  see Encryption Context in the Key Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+# Keyword Parameters
+- `encryption_context`: Specifies the encryption context that will be used when encrypting
+  the private key in the data key pair. An encryption context is a collection of non-secret
+  key-value pairs that represents additional authenticated data. When you use an encryption
+  context to encrypt data, you must specify the same (an exact case-sensitive match)
+  encryption context to decrypt the data. An encryption context is optional when encrypting
+  with a symmetric KMS key, but it is highly recommended. For more information, see
+  Encryption Context in the Key Management Service Developer Guide.
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
 """
-function generate_data_key_pair_without_plaintext(
-    KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GenerateDataKeyPairWithoutPlaintext",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("KeyId" => KeyId, "KeyPairSpec" => KeyPairSpec),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1407,35 +1160,27 @@ Encrypt     GenerateDataKey     GenerateDataKeyPair     GenerateDataKeyPairWitho
   To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias
   name and alias ARN, use ListAliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"encryption_context"`: Specifies the encryption context that will be used when
-  encrypting the data key. An encryption context is a collection of non-secret key-value
-  pairs that represents additional authenticated data. When you use an encryption context to
-  encrypt data, you must specify the same (an exact case-sensitive match) encryption context
-  to decrypt the data. An encryption context is optional when encrypting with a symmetric KMS
+# Keyword Parameters
+- `encryption_context`: Specifies the encryption context that will be used when encrypting
+  the data key. An encryption context is a collection of non-secret key-value pairs that
+  represents additional authenticated data. When you use an encryption context to encrypt
+  data, you must specify the same (an exact case-sensitive match) encryption context to
+  decrypt the data. An encryption context is optional when encrypting with a symmetric KMS
   key, but it is highly recommended. For more information, see Encryption Context in the Key
   Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"key_spec"`: The length of the data key. Use AES_128 to generate a 128-bit symmetric
-  key, or AES_256 to generate a 256-bit symmetric key.
-- `"number_of_bytes"`: The length of the data key in bytes. For example, use the value 64
-  to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and
+- `key_spec`: The length of the data key. Use AES_128 to generate a 128-bit symmetric key,
+  or AES_256 to generate a 256-bit symmetric key.
+- `number_of_bytes`: The length of the data key in bytes. For example, use the value 64 to
+  generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and
   256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
 """
-function generate_data_key_without_plaintext(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function generate_data_key_without_plaintext(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GenerateDataKeyWithoutPlaintext",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1450,18 +1195,15 @@ Web Services Nitro Enclaves use KMS in the Key Management Service Developer Guid
 information about entropy and random number generation, see Key Management Service
 Cryptographic Details.  Required permissions: kms:GenerateRandom (IAM policy)
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"custom_key_store_id"`: Generates the random byte string in the CloudHSM cluster that is
+# Keyword Parameters
+- `custom_key_store_id`: Generates the random byte string in the CloudHSM cluster that is
   associated with the specified custom key store. To find the ID of a custom key store, use
   the DescribeCustomKeyStores operation.
-- `"number_of_bytes"`: The length of the byte string.
+- `number_of_bytes`: The length of the byte string.
 """
 function generate_random(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GenerateRandom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return kms("GenerateRandom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1480,22 +1222,9 @@ permissions: kms:GetKeyPolicy (key policy)  Related operations: PutKeyPolicy
   get the names of key policies, use ListKeyPolicies.
 
 """
-function get_key_policy(
-    KeyId, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_key_policy(KeyId, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GetKeyPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("KeyId" => KeyId, "PolicyName" => PolicyName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GetKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1525,16 +1254,9 @@ DisableKeyRotation     EnableKeyRotation
   the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function get_key_rotation_status(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_key_rotation_status(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GetKeyRotationStatus",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GetKeyRotationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1572,30 +1294,9 @@ operations:     ImportKeyMaterial     DeleteImportedKeyMaterial
   Only 2048-bit RSA public keys are supported.
 
 """
-function get_parameters_for_import(
-    KeyId,
-    WrappingAlgorithm,
-    WrappingKeySpec;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GetParametersForImport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "KeyId" => KeyId,
-                    "WrappingAlgorithm" => WrappingAlgorithm,
-                    "WrappingKeySpec" => WrappingKeySpec,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GetParametersForImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1640,21 +1341,15 @@ CreateKey
   To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias
   name and alias ARN, use ListAliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+# Keyword Parameters
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
 """
 function get_public_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "GetPublicKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1706,40 +1401,18 @@ GetParametersForImport
   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
   get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expiration_model"`: Specifies whether the key material expires. The default is
+# Keyword Parameters
+- `expiration_model`: Specifies whether the key material expires. The default is
   KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this
   parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
-- `"valid_to"`: The time at which the imported key material expires. When the key material
+- `valid_to`: The time at which the imported key material expires. When the key material
   expires, KMS deletes the key material and the KMS key becomes unusable. You must omit this
   parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE.
   Otherwise it is required.
 """
-function import_key_material(
-    EncryptedKeyMaterial,
-    ImportToken,
-    KeyId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function import_key_material(EncryptedKeyMaterial, ImportToken, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ImportKeyMaterial",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EncryptedKeyMaterial" => EncryptedKeyMaterial,
-                    "ImportToken" => ImportToken,
-                    "KeyId" => KeyId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ImportKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1761,27 +1434,24 @@ accounts.  Required permissions: kms:ListAliases (IAM policy) For details, see C
 access to aliases in the Key Management Service Developer Guide.  Related operations:
 CreateAlias     DeleteAlias     UpdateAlias
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"key_id"`: Lists only aliases that are associated with the specified KMS key. Enter a
-  KMS key in your Amazon Web Services account.  This parameter is optional. If you omit it,
+# Keyword Parameters
+- `key_id`: Lists only aliases that are associated with the specified KMS key. Enter a KMS
+  key in your Amazon Web Services account.  This parameter is optional. If you omit it,
   ListAliases returns all aliases in the account and Region. Specify the key ID or key ARN of
   the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer. This value is optional. If you include a value, it must be between 1 and 100,
   inclusive. If you do not include a value, it defaults to 50.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return kms("ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1808,28 +1478,22 @@ operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGr
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_id"`: Returns only the grant with the specified grant ID. The grant ID uniquely
+# Keyword Parameters
+- `grant_id`: Returns only the grant with the specified grant ID. The grant ID uniquely
   identifies the grant.
-- `"grantee_principal"`: Returns only grants where the specified principal is the grantee
+- `grantee_principal`: Returns only grants where the specified principal is the grantee
   principal for the grant.
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer. This value is optional. If you include a value, it must be between 1 and 100,
   inclusive. If you do not include a value, it defaults to 50.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 function list_grants(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ListGrants",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ListGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1847,27 +1511,19 @@ kms:ListKeyPolicies (key policy)  Related operations:     GetKeyPolicy     PutKe
   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get
   the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+# Keyword Parameters
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer. This value is optional. If you include a value, it must be between 1 and
   1000, inclusive. If you do not include a value, it defaults to 100. Only one policy can be
   attached to a key.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
-function list_key_policies(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_key_policies(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ListKeyPolicies",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ListKeyPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1878,13 +1534,12 @@ Cross-account use: No. You cannot perform this operation on a KMS key in a diffe
 Web Services account.  Required permissions: kms:ListKeys (IAM policy)  Related operations:
     CreateKey     DescribeKey     ListAliases     ListResourceTags
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+# Keyword Parameters
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer. This value is optional. If you include a value, it must be between 1 and
   1000, inclusive. If you do not include a value, it defaults to 100.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
@@ -1909,27 +1564,19 @@ operations:     CreateKey     ReplicateKey     TagResource     UntagResource
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+# Keyword Parameters
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer. This value is optional. If you include a value, it must be between 1 and 50,
   inclusive. If you do not include a value, it defaults to 50.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received. Do not attempt to construct this value. Use only the value of NextMarker from the
   truncated response you just received.
 """
-function list_resource_tags(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_resource_tags(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ListResourceTags",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ListResourceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1959,30 +1606,18 @@ RevokeGrant
   Web Services Identity and Access Management (IAM) in the Example ARNs section of the Amazon
   Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: Use this parameter to specify the maximum number of items to return. When this
+# Keyword Parameters
+- `limit`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it might
   return fewer. This value is optional. If you include a value, it must be between 1 and 100,
   inclusive. If you do not include a value, it defaults to 50.
-- `"marker"`: Use this parameter in a subsequent request after you receive a response with
+- `marker`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
-function list_retirable_grants(
-    RetiringPrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_retirable_grants(RetiringPrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ListRetirableGrants",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("RetiringPrincipal" => RetiringPrincipal), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ListRetirableGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2018,34 +1653,18 @@ operations: GetKeyPolicy
   Developer Guide.
 - `policy_name`: The name of the key policy. The only valid value is default.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_policy_lockout_safety_check"`: A flag to indicate whether to bypass the key
-  policy lockout safety check.  Setting this value to true increases the risk that the KMS
-  key becomes unmanageable. Do not set this value to true indiscriminately. For more
-  information, refer to the scenario in the Default Key Policy section in the Key Management
-  Service Developer Guide.  Use this parameter only when you intend to prevent the principal
-  that is making the request from making a subsequent PutKeyPolicy request on the KMS key.
-  The default value is false.
+# Keyword Parameters
+- `bypass_policy_lockout_safety_check`: A flag to indicate whether to bypass the key policy
+  lockout safety check.  Setting this value to true increases the risk that the KMS key
+  becomes unmanageable. Do not set this value to true indiscriminately. For more information,
+  refer to the scenario in the Default Key Policy section in the Key Management Service
+  Developer Guide.  Use this parameter only when you intend to prevent the principal that is
+  making the request from making a subsequent PutKeyPolicy request on the KMS key. The
+  default value is false.
 """
-function put_key_policy(
-    KeyId, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_key_policy(KeyId, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "PutKeyPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "KeyId" => KeyId, "Policy" => Policy, "PolicyName" => PolicyName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("PutKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2112,13 +1731,12 @@ Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
   a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use
   ListAliases.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"destination_encryption_algorithm"`: Specifies the encryption algorithm that KMS will
-  use to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT,
+# Keyword Parameters
+- `destination_encryption_algorithm`: Specifies the encryption algorithm that KMS will use
+  to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT,
   represents the encryption algorithm used for symmetric KMS keys. This parameter is required
   only when the destination KMS key is an asymmetric KMS key.
-- `"destination_encryption_context"`: Specifies that encryption context to use when the
+- `destination_encryption_context`: Specifies that encryption context to use when the
   reencrypting the data. A destination encryption context is valid only when the destination
   KMS key is a symmetric KMS key. The standard ciphertext format for asymmetric KMS keys does
   not include fields for metadata. An encryption context is a collection of non-secret
@@ -2127,17 +1745,17 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   encryption context to decrypt the data. An encryption context is optional when encrypting
   with a symmetric KMS key, but it is highly recommended. For more information, see
   Encryption Context in the Key Management Service Developer Guide.
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"source_encryption_algorithm"`: Specifies the encryption algorithm that KMS will use to
+- `source_encryption_algorithm`: Specifies the encryption algorithm that KMS will use to
   decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT,
   represents the algorithm used for symmetric KMS keys. Specify the same algorithm that was
   used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt
   fails. This parameter is required only when the ciphertext was encrypted under an
   asymmetric KMS key.
-- `"source_encryption_context"`: Specifies the encryption context to use to decrypt the
+- `source_encryption_context`: Specifies the encryption context to use to decrypt the
   ciphertext. Enter the same encryption context that was used to encrypt the ciphertext. An
   encryption context is a collection of non-secret key-value pairs that represents additional
   authenticated data. When you use an encryption context to encrypt data, you must specify
@@ -2145,43 +1763,24 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   encryption context is optional when encrypting with a symmetric KMS key, but it is highly
   recommended. For more information, see Encryption Context in the Key Management Service
   Developer Guide.
-- `"source_key_id"`: Specifies the KMS key that KMS will use to decrypt the ciphertext
-  before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the
-  ciphertext. This parameter is required only when the ciphertext was encrypted under an
-  asymmetric KMS key. If you used a symmetric KMS key, KMS can get the KMS key from metadata
-  that it adds to the symmetric ciphertext blob. However, it is always recommended as a best
-  practice. This practice ensures that you use the KMS key that you intend. To specify a KMS
-  key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it
-  with \"alias/\". To specify a KMS key in a different Amazon Web Services account, you must
-  use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+- `source_key_id`: Specifies the KMS key that KMS will use to decrypt the ciphertext before
+  it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext.
+  This parameter is required only when the ciphertext was encrypted under an asymmetric KMS
+  key. If you used a symmetric KMS key, KMS can get the KMS key from metadata that it adds to
+  the symmetric ciphertext blob. However, it is always recommended as a best practice. This
+  practice ensures that you use the KMS key that you intend. To specify a KMS key, use its
+  key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a KMS key in a different Amazon Web Services account, you must use
+  the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+  Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
   Alias name: alias/ExampleAlias    Alias ARN:
   arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
   a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use
   ListAliases.
 """
-function re_encrypt(
-    CiphertextBlob,
-    DestinationKeyId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function re_encrypt(CiphertextBlob, DestinationKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ReEncrypt",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CiphertextBlob" => CiphertextBlob,
-                    "DestinationKeyId" => DestinationKeyId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2244,21 +1843,20 @@ replica Region.    Related operations     CreateKey     UpdatePrimaryRegion
   Services General Reference. For information about enabling and disabling Regions, see
   Enabling a Region and Disabling a Region in the Amazon Web Services General Reference.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_policy_lockout_safety_check"`: A flag to indicate whether to bypass the key
-  policy lockout safety check.  Setting this value to true increases the risk that the KMS
-  key becomes unmanageable. Do not set this value to true indiscriminately. For more
-  information, refer to the scenario in the Default Key Policy section in the Key Management
-  Service Developer Guide.  Use this parameter only when you intend to prevent the principal
-  that is making the request from making a subsequent PutKeyPolicy request on the KMS key.
-  The default value is false.
-- `"description"`: A description of the KMS key. The default value is an empty string (no
+# Keyword Parameters
+- `bypass_policy_lockout_safety_check`: A flag to indicate whether to bypass the key policy
+  lockout safety check.  Setting this value to true increases the risk that the KMS key
+  becomes unmanageable. Do not set this value to true indiscriminately. For more information,
+  refer to the scenario in the Default Key Policy section in the Key Management Service
+  Developer Guide.  Use this parameter only when you intend to prevent the principal that is
+  making the request from making a subsequent PutKeyPolicy request on the KMS key. The
+  default value is false.
+- `description`: A description of the KMS key. The default value is an empty string (no
   description). The description is not a shared property of multi-Region keys. You can
   specify the same description or a different description for each key in a set of related
   multi-Region keys. KMS does not synchronize this property.
-- `"policy"`: The key policy to attach to the KMS key. This parameter is optional. If you
-  do not provide a key policy, KMS attaches the default key policy to the KMS key. The key
+- `policy`: The key policy to attach to the KMS key. This parameter is optional. If you do
+  not provide a key policy, KMS attaches the default key policy to the KMS key. The key
   policy is not a shared property of multi-Region keys. You can specify the same key policy
   or a different key policy for each key in a set of related multi-Region keys. KMS does not
   synchronize this property. If you provide a key policy, it must meet the following
@@ -2273,7 +1871,7 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   immediately visible to KMS. For more information, see Changes that I make are not always
   immediately visible in the  Identity and Access Management User Guide .   The key policy
   size quota is 32 kilobytes (32768 bytes).
-- `"tags"`: Assigns one or more tags to the replica key. Use this parameter to tag the KMS
+- `tags`: Assigns one or more tags to the replica key. Use this parameter to tag the KMS
   key when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging
   or untagging a KMS key can allow or deny permission to the KMS key. For details, see Using
   ABAC in KMS in the Key Management Service Developer Guide.  To use this parameter, you must
@@ -2288,22 +1886,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   aggregated by tags. Tags can also be used to control access to a KMS key. For details, see
   Tagging Keys.
 """
-function replicate_key(
-    KeyId, ReplicaRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function replicate_key(KeyId, ReplicaRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ReplicateKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("KeyId" => KeyId, "ReplicaRegion" => ReplicaRegion),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ReplicateKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "ReplicaRegion"=>ReplicaRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2325,24 +1910,21 @@ primarily by the grant. For details, see Retiring and revoking grants in the Key
 Service Developer Guide.  Related operations:     CreateGrant     ListGrants
 ListRetirableGrants     RevokeGrant
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_id"`: Identifies the grant to retire. To get the grant ID, use CreateGrant,
+# Keyword Parameters
+- `grant_id`: Identifies the grant to retire. To get the grant ID, use CreateGrant,
   ListGrants, or ListRetirableGrants.   Grant ID Example -
   0123456789012345678901234567890123456789012345678901234567890123
-- `"grant_token"`: Identifies the grant to be retired. You can use a grant token to
-  identify a new grant even before it has achieved eventual consistency. Only the CreateGrant
+- `grant_token`: Identifies the grant to be retired. You can use a grant token to identify
+  a new grant even before it has achieved eventual consistency. Only the CreateGrant
   operation returns a grant token. For details, see Grant token and Eventual consistency in
   the Key Management Service Developer Guide.
-- `"key_id"`: The key ARN KMS key associated with the grant. To find the key ARN, use the
+- `key_id`: The key ARN KMS key associated with the grant. To find the key ARN, use the
   ListKeys operation. For example:
   arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
 """
 function retire_grant(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "RetireGrant", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return kms("RetireGrant", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2372,20 +1954,9 @@ ListGrants     ListRetirableGrants     RetireGrant
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function revoke_grant(
-    GrantId, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function revoke_grant(GrantId, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "RevokeGrant",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("GrantId" => GrantId, "KeyId" => KeyId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("RevokeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2426,25 +1997,17 @@ account.  Required permissions: kms:ScheduleKeyDeletion (key policy)  Related op
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"pending_window_in_days"`: The waiting period, specified in number of days. After the
+# Keyword Parameters
+- `pending_window_in_days`: The waiting period, specified in number of days. After the
   waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key
   with replicas, the waiting period begins when the last of its replica keys is deleted.
   Otherwise, the waiting period begins immediately. This value is optional. If you include a
   value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults
   to 30.
 """
-function schedule_key_deletion(
-    KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function schedule_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "ScheduleKeyDeletion",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("KeyId" => KeyId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2494,40 +2057,18 @@ KeyId parameter.  Required permissions: kms:Sign (key policy)  Related operation
   Choose an algorithm that is compatible with the type and size of the specified asymmetric
   KMS key.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+# Keyword Parameters
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"message_type"`: Tells KMS whether the value of the Message parameter is a message or
+- `message_type`: Tells KMS whether the value of the Message parameter is a message or
   message digest. The default value, RAW, indicates a message. To indicate a message digest,
   enter DIGEST.
 """
-function sign(
-    KeyId,
-    Message,
-    SigningAlgorithm;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function sign(KeyId, Message, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "Sign",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "KeyId" => KeyId,
-                    "Message" => Message,
-                    "SigningAlgorithm" => SigningAlgorithm,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("Sign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2561,18 +2102,9 @@ ListResourceTags     ReplicateKey     UntagResource
   the current tag value with the specified one.
 
 """
-function tag_resource(
-    KeyId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(KeyId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("KeyId" => KeyId, "Tags" => Tags), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2601,20 +2133,9 @@ TagResource
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 
 """
-function untag_resource(
-    KeyId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(KeyId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("KeyId" => KeyId, "TagKeys" => TagKeys), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2657,22 +2178,9 @@ Related operations:     CreateAlias     DeleteAlias     ListAliases
   mapped to the correct KMS key, use ListAliases.
 
 """
-function update_alias(
-    AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "UpdateAlias",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AliasName" => AliasName, "TargetKeyId" => TargetKeyId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2708,37 +2216,25 @@ DescribeCustomKeyStores     DisconnectCustomKeyStore
   ID of the custom key store. To find the ID of a custom key store, use the
   DescribeCustomKeyStores operation.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cloud_hsm_cluster_id"`: Associates the custom key store with a related CloudHSM
-  cluster.  Enter the cluster ID of the cluster that you used to create the custom key store
-  or a cluster that shares a backup history and has the same cluster certificate as the
-  original cluster. You cannot use this parameter to associate a custom key store with an
-  unrelated cluster. In addition, the replacement cluster must fulfill the requirements for a
-  cluster associated with a custom key store. To view the cluster certificate of a cluster,
-  use the DescribeClusters operation.
-- `"key_store_password"`: Enter the current password of the kmsuser crypto user (CU) in the
+# Keyword Parameters
+- `cloud_hsm_cluster_id`: Associates the custom key store with a related CloudHSM cluster.
+  Enter the cluster ID of the cluster that you used to create the custom key store or a
+  cluster that shares a backup history and has the same cluster certificate as the original
+  cluster. You cannot use this parameter to associate a custom key store with an unrelated
+  cluster. In addition, the replacement cluster must fulfill the requirements for a cluster
+  associated with a custom key store. To view the cluster certificate of a cluster, use the
+  DescribeClusters operation.
+- `key_store_password`: Enter the current password of the kmsuser crypto user (CU) in the
   CloudHSM cluster that is associated with the custom key store. This parameter tells KMS the
   current password of the kmsuser crypto user (CU). It does not set or change the password of
   any users in the CloudHSM cluster.
-- `"new_custom_key_store_name"`: Changes the friendly name of the custom key store to the
+- `new_custom_key_store_name`: Changes the friendly name of the custom key store to the
   value that you specify. The custom key store name must be unique in the Amazon Web Services
   account.
 """
-function update_custom_key_store(
-    CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "UpdateCustomKeyStore",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CustomKeyStoreId" => CustomKeyStoreId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("UpdateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2759,22 +2255,9 @@ different Amazon Web Services account.   Required permissions: kms:UpdateKeyDesc
   key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
 
 """
-function update_key_description(
-    Description, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_key_description(Description, KeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "UpdateKeyDescription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Description" => Description, "KeyId" => KeyId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2830,22 +2313,9 @@ key (in the replica key's Region). Include this permission in the replica key's 
   primary key.
 
 """
-function update_primary_region(
-    KeyId, PrimaryRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_primary_region(KeyId, PrimaryRegion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "UpdatePrimaryRegion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("KeyId" => KeyId, "PrimaryRegion" => PrimaryRegion),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("UpdatePrimaryRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PrimaryRegion"=>PrimaryRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2894,42 +2364,18 @@ permissions: kms:Verify (key policy)  Related operations: Sign
 - `signing_algorithm`: The signing algorithm that was used to sign the message. If you
   submit a different algorithm, the signature verification fails.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"grant_tokens"`: A list of grant tokens. Use a grant token when your permission to call
+# Keyword Parameters
+- `grant_tokens`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
-- `"message_type"`: Tells KMS whether the value of the Message parameter is a message or
+- `message_type`: Tells KMS whether the value of the Message parameter is a message or
   message digest. The default value, RAW, indicates a message. To indicate a message digest,
   enter DIGEST.  Use the DIGEST value only when the value of the Message parameter is a
   message digest. If you use the DIGEST value with a raw message, the security of the
   verification operation can be compromised.
 """
-function verify(
-    KeyId,
-    Message,
-    Signature,
-    SigningAlgorithm;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function verify(KeyId, Message, Signature, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return kms(
-        "Verify",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "KeyId" => KeyId,
-                    "Message" => Message,
-                    "Signature" => Signature,
-                    "SigningAlgorithm" => SigningAlgorithm,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return kms("Verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

@@ -4,9 +4,8 @@ using AWS.AWSServices: forecastquery
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "start_date" => "StartDate", "end_date" => "EndDate", "next_token" => "NextToken"
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("end_date" => "EndDate", "next_token" => "NextToken", "start_date" => "StartDate")
 
 """
     query_forecast(filters, forecast_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -26,30 +25,16 @@ Forecast are in the same timezone as the dataset that was used to create the pre
   operation.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast to query.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_date"`: The end date for the forecast. Specify the date using this format:
+# Keyword Parameters
+- `end_date`: The end date for the forecast. Specify the date using this format:
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
-- `"start_date"`: The start date for the forecast. Specify the date using this format:
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
+- `start_date`: The start date for the forecast. Specify the date using this format:
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
-function query_forecast(
-    Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function query_forecast(Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return forecastquery(
-        "QueryForecast",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

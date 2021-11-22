@@ -4,107 +4,8 @@ using AWS.AWSServices: s3
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "version_id_marker" => "version-id-marker",
-    "parts_count" => "x-amz-fwd-header-x-amz-mp-parts-count",
-    "response_content_type" => "response-content-type",
-    "response_cache_control" => "response-cache-control",
-    "key_marker" => "key-marker",
-    "range" => "Range",
-    "delimiter" => "delimiter",
-    "missing_meta" => "x-amz-fwd-header-x-amz-missing-meta",
-    "object_lock_retain_until_date" => "x-amz-fwd-header-x-amz-object-lock-retain-until-date",
-    "etag" => "x-amz-fwd-header-ETag",
-    "grant_full_control" => "x-amz-grant-full-control",
-    "grant_write_acp" => "x-amz-grant-write-acp",
-    "ssecustomer_algorithm" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm",
-    "website_redirect_location" => "x-amz-website-redirect-location",
-    "fetch_owner" => "fetch-owner",
-    "max_uploads" => "max-uploads",
-    "object_lock_mode" => "x-amz-fwd-header-x-amz-object-lock-mode",
-    "tag_count" => "x-amz-fwd-header-x-amz-tagging-count",
-    "last_modified" => "x-amz-fwd-header-Last-Modified",
-    "continuation_token" => "continuation-token",
-    "restore_request" => "RestoreRequest",
-    "start_after" => "start-after",
-    "grant_read" => "x-amz-grant-read",
-    "copy_source_if_modified_since" => "x-amz-copy-source-if-modified-since",
-    "request_payer" => "x-amz-request-payer",
-    "response_content_encoding" => "response-content-encoding",
-    "response_expires" => "response-expires",
-    "accept_ranges" => "x-amz-fwd-header-accept-ranges",
-    "copy_source_ssecustomer_algorithm" => "x-amz-copy-source-server-side-encryption-customer-algorithm",
-    "ssecustomer_key_md5" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5",
-    "expected_source_bucket_owner" => "x-amz-source-expected-bucket-owner",
-    "copy_source_if_unmodified_since" => "x-amz-copy-source-if-unmodified-since",
-    "ssekmsencryption_context" => "x-amz-server-side-encryption-context",
-    "retention" => "Retention",
-    "max_keys" => "max-keys",
-    "metadata_directive" => "x-amz-metadata-directive",
-    "request_progress" => "RequestProgress",
-    "scan_range" => "ScanRange",
-    "expiration" => "x-amz-fwd-header-x-amz-expiration",
-    "version_id" => "x-amz-fwd-header-x-amz-version-id",
-    "response_content_language" => "response-content-language",
-    "if_none_match" => "If-None-Match",
-    "expected_bucket_owner" => "x-amz-expected-bucket-owner",
-    "copy_source_range" => "x-amz-copy-source-range",
-    "part_number_marker" => "part-number-marker",
-    "metadata" => "x-amz-meta-",
-    "content_length" => "Content-Length",
-    "object_lock_enabled_for_bucket" => "x-amz-bucket-object-lock-enabled",
-    "bucket_key_enabled" => "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled",
-    "content_encoding" => "x-amz-fwd-header-Content-Encoding",
-    "cache_control" => "x-amz-fwd-header-Cache-Control",
-    "replication_status" => "x-amz-fwd-header-x-amz-replication-status",
-    "confirm_remove_self_bucket_access" => "x-amz-confirm-remove-self-bucket-access",
-    "legal_hold" => "LegalHold",
-    "encoding_type" => "encoding-type",
-    "status_code" => "x-amz-fwd-status",
-    "restore" => "x-amz-fwd-header-x-amz-restore",
-    "content_range" => "x-amz-fwd-header-Content-Range",
-    "content_md5" => "Content-MD5",
-    "prefix" => "prefix",
-    "request_charged" => "x-amz-fwd-header-x-amz-request-charged",
-    "body" => "body",
-    "copy_source_ssecustomer_key" => "x-amz-copy-source-server-side-encryption-customer-key",
-    "if_match" => "If-Match",
-    "ssekmskey_id" => "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id",
-    "upload_id_marker" => "upload-id-marker",
-    "create_bucket_configuration" => "CreateBucketConfiguration",
-    "grant_write" => "x-amz-grant-write",
-    "marker" => "marker",
-    "if_unmodified_since" => "If-Unmodified-Since",
-    "content_language" => "x-amz-fwd-header-Content-Language",
-    "access_control_policy" => "AccessControlPolicy",
-    "tagging" => "x-amz-tagging",
-    "ssecustomer_key" => "x-amz-server-side-encryption-customer-key",
-    "lifecycle_configuration" => "LifecycleConfiguration",
-    "tagging_directive" => "x-amz-tagging-directive",
-    "grant_read_acp" => "x-amz-grant-read-acp",
-    "bypass_governance_retention" => "x-amz-bypass-governance-retention",
-    "server_side_encryption" => "x-amz-fwd-header-x-amz-server-side-encryption",
-    "error_message" => "x-amz-fwd-error-message",
-    "delete_marker" => "x-amz-fwd-header-x-amz-delete-marker",
-    "content_disposition" => "x-amz-fwd-header-Content-Disposition",
-    "expires" => "x-amz-fwd-header-Expires",
-    "copy_source_if_none_match" => "x-amz-copy-source-if-none-match",
-    "storage_class" => "x-amz-fwd-header-x-amz-storage-class",
-    "mfa" => "x-amz-mfa",
-    "content_type" => "x-amz-fwd-header-Content-Type",
-    "response_content_disposition" => "response-content-disposition",
-    "acl" => "x-amz-acl",
-    "multipart_upload" => "CompleteMultipartUpload",
-    "max_parts" => "max-parts",
-    "copy_source_ssecustomer_key_md5" => "x-amz-copy-source-server-side-encryption-customer-key-MD5",
-    "token" => "x-amz-bucket-object-lock-token",
-    "object_lock_configuration" => "ObjectLockConfiguration",
-    "object_lock_legal_hold_status" => "x-amz-fwd-header-x-amz-object-lock-legal-hold",
-    "if_modified_since" => "If-Modified-Since",
-    "part_number" => "partNumber",
-    "copy_source_if_match" => "x-amz-copy-source-if-match",
-    "error_code" => "x-amz-fwd-error-code",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("content_md5" => "Content-MD5", "expected_bucket_owner" => "x-amz-expected-bucket-owner", "request_payer" => "x-amz-request-payer", "version_id" => "x-amz-fwd-header-x-amz-version-id", "multipart_upload" => "CompleteMultipartUpload", "continuation_token" => "continuation-token", "bypass_governance_retention" => "x-amz-bypass-governance-retention", "mfa" => "x-amz-mfa", "confirm_remove_self_bucket_access" => "x-amz-confirm-remove-self-bucket-access", "legal_hold" => "LegalHold", "restore_request" => "RestoreRequest", "acl" => "x-amz-acl", "body" => "body", "bucket_key_enabled" => "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled", "cache_control" => "x-amz-fwd-header-Cache-Control", "content_disposition" => "x-amz-fwd-header-Content-Disposition", "content_encoding" => "x-amz-fwd-header-Content-Encoding", "content_language" => "x-amz-fwd-header-Content-Language", "content_length" => "Content-Length", "content_type" => "x-amz-fwd-header-Content-Type", "expires" => "x-amz-fwd-header-Expires", "grant_full_control" => "x-amz-grant-full-control", "grant_read" => "x-amz-grant-read", "grant_read_acp" => "x-amz-grant-read-acp", "grant_write_acp" => "x-amz-grant-write-acp", "metadata" => "x-amz-meta-", "object_lock_legal_hold_status" => "x-amz-fwd-header-x-amz-object-lock-legal-hold", "object_lock_mode" => "x-amz-fwd-header-x-amz-object-lock-mode", "object_lock_retain_until_date" => "x-amz-fwd-header-x-amz-object-lock-retain-until-date", "server_side_encryption" => "x-amz-fwd-header-x-amz-server-side-encryption", "ssecustomer_algorithm" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm", "ssecustomer_key" => "x-amz-server-side-encryption-customer-key", "ssecustomer_key_md5" => "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5", "ssekmsencryption_context" => "x-amz-server-side-encryption-context", "ssekmskey_id" => "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id", "storage_class" => "x-amz-fwd-header-x-amz-storage-class", "tagging" => "x-amz-tagging", "website_redirect_location" => "x-amz-website-redirect-location", "copy_source_if_match" => "x-amz-copy-source-if-match", "copy_source_if_modified_since" => "x-amz-copy-source-if-modified-since", "copy_source_if_none_match" => "x-amz-copy-source-if-none-match", "copy_source_if_unmodified_since" => "x-amz-copy-source-if-unmodified-since", "copy_source_range" => "x-amz-copy-source-range", "copy_source_ssecustomer_algorithm" => "x-amz-copy-source-server-side-encryption-customer-algorithm", "copy_source_ssecustomer_key" => "x-amz-copy-source-server-side-encryption-customer-key", "copy_source_ssecustomer_key_md5" => "x-amz-copy-source-server-side-encryption-customer-key-MD5", "expected_source_bucket_owner" => "x-amz-source-expected-bucket-owner", "token" => "x-amz-bucket-object-lock-token", "if_match" => "If-Match", "if_modified_since" => "If-Modified-Since", "if_none_match" => "If-None-Match", "if_unmodified_since" => "If-Unmodified-Since", "part_number" => "partNumber", "range" => "Range", "response_cache_control" => "response-cache-control", "response_content_disposition" => "response-content-disposition", "response_content_encoding" => "response-content-encoding", "response_content_language" => "response-content-language", "response_content_type" => "response-content-type", "response_expires" => "response-expires", "object_lock_configuration" => "ObjectLockConfiguration", "max_parts" => "max-parts", "part_number_marker" => "part-number-marker", "request_progress" => "RequestProgress", "scan_range" => "ScanRange", "access_control_policy" => "AccessControlPolicy", "grant_write" => "x-amz-grant-write", "create_bucket_configuration" => "CreateBucketConfiguration", "object_lock_enabled_for_bucket" => "x-amz-bucket-object-lock-enabled", "delimiter" => "delimiter", "encoding_type" => "encoding-type", "key_marker" => "key-marker", "max_uploads" => "max-uploads", "prefix" => "prefix", "upload_id_marker" => "upload-id-marker", "marker" => "marker", "max_keys" => "max-keys", "version_id_marker" => "version-id-marker", "lifecycle_configuration" => "LifecycleConfiguration", "metadata_directive" => "x-amz-metadata-directive", "tagging_directive" => "x-amz-tagging-directive", "fetch_owner" => "fetch-owner", "start_after" => "start-after", "retention" => "Retention", "accept_ranges" => "x-amz-fwd-header-accept-ranges", "content_range" => "x-amz-fwd-header-Content-Range", "delete_marker" => "x-amz-fwd-header-x-amz-delete-marker", "error_code" => "x-amz-fwd-error-code", "error_message" => "x-amz-fwd-error-message", "etag" => "x-amz-fwd-header-ETag", "expiration" => "x-amz-fwd-header-x-amz-expiration", "last_modified" => "x-amz-fwd-header-Last-Modified", "missing_meta" => "x-amz-fwd-header-x-amz-missing-meta", "parts_count" => "x-amz-fwd-header-x-amz-mp-parts-count", "replication_status" => "x-amz-fwd-header-x-amz-replication-status", "request_charged" => "x-amz-fwd-header-x-amz-request-charged", "restore" => "x-amz-fwd-header-x-amz-restore", "status_code" => "x-amz-fwd-status", "tag_count" => "x-amz-fwd-header-x-amz-tagging-count")
 
 """
     abort_multipart_upload(bucket, key, upload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -137,25 +38,14 @@ ListMultipartUploads
 - `key`: Key of the object for which the multipart upload was initiated.
 - `upload_id`: Upload ID that identifies the multipart upload.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
+- `request_payer`:
 """
-function abort_multipart_upload(
-    Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function abort_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("uploadId" => uploadId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -209,26 +99,15 @@ ListMultipartUploads
 - `key`: Object key for which the multipart upload was initiated.
 - `upload_id`: ID for the initiated multipart upload.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"multipart_upload"`: The container for the multipart upload request information.
-- `"request_payer"`:
+- `multipart_upload`: The container for the multipart upload request information.
+- `request_payer`:
 """
-function complete_multipart_upload(
-    Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function complete_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("uploadId" => uploadId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -346,117 +225,95 @@ Objects.
   awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you
   don't specify a version ID, Amazon S3 copies the latest version of the source object.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"acl"`: The canned ACL to apply to the object. This action is not supported by Amazon S3
+# Keyword Parameters
+- `acl`: The canned ACL to apply to the object. This action is not supported by Amazon S3
   on Outposts.
-- `"bucket_key_enabled"`: Specifies whether Amazon S3 should use an S3 Bucket Key for
-  object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header
-  to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.
-  Specifying this header with a COPY action doesn’t affect bucket-level settings for S3
-  Bucket Key.
-- `"cache_control"`: Specifies caching behavior along the request/reply chain.
-- `"content_disposition"`: Specifies presentational information for the object.
-- `"content_encoding"`: Specifies what content encodings have been applied to the object
-  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
-  the Content-Type header field.
-- `"content_language"`: The language the content is in.
-- `"content_type"`: A standard MIME type describing the format of the object data.
-- `"copy_source_if_match"`: Copies the object if its entity tag (ETag) matches the
-  specified tag.
-- `"copy_source_if_modified_since"`: Copies the object if it has been modified since the
+- `bucket_key_enabled`: Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true
+  causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.  Specifying
+  this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
+- `cache_control`: Specifies caching behavior along the request/reply chain.
+- `content_disposition`: Specifies presentational information for the object.
+- `content_encoding`: Specifies what content encodings have been applied to the object and
+  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
+  Content-Type header field.
+- `content_language`: The language the content is in.
+- `content_type`: A standard MIME type describing the format of the object data.
+- `copy_source_if_match`: Copies the object if its entity tag (ETag) matches the specified
+  tag.
+- `copy_source_if_modified_since`: Copies the object if it has been modified since the
   specified time.
-- `"copy_source_if_none_match"`: Copies the object if its entity tag (ETag) is different
-  than the specified ETag.
-- `"copy_source_if_unmodified_since"`: Copies the object if it hasn't been modified since
-  the specified time.
-- `"copy_source_ssecustomer_algorithm"`: Specifies the algorithm to use when decrypting the
+- `copy_source_if_none_match`: Copies the object if its entity tag (ETag) is different than
+  the specified ETag.
+- `copy_source_if_unmodified_since`: Copies the object if it hasn't been modified since the
+  specified time.
+- `copy_source_ssecustomer_algorithm`: Specifies the algorithm to use when decrypting the
   source object (for example, AES256).
-- `"copy_source_ssecustomer_key"`: Specifies the customer-provided encryption key for
-  Amazon S3 to use to decrypt the source object. The encryption key provided in this header
-  must be one that was used when the source object was created.
-- `"copy_source_ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption
-  key according to RFC 1321. Amazon S3 uses this header for a message integrity check to
-  ensure that the encryption key was transmitted without error.
-- `"expected_bucket_owner"`: The account ID of the expected destination bucket owner. If
-  the destination bucket is owned by a different account, the request will fail with an HTTP
-  403 (Access Denied) error.
-- `"expected_source_bucket_owner"`: The account ID of the expected source bucket owner. If
+- `copy_source_ssecustomer_key`: Specifies the customer-provided encryption key for Amazon
+  S3 to use to decrypt the source object. The encryption key provided in this header must be
+  one that was used when the source object was created.
+- `copy_source_ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key
+  according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure
+  that the encryption key was transmitted without error.
+- `expected_bucket_owner`: The account ID of the expected destination bucket owner. If the
+  destination bucket is owned by a different account, the request will fail with an HTTP 403
+  (Access Denied) error.
+- `expected_source_bucket_owner`: The account ID of the expected source bucket owner. If
   the source bucket is owned by a different account, the request will fail with an HTTP 403
   (Access Denied) error.
-- `"expires"`: The date and time at which the object is no longer cacheable.
-- `"grant_full_control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on
-  the object. This action is not supported by Amazon S3 on Outposts.
-- `"grant_read"`: Allows grantee to read the object data and its metadata. This action is
-  not supported by Amazon S3 on Outposts.
-- `"grant_read_acp"`: Allows grantee to read the object ACL. This action is not supported
-  by Amazon S3 on Outposts.
-- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable object. This
-  action is not supported by Amazon S3 on Outposts.
-- `"metadata"`: A map of metadata to store with the object in S3.
-- `"metadata_directive"`: Specifies whether the metadata is copied from the source object
-  or replaced with metadata provided in the request.
-- `"object_lock_legal_hold_status"`: Specifies whether you want to apply a Legal Hold to
-  the copied object.
-- `"object_lock_mode"`: The Object Lock mode that you want to apply to the copied object.
-- `"object_lock_retain_until_date"`: The date and time when you want the copied object's
+- `expires`: The date and time at which the object is no longer cacheable.
+- `grant_full_control`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the
+  object. This action is not supported by Amazon S3 on Outposts.
+- `grant_read`: Allows grantee to read the object data and its metadata. This action is not
+  supported by Amazon S3 on Outposts.
+- `grant_read_acp`: Allows grantee to read the object ACL. This action is not supported by
+  Amazon S3 on Outposts.
+- `grant_write_acp`: Allows grantee to write the ACL for the applicable object. This action
+  is not supported by Amazon S3 on Outposts.
+- `metadata`: A map of metadata to store with the object in S3.
+- `metadata_directive`: Specifies whether the metadata is copied from the source object or
+  replaced with metadata provided in the request.
+- `object_lock_legal_hold_status`: Specifies whether you want to apply a Legal Hold to the
+  copied object.
+- `object_lock_mode`: The Object Lock mode that you want to apply to the copied object.
+- `object_lock_retain_until_date`: The date and time when you want the copied object's
   Object Lock to expire.
-- `"request_payer"`:
-- `"server_side_encryption"`: The server-side encryption algorithm used when storing this
+- `request_payer`:
+- `server_side_encryption`: The server-side encryption algorithm used when storing this
   object in Amazon S3 (for example, AES256, aws:kms).
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when encrypting the object
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when encrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 to use
-  in encrypting data. This value is used to store the object and then it is discarded; Amazon
-  S3 does not store the encryption key. The key must be appropriate for use with the
-  algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 to use in
+  encrypting data. This value is used to store the object and then it is discarded; Amazon S3
+  does not store the encryption key. The key must be appropriate for use with the algorithm
+  specified in the x-amz-server-side-encryption-customer-algorithm header.
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
-- `"ssekmsencryption_context"`: Specifies the Amazon Web Services KMS Encryption Context to
+- `ssekmsencryption_context`: Specifies the Amazon Web Services KMS Encryption Context to
   use for object encryption. The value of this header is a base64-encoded UTF-8 string
   holding JSON with the encryption context key-value pairs.
-- `"ssekmskey_id"`: Specifies the Amazon Web Services KMS key ID to use for object
+- `ssekmskey_id`: Specifies the Amazon Web Services KMS key ID to use for object
   encryption. All GET and PUT requests for an object protected by Amazon Web Services KMS
   will fail if not made via SSL or using SigV4. For information about configuring using any
   of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see
   Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
-- `"storage_class"`: By default, Amazon S3 uses the STANDARD Storage Class to store newly
+- `storage_class`: By default, Amazon S3 uses the STANDARD Storage Class to store newly
   created objects. The STANDARD storage class provides high durability and high availability.
   Depending on performance needs, you can specify a different Storage Class. Amazon S3 on
   Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in
   the Amazon S3 User Guide.
-- `"tagging"`: The tag-set for the object destination object this value must be used in
+- `tagging`: The tag-set for the object destination object this value must be used in
   conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters.
-- `"tagging_directive"`: Specifies whether the object tag-set are copied from the source
+- `tagging_directive`: Specifies whether the object tag-set are copied from the source
   object or replaced with tag-set provided in the request.
-- `"website_redirect_location"`: If the bucket is configured as a website, redirects
-  requests for this object to another object in the same bucket or to an external URL. Amazon
-  S3 stores the value of this header in the object metadata.
+- `website_redirect_location`: If the bucket is configured as a website, redirects requests
+  for this object to another object in the same bucket or to an external URL. Amazon S3
+  stores the value of this header in the object metadata.
 """
-function copy_object(
-    Bucket,
-    Key,
-    x_amz_copy_source;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function copy_object(Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}("x-amz-copy-source" => x_amz_copy_source)
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -510,25 +367,22 @@ The following operations are related to CreateBucket:    PutObject     DeleteBuc
 # Arguments
 - `bucket`: The name of the bucket to create.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"acl"`: The canned ACL to apply to the bucket.
-- `"create_bucket_configuration"`: The configuration information for the bucket.
-- `"grant_full_control"`: Allows grantee the read, write, read ACP, and write ACP
-  permissions on the bucket.
-- `"grant_read"`: Allows grantee to list the objects in the bucket.
-- `"grant_read_acp"`: Allows grantee to read the bucket ACL.
-- `"grant_write"`: Allows grantee to create new objects in the bucket. For the bucket and
+# Keyword Parameters
+- `acl`: The canned ACL to apply to the bucket.
+- `create_bucket_configuration`: The configuration information for the bucket.
+- `grant_full_control`: Allows grantee the read, write, read ACP, and write ACP permissions
+  on the bucket.
+- `grant_read`: Allows grantee to list the objects in the bucket.
+- `grant_read_acp`: Allows grantee to read the bucket ACL.
+- `grant_write`: Allows grantee to create new objects in the bucket. For the bucket and
   object owners of existing objects, also allows deletions and overwrites of those objects.
-- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable bucket.
-- `"object_lock_enabled_for_bucket"`: Specifies whether you want S3 Object Lock to be
-  enabled for the new bucket.
+- `grant_write_acp`: Allows grantee to write the ACL for the applicable bucket.
+- `object_lock_enabled_for_bucket`: Specifies whether you want S3 Object Lock to be enabled
+  for the new bucket.
 """
 function create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return s3("PUT", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -642,82 +496,72 @@ ListMultipartUploads
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload is to be initiated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"acl"`: The canned ACL to apply to the object. This action is not supported by Amazon S3
+# Keyword Parameters
+- `acl`: The canned ACL to apply to the object. This action is not supported by Amazon S3
   on Outposts.
-- `"bucket_key_enabled"`: Specifies whether Amazon S3 should use an S3 Bucket Key for
-  object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header
-  to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.
-  Specifying this header with an object action doesn’t affect bucket-level settings for S3
-  Bucket Key.
-- `"cache_control"`: Specifies caching behavior along the request/reply chain.
-- `"content_disposition"`: Specifies presentational information for the object.
-- `"content_encoding"`: Specifies what content encodings have been applied to the object
-  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
-  the Content-Type header field.
-- `"content_language"`: The language the content is in.
-- `"content_type"`: A standard MIME type describing the format of the object data.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `bucket_key_enabled`: Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true
+  causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying
+  this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
+- `cache_control`: Specifies caching behavior along the request/reply chain.
+- `content_disposition`: Specifies presentational information for the object.
+- `content_encoding`: Specifies what content encodings have been applied to the object and
+  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
+  Content-Type header field.
+- `content_language`: The language the content is in.
+- `content_type`: A standard MIME type describing the format of the object data.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"expires"`: The date and time at which the object is no longer cacheable.
-- `"grant_full_control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on
-  the object. This action is not supported by Amazon S3 on Outposts.
-- `"grant_read"`: Allows grantee to read the object data and its metadata. This action is
-  not supported by Amazon S3 on Outposts.
-- `"grant_read_acp"`: Allows grantee to read the object ACL. This action is not supported
-  by Amazon S3 on Outposts.
-- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable object. This
-  action is not supported by Amazon S3 on Outposts.
-- `"metadata"`: A map of metadata to store with the object in S3.
-- `"object_lock_legal_hold_status"`: Specifies whether you want to apply a Legal Hold to
-  the uploaded object.
-- `"object_lock_mode"`: Specifies the Object Lock mode that you want to apply to the
+- `expires`: The date and time at which the object is no longer cacheable.
+- `grant_full_control`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the
+  object. This action is not supported by Amazon S3 on Outposts.
+- `grant_read`: Allows grantee to read the object data and its metadata. This action is not
+  supported by Amazon S3 on Outposts.
+- `grant_read_acp`: Allows grantee to read the object ACL. This action is not supported by
+  Amazon S3 on Outposts.
+- `grant_write_acp`: Allows grantee to write the ACL for the applicable object. This action
+  is not supported by Amazon S3 on Outposts.
+- `metadata`: A map of metadata to store with the object in S3.
+- `object_lock_legal_hold_status`: Specifies whether you want to apply a Legal Hold to the
   uploaded object.
-- `"object_lock_retain_until_date"`: Specifies the date and time when you want the Object
+- `object_lock_mode`: Specifies the Object Lock mode that you want to apply to the uploaded
+  object.
+- `object_lock_retain_until_date`: Specifies the date and time when you want the Object
   Lock to expire.
-- `"request_payer"`:
-- `"server_side_encryption"`: The server-side encryption algorithm used when storing this
+- `request_payer`:
+- `server_side_encryption`: The server-side encryption algorithm used when storing this
   object in Amazon S3 (for example, AES256, aws:kms).
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when encrypting the object
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when encrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 to use
-  in encrypting data. This value is used to store the object and then it is discarded; Amazon
-  S3 does not store the encryption key. The key must be appropriate for use with the
-  algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 to use in
+  encrypting data. This value is used to store the object and then it is discarded; Amazon S3
+  does not store the encryption key. The key must be appropriate for use with the algorithm
+  specified in the x-amz-server-side-encryption-customer-algorithm header.
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
-- `"ssekmsencryption_context"`: Specifies the Amazon Web Services KMS Encryption Context to
+- `ssekmsencryption_context`: Specifies the Amazon Web Services KMS Encryption Context to
   use for object encryption. The value of this header is a base64-encoded UTF-8 string
   holding JSON with the encryption context key-value pairs.
-- `"ssekmskey_id"`: Specifies the ID of the symmetric customer managed key to use for
-  object encryption. All GET and PUT requests for an object protected by Amazon Web Services
-  KMS will fail if not made via SSL or using SigV4. For information about configuring using
-  any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see
+- `ssekmskey_id`: Specifies the ID of the symmetric customer managed key to use for object
+  encryption. All GET and PUT requests for an object protected by Amazon Web Services KMS
+  will fail if not made via SSL or using SigV4. For information about configuring using any
+  of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see
   Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
-- `"storage_class"`: By default, Amazon S3 uses the STANDARD Storage Class to store newly
+- `storage_class`: By default, Amazon S3 uses the STANDARD Storage Class to store newly
   created objects. The STANDARD storage class provides high durability and high availability.
   Depending on performance needs, you can specify a different Storage Class. Amazon S3 on
   Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in
   the Amazon S3 User Guide.
-- `"tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
+- `tagging`: The tag-set for the object. The tag-set must be encoded as URL Query
   parameters.
-- `"website_redirect_location"`: If the bucket is configured as a website, redirects
-  requests for this object to another object in the same bucket or to an external URL. Amazon
-  S3 stores the value of this header in the object metadata.
+- `website_redirect_location`: If the bucket is configured as a website, redirects requests
+  for this object to another object in the same bucket or to an external URL. Amazon S3
+  stores the value of this header in the object metadata.
 """
-function create_multipart_upload(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_multipart_upload(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)?uploads",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("POST", "/$(Bucket)/$(Key)?uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -730,20 +574,13 @@ CreateBucket     DeleteObject
 # Arguments
 - `bucket`: Specifies the bucket being deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -763,22 +600,13 @@ ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 - `bucket`: The name of the bucket from which an analytics configuration is deleted.
 - `id`: The ID that identifies the analytics configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_analytics_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?analytics",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -793,22 +621,13 @@ see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide.  Related
 # Arguments
 - `bucket`: Specifies the bucket whose cors configuration is being deleted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_cors(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?cors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?cors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -827,22 +646,13 @@ PutBucketEncryption     GetBucketEncryption
 - `bucket`: The name of the bucket containing the server-side encryption configuration to
   delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_encryption(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?encryption",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?encryption", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -870,17 +680,9 @@ ListBucketIntelligentTieringConfigurations
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-function delete_bucket_intelligent_tiering_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?intelligent-tiering",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -899,22 +701,13 @@ related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryCon
 - `bucket`: The name of the bucket containing the inventory configuration to delete.
 - `id`: The ID used to identify the inventory configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_inventory_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?inventory",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -934,22 +727,13 @@ PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 # Arguments
 - `bucket`: The bucket name of the lifecycle to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_lifecycle(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?lifecycle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -971,22 +755,13 @@ with Amazon CloudWatch
 - `bucket`: The name of the bucket containing the metrics configuration to delete.
 - `id`: The ID used to identify the metrics configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_metrics_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?metrics",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1002,22 +777,13 @@ DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwners
 # Arguments
 - `bucket`: The Amazon S3 bucket whose OwnershipControls you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_ownership_controls(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?ownershipControls",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?ownershipControls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1039,22 +805,13 @@ operations are related to DeleteBucketPolicy     CreateBucket     DeleteObject
 # Arguments
 - `bucket`: The bucket name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_policy(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?policy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1072,22 +829,13 @@ related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplica
 # Arguments
 - `bucket`:  The bucket name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_replication(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?replication",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?replication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1101,22 +849,13 @@ DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
 # Arguments
 - `bucket`: The bucket that has the tag set to be removed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_tagging(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?tagging",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1137,22 +876,13 @@ PutBucketWebsite
 # Arguments
 - `bucket`: The bucket name for which you want to remove the website configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_bucket_website(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?website",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?website", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1189,30 +919,21 @@ following action is related to DeleteObject:    PutObject
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: Key name of the object to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_governance_retention"`: Indicates whether S3 Object Lock should bypass
+# Keyword Parameters
+- `bypass_governance_retention`: Indicates whether S3 Object Lock should bypass
   Governance-mode restrictions to process this operation. To use this header, you must have
   the s3:PutBucketPublicAccessBlock permission.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"mfa"`: The concatenation of the authentication device's serial number, a space, and the
+- `mfa`: The concatenation of the authentication device's serial number, a space, and the
   value that is displayed on your authentication device. Required to permanently delete a
   versioned object if versioning is configured with MFA delete enabled.
-- `"request_payer"`:
-- `"version_id"`: VersionId used to reference a specific version of the object.
+- `request_payer`:
+- `version_id`: VersionId used to reference a specific version of the object.
 """
-function delete_object(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)/$(Key)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1240,23 +961,14 @@ DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: The key that identifies the object in the bucket from which to remove all tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"version_id"`: The versionId of the object that the tag-set will be removed from.
+- `version_id`: The versionId of the object that the tag-set will be removed from.
 """
-function delete_object_tagging(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)/$(Key)?tagging",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)/$(Key)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1300,29 +1012,20 @@ ListParts     AbortMultipartUpload
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `delete`: Container for the request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_governance_retention"`: Specifies whether you want to delete this object even if
+# Keyword Parameters
+- `bypass_governance_retention`: Specifies whether you want to delete this object even if
   it has a Governance-type Object Lock in place. To use this header, you must have the
   s3:PutBucketPublicAccessBlock permission.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"mfa"`: The concatenation of the authentication device's serial number, a space, and the
+- `mfa`: The concatenation of the authentication device's serial number, a space, and the
   value that is displayed on your authentication device. Required to permanently delete a
   versioned object if versioning is configured with MFA delete enabled.
-- `"request_payer"`:
+- `request_payer`:
 """
-function delete_objects(
-    Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "POST",
-        "/$(Bucket)?delete",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Delete" => Delete), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1338,22 +1041,13 @@ DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAcc
 # Arguments
 - `bucket`: The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function delete_public_access_block(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "DELETE",
-        "/$(Bucket)?publicAccessBlock",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("DELETE", "/$(Bucket)?publicAccessBlock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1377,22 +1071,13 @@ Resources     PutBucketAccelerateConfiguration
 # Arguments
 - `bucket`: The name of the bucket for which the accelerate configuration is retrieved.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_accelerate_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_accelerate_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?accelerate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?accelerate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1407,22 +1092,13 @@ ListObjects
 # Arguments
 - `bucket`: Specifies the S3 bucket whose ACL is being requested.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_acl(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?acl",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1443,22 +1119,13 @@ PutBucketAnalyticsConfiguration
 - `bucket`: The name of the bucket from which an analytics configuration is retrieved.
 - `id`: The ID that identifies the analytics configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_analytics_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?analytics",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1473,22 +1140,13 @@ GetBucketCors:    PutBucketCors     DeleteBucketCors
 # Arguments
 - `bucket`: The bucket name for which to get the cors configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_cors(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?cors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?cors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1509,22 +1167,13 @@ DeleteBucketEncryption
 - `bucket`: The name of the bucket from which the server-side encryption configuration is
   retrieved.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_encryption(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?encryption",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?encryption", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1552,17 +1201,9 @@ DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfi
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-function get_bucket_intelligent_tiering_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?intelligent-tiering",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1582,22 +1223,13 @@ PutBucketInventoryConfiguration
 - `bucket`: The name of the bucket containing the inventory configuration to retrieve.
 - `id`: The ID used to identify the inventory configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_inventory_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?inventory",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1620,22 +1252,13 @@ GetBucketLifecycleConfiguration     PutBucketLifecycle     DeleteBucketLifecycle
 # Arguments
 - `bucket`: The name of the bucket for which to get the lifecycle information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_lifecycle(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?lifecycle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1661,22 +1284,13 @@ following operations are related to GetBucketLifecycleConfiguration:    GetBucke
 # Arguments
 - `bucket`: The name of the bucket for which to get the lifecycle information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_lifecycle_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?lifecycle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1692,22 +1306,13 @@ CreateBucket
 # Arguments
 - `bucket`: The name of the bucket for which to get the location.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_location(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?location",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?location", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1720,22 +1325,13 @@ to GetBucketLogging:    CreateBucket     PutBucketLogging
 # Arguments
 - `bucket`: The bucket name for which to get the logging information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_logging(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?logging",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1756,22 +1352,13 @@ Metrics with Amazon CloudWatch
 - `bucket`: The name of the bucket containing the metrics configuration to retrieve.
 - `id`: The ID used to identify the metrics configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_metrics_configuration(
-    Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?metrics",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1782,22 +1369,13 @@ end
 # Arguments
 - `bucket`: The name of the bucket for which to get the notification configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_notification(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?notification",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?notification", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1815,22 +1393,13 @@ following action is related to GetBucketNotification:    PutBucketNotification
 # Arguments
 - `bucket`: The name of the bucket for which to get the notification configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_notification_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_notification_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?notification",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?notification", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1846,22 +1415,13 @@ GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwners
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_ownership_controls(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?ownershipControls",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?ownershipControls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1882,22 +1442,13 @@ following action is related to GetBucketPolicy:    GetObject
 # Arguments
 - `bucket`: The bucket name for which to get the bucket policy.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_policy(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?policy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1914,22 +1465,13 @@ DeletePublicAccessBlock
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose policy status you want to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_policy_status(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?policyStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?policyStatus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1950,22 +1492,13 @@ DeleteBucketReplication
 # Arguments
 - `bucket`: The bucket name for which to get the replication information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_replication(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?replication",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?replication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1978,22 +1511,13 @@ The following operations are related to GetBucketRequestPayment:    ListObjects
 # Arguments
 - `bucket`: The name of the bucket for which to get the payment request configuration
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_request_payment(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_request_payment(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?requestPayment",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?requestPayment", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2009,22 +1533,13 @@ associated with the bucket.     The following operations are related to GetBucke
 # Arguments
 - `bucket`: The name of the bucket for which to get the tagging information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_tagging(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?tagging",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2040,22 +1555,13 @@ operations are related to GetBucketVersioning:    GetObject     PutObject     De
 # Arguments
 - `bucket`: The name of the bucket for which to get the versioning information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_versioning(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?versioning",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?versioning", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2073,22 +1579,13 @@ PutBucketWebsite
 # Arguments
 - `bucket`: The bucket name for which to get the website configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_bucket_website(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?website",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?website", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2177,54 +1674,44 @@ ListBuckets     GetObjectAcl
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: Key of the object to get.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"if_match"`: Return the object only if its entity tag (ETag) is the same as the one
+- `if_match`: Return the object only if its entity tag (ETag) is the same as the one
   specified, otherwise return a 412 (precondition failed).
-- `"if_modified_since"`: Return the object only if it has been modified since the specified
+- `if_modified_since`: Return the object only if it has been modified since the specified
   time, otherwise return a 304 (not modified).
-- `"if_none_match"`: Return the object only if its entity tag (ETag) is different from the
+- `if_none_match`: Return the object only if its entity tag (ETag) is different from the
   one specified, otherwise return a 304 (not modified).
-- `"if_unmodified_since"`: Return the object only if it has not been modified since the
+- `if_unmodified_since`: Return the object only if it has not been modified since the
   specified time, otherwise return a 412 (precondition failed).
-- `"part_number"`: Part number of the object being read. This is a positive integer between
-  1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful
-  for downloading just a part of an object.
-- `"range"`: Downloads the specified range bytes of an object. For more information about
-  the HTTP Range header, see
-  https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't
-  support retrieving multiple ranges of data per GET request.
-- `"request_payer"`:
-- `"response_cache_control"`: Sets the Cache-Control header of the response.
-- `"response_content_disposition"`: Sets the Content-Disposition header of the response
-- `"response_content_encoding"`: Sets the Content-Encoding header of the response.
-- `"response_content_language"`: Sets the Content-Language header of the response.
-- `"response_content_type"`: Sets the Content-Type header of the response.
-- `"response_expires"`: Sets the Expires header of the response.
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when decrypting the object
+- `part_number`: Part number of the object being read. This is a positive integer between 1
+  and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for
+  downloading just a part of an object.
+- `range`: Downloads the specified range bytes of an object. For more information about the
+  HTTP Range header, see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
+- `request_payer`:
+- `response_cache_control`: Sets the Cache-Control header of the response.
+- `response_content_disposition`: Sets the Content-Disposition header of the response
+- `response_content_encoding`: Sets the Content-Encoding header of the response.
+- `response_content_language`: Sets the Content-Language header of the response.
+- `response_content_type`: Sets the Content-Type header of the response.
+- `response_expires`: Sets the Expires header of the response.
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when decrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 used to
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 used to
   encrypt the data. This value is used to decrypt the object when recovering it and must
   match the one used when storing the data. The key must be appropriate for use with the
   algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
-- `"version_id"`: VersionId used to reference a specific version of the object.
+- `version_id`: VersionId used to reference a specific version of the object.
 """
-function get_object(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2247,24 +1734,15 @@ PutObject
   points in the Amazon S3 User Guide.
 - `key`: The key of the object for which to get the ACL information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"version_id"`: VersionId used to reference a specific version of the object.
+- `request_payer`:
+- `version_id`: VersionId used to reference a specific version of the object.
 """
-function get_object_acl(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?acl",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2283,24 +1761,15 @@ action is not supported by Amazon S3 on Outposts.
   points in the Amazon S3 User Guide.
 - `key`: The key name for the object whose Legal Hold status you want to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"version_id"`: The version ID of the object whose Legal Hold status you want to retrieve.
+- `request_payer`:
+- `version_id`: The version ID of the object whose Legal Hold status you want to retrieve.
 """
-function get_object_legal_hold(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?legal-hold",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)?legal-hold", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2319,22 +1788,13 @@ bucket. For more information, see Locking Objects.
   place of the bucket name. For more information about access point ARNs, see Using access
   points in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_object_lock_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?object-lock",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?object-lock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2353,25 +1813,15 @@ action is not supported by Amazon S3 on Outposts.
   points in the Amazon S3 User Guide.
 - `key`: The key name for the object whose retention settings you want to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"version_id"`: The version ID for the object whose retention settings you want to
-  retrieve.
+- `request_payer`:
+- `version_id`: The version ID for the object whose retention settings you want to retrieve.
 """
-function get_object_retention(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?retention",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)?retention", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2402,24 +1852,15 @@ to GetObjectTagging:    PutObjectTagging     DeleteObjectTagging
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which to get the tagging information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"version_id"`: The versionId of the object for which to get the tagging information.
+- `request_payer`:
+- `version_id`: The versionId of the object for which to get the tagging information.
 """
-function get_object_tagging(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?tagging",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)?tagging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2436,23 +1877,14 @@ on Outposts. The following action is related to GetObjectTorrent:    GetObject
 - `bucket`: The name of the bucket containing the object for which to get the torrent files.
 - `key`: The object key for which to get the information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
+- `request_payer`:
 """
-function get_object_torrent(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?torrent",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)?torrent", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2474,22 +1906,13 @@ PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
 - `bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
   to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function get_public_access_block(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?publicAccessBlock",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?publicAccessBlock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2524,16 +1947,13 @@ Using access points.
   bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see
   Using S3 on Outposts in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "HEAD", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return s3("HEAD", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2587,47 +2007,38 @@ error.   The following action is related to HeadObject:    GetObject
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: The object key.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"if_match"`: Return the object only if its entity tag (ETag) is the same as the one
+- `if_match`: Return the object only if its entity tag (ETag) is the same as the one
   specified, otherwise return a 412 (precondition failed).
-- `"if_modified_since"`: Return the object only if it has been modified since the specified
+- `if_modified_since`: Return the object only if it has been modified since the specified
   time, otherwise return a 304 (not modified).
-- `"if_none_match"`: Return the object only if its entity tag (ETag) is different from the
+- `if_none_match`: Return the object only if its entity tag (ETag) is different from the
   one specified, otherwise return a 304 (not modified).
-- `"if_unmodified_since"`: Return the object only if it has not been modified since the
+- `if_unmodified_since`: Return the object only if it has not been modified since the
   specified time, otherwise return a 412 (precondition failed).
-- `"part_number"`: Part number of the object being read. This is a positive integer between
-  1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
+- `part_number`: Part number of the object being read. This is a positive integer between 1
+  and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
-- `"range"`: Downloads the specified range bytes of an object. For more information about
-  the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-   Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
-- `"request_payer"`:
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when encrypting the object
+- `range`: Downloads the specified range bytes of an object. For more information about the
+  HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
+- `request_payer`:
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when encrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 to use
-  in encrypting data. This value is used to store the object and then it is discarded; Amazon
-  S3 does not store the encryption key. The key must be appropriate for use with the
-  algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 to use in
+  encrypting data. This value is used to store the object and then it is discarded; Amazon S3
+  does not store the encryption key. The key must be appropriate for use with the algorithm
+  specified in the x-amz-server-side-encryption-customer-algorithm header.
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
-- `"version_id"`: VersionId used to reference a specific version of the object.
+- `version_id`: VersionId used to reference a specific version of the object.
 """
-function head_object(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "HEAD",
-        "/$(Bucket)/$(Key)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("HEAD", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2652,24 +2063,15 @@ DeleteBucketAnalyticsConfiguration     PutBucketAnalyticsConfiguration
 # Arguments
 - `bucket`: The name of the bucket from which analytics configurations are retrieved.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continuation_token"`: The ContinuationToken that represents a placeholder from where
-  this request should begin.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `continuation_token`: The ContinuationToken that represents a placeholder from where this
+  request should begin.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function list_bucket_analytics_configurations(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_bucket_analytics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?analytics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?analytics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2695,22 +2097,13 @@ DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfi
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
   retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continuation_token"`: The ContinuationToken that represents a placeholder from where
-  this request should begin.
+# Keyword Parameters
+- `continuation_token`: The ContinuationToken that represents a placeholder from where this
+  request should begin.
 """
-function list_bucket_intelligent_tiering_configurations(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_bucket_intelligent_tiering_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?intelligent-tiering",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?intelligent-tiering", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2735,26 +2128,17 @@ PutBucketInventoryConfiguration
 # Arguments
 - `bucket`: The name of the bucket containing the inventory configurations to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continuation_token"`: The marker used to continue an inventory configuration listing
-  that has been truncated. Use the NextContinuationToken from a previously truncated list
-  response to continue the listing. The continuation token is an opaque value that Amazon S3
+# Keyword Parameters
+- `continuation_token`: The marker used to continue an inventory configuration listing that
+  has been truncated. Use the NextContinuationToken from a previously truncated list response
+  to continue the listing. The continuation token is an opaque value that Amazon S3
   understands.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function list_bucket_inventory_configurations(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_bucket_inventory_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?inventory",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?inventory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2780,26 +2164,17 @@ GetBucketMetricsConfiguration     DeleteBucketMetricsConfiguration
 # Arguments
 - `bucket`: The name of the bucket containing the metrics configurations to retrieve.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continuation_token"`: The marker that is used to continue a metrics configuration
-  listing that has been truncated. Use the NextContinuationToken from a previously truncated
-  list response to continue the listing. The continuation token is an opaque value that
-  Amazon S3 understands.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `continuation_token`: The marker that is used to continue a metrics configuration listing
+  that has been truncated. Use the NextContinuationToken from a previously truncated list
+  response to continue the listing. The continuation token is an opaque value that Amazon S3
+  understands.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function list_bucket_metrics_configurations(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_bucket_metrics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2847,45 +2222,36 @@ UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload
   bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see
   Using S3 on Outposts in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delimiter"`: Character you use to group keys. All keys that contain the same string
+# Keyword Parameters
+- `delimiter`: Character you use to group keys. All keys that contain the same string
   between the prefix, if specified, and the first occurrence of the delimiter after the
   prefix are grouped under a single result element, CommonPrefixes. If you don't specify the
   prefix parameter, then the substring starts at the beginning of the key. The keys that are
   grouped under CommonPrefixes result element are not returned elsewhere in the response.
-- `"encoding_type"`:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `encoding_type`:
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"key_marker"`: Together with upload-id-marker, this parameter specifies the multipart
+- `key_marker`: Together with upload-id-marker, this parameter specifies the multipart
   upload after which listing should begin. If upload-id-marker is not specified, only the
   keys lexicographically greater than the specified key-marker will be included in the list.
   If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker
   might also be included, provided those multipart uploads have upload IDs lexicographically
   greater than the specified upload-id-marker.
-- `"max_uploads"`: Sets the maximum number of multipart uploads, from 1 to 1,000, to return
+- `max_uploads`: Sets the maximum number of multipart uploads, from 1 to 1,000, to return
   in the response body. 1,000 is the maximum number of uploads that can be returned in a
   response.
-- `"prefix"`: Lists in-progress uploads only for those keys that begin with the specified
+- `prefix`: Lists in-progress uploads only for those keys that begin with the specified
   prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can
   think of using prefix to make groups in the same way you'd use a folder in a file system.)
-- `"upload_id_marker"`: Together with key-marker, specifies the multipart upload after
-  which listing should begin. If key-marker is not specified, the upload-id-marker parameter
-  is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be
+- `upload_id_marker`: Together with key-marker, specifies the multipart upload after which
+  listing should begin. If key-marker is not specified, the upload-id-marker parameter is
+  ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be
   included in the list only if they have an upload ID lexicographically greater than the
   specified upload-id-marker.
 """
-function list_multipart_uploads(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?uploads",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2904,40 +2270,31 @@ operations are related to ListObjectVersions:    ListObjectsV2     GetObject    
 # Arguments
 - `bucket`: The bucket name that contains the objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delimiter"`: A delimiter is a character that you specify to group keys. All keys that
+# Keyword Parameters
+- `delimiter`: A delimiter is a character that you specify to group keys. All keys that
   contain the same string between the prefix and the first occurrence of the delimiter are
   grouped under a single result element in CommonPrefixes. These groups are counted as one
   result against the max-keys limitation. These keys are not returned elsewhere in the
   response.
-- `"encoding_type"`:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `encoding_type`:
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"key_marker"`: Specifies the key to start with when listing objects in a bucket.
-- `"max_keys"`: Sets the maximum number of keys returned in the response. By default the
+- `key_marker`: Specifies the key to start with when listing objects in a bucket.
+- `max_keys`: Sets the maximum number of keys returned in the response. By default the
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more. If additional keys satisfy the search criteria, but were not returned because
   max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;.
   To return the additional keys, see key-marker and version-id-marker.
-- `"prefix"`: Use this parameter to select only those keys that begin with the specified
+- `prefix`: Use this parameter to select only those keys that begin with the specified
   prefix. You can use prefixes to separate a bucket into different groupings of keys. (You
   can think of using prefix to make groups in the same way you'd use a folder in a file
   system.) You can use prefix with delimiter to roll up numerous objects into a single result
   under CommonPrefixes.
-- `"version_id_marker"`: Specifies the object version you want to start listing from.
+- `version_id_marker`: Specifies the object version you want to start listing from.
 """
-function list_object_versions(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2966,26 +2323,23 @@ CreateBucket     ListBuckets
   bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see
   Using S3 on Outposts in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"delimiter"`: A delimiter is a character you use to group keys.
-- `"encoding_type"`:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `delimiter`: A delimiter is a character you use to group keys.
+- `encoding_type`:
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"marker"`: Marker is where you want Amazon S3 to start listing from. Amazon S3 starts
+- `marker`: Marker is where you want Amazon S3 to start listing from. Amazon S3 starts
   listing after this specified key. Marker can be any key in the bucket.
-- `"max_keys"`: Sets the maximum number of keys returned in the response. By default the
+- `max_keys`: Sets the maximum number of keys returned in the response. By default the
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more.
-- `"prefix"`: Limits the response to keys that begin with the specified prefix.
-- `"request_payer"`: Confirms that the requester knows that she or he will be charged for
-  the list objects request. Bucket owners need not specify this parameter in their requests.
+- `prefix`: Limits the response to keys that begin with the specified prefix.
+- `request_payer`: Confirms that the requester knows that she or he will be charged for the
+  list objects request. Bucket owners need not specify this parameter in their requests.
 """
 function list_objects(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return s3("GET", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3020,38 +2374,29 @@ operations are related to ListObjectsV2:    GetObject     PutObject     CreateBu
   bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see
   Using S3 on Outposts in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"continuation_token"`: ContinuationToken indicates Amazon S3 that the list is being
+# Keyword Parameters
+- `continuation_token`: ContinuationToken indicates Amazon S3 that the list is being
   continued on this bucket with a token. ContinuationToken is obfuscated and is not a real
   key.
-- `"delimiter"`: A delimiter is a character you use to group keys.
-- `"encoding_type"`: Encoding type used by Amazon S3 to encode object keys in the response.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `delimiter`: A delimiter is a character you use to group keys.
+- `encoding_type`: Encoding type used by Amazon S3 to encode object keys in the response.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"fetch_owner"`: The owner field is not present in listV2 by default, if you want to
-  return owner field with each key in the result then set the fetch owner field to true.
-- `"max_keys"`: Sets the maximum number of keys returned in the response. By default the
+- `fetch_owner`: The owner field is not present in listV2 by default, if you want to return
+  owner field with each key in the result then set the fetch owner field to true.
+- `max_keys`: Sets the maximum number of keys returned in the response. By default the
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more.
-- `"prefix"`: Limits the response to keys that begin with the specified prefix.
-- `"request_payer"`: Confirms that the requester knows that she or he will be charged for
-  the list objects request in V2 style. Bucket owners need not specify this parameter in
-  their requests.
-- `"start_after"`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3
+- `prefix`: Limits the response to keys that begin with the specified prefix.
+- `request_payer`: Confirms that the requester knows that she or he will be charged for the
+  list objects request in V2 style. Bucket owners need not specify this parameter in their
+  requests.
+- `start_after`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3
   starts listing after this specified key. StartAfter can be any key in the bucket.
 """
-function list_objects_v2(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)?list-type=2",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)?list-type=2", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3087,28 +2432,17 @@ The following operations are related to ListParts:    CreateMultipartUpload     
 - `key`: Object key for which the multipart upload was initiated.
 - `upload_id`: Upload ID identifying the multipart upload whose parts are being listed.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"max_parts"`: Sets the maximum number of parts to return.
-- `"part_number_marker"`: Specifies the part after which listing should begin. Only parts
+- `max_parts`: Sets the maximum number of parts to return.
+- `part_number_marker`: Specifies the part after which listing should begin. Only parts
   with higher part numbers will be listed.
-- `"request_payer"`:
+- `request_payer`:
 """
-function list_parts(
-    Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_parts(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("uploadId" => uploadId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3135,31 +2469,13 @@ GetBucketAccelerateConfiguration     CreateBucket
 - `accelerate_configuration`: Container for setting the transfer acceleration state.
 - `bucket`: The name of the bucket for which the accelerate configuration is set.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_accelerate_configuration(
-    AccelerateConfiguration,
-    Bucket;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?accelerate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("AccelerateConfiguration" => AccelerateConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3221,37 +2537,28 @@ Related Resources     CreateBucket     DeleteBucket     GetObjectAcl
 # Arguments
 - `bucket`: The bucket to which to apply the ACL.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_control_policy"`: Contains the elements that set the ACL permissions for an
-  object per grantee.
-- `"acl"`: The canned ACL to apply to the bucket.
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. This header must be
+# Keyword Parameters
+- `access_control_policy`: Contains the elements that set the ACL permissions for an object
+  per grantee.
+- `acl`: The canned ACL to apply to the bucket.
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. This header must be
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.  For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"grant_full_control"`: Allows grantee the read, write, read ACP, and write ACP
-  permissions on the bucket.
-- `"grant_read"`: Allows grantee to list the objects in the bucket.
-- `"grant_read_acp"`: Allows grantee to read the bucket ACL.
-- `"grant_write"`: Allows grantee to create new objects in the bucket. For the bucket and
+- `grant_full_control`: Allows grantee the read, write, read ACP, and write ACP permissions
+  on the bucket.
+- `grant_read`: Allows grantee to list the objects in the bucket.
+- `grant_read_acp`: Allows grantee to read the bucket ACL.
+- `grant_write`: Allows grantee to create new objects in the bucket. For the bucket and
   object owners of existing objects, also allows deletions and overwrites of those objects.
-- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable bucket.
+- `grant_write_acp`: Allows grantee to write the ACL for the applicable bucket.
 """
-function put_bucket_acl(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?acl",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3287,34 +2594,13 @@ DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
 - `bucket`: The name of the bucket to which an analytics configuration is stored.
 - `id`: The ID that identifies the analytics configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_analytics_configuration(
-    AnalyticsConfiguration,
-    Bucket,
-    id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?analytics",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnalyticsConfiguration" => AnalyticsConfiguration, "id" => id
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3347,31 +2633,18 @@ GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
   Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the
   Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. This header must be
+# Keyword Parameters
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. This header must be
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.  For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_cors(
-    Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_cors(Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?cors",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("CORSConfiguration" => CORSConfiguration), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3399,36 +2672,16 @@ GetBucketEncryption     DeleteBucketEncryption
   Amazon S3 User Guide.
 - `server_side_encryption_configuration`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the server-side encryption
+# Keyword Parameters
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the server-side encryption
   configuration. For requests made using the Amazon Web Services Command Line Interface (CLI)
   or Amazon Web Services SDKs, this field is calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_encryption(
-    Bucket,
-    ServerSideEncryptionConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?encryption",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3466,30 +2719,9 @@ bucket permission to set the configuration on the bucket.
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-function put_bucket_intelligent_tiering_configuration(
-    Bucket,
-    IntelligentTieringConfiguration,
-    id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?intelligent-tiering",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IntelligentTieringConfiguration" => IntelligentTieringConfiguration,
-                    "id" => id,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3526,34 +2758,13 @@ configuration on the bucket.       Related Resources     GetBucketInventoryConfi
 - `inventory_configuration`: Specifies the inventory configuration.
 - `id`: The ID used to identify the inventory configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_inventory_configuration(
-    Bucket,
-    InventoryConfiguration,
-    id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?inventory",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InventoryConfiguration" => InventoryConfiguration, "id" => id
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3586,25 +2797,16 @@ Managing Access Permissions to your Amazon S3 Resources
 # Arguments
 - `bucket`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`:  For requests made using the Amazon Web Services Command Line Interface
+# Keyword Parameters
+- `content_md5`:  For requests made using the Amazon Web Services Command Line Interface
   (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"lifecycle_configuration"`:
+- `lifecycle_configuration`:
 """
-function put_bucket_lifecycle(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?lifecycle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3643,24 +2845,15 @@ GetBucketLifecycleConfiguration     DeleteBucketLifecycle
 # Arguments
 - `bucket`: The name of the bucket for which to set the configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"lifecycle_configuration"`: Container for lifecycle rules. You can add as many as 1,000
+- `lifecycle_configuration`: Container for lifecycle rules. You can add as many as 1,000
   rules.
 """
-function put_bucket_lifecycle_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?lifecycle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?lifecycle", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3697,34 +2890,16 @@ GetBucketLogging
 - `bucket`: The name of the bucket for which to set the logging parameters.
 - `bucket_logging_status`: Container for logging status information.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash of the PutBucketLogging request body. For requests made
-  using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
-  this field is calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `content_md5`: The MD5 hash of the PutBucketLogging request body. For requests made using
+  the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this
+  field is calculated automatically.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_logging(
-    Bucket,
-    BucketLoggingStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_logging(Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?logging",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("BucketLoggingStatus" => BucketLoggingStatus),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3751,34 +2926,13 @@ HTTP 400 Bad Request
 - `metrics_configuration`: Specifies the metrics configuration.
 - `id`: The ID used to identify the metrics configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_metrics_configuration(
-    Bucket,
-    MetricsConfiguration,
-    id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?metrics",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "MetricsConfiguration" => MetricsConfiguration, "id" => id
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3790,34 +2944,16 @@ end
 - `bucket`: The name of the bucket.
 - `notification_configuration`: The container for the configuration.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash of the PutPublicAccessBlock request body. For requests made
+# Keyword Parameters
+- `content_md5`: The MD5 hash of the PutPublicAccessBlock request body. For requests made
   using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
   this field is calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_notification(
-    Bucket,
-    NotificationConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_notification(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?notification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("NotificationConfiguration" => NotificationConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3856,31 +2992,13 @@ GetBucketNotificationConfiguration
 - `bucket`: The name of the bucket.
 - `notification_configuration`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_notification_configuration(
-    Bucket,
-    NotificationConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_notification_configuration(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?notification",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("NotificationConfiguration" => NotificationConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3898,29 +3016,16 @@ PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwners
 - `ownership_controls`: The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that
   you want to apply to this Amazon S3 bucket.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash of the OwnershipControls request body.  For requests made
+# Keyword Parameters
+- `content_md5`: The MD5 hash of the OwnershipControls request body.  For requests made
   using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
   this field is calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_ownership_controls(
-    Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_ownership_controls(Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?ownershipControls",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("OwnershipControls" => OwnershipControls), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnershipControls"=>OwnershipControls), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3942,27 +3047,18 @@ related to PutBucketPolicy:    CreateBucket     DeleteBucket
 - `bucket`: The name of the bucket.
 - `policy`: The bucket policy as a JSON document.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"confirm_remove_self_bucket_access"`: Set this parameter to true to confirm that you
-  want to remove your permissions to change this bucket policy in the future.
-- `"content_md5"`: The MD5 hash of the request body. For requests made using the Amazon Web
+# Keyword Parameters
+- `confirm_remove_self_bucket_access`: Set this parameter to true to confirm that you want
+  to remove your permissions to change this bucket policy in the future.
+- `content_md5`: The MD5 hash of the request body. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_policy(
-    Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_policy(Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?policy",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4003,37 +3099,19 @@ DeleteBucketReplication
 - `bucket`: The name of the bucket
 - `replication_configuration`:
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+# Keyword Parameters
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"token"`: A token to allow Object Lock to be enabled for an existing bucket.
+- `token`: A token to allow Object Lock to be enabled for an existing bucket.
 """
-function put_bucket_replication(
-    Bucket,
-    ReplicationConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_replication(Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?replication",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ReplicationConfiguration" => ReplicationConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4049,38 +3127,18 @@ PutBucketRequestPayment:    CreateBucket     GetBucketRequestPayment
 - `bucket`: The bucket name.
 - `request_payment_configuration`: Container for Payer.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+# Keyword Parameters
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_request_payment(
-    Bucket,
-    RequestPaymentConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_request_payment(Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?requestPayment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "RequestPaymentConfiguration" => RequestPaymentConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4114,27 +3172,18 @@ bucket.     The following operations are related to PutBucketTagging:    GetBuck
 - `bucket`: The bucket name.
 - `tagging`: Container for the TagSet and Tag elements.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+# Keyword Parameters
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_tagging(
-    Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_bucket_tagging(Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?tagging",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tagging" => Tagging), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4161,38 +3210,20 @@ Resources     CreateBucket     DeleteBucket     GetBucketVersioning
 - `bucket`: The bucket name.
 - `versioning_configuration`: Container for setting the versioning state.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
+# Keyword Parameters
+- `content_md5`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"mfa"`: The concatenation of the authentication device's serial number, a space, and the
+- `mfa`: The concatenation of the authentication device's serial number, a space, and the
   value that is displayed on your authentication device.
 """
-function put_bucket_versioning(
-    Bucket,
-    VersioningConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_versioning(Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?versioning",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("VersioningConfiguration" => VersioningConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4224,36 +3255,18 @@ Redirect in the Amazon S3 User Guide.
 - `bucket`: The bucket name.
 - `website_configuration`: Container for the request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+# Keyword Parameters
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_bucket_website(
-    Bucket,
-    WebsiteConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_bucket_website(Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?website",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WebsiteConfiguration" => WebsiteConfiguration),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4314,86 +3327,83 @@ Related Resources     CopyObject     DeleteObject
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the PUT action was initiated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"acl"`: The canned ACL to apply to the object. For more information, see Canned ACL.
-  This action is not supported by Amazon S3 on Outposts.
-- `"body"`: Object data.
-- `"bucket_key_enabled"`: Specifies whether Amazon S3 should use an S3 Bucket Key for
-  object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header
-  to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.
-  Specifying this header with a PUT action doesn’t affect bucket-level settings for S3
-  Bucket Key.
-- `"cache_control"`:  Can be used to specify caching behavior along the request/reply
-  chain. For more information, see
-  http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
-- `"content_disposition"`: Specifies presentational information for the object. For more
+# Keyword Parameters
+- `acl`: The canned ACL to apply to the object. For more information, see Canned ACL. This
+  action is not supported by Amazon S3 on Outposts.
+- `body`: Object data.
+- `bucket_key_enabled`: Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true
+  causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying
+  this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
+- `cache_control`:  Can be used to specify caching behavior along the request/reply chain.
+  For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
+- `content_disposition`: Specifies presentational information for the object. For more
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1.
-- `"content_encoding"`: Specifies what content encodings have been applied to the object
-  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
-  the Content-Type header field. For more information, see
+- `content_encoding`: Specifies what content encodings have been applied to the object and
+  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
+  Content-Type header field. For more information, see
   http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11.
-- `"content_language"`: The language the content is in.
-- `"content_length"`: Size of the body in bytes. This parameter is useful when the size of
+- `content_language`: The language the content is in.
+- `content_length`: Size of the body in bytes. This parameter is useful when the size of
   the body cannot be determined automatically. For more information, see
   http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13.
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the message (without the
-  headers) according to RFC 1864. This header can be used as a message integrity check to
-  verify that the data is the same data that was originally sent. Although it is optional, we
-  recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more
-  information about REST request authentication, see REST Authentication.
-- `"content_type"`: A standard MIME type describing the format of the contents. For more
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the message (without the headers)
+  according to RFC 1864. This header can be used as a message integrity check to verify that
+  the data is the same data that was originally sent. Although it is optional, we recommend
+  using the Content-MD5 mechanism as an end-to-end integrity check. For more information
+  about REST request authentication, see REST Authentication.
+- `content_type`: A standard MIME type describing the format of the contents. For more
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"expires"`: The date and time at which the object is no longer cacheable. For more
+- `expires`: The date and time at which the object is no longer cacheable. For more
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
-- `"grant_full_control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on
-  the object. This action is not supported by Amazon S3 on Outposts.
-- `"grant_read"`: Allows grantee to read the object data and its metadata. This action is
-  not supported by Amazon S3 on Outposts.
-- `"grant_read_acp"`: Allows grantee to read the object ACL. This action is not supported
-  by Amazon S3 on Outposts.
-- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable object. This
-  action is not supported by Amazon S3 on Outposts.
-- `"metadata"`: A map of metadata to store with the object in S3.
-- `"object_lock_legal_hold_status"`: Specifies whether a legal hold will be applied to this
+- `grant_full_control`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the
+  object. This action is not supported by Amazon S3 on Outposts.
+- `grant_read`: Allows grantee to read the object data and its metadata. This action is not
+  supported by Amazon S3 on Outposts.
+- `grant_read_acp`: Allows grantee to read the object ACL. This action is not supported by
+  Amazon S3 on Outposts.
+- `grant_write_acp`: Allows grantee to write the ACL for the applicable object. This action
+  is not supported by Amazon S3 on Outposts.
+- `metadata`: A map of metadata to store with the object in S3.
+- `object_lock_legal_hold_status`: Specifies whether a legal hold will be applied to this
   object. For more information about S3 Object Lock, see Object Lock.
-- `"object_lock_mode"`: The Object Lock mode that you want to apply to this object.
-- `"object_lock_retain_until_date"`: The date and time when you want this object's Object
+- `object_lock_mode`: The Object Lock mode that you want to apply to this object.
+- `object_lock_retain_until_date`: The date and time when you want this object's Object
   Lock to expire. Must be formatted as a timestamp parameter.
-- `"request_payer"`:
-- `"server_side_encryption"`: The server-side encryption algorithm used when storing this
+- `request_payer`:
+- `server_side_encryption`: The server-side encryption algorithm used when storing this
   object in Amazon S3 (for example, AES256, aws:kms).
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when encrypting the object
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when encrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 to use
-  in encrypting data. This value is used to store the object and then it is discarded; Amazon
-  S3 does not store the encryption key. The key must be appropriate for use with the
-  algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 to use in
+  encrypting data. This value is used to store the object and then it is discarded; Amazon S3
+  does not store the encryption key. The key must be appropriate for use with the algorithm
+  specified in the x-amz-server-side-encryption-customer-algorithm header.
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
-- `"ssekmsencryption_context"`: Specifies the Amazon Web Services KMS Encryption Context to
+- `ssekmsencryption_context`: Specifies the Amazon Web Services KMS Encryption Context to
   use for object encryption. The value of this header is a base64-encoded UTF-8 string
   holding JSON with the encryption context key-value pairs.
-- `"ssekmskey_id"`: If x-amz-server-side-encryption is present and has the value of
-  aws:kms, this header specifies the ID of the Amazon Web Services Key Management Service
-  (Amazon Web Services KMS) symmetrical customer managed key that was used for the object. If
-  you specify x-amz-server-side-encryption:aws:kms, but do not provide
+- `ssekmskey_id`: If x-amz-server-side-encryption is present and has the value of aws:kms,
+  this header specifies the ID of the Amazon Web Services Key Management Service (Amazon Web
+  Services KMS) symmetrical customer managed key that was used for the object. If you specify
+  x-amz-server-side-encryption:aws:kms, but do not provide
   x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
   key to protect the data. If the KMS key does not exist in the same account issuing the
   command, you must use the full ARN and not just the ID.
-- `"storage_class"`: By default, Amazon S3 uses the STANDARD Storage Class to store newly
+- `storage_class`: By default, Amazon S3 uses the STANDARD Storage Class to store newly
   created objects. The STANDARD storage class provides high durability and high availability.
   Depending on performance needs, you can specify a different Storage Class. Amazon S3 on
   Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in
   the Amazon S3 User Guide.
-- `"tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
+- `tagging`: The tag-set for the object. The tag-set must be encoded as URL Query
   parameters. (For example, \"Key1=Value1\")
-- `"website_redirect_location"`: If the bucket is configured as a website, redirects
-  requests for this object to another object in the same bucket or to an external URL. Amazon
-  S3 stores the value of this header in the object metadata. For information about object
+- `website_redirect_location`: If the bucket is configured as a website, redirects requests
+  for this object to another object in the same bucket or to an external URL. Amazon S3
+  stores the value of this header in the object metadata. For information about object
   metadata, see Object Key and Metadata. In the following example, the request header sets
   the redirect to an object (anotherPage.html) in the same bucket:
   x-amz-website-redirect-location: /anotherPage.html  In the following example, the request
@@ -4401,17 +3411,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   http://www.example.com/  For more information about website hosting in Amazon S3, see
   Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
 """
-function put_object(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4492,42 +3494,33 @@ versionId subresource.  Related Resources     CopyObject     GetObject
   bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see
   Using S3 on Outposts in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"access_control_policy"`: Contains the elements that set the ACL permissions for an
-  object per grantee.
-- `"acl"`: The canned ACL to apply to the object. For more information, see Canned ACL.
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the data. This header must be
+# Keyword Parameters
+- `access_control_policy`: Contains the elements that set the ACL permissions for an object
+  per grantee.
+- `acl`: The canned ACL to apply to the object. For more information, see Canned ACL.
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the data. This header must be
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.&gt;  For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"grant_full_control"`: Allows grantee the read, write, read ACP, and write ACP
-  permissions on the bucket. This action is not supported by Amazon S3 on Outposts.
-- `"grant_read"`: Allows grantee to list the objects in the bucket. This action is not
+- `grant_full_control`: Allows grantee the read, write, read ACP, and write ACP permissions
+  on the bucket. This action is not supported by Amazon S3 on Outposts.
+- `grant_read`: Allows grantee to list the objects in the bucket. This action is not
   supported by Amazon S3 on Outposts.
-- `"grant_read_acp"`: Allows grantee to read the bucket ACL. This action is not supported
-  by Amazon S3 on Outposts.
-- `"grant_write"`: Allows grantee to create new objects in the bucket. For the bucket and
+- `grant_read_acp`: Allows grantee to read the bucket ACL. This action is not supported by
+  Amazon S3 on Outposts.
+- `grant_write`: Allows grantee to create new objects in the bucket. For the bucket and
   object owners of existing objects, also allows deletions and overwrites of those objects.
-- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable bucket. This
-  action is not supported by Amazon S3 on Outposts.
-- `"request_payer"`:
-- `"version_id"`: VersionId used to reference a specific version of the object.
+- `grant_write_acp`: Allows grantee to write the ACL for the applicable bucket. This action
+  is not supported by Amazon S3 on Outposts.
+- `request_payer`:
+- `version_id`: VersionId used to reference a specific version of the object.
 """
-function put_object_acl(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?acl",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)?acl", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4546,29 +3539,20 @@ Locking Objects. This action is not supported by Amazon S3 on Outposts.
   points in the Amazon S3 User Guide.
 - `key`: The key name for the object that you want to place a Legal Hold on.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash for the request body. For requests made using the Amazon
-  Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is
-  calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `content_md5`: The MD5 hash for the request body. For requests made using the Amazon Web
+  Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
+  automatically.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"legal_hold"`: Container element for the Legal Hold configuration you want to apply to
-  the specified object.
-- `"request_payer"`:
-- `"version_id"`: The version ID of the object that you want to place a Legal Hold on.
+- `legal_hold`: Container element for the Legal Hold configuration you want to apply to the
+  specified object.
+- `request_payer`:
+- `version_id`: The version ID of the object that you want to place a Legal Hold on.
 """
-function put_object_legal_hold(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?legal-hold",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)?legal-hold", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4585,29 +3569,20 @@ existing bucket, contact Amazon Web Services Support.
 # Arguments
 - `bucket`: The bucket whose Object Lock configuration you want to create or replace.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash for the request body. For requests made using the Amazon
-  Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is
-  calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `content_md5`: The MD5 hash for the request body. For requests made using the Amazon Web
+  Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
+  automatically.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"object_lock_configuration"`: The Object Lock configuration that you want to apply to
-  the specified bucket.
-- `"request_payer"`:
-- `"token"`: A token to allow Object Lock to be enabled for an existing bucket.
+- `object_lock_configuration`: The Object Lock configuration that you want to apply to the
+  specified bucket.
+- `request_payer`:
+- `token`: A token to allow Object Lock to be enabled for an existing bucket.
 """
-function put_object_lock_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?object-lock",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?object-lock", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4633,31 +3608,22 @@ permissions are required.
 - `key`: The key name for the object that you want to apply this Object Retention
   configuration to.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bypass_governance_retention"`: Indicates whether this action should bypass
+# Keyword Parameters
+- `bypass_governance_retention`: Indicates whether this action should bypass
   Governance-mode restrictions.
-- `"content_md5"`: The MD5 hash for the request body. For requests made using the Amazon
-  Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is
-  calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `content_md5`: The MD5 hash for the request body. For requests made using the Amazon Web
+  Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
+  automatically.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"retention"`: The container element for the Object Retention configuration.
-- `"version_id"`: The version ID for the object that you want to apply this Object
-  Retention configuration to.
+- `request_payer`:
+- `retention`: The container element for the Object Retention configuration.
+- `version_id`: The version ID for the object that you want to apply this Object Retention
+  configuration to.
 """
-function put_object_retention(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?retention",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)?retention", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4697,27 +3663,18 @@ InternalError     Cause: The service was unable to apply the provided tag to the
 - `key`: Name of the object key.
 - `tagging`: Container for the TagSet and Tag elements
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash for the request body. For requests made using the Amazon
-  Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is
-  calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `content_md5`: The MD5 hash for the request body. For requests made using the Amazon Web
+  Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
+  automatically.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"version_id"`: The versionId of the object that the tag-set will be added to.
+- `request_payer`:
+- `version_id`: The versionId of the object that the tag-set will be added to.
 """
-function put_object_tagging(
-    Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_object_tagging(Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?tagging",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tagging" => Tagging), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4743,36 +3700,16 @@ GetBucketPolicyStatus     Using Amazon S3 Block Public Access
   combination. For more information about when Amazon S3 considers a bucket or object public,
   see The Meaning of \"Public\" in the Amazon S3 User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"content_md5"`: The MD5 hash of the PutPublicAccessBlock request body.  For requests
-  made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services
-  SDKs, this field is calculated automatically.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `content_md5`: The MD5 hash of the PutPublicAccessBlock request body.  For requests made
+  using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
+  this field is calculated automatically.
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-function put_public_access_block(
-    Bucket,
-    PublicAccessBlockConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_public_access_block(Bucket, PublicAccessBlockConfiguration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)?publicAccessBlock",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PublicAccessBlockConfiguration" => PublicAccessBlockConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4898,25 +3835,16 @@ Select  in the Amazon S3 User Guide
   Using S3 on Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the action was initiated.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"restore_request"`:
-- `"version_id"`: VersionId used to reference a specific version of the object.
+- `request_payer`:
+- `restore_request`:
+- `version_id`: VersionId used to reference a specific version of the object.
 """
-function restore_object(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)?restore",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("POST", "/$(Bucket)/$(Key)?restore", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4973,14 +3901,12 @@ GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
 - `output_serialization`: Describes the format of the data that you want Amazon S3 to
   return in response.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+# Keyword Parameters
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_progress"`: Specifies if periodic request progress information should be
-  enabled.
-- `"scan_range"`: Specifies the byte range of the object to get the records from. A record
-  is processed when its first byte is contained by the range. This parameter is optional, but
+- `request_progress`: Specifies if periodic request progress information should be enabled.
+- `scan_range`: Specifies the byte range of the object to get the records from. A record is
+  processed when its first byte is contained by the range. This parameter is optional, but
   when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify
   the start and end of the range.  ScanRangemay be used in the following ways:
   &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt;
@@ -4989,42 +3915,16 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   the records starting after the byte 50
   &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records
   within the last 50 bytes of the file.
-- `"ssecustomer_algorithm"`: The SSE Algorithm used to encrypt the object. For more
+- `ssecustomer_algorithm`: The SSE Algorithm used to encrypt the object. For more
   information, see Server-Side Encryption (Using Customer-Provided Encryption Keys.
-- `"ssecustomer_key"`: The SSE Customer Key. For more information, see Server-Side
-  Encryption (Using Customer-Provided Encryption Keys.
-- `"ssecustomer_key_md5"`: The SSE Customer Key MD5. For more information, see Server-Side
+- `ssecustomer_key`: The SSE Customer Key. For more information, see Server-Side Encryption
+  (Using Customer-Provided Encryption Keys.
+- `ssecustomer_key_md5`: The SSE Customer Key MD5. For more information, see Server-Side
   Encryption (Using Customer-Provided Encryption Keys.
 """
-function select_object_content(
-    Bucket,
-    Expression,
-    ExpressionType,
-    InputSerialization,
-    Key,
-    OutputSerialization;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)?select&select-type=2",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Expression" => Expression,
-                    "ExpressionType" => ExpressionType,
-                    "InputSerialization" => InputSerialization,
-                    "OutputSerialization" => OutputSerialization,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5093,50 +3993,30 @@ Found      SOAP Fault Code Prefix: Client       Related Resources     CreateMult
   and 10,000.
 - `upload_id`: Upload ID identifying the multipart upload whose part is being uploaded.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"body"`: Object data.
-- `"content_length"`: Size of the body in bytes. This parameter is useful when the size of
+# Keyword Parameters
+- `body`: Object data.
+- `content_length`: Size of the body in bytes. This parameter is useful when the size of
   the body cannot be determined automatically.
-- `"content_md5"`: The base64-encoded 128-bit MD5 digest of the part data. This parameter
-  is auto-populated when using the command from the CLI. This parameter is required if object
+- `content_md5`: The base64-encoded 128-bit MD5 digest of the part data. This parameter is
+  auto-populated when using the command from the CLI. This parameter is required if object
   lock parameters are specified.
-- `"expected_bucket_owner"`: The account ID of the expected bucket owner. If the bucket is
+- `expected_bucket_owner`: The account ID of the expected bucket owner. If the bucket is
   owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
-- `"request_payer"`:
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when encrypting the object
+- `request_payer`:
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when encrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 to use
-  in encrypting data. This value is used to store the object and then it is discarded; Amazon
-  S3 does not store the encryption key. The key must be appropriate for use with the
-  algorithm specified in the x-amz-server-side-encryption-customer-algorithm header. This
-  must be the same encryption key specified in the initiate multipart upload request.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 to use in
+  encrypting data. This value is used to store the object and then it is discarded; Amazon S3
+  does not store the encryption key. The key must be appropriate for use with the algorithm
+  specified in the x-amz-server-side-encryption-customer-algorithm header. This must be the
+  same encryption key specified in the initiate multipart upload request.
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
 """
-function upload_part(
-    Bucket,
-    Key,
-    partNumber,
-    uploadId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function upload_part(Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("partNumber" => partNumber, "uploadId" => uploadId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5227,73 +4107,48 @@ CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultip
   awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you
   don't specify a version ID, Amazon S3 copies the latest version of the source object.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"copy_source_if_match"`: Copies the object if its entity tag (ETag) matches the
-  specified tag.
-- `"copy_source_if_modified_since"`: Copies the object if it has been modified since the
+# Keyword Parameters
+- `copy_source_if_match`: Copies the object if its entity tag (ETag) matches the specified
+  tag.
+- `copy_source_if_modified_since`: Copies the object if it has been modified since the
   specified time.
-- `"copy_source_if_none_match"`: Copies the object if its entity tag (ETag) is different
-  than the specified ETag.
-- `"copy_source_if_unmodified_since"`: Copies the object if it hasn't been modified since
-  the specified time.
-- `"copy_source_range"`: The range of bytes to copy from the source object. The range value
+- `copy_source_if_none_match`: Copies the object if its entity tag (ETag) is different than
+  the specified ETag.
+- `copy_source_if_unmodified_since`: Copies the object if it hasn't been modified since the
+  specified time.
+- `copy_source_range`: The range of bytes to copy from the source object. The range value
   must use the form bytes=first-last, where the first and last are the zero-based byte
   offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes
   of the source. You can copy a range only if the source object is greater than 5 MB.
-- `"copy_source_ssecustomer_algorithm"`: Specifies the algorithm to use when decrypting the
+- `copy_source_ssecustomer_algorithm`: Specifies the algorithm to use when decrypting the
   source object (for example, AES256).
-- `"copy_source_ssecustomer_key"`: Specifies the customer-provided encryption key for
-  Amazon S3 to use to decrypt the source object. The encryption key provided in this header
-  must be one that was used when the source object was created.
-- `"copy_source_ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption
-  key according to RFC 1321. Amazon S3 uses this header for a message integrity check to
-  ensure that the encryption key was transmitted without error.
-- `"expected_bucket_owner"`: The account ID of the expected destination bucket owner. If
-  the destination bucket is owned by a different account, the request will fail with an HTTP
-  403 (Access Denied) error.
-- `"expected_source_bucket_owner"`: The account ID of the expected source bucket owner. If
+- `copy_source_ssecustomer_key`: Specifies the customer-provided encryption key for Amazon
+  S3 to use to decrypt the source object. The encryption key provided in this header must be
+  one that was used when the source object was created.
+- `copy_source_ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key
+  according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure
+  that the encryption key was transmitted without error.
+- `expected_bucket_owner`: The account ID of the expected destination bucket owner. If the
+  destination bucket is owned by a different account, the request will fail with an HTTP 403
+  (Access Denied) error.
+- `expected_source_bucket_owner`: The account ID of the expected source bucket owner. If
   the source bucket is owned by a different account, the request will fail with an HTTP 403
   (Access Denied) error.
-- `"request_payer"`:
-- `"ssecustomer_algorithm"`: Specifies the algorithm to use to when encrypting the object
+- `request_payer`:
+- `ssecustomer_algorithm`: Specifies the algorithm to use to when encrypting the object
   (for example, AES256).
-- `"ssecustomer_key"`: Specifies the customer-provided encryption key for Amazon S3 to use
-  in encrypting data. This value is used to store the object and then it is discarded; Amazon
-  S3 does not store the encryption key. The key must be appropriate for use with the
-  algorithm specified in the x-amz-server-side-encryption-customer-algorithm header. This
-  must be the same encryption key specified in the initiate multipart upload request.
-- `"ssecustomer_key_md5"`: Specifies the 128-bit MD5 digest of the encryption key according
+- `ssecustomer_key`: Specifies the customer-provided encryption key for Amazon S3 to use in
+  encrypting data. This value is used to store the object and then it is discarded; Amazon S3
+  does not store the encryption key. The key must be appropriate for use with the algorithm
+  specified in the x-amz-server-side-encryption-customer-algorithm header. This must be the
+  same encryption key specified in the initiate multipart upload request.
+- `ssecustomer_key_md5`: Specifies the 128-bit MD5 digest of the encryption key according
   to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the
   encryption key was transmitted without error.
 """
-function upload_part_copy(
-    Bucket,
-    Key,
-    partNumber,
-    uploadId,
-    x_amz_copy_source;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "partNumber" => partNumber,
-                    "uploadId" => uploadId,
-                    "headers" => Dict{String,Any}("x-amz-copy-source" => x_amz_copy_source),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5334,98 +4189,75 @@ Lambda functions in the Amazon S3 User Guide.
 - `x-amz-request-token`: A single use encrypted token that maps WriteGetObjectResponse to
   the end user GetObject request.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"accept_ranges"`: Indicates that a range of bytes was specified.
-- `"body"`: The object data.
-- `"bucket_key_enabled"`:  Indicates whether the object stored in Amazon S3 uses an S3
-  bucket key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
-- `"cache_control"`: Specifies caching behavior along the request/reply chain.
-- `"content_disposition"`: Specifies presentational information for the object.
-- `"content_encoding"`: Specifies what content encodings have been applied to the object
-  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
-  the Content-Type header field.
-- `"content_language"`: The language the content is in.
-- `"content_length"`: The size of the content body in bytes.
-- `"content_range"`: The portion of the object returned in the response.
-- `"content_type"`: A standard MIME type describing the format of the object data.
-- `"delete_marker"`: Specifies whether an object stored in Amazon S3 is (true) or is not
+# Keyword Parameters
+- `accept_ranges`: Indicates that a range of bytes was specified.
+- `body`: The object data.
+- `bucket_key_enabled`:  Indicates whether the object stored in Amazon S3 uses an S3 bucket
+  key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+- `cache_control`: Specifies caching behavior along the request/reply chain.
+- `content_disposition`: Specifies presentational information for the object.
+- `content_encoding`: Specifies what content encodings have been applied to the object and
+  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
+  Content-Type header field.
+- `content_language`: The language the content is in.
+- `content_length`: The size of the content body in bytes.
+- `content_range`: The portion of the object returned in the response.
+- `content_type`: A standard MIME type describing the format of the object data.
+- `delete_marker`: Specifies whether an object stored in Amazon S3 is (true) or is not
   (false) a delete marker.
-- `"error_code"`: A string that uniquely identifies an error condition. Returned in the
+- `error_code`: A string that uniquely identifies an error condition. Returned in the
   &lt;Code&gt; tag of the error XML response for a corresponding GetObject call. Cannot be
   used with a successful StatusCode header or when the transformed object is provided in the
   body. All error codes from S3 are sentence-cased. Regex value is \"^[A-Z][a-zA-Z]+\".
-- `"error_message"`: Contains a generic description of the error condition. Returned in the
+- `error_message`: Contains a generic description of the error condition. Returned in the
   &lt;Message&gt; tag of the error XML response for a corresponding GetObject call. Cannot be
   used with a successful StatusCode header or when the transformed object is provided in body.
-- `"etag"`: An opaque identifier assigned by a web server to a specific version of a
-  resource found at a URL.
-- `"expiration"`: If object stored in Amazon S3 expiration is configured (see PUT Bucket
+- `etag`: An opaque identifier assigned by a web server to a specific version of a resource
+  found at a URL.
+- `expiration`: If object stored in Amazon S3 expiration is configured (see PUT Bucket
   lifecycle) it includes expiry-date and rule-id key-value pairs providing object expiration
   information. The value of the rule-id is URL encoded.
-- `"expires"`: The date and time at which the object is no longer cacheable.
-- `"last_modified"`: The date and time that the object was last modified.
-- `"metadata"`: A map of metadata to store with the object in S3.
-- `"missing_meta"`: Set to the number of metadata entries not returned in x-amz-meta
-  headers. This can happen if you create metadata using an API like SOAP that supports more
-  flexible metadata than the REST API. For example, using SOAP, you can create metadata whose
-  values are not legal HTTP headers.
-- `"object_lock_legal_hold_status"`: Indicates whether an object stored in Amazon S3 has an
+- `expires`: The date and time at which the object is no longer cacheable.
+- `last_modified`: The date and time that the object was last modified.
+- `metadata`: A map of metadata to store with the object in S3.
+- `missing_meta`: Set to the number of metadata entries not returned in x-amz-meta headers.
+  This can happen if you create metadata using an API like SOAP that supports more flexible
+  metadata than the REST API. For example, using SOAP, you can create metadata whose values
+  are not legal HTTP headers.
+- `object_lock_legal_hold_status`: Indicates whether an object stored in Amazon S3 has an
   active legal hold.
-- `"object_lock_mode"`: Indicates whether an object stored in Amazon S3 has Object Lock
+- `object_lock_mode`: Indicates whether an object stored in Amazon S3 has Object Lock
   enabled. For more information about S3 Object Lock, see Object Lock.
-- `"object_lock_retain_until_date"`: The date and time when Object Lock is configured to
+- `object_lock_retain_until_date`: The date and time when Object Lock is configured to
   expire.
-- `"parts_count"`: The count of parts this object has.
-- `"replication_status"`: Indicates if request involves bucket that is either a source or
+- `parts_count`: The count of parts this object has.
+- `replication_status`: Indicates if request involves bucket that is either a source or
   destination in a Replication rule. For more information about S3 Replication, see
   Replication.
-- `"request_charged"`:
-- `"restore"`: Provides information about object restoration operation and expiration time
-  of the restored object copy.
-- `"server_side_encryption"`:  The server-side encryption algorithm used when storing
+- `request_charged`:
+- `restore`: Provides information about object restoration operation and expiration time of
+  the restored object copy.
+- `server_side_encryption`:  The server-side encryption algorithm used when storing
   requested object in Amazon S3 (for example, AES256, aws:kms).
-- `"ssecustomer_algorithm"`: Encryption algorithm used if server-side encryption with a
+- `ssecustomer_algorithm`: Encryption algorithm used if server-side encryption with a
   customer-provided encryption key was specified for object stored in Amazon S3.
-- `"ssecustomer_key_md5"`:  128-bit MD5 digest of customer-provided encryption key used in
+- `ssecustomer_key_md5`:  128-bit MD5 digest of customer-provided encryption key used in
   Amazon S3 to encrypt data stored in S3. For more information, see Protecting data using
   server-side encryption with customer-provided encryption keys (SSE-C).
-- `"ssekmskey_id"`:  If present, specifies the ID of the Amazon Web Services Key Management
+- `ssekmskey_id`:  If present, specifies the ID of the Amazon Web Services Key Management
   Service (Amazon Web Services KMS) symmetric customer managed key that was used for stored
   in Amazon S3 object.
-- `"status_code"`: The integer status code for an HTTP response of a corresponding
-  GetObject request.  Status Codes     200 - OK     206 - Partial Content     304 - Not
-  Modified     400 - Bad Request     401 - Unauthorized     403 - Forbidden     404 - Not
-  Found     405 - Method Not Allowed     409 - Conflict     411 - Length Required     412 -
-  Precondition Failed     416 - Range Not Satisfiable     500 - Internal Server Error     503
-  - Service Unavailable
-- `"storage_class"`:  The class of storage used to store object in Amazon S3.
-- `"tag_count"`: The number of tags, if any, on the object.
-- `"version_id"`: An ID used to reference a specific version of the object.
+- `status_code`: The integer status code for an HTTP response of a corresponding GetObject
+  request.  Status Codes     200 - OK     206 - Partial Content     304 - Not Modified
+  400 - Bad Request     401 - Unauthorized     403 - Forbidden     404 - Not Found     405 -
+  Method Not Allowed     409 - Conflict     411 - Length Required     412 - Precondition
+  Failed     416 - Range Not Satisfiable     500 - Internal Server Error     503 - Service
+  Unavailable
+- `storage_class`:  The class of storage used to store object in Amazon S3.
+- `tag_count`: The number of tags, if any, on the object.
+- `version_id`: An ID used to reference a specific version of the object.
 """
-function write_get_object_response(
-    x_amz_request_route,
-    x_amz_request_token;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function write_get_object_response(x_amz_request_route, x_amz_request_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return s3(
-        "POST",
-        "/WriteGetObjectResponse",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}(
-                        "x-amz-request-route" => x_amz_request_route,
-                        "x-amz-request-token" => x_amz_request_token,
-                    ),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return s3("POST", "/WriteGetObjectResponse", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-request-route"=>x_amz_request_route, "x-amz-request-token"=>x_amz_request_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

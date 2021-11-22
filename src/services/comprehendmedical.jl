@@ -4,14 +4,8 @@ using AWS.AWSServices: comprehendmedical
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "job_name" => "JobName",
-    "filter" => "Filter",
-    "kmskey" => "KMSKey",
-    "client_request_token" => "ClientRequestToken",
-    "max_results" => "MaxResults",
-    "next_token" => "NextToken",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("client_request_token" => "ClientRequestToken", "job_name" => "JobName", "kmskey" => "KMSKey", "filter" => "Filter", "max_results" => "MaxResults", "next_token" => "NextToken")
 
 """
     describe_entities_detection_v2_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -24,16 +18,9 @@ get the status of a detection job.
   StartEntitiesDetectionV2Job operation returns this identifier in its response.
 
 """
-function describe_entities_detection_v2_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_entities_detection_v2_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DescribeEntitiesDetectionV2Job",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DescribeEntitiesDetectionV2Job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -47,16 +34,9 @@ status of an inference job.
   StartICD10CMInferenceJob operation returns this identifier in its response.
 
 """
-function describe_icd10_cminference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_icd10_cminference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DescribeICD10CMInferenceJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DescribeICD10CMInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -70,16 +50,9 @@ this operation to get the status of a detection job.
   StartPHIDetectionJob operation returns this identifier in its response.
 
 """
-function describe_phidetection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_phidetection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DescribePHIDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DescribePHIDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -93,16 +66,9 @@ status of an inference job.
   StartRxNormInferenceJob operation returns this identifier in its response.
 
 """
-function describe_rx_norm_inference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_rx_norm_inference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DescribeRxNormInferenceJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DescribeRxNormInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,12 +86,7 @@ information .
 """
 function detect_entities(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DetectEntities",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -145,16 +106,9 @@ Direction entities as attributes instead of types.
   string must contain fewer than 20,000 bytes of characters.
 
 """
-function detect_entities_v2(
-    Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function detect_entities_v2(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DetectEntitiesV2",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DetectEntitiesV2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -171,12 +125,7 @@ only detects entities in English language texts.
 """
 function detect_phi(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "DetectPHI",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("DetectPHI", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -194,12 +143,7 @@ English language texts.
 """
 function infer_icd10_cm(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "InferICD10CM",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("InferICD10CM", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -217,12 +161,7 @@ texts.
 """
 function infer_rx_norm(Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "InferRxNorm",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("InferRxNorm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -230,24 +169,16 @@ end
 
 Gets a list of medical entity detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_entities_detection_v2_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_entities_detection_v2_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "ListEntitiesDetectionV2Jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("ListEntitiesDetectionV2Jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -255,24 +186,16 @@ end
 
 Gets a list of InferICD10CM jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_icd10_cminference_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_icd10_cminference_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "ListICD10CMInferenceJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("ListICD10CMInferenceJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -280,24 +203,16 @@ end
 
 Gets a list of protected health information (PHI) detection jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
-- `"max_results"`: The maximum number of results to return in each page. The default is 100.
-- `"next_token"`: Identifies the next page of results to return.
+- `max_results`: The maximum number of results to return in each page. The default is 100.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_phidetection_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_phidetection_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "ListPHIDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("ListPHIDetectionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -305,24 +220,16 @@ end
 
 Gets a list of InferRxNorm jobs that you have submitted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
+# Keyword Parameters
+- `filter`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
-- `"max_results"`: Identifies the next page of results to return.
-- `"next_token"`: Identifies the next page of results to return.
+- `max_results`: Identifies the next page of results to return.
+- `next_token`: Identifies the next page of results to return.
 """
-function list_rx_norm_inference_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_rx_norm_inference_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "ListRxNormInferenceJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("ListRxNormInferenceJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -340,41 +247,16 @@ DescribeEntitiesDetectionV2Job operation to track the status of a job.
   language.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend Medical generates one.
-- `"job_name"`: The identifier of the job.
-- `"kmskey"`: An AWS Key Management Service key to encrypt your output files. If you do not
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend Medical generates one.
+- `job_name`: The identifier of the job.
+- `kmskey`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_entities_detection_v2_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_entities_detection_v2_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StartEntitiesDetectionV2Job",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StartEntitiesDetectionV2Job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -392,41 +274,16 @@ ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a
   language.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend Medical generates one.
-- `"job_name"`: The identifier of the job.
-- `"kmskey"`: An AWS Key Management Service key to encrypt your output files. If you do not
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend Medical generates one.
+- `job_name`: The identifier of the job.
+- `kmskey`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_icd10_cminference_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_icd10_cminference_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StartICD10CMInferenceJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StartICD10CMInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -444,41 +301,16 @@ DescribePHIDetectionJob operation to track the status of a job.
   language.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend Medical generates one.
-- `"job_name"`: The identifier of the job.
-- `"kmskey"`: An AWS Key Management Service key to encrypt your output files. If you do not
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend Medical generates one.
+- `job_name`: The identifier of the job.
+- `kmskey`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_phidetection_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_phidetection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StartPHIDetectionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StartPHIDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -496,41 +328,16 @@ ontology. Use the DescribeRxNormInferenceJob operation to track the status of a 
   language.
 - `output_data_config`: Specifies where to send the output files.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_request_token"`: A unique identifier for the request. If you don't set the
-  client request token, Amazon Comprehend Medical generates one.
-- `"job_name"`: The identifier of the job.
-- `"kmskey"`: An AWS Key Management Service key to encrypt your output files. If you do not
+# Keyword Parameters
+- `client_request_token`: A unique identifier for the request. If you don't set the client
+  request token, Amazon Comprehend Medical generates one.
+- `job_name`: The identifier of the job.
+- `kmskey`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_rx_norm_inference_job(
-    DataAccessRoleArn,
-    InputDataConfig,
-    LanguageCode,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_rx_norm_inference_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StartRxNormInferenceJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "InputDataConfig" => InputDataConfig,
-                    "LanguageCode" => LanguageCode,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "client_request_token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StartRxNormInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "client_request_token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -542,16 +349,9 @@ Stops a medical entities detection job in progress.
 - `job_id`: The identifier of the medical entities job to stop.
 
 """
-function stop_entities_detection_v2_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_entities_detection_v2_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StopEntitiesDetectionV2Job",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StopEntitiesDetectionV2Job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -563,16 +363,9 @@ Stops an InferICD10CM inference job in progress.
 - `job_id`: The identifier of the job.
 
 """
-function stop_icd10_cminference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_icd10_cminference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StopICD10CMInferenceJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StopICD10CMInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -584,16 +377,9 @@ Stops a protected health information (PHI) detection job in progress.
 - `job_id`: The identifier of the PHI detection job to stop.
 
 """
-function stop_phidetection_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_phidetection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StopPHIDetectionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StopPHIDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -605,14 +391,7 @@ Stops an InferRxNorm inference job in progress.
 - `job_id`: The identifier of the job.
 
 """
-function stop_rx_norm_inference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function stop_rx_norm_inference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return comprehendmedical(
-        "StopRxNormInferenceJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return comprehendmedical("StopRxNormInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

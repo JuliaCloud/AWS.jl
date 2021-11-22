@@ -4,26 +4,8 @@ using AWS.AWSServices: lookoutmetrics
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "anomaly_detector_arn" => "AnomalyDetectorArn",
-    "timezone" => "Timezone",
-    "next_token" => "NextToken",
-    "metric_list" => "MetricList",
-    "anomaly_detector_description" => "AnomalyDetectorDescription",
-    "s3_source_config" => "S3SourceConfig",
-    "alert_description" => "AlertDescription",
-    "dimension_list" => "DimensionList",
-    "metric_set_description" => "MetricSetDescription",
-    "max_results" => "MaxResults",
-    "offset" => "Offset",
-    "kms_key_arn" => "KmsKeyArn",
-    "metric_set_frequency" => "MetricSetFrequency",
-    "tags" => "Tags",
-    "timestamp_column" => "TimestampColumn",
-    "metric_source" => "MetricSource",
-    "timestamp" => "Timestamp",
-    "anomaly_detector_config" => "AnomalyDetectorConfig",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("dimension_list" => "DimensionList", "metric_list" => "MetricList", "metric_set_description" => "MetricSetDescription", "metric_set_frequency" => "MetricSetFrequency", "metric_source" => "MetricSource", "offset" => "Offset", "timestamp_column" => "TimestampColumn", "max_results" => "MaxResults", "next_token" => "NextToken", "anomaly_detector_description" => "AnomalyDetectorDescription", "kms_key_arn" => "KmsKeyArn", "tags" => "Tags", "s3_source_config" => "S3SourceConfig", "alert_description" => "AlertDescription", "timezone" => "Timezone", "anomaly_detector_arn" => "AnomalyDetectorArn", "timestamp" => "Timestamp", "anomaly_detector_config" => "AnomalyDetectorConfig")
 
 """
     activate_anomaly_detector(anomaly_detector_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -34,21 +16,9 @@ Activates an anomaly detector.
 - `anomaly_detector_arn`: The ARN of the anomaly detector.
 
 """
-function activate_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function activate_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/ActivateAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/ActivateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -60,21 +30,9 @@ Runs a backtest for anomaly detection for the specified resource.
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 
 """
-function back_test_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function back_test_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/BackTestAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/BackTestAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -89,38 +47,13 @@ Creates an alert for an anomaly detector.
   threshold.
 - `anomaly_detector_arn`: The ARN of the detector to which the alert is attached.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"alert_description"`: A description of the alert.
-- `"tags"`: A list of tags to apply to the alert.
+# Keyword Parameters
+- `alert_description`: A description of the alert.
+- `tags`: A list of tags to apply to the alert.
 """
-function create_alert(
-    Action,
-    AlertName,
-    AlertSensitivityThreshold,
-    AnomalyDetectorArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_alert(Action, AlertName, AlertSensitivityThreshold, AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/CreateAlert",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Action" => Action,
-                    "AlertName" => AlertName,
-                    "AlertSensitivityThreshold" => AlertSensitivityThreshold,
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/CreateAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "AlertName"=>AlertName, "AlertSensitivityThreshold"=>AlertSensitivityThreshold, "AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -133,35 +66,14 @@ Creates an anomaly detector.
   detector.
 - `anomaly_detector_name`: The name of the detector.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"anomaly_detector_description"`: A description of the detector.
-- `"kms_key_arn"`: The ARN of the KMS key to use to encrypt your data.
-- `"tags"`: A list of tags to apply to the anomaly detector.
+# Keyword Parameters
+- `anomaly_detector_description`: A description of the detector.
+- `kms_key_arn`: The ARN of the KMS key to use to encrypt your data.
+- `tags`: A list of tags to apply to the anomaly detector.
 """
-function create_anomaly_detector(
-    AnomalyDetectorConfig,
-    AnomalyDetectorName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_anomaly_detector(AnomalyDetectorConfig, AnomalyDetectorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/CreateAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorConfig" => AnomalyDetectorConfig,
-                    "AnomalyDetectorName" => AnomalyDetectorName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/CreateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorConfig"=>AnomalyDetectorConfig, "AnomalyDetectorName"=>AnomalyDetectorName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -175,46 +87,21 @@ Creates a dataset.
 - `metric_set_name`: The name of the dataset.
 - `metric_source`: Contains information about how the source data should be interpreted.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dimension_list"`: A list of the fields you want to treat as dimensions.
-- `"metric_set_description"`: A description of the dataset you are creating.
-- `"metric_set_frequency"`: The frequency with which the source data will be analyzed for
+# Keyword Parameters
+- `dimension_list`: A list of the fields you want to treat as dimensions.
+- `metric_set_description`: A description of the dataset you are creating.
+- `metric_set_frequency`: The frequency with which the source data will be analyzed for
   anomalies.
-- `"offset"`: After an interval ends, the amount of seconds that the detector waits before
+- `offset`: After an interval ends, the amount of seconds that the detector waits before
   importing data. Offset is only supported for S3 and Redshift datasources.
-- `"tags"`: A list of tags to apply to the dataset.
-- `"timestamp_column"`: Contains information about the column used for tracking time in
-  your source data.
-- `"timezone"`: The time zone in which your source data was recorded.
+- `tags`: A list of tags to apply to the dataset.
+- `timestamp_column`: Contains information about the column used for tracking time in your
+  source data.
+- `timezone`: The time zone in which your source data was recorded.
 """
-function create_metric_set(
-    AnomalyDetectorArn,
-    MetricList,
-    MetricSetName,
-    MetricSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_metric_set(AnomalyDetectorArn, MetricList, MetricSetName, MetricSource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/CreateMetricSet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                    "MetricList" => MetricList,
-                    "MetricSetName" => MetricSetName,
-                    "MetricSource" => MetricSource,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/CreateMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "MetricList"=>MetricList, "MetricSetName"=>MetricSetName, "MetricSource"=>MetricSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -226,19 +113,9 @@ Deletes an alert.
 - `alert_arn`: The ARN of the alert to delete.
 
 """
-function delete_alert(
-    AlertArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/DeleteAlert",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AlertArn" => AlertArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/DeleteAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlertArn"=>AlertArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -251,21 +128,9 @@ resources including any configured datasets and alerts.
 - `anomaly_detector_arn`: The ARN of the detector to delete.
 
 """
-function delete_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/DeleteAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -279,19 +144,9 @@ retries to allow time for the write operation to complete.
 - `alert_arn`: The ARN of the alert to describe.
 
 """
-function describe_alert(
-    AlertArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/DescribeAlert",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AlertArn" => AlertArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/DescribeAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlertArn"=>AlertArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -302,28 +157,15 @@ Returns information about the status of the specified anomaly detection jobs.
 # Arguments
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of items to return in the response.
-- `"next_token"`: Specify the pagination token that's returned by a previous request to
+# Keyword Parameters
+- `max_results`: The number of items to return in the response.
+- `next_token`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
-- `"timestamp"`: The timestamp of the anomaly detection job.
+- `timestamp`: The timestamp of the anomaly detection job.
 """
-function describe_anomaly_detection_executions(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_anomaly_detection_executions(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/DescribeAnomalyDetectionExecutions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/DescribeAnomalyDetectionExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -337,21 +179,9 @@ retries to allow time for the write operation to complete.
 - `anomaly_detector_arn`: The ARN of the detector to describe.
 
 """
-function describe_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/DescribeAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/DescribeAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -365,19 +195,9 @@ retries to allow time for the write operation to complete.
 - `metric_set_arn`: The ARN of the dataset.
 
 """
-function describe_metric_set(
-    MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/DescribeMetricSet",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MetricSetArn" => MetricSetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/DescribeMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricSetArn"=>MetricSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -390,29 +210,9 @@ Returns details about a group of anomalous metrics.
 - `anomaly_group_id`: The ID of the anomaly group.
 
 """
-function get_anomaly_group(
-    AnomalyDetectorArn,
-    AnomalyGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_anomaly_group(AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/GetAnomalyGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                    "AnomalyGroupId" => AnomalyGroupId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/GetAnomalyGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -424,35 +224,14 @@ Get feedback for an anomaly group.
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `anomaly_group_time_series_feedback`: The anomalous metric and group ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: Specify the pagination token that's returned by a previous request to
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
 """
-function get_feedback(
-    AnomalyDetectorArn,
-    AnomalyGroupTimeSeriesFeedback;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/GetFeedback",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                    "AnomalyGroupTimeSeriesFeedback" => AnomalyGroupTimeSeriesFeedback,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/GetFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -460,19 +239,12 @@ end
 
 Returns a selection of sample records from an Amazon S3 datasource.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"s3_source_config"`: A datasource bucket in Amazon S3.
+# Keyword Parameters
+- `s3_source_config`: A datasource bucket in Amazon S3.
 """
 function get_sample_data(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/GetSampleData",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/GetSampleData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -482,23 +254,16 @@ Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions 
 eventually consistent. If you do a read operation on a resource immediately after creating
 or modifying it, use retries to allow time for the write operation to complete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"anomaly_detector_arn"`: The ARN of the alert's detector.
-- `"max_results"`: The maximum number of results that will be displayed by the request.
-- `"next_token"`: If the result of the previous request is truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+# Keyword Parameters
+- `anomaly_detector_arn`: The ARN of the alert's detector.
+- `max_results`: The maximum number of results that will be displayed by the request.
+- `next_token`: If the result of the previous request is truncated, the response includes a
+  NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
 function list_alerts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/ListAlerts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/ListAlerts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -508,24 +273,15 @@ Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API ac
 eventually consistent. If you do a read operation on a resource immediately after creating
 or modifying it, use retries to allow time for the write operation to complete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
-function list_anomaly_detectors(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/ListAnomalyDetectors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/ListAnomalyDetectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -537,35 +293,14 @@ Returns a list of anomaly groups.
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `sensitivity_threshold`: The minimum severity score for inclusion in the output.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: Specify the pagination token that's returned by a previous request to
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
 """
-function list_anomaly_group_summaries(
-    AnomalyDetectorArn,
-    SensitivityThreshold;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_anomaly_group_summaries(AnomalyDetectorArn, SensitivityThreshold; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/ListAnomalyGroupSummaries",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                    "SensitivityThreshold" => SensitivityThreshold,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/ListAnomalyGroupSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "SensitivityThreshold"=>SensitivityThreshold), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -578,37 +313,14 @@ Gets a list of anomalous metrics for a measure in an anomaly group.
 - `anomaly_group_id`: The ID of the anomaly group.
 - `metric_name`: The name of the measure field.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: Specify the pagination token that's returned by a previous request to
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
 """
-function list_anomaly_group_time_series(
-    AnomalyDetectorArn,
-    AnomalyGroupId,
-    MetricName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_anomaly_group_time_series(AnomalyDetectorArn, AnomalyGroupId, MetricName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/ListAnomalyGroupTimeSeries",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                    "AnomalyGroupId" => AnomalyGroupId,
-                    "MetricName" => MetricName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/ListAnomalyGroupTimeSeries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId, "MetricName"=>MetricName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -618,24 +330,17 @@ Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API act
 eventually consistent. If you do a read operation on a resource immediately after creating
 or modifying it, use retries to allow time for the write operation to complete.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"anomaly_detector_arn"`: The ARN of the anomaly detector containing the metrics sets to
+# Keyword Parameters
+- `anomaly_detector_arn`: The ARN of the anomaly detector containing the metrics sets to
   list.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: If the result of the previous request was truncated, the response
-  includes a NextToken. To retrieve the next set of results, use the token in the next
-  request. Tokens expire after 24 hours.
+- `max_results`: The maximum number of results to return.
+- `next_token`: If the result of the previous request was truncated, the response includes
+  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
+  expire after 24 hours.
 """
 function list_metric_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/ListMetricSets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/ListMetricSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -647,17 +352,9 @@ Gets a list of tags for a detector, dataset, or alert.
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -670,29 +367,9 @@ Add feedback for an anomalous metric.
 - `anomaly_group_time_series_feedback`: Feedback for an anomalous metric.
 
 """
-function put_feedback(
-    AnomalyDetectorArn,
-    AnomalyGroupTimeSeriesFeedback;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/PutFeedback",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AnomalyDetectorArn" => AnomalyDetectorArn,
-                    "AnomalyGroupTimeSeriesFeedback" => AnomalyGroupTimeSeriesFeedback,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/PutFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -706,17 +383,9 @@ Adds tags to a detector, dataset, or alert.
   spaces, and the following symbols: _.:/=+@-
 
 """
-function tag_resource(
-    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -729,17 +398,9 @@ Removes tags from a detector, dataset, or alert.
 - `tag_keys`: Keys to remove from the resource's tags.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -751,28 +412,15 @@ description.
 # Arguments
 - `anomaly_detector_arn`: The ARN of the detector to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"anomaly_detector_config"`: Contains information about the configuration to which the
+# Keyword Parameters
+- `anomaly_detector_config`: Contains information about the configuration to which the
   detector will be updated.
-- `"anomaly_detector_description"`: The updated detector description.
-- `"kms_key_arn"`: The Amazon Resource Name (ARN) of an AWS KMS encryption key.
+- `anomaly_detector_description`: The updated detector description.
+- `kms_key_arn`: The Amazon Resource Name (ARN) of an AWS KMS encryption key.
 """
-function update_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/UpdateAnomalyDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/UpdateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -783,28 +431,17 @@ Updates a dataset.
 # Arguments
 - `metric_set_arn`: The ARN of the dataset to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"dimension_list"`: The dimension list.
-- `"metric_list"`: The metric list.
-- `"metric_set_description"`: The dataset's description.
-- `"metric_set_frequency"`: The dataset's interval.
-- `"metric_source"`:
-- `"offset"`: After an interval ends, the amount of seconds that the detector waits before
+# Keyword Parameters
+- `dimension_list`: The dimension list.
+- `metric_list`: The metric list.
+- `metric_set_description`: The dataset's description.
+- `metric_set_frequency`: The dataset's interval.
+- `metric_source`:
+- `offset`: After an interval ends, the amount of seconds that the detector waits before
   importing data. Offset is only supported for S3 and Redshift datasources.
-- `"timestamp_column"`: The timestamp column.
+- `timestamp_column`: The timestamp column.
 """
-function update_metric_set(
-    MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return lookoutmetrics(
-        "POST",
-        "/UpdateMetricSet",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MetricSetArn" => MetricSetArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return lookoutmetrics("POST", "/UpdateMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricSetArn"=>MetricSetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

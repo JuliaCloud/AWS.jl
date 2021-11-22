@@ -4,47 +4,8 @@ using AWS.AWSServices: networkmanager
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "types" => "Types",
-    "resource_type" => "resourceType",
-    "model" => "Model",
-    "bandwidth" => "Bandwidth",
-    "include_return_path" => "IncludeReturnPath",
-    "registered_gateway_arn" => "registeredGatewayArn",
-    "subnet_of_matches" => "SubnetOfMatches",
-    "next_token" => "nextToken",
-    "states" => "States",
-    "awslocation" => "AWSLocation",
-    "serial_number" => "SerialNumber",
-    "site_ids" => "siteIds",
-    "link_id" => "LinkId",
-    "location" => "Location",
-    "destination_filters" => "DestinationFilters",
-    "account_id" => "accountId",
-    "prefix_list_ids" => "PrefixListIds",
-    "global_network_ids" => "globalNetworkIds",
-    "device_id" => "deviceId",
-    "customer_gateway_arns" => "customerGatewayArns",
-    "transit_gateway_arns" => "transitGatewayArns",
-    "site_id" => "siteId",
-    "description" => "Description",
-    "max_results" => "maxResults",
-    "connection_ids" => "connectionIds",
-    "device_ids" => "deviceIds",
-    "link_ids" => "linkIds",
-    "transit_gateway_connect_peer_arns" => "transitGatewayConnectPeerArns",
-    "aws_region" => "awsRegion",
-    "use_middleboxes" => "UseMiddleboxes",
-    "exact_cidr_matches" => "ExactCidrMatches",
-    "vendor" => "Vendor",
-    "provider" => "Provider",
-    "supernet_of_matches" => "SupernetOfMatches",
-    "connected_link_id" => "ConnectedLinkId",
-    "resource_arn" => "resourceArn",
-    "tags" => "Tags",
-    "type" => "Type",
-    "longest_prefix_matches" => "LongestPrefixMatches",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("description" => "Description", "tags" => "Tags", "location" => "Location", "link_ids" => "linkIds", "max_results" => "maxResults", "next_token" => "nextToken", "provider" => "Provider", "site_id" => "siteId", "type" => "Type", "connected_link_id" => "ConnectedLinkId", "link_id" => "LinkId", "site_ids" => "siteIds", "transit_gateway_connect_peer_arns" => "transitGatewayConnectPeerArns", "bandwidth" => "Bandwidth", "account_id" => "accountId", "aws_region" => "awsRegion", "registered_gateway_arn" => "registeredGatewayArn", "resource_arn" => "resourceArn", "resource_type" => "resourceType", "destination_filters" => "DestinationFilters", "exact_cidr_matches" => "ExactCidrMatches", "longest_prefix_matches" => "LongestPrefixMatches", "prefix_list_ids" => "PrefixListIds", "states" => "States", "subnet_of_matches" => "SubnetOfMatches", "supernet_of_matches" => "SupernetOfMatches", "types" => "Types", "include_return_path" => "IncludeReturnPath", "use_middleboxes" => "UseMiddleboxes", "connection_ids" => "connectionIds", "device_id" => "deviceId", "awslocation" => "AWSLocation", "model" => "Model", "serial_number" => "SerialNumber", "vendor" => "Vendor", "customer_gateway_arns" => "customerGatewayArns", "device_ids" => "deviceIds", "transit_gateway_arns" => "transitGatewayArns", "global_network_ids" => "globalNetworkIds")
 
 """
     associate_customer_gateway(customer_gateway_arn, device_id, global_network_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -63,33 +24,12 @@ customer gateway with more than one device and link.
 - `device_id`: The ID of the device.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"link_id"`: The ID of the link.
+# Keyword Parameters
+- `link_id`: The ID of the link.
 """
-function associate_customer_gateway(
-    CustomerGatewayArn,
-    DeviceId,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_customer_gateway(CustomerGatewayArn, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/customer-gateway-associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CustomerGatewayArn" => CustomerGatewayArn, "DeviceId" => DeviceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -105,25 +45,9 @@ and the same site.
 - `global_network_id`: The ID of the global network.
 
 """
-function associate_link(
-    DeviceId,
-    LinkId,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_link(DeviceId, LinkId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/link-associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DeviceId" => DeviceId, "LinkId" => LinkId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -140,34 +64,12 @@ more than one device and link.
 - `transit_gateway_connect_peer_arn`: The Amazon Resource Name (ARN) of the Connect peer.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"link_id"`: The ID of the link.
+# Keyword Parameters
+- `link_id`: The ID of the link.
 """
-function associate_transit_gateway_connect_peer(
-    DeviceId,
-    TransitGatewayConnectPeerArn,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function associate_transit_gateway_connect_peer(DeviceId, TransitGatewayConnectPeerArn, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DeviceId" => DeviceId,
-                    "TransitGatewayConnectPeerArn" => TransitGatewayConnectPeerArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "TransitGatewayConnectPeerArn"=>TransitGatewayConnectPeerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -182,37 +84,16 @@ connects to another physical appliance in an on-premises network.
 - `device_id`: The ID of the first device in the connection.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"connected_link_id"`: The ID of the link for the second device.
-- `"description"`: A description of the connection. Length Constraints: Maximum length of
-  256 characters.
-- `"link_id"`: The ID of the link for the first device.
-- `"tags"`: The tags to apply to the resource during creation.
+# Keyword Parameters
+- `connected_link_id`: The ID of the link for the second device.
+- `description`: A description of the connection. Length Constraints: Maximum length of 256
+  characters.
+- `link_id`: The ID of the link for the first device.
+- `tags`: The tags to apply to the resource during creation.
 """
-function create_connection(
-    ConnectedDeviceId,
-    DeviceId,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_connection(ConnectedDeviceId, DeviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/connections",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ConnectedDeviceId" => ConnectedDeviceId, "DeviceId" => DeviceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/connections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectedDeviceId"=>ConnectedDeviceId, "DeviceId"=>DeviceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -224,32 +105,22 @@ location of the site is used for visualization in the Network Manager console.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"awslocation"`: The Amazon Web Services location of the device, if applicable. For an
+# Keyword Parameters
+- `awslocation`: The Amazon Web Services location of the device, if applicable. For an
   on-premises device, you can omit this parameter.
-- `"description"`: A description of the device. Constraints: Maximum length of 256
+- `description`: A description of the device. Constraints: Maximum length of 256 characters.
+- `location`: The location of the device.
+- `model`: The model of the device. Constraints: Maximum length of 128 characters.
+- `serial_number`: The serial number of the device. Constraints: Maximum length of 128
   characters.
-- `"location"`: The location of the device.
-- `"model"`: The model of the device. Constraints: Maximum length of 128 characters.
-- `"serial_number"`: The serial number of the device. Constraints: Maximum length of 128
-  characters.
-- `"site_id"`: The ID of the site.
-- `"tags"`: The tags to apply to the resource during creation.
-- `"type"`: The type of the device.
-- `"vendor"`: The vendor of the device. Constraints: Maximum length of 128 characters.
+- `site_id`: The ID of the site.
+- `tags`: The tags to apply to the resource during creation.
+- `type`: The type of the device.
+- `vendor`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
-function create_device(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_device(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/devices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -257,23 +128,14 @@ end
 
 Creates a new, empty global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the global network. Constraints: Maximum length of 256
+# Keyword Parameters
+- `description`: A description of the global network. Constraints: Maximum length of 256
   characters.
-- `"tags"`: The tags to apply to the resource during creation.
+- `tags`: The tags to apply to the resource during creation.
 """
-function create_global_network(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_global_network(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -286,36 +148,17 @@ Creates a new link for a specified site.
 - `site_id`: The ID of the site.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the link. Constraints: Maximum length of 256 characters.
-- `"provider"`: The provider of the link. Constraints: Maximum length of 128 characters.
+# Keyword Parameters
+- `description`: A description of the link. Constraints: Maximum length of 256 characters.
+- `provider`: The provider of the link. Constraints: Maximum length of 128 characters.
   Cannot include the following characters: |  ^
-- `"tags"`: The tags to apply to the resource during creation.
-- `"type"`: The type of the link. Constraints: Maximum length of 128 characters. Cannot
+- `tags`: The tags to apply to the resource during creation.
+- `type`: The type of the link. Constraints: Maximum length of 128 characters. Cannot
   include the following characters: |  ^
 """
-function create_link(
-    Bandwidth,
-    SiteId,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_link(Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/links",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Bandwidth" => Bandwidth, "SiteId" => SiteId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -326,27 +169,17 @@ Creates a new site in a global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of your site. Constraints: Maximum length of 256
-  characters.
-- `"location"`: The site location. This information is used for visualization in the
-  Network Manager console. If you specify the address, the latitude and longitude are
-  automatically calculated.    Address: The physical address of the site.    Latitude: The
-  latitude of the site.     Longitude: The longitude of the site.
-- `"tags"`: The tags to apply to the resource during creation.
+# Keyword Parameters
+- `description`: A description of your site. Constraints: Maximum length of 256 characters.
+- `location`: The site location. This information is used for visualization in the Network
+  Manager console. If you specify the address, the latitude and longitude are automatically
+  calculated.    Address: The physical address of the site.    Latitude: The latitude of the
+  site.     Longitude: The longitude of the site.
+- `tags`: The tags to apply to the resource during creation.
 """
-function create_site(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_site(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/sites",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -359,20 +192,9 @@ Deletes the specified connection in your global network.
 - `global_network_id`: The ID of the global network.
 
 """
-function delete_connection(
-    connectionId,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/connections/$(connectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -386,17 +208,9 @@ customer gateways.
 - `global_network_id`: The ID of the global network.
 
 """
-function delete_device(
-    deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_device(deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -409,17 +223,9 @@ Deletes an existing global network. You must first delete all global network obj
 - `global_network_id`: The ID of the global network.
 
 """
-function delete_global_network(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_global_network(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -433,17 +239,9 @@ customer gateways.
 - `link_id`: The ID of the link.
 
 """
-function delete_link(
-    globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/links/$(linkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -456,17 +254,9 @@ Deletes an existing site. The site cannot be associated with any device or link.
 - `site_id`: The ID of the site.
 
 """
-function delete_site(
-    globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/sites/$(siteId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -481,20 +271,9 @@ associations.
 - `transit_gateway_arn`: The Amazon Resource Name (ARN) of the transit gateway.
 
 """
-function deregister_transit_gateway(
-    globalNetworkId,
-    transitGatewayArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function deregister_transit_gateway(globalNetworkId, transitGatewayArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -505,23 +284,14 @@ describe the objects in your global network, you must use the appropriate Get* a
 example, to list the transit gateways in your global network, use
 GetTransitGatewayRegistrations.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"global_network_ids"`: The IDs of one or more global networks. The maximum is 10.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
+# Keyword Parameters
+- `global_network_ids`: The IDs of one or more global networks. The maximum is 10.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
 """
-function describe_global_networks(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_global_networks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -534,20 +304,9 @@ Disassociates a customer gateway from a device and a link.
 - `global_network_id`: The ID of the global network.
 
 """
-function disassociate_customer_gateway(
-    customerGatewayArn,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_customer_gateway(customerGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -562,25 +321,9 @@ gateways that are associated with the link.
 - `link_id`: The ID of the link.
 
 """
-function disassociate_link(
-    deviceId,
-    globalNetworkId,
-    linkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_link(deviceId, globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/link-associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("deviceId" => deviceId, "linkId" => linkId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -594,20 +337,9 @@ Disassociates a transit gateway Connect peer from a device and link.
   Connect peer.
 
 """
-function disassociate_transit_gateway_connect_peer(
-    globalNetworkId,
-    transitGatewayConnectPeerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function disassociate_transit_gateway_connect_peer(globalNetworkId, transitGatewayConnectPeerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -618,24 +350,15 @@ Gets information about one or more of your connections in a global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"connection_ids"`: One or more connection IDs.
-- `"device_id"`: The ID of the device.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
+# Keyword Parameters
+- `connection_ids`: One or more connection IDs.
+- `device_id`: The ID of the device.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
 """
-function get_connections(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_connections(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/connections",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/connections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -647,24 +370,15 @@ links in your global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"customer_gateway_arns"`: One or more customer gateway Amazon Resource Names (ARNs). The
+# Keyword Parameters
+- `customer_gateway_arns`: One or more customer gateway Amazon Resource Names (ARNs). The
   maximum is 10.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
 """
-function get_customer_gateway_associations(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_customer_gateway_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/customer-gateway-associations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -675,24 +389,15 @@ Gets information about one or more of your devices in a global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"device_ids"`: One or more device IDs. The maximum is 10.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"site_id"`: The ID of the site.
+# Keyword Parameters
+- `device_ids`: One or more device IDs. The maximum is 10.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `site_id`: The ID of the site.
 """
-function get_devices(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_devices(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/devices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -704,24 +409,15 @@ be specified.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"device_id"`: The ID of the device.
-- `"link_id"`: The ID of the link.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
+# Keyword Parameters
+- `device_id`: The ID of the device.
+- `link_id`: The ID of the link.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
 """
-function get_link_associations(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_link_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/link-associations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -734,26 +430,17 @@ type and provider in the same request.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"link_ids"`: One or more link IDs. The maximum is 10.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"provider"`: The link provider.
-- `"site_id"`: The ID of the site.
-- `"type"`: The link type.
+# Keyword Parameters
+- `link_ids`: One or more link IDs. The maximum is 10.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `provider`: The link provider.
+- `site_id`: The ID of the site.
+- `type`: The link type.
 """
-function get_links(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_links(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/links",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/links", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -764,28 +451,19 @@ Gets the count of network resources, by resource type, for the specified global 
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"resource_type"`: The resource type. The following are the supported resource types for
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `resource_type`: The resource type. The following are the supported resource types for
   Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
   resource types for Network Manager:    connection     device     link     site    The
   following are the supported resource types for Amazon VPC:    customer-gateway
   transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
   transit-gateway-route-table     vpn-connection
 """
-function get_network_resource_counts(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_network_resource_counts(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/network-resource-count",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-count", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -796,32 +474,23 @@ Gets the network resource relationships for the specified global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: The Amazon Web Services account ID.
-- `"aws_region"`: The Amazon Web Services Region.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"registered_gateway_arn"`: The ARN of the registered gateway.
-- `"resource_arn"`: The ARN of the gateway.
-- `"resource_type"`: The resource type. The following are the supported resource types for
+# Keyword Parameters
+- `account_id`: The Amazon Web Services account ID.
+- `aws_region`: The Amazon Web Services Region.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `registered_gateway_arn`: The ARN of the registered gateway.
+- `resource_arn`: The ARN of the gateway.
+- `resource_type`: The resource type. The following are the supported resource types for
   Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
   resource types for Network Manager:    connection     device     link     site    The
   following are the supported resource types for Amazon VPC:    customer-gateway
   transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
   transit-gateway-route-table     vpn-connection
 """
-function get_network_resource_relationships(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_network_resource_relationships(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/network-resource-relationships",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resource-relationships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -834,15 +503,14 @@ information such as pre-shared keys.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: The Amazon Web Services account ID.
-- `"aws_region"`: The Amazon Web Services Region.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"registered_gateway_arn"`: The ARN of the gateway.
-- `"resource_arn"`: The ARN of the resource.
-- `"resource_type"`: The resource type. The following are the supported resource types for
+# Keyword Parameters
+- `account_id`: The Amazon Web Services account ID.
+- `aws_region`: The Amazon Web Services Region.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `registered_gateway_arn`: The ARN of the gateway.
+- `resource_arn`: The ARN of the resource.
+- `resource_type`: The resource type. The following are the supported resource types for
   Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The
   definition model is DirectConnectGateway.    dx-vif - The definition model is
   VirtualInterface.   The following are the supported resource types for Network Manager:
@@ -855,17 +523,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is
   TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
 """
-function get_network_resources(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_network_resources(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/network-resources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -877,40 +537,22 @@ Gets the network routes of the specified global network.
 - `route_table_identifier`: The ID of the route table.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"destination_filters"`: Filter by route table destination. Possible Values:
+# Keyword Parameters
+- `destination_filters`: Filter by route table destination. Possible Values:
   TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
-- `"exact_cidr_matches"`: An exact CIDR block.
-- `"longest_prefix_matches"`: The most specific route that matches the traffic (longest
+- `exact_cidr_matches`: An exact CIDR block.
+- `longest_prefix_matches`: The most specific route that matches the traffic (longest
   prefix match).
-- `"prefix_list_ids"`: The IDs of the prefix lists.
-- `"states"`: The route states.
-- `"subnet_of_matches"`: The routes with a subnet that match the specified CIDR filter.
-- `"supernet_of_matches"`: The routes with a CIDR that encompasses the CIDR filter.
-  Example: If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29.
-- `"types"`: The route types.
+- `prefix_list_ids`: The IDs of the prefix lists.
+- `states`: The route states.
+- `subnet_of_matches`: The routes with a subnet that match the specified CIDR filter.
+- `supernet_of_matches`: The routes with a CIDR that encompasses the CIDR filter. Example:
+  If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29.
+- `types`: The route types.
 """
-function get_network_routes(
-    RouteTableIdentifier,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_network_routes(RouteTableIdentifier, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/network-routes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("RouteTableIdentifier" => RouteTableIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/network-routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RouteTableIdentifier"=>RouteTableIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -921,32 +563,23 @@ Gets the network telemetry of the specified global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"account_id"`: The Amazon Web Services account ID.
-- `"aws_region"`: The Amazon Web Services Region.
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"registered_gateway_arn"`: The ARN of the gateway.
-- `"resource_arn"`: The ARN of the resource.
-- `"resource_type"`: The resource type. The following are the supported resource types for
+# Keyword Parameters
+- `account_id`: The Amazon Web Services account ID.
+- `aws_region`: The Amazon Web Services Region.
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `registered_gateway_arn`: The ARN of the gateway.
+- `resource_arn`: The ARN of the resource.
+- `resource_type`: The resource type. The following are the supported resource types for
   Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
   resource types for Network Manager:    connection     device     link     site    The
   following are the supported resource types for Amazon VPC:    customer-gateway
   transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
   transit-gateway-route-table     vpn-connection
 """
-function get_network_telemetry(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_network_telemetry(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/network-telemetry",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/network-telemetry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -959,20 +592,9 @@ Gets information about the specified route analysis.
 - `route_analysis_id`: The ID of the route analysis.
 
 """
-function get_route_analysis(
-    globalNetworkId,
-    routeAnalysisId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_route_analysis(globalNetworkId, routeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -983,23 +605,14 @@ Gets information about one or more of your sites in a global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"site_ids"`: One or more site IDs. The maximum is 10.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `site_ids`: One or more site IDs. The maximum is 10.
 """
-function get_sites(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_sites(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/sites",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1011,24 +624,15 @@ global network.
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"transit_gateway_connect_peer_arns"`: One or more transit gateway Connect peer Amazon
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `transit_gateway_connect_peer_arns`: One or more transit gateway Connect peer Amazon
   Resource Names (ARNs).
 """
-function get_transit_gateway_connect_peer_associations(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_transit_gateway_connect_peer_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1039,24 +643,15 @@ Gets information about the transit gateway registrations in a specified global n
 # Arguments
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return.
-- `"next_token"`: The token for the next page of results.
-- `"transit_gateway_arns"`: The Amazon Resource Names (ARNs) of one or more transit
-  gateways. The maximum is 10.
+# Keyword Parameters
+- `max_results`: The maximum number of results to return.
+- `next_token`: The token for the next page of results.
+- `transit_gateway_arns`: The Amazon Resource Names (ARNs) of one or more transit gateways.
+  The maximum is 10.
 """
-function get_transit_gateway_registrations(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_transit_gateway_registrations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1068,17 +663,9 @@ Lists the tags for a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1094,24 +681,9 @@ network.
 - `global_network_id`: The ID of the global network.
 
 """
-function register_transit_gateway(
-    TransitGatewayArn,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_transit_gateway(TransitGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1125,34 +697,14 @@ information, see Route Analyzer.
 - `source`: The source from which traffic originates.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"include_return_path"`: Indicates whether to analyze the return path. The default is
-  false.
-- `"use_middleboxes"`: Indicates whether to include the location of middlebox appliances in
+# Keyword Parameters
+- `include_return_path`: Indicates whether to analyze the return path. The default is false.
+- `use_middleboxes`: Indicates whether to include the location of middlebox appliances in
   the route analysis. The default is false.
 """
-function start_route_analysis(
-    Destination,
-    Source,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_route_analysis(Destination, Source, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/global-networks/$(globalNetworkId)/route-analyses",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Destination" => Destination, "Source" => Source),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/global-networks/$(globalNetworkId)/route-analyses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Source"=>Source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1165,17 +717,9 @@ Tags a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function tag_resource(
-    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1188,17 +732,9 @@ Removes tags from a specified resource.
 - `tag_keys`: The tag keys to remove from the specified resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1211,27 +747,15 @@ parameters, specify an empty string.
 - `connection_id`: The ID of the connection.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"connected_link_id"`: The ID of the link for the second device in the connection.
-- `"description"`: A description of the connection. Length Constraints: Maximum length of
-  256 characters.
-- `"link_id"`: The ID of the link for the first device in the connection.
+# Keyword Parameters
+- `connected_link_id`: The ID of the link for the second device in the connection.
+- `description`: A description of the connection. Length Constraints: Maximum length of 256
+  characters.
+- `link_id`: The ID of the link for the first device in the connection.
 """
-function update_connection(
-    connectionId,
-    globalNetworkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "PATCH",
-        "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/connections/$(connectionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1244,31 +768,21 @@ parameters, specify an empty string.
 - `device_id`: The ID of the device.
 - `global_network_id`: The ID of the global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"awslocation"`: The Amazon Web Services location of the device, if applicable. For an
+# Keyword Parameters
+- `awslocation`: The Amazon Web Services location of the device, if applicable. For an
   on-premises device, you can omit this parameter.
-- `"description"`: A description of the device. Constraints: Maximum length of 256
+- `description`: A description of the device. Constraints: Maximum length of 256 characters.
+- `location`:
+- `model`: The model of the device. Constraints: Maximum length of 128 characters.
+- `serial_number`: The serial number of the device. Constraints: Maximum length of 128
   characters.
-- `"location"`:
-- `"model"`: The model of the device. Constraints: Maximum length of 128 characters.
-- `"serial_number"`: The serial number of the device. Constraints: Maximum length of 128
-  characters.
-- `"site_id"`: The ID of the site.
-- `"type"`: The type of the device.
-- `"vendor"`: The vendor of the device. Constraints: Maximum length of 128 characters.
+- `site_id`: The ID of the site.
+- `type`: The type of the device.
+- `vendor`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
-function update_device(
-    deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_device(deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "PATCH",
-        "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1280,22 +794,13 @@ specify an empty string.
 # Arguments
 - `global_network_id`: The ID of your global network.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of the global network. Constraints: Maximum length of 256
+# Keyword Parameters
+- `description`: A description of the global network. Constraints: Maximum length of 256
   characters.
 """
-function update_global_network(
-    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_global_network(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "PATCH",
-        "/global-networks/$(globalNetworkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("PATCH", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1308,24 +813,15 @@ specify an empty string.
 - `global_network_id`: The ID of the global network.
 - `link_id`: The ID of the link.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"bandwidth"`: The upload and download speed in Mbps.
-- `"description"`: A description of the link. Constraints: Maximum length of 256 characters.
-- `"provider"`: The provider of the link. Constraints: Maximum length of 128 characters.
-- `"type"`: The type of the link. Constraints: Maximum length of 128 characters.
+# Keyword Parameters
+- `bandwidth`: The upload and download speed in Mbps.
+- `description`: A description of the link. Constraints: Maximum length of 256 characters.
+- `provider`: The provider of the link. Constraints: Maximum length of 128 characters.
+- `type`: The type of the link. Constraints: Maximum length of 128 characters.
 """
-function update_link(
-    globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "PATCH",
-        "/global-networks/$(globalNetworkId)/links/$(linkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1339,23 +835,9 @@ Updates the resource metadata for the specified global network.
 - `resource_arn`: The ARN of the resource.
 
 """
-function update_network_resource_metadata(
-    Metadata,
-    globalNetworkId,
-    resourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_network_resource_metadata(Metadata, globalNetworkId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "PATCH",
-        "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Metadata" => Metadata), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1368,22 +850,12 @@ parameters, specify an empty string.
 - `global_network_id`: The ID of the global network.
 - `site_id`: The ID of your site.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"description"`: A description of your site. Constraints: Maximum length of 256
-  characters.
-- `"location"`: The site location:    Address: The physical address of the site.
-  Latitude: The latitude of the site.     Longitude: The longitude of the site.
+# Keyword Parameters
+- `description`: A description of your site. Constraints: Maximum length of 256 characters.
+- `location`: The site location:    Address: The physical address of the site.    Latitude:
+  The latitude of the site.     Longitude: The longitude of the site.
 """
-function update_site(
-    globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return networkmanager(
-        "PATCH",
-        "/global-networks/$(globalNetworkId)/sites/$(siteId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

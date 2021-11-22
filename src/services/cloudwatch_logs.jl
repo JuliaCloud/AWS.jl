@@ -4,42 +4,8 @@ using AWS.AWSServices: cloudwatch_logs
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "end_time" => "endTime",
-    "query_definition_name_prefix" => "queryDefinitionNamePrefix",
-    "filter_pattern" => "filterPattern",
-    "kms_key_id" => "kmsKeyId",
-    "destination_name_prefix" => "DestinationNamePrefix",
-    "interleaved" => "interleaved",
-    "time" => "time",
-    "next_token" => "nextToken",
-    "sequence_token" => "sequenceToken",
-    "log_group_name" => "logGroupName",
-    "role_arn" => "roleArn",
-    "start_time" => "startTime",
-    "status_code" => "statusCode",
-    "destination_prefix" => "destinationPrefix",
-    "status" => "status",
-    "distribution" => "distribution",
-    "max_results" => "maxResults",
-    "policy_name" => "policyName",
-    "log_group_names" => "logGroupNames",
-    "task_name" => "taskName",
-    "start_from_head" => "startFromHead",
-    "log_stream_names" => "logStreamNames",
-    "order_by" => "orderBy",
-    "policy_document" => "policyDocument",
-    "log_stream_name_prefix" => "logStreamNamePrefix",
-    "filter_name_prefix" => "filterNamePrefix",
-    "query_definition_id" => "queryDefinitionId",
-    "descending" => "descending",
-    "metric_namespace" => "metricNamespace",
-    "task_id" => "taskId",
-    "log_group_name_prefix" => "logGroupNamePrefix",
-    "tags" => "tags",
-    "metric_name" => "metricName",
-    "limit" => "limit",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("policy_name" => "policyName", "sequence_token" => "sequenceToken", "distribution" => "distribution", "role_arn" => "roleArn", "kms_key_id" => "kmsKeyId", "tags" => "tags", "log_group_names" => "logGroupNames", "query_definition_id" => "queryDefinitionId", "policy_document" => "policyDocument", "filter_name_prefix" => "filterNamePrefix", "limit" => "limit", "next_token" => "nextToken", "max_results" => "maxResults", "query_definition_name_prefix" => "queryDefinitionNamePrefix", "destination_prefix" => "destinationPrefix", "log_stream_name_prefix" => "logStreamNamePrefix", "task_name" => "taskName", "destination_name_prefix" => "DestinationNamePrefix", "log_group_name" => "logGroupName", "status" => "status", "end_time" => "endTime", "filter_pattern" => "filterPattern", "interleaved" => "interleaved", "log_stream_names" => "logStreamNames", "start_time" => "startTime", "descending" => "descending", "order_by" => "orderBy", "metric_name" => "metricName", "metric_namespace" => "metricNamespace", "status_code" => "statusCode", "task_id" => "taskId", "time" => "time", "start_from_head" => "startFromHead", "log_group_name_prefix" => "logGroupNamePrefix")
 
 """
     associate_kms_key(kms_key_id, log_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -63,22 +29,9 @@ InvalidParameterException error.
 - `log_group_name`: The name of the log group.
 
 """
-function associate_kms_key(
-    kmsKeyId, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function associate_kms_key(kmsKeyId, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "AssociateKmsKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("kmsKeyId" => kmsKeyId, "logGroupName" => logGroupName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("AssociateKmsKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("kmsKeyId"=>kmsKeyId, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -90,16 +43,9 @@ Cancels the specified export task. The task must be in the PENDING or RUNNING st
 - `task_id`: The ID of the export task.
 
 """
-function cancel_export_task(
-    taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function cancel_export_task(taskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "CancelExportTask",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -129,40 +75,16 @@ SSE-KMS is not supported.
   milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time
   are not exported.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"destination_prefix"`: The prefix used as the start of the key for every object
-  exported. If you don't specify a value, the default is exportedlogs.
-- `"log_stream_name_prefix"`: Export only log streams that match the provided prefix. If
-  you don't specify a value, no prefix filter is applied.
-- `"task_name"`: The name of the export task.
+# Keyword Parameters
+- `destination_prefix`: The prefix used as the start of the key for every object exported.
+  If you don't specify a value, the default is exportedlogs.
+- `log_stream_name_prefix`: Export only log streams that match the provided prefix. If you
+  don't specify a value, no prefix filter is applied.
+- `task_name`: The name of the export task.
 """
-function create_export_task(
-    destination,
-    from,
-    logGroupName,
-    to;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_export_task(destination, from, logGroupName, to; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "CreateExportTask",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destination" => destination,
-                    "from" => from,
-                    "logGroupName" => logGroupName,
-                    "to" => to,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("CreateExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination"=>destination, "from"=>from, "logGroupName"=>logGroupName, "to"=>to), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -187,27 +109,17 @@ information, see Using Symmetric and Asymmetric Keys.
 # Arguments
 - `log_group_name`: The name of the log group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"kms_key_id"`: The Amazon Resource Name (ARN) of the CMK to use when encrypting log
-  data. For more information, see Amazon Resource Names - Key Management Service.
-- `"tags"`: The key-value pairs to use for the tags. CloudWatch Logs doesn’t support IAM
+# Keyword Parameters
+- `kms_key_id`: The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
+  For more information, see Amazon Resource Names - Key Management Service.
+- `tags`: The key-value pairs to use for the tags. CloudWatch Logs doesn’t support IAM
   policies that prevent users from assigning specified tags to log groups using the
   aws:Resource/key-name  or aws:TagKeys condition keys. For more information about using tags
   to control access, see Controlling access to Amazon Web Services resources using tags.
 """
-function create_log_group(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "CreateLogGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("CreateLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -226,27 +138,9 @@ and 512 characters long.   The ':' (colon) and '*' (asterisk) characters are not
 - `log_stream_name`: The name of the log stream.
 
 """
-function create_log_stream(
-    logGroupName,
-    logStreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_log_stream(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "CreateLogStream",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("CreateLogStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -260,20 +154,9 @@ the destination.
 - `destination_name`: The name of the destination.
 
 """
-function delete_destination(
-    destinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_destination(destinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteDestination",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("destinationName" => destinationName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -286,18 +169,9 @@ associated with the log group.
 - `log_group_name`: The name of the log group.
 
 """
-function delete_log_group(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteLogGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -311,27 +185,9 @@ associated with the log stream.
 - `log_stream_name`: The name of the log stream.
 
 """
-function delete_log_stream(
-    logGroupName,
-    logStreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_log_stream(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteLogStream",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteLogStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -344,24 +200,9 @@ Deletes the specified metric filter.
 - `log_group_name`: The name of the log group.
 
 """
-function delete_metric_filter(
-    filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_metric_filter(filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteMetricFilter",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "filterName" => filterName, "logGroupName" => logGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -377,20 +218,9 @@ be able to perform this operation.
   use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions.
 
 """
-function delete_query_definition(
-    queryDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_query_definition(queryDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteQueryDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("queryDefinitionId" => queryDefinitionId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteQueryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryDefinitionId"=>queryDefinitionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -399,20 +229,12 @@ end
 Deletes a resource policy from this account. This revokes the access of the identities in
 that policy to put log events to this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"policy_name"`: The name of the policy to be revoked. This parameter is required.
+# Keyword Parameters
+- `policy_name`: The name of the policy to be revoked. This parameter is required.
 """
-function delete_resource_policy(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteResourcePolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -425,18 +247,9 @@ groups without a retention policy.
 - `log_group_name`: The name of the log group.
 
 """
-function delete_retention_policy(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_retention_policy(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteRetentionPolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -449,24 +262,9 @@ Deletes the specified subscription filter.
 - `log_group_name`: The name of the log group.
 
 """
-function delete_subscription_filter(
-    filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_subscription_filter(filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DeleteSubscriptionFilter",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "filterName" => filterName, "logGroupName" => logGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DeleteSubscriptionFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -474,25 +272,17 @@ end
 
 Lists all your destinations. The results are ASCII-sorted by destination name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"destination_name_prefix"`: The prefix to match. If you don't specify a value, no prefix
+# Keyword Parameters
+- `destination_name_prefix`: The prefix to match. If you don't specify a value, no prefix
   filter is applied.
-- `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+- `limit`: The maximum number of items returned. If you don't specify a value, the default
+  is up to 50 items.
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_destinations(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_destinations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeDestinations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeDestinations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -501,27 +291,19 @@ end
 Lists the specified export tasks. You can list all your export tasks or filter the results
 based on task ID or task status.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+# Keyword Parameters
+- `limit`: The maximum number of items returned. If you don't specify a value, the default
+  is up to 50 items.
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"status_code"`: The status code of the export task. Specifying a status code filters the
+- `status_code`: The status code of the export task. Specifying a status code filters the
   results to zero or more export tasks.
-- `"task_id"`: The ID of the export task. Specifying a task ID filters the results to zero
-  or one export tasks.
+- `task_id`: The ID of the export task. Specifying a task ID filters the results to zero or
+  one export tasks.
 """
-function describe_export_tasks(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeExportTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeExportTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -535,19 +317,16 @@ of the aws:ResourceTag/key-name  condition key to control access. For more infor
 about using tags to control access, see Controlling access to Amazon Web Services resources
 using tags.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
-- `"log_group_name_prefix"`: The prefix to match.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+# Keyword Parameters
+- `limit`: The maximum number of items returned. If you don't specify a value, the default
+  is up to 50 items.
+- `log_group_name_prefix`: The prefix to match.
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_log_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeLogGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_logs("DescribeLogGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -561,37 +340,27 @@ throttled.
 # Arguments
 - `log_group_name`: The name of the log group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"descending"`: If the value is true, results are returned in descending order. If the
+# Keyword Parameters
+- `descending`: If the value is true, results are returned in descending order. If the
   value is to false, results are returned in ascending order. The default value is false.
-- `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
-- `"log_stream_name_prefix"`: The prefix to match. If orderBy is LastEventTime, you cannot
+- `limit`: The maximum number of items returned. If you don't specify a value, the default
+  is up to 50 items.
+- `log_stream_name_prefix`: The prefix to match. If orderBy is LastEventTime, you cannot
   specify this parameter.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"order_by"`: If the value is LogStreamName, the results are ordered by log stream name.
-  If the value is LastEventTime, the results are ordered by the event time. The default value
-  is LogStreamName. If you order the results by event time, you cannot specify the
+- `order_by`: If the value is LogStreamName, the results are ordered by log stream name. If
+  the value is LastEventTime, the results are ordered by the event time. The default value is
+  LogStreamName. If you order the results by event time, you cannot specify the
   logStreamNamePrefix parameter.  lastEventTimestamp represents the time of the most recent
   log event in the log stream in CloudWatch Logs. This number is expressed as the number of
   milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimestamp updates on an eventual
   consistency basis. It typically updates in less than an hour from ingestion, but in rare
   situations might take longer.
 """
-function describe_log_streams(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_log_streams(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeLogStreams",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeLogStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -601,32 +370,23 @@ Lists the specified metric filters. You can list all of the metric filters or fi
 results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted
 by filter name.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_name_prefix"`: The prefix to match. CloudWatch Logs uses the value you set here
+# Keyword Parameters
+- `filter_name_prefix`: The prefix to match. CloudWatch Logs uses the value you set here
   only if you also include the logGroupName parameter in your request.
-- `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
-- `"log_group_name"`: The name of the log group.
-- `"metric_name"`: Filters results to include only those with the specified metric name. If
+- `limit`: The maximum number of items returned. If you don't specify a value, the default
+  is up to 50 items.
+- `log_group_name`: The name of the log group.
+- `metric_name`: Filters results to include only those with the specified metric name. If
   you include this parameter in your request, you must also include the metricNamespace
   parameter.
-- `"metric_namespace"`: Filters results to include only those in the specified namespace.
-  If you include this parameter in your request, you must also include the metricName
-  parameter.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+- `metric_namespace`: Filters results to include only those in the specified namespace. If
+  you include this parameter in your request, you must also include the metricName parameter.
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_metric_filters(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_metric_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeMetricFilters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeMetricFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -636,19 +396,16 @@ Returns a list of CloudWatch Logs Insights queries that are scheduled, executing
 been executed recently in this account. You can request all queries or limit it to queries
 of a specific log group or queries with a certain status.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"log_group_name"`: Limits the returned queries to only those for the specified log group.
-- `"max_results"`: Limits the number of returned queries to the specified number.
-- `"next_token"`:
-- `"status"`: Limits the returned queries to only those that have the specified status.
-  Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
+# Keyword Parameters
+- `log_group_name`: Limits the returned queries to only those for the specified log group.
+- `max_results`: Limits the number of returned queries to the specified number.
+- `next_token`:
+- `status`: Limits the returned queries to only those that have the specified status. Valid
+  values are Cancelled, Complete, Failed, Running, and Scheduled.
 """
 function describe_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_logs("DescribeQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -658,23 +415,15 @@ This operation returns a paginated list of your saved CloudWatch Logs Insights q
 definitions. You can use the queryDefinitionNamePrefix parameter to limit the results to
 only the query definitions that have names that start with a certain string.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: Limits the number of returned query definitions to the specified number.
-- `"next_token"`:
-- `"query_definition_name_prefix"`: Use this parameter to filter your results to only the
+# Keyword Parameters
+- `max_results`: Limits the number of returned query definitions to the specified number.
+- `next_token`:
+- `query_definition_name_prefix`: Use this parameter to filter your results to only the
   query definitions that have names that start with the prefix you specify.
 """
-function describe_query_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_query_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeQueryDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeQueryDefinitions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -682,22 +431,14 @@ end
 
 Lists the resource policies in this account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of resource policies to be displayed with one call of this
+# Keyword Parameters
+- `limit`: The maximum number of resource policies to be displayed with one call of this
   API.
-- `"next_token"`:
+- `next_token`:
 """
-function describe_resource_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeResourcePolicies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeResourcePolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -710,27 +451,17 @@ filter name.
 # Arguments
 - `log_group_name`: The name of the log group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter_name_prefix"`: The prefix to match. If you don't specify a value, no prefix
-  filter is applied.
-- `"limit"`: The maximum number of items returned. If you don't specify a value, the
-  default is up to 50 items.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+# Keyword Parameters
+- `filter_name_prefix`: The prefix to match. If you don't specify a value, no prefix filter
+  is applied.
+- `limit`: The maximum number of items returned. If you don't specify a value, the default
+  is up to 50 items.
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_subscription_filters(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_subscription_filters(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DescribeSubscriptionFilters",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DescribeSubscriptionFilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -747,18 +478,9 @@ take effect.
 - `log_group_name`: The name of the log group.
 
 """
-function disassociate_kms_key(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disassociate_kms_key(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "DisassociateKmsKey",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("DisassociateKmsKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -777,45 +499,35 @@ CloudWatch Logs, and the ID of the PutLogEvents request.
 # Arguments
 - `log_group_name`: The name of the log group to search.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The end of the time range, expressed as the number of milliseconds after
-  Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
-- `"filter_pattern"`: The filter pattern to use. For more information, see Filter and
-  Pattern Syntax. If not provided, all the events are matched.
-- `"interleaved"`: If the value is true, the operation makes a best effort to provide
+# Keyword Parameters
+- `end_time`: The end of the time range, expressed as the number of milliseconds after Jan
+  1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
+- `filter_pattern`: The filter pattern to use. For more information, see Filter and Pattern
+  Syntax. If not provided, all the events are matched.
+- `interleaved`: If the value is true, the operation makes a best effort to provide
   responses that contain events from multiple log streams within the log group, interleaved
   in a single response. If the value is false, all the matched log events in the first log
   stream are searched first, then those in the next log stream, and so on. The default is
   false.  Important: Starting on June 17, 2019, this parameter is ignored and the value is
   assumed to be true. The response from this operation always interleaves events from
   multiple log streams within a log group.
-- `"limit"`: The maximum number of events to return. The default is 10,000 events.
-- `"log_stream_name_prefix"`: Filters the results to include only events from log streams
+- `limit`: The maximum number of events to return. The default is 10,000 events.
+- `log_stream_name_prefix`: Filters the results to include only events from log streams
   that have names starting with this prefix. If you specify a value for both
   logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not
   match any log stream names specified in logStreamNames, the action returns an
   InvalidParameterException error.
-- `"log_stream_names"`: Filters the results to only logs from the log streams in this list.
+- `log_stream_names`: Filters the results to only logs from the log streams in this list.
   If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns
   an InvalidParameterException error.
-- `"next_token"`: The token for the next set of events to return. (You received this token
+- `next_token`: The token for the next set of events to return. (You received this token
   from a previous call.)
-- `"start_time"`: The start of the time range, expressed as the number of milliseconds
-  after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+- `start_time`: The start of the time range, expressed as the number of milliseconds after
+  Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
 """
-function filter_log_events(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function filter_log_events(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "FilterLogEvents",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("FilterLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -831,45 +543,26 @@ while there are more log events available through the token.
 - `log_group_name`: The name of the log group.
 - `log_stream_name`: The name of the log stream.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"end_time"`: The end of the time range, expressed as the number of milliseconds after
-  Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not
+# Keyword Parameters
+- `end_time`: The end of the time range, expressed as the number of milliseconds after Jan
+  1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not
   included.
-- `"limit"`: The maximum number of log events returned. If you don't specify a value, the
+- `limit`: The maximum number of log events returned. If you don't specify a value, the
   maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log
   events.
-- `"next_token"`: The token for the next set of items to return. (You received this token
+- `next_token`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"start_from_head"`: If the value is true, the earliest log events are returned first. If
+- `start_from_head`: If the value is true, the earliest log events are returned first. If
   the value is false, the latest log events are returned first. The default value is false.
   If you are using a previous nextForwardToken value as the nextToken in this operation, you
   must specify true for startFromHead.
-- `"start_time"`: The start of the time range, expressed as the number of milliseconds
-  after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than
-  this time are included. Events with a timestamp earlier than this time are not included.
+- `start_time`: The start of the time range, expressed as the number of milliseconds after
+  Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this
+  time are included. Events with a timestamp earlier than this time are not included.
 """
-function get_log_events(
-    logGroupName,
-    logStreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_log_events(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "GetLogEvents",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("GetLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -886,25 +579,15 @@ with the highest percentage.
 # Arguments
 - `log_group_name`: The name of the log group to search.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"time"`: The time to set as the center of the query. If you specify time, the 15 minutes
+# Keyword Parameters
+- `time`: The time to set as the center of the query. If you specify time, the 15 minutes
   before this time are queries. If you omit time the 8 minutes before and 8 minutes after
   this time are searched. The time value is specified as epoch time, the number of seconds
   since January 1, 1970, 00:00:00 UTC.
 """
-function get_log_group_fields(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_log_group_fields(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "GetLogGroupFields",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("GetLogGroupFields", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -922,20 +605,9 @@ returned within @message.
   retrieve that complete log event record.
 
 """
-function get_log_record(
-    logRecordPointer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_log_record(logRecordPointer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "GetLogRecord",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("logRecordPointer" => logRecordPointer), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("GetLogRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logRecordPointer"=>logRecordPointer), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -953,16 +625,9 @@ see the final results.
 - `query_id`: The ID number of the query.
 
 """
-function get_query_results(
-    queryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_query_results(queryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "GetQueryResults",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queryId" => queryId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryId"=>queryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -974,18 +639,9 @@ Lists the tags for the specified log group.
 - `log_group_name`: The name of the log group.
 
 """
-function list_tags_log_group(
-    logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "ListTagsLogGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("ListTagsLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1008,30 +664,9 @@ also have the iam:PassRole permission.
 - `target_arn`: The ARN of an Amazon Kinesis stream to which to deliver matching log events.
 
 """
-function put_destination(
-    destinationName,
-    roleArn,
-    targetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_destination(destinationName, roleArn, targetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutDestination",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationName" => destinationName,
-                    "roleArn" => roleArn,
-                    "targetArn" => targetArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName, "roleArn"=>roleArn, "targetArn"=>targetArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1050,27 +685,9 @@ aws:PrincipalOrgId global key.
 - `destination_name`: A name for an existing destination.
 
 """
-function put_destination_policy(
-    accessPolicy,
-    destinationName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_destination_policy(accessPolicy, destinationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutDestinationPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "accessPolicy" => accessPolicy, "destinationName" => destinationName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutDestinationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicy"=>accessPolicy, "destinationName"=>destinationName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1102,38 +719,16 @@ access key ID or secret key.
 - `log_group_name`: The name of the log group.
 - `log_stream_name`: The name of the log stream.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"sequence_token"`: The sequence token obtained from the response of the previous
+# Keyword Parameters
+- `sequence_token`: The sequence token obtained from the response of the previous
   PutLogEvents call. An upload in a newly created log stream does not require a sequence
   token. You can also get the sequence token using DescribeLogStreams. If you call
   PutLogEvents twice within a narrow time period using the same value for sequenceToken, both
   calls might be successful or one might be rejected.
 """
-function put_log_events(
-    logEvents,
-    logGroupName,
-    logStreamName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_log_events(logEvents, logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutLogEvents",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logEvents" => logEvents,
-                    "logGroupName" => logGroupName,
-                    "logStreamName" => logStreamName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logEvents"=>logEvents, "logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1161,32 +756,9 @@ Monitor Your Estimated Amazon Web Services Charges.
   emitted.
 
 """
-function put_metric_filter(
-    filterName,
-    filterPattern,
-    logGroupName,
-    metricTransformations;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_metric_filter(filterName, filterPattern, logGroupName, metricTransformations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutMetricFilter",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "filterName" => filterName,
-                    "filterPattern" => filterPattern,
-                    "logGroupName" => logGroupName,
-                    "metricTransformations" => metricTransformations,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName, "metricTransformations"=>metricTransformations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1209,33 +781,19 @@ the logs:PutQueryDefinition permission to be able to perform this operation.
 - `query_string`: The query string to use for this definition. For more information, see
   CloudWatch Logs Insights Query Syntax.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"log_group_names"`: Use this parameter to include specific log groups as part of your
+# Keyword Parameters
+- `log_group_names`: Use this parameter to include specific log groups as part of your
   query definition. If you are updating a query definition and you omit this parameter, then
   the updated definition will contain no log groups.
-- `"query_definition_id"`: If you are updating a query definition, use this parameter to
+- `query_definition_id`: If you are updating a query definition, use this parameter to
   specify the ID of the query definition that you want to update. You can use
   DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are
   creating a query definition, do not specify this parameter. CloudWatch generates a unique
   ID for the new query definition and include it in the response to this operation.
 """
-function put_query_definition(
-    name, queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_query_definition(name, queryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutQueryDefinition",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "queryString" => queryString),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutQueryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "queryString"=>queryString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1245,9 +803,8 @@ Creates or updates a resource policy allowing other Amazon Web Services services
 events to this account, such as Amazon Route 53. An account can have up to 10 resource
 policies per Amazon Web Services Region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"policy_document"`: Details of the new policy, including the identity of the principal
+# Keyword Parameters
+- `policy_document`: Details of the new policy, including the identity of the principal
   that is enabled to put logs to this account. This is formatted as a JSON string. This
   parameter is required. The following example creates a resource policy enabling the Route
   53 service to put DNS query logs in to the specified log group. Replace \"logArn\" with the
@@ -1261,13 +818,11 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   \"Resource\": \"logArn\", \"Condition\": { \"ArnLike\": { \"aws:SourceArn\":
   \"myRoute53ResourceArn\" }, \"StringEquals\": { \"aws:SourceAccount\": \"myAwsAccountId\" }
   } } ] }
-- `"policy_name"`: Name of the new policy. This parameter is required.
+- `policy_name`: Name of the new policy. This parameter is required.
 """
 function put_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_logs("PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1281,27 +836,9 @@ the number of days for which to retain log events in the specified log group.
 - `retention_in_days`:
 
 """
-function put_retention_policy(
-    logGroupName,
-    retentionInDays;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_retention_policy(logGroupName, retentionInDays; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutRetentionPolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "logGroupName" => logGroupName, "retentionInDays" => retentionInDays
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "retentionInDays"=>retentionInDays), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1338,42 +875,18 @@ PutSubscriptionFilter operation, you must also have the iam:PassRole permission.
 - `filter_pattern`: A filter pattern for subscribing to a filtered stream of log events.
 - `log_group_name`: The name of the log group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"distribution"`: The method used to distribute log data to the destination. By default,
+# Keyword Parameters
+- `distribution`: The method used to distribute log data to the destination. By default,
   log data is grouped by log stream, but the grouping can be set to random for a more even
   distribution. This property is only applicable when the destination is an Amazon Kinesis
   stream.
-- `"role_arn"`: The ARN of an IAM role that grants CloudWatch Logs permissions to deliver
+- `role_arn`: The ARN of an IAM role that grants CloudWatch Logs permissions to deliver
   ingested log events to the destination stream. You don't need to provide the ARN when you
   are working with a logical destination for cross-account delivery.
 """
-function put_subscription_filter(
-    destinationArn,
-    filterName,
-    filterPattern,
-    logGroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function put_subscription_filter(destinationArn, filterName, filterPattern, logGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "PutSubscriptionFilter",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationArn" => destinationArn,
-                    "filterName" => filterName,
-                    "filterPattern" => filterPattern,
-                    "logGroupName" => logGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("PutSubscriptionFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationArn"=>destinationArn, "filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1395,41 +908,19 @@ of queries.
   specified start time is included in the query. Specified as epoch time, the number of
   seconds since January 1, 1970, 00:00:00 UTC.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"limit"`: The maximum number of log events to return in the query. If the query string
+# Keyword Parameters
+- `limit`: The maximum number of log events to return in the query. If the query string
   uses the fields command, only the specified fields and their values are returned. The
   default is 1000.
-- `"log_group_name"`: The log group on which to perform the query. A StartQuery operation
+- `log_group_name`: The log group on which to perform the query. A StartQuery operation
   must include a logGroupNames or a logGroupName parameter, but not both.
-- `"log_group_names"`: The list of log groups to be queried. You can include up to 20 log
+- `log_group_names`: The list of log groups to be queried. You can include up to 20 log
   groups. A StartQuery operation must include a logGroupNames or a logGroupName parameter,
   but not both.
 """
-function start_query(
-    endTime,
-    queryString,
-    startTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function start_query(endTime, queryString, startTime; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "StartQuery",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "queryString" => queryString,
-                    "startTime" => startTime,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("StartQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "queryString"=>queryString, "startTime"=>startTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1445,12 +936,7 @@ the operation returns an error indicating that the specified query is not runnin
 """
 function stop_query(queryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "StopQuery",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queryId" => queryId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("StopQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryId"=>queryId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1469,22 +955,9 @@ Amazon Web Services resources using tags.
 - `tags`: The key-value pairs to use for the tags.
 
 """
-function tag_log_group(
-    logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_log_group(logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "TagLogGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("TagLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1498,27 +971,9 @@ use this operation to validate the correctness of a metric filter pattern.
 - `log_event_messages`: The log event messages to test.
 
 """
-function test_metric_filter(
-    filterPattern,
-    logEventMessages;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function test_metric_filter(filterPattern, logEventMessages; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "TestMetricFilter",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "filterPattern" => filterPattern, "logEventMessages" => logEventMessages
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("TestMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterPattern"=>filterPattern, "logEventMessages"=>logEventMessages), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1534,20 +989,7 @@ aws:Resource/key-name  or aws:TagKeys condition keys.
 - `tags`: The tag keys. The corresponding tags are removed from the log group.
 
 """
-function untag_log_group(
-    logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_log_group(logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cloudwatch_logs(
-        "UntagLogGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cloudwatch_logs("UntagLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

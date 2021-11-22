@@ -4,13 +4,8 @@ using AWS.AWSServices: health
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "locale" => "locale",
-    "filter" => "filter",
-    "event_arns" => "eventArns",
-    "next_token" => "nextToken",
-    "max_results" => "maxResults",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("locale" => "locale", "max_results" => "maxResults", "next_token" => "nextToken", "filter" => "filter", "event_arns" => "eventArns")
 
 """
     describe_affected_accounts_for_organization(event_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -29,27 +24,17 @@ nextToken parameter in the next request to return more results.
   arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMEN
   T_SCHEDULED_ABC123-DEF456
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_affected_accounts_for_organization(
-    eventArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_affected_accounts_for_organization(eventArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeAffectedAccountsForOrganization",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("eventArn" => eventArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -68,27 +53,19 @@ information, see Resource- and action-based conditions in the Health User Guide.
 # Arguments
 - `filter`: Values to narrow the results returned. At least one event ARN is required.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_affected_entities(
-    filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_affected_entities(filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeAffectedEntities",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filter" => filter), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -111,33 +88,19 @@ Guide.
 - `organization_entity_filters`: A JSON set of elements including the awsAccountId and the
   eventArn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_affected_entities_for_organization(
-    organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_affected_entities_for_organization(organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeAffectedEntitiesForOrganization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -145,24 +108,16 @@ end
 
 Returns the number of entities that are affected by each of the specified events.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"event_arns"`: A list of event ARNs (unique identifiers). For example:
+# Keyword Parameters
+- `event_arns`: A list of event ARNs (unique identifiers). For example:
   \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREM
   ENT_SCHEDULED_ABC123-CDE456\",
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 """
-function describe_entity_aggregates(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEntityAggregates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeEntityAggregates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -176,28 +131,18 @@ request to return more results.
 # Arguments
 - `aggregate_field`: The only currently supported value is eventTypeCategory.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Values to narrow the results returned.
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `filter`: Values to narrow the results returned.
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_event_aggregates(
-    aggregateField; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_aggregates(aggregateField; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEventAggregates",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("aggregateField" => aggregateField), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -220,23 +165,13 @@ Health User Guide.
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
+# Keyword Parameters
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
 """
-function describe_event_details(
-    eventArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_details(eventArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEventDetails",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("eventArns" => eventArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -267,31 +202,13 @@ the Health User Guide.
 - `organization_event_detail_filters`: A set of JSON elements that includes the
   awsAccountId and the eventArn.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
+# Keyword Parameters
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
 """
-function describe_event_details_for_organization(
-    organizationEventDetailFilters;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_event_details_for_organization(organizationEventDetailFilters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEventDetailsForOrganization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "organizationEventDetailFilters" => organizationEventDetailFilters
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -304,25 +221,20 @@ object.  If you don't specify a filter criteria, the API operation returns all e
 in no particular order.   This API operation uses pagination. Specify the nextToken
 parameter in the next request to return more results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Values to narrow the results returned.
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `filter`: Values to narrow the results returned.
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_event_types(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return health("DescribeEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -342,23 +254,20 @@ specific to a service, use the services parameter in the filter object. For more
 information, see Event.   This API operation uses pagination. Specify the nextToken
 parameter in the next request to return more results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Values to narrow the results returned.
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `filter`: Values to narrow the results returned.
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return health("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -378,28 +287,20 @@ this, call the EnableHealthServiceAccessForOrganization operation from your orga
 management account.  This API operation uses pagination. Specify the nextToken parameter in
 the next request to return more results.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"filter"`: Values to narrow the results returned.
-- `"locale"`: The locale (language) to return information in. English (en) is the default
-  and the only supported value at this time.
-- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
+# Keyword Parameters
+- `filter`: Values to narrow the results returned.
+- `locale`: The locale (language) to return information in. English (en) is the default and
+  the only supported value at this time.
+- `max_results`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"next_token"`: If the results of a search are large, only a portion of the results are
+- `next_token`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_events_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_events_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeEventsForOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeEventsForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -411,16 +312,9 @@ role, or sign in as the root user (not recommended) in the organization's manage
 account.
 
 """
-function describe_health_service_status_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_health_service_status_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DescribeHealthServiceStatusForOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DescribeHealthServiceStatusForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -440,16 +334,9 @@ for organizational view, Health returns an error. Health continues to aggregate 
 events for your Amazon Web Services account.
 
 """
-function disable_health_service_access_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function disable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "DisableHealthServiceAccessForOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("DisableHealthServiceAccessForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -469,14 +356,7 @@ Health console to enable the organizational view feature. For more information, 
 Aggregating Health events in the Health User Guide.
 
 """
-function enable_health_service_access_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function enable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return health(
-        "EnableHealthServiceAccessForOrganization",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return health("EnableHealthServiceAccessForOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

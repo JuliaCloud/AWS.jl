@@ -4,17 +4,8 @@ using AWS.AWSServices: cognito_sync
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "cognito_streams" => "CognitoStreams",
-    "record_patches" => "RecordPatches",
-    "client_context" => "x-amz-Client-Context",
-    "push_sync" => "PushSync",
-    "device_id" => "DeviceId",
-    "sync_session_token" => "syncSessionToken",
-    "next_token" => "nextToken",
-    "max_results" => "maxResults",
-    "last_sync_count" => "lastSyncCount",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("last_sync_count" => "lastSyncCount", "max_results" => "maxResults", "next_token" => "nextToken", "sync_session_token" => "syncSessionToken", "cognito_streams" => "CognitoStreams", "push_sync" => "PushSync", "client_context" => "x-amz-Client-Context", "device_id" => "DeviceId", "record_patches" => "RecordPatches")
 
 """
     bulk_publish(identity_pool_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -31,17 +22,9 @@ cannot call this API with the temporary user credentials provided by Cognito Ide
   is unique within a region.
 
 """
-function bulk_publish(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function bulk_publish(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/bulkpublish",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -64,21 +47,9 @@ developer credentials.
   is unique within a region.
 
 """
-function delete_dataset(
-    DatasetName,
-    IdentityId,
-    IdentityPoolId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_dataset(DatasetName, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "DELETE",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -101,21 +72,9 @@ Cognito Identity credentials to make this API call.
   is unique within a region.
 
 """
-function describe_dataset(
-    DatasetName,
-    IdentityId,
-    IdentityPoolId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function describe_dataset(DatasetName, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -131,17 +90,9 @@ user credentials provided by Cognito Identity.
   is unique within a region.
 
 """
-function describe_identity_pool_usage(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_identity_pool_usage(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -160,17 +111,9 @@ developer credentials.
   is unique within a region.
 
 """
-function describe_identity_usage(
-    IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_identity_usage(IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -186,17 +129,9 @@ credentials provided by Cognito Identity.
   is unique within a region.
 
 """
-function get_bulk_publish_details(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_bulk_publish_details(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/getBulkPublishDetails",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -210,17 +145,9 @@ the temporary user credentials provided by Cognito Identity.
 - `identity_pool_id`: The Cognito Identity Pool ID for the request
 
 """
-function get_cognito_events(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_cognito_events(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)/events",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -236,17 +163,9 @@ provided by Cognito Identity.
   of the pool for which to return a configuration.
 
 """
-function get_identity_pool_configuration(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function get_identity_pool_configuration(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -266,22 +185,13 @@ credentials to make this API call.
   us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation
   is unique within a region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned.
-- `"next_token"`: A pagination token for obtaining the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned.
+- `next_token`: A pagination token for obtaining the next page of results.
 """
-function list_datasets(
-    IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_datasets(IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -291,22 +201,13 @@ Gets a list of identity pools registered with Cognito. ListIdentityPoolUsage can
 called with developer credentials. You cannot make this API call with the temporary user
 credentials provided by Cognito Identity.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to be returned.
-- `"next_token"`: A pagination token for obtaining the next page of results.
+# Keyword Parameters
+- `max_results`: The maximum number of results to be returned.
+- `next_token`: A pagination token for obtaining the next page of results.
 """
-function list_identity_pool_usage(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_identity_pool_usage(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -329,28 +230,15 @@ call.
   us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation
   is unique within a region.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"last_sync_count"`: The last server sync count for this record.
-- `"max_results"`: The maximum number of results to be returned.
-- `"next_token"`: A pagination token for obtaining the next page of results.
-- `"sync_session_token"`: A token containing a session ID, identity ID, and expiration.
+# Keyword Parameters
+- `last_sync_count`: The last server sync count for this record.
+- `max_results`: The maximum number of results to be returned.
+- `next_token`: A pagination token for obtaining the next page of results.
+- `sync_session_token`: A token containing a session ID, identity ID, and expiration.
 """
-function list_records(
-    DatasetName,
-    IdentityId,
-    IdentityPoolId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_records(DatasetName, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "GET",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -369,26 +257,9 @@ credentials.
 - `token`: The push token.
 
 """
-function register_device(
-    IdentityId,
-    IdentityPoolId,
-    Platform,
-    Token;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function register_device(IdentityId, IdentityPoolId, Platform, Token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Platform" => Platform, "Token" => Token), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Platform"=>Platform, "Token"=>Token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -405,17 +276,9 @@ provided by Cognito Identity.
 - `identity_pool_id`: The Cognito Identity Pool to use when configuring Cognito Events
 
 """
-function set_cognito_events(
-    Events, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_cognito_events(Events, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/events",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Events" => Events), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -430,22 +293,13 @@ Cognito Identity.
   us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID
   of the pool to modify.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"cognito_streams"`: Options to apply to this identity pool for Amazon Cognito streams.
-- `"push_sync"`: Options to apply to this identity pool for push synchronization.
+# Keyword Parameters
+- `cognito_streams`: Options to apply to this identity pool for Amazon Cognito streams.
+- `push_sync`: Options to apply to this identity pool for push synchronization.
 """
-function set_identity_pool_configuration(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function set_identity_pool_configuration(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -464,22 +318,9 @@ this API with developer credentials.
   pool to which the identity belongs.
 
 """
-function subscribe_to_dataset(
-    DatasetName,
-    DeviceId,
-    IdentityId,
-    IdentityPoolId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function subscribe_to_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -498,22 +339,9 @@ call this API with developer credentials.
   pool to which this identity belongs.
 
 """
-function unsubscribe_from_dataset(
-    DatasetName,
-    DeviceId,
-    IdentityId,
-    IdentityPoolId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function unsubscribe_from_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "DELETE",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -543,31 +371,13 @@ credentials.
 - `sync_session_token`: The SyncSessionToken returned by a previous call to ListRecords for
   this dataset and identity.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_context"`: Intended to supply a device ID that will populate the lastModifiedBy
+# Keyword Parameters
+- `client_context`: Intended to supply a device ID that will populate the lastModifiedBy
   field referenced in other methods. The ClientContext field is not yet implemented.
-- `"device_id"`: The unique ID generated for this device by Cognito.
-- `"record_patches"`: A list of patch operations.
+- `device_id`: The unique ID generated for this device by Cognito.
+- `record_patches`: A list of patch operations.
 """
-function update_records(
-    DatasetName,
-    IdentityId,
-    IdentityPoolId,
-    SyncSessionToken;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function update_records(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return cognito_sync(
-        "POST",
-        "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SyncSessionToken" => SyncSessionToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncSessionToken"=>SyncSessionToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

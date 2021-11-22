@@ -4,7 +4,8 @@ using AWS.AWSServices: sagemaker_featurestore_runtime
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict("feature_names" => "FeatureName")
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("feature_names" => "FeatureName")
 
 """
     batch_get_record(identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -16,19 +17,9 @@ Retrieves a batch of Records from a FeatureGroup.
   value, and Feature name that have been requested to be retrieved in batch.
 
 """
-function batch_get_record(
-    Identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sagemaker_featurestore_runtime(
-        "POST",
-        "/BatchGetRecord",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Identifiers" => Identifiers), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sagemaker_featurestore_runtime("POST", "/BatchGetRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifiers"=>Identifiers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -46,30 +37,9 @@ column.
   identifies the record, in string format.
 
 """
-function delete_record(
-    EventTime,
-    FeatureGroupName,
-    RecordIdentifierValueAsString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sagemaker_featurestore_runtime(
-        "DELETE",
-        "/FeatureGroup/$(FeatureGroupName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EventTime" => EventTime,
-                    "RecordIdentifierValueAsString" => RecordIdentifierValueAsString,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -84,33 +54,13 @@ empty result is returned.
 - `record_identifier_value_as_string`: The value that corresponds to RecordIdentifier type
   and uniquely identifies the record in the FeatureGroup.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"feature_names"`: List of names of Features to be retrieved. If not specified, the
-  latest value for all the Features are returned.
+# Keyword Parameters
+- `feature_names`: List of names of Features to be retrieved. If not specified, the latest
+  value for all the Features are returned.
 """
-function get_record(
-    FeatureGroupName,
-    RecordIdentifierValueAsString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function get_record(FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sagemaker_featurestore_runtime(
-        "GET",
-        "/FeatureGroup/$(FeatureGroupName)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "RecordIdentifierValueAsString" => RecordIdentifierValueAsString
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -130,15 +80,7 @@ record, it is written only to the OfflineStore.
   to update feature values.
 
 """
-function put_record(
-    FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function put_record(FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return sagemaker_featurestore_runtime(
-        "PUT",
-        "/FeatureGroup/$(FeatureGroupName)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Record" => Record), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Record"=>Record), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

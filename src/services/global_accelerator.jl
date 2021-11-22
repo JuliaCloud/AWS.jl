@@ -4,34 +4,8 @@ using AWS.AWSServices: global_accelerator
 using AWS.Compat
 using AWS.UUIDs
 
-MAPPING = Dict(
-    "health_check_protocol" => "HealthCheckProtocol",
-    "protocol" => "Protocol",
-    "health_check_port" => "HealthCheckPort",
-    "destination_addresses" => "DestinationAddresses",
-    "client_affinity" => "ClientAffinity",
-    "flow_logs_s3_prefix" => "FlowLogsS3Prefix",
-    "next_token" => "NextToken",
-    "endpoint_group_arn" => "EndpointGroupArn",
-    "name" => "Name",
-    "endpoint_configurations" => "EndpointConfigurations",
-    "ip_address_type" => "IpAddressType",
-    "destination_ports" => "DestinationPorts",
-    "traffic_dial_percentage" => "TrafficDialPercentage",
-    "deny_all_traffic_to_endpoint" => "DenyAllTrafficToEndpoint",
-    "flow_logs_s3_bucket" => "FlowLogsS3Bucket",
-    "health_check_path" => "HealthCheckPath",
-    "max_results" => "MaxResults",
-    "ip_addresses" => "IpAddresses",
-    "health_check_interval_seconds" => "HealthCheckIntervalSeconds",
-    "allow_all_traffic_to_endpoint" => "AllowAllTrafficToEndpoint",
-    "threshold_count" => "ThresholdCount",
-    "port_overrides" => "PortOverrides",
-    "enabled" => "Enabled",
-    "tags" => "Tags",
-    "port_ranges" => "PortRanges",
-    "flow_logs_enabled" => "FlowLogsEnabled",
-)
+# Julia syntax for service-level optional parameters to the AWS request syntax
+const SERVICE_PARAMETER_MAP = OrderedCollections.LittleDict("max_results" => "MaxResults", "next_token" => "NextToken", "client_affinity" => "ClientAffinity", "port_ranges" => "PortRanges", "protocol" => "Protocol", "deny_all_traffic_to_endpoint" => "DenyAllTrafficToEndpoint", "destination_addresses" => "DestinationAddresses", "destination_ports" => "DestinationPorts", "enabled" => "Enabled", "ip_address_type" => "IpAddressType", "ip_addresses" => "IpAddresses", "tags" => "Tags", "flow_logs_enabled" => "FlowLogsEnabled", "flow_logs_s3_bucket" => "FlowLogsS3Bucket", "flow_logs_s3_prefix" => "FlowLogsS3Prefix", "name" => "Name", "allow_all_traffic_to_endpoint" => "AllowAllTrafficToEndpoint", "endpoint_configurations" => "EndpointConfigurations", "health_check_interval_seconds" => "HealthCheckIntervalSeconds", "health_check_path" => "HealthCheckPath", "health_check_port" => "HealthCheckPort", "health_check_protocol" => "HealthCheckProtocol", "port_overrides" => "PortOverrides", "threshold_count" => "ThresholdCount", "traffic_dial_percentage" => "TrafficDialPercentage", "endpoint_group_arn" => "EndpointGroupArn")
 
 """
     add_custom_routing_endpoints(endpoint_configurations, endpoint_group_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
@@ -54,28 +28,9 @@ AllowCustomRoutingTraffic operation.
   routing endpoint.
 
 """
-function add_custom_routing_endpoints(
-    EndpointConfigurations,
-    EndpointGroupArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "AddCustomRoutingEndpoints",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EndpointConfigurations" => EndpointConfigurations,
-                    "EndpointGroupArn" => EndpointGroupArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -92,16 +47,9 @@ Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guid
   provisioned. You can't advertise only a portion of the provisioned range.
 
 """
-function advertise_byoip_cidr(
-    Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "AdvertiseByoipCidr",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -120,45 +68,25 @@ accelerator: the status changes from IN_PROGRESS to DEPLOYED.
 - `endpoint_id`: An ID for the endpoint. For custom routing accelerators, this is the
   virtual private cloud (VPC) subnet ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"allow_all_traffic_to_endpoint"`: Indicates whether all destination IP addresses and
-  ports for a specified VPC subnet endpoint can receive traffic from a custom routing
-  accelerator. The value is TRUE or FALSE.  When set to TRUE, all destinations in the custom
-  routing VPC subnet can receive traffic. Note that you cannot specify destination IP
-  addresses and ports when the value is set to TRUE. When set to FALSE (or not specified),
-  you must specify a list of destination IP addresses that are allowed to receive traffic. A
-  list of ports is optional. If you don't specify a list of ports, the ports that can accept
-  traffic is the same as the ports configured for the endpoint group. The default value is
-  FALSE.
-- `"destination_addresses"`: A list of specific Amazon EC2 instance IP addresses
-  (destination addresses) in a subnet that you want to allow to receive traffic. The IP
-  addresses must be a subset of the IP addresses that you specified for the endpoint group.
+# Keyword Parameters
+- `allow_all_traffic_to_endpoint`: Indicates whether all destination IP addresses and ports
+  for a specified VPC subnet endpoint can receive traffic from a custom routing accelerator.
+  The value is TRUE or FALSE.  When set to TRUE, all destinations in the custom routing VPC
+  subnet can receive traffic. Note that you cannot specify destination IP addresses and ports
+  when the value is set to TRUE. When set to FALSE (or not specified), you must specify a
+  list of destination IP addresses that are allowed to receive traffic. A list of ports is
+  optional. If you don't specify a list of ports, the ports that can accept traffic is the
+  same as the ports configured for the endpoint group. The default value is FALSE.
+- `destination_addresses`: A list of specific Amazon EC2 instance IP addresses (destination
+  addresses) in a subnet that you want to allow to receive traffic. The IP addresses must be
+  a subset of the IP addresses that you specified for the endpoint group.
   DestinationAddresses is required if AllowAllTrafficToEndpoint is FALSE or is not specified.
-- `"destination_ports"`: A list of specific Amazon EC2 instance ports (destination ports)
+- `destination_ports`: A list of specific Amazon EC2 instance ports (destination ports)
   that you want to allow to receive traffic.
 """
-function allow_custom_routing_traffic(
-    EndpointGroupArn,
-    EndpointId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function allow_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "AllowCustomRoutingTraffic",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -177,13 +105,12 @@ to create or update accelerators.
   contain only alphanumeric characters or hyphens (-), and must not begin or end with a
   hyphen.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`: Indicates whether an accelerator is enabled. The value is true or false. The
+# Keyword Parameters
+- `enabled`: Indicates whether an accelerator is enabled. The value is true or false. The
   default value is true.  If the value is set to true, an accelerator cannot be deleted. If
   set to false, the accelerator can be deleted.
-- `"ip_address_type"`: The value for the address type must be IPv4.
-- `"ip_addresses"`: Optionally, if you've added your own IP address pool to Global
+- `ip_address_type`: The value for the address type must be IPv4.
+- `ip_addresses`: Optionally, if you've added your own IP address pool to Global
   Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the
   accelerator's static IP addresses when you create an accelerator. You can specify one or
   two addresses, separated by a space. Do not include the /32 suffix. Only one IP address
@@ -193,25 +120,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   addresses for an existing accelerator. To change them, you must create a new accelerator
   with the new addresses. For more information, see Bring Your Own IP Addresses (BYOIP) in
   the AWS Global Accelerator Developer Guide.
-- `"tags"`: Create tags for an accelerator. For more information, see Tagging in AWS Global
+- `tags`: Create tags for an accelerator. For more information, see Tagging in AWS Global
   Accelerator in the AWS Global Accelerator Developer Guide.
 """
-function create_accelerator(
-    IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_accelerator(IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "CreateAccelerator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("CreateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -233,13 +147,12 @@ to create or update accelerators.
   characters, must contain only alphanumeric characters or hyphens (-), and must not begin or
   end with a hyphen.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`: Indicates whether an accelerator is enabled. The value is true or false. The
+# Keyword Parameters
+- `enabled`: Indicates whether an accelerator is enabled. The value is true or false. The
   default value is true.  If the value is set to true, an accelerator cannot be deleted. If
   set to false, the accelerator can be deleted.
-- `"ip_address_type"`: The value for the address type must be IPv4.
-- `"ip_addresses"`: Optionally, if you've added your own IP address pool to Global
+- `ip_address_type`: The value for the address type must be IPv4.
+- `ip_addresses`: Optionally, if you've added your own IP address pool to Global
   Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the
   accelerator's static IP addresses when you create an accelerator. You can specify one or
   two addresses, separated by a space. Do not include the /32 suffix. Only one IP address
@@ -249,25 +162,12 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   addresses for an existing accelerator. To change them, you must create a new accelerator
   with the new addresses. For more information, see Bring your own IP addresses (BYOIP) in
   the AWS Global Accelerator Developer Guide.
-- `"tags"`: Create tags for an accelerator. For more information, see Tagging in AWS Global
+- `tags`: Create tags for an accelerator. For more information, see Tagging in AWS Global
   Accelerator in the AWS Global Accelerator Developer Guide.
 """
-function create_custom_routing_accelerator(
-    IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function create_custom_routing_accelerator(IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "CreateCustomRoutingAccelerator",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -287,32 +187,9 @@ endpoint group is a collection of endpoints in one AWS Region.
   endpoint.
 
 """
-function create_custom_routing_endpoint_group(
-    DestinationConfigurations,
-    EndpointGroupRegion,
-    IdempotencyToken,
-    ListenerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "CreateCustomRoutingEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DestinationConfigurations" => DestinationConfigurations,
-                    "EndpointGroupRegion" => EndpointGroupRegion,
-                    "IdempotencyToken" => IdempotencyToken,
-                    "ListenerArn" => ListenerArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -332,30 +209,9 @@ specify.
   endpoints for custom routing accelerators.
 
 """
-function create_custom_routing_listener(
-    AcceleratorArn,
-    IdempotencyToken,
-    PortRanges;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "CreateCustomRoutingListener",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AcceleratorArn" => AcceleratorArn,
-                    "IdempotencyToken" => IdempotencyToken,
-                    "PortRanges" => PortRanges,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("CreateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -372,57 +228,35 @@ endpoint.
   idempotency—that is, the uniqueness—of the request.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoint_configurations"`: The list of endpoint objects.
-- `"health_check_interval_seconds"`: The time—10 seconds or 30 seconds—between each
+# Keyword Parameters
+- `endpoint_configurations`: The list of endpoint objects.
+- `health_check_interval_seconds`: The time—10 seconds or 30 seconds—between each
   health check for an endpoint. The default value is 30.
-- `"health_check_path"`: If the protocol is HTTP/S, then this specifies the path that is
-  the destination for health check targets. The default value is slash (/).
-- `"health_check_port"`: The port that AWS Global Accelerator uses to check the health of
+- `health_check_path`: If the protocol is HTTP/S, then this specifies the path that is the
+  destination for health check targets. The default value is slash (/).
+- `health_check_port`: The port that AWS Global Accelerator uses to check the health of
   endpoints that are part of this endpoint group. The default port is the listener port that
   this endpoint group is associated with. If listener port is a list of ports, Global
   Accelerator uses the first port in the list.
-- `"health_check_protocol"`: The protocol that AWS Global Accelerator uses to check the
+- `health_check_protocol`: The protocol that AWS Global Accelerator uses to check the
   health of endpoints that are part of this endpoint group. The default value is TCP.
-- `"port_overrides"`: Override specific listener ports used to route traffic to endpoints
+- `port_overrides`: Override specific listener ports used to route traffic to endpoints
   that are part of this endpoint group. For example, you can create a port override in which
   the listener receives user traffic on ports 80 and 443, but your accelerator routes that
   traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see
   Port overrides in the AWS Global Accelerator Developer Guide.
-- `"threshold_count"`: The number of consecutive health checks required to set the state of
-  a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default
+- `threshold_count`: The number of consecutive health checks required to set the state of a
+  healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default
   value is 3.
-- `"traffic_dial_percentage"`: The percentage of traffic to send to an AWS Region.
-  Additional traffic is distributed to other endpoint groups for this listener.  Use this
-  action to increase (dial up) or decrease (dial down) traffic to a specific Region. The
-  percentage is applied to the traffic that would otherwise have been routed to the Region
-  based on optimal routing. The default value is 100.
+- `traffic_dial_percentage`: The percentage of traffic to send to an AWS Region. Additional
+  traffic is distributed to other endpoint groups for this listener.  Use this action to
+  increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is
+  applied to the traffic that would otherwise have been routed to the Region based on optimal
+  routing. The default value is 100.
 """
-function create_endpoint_group(
-    EndpointGroupRegion,
-    IdempotencyToken,
-    ListenerArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "CreateEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EndpointGroupRegion" => EndpointGroupRegion,
-                    "IdempotencyToken" => IdempotencyToken,
-                    "ListenerArn" => ListenerArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("CreateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -440,9 +274,8 @@ ranges that you specify.
   accelerator.
 - `protocol`: The protocol for connections from clients to your accelerator.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_affinity"`: Client affinity lets you direct all requests from a user to the same
+# Keyword Parameters
+- `client_affinity`: Client affinity lets you direct all requests from a user to the same
   endpoint, if you have stateful applications, regardless of the port and protocol of the
   client request. Client affinity gives you control over whether to always route each client
   to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing
@@ -457,32 +290,9 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   (client) IP address and destination IP address—to select the hash value. The default
   value is NONE.
 """
-function create_listener(
-    AcceleratorArn,
-    IdempotencyToken,
-    PortRanges,
-    Protocol;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "CreateListener",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AcceleratorArn" => AcceleratorArn,
-                    "IdempotencyToken" => IdempotencyToken,
-                    "PortRanges" => PortRanges,
-                    "Protocol" => Protocol,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -506,18 +316,9 @@ Global Accelerator Developer Guide.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of an accelerator.
 
 """
-function delete_accelerator(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeleteAccelerator",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeleteAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -541,18 +342,9 @@ Global Accelerator Developer Guide.
   delete.
 
 """
-function delete_custom_routing_accelerator(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeleteCustomRoutingAccelerator",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -564,20 +356,9 @@ Delete an endpoint group from a listener for a custom routing accelerator.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-function delete_custom_routing_endpoint_group(
-    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeleteCustomRoutingEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -589,18 +370,9 @@ Delete a listener for a custom routing accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to delete.
 
 """
-function delete_custom_routing_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_custom_routing_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeleteCustomRoutingListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -612,20 +384,9 @@ Delete an endpoint group from a listener.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-function delete_endpoint_group(
-    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeleteEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeleteEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -637,18 +398,9 @@ Delete a listener from an accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-function delete_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeleteListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -667,44 +419,25 @@ changes from IN_PROGRESS to DEPLOYED.
 - `endpoint_id`: An ID for the endpoint. For custom routing accelerators, this is the
   virtual private cloud (VPC) subnet ID.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"deny_all_traffic_to_endpoint"`: Indicates whether all destination IP addresses and
-  ports for a specified VPC subnet endpoint cannot receive traffic from a custom routing
+# Keyword Parameters
+- `deny_all_traffic_to_endpoint`: Indicates whether all destination IP addresses and ports
+  for a specified VPC subnet endpoint cannot receive traffic from a custom routing
   accelerator. The value is TRUE or FALSE.  When set to TRUE, no destinations in the custom
   routing VPC subnet can receive traffic. Note that you cannot specify destination IP
   addresses and ports when the value is set to TRUE. When set to FALSE (or not specified),
   you must specify a list of destination IP addresses that cannot receive traffic. A list of
   ports is optional. If you don't specify a list of ports, the ports that can accept traffic
   is the same as the ports configured for the endpoint group. The default value is FALSE.
-- `"destination_addresses"`: A list of specific Amazon EC2 instance IP addresses
-  (destination addresses) in a subnet that you want to prevent from receiving traffic. The IP
-  addresses must be a subset of the IP addresses allowed for the VPC subnet associated with
-  the endpoint group.
-- `"destination_ports"`: A list of specific Amazon EC2 instance ports (destination ports)
-  in a subnet endpoint that you want to prevent from receiving traffic.
+- `destination_addresses`: A list of specific Amazon EC2 instance IP addresses (destination
+  addresses) in a subnet that you want to prevent from receiving traffic. The IP addresses
+  must be a subset of the IP addresses allowed for the VPC subnet associated with the
+  endpoint group.
+- `destination_ports`: A list of specific Amazon EC2 instance ports (destination ports) in
+  a subnet endpoint that you want to prevent from receiving traffic.
 """
-function deny_custom_routing_traffic(
-    EndpointGroupArn,
-    EndpointId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function deny_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DenyCustomRoutingTraffic",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -722,16 +455,9 @@ allocated from its address range.  For more information, see Bring Your Own IP A
   specified when you provisioned the address range.
 
 """
-function deprovision_byoip_cidr(
-    Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DeprovisionByoipCidr",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -743,18 +469,9 @@ Describe an accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-function describe_accelerator(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeAccelerator",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -767,18 +484,9 @@ Describe the attributes of an accelerator.
   that you want to describe.
 
 """
-function describe_accelerator_attributes(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeAcceleratorAttributes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -790,18 +498,9 @@ Describe a custom routing accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-function describe_custom_routing_accelerator(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeCustomRoutingAccelerator",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -814,18 +513,9 @@ Describe the attributes of a custom routing accelerator.
   describe the attributes for.
 
 """
-function describe_custom_routing_accelerator_attributes(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeCustomRoutingAcceleratorAttributes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -837,20 +527,9 @@ Describe an endpoint group for a custom routing accelerator.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-function describe_custom_routing_endpoint_group(
-    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeCustomRoutingEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -862,18 +541,9 @@ The description of a listener for a custom routing accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-function describe_custom_routing_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_custom_routing_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeCustomRoutingListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -885,20 +555,9 @@ Describe an endpoint group.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-function describe_endpoint_group(
-    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -910,18 +569,9 @@ Describe a listener.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-function describe_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function describe_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "DescribeListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("DescribeListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -929,18 +579,15 @@ end
 
 List the accelerators for an AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of Global Accelerator objects that you want to return with
-  this call. The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+# Keyword Parameters
+- `max_results`: The number of Global Accelerator objects that you want to return with this
+  call. The default value is 10.
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
 function list_accelerators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListAccelerators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return global_accelerator("ListAccelerators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -949,17 +596,14 @@ end
 Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, including
 the current state and a history of state changes.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The maximum number of results to return with a single call. To retrieve
+# Keyword Parameters
+- `max_results`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
-- `"next_token"`: The token for the next page of results.
+- `next_token`: The token for the next page of results.
 """
 function list_byoip_cidrs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListByoipCidrs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return global_accelerator("ListByoipCidrs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -967,23 +611,15 @@ end
 
 List the custom routing accelerators for an AWS account.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of custom routing Global Accelerator objects that you want to
+# Keyword Parameters
+- `max_results`: The number of custom routing Global Accelerator objects that you want to
   return with this call. The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_custom_routing_accelerators(;
-    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_custom_routing_accelerators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListCustomRoutingAccelerators",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListCustomRoutingAccelerators", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -996,25 +632,15 @@ accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to list endpoint groups
   for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of endpoint group objects that you want to return with this
+# Keyword Parameters
+- `max_results`: The number of endpoint group objects that you want to return with this
   call. The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_custom_routing_endpoint_groups(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_custom_routing_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListCustomRoutingEndpointGroups",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1026,25 +652,15 @@ List the listeners for a custom routing accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to list listeners
   for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of listener objects that you want to return with this call.
-  The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+# Keyword Parameters
+- `max_results`: The number of listener objects that you want to return with this call. The
+  default value is 10.
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_custom_routing_listeners(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_custom_routing_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListCustomRoutingListeners",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListCustomRoutingListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1066,27 +682,17 @@ destination denoting which destination IP addresses and ports are allowed or den
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to list the custom
   routing port mappings for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoint_group_arn"`: The Amazon Resource Name (ARN) of the endpoint group to list the
+# Keyword Parameters
+- `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to list the
   custom routing port mappings for.
-- `"max_results"`: The number of destination port mappings that you want to return with
-  this call. The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+- `max_results`: The number of destination port mappings that you want to return with this
+  call. The default value is 10.
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_custom_routing_port_mappings(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_custom_routing_port_mappings(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListCustomRoutingPortMappings",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1103,34 +709,15 @@ destination instance.
   for which you want to receive back port mappings.
 - `endpoint_id`: The ID for the virtual private cloud (VPC) subnet.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of destination port mappings that you want to return with
-  this call. The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+# Keyword Parameters
+- `max_results`: The number of destination port mappings that you want to return with this
+  call. The default value is 10.
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_custom_routing_port_mappings_by_destination(
-    DestinationAddress,
-    EndpointId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListCustomRoutingPortMappingsByDestination",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DestinationAddress" => DestinationAddress, "EndpointId" => EndpointId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1141,25 +728,15 @@ List the endpoint groups that are associated with a listener.
 # Arguments
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of endpoint group objects that you want to return with this
+# Keyword Parameters
+- `max_results`: The number of endpoint group objects that you want to return with this
   call. The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_endpoint_groups(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListEndpointGroups",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1171,25 +748,15 @@ List the listeners for an accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator for which you want
   to list listener objects.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"max_results"`: The number of listener objects that you want to return with this call.
-  The default value is 10.
-- `"next_token"`: The token for the next set of results. You receive this token from a
+# Keyword Parameters
+- `max_results`: The number of listener objects that you want to return with this call. The
+  default value is 10.
+- `next_token`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_listeners(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListListeners",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1203,18 +770,9 @@ Accelerator in the AWS Global Accelerator Developer Guide.
   ARN uniquely identifies an accelerator.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1233,27 +791,9 @@ see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer 
   bring the specified IP address range to Amazon using BYOIP.
 
 """
-function provision_byoip_cidr(
-    Cidr,
-    CidrAuthorizationContext;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function provision_byoip_cidr(Cidr, CidrAuthorizationContext; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "ProvisionByoipCidr",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Cidr" => Cidr, "CidrAuthorizationContext" => CidrAuthorizationContext
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1268,27 +808,9 @@ Remove endpoints from a custom routing accelerator.
   are the virtual private cloud (VPC) subnet IDs.
 
 """
-function remove_custom_routing_endpoints(
-    EndpointGroupArn,
-    EndpointIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-    kwargs...,
-)
+function remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "RemoveCustomRoutingEndpoints",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EndpointGroupArn" => EndpointGroupArn, "EndpointIds" => EndpointIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1304,22 +826,9 @@ Accelerator in the AWS Global Accelerator Developer Guide.
   define.
 
 """
-function tag_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1336,22 +845,9 @@ Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
 - `tag_keys`: The tag key pairs that you want to remove from the specified resources.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1364,28 +860,18 @@ accelerators.
 # Arguments
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`: Indicates whether an accelerator is enabled. The value is true or false. The
+# Keyword Parameters
+- `enabled`: Indicates whether an accelerator is enabled. The value is true or false. The
   default value is true.  If the value is set to true, the accelerator cannot be deleted. If
   set to false, the accelerator can be deleted.
-- `"ip_address_type"`: The IP address type, which must be IPv4.
-- `"name"`: The name of the accelerator. The name can have a maximum of 32 characters, must
+- `ip_address_type`: The IP address type, which must be IPv4.
+- `name`: The name of the accelerator. The name can have a maximum of 32 characters, must
   contain only alphanumeric characters or hyphens (-), and must not begin or end with a
   hyphen.
 """
-function update_accelerator(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateAccelerator",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1397,32 +883,22 @@ Update the attributes for an accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator that you want to
   update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"flow_logs_enabled"`: Update whether flow logs are enabled. The default value is false.
-  If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more
+# Keyword Parameters
+- `flow_logs_enabled`: Update whether flow logs are enabled. The default value is false. If
+  the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more
   information, see Flow Logs in the AWS Global Accelerator Developer Guide.
-- `"flow_logs_s3_bucket"`: The name of the Amazon S3 bucket for the flow logs. Attribute is
+- `flow_logs_s3_bucket`: The name of the Amazon S3 bucket for the flow logs. Attribute is
   required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that
   grants AWS Global Accelerator permission to write to the bucket.
-- `"flow_logs_s3_prefix"`: Update the prefix for the location in the Amazon S3 bucket for
-  the flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a
+- `flow_logs_s3_prefix`: Update the prefix for the location in the Amazon S3 bucket for the
+  flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a
   prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for
   the S3 bucket prefix, the log file bucket folder structure will include a double slash
   (//), like the following: s3-bucket_name//AWSLogs/aws_account_id
 """
-function update_accelerator_attributes(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateAcceleratorAttributes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1433,28 +909,18 @@ Update a custom routing accelerator.
 # Arguments
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"enabled"`: Indicates whether an accelerator is enabled. The value is true or false. The
+# Keyword Parameters
+- `enabled`: Indicates whether an accelerator is enabled. The value is true or false. The
   default value is true.  If the value is set to true, the accelerator cannot be deleted. If
   set to false, the accelerator can be deleted.
-- `"ip_address_type"`: The value for the address type must be IPv4.
-- `"name"`: The name of the accelerator. The name can have a maximum of 32 characters, must
+- `ip_address_type`: The value for the address type must be IPv4.
+- `name`: The name of the accelerator. The name can have a maximum of 32 characters, must
   contain only alphanumeric characters or hyphens (-), and must not begin or end with a
   hyphen.
 """
-function update_custom_routing_accelerator(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateCustomRoutingAccelerator",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1466,32 +932,22 @@ Update the attributes for a custom routing accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the custom routing accelerator to
   update attributes for.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"flow_logs_enabled"`: Update whether flow logs are enabled. The default value is false.
-  If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more
+# Keyword Parameters
+- `flow_logs_enabled`: Update whether flow logs are enabled. The default value is false. If
+  the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more
   information, see Flow Logs in the AWS Global Accelerator Developer Guide.
-- `"flow_logs_s3_bucket"`: The name of the Amazon S3 bucket for the flow logs. Attribute is
+- `flow_logs_s3_bucket`: The name of the Amazon S3 bucket for the flow logs. Attribute is
   required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that
   grants AWS Global Accelerator permission to write to the bucket.
-- `"flow_logs_s3_prefix"`: Update the prefix for the location in the Amazon S3 bucket for
-  the flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a
+- `flow_logs_s3_prefix`: Update the prefix for the location in the Amazon S3 bucket for the
+  flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a
   prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for
   the S3 bucket prefix, the log file bucket folder structure will include a double slash
   (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
 """
-function update_custom_routing_accelerator_attributes(
-    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateCustomRoutingAcceleratorAttributes",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1507,22 +963,9 @@ Update a listener for a custom routing accelerator.
   endpoints for custom routing accelerators.
 
 """
-function update_custom_routing_listener(
-    ListenerArn, PortRanges; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_custom_routing_listener(ListenerArn, PortRanges; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateCustomRoutingListener",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ListenerArn" => ListenerArn, "PortRanges" => PortRanges),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1534,48 +977,36 @@ endpoint.
 # Arguments
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"endpoint_configurations"`: The list of endpoint objects. A resource must be valid and
+# Keyword Parameters
+- `endpoint_configurations`: The list of endpoint objects. A resource must be valid and
   active when you add it as an endpoint.
-- `"health_check_interval_seconds"`: The time—10 seconds or 30 seconds—between each
+- `health_check_interval_seconds`: The time—10 seconds or 30 seconds—between each
   health check for an endpoint. The default value is 30.
-- `"health_check_path"`: If the protocol is HTTP/S, then this specifies the path that is
-  the destination for health check targets. The default value is slash (/).
-- `"health_check_port"`: The port that AWS Global Accelerator uses to check the health of
+- `health_check_path`: If the protocol is HTTP/S, then this specifies the path that is the
+  destination for health check targets. The default value is slash (/).
+- `health_check_port`: The port that AWS Global Accelerator uses to check the health of
   endpoints that are part of this endpoint group. The default port is the listener port that
   this endpoint group is associated with. If the listener port is a list of ports, Global
   Accelerator uses the first port in the list.
-- `"health_check_protocol"`: The protocol that AWS Global Accelerator uses to check the
+- `health_check_protocol`: The protocol that AWS Global Accelerator uses to check the
   health of endpoints that are part of this endpoint group. The default value is TCP.
-- `"port_overrides"`: Override specific listener ports used to route traffic to endpoints
+- `port_overrides`: Override specific listener ports used to route traffic to endpoints
   that are part of this endpoint group. For example, you can create a port override in which
   the listener receives user traffic on ports 80 and 443, but your accelerator routes that
   traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see
   Port overrides in the AWS Global Accelerator Developer Guide.
-- `"threshold_count"`: The number of consecutive health checks required to set the state of
-  a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default
+- `threshold_count`: The number of consecutive health checks required to set the state of a
+  healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default
   value is 3.
-- `"traffic_dial_percentage"`: The percentage of traffic to send to an AWS Region.
-  Additional traffic is distributed to other endpoint groups for this listener.  Use this
-  action to increase (dial up) or decrease (dial down) traffic to a specific Region. The
-  percentage is applied to the traffic that would otherwise have been routed to the Region
-  based on optimal routing. The default value is 100.
+- `traffic_dial_percentage`: The percentage of traffic to send to an AWS Region. Additional
+  traffic is distributed to other endpoint groups for this listener.  Use this action to
+  increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is
+  applied to the traffic that would otherwise have been routed to the Region based on optimal
+  routing. The default value is 100.
 """
-function update_endpoint_group(
-    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateEndpointGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1586,9 +1017,8 @@ Update a listener.
 # Arguments
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to update.
 
-# Optional Parameters
-Optional parameters can be passed as a keyword argument. Valid keys are:
-- `"client_affinity"`: Client affinity lets you direct all requests from a user to the same
+# Keyword Parameters
+- `client_affinity`: Client affinity lets you direct all requests from a user to the same
   endpoint, if you have stateful applications, regardless of the port and protocol of the
   client request. Client affinity gives you control over whether to always route each client
   to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing
@@ -1602,22 +1032,13 @@ Optional parameters can be passed as a keyword argument. Valid keys are:
   SOURCE_IP setting, Global Accelerator uses the \"two-tuple\" (2-tuple) properties— source
   (client) IP address and destination IP address—to select the hash value. The default
   value is NONE.
-- `"port_ranges"`: The updated list of port ranges for the connections from clients to the
+- `port_ranges`: The updated list of port ranges for the connections from clients to the
   accelerator.
-- `"protocol"`: The updated protocol for the connections from clients to the accelerator.
+- `protocol`: The updated protocol for the connections from clients to the accelerator.
 """
-function update_listener(
-    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function update_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "UpdateListener",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("UpdateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1633,14 +1054,7 @@ Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
 - `cidr`: The address range, in CIDR notation.
 
 """
-function withdraw_byoip_cidr(
-    Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
-)
+function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
     params = amazonify(MAPPING, kwargs)
-    return global_accelerator(
-        "WithdrawByoipCidr",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return global_accelerator("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
