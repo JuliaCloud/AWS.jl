@@ -144,7 +144,10 @@ end
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
     http_options = merge(http_backend.http_options, request.http_options)
 
-    @repeat 4 try
+    attempts = 4
+    attempt = 0
+    @repeat attempts try
+        attempt += 1
         # HTTP options such as `status_exception` need to be used when creating the stack
         http_stack = HTTP.stack(;
             redirect=false, retry=false, aws_authorization=false, http_options...
@@ -181,9 +184,11 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             close(buffer)
 
             # Transfer the contents of the `BufferStream` into `response_stream` variable
-            # but only if no EOFError error because of a broken connection.
+            # but only if no EOFError error because of a broken connection OR it's the final attempt.
             # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
-            should_write && write(response_stream, buffer)
+            if should_write || attempt == attempts
+                write(response_stream, buffer)
+            end
         end
 
         return @mock Response(r, response_stream)

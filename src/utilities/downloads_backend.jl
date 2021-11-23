@@ -65,7 +65,10 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     # We pass an `input` only when we have content we wish to send.
     input = !isempty(request.content) ? IOBuffer(request.content) : nothing
 
-    @repeat 4 try
+    attempts = 4
+    attempt = 0
+    @repeat attempts try
+        attempt += 1
         downloader = @something(backend.downloader, get_downloader())
         # set the hook so that we don't follow redirects. Only
         # need to do this on per-request downloaders, because we
@@ -104,9 +107,11 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
             if !isnothing(output)
                 close(buffer)
                 # Transfer the contents of the `BufferStream` into `response_stream` variable.
-                # but only if no EOFError error because of a broken connection.
+                # but only if no EOFError error because of a broken connection OR it's the final attempt.
                 # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
-                should_write && write(response_stream, buffer)
+                if should_write || attempt == attempts
+                    write(response_stream, buffer)
+                end
             end
         end
 
