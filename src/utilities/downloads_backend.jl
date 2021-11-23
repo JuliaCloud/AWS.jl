@@ -80,7 +80,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         input !== nothing && seekstart(input)
 
         # Because Downloads will write incomplete stream failures to the provided output buffer
-        # a sacrificial buffer is needed so that incomplete data can be disgarded
+        # a sacrificial buffer is needed so that incomplete data can be discarded
         buffer = isnothing(output) ? nothing : Base.BufferStream()
         should_write = true
         response = try
@@ -96,7 +96,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
             )
         catch e
             if e isa Downloads.RequestError
-                # EOFErrors indicate a broken connection, so don't pass the buffer forward
+                # Downloads.RequestError 18 indicates an incomplete transfer, so don't pass the buffer forward
                 should_write = false
             end
             rethrow()

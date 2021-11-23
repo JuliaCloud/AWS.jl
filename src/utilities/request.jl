@@ -180,7 +180,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             # is always closed (e.g. HTTP.jl 0.9.15)
             close(buffer)
 
-            # Transfer the contents of the `BufferStream` into `response_stream` variable.
+            # Transfer the contents of the `BufferStream` into `response_stream` variable
             # but only if no EOFError error because of a broken connection.
             # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
             should_write && write(response_stream, buffer)
