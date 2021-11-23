@@ -95,7 +95,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
                 downloader=downloader,
             )
         catch e
-            if e isa Downloads.RequestError
+            if e isa Downloads.RequestError && e.code == 18
                 # Downloads.RequestError 18 indicates an incomplete transfer, so don't pass the buffer forward
                 should_write = false
             end
